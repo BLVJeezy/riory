@@ -9,14 +9,14 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
-        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        outline: "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
-        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
+        default: "rounded-md bg-primary text-primary-foreground hover:bg-primary/90",
+        destructive: "rounded-md bg-destructive text-destructive-foreground hover:bg-destructive/90",
+        outline: "rounded-md border border-input bg-background hover:bg-accent hover:text-accent-foreground",
+        secondary: "rounded-md bg-secondary text-secondary-foreground hover:bg-secondary/80",
+        ghost: "rounded-md hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
-        hero: "bg-primary text-primary-foreground hover:bg-primary/90 font-heading font-semibold uppercase tracking-wider",
-        heroOutline: "border-2 border-foreground bg-transparent text-foreground hover:bg-foreground hover:text-background font-heading font-semibold uppercase tracking-wider",
+        hero: "rounded-full bg-primary text-primary-foreground hover:bg-primary/90 font-heading font-semibold uppercase tracking-wider",
+        heroOutline: "rounded-full border-2 border-foreground bg-transparent text-foreground hover:bg-foreground hover:text-background font-heading font-semibold uppercase tracking-wider",
         cta: "bg-primary text-primary-foreground hover:bg-primary/90 font-heading font-bold uppercase tracking-wider shadow-lg rounded-full",
       },
       size: {
