@@ -1,3 +1,4 @@
+import { usePageView } from "@/hooks/usePageView";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";

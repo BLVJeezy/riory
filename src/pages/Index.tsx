@@ -24,6 +24,7 @@ export interface EstimationData {
 
 const Index = () => {
   const [estimation, setEstimation] = useState<EstimationData | null>(null);
+  usePageView("/");
 
   return (
     <>
