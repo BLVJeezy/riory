@@ -6,7 +6,7 @@ const Footer = () => {
       <div className="section-container">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           <div>
-            <img src={logo} alt="RIORY" className="h-10 mb-4 brightness-0 invert" />
+            <img src={logo} alt="RIORY" className="h-10 mb-4" />
             <p className="text-sm text-primary-foreground/50 font-body">
               Sterk in Rioleringswerk.<br />
               Professionele infrastructuurwerken in België.
