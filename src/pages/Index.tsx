@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
+import EmergencyBanner from "@/components/EmergencyBanner";
 import ServicesSection from "@/components/ServicesSection";
 import ProjectsSection from "@/components/ProjectsSection";
 import QuoteEstimator from "@/components/QuoteEstimator";
@@ -14,6 +15,7 @@ const Index = () => {
     <>
       <Navbar />
       <HeroSection />
+      <EmergencyBanner />
       <ServicesSection />
       <ProjectsSection />
       <QuoteEstimator />
