@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Calculator, Ruler, Layers, MapPin, Wrench, RefreshCw } from "lucide-react";
+import type { EstimationData } from "@/pages/Index";
 
 const projectTypes = [
   { value: "rioolaansluiting", label: "Rioolaansluiting", baseCost: 1500 },
@@ -20,7 +21,11 @@ const groundTypes = [
 const inputClass =
   "w-full h-11 sm:h-12 pl-10 pr-4 rounded-lg bg-background border border-border text-foreground font-body text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-shadow";
 
-const QuoteEstimator = () => {
+interface QuoteEstimatorProps {
+  onEstimationComplete: (data: EstimationData) => void;
+}
+
+const QuoteEstimator = ({ onEstimationComplete }: QuoteEstimatorProps) => {
   const [projectType, setProjectType] = useState("");
   const [length, setLength] = useState("");
   const [groundType, setGroundType] = useState("");
@@ -62,6 +67,24 @@ const QuoteEstimator = () => {
         }
       }, 30);
     }, 200);
+  };
+
+  const handleSendToQuote = () => {
+    if (!result) return;
+    const project = projectTypes.find((p) => p.value === projectType);
+    const ground = groundTypes.find((g) => g.value === groundType);
+
+    onEstimationComplete({
+      projectType: project?.label || projectType,
+      length,
+      groundType: ground?.label || groundType,
+      location,
+      min: result.min,
+      max: result.max,
+    });
+
+    // Scroll to quote form
+    document.getElementById("offerte")?.scrollIntoView({ behavior: "smooth" });
   };
 
   useEffect(() => {
@@ -190,8 +213,9 @@ const QuoteEstimator = () => {
                 Dit is een indicatieve prijs. Voor een exacte offerte nemen wij contact met u op.
               </p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                <Button variant="cta" size="lg" className="text-sm py-5 px-8" asChild>
-                  <a href="#offerte">VRAAG EEN EXACTE OFFERTE</a>
+                <Button variant="cta" size="lg" className="text-sm py-5 px-8 gap-2" onClick={handleSendToQuote}>
+                  <Calculator className="w-4 h-4" />
+                  VOEG TOE AAN OFFERTE
                 </Button>
                 <Button
                   variant="outline"

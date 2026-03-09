@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import EmergencyBanner from "@/components/EmergencyBanner";
@@ -11,7 +12,18 @@ import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 import ChatbotWidget from "@/components/ChatbotWidget";
 
+export interface EstimationData {
+  projectType: string;
+  length: string;
+  groundType: string;
+  location: string;
+  min: number;
+  max: number;
+}
+
 const Index = () => {
+  const [estimation, setEstimation] = useState<EstimationData | null>(null);
+
   return (
     <>
       <Navbar />
@@ -21,8 +33,8 @@ const Index = () => {
       <AboutSection />
       <ProjectsSection />
       <ReviewsSection />
-      <QuoteEstimator />
-      <QuoteForm />
+      <QuoteEstimator onEstimationComplete={setEstimation} />
+      <QuoteForm estimation={estimation} onClearEstimation={() => setEstimation(null)} />
       <ContactSection />
       <Footer />
       <ChatbotWidget />
