@@ -5,7 +5,7 @@ import logo from "@/assets/riory-logo.png";
 
 const navLinks = [
   { label: "Home", href: "#home" },
-  { label: "Diensten", href: "#diensten" },
+  { label: "Diensten", href: "/diensten" },
   { label: "Projecten", href: "#projecten" },
   { label: "Offerte", href: "#offerte" },
   { label: "Over Ons", href: "#over-ons" },
