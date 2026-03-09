@@ -16,8 +16,10 @@ const navLinks = [
 ];
 
 const Navbar = () => {
+  const { theme, toggleTheme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const logo = theme === "dark" ? logoWhite : logoBlack;
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
