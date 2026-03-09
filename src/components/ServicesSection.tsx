@@ -44,10 +44,10 @@ const ServicesSection = () => {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-charcoal/90 via-charcoal/30 to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 p-6">
-                <h3 className="text-xl md:text-2xl font-heading font-bold text-background mb-2">
+                <h3 className="text-xl md:text-2xl font-heading font-bold text-white mb-2">
                   {service.title}
                 </h3>
-                <p className="text-sm md:text-base text-background/70 font-body leading-relaxed">
+                <p className="text-sm md:text-base text-white/70 font-body leading-relaxed">
                   {service.description}
                 </p>
               </div>
