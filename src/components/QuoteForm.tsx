@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Send, User, Mail, Phone, MapPin, FileText, Calculator, X } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 import type { EstimationData } from "@/pages/Index";
 
 const diensten = [
