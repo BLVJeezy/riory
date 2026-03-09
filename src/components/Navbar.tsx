@@ -96,6 +96,11 @@ const Navbar = () => {
                   </a>
                 )
               )}
+              <div className="px-3 pt-2 pb-1">
+                <Button variant="cta" size="sm" className="w-full" asChild>
+                  <a href="#offerte" onClick={() => setIsOpen(false)}>Offerte Aanvraag</a>
+                </Button>
+              </div>
             </div>
           </div>
         </>
