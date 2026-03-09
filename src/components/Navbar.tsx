@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 import logo from "@/assets/riory-logo.png";
 
 const navLinks = [
   { label: "Home", href: "#home" },
-  { label: "Diensten", href: "#diensten" },
+  { label: "Diensten", href: "/diensten" },
   { label: "Projecten", href: "#projecten" },
   { label: "Offerte", href: "#offerte" },
   { label: "Over Ons", href: "#over-ons" },
@@ -35,15 +36,25 @@ const Navbar = () => {
 
         {/* Desktop */}
         <div className="hidden lg:flex items-center gap-8">
-          {navLinks.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="text-sm font-body font-semibold uppercase tracking-wider text-foreground hover:text-primary transition-colors"
-            >
-              {link.label}
-            </a>
-          ))}
+          {navLinks.map((link) =>
+            link.href.startsWith("/") ? (
+              <Link
+                key={link.href}
+                to={link.href}
+                className="text-sm font-body font-semibold uppercase tracking-wider text-foreground hover:text-primary transition-colors"
+              >
+                {link.label}
+              </Link>
+            ) : (
+              <a
+                key={link.href}
+                href={link.href}
+                className="text-sm font-body font-semibold uppercase tracking-wider text-foreground hover:text-primary transition-colors"
+              >
+                {link.label}
+              </a>
+            )
+          )}
           <Button variant="cta" size="lg" asChild>
             <a href="#offerte">OFFERTE AANVRAGEN</a>
           </Button>
@@ -59,16 +70,27 @@ const Navbar = () => {
       {isOpen && (
         <div className="lg:hidden bg-background border-t border-border">
           <div className="flex flex-col gap-1 p-6">
-            {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                onClick={() => setIsOpen(false)}
-                className="py-3 text-sm font-body font-semibold uppercase tracking-wider text-foreground hover:text-primary"
-              >
-                {link.label}
-              </a>
-            ))}
+            {navLinks.map((link) =>
+              link.href.startsWith("/") ? (
+                <Link
+                  key={link.href}
+                  to={link.href}
+                  onClick={() => setIsOpen(false)}
+                  className="py-3 text-sm font-body font-semibold uppercase tracking-wider text-foreground hover:text-primary"
+                >
+                  {link.label}
+                </Link>
+              ) : (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setIsOpen(false)}
+                  className="py-3 text-sm font-body font-semibold uppercase tracking-wider text-foreground hover:text-primary"
+                >
+                  {link.label}
+                </a>
+              )
+            )}
             <Button variant="cta" size="lg" className="mt-4" asChild>
               <a href="#offerte" onClick={() => setIsOpen(false)}>OFFERTE AANVRAGEN</a>
             </Button>
