@@ -57,7 +57,7 @@ const Navbar = () => {
               </a>
             )
           )}
-          <Button variant="cta" size="lg" asChild>
+          <Button variant="cta" size="lg" className="rounded-full" asChild>
             <a href="#offerte">OFFERTE AANVRAGEN</a>
           </Button>
           <button
