@@ -22,10 +22,10 @@ const HeroSection = () => {
             Professionele rioleringswerken en infrastructuurprojecten uitgevoerd met precisie en vakmanschap.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 mb-10">
-            <Button variant="hero" size="lg" className="text-base px-8 py-6" asChild>
+            <Button variant="hero" size="lg" className="text-base px-8 py-6 rounded-full" asChild>
               <a href="#offerte">VRAAG EEN OFFERTE</a>
             </Button>
-            <Button variant="heroOutline" size="lg" className="text-base px-8 py-6 border-white/60 text-white hover:bg-white hover:text-foreground" asChild>
+            <Button variant="heroOutline" size="lg" className="text-base px-8 py-6 rounded-full border-white/60 text-white hover:bg-white hover:text-foreground" asChild>
               <a href="#projecten">BEKIJK PROJECTEN</a>
             </Button>
           </div>
