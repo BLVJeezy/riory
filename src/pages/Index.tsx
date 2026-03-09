@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { usePageView } from "@/hooks/usePageView";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import EmergencyBanner from "@/components/EmergencyBanner";
