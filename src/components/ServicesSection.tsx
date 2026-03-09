@@ -1,34 +1,64 @@
-import serviceRiolering from "@/assets/service-riolering.jpg";
-import serviceGrondwerk from "@/assets/service-grondwerk.jpg";
+import serviceSeptisch from "@/assets/service-septisch.jpg";
+import serviceRegenput from "@/assets/service-regenput.jpg";
+import serviceOnstopping from "@/assets/service-ontstopping.jpg";
+import serviceDakgoot from "@/assets/service-dakgoot.jpg";
+import serviceCamera from "@/assets/service-camera.jpg";
 import serviceDrainage from "@/assets/service-drainage.jpg";
 import serviceAfwatering from "@/assets/service-afwatering.jpg";
 import serviceHerstelling from "@/assets/service-herstelling.jpg";
+import serviceRiolering from "@/assets/service-riolering.jpg";
+import serviceGrondwerk from "@/assets/service-grondwerk.jpg";
 
 const services = [
   {
-    title: "Rioleringswerken",
-    description: "Aanleg, vernieuwing en aansluiting van rioleringssystemen voor particulieren, bedrijven en overheden.",
-    image: serviceRiolering,
+    title: "Septische put ledigen",
+    description: "Professioneel ledigen en reinigen van septische putten met gespecialiseerde zuigwagens.",
+    image: serviceSeptisch,
   },
   {
-    title: "Grondwerken",
-    description: "Professionele grondverzet, nivellering en uitgraving voor bouw- en infrastructuurprojecten.",
-    image: serviceGrondwerk,
+    title: "Regenput reinigen",
+    description: "Grondig reinigen van regenputten zodat uw afwatering optimaal blijft functioneren.",
+    image: serviceRegenput,
   },
   {
-    title: "Drainage systemen",
-    description: "Ontwerp en installatie van drainage om wateroverlast te voorkomen en grondwater te beheersen.",
+    title: "Ontstopping",
+    description: "Snelle en efficiënte ontstopping van rioleringen, afvoeren en leidingen met hoge druk.",
+    image: serviceOnstopping,
+  },
+  {
+    title: "Dakgootreiniging",
+    description: "Reiniging van dakgoten en afvoerbuizen om verstoppingen en waterschade te voorkomen.",
+    image: serviceDakgoot,
+  },
+  {
+    title: "Camera-inspectie",
+    description: "Gedetailleerde camera-inspectie van rioleringen om problemen snel en nauwkeurig te lokaliseren.",
+    image: serviceCamera,
+  },
+  {
+    title: "Plaatsbepaling afvoeren",
+    description: "Exacte lokalisatie van ondergrondse afvoerleidingen met professionele detectieapparatuur.",
     image: serviceDrainage,
   },
   {
-    title: "Afwateringssystemen",
-    description: "Aanleg van afvoersystemen voor regenwater en oppervlaktewater, afgestemd op uw situatie.",
-    image: serviceAfwatering,
+    title: "Geurhinder",
+    description: "Opsporing en verhelping van stankoverlast uit rioleringen en afvoersystemen.",
+    image: serviceRiolering,
   },
   {
-    title: "Herstellingen & onderhoud",
-    description: "Snelle en vakkundige herstellingen van bestaande rioleringen en infrastructuur.",
+    title: "Rioolviiegjes",
+    description: "Bestrijding van rioolviiegjes door de bron aan te pakken in uw afvoersysteem.",
     image: serviceHerstelling,
+  },
+  {
+    title: "Periodieke reiniging",
+    description: "Preventief onderhoud en periodieke reiniging van uw volledige rioleringssysteem.",
+    image: serviceGrondwerk,
+  },
+  {
+    title: "Wateroverlast",
+    description: "Leegpompen en reinigen bij wateroverlast, snel ter plaatse voor noodgevallen.",
+    image: serviceAfwatering,
   },
 ];
 
