@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Phone } from "lucide-react";
 import heroImg from "@/assets/hero-infrastructure.jpg";
 
 const HeroSection = () => {
@@ -16,7 +17,7 @@ const HeroSection = () => {
           <p className="text-lg md:text-xl text-background/80 font-body leading-relaxed mb-10 max-w-xl">
             Professionele rioleringswerken en infrastructuurprojecten uitgevoerd met precisie en vakmanschap.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4">
+          <div className="flex flex-col sm:flex-row gap-4 mb-10">
             <Button variant="hero" size="lg" className="text-base px-8 py-6" asChild>
               <a href="#offerte">VRAAG EEN OFFERTE</a>
             </Button>
@@ -24,6 +25,29 @@ const HeroSection = () => {
               <a href="#projecten">BEKIJK PROJECTEN</a>
             </Button>
           </div>
+
+          {/* Phone number */}
+          <a
+            href="tel:+32472502814"
+            className="inline-flex items-center gap-3 group"
+          >
+            <div className="relative">
+              <div className="w-12 h-12 rounded-full bg-primary/20 border border-primary/40 flex items-center justify-center group-hover:bg-primary/30 transition-colors">
+                <Phone className="w-5 h-5 text-primary" />
+              </div>
+              <span className="absolute -top-1 -right-2 bg-primary text-primary-foreground text-[9px] font-heading font-bold px-1.5 py-0.5 rounded-full">
+                24/7
+              </span>
+            </div>
+            <div>
+              <p className="text-xs font-heading font-semibold uppercase tracking-wider text-background/50">
+                Bel ons — 24/7 bereikbaar
+              </p>
+              <p className="text-xl md:text-2xl font-heading font-bold text-background group-hover:text-primary transition-colors">
+                +32 (0)472 50 28 14
+              </p>
+            </div>
+          </a>
         </div>
       </div>
     </section>
