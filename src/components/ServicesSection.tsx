@@ -35,7 +35,7 @@ const ServicesSection = () => {
           {featuredServices.map((service) => (
             <div
               key={service.title}
-              className="group relative h-64 md:h-80 rounded-lg overflow-hidden"
+              className="group relative h-64 md:h-80 rounded-xl overflow-hidden"
             >
               <img
                 src={service.image}
