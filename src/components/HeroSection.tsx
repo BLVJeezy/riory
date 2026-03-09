@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Phone } from "lucide-react";
 import heroImg from "@/assets/hero-infrastructure.jpg";
+import heroMobile from "@/assets/hero-mobile.png";
 import logo from "@/assets/riory-logo-white.svg";
 
 const HeroSection = () => {
