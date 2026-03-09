@@ -46,12 +46,15 @@ const AboutSection = () => {
             </div>
           </div>
 
-          <div className="rounded-lg overflow-hidden border border-primary-foreground/10">
+          <div className="rounded-lg overflow-hidden border border-primary-foreground/10 relative">
             <img
               src={rioryVan}
               alt="RIORY bedrijfswagen - Sterk in Rioleringswerk"
               className="w-full h-auto object-cover"
             />
+            <div className="absolute bottom-0 left-0 right-0 bg-black/60 backdrop-blur-sm px-4 py-2">
+              <span className="text-sm font-body font-medium text-white">Bilzen, BE</span>
+            </div>
           </div>
         </div>
       </div>
