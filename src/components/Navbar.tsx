@@ -59,15 +59,15 @@ const Navbar = () => {
               </a>
             )
           )}
-          <button
-            onClick={toggleTheme}
-            className="w-10 h-10 flex items-center justify-center rounded border border-border text-foreground hover:text-primary transition-colors"
-          >
-            {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-          </button>
           <Button variant="cta" size="lg" asChild>
             <a href="#offerte">OFFERTE AANVRAGEN</a>
           </Button>
+          <button
+            onClick={toggleTheme}
+            className="w-10 h-10 flex items-center justify-center rounded-full border border-border text-foreground hover:text-primary transition-colors"
+          >
+            {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+          </button>
         </div>
 
         {/* Mobile controls */}
