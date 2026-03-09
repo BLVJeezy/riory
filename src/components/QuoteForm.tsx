@@ -38,19 +38,37 @@ const QuoteForm = ({ estimation, onClearEstimation }: QuoteFormProps) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
-    setTimeout(() => {
-      const estimationInfo = estimation
-        ? `\n\n--- Kostenraming ---\nProject: ${estimation.projectType}\nLengte: ${estimation.length}m\nGrondtype: ${estimation.groundType}\nLocatie: ${estimation.location || "Niet opgegeven"}\nGeschatte prijs: €${estimation.min.toLocaleString("nl-BE")} – €${estimation.max.toLocaleString("nl-BE")}`
-        : "";
-      console.log("Offerte verzonden:", { ...formData, estimationInfo });
+
+    try {
+      const { error } = await supabase.from("quote_requests").insert({
+        naam: formData.naam,
+        email: formData.email,
+        telefoon: formData.telefoon || null,
+        locatie: formData.locatie || null,
+        dienst: formData.dienst || null,
+        beschrijving: formData.beschrijving || null,
+        schatting_project_type: estimation?.projectType || null,
+        schatting_lengte: estimation?.length || null,
+        schatting_grondtype: estimation?.groundType || null,
+        schatting_locatie: estimation?.location || null,
+        schatting_min: estimation?.min || null,
+        schatting_max: estimation?.max || null,
+      });
+
+      if (error) throw error;
+
       toast.success("Uw offerte aanvraag is verzonden! Wij nemen spoedig contact op.");
       setFormData({ naam: "", email: "", telefoon: "", locatie: "", dienst: "", beschrijving: "" });
       onClearEstimation?.();
+    } catch (err) {
+      console.error("Error submitting quote:", err);
+      toast.error("Er ging iets mis bij het verzenden. Probeer het opnieuw.");
+    } finally {
       setSubmitting(false);
-    }, 1000);
+    }
   };
 
   const inputClass =
