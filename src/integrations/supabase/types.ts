@@ -14,7 +14,57 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      quote_requests: {
+        Row: {
+          beschrijving: string | null
+          created_at: string
+          dienst: string | null
+          email: string
+          id: string
+          locatie: string | null
+          naam: string
+          schatting_grondtype: string | null
+          schatting_lengte: string | null
+          schatting_locatie: string | null
+          schatting_max: number | null
+          schatting_min: number | null
+          schatting_project_type: string | null
+          telefoon: string | null
+        }
+        Insert: {
+          beschrijving?: string | null
+          created_at?: string
+          dienst?: string | null
+          email: string
+          id?: string
+          locatie?: string | null
+          naam: string
+          schatting_grondtype?: string | null
+          schatting_lengte?: string | null
+          schatting_locatie?: string | null
+          schatting_max?: number | null
+          schatting_min?: number | null
+          schatting_project_type?: string | null
+          telefoon?: string | null
+        }
+        Update: {
+          beschrijving?: string | null
+          created_at?: string
+          dienst?: string | null
+          email?: string
+          id?: string
+          locatie?: string | null
+          naam?: string
+          schatting_grondtype?: string | null
+          schatting_lengte?: string | null
+          schatting_locatie?: string | null
+          schatting_max?: number | null
+          schatting_min?: number | null
+          schatting_project_type?: string | null
+          telefoon?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
