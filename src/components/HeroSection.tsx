@@ -1,13 +1,15 @@
 import { Button } from "@/components/ui/button";
 import { Phone } from "lucide-react";
 import heroImg from "@/assets/hero-infrastructure.jpg";
+import heroMobile from "@/assets/hero-mobile.png";
 import logo from "@/assets/riory-logo-white.svg";
 
 const HeroSection = () => {
   return (
     <section id="home" className="relative min-h-screen flex items-center">
       <div className="absolute inset-0">
-        <img src={heroImg} alt="Infrastructure project" className="w-full h-full object-cover" />
+        <img src={heroMobile} alt="Infrastructure project" className="w-full h-full object-cover md:hidden" />
+        <img src={heroImg} alt="Infrastructure project" className="w-full h-full object-cover hidden md:block" />
         <div className="absolute inset-0 bg-charcoal/70" />
       </div>
       <div className="relative section-container px-6 md:px-8 pt-20">
