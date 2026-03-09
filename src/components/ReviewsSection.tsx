@@ -112,24 +112,24 @@ const ReviewsSection = () => {
 
   return (
     <section className="section-padding bg-background overflow-hidden">
-      <div className="section-container px-6 md:px-8">
-        <div className="flex items-center justify-between mb-8">
+      <div className="section-container px-4 sm:px-6 md:px-8">
+        <div className="flex items-center justify-between mb-6 sm:mb-8">
           <div>
-            <div className="flex items-center gap-2 mb-2">
+            <div className="flex items-center gap-2 mb-1.5">
               <img
                 src="https://www.google.com/favicon.ico"
                 alt="Google"
-                className="w-5 h-5"
+                className="w-4 h-4 sm:w-5 sm:h-5"
               />
-              <span className="text-sm font-heading font-semibold text-foreground uppercase tracking-wider">
+              <span className="text-xs sm:text-sm font-heading font-semibold text-foreground uppercase tracking-wider">
                 Google Reviews
               </span>
             </div>
-            <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-1">
               {[...Array(5)].map((_, i) => (
-                <Star key={i} className="w-4 h-4 fill-primary text-primary" />
+                <Star key={i} className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-primary text-primary" />
               ))}
-              <span className="text-sm font-body text-muted-foreground ml-1">
+              <span className="text-xs sm:text-sm font-body text-muted-foreground ml-1">
                 4.9/5 — 73 beoordelingen
               </span>
             </div>
@@ -161,31 +161,43 @@ const ReviewsSection = () => {
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
-        className="flex gap-4 overflow-x-hidden cursor-grab active:cursor-grabbing select-none px-6 md:px-8"
+        onTouchStart={(e) => {
+          setIsDragging(true);
+          setStartX(e.touches[0].pageX - (scrollRef.current?.offsetLeft || 0));
+          setScrollLeft(scrollRef.current?.scrollLeft || 0);
+        }}
+        onTouchMove={(e) => {
+          if (!isDragging || !scrollRef.current) return;
+          const x = e.touches[0].pageX - scrollRef.current.offsetLeft;
+          const walk = (x - startX) * 1.5;
+          scrollRef.current.scrollLeft = scrollLeft - walk;
+        }}
+        onTouchEnd={() => setIsDragging(false)}
+        className="flex gap-3 sm:gap-4 overflow-x-hidden cursor-grab active:cursor-grabbing select-none px-4 sm:px-6 md:px-8"
       >
         {displayReviews.map((review, index) => (
           <div
             key={`${review.name}-${index}`}
-            className="flex-shrink-0 w-72 sm:w-80 bg-surface border border-border rounded-xl p-5"
+            className="flex-shrink-0 w-64 sm:w-80 bg-surface border border-border rounded-xl p-4 sm:p-5"
           >
-            <div className="flex items-center gap-3 mb-3">
-              <div className="w-9 h-9 rounded-full bg-primary/15 flex items-center justify-center">
-                <span className="text-sm font-heading font-bold text-primary">
+            <div className="flex items-center gap-2.5 sm:gap-3 mb-2.5 sm:mb-3">
+              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-primary/15 flex items-center justify-center">
+                <span className="text-xs sm:text-sm font-heading font-bold text-primary">
                   {review.name.charAt(0)}
                 </span>
               </div>
               <div>
-                <p className="text-sm font-heading font-semibold text-foreground leading-tight">
+                <p className="text-xs sm:text-sm font-heading font-semibold text-foreground leading-tight">
                   {review.name}
                 </p>
-                <p className="text-xs text-muted-foreground">{review.date}</p>
+                <p className="text-[10px] sm:text-xs text-muted-foreground">{review.date}</p>
               </div>
             </div>
             <div className="flex gap-0.5 mb-2">
               {[...Array(5)].map((_, i) => (
                 <Star
                   key={i}
-                  className={`w-3.5 h-3.5 ${
+                  className={`w-3 h-3 sm:w-3.5 sm:h-3.5 ${
                     i < review.rating
                       ? "fill-primary text-primary"
                       : "text-border"
@@ -193,7 +205,7 @@ const ReviewsSection = () => {
                 />
               ))}
             </div>
-            <p className="text-sm text-muted-foreground font-body leading-relaxed line-clamp-3">
+            <p className="text-xs sm:text-sm text-muted-foreground font-body leading-relaxed line-clamp-3">
               {review.text}
             </p>
           </div>
