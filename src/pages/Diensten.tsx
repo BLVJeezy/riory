@@ -109,9 +109,12 @@ const Diensten = () => {
                   <h3 className="text-lg font-heading font-bold text-background mb-1">
                     {service.title}
                   </h3>
-                  <p className="text-sm text-background/70 font-body leading-relaxed">
+                  <p className="text-sm text-background/70 font-body leading-relaxed mb-3">
                     {service.description}
                   </p>
+                  <Button variant="cta" size="sm" asChild>
+                    <Link to={`/#offerte`}>Offerte aanvragen</Link>
+                  </Button>
                 </div>
               </div>
             ))}
