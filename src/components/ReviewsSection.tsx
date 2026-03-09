@@ -130,7 +130,7 @@ const ReviewsSection = () => {
                 <Star key={i} className="w-4 h-4 fill-primary text-primary" />
               ))}
               <span className="text-sm font-body text-muted-foreground ml-1">
-                4.9/5 — {reviews.length} beoordelingen
+                4.9/5 — 73 beoordelingen
               </span>
             </div>
           </div>
