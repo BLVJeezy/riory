@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { usePageView } from "@/hooks/usePageView";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import EmergencyBanner from "@/components/EmergencyBanner";
@@ -23,6 +24,7 @@ export interface EstimationData {
 
 const Index = () => {
   const [estimation, setEstimation] = useState<EstimationData | null>(null);
+  usePageView("/");
 
   return (
     <>
