@@ -61,41 +61,44 @@ const Navbar = () => {
         </div>
 
         {/* Mobile toggle */}
-        <button className="lg:hidden text-foreground" onClick={() => setIsOpen(!isOpen)}>
-          {isOpen ? <X size={24} /> : <Menu size={24} />}
+        <button
+          className="lg:hidden relative z-50 w-10 h-10 flex items-center justify-center rounded border border-border text-foreground"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          {isOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
       </div>
 
-      {/* Mobile menu */}
+      {/* Mobile dropdown menu */}
       {isOpen && (
-        <div className="lg:hidden bg-background border-t border-border">
-          <div className="flex flex-col gap-1 p-6">
-            {navLinks.map((link) =>
-              link.href.startsWith("/") ? (
-                <Link
-                  key={link.href}
-                  to={link.href}
-                  onClick={() => setIsOpen(false)}
-                  className="py-3 text-sm font-body font-semibold uppercase tracking-wider text-foreground hover:text-primary"
-                >
-                  {link.label}
-                </Link>
-              ) : (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setIsOpen(false)}
-                  className="py-3 text-sm font-body font-semibold uppercase tracking-wider text-foreground hover:text-primary"
-                >
-                  {link.label}
-                </a>
-              )
-            )}
-            <Button variant="cta" size="lg" className="mt-4" asChild>
-              <a href="#offerte" onClick={() => setIsOpen(false)}>OFFERTE AANVRAGEN</a>
-            </Button>
+        <>
+          <div className="fixed inset-0 z-40 bg-charcoal/50 lg:hidden" onClick={() => setIsOpen(false)} />
+          <div className="absolute right-6 top-16 z-50 w-48 bg-charcoal rounded-lg shadow-xl overflow-hidden lg:hidden animate-in fade-in slide-in-from-top-2 duration-200">
+            <div className="flex flex-col py-2">
+              {navLinks.map((link) =>
+                link.href.startsWith("/") ? (
+                  <Link
+                    key={link.href}
+                    to={link.href}
+                    onClick={() => setIsOpen(false)}
+                    className="px-5 py-3 text-sm font-body font-medium text-background/80 hover:text-background hover:bg-background/10 transition-colors"
+                  >
+                    {link.label}
+                  </Link>
+                ) : (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setIsOpen(false)}
+                    className="px-5 py-3 text-sm font-body font-medium text-background/80 hover:text-background hover:bg-background/10 transition-colors"
+                  >
+                    {link.label}
+                  </a>
+                )
+              )}
+            </div>
           </div>
-        </div>
+        </>
       )}
     </nav>
   );
