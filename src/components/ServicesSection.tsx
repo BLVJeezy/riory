@@ -56,7 +56,7 @@ const ServicesSection = () => {
         </div>
 
         <div className="text-center">
-          <Button variant="cta" size="lg" asChild>
+          <Button variant="cta" size="lg" className="rounded-full" asChild>
             <Link to="/diensten" className="gap-2">
               Bekijk al onze diensten
               <ArrowRight className="w-4 h-4" />
