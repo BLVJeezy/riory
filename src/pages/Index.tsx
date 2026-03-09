@@ -38,6 +38,7 @@ const Index = () => {
       <ReviewsSection />
       <QuoteEstimator onEstimationComplete={setEstimation} />
       <QuoteForm estimation={estimation} onClearEstimation={() => setEstimation(null)} />
+      <FAQSection />
       <ContactSection />
       <Footer />
       <ChatbotWidget />

@@ -124,6 +124,7 @@ const Diensten = () => {
           </div>
         </div>
       </section>
+      <FAQSection />
       <Footer />
     </>
   );
