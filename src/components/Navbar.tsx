@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Sun, Moon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import logo from "@/assets/riory-logo-black.svg";
+import { useTheme } from "@/components/ThemeProvider";
+import logoBlack from "@/assets/riory-logo-black.svg";
+import logoWhite from "@/assets/riory-logo-white.svg";
 
 const navLinks = [
   { label: "Home", href: "#home" },
@@ -14,8 +16,10 @@ const navLinks = [
 ];
 
 const Navbar = () => {
+  const { theme, toggleTheme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const logo = theme === "dark" ? logoWhite : logoBlack;
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -55,18 +59,32 @@ const Navbar = () => {
               </a>
             )
           )}
+          <button
+            onClick={toggleTheme}
+            className="w-10 h-10 flex items-center justify-center rounded border border-border text-foreground hover:text-primary transition-colors"
+          >
+            {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+          </button>
           <Button variant="cta" size="lg" asChild>
             <a href="#offerte">OFFERTE AANVRAGEN</a>
           </Button>
         </div>
 
-        {/* Mobile toggle */}
-        <button
-          className="lg:hidden relative z-50 w-10 h-10 flex items-center justify-center rounded border border-border text-foreground"
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          {isOpen ? <X size={20} /> : <Menu size={20} />}
-        </button>
+        {/* Mobile controls */}
+        <div className="lg:hidden flex items-center gap-2">
+          <button
+            onClick={toggleTheme}
+            className="w-10 h-10 flex items-center justify-center rounded border border-border text-foreground"
+          >
+            {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+          </button>
+          <button
+            className="relative z-50 w-10 h-10 flex items-center justify-center rounded border border-border text-foreground"
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            {isOpen ? <X size={20} /> : <Menu size={20} />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile dropdown menu */}
