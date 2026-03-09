@@ -10,6 +10,7 @@ import QuoteEstimator from "@/components/QuoteEstimator";
 import QuoteForm from "@/components/QuoteForm";
 import AboutSection from "@/components/AboutSection";
 import ContactSection from "@/components/ContactSection";
+import FAQSection from "@/components/FAQSection";
 import Footer from "@/components/Footer";
 import ChatbotWidget from "@/components/ChatbotWidget";
 
