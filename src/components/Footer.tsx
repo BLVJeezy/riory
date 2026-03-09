@@ -1,4 +1,4 @@
-import logo from "@/assets/riory-logo.png";
+import logo from "@/assets/riory-logo-footer.svg";
 
 const Footer = () => {
   return (
