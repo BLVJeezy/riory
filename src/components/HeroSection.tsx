@@ -10,22 +10,22 @@ const HeroSection = () => {
       <div className="absolute inset-0">
         <img src={heroMobile} alt="Infrastructure project" className="w-full h-full object-cover md:hidden" />
         <img src={heroDesktop} alt="Infrastructure project" className="w-full h-full object-cover hidden md:block" />
-        <div className="absolute inset-0 bg-charcoal/70" />
+        <div className="absolute inset-0 bg-black/70" />
       </div>
       <div className="relative section-container px-6 md:px-8 pt-20">
         <div className="max-w-2xl">
           <img src={logo} alt="RIORY" className="h-16 md:h-20 w-auto mb-6" />
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-heading font-bold uppercase leading-tight text-background mb-6">
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-heading font-bold uppercase leading-tight text-white mb-6">
             Sterk in Rioleringswerk
           </h1>
-          <p className="text-lg md:text-xl text-background/80 font-body leading-relaxed mb-10 max-w-xl">
+          <p className="text-lg md:text-xl text-white/80 font-body leading-relaxed mb-10 max-w-xl">
             Professionele rioleringswerken en infrastructuurprojecten uitgevoerd met precisie en vakmanschap.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 mb-10">
             <Button variant="hero" size="lg" className="text-base px-8 py-6" asChild>
               <a href="#offerte">VRAAG EEN OFFERTE</a>
             </Button>
-            <Button variant="heroOutline" size="lg" className="text-base px-8 py-6 border-background/60 text-background hover:bg-background hover:text-foreground" asChild>
+            <Button variant="heroOutline" size="lg" className="text-base px-8 py-6 border-white/60 text-white hover:bg-white hover:text-foreground" asChild>
               <a href="#projecten">BEKIJK PROJECTEN</a>
             </Button>
           </div>
@@ -44,10 +44,10 @@ const HeroSection = () => {
               </span>
             </div>
             <div>
-              <p className="text-xs font-heading font-semibold uppercase tracking-wider text-background/50">
+              <p className="text-xs font-heading font-semibold uppercase tracking-wider text-white/50">
                 Bel ons — 24/7 bereikbaar
               </p>
-              <p className="text-xl md:text-2xl font-heading font-bold text-background group-hover:text-primary transition-colors">
+              <p className="text-xl md:text-2xl font-heading font-bold text-white group-hover:text-primary transition-colors">
                 +32 (0)472 50 28 14
               </p>
             </div>

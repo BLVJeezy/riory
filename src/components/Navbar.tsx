@@ -99,7 +99,7 @@ const Navbar = () => {
                     key={link.href}
                     to={link.href}
                     onClick={() => setIsOpen(false)}
-                    className="px-5 py-3 text-sm font-body font-medium text-background/80 hover:text-background hover:bg-background/10 transition-colors"
+                    className="px-5 py-3 text-sm font-body font-medium text-white/80 hover:text-white hover:bg-white/10 transition-colors"
                   >
                     {link.label}
                   </Link>
@@ -108,7 +108,7 @@ const Navbar = () => {
                     key={link.href}
                     href={link.href}
                     onClick={() => setIsOpen(false)}
-                    className="px-5 py-3 text-sm font-body font-medium text-background/80 hover:text-background hover:bg-background/10 transition-colors"
+                    className="px-5 py-3 text-sm font-body font-medium text-white/80 hover:text-white hover:bg-white/10 transition-colors"
                   >
                     {link.label}
                   </a>

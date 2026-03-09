@@ -16,12 +16,12 @@ const EmergencyBanner = () => {
             <a
               key={service.label}
               href={service.href}
-              className="flex items-center justify-between gap-2 bg-background/5 hover:bg-background/10 rounded px-4 py-3 transition-colors group"
+              className="flex items-center justify-between gap-2 bg-white/5 hover:bg-white/10 rounded px-4 py-3 transition-colors group"
             >
-              <span className="text-xs md:text-sm font-heading font-semibold uppercase tracking-wider text-background/80 leading-tight">
+              <span className="text-xs md:text-sm font-heading font-semibold uppercase tracking-wider text-white/80 leading-tight">
                 {service.label}
               </span>
-              <ChevronRight className="w-4 h-4 text-background/40 group-hover:text-primary shrink-0 transition-colors" />
+              <ChevronRight className="w-4 h-4 text-white/40 group-hover:text-primary shrink-0 transition-colors" />
             </a>
           ))}
         </div>
