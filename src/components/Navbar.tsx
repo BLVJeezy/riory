@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Sun, Moon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import logo from "@/assets/riory-logo-black.svg";
+import { useTheme } from "@/components/ThemeProvider";
+import logoBlack from "@/assets/riory-logo-black.svg";
+import logoWhite from "@/assets/riory-logo-white.svg";
 
 const navLinks = [
   { label: "Home", href: "#home" },
