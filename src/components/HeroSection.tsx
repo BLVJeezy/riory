@@ -12,6 +12,7 @@ const HeroSection = () => {
       </div>
       <div className="relative section-container px-6 md:px-8 pt-20">
         <div className="max-w-2xl">
+          <img src={logo} alt="RIORY" className="h-16 md:h-20 w-auto mb-6" />
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-heading font-bold uppercase leading-tight text-background mb-6">
             Sterk in Rioleringswerk
           </h1>
