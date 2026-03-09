@@ -1,10 +1,10 @@
 import { ChevronRight } from "lucide-react";
 
 const quickServices = [
-  { label: "Dakgootreiniging", href: "#diensten" },
+  { label: "Dakgoten", href: "#diensten" },
   { label: "Camera Inspectie", href: "#diensten" },
-  { label: "Ontstoppingen & Geurdetectie", href: "#diensten" },
-  { label: "Ledigen van Septische Putten", href: "#diensten" },
+  { label: "Ontstoppingen", href: "#diensten" },
+  { label: "Septische Putten", href: "#diensten" },
 ];
 
 const EmergencyBanner = () => {
