@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { usePageView } from "@/hooks/usePageView";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import FAQSection from "@/components/FAQSection";
+import QuoteFormDialog from "@/components/QuoteFormDialog";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -18,60 +20,28 @@ import serviceRiolering from "@/assets/service-riolering.jpg";
 import serviceGrondwerk from "@/assets/service-grondwerk.jpg";
 
 const allServices = [
-  {
-    title: "Septische put ledigen",
-    description: "Professioneel ledigen en reinigen van septische putten met gespecialiseerde zuigwagens.",
-    image: serviceSeptisch,
-  },
-  {
-    title: "Regenput reinigen",
-    description: "Grondig reinigen van regenputten zodat uw afwatering optimaal blijft functioneren.",
-    image: serviceRegenput,
-  },
-  {
-    title: "Ontstopping",
-    description: "Snelle en efficiënte ontstopping van rioleringen, afvoeren en leidingen met hoge druk.",
-    image: serviceOnstopping,
-  },
-  {
-    title: "Dakgootreiniging",
-    description: "Reiniging van dakgoten en afvoerbuizen om verstoppingen en waterschade te voorkomen.",
-    image: serviceDakgoot,
-  },
-  {
-    title: "Camera-inspectie",
-    description: "Gedetailleerde camera-inspectie van rioleringen om problemen snel en nauwkeurig te lokaliseren.",
-    image: serviceCamera,
-  },
-  {
-    title: "Plaatsbepaling afvoeren",
-    description: "Exacte lokalisatie van ondergrondse afvoerleidingen met professionele detectieapparatuur.",
-    image: serviceDrainage,
-  },
-  {
-    title: "Geurhinder",
-    description: "Opsporing en verhelping van stankoverlast uit rioleringen en afvoersystemen.",
-    image: serviceRiolering,
-  },
-  {
-    title: "Rioolvliegjes",
-    description: "Bestrijding van rioolvliegjes door de bron aan te pakken in uw afvoersysteem.",
-    image: serviceHerstelling,
-  },
-  {
-    title: "Periodieke reiniging",
-    description: "Preventief onderhoud en periodieke reiniging van uw volledige rioleringssysteem.",
-    image: serviceGrondwerk,
-  },
-  {
-    title: "Wateroverlast",
-    description: "Leegpompen en reinigen bij wateroverlast, snel ter plaatse voor noodgevallen.",
-    image: serviceAfwatering,
-  },
+  { title: "Septische put ledigen", description: "Professioneel ledigen en reinigen van septische putten met gespecialiseerde zuigwagens.", image: serviceSeptisch },
+  { title: "Regenput reinigen", description: "Grondig reinigen van regenputten zodat uw afwatering optimaal blijft functioneren.", image: serviceRegenput },
+  { title: "Ontstopping", description: "Snelle en efficiënte ontstopping van rioleringen, afvoeren en leidingen met hoge druk.", image: serviceOnstopping },
+  { title: "Dakgootreiniging", description: "Reiniging van dakgoten en afvoerbuizen om verstoppingen en waterschade te voorkomen.", image: serviceDakgoot },
+  { title: "Camera-inspectie", description: "Gedetailleerde camera-inspectie van rioleringen om problemen snel en nauwkeurig te lokaliseren.", image: serviceCamera },
+  { title: "Plaatsbepaling afvoeren", description: "Exacte lokalisatie van ondergrondse afvoerleidingen met professionele detectieapparatuur.", image: serviceDrainage },
+  { title: "Geurhinder", description: "Opsporing en verhelping van stankoverlast uit rioleringen en afvoersystemen.", image: serviceRiolering },
+  { title: "Rioolvliegjes", description: "Bestrijding van rioolvliegjes door de bron aan te pakken in uw afvoersysteem.", image: serviceHerstelling },
+  { title: "Periodieke reiniging", description: "Preventief onderhoud en periodieke reiniging van uw volledige rioleringssysteem.", image: serviceGrondwerk },
+  { title: "Wateroverlast", description: "Leegpompen en reinigen bij wateroverlast, snel ter plaatse voor noodgevallen.", image: serviceAfwatering },
 ];
 
 const Diensten = () => {
   usePageView("/diensten");
+  const [quoteOpen, setQuoteOpen] = useState(false);
+  const [selectedDienst, setSelectedDienst] = useState("");
+
+  const handleRequestQuote = (dienstTitle: string) => {
+    setSelectedDienst(dienstTitle);
+    setQuoteOpen(true);
+  };
+
   return (
     <>
       <Navbar />
@@ -98,25 +68,14 @@ const Diensten = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {allServices.map((service) => (
-              <div
-                key={service.title}
-                className="group relative h-64 rounded-lg overflow-hidden"
-              >
-                <img
-                  src={service.image}
-                  alt={service.title}
-                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
+              <div key={service.title} className="group relative h-64 rounded-lg overflow-hidden">
+                <img src={service.image} alt={service.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                 <div className="absolute inset-0 bg-gradient-to-t from-charcoal/90 via-charcoal/30 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-6">
-                  <h3 className="text-lg font-heading font-bold text-white mb-1">
-                    {service.title}
-                  </h3>
-                  <p className="text-sm text-white/70 font-body leading-relaxed mb-3">
-                    {service.description}
-                  </p>
-                  <Button variant="cta" size="sm" asChild>
-                    <Link to={`/#offerte`}>Offerte aanvragen</Link>
+                  <h3 className="text-lg font-heading font-bold text-white mb-1">{service.title}</h3>
+                  <p className="text-sm text-white/70 font-body leading-relaxed mb-3">{service.description}</p>
+                  <Button variant="cta" size="sm" onClick={() => handleRequestQuote(service.title)}>
+                    Offerte aanvragen
                   </Button>
                 </div>
               </div>
@@ -126,6 +85,7 @@ const Diensten = () => {
       </section>
       <FAQSection />
       <Footer />
+      <QuoteFormDialog open={quoteOpen} onOpenChange={setQuoteOpen} preselectedDienst={selectedDienst} />
     </>
   );
 };
