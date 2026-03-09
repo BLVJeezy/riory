@@ -70,6 +70,7 @@ const allServices = [
 ];
 
 const Diensten = () => {
+  usePageView("/diensten");
   return (
     <>
       <Navbar />
