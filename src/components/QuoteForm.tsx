@@ -60,10 +60,27 @@ const QuoteForm = ({ estimation, onClearEstimation }: QuoteFormProps) => {
   };
 
   // --- Audio Recording ---
+  const getSupportedMimeType = () => {
+    const types = ["audio/mp4", "audio/aac", "audio/webm;codecs=opus", "audio/webm", "audio/ogg"];
+    for (const type of types) {
+      if (MediaRecorder.isTypeSupported(type)) return type;
+    }
+    return "";
+  };
+
+  const getFileExtension = (mimeType: string) => {
+    if (mimeType.includes("mp4")) return "m4a";
+    if (mimeType.includes("aac")) return "aac";
+    if (mimeType.includes("ogg")) return "ogg";
+    return "webm";
+  };
+
   const startRecording = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      const mediaRecorder = new MediaRecorder(stream);
+      const mimeType = getSupportedMimeType();
+      const options = mimeType ? { mimeType } : undefined;
+      const mediaRecorder = new MediaRecorder(stream, options);
       mediaRecorderRef.current = mediaRecorder;
       chunksRef.current = [];
 
@@ -72,7 +89,8 @@ const QuoteForm = ({ estimation, onClearEstimation }: QuoteFormProps) => {
       };
 
       mediaRecorder.onstop = () => {
-        const blob = new Blob(chunksRef.current, { type: "audio/webm" });
+        const actualMime = mediaRecorder.mimeType || mimeType || "audio/webm";
+        const blob = new Blob(chunksRef.current, { type: actualMime });
         setAudioBlob(blob);
         const url = URL.createObjectURL(blob);
         setAudioUrl(url);
@@ -141,10 +159,11 @@ const QuoteForm = ({ estimation, onClearEstimation }: QuoteFormProps) => {
 
       // Upload audio if exists
       if (audioBlob) {
-        const audioPath = `${quoteId}/audio.webm`;
+        const ext = getFileExtension(audioBlob.type);
+        const audioPath = `${quoteId}/audio.${ext}`;
         const { error: audioErr } = await supabase.storage
           .from("quote-attachments")
-          .upload(audioPath, audioBlob, { contentType: "audio/webm" });
+          .upload(audioPath, audioBlob, { contentType: audioBlob.type });
         if (audioErr) throw audioErr;
         const { data: urlData } = supabase.storage
           .from("quote-attachments")
