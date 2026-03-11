@@ -40,6 +40,7 @@ export type Database = {
       }
       quote_requests: {
         Row: {
+          audio_url: string | null
           beschrijving: string | null
           created_at: string
           dienst: string | null
@@ -47,6 +48,7 @@ export type Database = {
           id: string
           locatie: string | null
           naam: string
+          photo_urls: string[] | null
           schatting_grondtype: string | null
           schatting_lengte: string | null
           schatting_locatie: string | null
@@ -56,6 +58,7 @@ export type Database = {
           telefoon: string | null
         }
         Insert: {
+          audio_url?: string | null
           beschrijving?: string | null
           created_at?: string
           dienst?: string | null
@@ -63,6 +66,7 @@ export type Database = {
           id?: string
           locatie?: string | null
           naam: string
+          photo_urls?: string[] | null
           schatting_grondtype?: string | null
           schatting_lengte?: string | null
           schatting_locatie?: string | null
@@ -72,6 +76,7 @@ export type Database = {
           telefoon?: string | null
         }
         Update: {
+          audio_url?: string | null
           beschrijving?: string | null
           created_at?: string
           dienst?: string | null
@@ -79,6 +84,7 @@ export type Database = {
           id?: string
           locatie?: string | null
           naam?: string
+          photo_urls?: string[] | null
           schatting_grondtype?: string | null
           schatting_lengte?: string | null
           schatting_locatie?: string | null
