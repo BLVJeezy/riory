@@ -28,6 +28,8 @@
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
+    --urgent: 0 100% 50%;
+    --urgent-foreground: 0 0% 100%;
     --destructive-foreground: 0 0% 100%;
 
     --border: 0 0% 88%;
