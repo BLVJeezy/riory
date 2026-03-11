@@ -19,6 +19,8 @@ interface QuoteRequest {
   schatting_project_type: string | null;
   schatting_min: number | null;
   schatting_max: number | null;
+  audio_url: string | null;
+  photo_urls: string[] | null;
   created_at: string;
 }
 
