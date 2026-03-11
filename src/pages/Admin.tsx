@@ -227,6 +227,38 @@ const Admin = () => {
                       </p>
                     </div>
                   )}
+
+                  {/* Audio attachment */}
+                  {q.audio_url && (
+                    <div className="mt-3 p-3 rounded-lg border border-border bg-muted/50">
+                      <div className="flex items-center gap-2 mb-2">
+                        <Volume2 className="w-4 h-4 text-primary" />
+                        <p className="text-xs font-heading font-semibold uppercase tracking-wider text-primary">
+                          Spraakbericht
+                        </p>
+                      </div>
+                      <audio src={q.audio_url} controls className="w-full h-10" />
+                    </div>
+                  )}
+
+                  {/* Photo attachments */}
+                  {q.photo_urls && q.photo_urls.length > 0 && (
+                    <div className="mt-3 p-3 rounded-lg border border-border bg-muted/50">
+                      <div className="flex items-center gap-2 mb-2">
+                        <ImageIcon className="w-4 h-4 text-primary" />
+                        <p className="text-xs font-heading font-semibold uppercase tracking-wider text-primary">
+                          Foto's ({q.photo_urls.length})
+                        </p>
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        {q.photo_urls.map((url, i) => (
+                          <a key={i} href={url} target="_blank" rel="noopener noreferrer" className="block w-20 h-20 rounded-lg overflow-hidden border border-border hover:ring-2 hover:ring-primary transition-all">
+                            <img src={url} alt={`Foto ${i + 1}`} className="w-full h-full object-cover" />
+                          </a>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
               ))
             )}
