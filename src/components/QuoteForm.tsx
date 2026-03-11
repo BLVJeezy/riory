@@ -245,42 +245,6 @@ const QuoteForm = () => {
           onSubmit={handleSubmit}
           className="bg-background rounded-xl p-5 sm:p-8 md:p-10 border border-border max-w-2xl mx-auto shadow-sm"
         >
-          {/* Estimation summary banner */}
-          {estimation && (
-            <div className="mb-6 rounded-lg border border-primary/30 bg-primary/5 p-4 relative">
-              <button
-                type="button"
-                onClick={onClearEstimation}
-                className="absolute top-3 right-3 text-muted-foreground hover:text-foreground transition-colors"
-                aria-label="Verwijder kostenraming"
-              >
-                <X className="w-4 h-4" />
-              </button>
-              <div className="flex items-center gap-2 mb-2">
-                <Calculator className="w-4 h-4 text-primary" />
-                <span className="text-xs font-heading font-semibold uppercase tracking-wider text-primary">
-                  Kostenraming bijgevoegd
-                </span>
-              </div>
-              <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-sm font-body text-foreground">
-                <span className="text-muted-foreground">Project:</span>
-                <span>{estimation.projectType}</span>
-                <span className="text-muted-foreground">Lengte:</span>
-                <span>{estimation.length}m</span>
-                <span className="text-muted-foreground">Grondtype:</span>
-                <span>{estimation.groundType}</span>
-                {estimation.location && (
-                  <>
-                    <span className="text-muted-foreground">Locatie:</span>
-                    <span>{estimation.location}</span>
-                  </>
-                )}
-              </div>
-              <p className="text-lg sm:text-xl font-heading font-bold text-foreground mt-3">
-                €{estimation.min.toLocaleString("nl-BE")} – €{estimation.max.toLocaleString("nl-BE")}
-              </p>
-            </div>
-          )}
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 mb-5">
             {/* Naam */}
