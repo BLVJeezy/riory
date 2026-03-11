@@ -161,10 +161,11 @@ const QuoteFormDialog = ({ open, onOpenChange, preselectedDienst }: QuoteFormDia
 
       // Upload audio if exists
       if (audioBlob) {
-        const audioPath = `${quoteId}/audio.webm`;
+        const ext = getFileExtension(audioBlob.type);
+        const audioPath = `${quoteId}/audio.${ext}`;
         const { error: audioErr } = await supabase.storage
           .from("quote-attachments")
-          .upload(audioPath, audioBlob, { contentType: "audio/webm" });
+          .upload(audioPath, audioBlob, { contentType: audioBlob.type });
         if (audioErr) throw audioErr;
         const { data: urlData } = supabase.storage
           .from("quote-attachments")
