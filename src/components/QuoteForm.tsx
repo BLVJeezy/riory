@@ -17,12 +17,7 @@ const diensten = [
   "Wateroverlast",
 ];
 
-interface QuoteFormProps {
-  estimation?: EstimationData | null;
-  onClearEstimation?: () => void;
-}
-
-const QuoteForm = ({ estimation, onClearEstimation }: QuoteFormProps) => {
+const QuoteForm = () => {
   const [formData, setFormData] = useState({
     naam: "",
     email: "",
