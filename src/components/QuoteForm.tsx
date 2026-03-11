@@ -216,7 +216,7 @@ const QuoteForm = () => {
       setPhotos([]);
       photoPreviewUrls.forEach((url) => URL.revokeObjectURL(url));
       setPhotoPreviewUrls([]);
-      onClearEstimation?.();
+      
     } catch (err) {
       console.error("Error submitting quote:", err);
       toast.error("Er ging iets mis bij het verzenden. Probeer het opnieuw.");
