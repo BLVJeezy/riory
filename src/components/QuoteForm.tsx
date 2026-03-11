@@ -100,7 +100,18 @@ const QuoteForm = ({ estimation, onClearEstimation }: QuoteFormProps) => {
       mediaRecorder.start();
       setIsRecording(true);
       setRecordingTime(0);
-      timerRef.current = setInterval(() => setRecordingTime((t) => t + 1), 1000);
+      timerRef.current = setInterval(() => {
+        setRecordingTime((t) => {
+          if (t + 1 >= 60) {
+            mediaRecorder.stop();
+            setIsRecording(false);
+            if (timerRef.current) clearInterval(timerRef.current);
+            toast.info("Maximale opnameduur van 1 minuut bereikt.");
+            return 60;
+          }
+          return t + 1;
+        });
+      }, 1000);
     } catch {
       toast.error("Kan microfoon niet openen. Geef toestemming in uw browser.");
     }
