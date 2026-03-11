@@ -1,7 +1,7 @@
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { Send, User, Mail, Phone, MapPin, FileText, X, Mic, Square, ImagePlus, Trash2 } from "lucide-react";
+import { Send, User, Mail, Phone, MapPin, FileText } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
 const diensten = [
@@ -28,129 +28,8 @@ const QuoteForm = () => {
   });
   const [submitting, setSubmitting] = useState(false);
 
-  // Audio recording state
-  const [isRecording, setIsRecording] = useState(false);
-  const [audioBlob, setAudioBlob] = useState<Blob | null>(null);
-  const [audioUrl, setAudioUrl] = useState<string | null>(null);
-  const [recordingTime, setRecordingTime] = useState(0);
-  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
-  const chunksRef = useRef<Blob[]>([]);
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
-
-  // Photo upload state
-  const [photos, setPhotos] = useState<File[]>([]);
-  const [photoPreviewUrls, setPhotoPreviewUrls] = useState<string[]>([]);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    return () => {
-      if (audioUrl) URL.revokeObjectURL(audioUrl);
-      photoPreviewUrls.forEach((url) => URL.revokeObjectURL(url));
-    };
-  }, []);
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  };
-
-  // --- Audio Recording ---
-  const getSupportedMimeType = () => {
-    const types = ["audio/mp4", "audio/aac", "audio/webm;codecs=opus", "audio/webm", "audio/ogg"];
-    for (const type of types) {
-      if (MediaRecorder.isTypeSupported(type)) return type;
-    }
-    return "";
-  };
-
-  const getFileExtension = (mimeType: string) => {
-    if (mimeType.includes("mp4")) return "m4a";
-    if (mimeType.includes("aac")) return "aac";
-    if (mimeType.includes("ogg")) return "ogg";
-    return "webm";
-  };
-
-  const startRecording = async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      const mimeType = getSupportedMimeType();
-      const options = mimeType ? { mimeType } : undefined;
-      const mediaRecorder = new MediaRecorder(stream, options);
-      mediaRecorderRef.current = mediaRecorder;
-      chunksRef.current = [];
-
-      mediaRecorder.ondataavailable = (e) => {
-        if (e.data.size > 0) chunksRef.current.push(e.data);
-      };
-
-      mediaRecorder.onstop = () => {
-        const actualMime = mediaRecorder.mimeType || mimeType || "audio/webm";
-        const blob = new Blob(chunksRef.current, { type: actualMime });
-        setAudioBlob(blob);
-        const url = URL.createObjectURL(blob);
-        setAudioUrl(url);
-        stream.getTracks().forEach((t) => t.stop());
-      };
-
-      mediaRecorder.start();
-      setIsRecording(true);
-      setRecordingTime(0);
-      timerRef.current = setInterval(() => {
-        setRecordingTime((t) => {
-          if (t + 1 >= 60) {
-            mediaRecorder.stop();
-            setIsRecording(false);
-            if (timerRef.current) clearInterval(timerRef.current);
-            toast.info("Maximale opnameduur van 1 minuut bereikt.");
-            return 60;
-          }
-          return t + 1;
-        });
-      }, 1000);
-    } catch {
-      toast.error("Kan microfoon niet openen. Geef toestemming in uw browser.");
-    }
-  };
-
-  const stopRecording = () => {
-    mediaRecorderRef.current?.stop();
-    setIsRecording(false);
-    if (timerRef.current) clearInterval(timerRef.current);
-  };
-
-  const removeAudio = () => {
-    if (audioUrl) URL.revokeObjectURL(audioUrl);
-    setAudioBlob(null);
-    setAudioUrl(null);
-    setRecordingTime(0);
-  };
-
-  // --- Photo Upload ---
-  const handlePhotoSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = Array.from(e.target.files || []);
-    if (photos.length + files.length > 5) {
-      toast.error("Maximaal 5 foto's toegestaan.");
-      return;
-    }
-    const validFiles = files.filter((f) => f.size <= 10 * 1024 * 1024);
-    if (validFiles.length < files.length) {
-      toast.error("Sommige bestanden zijn te groot (max 10MB).");
-    }
-    setPhotos((prev) => [...prev, ...validFiles]);
-    const newUrls = validFiles.map((f) => URL.createObjectURL(f));
-    setPhotoPreviewUrls((prev) => [...prev, ...newUrls]);
-    if (fileInputRef.current) fileInputRef.current.value = "";
-  };
-
-  const removePhoto = (index: number) => {
-    URL.revokeObjectURL(photoPreviewUrls[index]);
-    setPhotos((prev) => prev.filter((_, i) => i !== index));
-    setPhotoPreviewUrls((prev) => prev.filter((_, i) => i !== index));
-  };
-
-  const formatTime = (seconds: number) => {
-    const m = Math.floor(seconds / 60);
-    const s = seconds % 60;
-    return `${m}:${s.toString().padStart(2, "0")}`;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -158,40 +37,7 @@ const QuoteForm = () => {
     setSubmitting(true);
 
     try {
-      const quoteId = crypto.randomUUID();
-      let uploadedAudioUrl: string | null = null;
-      const uploadedPhotoUrls: string[] = [];
-
-      // Upload audio if exists
-      if (audioBlob) {
-        const ext = getFileExtension(audioBlob.type);
-        const audioPath = `${quoteId}/audio.${ext}`;
-        const { error: audioErr } = await supabase.storage
-          .from("quote-attachments")
-          .upload(audioPath, audioBlob, { contentType: audioBlob.type });
-        if (audioErr) throw audioErr;
-        const { data: urlData } = supabase.storage
-          .from("quote-attachments")
-          .getPublicUrl(audioPath);
-        uploadedAudioUrl = urlData.publicUrl;
-      }
-
-      // Upload photos
-      for (let i = 0; i < photos.length; i++) {
-        const ext = photos[i].name.split(".").pop() || "jpg";
-        const photoPath = `${quoteId}/photo-${i}.${ext}`;
-        const { error: photoErr } = await supabase.storage
-          .from("quote-attachments")
-          .upload(photoPath, photos[i], { contentType: photos[i].type });
-        if (photoErr) throw photoErr;
-        const { data: urlData } = supabase.storage
-          .from("quote-attachments")
-          .getPublicUrl(photoPath);
-        uploadedPhotoUrls.push(urlData.publicUrl);
-      }
-
       const { error } = await supabase.from("quote_requests").insert({
-        id: quoteId,
         naam: formData.naam,
         email: formData.email,
         telefoon: formData.telefoon || null,
@@ -204,19 +50,14 @@ const QuoteForm = () => {
         schatting_locatie: null,
         schatting_min: null,
         schatting_max: null,
-        audio_url: uploadedAudioUrl,
-        photo_urls: uploadedPhotoUrls.length > 0 ? uploadedPhotoUrls : null,
+        audio_url: null,
+        photo_urls: null,
       });
 
       if (error) throw error;
 
       toast.success("Uw offerte aanvraag is verzonden! Wij nemen spoedig contact op.");
       setFormData({ naam: "", email: "", telefoon: "", locatie: "", dienst: "", beschrijving: "" });
-      removeAudio();
-      setPhotos([]);
-      photoPreviewUrls.forEach((url) => URL.revokeObjectURL(url));
-      setPhotoPreviewUrls([]);
-      
     } catch (err) {
       console.error("Error submitting quote:", err);
       toast.error("Er ging iets mis bij het verzenden. Probeer het opnieuw.");
@@ -245,7 +86,6 @@ const QuoteForm = () => {
           onSubmit={handleSubmit}
           className="bg-background rounded-xl p-5 sm:p-8 md:p-10 border border-border max-w-2xl mx-auto shadow-sm"
         >
-
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 mb-5">
             {/* Naam */}
             <div>
@@ -306,81 +146,13 @@ const QuoteForm = () => {
           </div>
 
           {/* Beschrijving */}
-          <div className="mb-5">
+          <div className="mb-6">
             <label className="block text-xs font-heading font-semibold uppercase tracking-wider text-foreground mb-1.5">
               Beschrijving
             </label>
             <div className="relative">
               <FileText className="absolute left-3.5 top-3.5 w-4 h-4 text-muted-foreground" />
               <textarea name="beschrijving" value={formData.beschrijving} onChange={handleChange} rows={4} placeholder="Beschrijf kort uw project of probleem..." maxLength={1000} className="w-full pl-11 pr-4 py-3 rounded-lg bg-background border border-border text-foreground font-body text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none resize-none transition-shadow" />
-            </div>
-          </div>
-
-          {/* Voice Recording */}
-          <div className="mb-5">
-            <label className="block text-xs font-heading font-semibold uppercase tracking-wider text-foreground mb-1.5">
-              Spraakbericht (optioneel)
-            </label>
-            <div className="rounded-lg border border-border bg-muted/50 p-3">
-              {!audioBlob ? (
-                <div className="flex items-center gap-3">
-                  {isRecording ? (
-                    <>
-                      <Button type="button" variant="destructive" size="icon" className="h-10 w-10 rounded-full shrink-0" onClick={stopRecording}>
-                        <Square className="w-4 h-4" />
-                      </Button>
-                      <div className="flex items-center gap-2">
-                        <span className="w-2 h-2 bg-destructive rounded-full animate-pulse" />
-                        <span className="text-sm font-body text-foreground">{formatTime(recordingTime)}</span>
-                      </div>
-                    </>
-                  ) : (
-                    <Button type="button" variant="outline" size="sm" className="gap-2" onClick={startRecording}>
-                      <Mic className="w-4 h-4" />
-                      Opnemen
-                    </Button>
-                  )}
-                </div>
-              ) : (
-                <div className="flex items-center gap-3">
-                  <audio src={audioUrl!} controls className="h-10 flex-1 min-w-0" />
-                  <Button type="button" variant="ghost" size="icon" className="shrink-0 text-destructive hover:text-destructive" onClick={removeAudio}>
-                    <Trash2 className="w-4 h-4" />
-                  </Button>
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Photo Upload */}
-          <div className="mb-6">
-            <label className="block text-xs font-heading font-semibold uppercase tracking-wider text-foreground mb-1.5">
-              Foto's (optioneel, max 5)
-            </label>
-            <div className="rounded-lg border border-border bg-muted/50 p-3">
-              <div className="flex flex-wrap gap-2 mb-2">
-                {photoPreviewUrls.map((url, i) => (
-                  <div key={i} className="relative w-16 h-16 rounded-lg overflow-hidden border border-border group">
-                    <img src={url} alt={`Foto ${i + 1}`} className="w-full h-full object-cover" />
-                    <button
-                      type="button"
-                      onClick={() => removePhoto(i)}
-                      className="absolute top-0.5 right-0.5 bg-destructive text-destructive-foreground rounded-full w-5 h-5 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-                    >
-                      <X className="w-3 h-3" />
-                    </button>
-                  </div>
-                ))}
-              </div>
-              {photos.length < 5 && (
-                <>
-                  <Button type="button" variant="outline" size="sm" className="gap-2" onClick={() => fileInputRef.current?.click()}>
-                    <ImagePlus className="w-4 h-4" />
-                    Foto toevoegen
-                  </Button>
-                  <input ref={fileInputRef} type="file" accept="image/*" multiple className="hidden" onChange={handlePhotoSelect} />
-                </>
-              )}
             </div>
           </div>
 
