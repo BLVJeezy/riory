@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Phone } from "lucide-react";
+import { Phone, AlertTriangle } from "lucide-react";
 import heroDesktop from "@/assets/hero-desktop.png";
 import heroMobile from "@/assets/hero-mobile.png";
 import logo from "@/assets/riory-logo-white.svg";
@@ -21,13 +21,22 @@ const HeroSection = () => {
           <p className="text-lg md:text-xl text-white/80 font-body leading-relaxed mb-10 max-w-xl">
             Professionele rioleringswerken en infrastructuurprojecten uitgevoerd met precisie en vakmanschap.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 mb-10">
+          <div className="flex flex-col sm:flex-row gap-4 mb-4">
             <Button variant="hero" size="lg" className="text-base px-8 py-6 rounded-full" asChild>
               <a href="#offerte">VRAAG EEN OFFERTE</a>
             </Button>
             <Button variant="heroOutline" size="lg" className="text-base px-8 py-6 rounded-full border-white/60 text-white hover:bg-white hover:text-foreground" asChild>
               <a href="#projecten">BEKIJK PROJECTEN</a>
             </Button>
+          </div>
+          <div className="mb-10">
+            <a
+              href="tel:+32472502814"
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-[hsl(var(--urgent))] text-[hsl(var(--urgent-foreground))] font-heading font-bold text-base uppercase tracking-wide shadow-[0_0_20px_hsl(var(--urgent)/0.6),0_0_40px_hsl(var(--urgent)/0.3)] hover:shadow-[0_0_30px_hsl(var(--urgent)/0.8),0_0_60px_hsl(var(--urgent)/0.4)] transition-shadow animate-pulse"
+            >
+              <AlertTriangle className="w-5 h-5" />
+              URGENT? BEL NU
+            </a>
           </div>
 
           {/* Phone number */}
