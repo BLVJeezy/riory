@@ -2,7 +2,8 @@ import { ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const quickServices = [
-  { label: "Ontstoppingen & Geurdetectie", href: "/diensten/ontstoppingen-en-geurdetectie" },
+  { label: "Ontstoppingen", href: "/diensten/ontstoppingen" },
+  { label: "Geurdetectie", href: "/diensten/geurdetectie" },
   { label: "Leidingen & Septische Putten", href: "/diensten/leidingen-en-septische-putten" },
   { label: "Camera inspectie riool", href: "/diensten/camera-inspectie" },
   { label: "Leegpompen & Reinigen", href: "/diensten/leegpompen-en-reinigen" },
@@ -12,7 +13,7 @@ const EmergencyBanner = () => {
   return (
     <section className="bg-charcoal">
       <div className="section-container px-6 md:px-8 py-4">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-2 md:gap-3">
           {quickServices.map((service) => (
             <Link
               key={service.label}
