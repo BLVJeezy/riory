@@ -513,9 +513,16 @@ const AppointmentForm = () => {
             Maak een Afspraak
           </h2>
           <div className="w-16 h-1 bg-primary mx-auto mb-4" />
-          <p className="text-sm sm:text-base text-muted-foreground font-body max-w-lg mx-auto">
+          <p className="text-sm sm:text-base text-muted-foreground font-body max-w-lg mx-auto mb-5">
             Doorloop het formulier en wij contacteren u zo snel mogelijk.
           </p>
+          <a
+            href="tel:+32472502814"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[hsl(var(--urgent))] text-[hsl(var(--urgent-foreground))] font-heading font-bold text-sm uppercase tracking-wider shadow-[0_0_20px_hsl(var(--urgent)/0.6),0_0_40px_hsl(var(--urgent)/0.3)] hover:shadow-[0_0_30px_hsl(var(--urgent)/0.8),0_0_60px_hsl(var(--urgent)/0.4)] transition-shadow animate-pulse"
+          >
+            <AlertTriangle className="w-4 h-4" />
+            URGENT? BEL NU
+          </a>
         </div>
 
         <div className="bg-background rounded-xl p-4 sm:p-8 md:p-10 border border-border max-w-3xl mx-auto shadow-sm">
