@@ -18,6 +18,9 @@ import opsporenSeptisch1 from "@/assets/refs/opsporen-septisch-1.jpg";
 import kelder1 from "@/assets/refs/kelder-1.jpg";
 import verstopping1 from "@/assets/refs/verstopping-1.jpg";
 import verstopping2 from "@/assets/refs/verstopping-2.jpg";
+import doekjes1 from "@/assets/refs/doekjes-1.jpg";
+import doekjes2 from "@/assets/refs/doekjes-2.jpg";
+import doekjes3 from "@/assets/refs/doekjes-3.jpg";
 import septisch1 from "@/assets/refs/septisch-1.jpg";
 import septisch2 from "@/assets/refs/septisch-2.jpg";
 import septisch3 from "@/assets/refs/septisch-3.jpg";
@@ -131,6 +134,12 @@ export const referenceCategories: ReferenceCategory[] = [
         location: "Limburg",
         description: "Opsporing en verwijdering van een hardnekkige verstopping in de riolering.",
         images: [verstopping1, verstopping2],
+      },
+      {
+        title: "Verwijderen van vochtige doekjes",
+        location: "Limburg",
+        description: "Verwijdering van vochtige doekjes die de riolering verstopten. Deze doekjes zijn een veelvoorkomende oorzaak van verstoppingen.",
+        images: [doekjes1, doekjes2, doekjes3],
       },
     ],
   },
