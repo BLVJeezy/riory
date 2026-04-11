@@ -12,6 +12,15 @@ import regenput4 from "@/assets/refs/regenput-4.jpg";
 import sifon1 from "@/assets/refs/sifon-1.jpg";
 import sifon2 from "@/assets/refs/sifon-2.jpg";
 import sifon3 from "@/assets/refs/sifon-3.jpg";
+import septisch1 from "@/assets/refs/septisch-1.jpg";
+import septisch2 from "@/assets/refs/septisch-2.jpg";
+import septisch3 from "@/assets/refs/septisch-3.jpg";
+import septisch4 from "@/assets/refs/septisch-4.jpg";
+import septisch5 from "@/assets/refs/septisch-5.jpg";
+import septisch6 from "@/assets/refs/septisch-6.jpg";
+import septisch7 from "@/assets/refs/septisch-7.jpg";
+import septisch8 from "@/assets/refs/septisch-8.jpg";
+import septisch9 from "@/assets/refs/septisch-9.jpg";
 
 export interface ReferenceProject {
   title: string;
