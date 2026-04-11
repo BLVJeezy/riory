@@ -10,6 +10,7 @@ import { referenceCategories } from "@/data/references";
 
 const ReferentieDetail = () => {
   const { slug } = useParams<{ slug: string }>();
+  const navigate = useNavigate();
   const category = referenceCategories.find((c) => c.slug === slug);
   const [lightbox, setLightbox] = useState<{ images: string[]; index: number } | null>(null);
 
