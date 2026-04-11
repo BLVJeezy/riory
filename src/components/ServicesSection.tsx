@@ -41,6 +41,9 @@ const ServicesSection = () => {
               <p className="mt-2 text-xs sm:text-sm text-muted-foreground font-body leading-relaxed line-clamp-3">
                 {service.description}
               </p>
+              <span className="inline-flex items-center gap-1 mt-2 text-xs sm:text-sm font-heading font-semibold text-primary group-hover:underline">
+                Meer weten <ArrowRight className="w-3 h-3" />
+              </span>
             </Link>
           ))}
         </div>
