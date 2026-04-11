@@ -9,6 +9,9 @@ import regenput1 from "@/assets/refs/regenput-1.jpg";
 import regenput2 from "@/assets/refs/regenput-2.jpg";
 import regenput3 from "@/assets/refs/regenput-3.jpg";
 import regenput4 from "@/assets/refs/regenput-4.jpg";
+import sifon1 from "@/assets/refs/sifon-1.jpg";
+import sifon2 from "@/assets/refs/sifon-2.jpg";
+import sifon3 from "@/assets/refs/sifon-3.jpg";
 
 export interface ReferenceProject {
   title: string;
