@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
@@ -57,6 +57,50 @@ const stepLabels = [
   "Omschrijving",
   "Afronden",
 ];
+
+const INPUT_CLASS =
+  "w-full h-12 px-4 rounded-lg bg-background border border-border text-foreground font-body text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-shadow";
+const ICON_INPUT_CLASS =
+  "w-full h-12 pl-11 pr-4 rounded-lg bg-background border border-border text-foreground font-body text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-shadow";
+
+const OptionCard = ({ selected, onClick, icon, label, description }: {
+  selected: boolean; onClick: () => void; icon: React.ReactNode; label: string; description?: string;
+}) => (
+  <button
+    type="button"
+    onClick={onClick}
+    className={`w-full text-left p-4 rounded-lg border-2 transition-all ${
+      selected
+        ? "border-primary bg-primary/5 shadow-md"
+        : "border-border hover:border-primary/40 hover:bg-muted/50"
+    }`}
+  >
+    <div className="flex items-center gap-3">
+      <div className={`p-2 rounded-lg ${selected ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"}`}>
+        {icon}
+      </div>
+      <div>
+        <p className="font-heading font-semibold text-foreground text-sm">{label}</p>
+        {description && <p className="text-xs text-muted-foreground mt-0.5">{description}</p>}
+      </div>
+      {selected && <Check className="w-5 h-5 text-primary ml-auto" />}
+    </div>
+  </button>
+);
+
+const InputField = ({ label, required, icon, ...props }: {
+  label: string; required?: boolean; icon?: React.ReactNode;
+} & React.InputHTMLAttributes<HTMLInputElement>) => (
+  <div>
+    <label className="block text-xs font-heading font-semibold uppercase tracking-wider text-foreground mb-1.5">
+      {label} {required && <span className="text-primary">*</span>}
+    </label>
+    <div className="relative">
+      {icon && <span className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground">{icon}</span>}
+      <input {...props} className={icon ? ICON_INPUT_CLASS : INPUT_CLASS} />
+    </div>
+  </div>
+);
 
 const AppointmentForm = () => {
   const [step, setStep] = useState(0);
@@ -202,49 +246,6 @@ const AppointmentForm = () => {
     }
   };
 
-  const inputClass =
-    "w-full h-12 px-4 rounded-lg bg-background border border-border text-foreground font-body text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-shadow";
-  const iconInputClass =
-    "w-full h-12 pl-11 pr-4 rounded-lg bg-background border border-border text-foreground font-body text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-shadow";
-
-  const OptionCard = ({ selected, onClick, icon, label, description }: {
-    selected: boolean; onClick: () => void; icon: React.ReactNode; label: string; description?: string;
-  }) => (
-    <button
-      type="button"
-      onClick={onClick}
-      className={`w-full text-left p-4 rounded-lg border-2 transition-all ${
-        selected
-          ? "border-primary bg-primary/5 shadow-md"
-          : "border-border hover:border-primary/40 hover:bg-muted/50"
-      }`}
-    >
-      <div className="flex items-center gap-3">
-        <div className={`p-2 rounded-lg ${selected ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"}`}>
-          {icon}
-        </div>
-        <div>
-          <p className="font-heading font-semibold text-foreground text-sm">{label}</p>
-          {description && <p className="text-xs text-muted-foreground mt-0.5">{description}</p>}
-        </div>
-        {selected && <Check className="w-5 h-5 text-primary ml-auto" />}
-      </div>
-    </button>
-  );
-
-  const InputField = ({ label, required, icon, ...props }: {
-    label: string; required?: boolean; icon?: React.ReactNode;
-  } & React.InputHTMLAttributes<HTMLInputElement>) => (
-    <div>
-      <label className="block text-xs font-heading font-semibold uppercase tracking-wider text-foreground mb-1.5">
-        {label} {required && <span className="text-primary">*</span>}
-      </label>
-      <div className="relative">
-        {icon && <span className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground">{icon}</span>}
-        <input {...props} className={icon ? iconInputClass : inputClass} />
-      </div>
-    </div>
-  );
 
   const renderStep = () => {
     switch (step) {
