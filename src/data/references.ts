@@ -95,7 +95,7 @@ export const referenceCategories: ReferenceCategory[] = [
         title: "Reinigen Regenput",
         location: "Limburg",
         description: "Volledige reiniging van een regenput inclusief inspectie van leidingen en vlotter. De put werd grondig schoongemaakt zodat het regenwater weer correct kan worden opgevangen.",
-        images: [regenput2, regenput1, regenput3, regenput4],
+        images: [regenput3, regenput2, regenput1, regenput4],
       },
       {
         title: "Ondergelopen kelder",
