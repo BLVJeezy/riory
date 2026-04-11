@@ -1,21 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
-import serviceOntstoppingen from "@/assets/service-ontstoppingen-geurdetectie.jpg";
-import serviceLeidingen from "@/assets/service-leidingen-septisch.jpg";
-
-const featuredServices = [
-  {
-    title: "Ontstoppingen en geurdetectie",
-    description: "Snelle en efficiënte ontstopping van rioleringen, afvoeren en leidingen. Opsporing en verhelping van stankoverlast.",
-    image: serviceOntstoppingen,
-  },
-  {
-    title: "Leidingen en septische putten",
-    description: "Professioneel ledigen en reinigen van septische putten, regenputten en aanleg of herstelling van leidingen.",
-    image: serviceLeidingen,
-  },
-];
+import { allServices } from "@/data/services";
 
 const ServicesSection = () => {
   return (
@@ -31,25 +17,31 @@ const ServicesSection = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
-          {featuredServices.map((service) => (
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6 mb-10">
+          {allServices.map((service) => (
             <div
-              key={service.title}
-              className="group relative h-64 md:h-80 rounded-xl overflow-hidden"
+              key={service.slug}
+              className="group relative h-48 md:h-72 rounded-xl overflow-hidden"
             >
               <img
                 src={service.image}
                 alt={service.title}
                 className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-charcoal/90 via-charcoal/30 to-transparent" />
-              <div className="absolute bottom-0 left-0 right-0 p-6">
-                <h3 className="text-xl md:text-2xl font-heading font-bold text-white mb-2">
+              <div className="absolute inset-0 bg-gradient-to-t from-charcoal/90 via-charcoal/40 to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 p-3 md:p-6">
+                <h3 className="text-sm md:text-xl font-heading font-bold text-white mb-1 md:mb-2 leading-tight">
                   {service.title}
                 </h3>
-                <p className="text-sm md:text-base text-white/70 font-body leading-relaxed">
+                <p className="hidden md:block text-sm text-white/70 font-body leading-relaxed mb-3">
                   {service.description}
                 </p>
+                <Button variant="cta" size="sm" className="text-xs md:text-sm h-8 md:h-9 px-3 md:px-4" asChild>
+                  <Link to={`/diensten/${service.slug}`} className="gap-1 md:gap-2">
+                    Meer weten
+                    <ArrowRight className="w-3 h-3 md:w-4 md:h-4" />
+                  </Link>
+                </Button>
               </div>
             </div>
           ))}
