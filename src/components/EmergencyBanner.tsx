@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const quickServices = [
   { label: "Ontstoppingen & Geurdetectie", href: "/diensten/ontstoppingen-en-geurdetectie" },
   { label: "Leidingen & Septische Putten", href: "/diensten/leidingen-en-septische-putten" },
-  { label: "Camera-inspectie", href: "/diensten/camera-inspectie" },
+  { label: "Camera inspectie riool", href: "/diensten/camera-inspectie" },
   { label: "Leegpompen & Reinigen", href: "/diensten/leegpompen-en-reinigen" },
 ];
 
