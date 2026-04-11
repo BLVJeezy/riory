@@ -10,6 +10,8 @@ export interface Service {
   image: string;
   longDescription: string;
   features: string[];
+  metaTitle?: string;
+  metaDescription?: string;
 }
 
 export const allServices: Service[] = [
