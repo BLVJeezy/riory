@@ -7,32 +7,32 @@ const projects = [
   {
     title: "Rioolaansluiting Woonwijk",
     location: "Bilzen, Limburg",
-    category: "Rioleringswerken",
+    category: "Ontstoppingen en geurdetectie",
     description: "Volledige rioleringsaansluiting voor een nieuwe residentiële verkaveling.",
     image: project1,
   },
   {
     title: "Grondverzet Industrieterrein",
     location: "Hasselt, Limburg",
-    category: "Grondwerken",
+    category: "Ledigen van septische putten",
     description: "Grootschalige uitgraving en grondverzet voor de aanleg van een nieuw bedrijventerrein.",
     image: project2,
   },
   {
     title: "Gemeentelijke Drainage",
     location: "Genk, Limburg",
-    category: "Infrastructuur",
+    category: "Leegpompen en reinigen",
     description: "Installatie van een volledig afwateringssysteem langs een gemeentelijke hoofdweg.",
     image: project3,
   },
 ];
 
-const filters = ["Alle", "Rioleringswerken", "Grondwerken", "Infrastructuur"];
+const filters = ["Alle referenties", "Dakgootreinigingen", "Ledigen van septische putten", "Leegpompen en reinigen", "Ontstoppingen en geurdetectie"];
 
 const ProjectsSection = () => {
-  const [activeFilter, setActiveFilter] = useState("Alle");
+  const [activeFilter, setActiveFilter] = useState("Alle referenties");
 
-  const filtered = activeFilter === "Alle"
+  const filtered = activeFilter === "Alle referenties"
     ? projects
     : projects.filter((p) => p.category === activeFilter);
 
@@ -41,7 +41,7 @@ const ProjectsSection = () => {
       <div className="section-container px-4 sm:px-6 md:px-8">
         <div className="text-center mb-8 sm:mb-10">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-heading font-bold uppercase text-foreground mb-3">
-            Onze Realisaties
+            Onze Referenties
           </h2>
           <div className="w-16 h-1 bg-primary mx-auto mb-4" />
         </div>
