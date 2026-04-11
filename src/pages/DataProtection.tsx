@@ -4,9 +4,11 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 import { usePageView } from "@/hooks/usePageView";
+import { useDocumentMeta } from "@/hooks/useDocumentMeta";
 
 const DataProtection = () => {
   usePageView("/data-protection");
+  useDocumentMeta("Data Protection Notice | Riory", "Data protection notice van Riory bv conform de GDPR-wetgeving.");
 
   return (
     <>

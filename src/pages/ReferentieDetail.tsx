@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useParams, Link, Navigate, useNavigate } from "react-router-dom";
 import { usePageView } from "@/hooks/usePageView";
+import { useDocumentMeta } from "@/hooks/useDocumentMeta";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import AppointmentForm from "@/components/AppointmentForm";
@@ -15,6 +16,10 @@ const ReferentieDetail = () => {
   const [lightbox, setLightbox] = useState<{ images: string[]; index: number } | null>(null);
 
   usePageView(`/referenties/${slug}`);
+  useDocumentMeta(
+    category ? `${category.title} | Riory Limburg` : undefined,
+    category ? `Riory ${category.title.toLowerCase()} - professionele service en snelle oplossingen. Ontdek deze realisatie en onze aanpak.` : undefined
+  );
 
   if (!category) {
     return <Navigate to="/#projecten" replace />;

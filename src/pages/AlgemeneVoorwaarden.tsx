@@ -4,9 +4,11 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 import { usePageView } from "@/hooks/usePageView";
+import { useDocumentMeta } from "@/hooks/useDocumentMeta";
 
 const AlgemeneVoorwaarden = () => {
   usePageView("/algemene-voorwaarden");
+  useDocumentMeta("Algemene Voorwaarden | Riory", "Raadpleeg de algemene voorwaarden van Riory bv voor onze diensten en werkzaamheden.");
 
   return (
     <>
