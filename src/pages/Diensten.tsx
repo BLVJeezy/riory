@@ -14,7 +14,7 @@ const Diensten = () => {
   usePageView("/diensten");
   useDocumentMeta(
     "Ontstoppings- en ruimdienst in Bilzen-Hoeselt Limburg | Riory",
-    "Ontdek alle diensten van Riory: ontstopping, geurdetectie, septische putten, camera inspectie riool en leegpompen. 24/7 beschikbaar in Limburg."
+    "Ontdek alle diensten van Riory: ontstopping, septische putten, camera inspectie riool en leegpompen. 24/7 beschikbaar in Limburg."
   );
   const formRef = useRef<HTMLDivElement>(null);
 
