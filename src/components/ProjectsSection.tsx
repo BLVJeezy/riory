@@ -35,7 +35,7 @@ const ProjectsSection = () => {
                 <h3 className="text-xs sm:text-sm md:text-xl font-heading font-bold text-white mb-1 md:mb-2 leading-tight">
                   {cat.title}
                 </h3>
-                <span className="hidden md:inline-flex items-center gap-1 text-xs text-white/70 font-heading uppercase tracking-wider group-hover:text-primary transition-colors">
+                <span className="inline-flex items-center gap-1 text-[10px] sm:text-xs text-white/70 font-heading uppercase tracking-wider group-hover:text-primary transition-colors">
                   Bekijk projecten <ArrowRight className="w-3 h-3" />
                 </span>
               </div>
