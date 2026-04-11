@@ -47,18 +47,7 @@ export const referenceCategories: ReferenceCategory[] = [
     image: serviceLeidingen,
     description:
       "Professioneel ledigen en reinigen van septische putten met gespecialiseerde zuigwagens. Wij zorgen voor een correcte afvoer conform de milieuwetgeving.",
-    projects: [
-      {
-        title: "Septische Put Ledigen Woonhuis",
-        location: "Genk, Limburg",
-        description: "Ledigen en reinigen van een septische put bij een alleenstaande woning.",
-      },
-      {
-        title: "Septische Putten Vakantiepark",
-        location: "Maasmechelen, Limburg",
-        description: "Periodiek ledigen van meerdere septische putten op een vakantiepark.",
-      },
-    ],
+    projects: [],
   },
   {
     slug: "leegpompen-en-reinigen",
