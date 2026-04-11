@@ -15,6 +15,7 @@ import sifon3 from "@/assets/refs/sifon-3.jpg";
 import geurdetectie1 from "@/assets/refs/geurdetectie-1.jpg";
 import ontstoppingAfvoerput1 from "@/assets/refs/ontstopping-afvoerput-1.jpg";
 import opsporenSeptisch1 from "@/assets/refs/opsporen-septisch-1.jpg";
+import kelder1 from "@/assets/refs/kelder-1.jpg";
 import septisch1 from "@/assets/refs/septisch-1.jpg";
 import septisch2 from "@/assets/refs/septisch-2.jpg";
 import septisch3 from "@/assets/refs/septisch-3.jpg";
@@ -89,6 +90,12 @@ export const referenceCategories: ReferenceCategory[] = [
         location: "Limburg",
         description: "Volledige reiniging van een regenput inclusief inspectie van leidingen en vlotter. De put werd grondig schoongemaakt zodat het regenwater weer correct kan worden opgevangen.",
         images: [regenput1, regenput2, regenput3, regenput4],
+      },
+      {
+        title: "Ondergelopen kelder",
+        location: "Limburg",
+        description: "Leegpompen en reinigen van een ondergelopen kelder na wateroverlast.",
+        images: [kelder1],
       },
     ],
   },
