@@ -6,6 +6,7 @@ import serviceLeegpompen from "@/assets/service-leegpompen-reinigen.webp";
 export interface Service {
   slug: string;
   title: string;
+  shortTitle?: string;
   description: string;
   image: string;
   longDescription: string;
