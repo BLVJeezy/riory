@@ -5,6 +5,10 @@ import serviceCamera from "@/assets/service-camera-inspectie.webp";
 import dakgootHoogte1 from "@/assets/refs/dakgoot-hoogte-1.jpg";
 import dakgootHoogte2 from "@/assets/refs/dakgoot-hoogte-2.jpg";
 import dakgootHoogte3 from "@/assets/refs/dakgoot-hoogte-3.jpg";
+import regenput1 from "@/assets/refs/regenput-1.jpg";
+import regenput2 from "@/assets/refs/regenput-2.jpg";
+import regenput3 from "@/assets/refs/regenput-3.jpg";
+import regenput4 from "@/assets/refs/regenput-4.jpg";
 
 export interface ReferenceProject {
   title: string;
@@ -73,6 +77,12 @@ export const referenceCategories: ReferenceCategory[] = [
     description:
       "Bij wateroverlast staan wij snel ter plaatse om kelders, putten en terreinen leeg te pompen. Daarnaast bieden we periodieke reiniging aan als preventief onderhoud.",
     projects: [
+      {
+        title: "Reinigen Regenput",
+        location: "Limburg",
+        description: "Volledige reiniging van een regenput inclusief inspectie van leidingen en vlotter. De put werd grondig schoongemaakt zodat het regenwater weer correct kan worden opgevangen.",
+        images: [regenput1, regenput2, regenput3, regenput4],
+      },
       {
         title: "Kelder Leegpompen na Overstroming",
         location: "Tongeren, Limburg",
