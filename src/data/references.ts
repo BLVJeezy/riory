@@ -69,6 +69,12 @@ export const referenceCategories: ReferenceCategory[] = [
         description: "Volledige ledigen en vernieuwing van een septische put bij een woning. Inclusief graafwerken, zuiging en heraanleg van de riolering.",
         images: [septisch1, septisch2, septisch3, septisch4, septisch5, septisch6, septisch7, septisch8, septisch9],
       },
+      {
+        title: "Opsporen septische put",
+        location: "Limburg",
+        description: "Opsporing en blootleggen van een septische put voor inspectie en onderhoud.",
+        images: [opsporenSeptisch1],
+      },
     ],
   },
   {
