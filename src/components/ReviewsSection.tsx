@@ -87,12 +87,11 @@ const ScrollRow = ({ items, direction }: { items: typeof reviews; direction: "le
 
   return (
     <div
-      className="overflow-x-auto scrollbar-hide select-none px-4 sm:px-6 md:px-8"
+      className="overflow-x-auto scrollbar-hide select-none px-4 sm:px-6 md:px-8 group"
       style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
     >
       <div
-        className={`flex gap-3 sm:gap-4 w-max ${animationClass}`}
-        style={{ WebkitOverflowScrolling: "touch" }}
+        className={`flex gap-3 sm:gap-4 w-max ${animationClass} group-hover:[animation-play-state:paused]`}
       >
         {[...items, ...items].map((review, index) => (
           <ReviewCard key={`${review.name}-${index}`} review={review} />
