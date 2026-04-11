@@ -22,7 +22,7 @@ const faqs = [
       "Ja, wij zijn 24/7 beschikbaar — ook in het weekend en op feestdagen. Voor spoedgevallen kunt u ons altijd bereiken via telefoon of WhatsApp.",
   },
   {
-    question: "Is een camera-inspectie altijd nodig?",
+    question: "Is een camera inspectie riool altijd nodig?",
     answer:
       "Niet altijd, maar het is wel aan te raden bij terugkerende verstoppingen of bij de aankoop van een woning. Zo krijgt u een duidelijk beeld van de staat van uw riolering.",
   },
