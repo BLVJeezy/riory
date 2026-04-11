@@ -10,7 +10,7 @@ import AboutSection from "@/components/AboutSection";
 import ContactSection from "@/components/ContactSection";
 import FAQSection from "@/components/FAQSection";
 import Footer from "@/components/Footer";
-import ChatbotWidget from "@/components/ChatbotWidget";
+
 
 const Index = () => {
   usePageView("/");
@@ -28,7 +28,7 @@ const Index = () => {
       <FAQSection />
       <ContactSection />
       <Footer />
-      <ChatbotWidget />
+      
     </>
   );
 };
