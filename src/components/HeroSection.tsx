@@ -23,7 +23,7 @@ const HeroSection = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 mb-4">
             <Button variant="hero" size="lg" className="text-base px-8 py-6 rounded-full" asChild>
-              <a href="#offerte">VRAAG EEN OFFERTE</a>
+              <a href="#offerte">maak een afspraak</a>
             </Button>
             <Button variant="heroOutline" size="lg" className="text-base px-8 py-6 rounded-full border-white/60 text-white hover:bg-white hover:text-foreground" asChild>
               <a href="#projecten">BEKIJK PROJECTEN</a>
