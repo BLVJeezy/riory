@@ -73,6 +73,13 @@ export const referenceCategories: ReferenceCategory[] = [
     image: serviceOntstoppingen,
     description:
       "Snelle en efficiënte ontstopping van rioleringen, afvoeren en leidingen. Wij sporen geurhinder en rioolvliegjes op aan de bron en verhelpen het probleem duurzaam.",
-    projects: [],
+    projects: [
+      {
+        title: "Opsporen en traceren gebroken sifon",
+        location: "Limburg",
+        description: "Opsporing en tracering van een gebroken sifon met gespecialiseerd materiaal. De beschadigde sifon werd gelokaliseerd, uitgegraven en vakkundig hersteld.",
+        images: [sifon1, sifon2, sifon3],
+      },
+    ],
   },
 ];
