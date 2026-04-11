@@ -34,7 +34,7 @@ const ServicesSection = () => {
                 <div className="absolute inset-0 bg-gradient-to-t from-charcoal/90 via-charcoal/40 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-3 md:p-6">
                   <h3 className="text-sm md:text-xl font-heading font-bold text-white leading-tight">
-                    {service.title}
+                    {service.shortTitle || service.title}
                   </h3>
                 </div>
               </div>
