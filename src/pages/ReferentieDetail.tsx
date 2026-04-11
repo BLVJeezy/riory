@@ -2,6 +2,7 @@ import { useParams, Link, Navigate } from "react-router-dom";
 import { usePageView } from "@/hooks/usePageView";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import AppointmentForm from "@/components/AppointmentForm";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, MapPin } from "lucide-react";
 import { referenceCategories } from "@/data/references";
@@ -77,6 +78,11 @@ const ReferentieDetail = () => {
                 </div>
               ))}
             </div>
+          </div>
+
+          {/* Appointment Form */}
+          <div className="mt-16">
+            <AppointmentForm />
           </div>
         </div>
       </section>
