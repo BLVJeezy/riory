@@ -1,4 +1,5 @@
 import { usePageView } from "@/hooks/usePageView";
+import { useDocumentMeta } from "@/hooks/useDocumentMeta";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import EmergencyBanner from "@/components/EmergencyBanner";
@@ -15,6 +16,7 @@ import Footer from "@/components/Footer";
 
 const Index = () => {
   usePageView("/");
+  useDocumentMeta();
 
   return (
     <>

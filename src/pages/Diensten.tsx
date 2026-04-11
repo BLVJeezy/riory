@@ -1,5 +1,6 @@
 import { useRef } from "react";
 import { usePageView } from "@/hooks/usePageView";
+import { useDocumentMeta } from "@/hooks/useDocumentMeta";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import FAQSection from "@/components/FAQSection";
@@ -11,6 +12,10 @@ import { allServices } from "@/data/services";
 
 const Diensten = () => {
   usePageView("/diensten");
+  useDocumentMeta(
+    "Ontstoppings- en ruimdienst in Bilzen-Hoeselt Limburg | Riory",
+    "Ontdek alle diensten van Riory: ontstopping, septische putten, camera-inspectie en leegpompen. 24/7 beschikbaar in Limburg."
+  );
   const formRef = useRef<HTMLDivElement>(null);
 
   return (
