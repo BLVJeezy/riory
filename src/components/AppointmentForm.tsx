@@ -22,7 +22,7 @@ import {
 const diensten = [
   "Ontstopping",
   "Septische put ledigen",
-  "Camera-inspectie",
+  "Camera inspectie riool",
   "Plaatsbepaling afvoeren",
   "Geurhinder/rioolvliegjes",
   "Periodieke reiniging van afvoeren",
