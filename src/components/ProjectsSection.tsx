@@ -47,12 +47,12 @@ const ProjectsSection = () => {
         </div>
 
         {/* Filters */}
-        <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-8 sm:mb-10">
+        <div className="flex flex-wrap justify-center gap-1.5 sm:gap-3 mb-6 sm:mb-10 px-2 sm:px-0">
           {filters.map((f) => (
             <button
               key={f}
               onClick={() => setActiveFilter(f)}
-              className={`px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-heading font-semibold uppercase tracking-wider rounded-full transition-colors ${
+              className={`px-2.5 sm:px-4 py-1 sm:py-2 text-[10px] sm:text-sm font-heading font-semibold uppercase tracking-wider rounded-full transition-colors whitespace-nowrap ${
                 activeFilter === f
                   ? "bg-primary text-primary-foreground"
                   : "bg-background text-foreground border border-border hover:border-primary"
