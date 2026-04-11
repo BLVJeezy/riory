@@ -11,6 +11,7 @@ import DienstDetail from "./pages/DienstDetail.tsx";
 import DataProtection from "./pages/DataProtection.tsx";
 import PrivacyPolicy from "./pages/PrivacyPolicy.tsx";
 import Gebruiksvoorwaarden from "./pages/Gebruiksvoorwaarden.tsx";
+import AlgemeneVoorwaarden from "./pages/AlgemeneVoorwaarden.tsx";
 import AdminLogin from "./pages/AdminLogin.tsx";
 import Admin from "./pages/Admin.tsx";
 import NotFound from "./pages/NotFound.tsx";
@@ -32,6 +33,7 @@ const App = () => (
             <Route path="/data-protection" element={<DataProtection />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/gebruiksvoorwaarden" element={<Gebruiksvoorwaarden />} />
+            <Route path="/algemene-voorwaarden" element={<AlgemeneVoorwaarden />} />
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/admin" element={<Admin />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
