@@ -30,7 +30,7 @@ const ProjectsSection = () => {
         </div>
 
         {/* Filters */}
-        <div className="flex flex-wrap justify-center gap-1.5 sm:gap-2 mb-8">
+        <div className="flex flex-wrap justify-center gap-1.5 sm:gap-2 mb-8 sm:mb-10">
           {filters.map((f) => (
             <button
               key={f.value}
@@ -47,55 +47,49 @@ const ProjectsSection = () => {
         </div>
 
         {/* Projects per category */}
-        <div className="space-y-10">
+        <div className="space-y-8 sm:space-y-12">
           {visible.map((cat) => (
             <div key={cat.slug}>
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg sm:text-xl font-heading font-bold text-foreground">
+              {/* Category header */}
+              <div className="flex items-center justify-between mb-4 sm:mb-5 pb-2 border-b border-border">
+                <h3 className="text-base sm:text-lg md:text-xl font-heading font-bold text-foreground">
                   {cat.title}
                 </h3>
                 <Link
                   to={`/referenties/${cat.slug}`}
-                  className="inline-flex items-center gap-1 text-[10px] sm:text-xs text-primary font-heading uppercase tracking-wider hover:text-primary/80 transition-colors"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/10 text-[10px] sm:text-xs text-primary font-heading uppercase tracking-wider hover:bg-primary/20 transition-colors"
                 >
-                  Bekijk projecten <ArrowRight className="w-3 h-3" />
+                  Bekijk alle <ArrowRight className="w-3 h-3" />
                 </Link>
               </div>
 
               {cat.projects.length > 0 ? (
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
                   {cat.projects.map((project) => (
                     <Link
                       key={project.title}
                       to={`/referenties/${cat.slug}`}
-                      className="group"
+                      className="group block"
                     >
-                      <div className="relative h-32 sm:h-40 rounded-lg overflow-hidden mb-2">
-                        {project.images && project.images.length > 0 ? (
-                          <img
-                            src={project.images[0]}
-                            alt={project.title}
-                            loading="lazy"
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                          />
-                        ) : (
-                          <img
-                            src={cat.image}
-                            alt={project.title}
-                            loading="lazy"
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                          />
-                        )}
-                        <div className="absolute inset-0 bg-gradient-to-t from-charcoal/70 to-transparent" />
+                      <div className="relative aspect-[4/3] rounded-xl overflow-hidden">
+                        <img
+                          src={project.images?.[0] ?? cat.image}
+                          alt={project.title}
+                          loading="lazy"
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-charcoal/80 via-charcoal/20 to-transparent" />
+                        <div className="absolute bottom-0 left-0 right-0 p-2.5 sm:p-3">
+                          <p className="text-[11px] sm:text-sm font-heading font-semibold text-white leading-tight line-clamp-2">
+                            {project.title}
+                          </p>
+                        </div>
                       </div>
-                      <p className="text-xs sm:text-sm font-heading font-semibold text-foreground leading-tight">
-                        {project.title}
-                      </p>
                     </Link>
                   ))}
                 </div>
               ) : (
-                <p className="text-sm text-muted-foreground font-body italic">
+                <p className="text-sm text-muted-foreground font-body italic py-4">
                   Binnenkort beschikbaar.
                 </p>
               )}
