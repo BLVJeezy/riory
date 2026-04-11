@@ -52,7 +52,7 @@ const Diensten = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {allServices.map((service) => (
               <div key={service.title} className="group relative h-64 rounded-lg overflow-hidden">
                 <img src={service.image} alt={service.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
