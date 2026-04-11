@@ -15,7 +15,7 @@ const diensten = [
   "Regenput reinigen",
   "Ontstopping",
   "Dakgootreiniging",
-  "Camera-inspectie",
+  "Camera inspectie riool",
   "Plaatsbepaling afvoeren",
   "Geurhinder",
   "Rioolvliegjes",

@@ -51,13 +51,13 @@ export const allServices: Service[] = [
   },
   {
     slug: "camera-inspectie",
-    title: "Camera-inspectie",
-    description: "Gedetailleerde camera-inspectie van rioleringen om problemen snel en nauwkeurig te lokaliseren.",
+    title: "Camera inspectie riool",
+    description: "Gedetailleerde camera-inspectie van riool en afvoer om problemen snel en nauwkeurig te lokaliseren.",
     image: serviceCamera,
     longDescription:
-      "Met onze professionele camera-inspectie krijgt u een duidelijk beeld van de toestand van uw rioleringssysteem. We brengen breuken, wortelingroei, verzakkingen en verstoppingen nauwkeurig in kaart. Na de inspectie ontvangt u een gedetailleerd rapport met beelden en advies voor eventuele herstellingen.",
+      "Met onze professionele camera-inspectie van riool en afvoer krijgt u een duidelijk beeld van de toestand van uw rioleringssysteem. We brengen breuken, wortelingroei, verzakkingen en verstoppingen nauwkeurig in kaart. Na de inspectie ontvangt u een gedetailleerd rapport met beelden en advies voor eventuele herstellingen.",
     features: [
-      "Gedetailleerde camera-inspectie van rioleringen",
+      "Gedetailleerde camera-inspectie van riool en afvoer",
       "Exacte lokalisatie van problemen",
       "Plaatsbepaling van ondergrondse afvoerleidingen",
       "Duidelijk rapport met beelden en advies",
