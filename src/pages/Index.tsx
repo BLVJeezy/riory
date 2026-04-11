@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import EmergencyBanner from "@/components/EmergencyBanner";
 import ServicesSection from "@/components/ServicesSection";
+import WhyChooseUs from "@/components/WhyChooseUs";
 import ProjectsSection from "@/components/ProjectsSection";
 import ReviewsSection from "@/components/ReviewsSection";
 import AppointmentForm from "@/components/AppointmentForm";
@@ -22,6 +23,7 @@ const Index = () => {
       <EmergencyBanner />
       <ServicesSection />
       <AboutSection />
+      <WhyChooseUs />
       <ProjectsSection />
       <ReviewsSection />
       <AppointmentForm />
