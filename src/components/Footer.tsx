@@ -70,14 +70,32 @@ const Footer = () => {
           <p className="text-xs text-primary-foreground/30 font-body">
             © {new Date().getFullYear()} RIORY. Alle rechten voorbehouden.
           </p>
-          <a
-            href="/Riorybv_Data_Protection_Notice_2021.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-xs text-primary-foreground/30 hover:text-primary transition-colors font-body"
-          >
-            Data Protection Notice
-          </a>
+          <div className="flex flex-wrap gap-x-4 gap-y-1">
+            <a
+              href="/Riorybv_Data_Protection_Notice_2021.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-primary-foreground/30 hover:text-primary transition-colors font-body"
+            >
+              Data Protection Notice
+            </a>
+            <a
+              href="/Riorybv_Privacy_Policy_2021.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-primary-foreground/30 hover:text-primary transition-colors font-body"
+            >
+              Privacy Policy
+            </a>
+            <a
+              href="/Riorybv_Gebruiksvoorwaarden_2021.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-primary-foreground/30 hover:text-primary transition-colors font-body"
+            >
+              Gebruiksvoorwaarden
+            </a>
+          </div>
         </div>
       </div>
     </footer>
