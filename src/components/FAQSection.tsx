@@ -40,7 +40,7 @@ const faqs = [
 
 const FAQSection = () => {
   return (
-    <section className="section-padding bg-muted/30">
+    <section id="faq" className="section-padding bg-muted/30">
       <div className="section-container max-w-3xl mx-auto">
         <div className="text-center mb-10">
           <h2 className="text-3xl md:text-4xl font-heading font-bold uppercase text-foreground mb-3">

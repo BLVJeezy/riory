@@ -13,6 +13,13 @@ const navLinks = [
   { label: "Contact", href: "#contact" },
 ];
 
+const mobileExtraLinks = [
+  { label: "Referenties", href: "#projecten" },
+  { label: "Waarom Ons", href: "#waarom-ons" },
+  { label: "Reviews", href: "#reviews" },
+  { label: "FAQ", href: "#faq" },
+];
+
 const Navbar = () => {
   const { theme, toggleTheme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
@@ -112,6 +119,17 @@ const Navbar = () => {
                   </a>
                 )
               )}
+              <div className="border-t border-white/10 my-1" />
+              {mobileExtraLinks.map((link) => (
+                <a
+                  key={link.href + link.label}
+                  href={link.href}
+                  onClick={() => setIsOpen(false)}
+                  className="px-5 py-3 text-sm font-body font-medium text-white/80 hover:text-white hover:bg-white/10 transition-colors"
+                >
+                  {link.label}
+                </a>
+              ))}
               <div className="px-3 pt-2 pb-1">
                 <Button variant="cta" size="sm" className="w-full" asChild>
                   <a href="#offerte" onClick={() => setIsOpen(false)}>Offerte Aanvraag</a>
