@@ -62,16 +62,6 @@ export const referenceCategories: ReferenceCategory[] = [
         description: "Volledige reiniging van een regenput inclusief inspectie van leidingen en vlotter. De put werd grondig schoongemaakt zodat het regenwater weer correct kan worden opgevangen.",
         images: [regenput1, regenput2, regenput3, regenput4],
       },
-      {
-        title: "Kelder Leegpompen na Overstroming",
-        location: "Tongeren, Limburg",
-        description: "Spoedinterventie na hevige regenval: kelder volledig leeggepompt en gereinigd.",
-      },
-      {
-        title: "Reiniging Industrieel Rioolstelsel",
-        location: "Hasselt, Limburg",
-        description: "Periodieke reiniging van het volledige rioleringssysteem van een industrieel complex.",
-      },
     ],
   },
   {
