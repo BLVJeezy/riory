@@ -590,7 +590,7 @@ const AppointmentForm = () => {
                 variant="cta"
                 onClick={next}
                 disabled={!canProceed()}
-                className="gap-2"
+                className="gap-1 sm:gap-2 text-xs sm:text-sm px-3 sm:px-4"
               >
                 Volgende
                 <ChevronRight className="w-4 h-4" />
@@ -601,7 +601,7 @@ const AppointmentForm = () => {
                 variant="cta"
                 onClick={handleSubmit}
                 disabled={submitting}
-                className="gap-2"
+                className="gap-1 sm:gap-2 text-xs sm:text-sm px-3 sm:px-4"
               >
                 <Send className="w-4 h-4" />
                 {submitting ? "VERZENDEN..." : "AFSPRAAK MAKEN"}
