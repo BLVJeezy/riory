@@ -1,6 +1,7 @@
 import { useParams, Link, Navigate } from "react-router-dom";
 import { useRef } from "react";
 import { usePageView } from "@/hooks/usePageView";
+import { useDocumentMeta } from "@/hooks/useDocumentMeta";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import AppointmentForm from "@/components/AppointmentForm";
@@ -14,6 +15,7 @@ const DienstDetail = () => {
   const formRef = useRef<HTMLDivElement>(null);
 
   usePageView(`/diensten/${slug}`);
+  useDocumentMeta(service?.metaTitle, service?.metaDescription);
 
   if (!service) {
     return <Navigate to="/diensten" replace />;

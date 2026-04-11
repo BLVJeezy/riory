@@ -4,9 +4,11 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 import { usePageView } from "@/hooks/usePageView";
+import { useDocumentMeta } from "@/hooks/useDocumentMeta";
 
 const PrivacyPolicy = () => {
   usePageView("/privacy-policy");
+  useDocumentMeta("Privacybeleid | Riory", "Lees het privacybeleid van Riory bv en hoe wij omgaan met uw persoonsgegevens.");
 
   return (
     <>
