@@ -14,6 +14,7 @@ import sifon2 from "@/assets/refs/sifon-2.jpg";
 import sifon3 from "@/assets/refs/sifon-3.jpg";
 import geurdetectie1 from "@/assets/refs/geurdetectie-1.jpg";
 import ontstoppingAfvoerput1 from "@/assets/refs/ontstopping-afvoerput-1.jpg";
+import opsporenSeptisch1 from "@/assets/refs/opsporen-septisch-1.jpg";
 import septisch1 from "@/assets/refs/septisch-1.jpg";
 import septisch2 from "@/assets/refs/septisch-2.jpg";
 import septisch3 from "@/assets/refs/septisch-3.jpg";
@@ -67,6 +68,12 @@ export const referenceCategories: ReferenceCategory[] = [
         location: "Limburg",
         description: "Volledige ledigen en vernieuwing van een septische put bij een woning. Inclusief graafwerken, zuiging en heraanleg van de riolering.",
         images: [septisch1, septisch2, septisch3, septisch4, septisch5, septisch6, septisch7, septisch8, septisch9],
+      },
+      {
+        title: "Opsporen septische put",
+        location: "Limburg",
+        description: "Opsporing en blootleggen van een septische put voor inspectie en onderhoud.",
+        images: [opsporenSeptisch1],
       },
     ],
   },
