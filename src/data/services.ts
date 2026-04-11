@@ -1,4 +1,5 @@
 import serviceOntstoppingen from "@/assets/service-ontstoppingen-geurdetectie.webp";
+import serviceGeurdetectie from "@/assets/service-geurdetectie.webp";
 import serviceLeidingen from "@/assets/service-leidingen-septisch.webp";
 import serviceCamera from "@/assets/service-camera-inspectie.webp";
 import serviceLeegpompen from "@/assets/service-leegpompen-reinigen.webp";
@@ -17,21 +18,41 @@ export interface Service {
 
 export const allServices: Service[] = [
   {
-    slug: "ontstoppingen-en-geurdetectie",
-    title: "Ontstoppingen en geurdetectie",
-    description: "Snelle en efficiënte ontstopping van rioleringen, afvoeren en leidingen. Opsporing en verhelping van stankoverlast en rioolvliegjes.",
+    slug: "ontstoppingen",
+    title: "Ontstoppingen",
+    description: "Snelle en efficiënte ontstopping van rioleringen, afvoeren en leidingen. 24/7 beschikbaar voor noodgevallen.",
     image: serviceOntstoppingen,
     longDescription:
-      "Heeft u last van een verstopte afvoer, rioolverstopping of stankoverlast? Wij zorgen voor een snelle en grondige oplossing. Met professionele hogedrukapparatuur maken wij elke verstopping vrij — van keukens en badkamers tot hoofdrioleringen. Daarnaast sporen wij geurhinder en rioolvliegjes op aan de bron en verhelpen het probleem duurzaam.",
+      "Heeft u last van een verstopte afvoer of rioolverstopping? Wij zorgen voor een snelle en grondige oplossing. Met professionele hogedrukapparatuur maken wij elke verstopping vrij — van keukens en badkamers tot hoofdrioleringen. Of het nu gaat om een verstopte wc, gootsteen of badkamerafvoer, Riory staat 24/7 klaar.",
     features: [
       "Ontstopping van rioleringen, afvoeren en leidingen",
       "Hogedrukreiniging met gespecialiseerd materiaal",
-      "Opsporing en verhelping van stankoverlast",
-      "Bestrijding van rioolvliegjes aan de bron",
+      "WC ontstoppen — snel en vakkundig",
+      "Gootsteen ontstoppen — keukenafvoer weer vrij",
+      "Badkamer ontstoppen — douche en lavabo",
       "24/7 beschikbaar voor noodgevallen",
     ],
-    metaTitle: "Ontstoppingen 24/7 & geurdetectie | Riory Bilzen-Hoeselt Limburg",
-    metaDescription: "Afvoer verstopt? Geurhinder? Riory spoort het probleem 24/7 op met efficiënte ontstopping en geurdetectie.",
+    metaTitle: "Ontstoppingen 24/7 Bilzen-Hoeselt Limburg | Riory",
+    metaDescription: "Afvoer verstopt? WC, gootsteen of badkamer? Riory lost elke verstopping 24/7 op met professionele hogedrukreiniging.",
+  },
+  {
+    slug: "geurdetectie",
+    title: "Geurdetectie & rioolvliegjes",
+    shortTitle: "Geurdetectie",
+    description: "Opsporing en verhelping van stankoverlast en rioolvliegjes aan de bron. Duurzame oplossing gegarandeerd.",
+    image: serviceGeurdetectie,
+    longDescription:
+      "Heeft u last van stankoverlast of rioolvliegjes in huis? Riory spoort de oorzaak op aan de bron en verhelpt het probleem duurzaam. Met professionele detectieapparatuur lokaliseren wij geurhinder snel en nauwkeurig, zodat u weer kunt genieten van een frisse leefomgeving.",
+    features: [
+      "Opsporing van stankoverlast aan de bron",
+      "Bestrijding van rioolvliegjes",
+      "Professionele geurdetectie-apparatuur",
+      "Duurzame oplossing — geen lapmiddelen",
+      "Advies ter preventie van geurhinder",
+      "Snelle interventie — 24/7 bereikbaar",
+    ],
+    metaTitle: "Geurdetectie & rioolvliegjes bestrijden Bilzen-Hoeselt | Riory",
+    metaDescription: "Last van stankoverlast of rioolvliegjes? Riory spoort de oorzaak op aan de bron en verhelpt het probleem duurzaam.",
   },
   {
     slug: "leidingen-en-septische-putten",
