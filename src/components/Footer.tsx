@@ -66,10 +66,18 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="border-t border-primary-foreground/10 mt-10 pt-6">
-          <p className="text-xs text-primary-foreground/30 font-body text-center">
+        <div className="border-t border-primary-foreground/10 mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-2">
+          <p className="text-xs text-primary-foreground/30 font-body">
             © {new Date().getFullYear()} RIORY. Alle rechten voorbehouden.
           </p>
+          <a
+            href="/Riorybv_Data_Protection_Notice_2021.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs text-primary-foreground/30 hover:text-primary transition-colors font-body"
+          >
+            Data Protection Notice
+          </a>
         </div>
       </div>
     </footer>
