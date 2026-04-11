@@ -29,6 +29,8 @@ export const allServices: Service[] = [
       "Bestrijding van rioolvliegjes aan de bron",
       "24/7 beschikbaar voor noodgevallen",
     ],
+    metaTitle: "Ontstoppingen 24/7 & geurdetectie | Riory Bilzen-Hoeselt Limburg",
+    metaDescription: "Afvoer verstopt? Geurhinder? Riory spoort het probleem 24/7 op met efficiënte ontstopping en geurdetectie.",
   },
   {
     slug: "leidingen-en-septische-putten",
@@ -44,6 +46,8 @@ export const allServices: Service[] = [
       "Herstelling van beschadigde leidingen",
       "Professionele zuigwagens en graafmachines",
     ],
+    metaTitle: "Ruiming septische put Bilzen-Hoeselt: beerput ruimen & reinigen | Riory",
+    metaDescription: "Riory ruimt en reinigt septische putten voor eerlijke prijzen en met 24/7 service. Voorkom geurhinder en verstoppingen!",
   },
   {
     slug: "camera-inspectie",
@@ -59,6 +63,8 @@ export const allServices: Service[] = [
       "Duidelijk rapport met beelden en advies",
       "Geschikt voor preventieve controles",
     ],
+    metaTitle: "Camera inspectie riool & afvoer | Riory Bilzen-Hoeselt Limburg",
+    metaDescription: "Laat verborgen beer-, septische putten en verstoppingen exact lokaliseren met gericht camera onderzoek. Geen breekwerk, wel snelle detectie!",
   },
   {
     slug: "leegpompen-en-reinigen",
@@ -74,5 +80,7 @@ export const allServices: Service[] = [
       "Dakgootreiniging en afvoerbuizen",
       "Snel ter plaatse — 24/7 bereikbaar",
     ],
+    metaTitle: "Kelder & regenput leegpompen & reinigen 24/7 Bilzen-Hoeselt | Riory",
+    metaDescription: "Kelder of regenput ondergelopen? Riory pompt snel leeg, spoort de oorzaak op & maakt schoon. 24/7 beschikbaar!",
   },
 ];
