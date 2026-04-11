@@ -5,6 +5,10 @@ import serviceCamera from "@/assets/service-camera-inspectie.webp";
 import dakgootHoogte1 from "@/assets/refs/dakgoot-hoogte-1.jpg";
 import dakgootHoogte2 from "@/assets/refs/dakgoot-hoogte-2.jpg";
 import dakgootHoogte3 from "@/assets/refs/dakgoot-hoogte-3.jpg";
+import regenput1 from "@/assets/refs/regenput-1.jpg";
+import regenput2 from "@/assets/refs/regenput-2.jpg";
+import regenput3 from "@/assets/refs/regenput-3.jpg";
+import regenput4 from "@/assets/refs/regenput-4.jpg";
 
 export interface ReferenceProject {
   title: string;
