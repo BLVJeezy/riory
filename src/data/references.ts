@@ -39,16 +39,6 @@ export const referenceCategories: ReferenceCategory[] = [
         description: "Dakgootreiniging van een hoog appartementsgebouw met behulp van een telescopische camera en speciaal reinigingsmateriaal. Veilig en efficiënt uitgevoerd.",
         images: [dakgootHoogte1, dakgootHoogte2, dakgootHoogte3],
       },
-      {
-        title: "Dakgootreiniging Appartementsgebouw",
-        location: "Bilzen, Limburg",
-        description: "Volledige reiniging van dakgoten en afvoerbuizen van een appartementsgebouw met 12 wooneenheden.",
-      },
-      {
-        title: "Preventief Onderhoud Woonwijk",
-        location: "Hasselt, Limburg",
-        description: "Jaarlijkse dakgootreiniging voor een volledige woonwijk als preventief onderhoud.",
-      },
     ],
   },
   {
