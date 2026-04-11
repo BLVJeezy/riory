@@ -86,8 +86,14 @@ const ScrollRow = ({ items, direction }: { items: typeof reviews; direction: "le
   const animationClass = direction === "left" ? "animate-scroll-left" : "animate-scroll-right";
 
   return (
-    <div className="overflow-hidden select-none px-4 sm:px-6 md:px-8">
-      <div className={`flex gap-3 sm:gap-4 w-max ${animationClass}`}>
+    <div
+      className="overflow-x-auto scrollbar-hide select-none px-4 sm:px-6 md:px-8"
+      style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+    >
+      <div
+        className={`flex gap-3 sm:gap-4 w-max ${animationClass}`}
+        style={{ WebkitOverflowScrolling: "touch" }}
+      >
         {[...items, ...items].map((review, index) => (
           <ReviewCard key={`${review.name}-${index}`} review={review} />
         ))}
