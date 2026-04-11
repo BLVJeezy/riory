@@ -1,4 +1,3 @@
-import { useRef, useEffect, useState } from "react";
 import { Star } from "lucide-react";
 
 const reviews = [
@@ -52,9 +51,6 @@ const reviews = [
   },
 ];
 
-const row1 = reviews;
-const row2 = [...reviews].reverse();
-
 const ReviewCard = ({ review }: { review: typeof reviews[0] }) => (
   <div className="flex-shrink-0 w-64 sm:w-80 bg-surface border border-border rounded-xl p-4 sm:p-5">
     <div className="flex items-center gap-2.5 sm:gap-3 mb-2.5 sm:mb-3">
@@ -86,58 +82,16 @@ const ReviewCard = ({ review }: { review: typeof reviews[0] }) => (
   </div>
 );
 
-const ScrollRow = ({
-  items,
-  direction,
-}: {
-  items: typeof reviews;
-  direction: "left" | "right";
-}) => {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const [isHovered, setIsHovered] = useState(false);
-
-  useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-
-    let animationId: number;
-    const speed = direction === "left" ? 0.5 : -0.5;
-
-    const animate = () => {
-      if (!isHovered && el) {
-        el.scrollLeft += speed;
-        const half = el.scrollWidth / 2;
-        if (direction === "left" && el.scrollLeft >= half) {
-          el.scrollLeft = 0;
-        }
-        if (direction === "right" && el.scrollLeft <= 0) {
-          el.scrollLeft = half;
-        }
-      }
-      animationId = requestAnimationFrame(animate);
-    };
-
-    // For right-to-left row, start at the midpoint
-    if (direction === "right") {
-      el.scrollLeft = el.scrollWidth / 2;
-    }
-
-    animationId = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(animationId);
-  }, [isHovered, direction]);
-
-  const displayItems = [...items, ...items];
+const ScrollRow = ({ items, direction }: { items: typeof reviews; direction: "left" | "right" }) => {
+  const animationClass = direction === "left" ? "animate-scroll-left" : "animate-scroll-right";
 
   return (
-    <div
-      ref={scrollRef}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      className="flex gap-3 sm:gap-4 overflow-x-hidden select-none px-4 sm:px-6 md:px-8"
-    >
-      {displayItems.map((review, index) => (
-        <ReviewCard key={`${review.name}-${index}`} review={review} />
-      ))}
+    <div className="overflow-hidden select-none px-4 sm:px-6 md:px-8">
+      <div className={`flex gap-3 sm:gap-4 w-max ${animationClass}`}>
+        {[...items, ...items].map((review, index) => (
+          <ReviewCard key={`${review.name}-${index}`} review={review} />
+        ))}
+      </div>
     </div>
   );
 };
@@ -169,8 +123,8 @@ const ReviewsSection = () => {
       </div>
 
       <div className="space-y-3 sm:space-y-4">
-        <ScrollRow items={row1} direction="left" />
-        <ScrollRow items={row2} direction="right" />
+        <ScrollRow items={reviews} direction="left" />
+        <ScrollRow items={[...reviews].reverse()} direction="right" />
       </div>
     </section>
   );
