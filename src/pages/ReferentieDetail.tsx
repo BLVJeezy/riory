@@ -85,7 +85,8 @@ const ReferentieDetail = () => {
                           src={img}
                           alt={`${project.title} foto ${i + 1}`}
                           loading="lazy"
-                          className="w-full h-32 sm:h-40 object-cover rounded-lg"
+                          onClick={() => setLightbox({ images: project.images!, index: i })}
+                          className="w-full h-32 sm:h-40 object-cover rounded-lg cursor-pointer hover:opacity-80 transition-opacity"
                         />
                       ))}
                     </div>
