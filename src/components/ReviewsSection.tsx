@@ -52,8 +52,8 @@ const reviews = [
   },
 ];
 
-const row1 = reviews.slice(0, 4);
-const row2 = reviews.slice(4, 8);
+const row1 = reviews;
+const row2 = [...reviews].reverse();
 
 const ReviewCard = ({ review }: { review: typeof reviews[0] }) => (
   <div className="flex-shrink-0 w-64 sm:w-80 bg-surface border border-border rounded-xl p-4 sm:p-5">
