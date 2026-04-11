@@ -1,19 +1,19 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
-import serviceSeptisch from "@/assets/service-septisch.jpg";
-import serviceOnstopping from "@/assets/service-ontstopping.jpg";
+import serviceOntstoppingen from "@/assets/service-ontstoppingen-geurdetectie.jpg";
+import serviceLeidingen from "@/assets/service-leidingen-septisch.jpg";
 
 const featuredServices = [
   {
-    title: "Septische put ledigen",
-    description: "Professioneel ledigen en reinigen van septische putten met gespecialiseerde zuigwagens.",
-    image: serviceSeptisch,
+    title: "Ontstoppingen en geurdetectie",
+    description: "Snelle en efficiënte ontstopping van rioleringen, afvoeren en leidingen. Opsporing en verhelping van stankoverlast.",
+    image: serviceOntstoppingen,
   },
   {
-    title: "Ontstopping",
-    description: "Snelle en efficiënte ontstopping van rioleringen, afvoeren en leidingen met hoge druk.",
-    image: serviceOnstopping,
+    title: "Leidingen en septische putten",
+    description: "Professioneel ledigen en reinigen van septische putten, regenputten en aanleg of herstelling van leidingen.",
+    image: serviceLeidingen,
   },
 ];
 
