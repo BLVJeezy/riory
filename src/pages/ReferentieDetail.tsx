@@ -103,6 +103,51 @@ const ReferentieDetail = () => {
         </div>
       </section>
       <Footer />
+
+      {/* Lightbox */}
+      {lightbox && (
+        <div
+          className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4"
+          onClick={() => setLightbox(null)}
+        >
+          <button
+            onClick={() => setLightbox(null)}
+            className="absolute top-4 right-4 text-white/70 hover:text-white z-10"
+          >
+            <X className="w-8 h-8" />
+          </button>
+
+          {lightbox.images.length > 1 && (
+            <>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setLightbox({ ...lightbox, index: (lightbox.index - 1 + lightbox.images.length) % lightbox.images.length });
+                }}
+                className="absolute left-2 sm:left-6 text-white/70 hover:text-white z-10"
+              >
+                <ChevronLeft className="w-10 h-10" />
+              </button>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setLightbox({ ...lightbox, index: (lightbox.index + 1) % lightbox.images.length });
+                }}
+                className="absolute right-2 sm:right-6 text-white/70 hover:text-white z-10"
+              >
+                <ChevronRight className="w-10 h-10" />
+              </button>
+            </>
+          )}
+
+          <img
+            src={lightbox.images[lightbox.index]}
+            alt=""
+            onClick={(e) => e.stopPropagation()}
+            className="max-h-[85vh] max-w-[90vw] object-contain rounded-lg"
+          />
+        </div>
+      )}
     </>
   );
 };
