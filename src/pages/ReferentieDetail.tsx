@@ -1,15 +1,17 @@
+import { useState } from "react";
 import { useParams, Link, Navigate } from "react-router-dom";
 import { usePageView } from "@/hooks/usePageView";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import AppointmentForm from "@/components/AppointmentForm";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, MapPin } from "lucide-react";
+import { ArrowLeft, MapPin, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { referenceCategories } from "@/data/references";
 
 const ReferentieDetail = () => {
   const { slug } = useParams<{ slug: string }>();
   const category = referenceCategories.find((c) => c.slug === slug);
+  const [lightbox, setLightbox] = useState<{ images: string[]; index: number } | null>(null);
 
   usePageView(`/referenties/${slug}`);
 
@@ -83,7 +85,8 @@ const ReferentieDetail = () => {
                           src={img}
                           alt={`${project.title} foto ${i + 1}`}
                           loading="lazy"
-                          className="w-full h-32 sm:h-40 object-cover rounded-lg"
+                          onClick={() => setLightbox({ images: project.images!, index: i })}
+                          className="w-full h-32 sm:h-40 object-cover rounded-lg cursor-pointer hover:opacity-80 transition-opacity"
                         />
                       ))}
                     </div>
@@ -100,6 +103,51 @@ const ReferentieDetail = () => {
         </div>
       </section>
       <Footer />
+
+      {/* Lightbox */}
+      {lightbox && (
+        <div
+          className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4"
+          onClick={() => setLightbox(null)}
+        >
+          <button
+            onClick={() => setLightbox(null)}
+            className="absolute top-4 right-4 text-white/70 hover:text-white z-10"
+          >
+            <X className="w-8 h-8" />
+          </button>
+
+          {lightbox.images.length > 1 && (
+            <>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setLightbox({ ...lightbox, index: (lightbox.index - 1 + lightbox.images.length) % lightbox.images.length });
+                }}
+                className="absolute left-2 sm:left-6 text-white/70 hover:text-white z-10"
+              >
+                <ChevronLeft className="w-10 h-10" />
+              </button>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setLightbox({ ...lightbox, index: (lightbox.index + 1) % lightbox.images.length });
+                }}
+                className="absolute right-2 sm:right-6 text-white/70 hover:text-white z-10"
+              >
+                <ChevronRight className="w-10 h-10" />
+              </button>
+            </>
+          )}
+
+          <img
+            src={lightbox.images[lightbox.index]}
+            alt=""
+            onClick={(e) => e.stopPropagation()}
+            className="max-h-[85vh] max-w-[90vw] object-contain rounded-lg"
+          />
+        </div>
+      )}
     </>
   );
 };
