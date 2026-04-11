@@ -13,6 +13,13 @@ const navLinks = [
   { label: "Contact", href: "#contact" },
 ];
 
+const mobileExtraLinks = [
+  { label: "Referenties", href: "#projecten" },
+  { label: "Waarom Ons", href: "#waarom-ons" },
+  { label: "Reviews", href: "#reviews" },
+  { label: "FAQ", href: "#faq" },
+];
+
 const Navbar = () => {
   const { theme, toggleTheme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
