@@ -29,6 +29,12 @@ const qualities = [
     description:
       "Wij beschikken over modern en professioneel materiaal om de vuilste werken grondig te klaren.",
   },
+  {
+    number: 6,
+    title: "Maak je afspraak",
+    description:
+      "Plan snel en eenvoudig een afspraak via ons formulier. Urgentie? Bel ons direct op 0472 50 28 14!",
+  },
 ];
 
 const WhyChooseUs = () => {
@@ -39,7 +45,7 @@ const WhyChooseUs = () => {
           Waarom kiezen voor ons?
         </h2>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-4">
           {qualities.map((q) => (
             <div
               key={q.number}
