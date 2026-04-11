@@ -1,10 +1,11 @@
 import { ChevronRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const quickServices = [
-  { label: "Dakgoten", href: "#diensten" },
-  { label: "Camera Inspectie", href: "#diensten" },
-  { label: "Ontstoppingen", href: "#diensten" },
-  { label: "Septische Putten", href: "#diensten" },
+  { label: "Ontstoppingen & Geurdetectie", href: "/diensten/ontstoppingen-en-geurdetectie" },
+  { label: "Leidingen & Septische Putten", href: "/diensten/leidingen-en-septische-putten" },
+  { label: "Camera-inspectie", href: "/diensten/camera-inspectie" },
+  { label: "Leegpompen & Reinigen", href: "/diensten/leegpompen-en-reinigen" },
 ];
 
 const EmergencyBanner = () => {
@@ -13,16 +14,16 @@ const EmergencyBanner = () => {
       <div className="section-container px-6 md:px-8 py-4">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3">
           {quickServices.map((service) => (
-            <a
+            <Link
               key={service.label}
-              href={service.href}
+              to={service.href}
               className="flex items-center justify-between gap-2 bg-white/5 hover:bg-white/10 rounded-lg px-4 py-3 transition-colors group"
             >
               <span className="text-xs md:text-sm font-heading font-semibold uppercase tracking-wider text-white/80 leading-tight">
                 {service.label}
               </span>
               <ChevronRight className="w-4 h-4 text-white/40 group-hover:text-primary shrink-0 transition-colors" />
-            </a>
+            </Link>
           ))}
         </div>
       </div>
