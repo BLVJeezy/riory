@@ -267,7 +267,7 @@ const AppointmentForm = () => {
                 className="mt-1 w-5 h-5 rounded border-border text-primary focus:ring-primary"
               />
               <span className="text-sm text-foreground font-body">
-                Ik ga akkoord met de <a href="#" className="text-primary underline font-semibold">algemene voorwaarden</a>.
+                Ik ga akkoord met de <a href="/algemene-voorwaarden" target="_blank" className="text-primary underline font-semibold">algemene voorwaarden</a>.
               </span>
             </label>
           </div>

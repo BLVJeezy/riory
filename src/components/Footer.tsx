@@ -90,6 +90,12 @@ const Footer = () => {
             >
               Gebruiksvoorwaarden
             </Link>
+            <Link
+              to="/algemene-voorwaarden"
+              className="text-xs text-primary-foreground/30 hover:text-primary transition-colors font-body"
+            >
+              Algemene Voorwaarden
+            </Link>
           </div>
         </div>
       </div>
