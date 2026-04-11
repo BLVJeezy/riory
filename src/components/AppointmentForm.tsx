@@ -518,34 +518,52 @@ const AppointmentForm = () => {
           </p>
         </div>
 
-        <div className="bg-background rounded-xl p-5 sm:p-8 md:p-10 border border-border max-w-3xl mx-auto shadow-sm">
-          {/* Stepper */}
-          <div className="flex items-center justify-between mb-8 overflow-x-auto pb-2">
-            {stepLabels.map((label, i) => (
-              <div key={i} className="flex items-center flex-shrink-0">
-                <div className="flex flex-col items-center">
-                  <div
-                    className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all ${
-                      i < step
-                        ? "bg-primary text-primary-foreground"
-                        : i === step
-                        ? "bg-primary text-primary-foreground ring-4 ring-primary/20"
-                        : "bg-muted text-muted-foreground"
-                    }`}
-                  >
-                    {i < step ? <Check className="w-4 h-4" /> : i + 1}
-                  </div>
-                  <span className={`text-[10px] mt-1 font-heading font-semibold uppercase tracking-wider whitespace-nowrap ${
-                    i <= step ? "text-primary" : "text-muted-foreground"
-                  }`}>
-                    {label}
-                  </span>
-                </div>
-                {i < TOTAL_STEPS - 1 && (
-                  <div className={`w-6 sm:w-10 h-0.5 mx-1 ${i < step ? "bg-primary" : "bg-border"}`} />
-                )}
+        <div className="bg-background rounded-xl p-4 sm:p-8 md:p-10 border border-border max-w-3xl mx-auto shadow-sm">
+          {/* Stepper - compact on mobile */}
+          <div className="mb-6 sm:mb-8">
+            {/* Mobile: progress bar + label */}
+            <div className="sm:hidden">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-xs font-heading font-semibold uppercase tracking-wider text-primary">
+                  Stap {step + 1}/{TOTAL_STEPS}: {stepLabels[step]}
+                </span>
               </div>
-            ))}
+              <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-primary rounded-full transition-all duration-300"
+                  style={{ width: `${((step + 1) / TOTAL_STEPS) * 100}%` }}
+                />
+              </div>
+            </div>
+
+            {/* Desktop: full stepper */}
+            <div className="hidden sm:flex items-center justify-between overflow-x-auto pb-2">
+              {stepLabels.map((label, i) => (
+                <div key={i} className="flex items-center flex-shrink-0">
+                  <div className="flex flex-col items-center">
+                    <div
+                      className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all ${
+                        i < step
+                          ? "bg-primary text-primary-foreground"
+                          : i === step
+                          ? "bg-primary text-primary-foreground ring-4 ring-primary/20"
+                          : "bg-muted text-muted-foreground"
+                      }`}
+                    >
+                      {i < step ? <Check className="w-4 h-4" /> : i + 1}
+                    </div>
+                    <span className={`text-[10px] mt-1 font-heading font-semibold uppercase tracking-wider whitespace-nowrap ${
+                      i <= step ? "text-primary" : "text-muted-foreground"
+                    }`}>
+                      {label}
+                    </span>
+                  </div>
+                  {i < TOTAL_STEPS - 1 && (
+                    <div className={`w-10 h-0.5 mx-1 ${i < step ? "bg-primary" : "bg-border"}`} />
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
 
           {/* Step content */}
@@ -554,13 +572,13 @@ const AppointmentForm = () => {
           </div>
 
           {/* Navigation */}
-          <div className="flex justify-between mt-8 pt-6 border-t border-border">
+          <div className="flex justify-between mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-border">
             <Button
               type="button"
               variant="outline"
               onClick={prev}
               disabled={step === 0}
-              className="gap-2"
+              className="gap-1 sm:gap-2 text-xs sm:text-sm px-3 sm:px-4"
             >
               <ChevronLeft className="w-4 h-4" />
               Vorige
@@ -572,7 +590,7 @@ const AppointmentForm = () => {
                 variant="cta"
                 onClick={next}
                 disabled={!canProceed()}
-                className="gap-2"
+                className="gap-1 sm:gap-2 text-xs sm:text-sm px-3 sm:px-4"
               >
                 Volgende
                 <ChevronRight className="w-4 h-4" />
@@ -583,7 +601,7 @@ const AppointmentForm = () => {
                 variant="cta"
                 onClick={handleSubmit}
                 disabled={submitting}
-                className="gap-2"
+                className="gap-1 sm:gap-2 text-xs sm:text-sm px-3 sm:px-4"
               >
                 <Send className="w-4 h-4" />
                 {submitting ? "VERZENDEN..." : "AFSPRAAK MAKEN"}
