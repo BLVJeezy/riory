@@ -8,28 +8,16 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 
-import serviceSeptisch from "@/assets/service-septisch.jpg";
-import serviceRegenput from "@/assets/service-regenput.jpg";
-import serviceOnstopping from "@/assets/service-ontstopping.jpg";
-import serviceDakgoot from "@/assets/service-dakgoot.jpg";
-import serviceCamera from "@/assets/service-camera.jpg";
-import serviceDrainage from "@/assets/service-drainage.jpg";
-import serviceAfwatering from "@/assets/service-afwatering.jpg";
-import serviceHerstelling from "@/assets/service-herstelling.jpg";
-import serviceRiolering from "@/assets/service-riolering.jpg";
-import serviceGrondwerk from "@/assets/service-grondwerk.jpg";
+import serviceOntstoppingen from "@/assets/service-ontstoppingen-geurdetectie.jpg";
+import serviceLeidingen from "@/assets/service-leidingen-septisch.jpg";
+import serviceCamera from "@/assets/service-camera-inspectie.jpg";
+import serviceLeegpompen from "@/assets/service-leegpompen-reinigen.jpg";
 
 const allServices = [
-  { title: "Septische put ledigen", description: "Professioneel ledigen en reinigen van septische putten met gespecialiseerde zuigwagens.", image: serviceSeptisch },
-  { title: "Regenput reinigen", description: "Grondig reinigen van regenputten zodat uw afwatering optimaal blijft functioneren.", image: serviceRegenput },
-  { title: "Ontstopping", description: "Snelle en efficiënte ontstopping van rioleringen, afvoeren en leidingen met hoge druk.", image: serviceOnstopping },
-  { title: "Dakgootreiniging", description: "Reiniging van dakgoten en afvoerbuizen om verstoppingen en waterschade te voorkomen.", image: serviceDakgoot },
+  { title: "Ontstoppingen en geurdetectie", description: "Snelle en efficiënte ontstopping van rioleringen, afvoeren en leidingen. Opsporing en verhelping van stankoverlast en rioolvliegjes.", image: serviceOntstoppingen },
+  { title: "Leidingen en septische putten", description: "Professioneel ledigen en reinigen van septische putten, regenputten en aanleg of herstelling van leidingen.", image: serviceLeidingen },
   { title: "Camera-inspectie", description: "Gedetailleerde camera-inspectie van rioleringen om problemen snel en nauwkeurig te lokaliseren.", image: serviceCamera },
-  { title: "Plaatsbepaling afvoeren", description: "Exacte lokalisatie van ondergrondse afvoerleidingen met professionele detectieapparatuur.", image: serviceDrainage },
-  { title: "Geurhinder", description: "Opsporing en verhelping van stankoverlast uit rioleringen en afvoersystemen.", image: serviceRiolering },
-  { title: "Rioolvliegjes", description: "Bestrijding van rioolvliegjes door de bron aan te pakken in uw afvoersysteem.", image: serviceHerstelling },
-  { title: "Periodieke reiniging", description: "Preventief onderhoud en periodieke reiniging van uw volledige rioleringssysteem.", image: serviceGrondwerk },
-  { title: "Wateroverlast", description: "Leegpompen en reinigen bij wateroverlast, snel ter plaatse voor noodgevallen.", image: serviceAfwatering },
+  { title: "Leegpompen en reinigen", description: "Leegpompen en reinigen bij wateroverlast, periodiek onderhoud en preventieve reiniging van uw rioleringssysteem.", image: serviceLeegpompen },
 ];
 
 const Diensten = () => {
@@ -64,7 +52,7 @@ const Diensten = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {allServices.map((service) => (
               <div key={service.title} className="group relative h-64 rounded-lg overflow-hidden">
                 <img src={service.image} alt={service.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
