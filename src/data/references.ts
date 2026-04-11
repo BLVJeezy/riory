@@ -13,6 +13,7 @@ import sifon1 from "@/assets/refs/sifon-1.jpg";
 import sifon2 from "@/assets/refs/sifon-2.jpg";
 import sifon3 from "@/assets/refs/sifon-3.jpg";
 import geurdetectie1 from "@/assets/refs/geurdetectie-1.jpg";
+import ontstoppingAfvoerput1 from "@/assets/refs/ontstopping-afvoerput-1.jpg";
 import septisch1 from "@/assets/refs/septisch-1.jpg";
 import septisch2 from "@/assets/refs/septisch-2.jpg";
 import septisch3 from "@/assets/refs/septisch-3.jpg";
@@ -102,6 +103,12 @@ export const referenceCategories: ReferenceCategory[] = [
         location: "Limburg",
         description: "Opsporing van geurhinder met rooktesten om lekken in de riolering te detecteren.",
         images: [geurdetectie1],
+      },
+      {
+        title: "Ontstopping afvoerput",
+        location: "Limburg",
+        description: "Ontstopping van een verstopte afvoerput. De verstopping werd vakkundig verwijderd zodat het water weer correct kan aflopen.",
+        images: [ontstoppingAfvoerput1],
       },
     ],
   },
