@@ -12,6 +12,7 @@ import regenput4 from "@/assets/refs/regenput-4.jpg";
 import sifon1 from "@/assets/refs/sifon-1.jpg";
 import sifon2 from "@/assets/refs/sifon-2.jpg";
 import sifon3 from "@/assets/refs/sifon-3.jpg";
+import geurdetectie1 from "@/assets/refs/geurdetectie-1.jpg";
 import septisch1 from "@/assets/refs/septisch-1.jpg";
 import septisch2 from "@/assets/refs/septisch-2.jpg";
 import septisch3 from "@/assets/refs/septisch-3.jpg";
