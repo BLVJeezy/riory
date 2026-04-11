@@ -44,7 +44,7 @@ const FAQSection = () => {
       <div className="section-container max-w-3xl mx-auto">
         <div className="text-center mb-10">
           <h2 className="text-3xl md:text-4xl font-heading font-bold uppercase text-foreground mb-3">
-            Veelgestelde Vragen
+            Veelgestelde vragen over rioleringswerken
           </h2>
           <div className="w-16 h-1 bg-primary mx-auto mb-4" />
           <p className="text-muted-foreground font-body">
@@ -55,8 +55,8 @@ const FAQSection = () => {
         <Accordion type="single" collapsible className="w-full">
           {faqs.map((faq, index) => (
             <AccordionItem key={index} value={`faq-${index}`}>
-              <AccordionTrigger className="text-left font-heading font-semibold text-foreground">
-                {faq.question}
+              <AccordionTrigger className="text-left font-heading font-semibold text-foreground text-base">
+                <h3>{faq.question}</h3>
               </AccordionTrigger>
               <AccordionContent className="text-muted-foreground font-body">
                 {faq.answer}

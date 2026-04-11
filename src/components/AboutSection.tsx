@@ -7,12 +7,12 @@ const AboutSection = () => {
       <div className="section-container px-6 md:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           <div>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-heading font-bold uppercase text-primary-foreground mb-1 leading-tight">
-              Kwaliteit is onze
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-heading font-bold uppercase text-primary-foreground mb-5 leading-tight">
+              Over Riory
             </h2>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-heading font-bold uppercase text-primary mb-5 leading-tight">
-              hoofdnoodzakelijke P(Riory)teit!
-            </h2>
+            <h3 className="text-lg sm:text-xl md:text-2xl font-heading font-bold uppercase text-primary mb-5 leading-tight">
+              Kwaliteit is onze hoofdnoodzakelijke P(Riory)teit!
+            </h3>
             <div className="w-12 h-1 bg-primary mb-6" />
             <p className="text-sm sm:text-base md:text-lg text-primary-foreground/70 font-body leading-relaxed mb-6">
               Riory is uw perfecte partner voor rioleringswerk. Uw afvoer heeft geen geheimen voor ons. U kan bij ons 24/7 terecht voor camera inspectie, ontstoppingen, geurdetectie, ledigen van septische putten, leegpompen en reinigen van kelders, putten en regenputten.
