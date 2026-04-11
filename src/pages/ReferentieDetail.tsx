@@ -25,11 +25,19 @@ const ReferentieDetail = () => {
       <section className="pt-24 pb-20 bg-background min-h-screen">
         <div className="section-container px-4 sm:px-6 md:px-8">
           <div className="mb-8">
-            <Button variant="ghost" size="sm" asChild>
-              <Link to="/#projecten" className="gap-2 text-muted-foreground hover:text-foreground">
-                <ArrowLeft className="w-4 h-4" />
-                Terug naar referenties
-              </Link>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="gap-2 text-muted-foreground hover:text-foreground"
+              onClick={() => {
+                navigate("/#projecten");
+                setTimeout(() => {
+                  document.getElementById("projecten")?.scrollIntoView({ behavior: "smooth" });
+                }, 100);
+              }}
+            >
+              <ArrowLeft className="w-4 h-4" />
+              Terug naar referenties
             </Button>
           </div>
 
