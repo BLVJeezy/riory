@@ -46,30 +46,60 @@ const ProjectsSection = () => {
           ))}
         </div>
 
-        {/* Reference cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+        {/* Projects per category */}
+        <div className="space-y-10">
           {visible.map((cat) => (
-            <Link
-              key={cat.slug}
-              to={`/referenties/${cat.slug}`}
-              className="group relative h-48 sm:h-56 md:h-72 rounded-xl overflow-hidden"
-            >
-              <img
-                src={cat.image}
-                alt={cat.title}
-                loading="lazy"
-                className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-charcoal/90 via-charcoal/40 to-transparent" />
-              <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6">
-                <h3 className="text-sm sm:text-lg md:text-xl font-heading font-bold text-white mb-2 leading-tight">
+            <div key={cat.slug}>
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg sm:text-xl font-heading font-bold text-foreground">
                   {cat.title}
                 </h3>
-                <span className="inline-flex items-center gap-1 text-[10px] sm:text-xs text-white/70 font-heading uppercase tracking-wider group-hover:text-primary transition-colors">
+                <Link
+                  to={`/referenties/${cat.slug}`}
+                  className="inline-flex items-center gap-1 text-[10px] sm:text-xs text-primary font-heading uppercase tracking-wider hover:text-primary/80 transition-colors"
+                >
                   Bekijk projecten <ArrowRight className="w-3 h-3" />
-                </span>
+                </Link>
               </div>
-            </Link>
+
+              {cat.projects.length > 0 ? (
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                  {cat.projects.map((project) => (
+                    <Link
+                      key={project.title}
+                      to={`/referenties/${cat.slug}`}
+                      className="group"
+                    >
+                      <div className="relative h-32 sm:h-40 rounded-lg overflow-hidden mb-2">
+                        {project.images && project.images.length > 0 ? (
+                          <img
+                            src={project.images[0]}
+                            alt={project.title}
+                            loading="lazy"
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          />
+                        ) : (
+                          <img
+                            src={cat.image}
+                            alt={project.title}
+                            loading="lazy"
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          />
+                        )}
+                        <div className="absolute inset-0 bg-gradient-to-t from-charcoal/70 to-transparent" />
+                      </div>
+                      <p className="text-xs sm:text-sm font-heading font-semibold text-foreground leading-tight">
+                        {project.title}
+                      </p>
+                    </Link>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-sm text-muted-foreground font-body italic">
+                  Binnenkort beschikbaar.
+                </p>
+              )}
+            </div>
           ))}
         </div>
       </div>
