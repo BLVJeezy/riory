@@ -59,7 +59,14 @@ export const referenceCategories: ReferenceCategory[] = [
     image: serviceLeidingen,
     description:
       "Professioneel ledigen en reinigen van septische putten met gespecialiseerde zuigwagens. Wij zorgen voor een correcte afvoer conform de milieuwetgeving.",
-    projects: [],
+    projects: [
+      {
+        title: "Ledigen Septische put",
+        location: "Limburg",
+        description: "Volledige ledigen en vernieuwing van een septische put bij een woning. Inclusief graafwerken, zuiging en heraanleg van de riolering.",
+        images: [septisch1, septisch2, septisch3, septisch4, septisch5, septisch6, septisch7, septisch8, septisch9],
+      },
+    ],
   },
   {
     slug: "leegpompen-en-reinigen",
