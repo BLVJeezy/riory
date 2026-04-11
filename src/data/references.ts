@@ -104,6 +104,12 @@ export const referenceCategories: ReferenceCategory[] = [
         description: "Opsporing van geurhinder met rooktesten om lekken in de riolering te detecteren.",
         images: [geurdetectie1],
       },
+      {
+        title: "Ontstopping afvoerput",
+        location: "Limburg",
+        description: "Ontstopping van een verstopte afvoerput. De verstopping werd vakkundig verwijderd zodat het water weer correct kan aflopen.",
+        images: [ontstoppingAfvoerput1],
+      },
     ],
   },
 ];
