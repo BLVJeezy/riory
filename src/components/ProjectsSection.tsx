@@ -1,41 +1,9 @@
-import { useState } from "react";
-import project1 from "@/assets/project-1.jpg";
-import project2 from "@/assets/project-2.jpg";
-import project3 from "@/assets/project-3.jpg";
-
-const projects = [
-  {
-    title: "Rioolaansluiting Woonwijk",
-    location: "Bilzen, Limburg",
-    category: "Ontstoppingen en geurdetectie",
-    description: "Volledige rioleringsaansluiting voor een nieuwe residentiële verkaveling.",
-    image: project1,
-  },
-  {
-    title: "Grondverzet Industrieterrein",
-    location: "Hasselt, Limburg",
-    category: "Ledigen van septische putten",
-    description: "Grootschalige uitgraving en grondverzet voor de aanleg van een nieuw bedrijventerrein.",
-    image: project2,
-  },
-  {
-    title: "Gemeentelijke Drainage",
-    location: "Genk, Limburg",
-    category: "Leegpompen en reinigen",
-    description: "Installatie van een volledig afwateringssysteem langs een gemeentelijke hoofdweg.",
-    image: project3,
-  },
-];
-
-const filters = ["Alle referenties", "Dakgootreinigingen", "Ledigen van septische putten", "Leegpompen en reinigen", "Ontstoppingen en geurdetectie"];
+import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { referenceCategories } from "@/data/references";
 
 const ProjectsSection = () => {
-  const [activeFilter, setActiveFilter] = useState("Alle referenties");
-
-  const filtered = activeFilter === "Alle referenties"
-    ? projects
-    : projects.filter((p) => p.category === activeFilter);
-
   return (
     <section id="projecten" className="section-padding bg-surface">
       <div className="section-container px-4 sm:px-6 md:px-8">
@@ -44,52 +12,34 @@ const ProjectsSection = () => {
             Onze Referenties
           </h2>
           <div className="w-16 h-1 bg-primary mx-auto mb-4" />
+          <p className="text-muted-foreground font-body max-w-xl mx-auto text-sm sm:text-base">
+            Ontdek onze uitgevoerde projecten per categorie.
+          </p>
         </div>
 
-        {/* Filters */}
-        <div className="flex flex-wrap justify-center gap-1.5 sm:gap-3 mb-6 sm:mb-10 px-2 sm:px-0">
-          {filters.map((f) => (
-            <button
-              key={f}
-              onClick={() => setActiveFilter(f)}
-              className={`px-2.5 sm:px-4 py-1 sm:py-2 text-[10px] sm:text-sm font-heading font-semibold uppercase tracking-wider rounded-full transition-colors whitespace-nowrap ${
-                activeFilter === f
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-background text-foreground border border-border hover:border-primary"
-              }`}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
+          {referenceCategories.map((cat) => (
+            <Link
+              key={cat.slug}
+              to={`/referenties/${cat.slug}`}
+              className="group relative h-44 sm:h-52 md:h-72 rounded-xl overflow-hidden"
             >
-              {f}
-            </button>
-          ))}
-        </div>
-
-        {/* Projects grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-          {filtered.map((project) => (
-            <div
-              key={project.title}
-              className="group bg-background rounded-xl overflow-hidden border border-border hover:border-primary/30 transition-colors"
-            >
-              <div className="relative h-44 sm:h-52 overflow-hidden">
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-                <span className="absolute top-3 left-3 bg-primary/90 text-primary-foreground text-[10px] sm:text-xs font-heading font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full">
-                  {project.category}
+              <img
+                src={cat.image}
+                alt={cat.title}
+                loading="lazy"
+                className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-charcoal/90 via-charcoal/40 to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 p-3 md:p-6">
+                <h3 className="text-xs sm:text-sm md:text-xl font-heading font-bold text-white mb-1 md:mb-2 leading-tight">
+                  {cat.title}
+                </h3>
+                <span className="hidden md:inline-flex items-center gap-1 text-xs text-white/70 font-heading uppercase tracking-wider group-hover:text-primary transition-colors">
+                  Bekijk projecten <ArrowRight className="w-3 h-3" />
                 </span>
               </div>
-              <div className="p-4 sm:p-5">
-                <h3 className="text-sm sm:text-base font-heading font-semibold text-foreground mb-1">
-                  {project.title}
-                </h3>
-                <p className="text-[11px] sm:text-xs text-muted-foreground mb-2">{project.location}</p>
-                <p className="text-xs sm:text-sm text-muted-foreground font-body leading-relaxed line-clamp-2">
-                  {project.description}
-                </p>
-              </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>

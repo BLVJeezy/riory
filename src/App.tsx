@@ -8,6 +8,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import Index from "./pages/Index.tsx";
 import Diensten from "./pages/Diensten.tsx";
 import DienstDetail from "./pages/DienstDetail.tsx";
+import ReferentieDetail from "./pages/ReferentieDetail.tsx";
 import DataProtection from "./pages/DataProtection.tsx";
 import PrivacyPolicy from "./pages/PrivacyPolicy.tsx";
 import Gebruiksvoorwaarden from "./pages/Gebruiksvoorwaarden.tsx";
@@ -30,6 +31,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/diensten" element={<Diensten />} />
             <Route path="/diensten/:slug" element={<DienstDetail />} />
+            <Route path="/referenties/:slug" element={<ReferentieDetail />} />
             <Route path="/data-protection" element={<DataProtection />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/gebruiksvoorwaarden" element={<Gebruiksvoorwaarden />} />
