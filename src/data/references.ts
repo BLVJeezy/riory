@@ -97,6 +97,12 @@ export const referenceCategories: ReferenceCategory[] = [
         description: "Opsporing en tracering van een gebroken sifon met gespecialiseerd materiaal. De beschadigde sifon werd gelokaliseerd, uitgegraven en vakkundig hersteld.",
         images: [sifon1, sifon2, sifon3],
       },
+      {
+        title: "Geurdetectie",
+        location: "Limburg",
+        description: "Opsporing van geurhinder met rooktesten om lekken in de riolering te detecteren.",
+        images: [geurdetectie1],
+      },
     ],
   },
 ];
