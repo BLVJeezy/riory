@@ -30,6 +30,12 @@ export const referenceCategories: ReferenceCategory[] = [
       "Wij reinigen dakgoten grondig om wateroverlast en schade aan uw woning te voorkomen. Bladeren, mos en vuil worden volledig verwijderd zodat het regenwater weer vrij kan aflopen.",
     projects: [
       {
+        title: "Dakgootreiniging op Hoogte",
+        location: "Tongeren, Limburg",
+        description: "Dakgootreiniging van een hoog appartementsgebouw met behulp van een telescopische camera en speciaal reinigingsmateriaal. Veilig en efficiënt uitgevoerd.",
+        images: [dakgootHoogte1, dakgootHoogte2, dakgootHoogte3],
+      },
+      {
         title: "Dakgootreiniging Appartementsgebouw",
         location: "Bilzen, Limburg",
         description: "Volledige reiniging van dakgoten en afvoerbuizen van een appartementsgebouw met 12 wooneenheden.",
