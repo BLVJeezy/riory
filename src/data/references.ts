@@ -21,6 +21,7 @@ import verstopping2 from "@/assets/refs/verstopping-2.jpg";
 import doekjes1 from "@/assets/refs/doekjes-1.jpg";
 import doekjes2 from "@/assets/refs/doekjes-2.jpg";
 import doekjes3 from "@/assets/refs/doekjes-3.jpg";
+import zuiverenRiolering1 from "@/assets/refs/zuiveren-riolering-1.jpg";
 import septisch1 from "@/assets/refs/septisch-1.jpg";
 import septisch2 from "@/assets/refs/septisch-2.jpg";
 import septisch3 from "@/assets/refs/septisch-3.jpg";
@@ -101,6 +102,12 @@ export const referenceCategories: ReferenceCategory[] = [
         location: "Limburg",
         description: "Leegpompen en reinigen van een ondergelopen kelder na wateroverlast.",
         images: [kelder1],
+      },
+      {
+        title: "Zuiveren riolering",
+        location: "Limburg",
+        description: "Professioneel zuiveren van de riolering met gespecialiseerd materiaal en zuigwagen.",
+        images: [zuiverenRiolering1],
       },
     ],
   },
