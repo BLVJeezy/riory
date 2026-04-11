@@ -42,6 +42,7 @@ const DienstDetail = () => {
             <img
               src={service.image}
               alt={service.title}
+              loading="lazy"
               className="absolute inset-0 w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-charcoal/80 via-charcoal/20 to-transparent" />

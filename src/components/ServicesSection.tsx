@@ -26,6 +26,7 @@ const ServicesSection = () => {
               <img
                 src={service.image}
                 alt={service.title}
+                loading="lazy"
                 className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-charcoal/90 via-charcoal/40 to-transparent" />

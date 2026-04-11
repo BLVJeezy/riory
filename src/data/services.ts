@@ -1,7 +1,7 @@
-import serviceOntstoppingen from "@/assets/service-ontstoppingen-geurdetectie.jpg";
-import serviceLeidingen from "@/assets/service-leidingen-septisch.jpg";
-import serviceCamera from "@/assets/service-camera-inspectie.jpg";
-import serviceLeegpompen from "@/assets/service-leegpompen-reinigen.jpg";
+import serviceOntstoppingen from "@/assets/service-ontstoppingen-geurdetectie.webp";
+import serviceLeidingen from "@/assets/service-leidingen-septisch.webp";
+import serviceCamera from "@/assets/service-camera-inspectie.webp";
+import serviceLeegpompen from "@/assets/service-leegpompen-reinigen.webp";
 
 export interface Service {
   slug: string;
