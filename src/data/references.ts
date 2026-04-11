@@ -39,16 +39,6 @@ export const referenceCategories: ReferenceCategory[] = [
         description: "Dakgootreiniging van een hoog appartementsgebouw met behulp van een telescopische camera en speciaal reinigingsmateriaal. Veilig en efficiënt uitgevoerd.",
         images: [dakgootHoogte1, dakgootHoogte2, dakgootHoogte3],
       },
-      {
-        title: "Dakgootreiniging Appartementsgebouw",
-        location: "Bilzen, Limburg",
-        description: "Volledige reiniging van dakgoten en afvoerbuizen van een appartementsgebouw met 12 wooneenheden.",
-      },
-      {
-        title: "Preventief Onderhoud Woonwijk",
-        location: "Hasselt, Limburg",
-        description: "Jaarlijkse dakgootreiniging voor een volledige woonwijk als preventief onderhoud.",
-      },
     ],
   },
   {
@@ -57,18 +47,7 @@ export const referenceCategories: ReferenceCategory[] = [
     image: serviceLeidingen,
     description:
       "Professioneel ledigen en reinigen van septische putten met gespecialiseerde zuigwagens. Wij zorgen voor een correcte afvoer conform de milieuwetgeving.",
-    projects: [
-      {
-        title: "Septische Put Ledigen Woonhuis",
-        location: "Genk, Limburg",
-        description: "Ledigen en reinigen van een septische put bij een alleenstaande woning.",
-      },
-      {
-        title: "Septische Putten Vakantiepark",
-        location: "Maasmechelen, Limburg",
-        description: "Periodiek ledigen van meerdere septische putten op een vakantiepark.",
-      },
-    ],
+    projects: [],
   },
   {
     slug: "leegpompen-en-reinigen",
@@ -83,16 +62,6 @@ export const referenceCategories: ReferenceCategory[] = [
         description: "Volledige reiniging van een regenput inclusief inspectie van leidingen en vlotter. De put werd grondig schoongemaakt zodat het regenwater weer correct kan worden opgevangen.",
         images: [regenput1, regenput2, regenput3, regenput4],
       },
-      {
-        title: "Kelder Leegpompen na Overstroming",
-        location: "Tongeren, Limburg",
-        description: "Spoedinterventie na hevige regenval: kelder volledig leeggepompt en gereinigd.",
-      },
-      {
-        title: "Reiniging Industrieel Rioolstelsel",
-        location: "Hasselt, Limburg",
-        description: "Periodieke reiniging van het volledige rioleringssysteem van een industrieel complex.",
-      },
     ],
   },
   {
@@ -101,17 +70,6 @@ export const referenceCategories: ReferenceCategory[] = [
     image: serviceOntstoppingen,
     description:
       "Snelle en efficiënte ontstopping van rioleringen, afvoeren en leidingen. Wij sporen geurhinder en rioolvliegjes op aan de bron en verhelpen het probleem duurzaam.",
-    projects: [
-      {
-        title: "Rioolaansluiting Woonwijk",
-        location: "Bilzen, Limburg",
-        description: "Volledige rioleringsaansluiting en ontstopping voor een nieuwe residentiële verkaveling.",
-      },
-      {
-        title: "Geurdetectie Kantoorgebouw",
-        location: "Genk, Limburg",
-        description: "Opsporing en verhelping van hardnekkige stankoverlast in een kantoorgebouw.",
-      },
-    ],
+    projects: [],
   },
 ];
