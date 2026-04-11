@@ -12,6 +12,7 @@ import regenput4 from "@/assets/refs/regenput-4.jpg";
 import sifon1 from "@/assets/refs/sifon-1.jpg";
 import sifon2 from "@/assets/refs/sifon-2.jpg";
 import sifon3 from "@/assets/refs/sifon-3.jpg";
+import geurdetectie1 from "@/assets/refs/geurdetectie-1.jpg";
 import septisch1 from "@/assets/refs/septisch-1.jpg";
 import septisch2 from "@/assets/refs/septisch-2.jpg";
 import septisch3 from "@/assets/refs/septisch-3.jpg";
@@ -95,6 +96,12 @@ export const referenceCategories: ReferenceCategory[] = [
         location: "Limburg",
         description: "Opsporing en tracering van een gebroken sifon met gespecialiseerd materiaal. De beschadigde sifon werd gelokaliseerd, uitgegraven en vakkundig hersteld.",
         images: [sifon1, sifon2, sifon3],
+      },
+      {
+        title: "Geurdetectie",
+        location: "Limburg",
+        description: "Opsporing van geurhinder met rooktesten om lekken in de riolering te detecteren.",
+        images: [geurdetectie1],
       },
     ],
   },
