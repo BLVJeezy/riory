@@ -12,6 +12,15 @@ import regenput4 from "@/assets/refs/regenput-4.jpg";
 import sifon1 from "@/assets/refs/sifon-1.jpg";
 import sifon2 from "@/assets/refs/sifon-2.jpg";
 import sifon3 from "@/assets/refs/sifon-3.jpg";
+import septisch1 from "@/assets/refs/septisch-1.jpg";
+import septisch2 from "@/assets/refs/septisch-2.jpg";
+import septisch3 from "@/assets/refs/septisch-3.jpg";
+import septisch4 from "@/assets/refs/septisch-4.jpg";
+import septisch5 from "@/assets/refs/septisch-5.jpg";
+import septisch6 from "@/assets/refs/septisch-6.jpg";
+import septisch7 from "@/assets/refs/septisch-7.jpg";
+import septisch8 from "@/assets/refs/septisch-8.jpg";
+import septisch9 from "@/assets/refs/septisch-9.jpg";
 
 export interface ReferenceProject {
   title: string;
@@ -50,7 +59,14 @@ export const referenceCategories: ReferenceCategory[] = [
     image: serviceLeidingen,
     description:
       "Professioneel ledigen en reinigen van septische putten met gespecialiseerde zuigwagens. Wij zorgen voor een correcte afvoer conform de milieuwetgeving.",
-    projects: [],
+    projects: [
+      {
+        title: "Ledigen Septische put",
+        location: "Limburg",
+        description: "Volledige ledigen en vernieuwing van een septische put bij een woning. Inclusief graafwerken, zuiging en heraanleg van de riolering.",
+        images: [septisch1, septisch2, septisch3, septisch4, septisch5, septisch6, septisch7, septisch8, septisch9],
+      },
+    ],
   },
   {
     slug: "leegpompen-en-reinigen",
