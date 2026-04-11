@@ -16,6 +16,8 @@ import geurdetectie1 from "@/assets/refs/geurdetectie-1.jpg";
 import ontstoppingAfvoerput1 from "@/assets/refs/ontstopping-afvoerput-1.jpg";
 import opsporenSeptisch1 from "@/assets/refs/opsporen-septisch-1.jpg";
 import kelder1 from "@/assets/refs/kelder-1.jpg";
+import verstopping1 from "@/assets/refs/verstopping-1.jpg";
+import verstopping2 from "@/assets/refs/verstopping-2.jpg";
 import septisch1 from "@/assets/refs/septisch-1.jpg";
 import septisch2 from "@/assets/refs/septisch-2.jpg";
 import septisch3 from "@/assets/refs/septisch-3.jpg";
@@ -123,6 +125,12 @@ export const referenceCategories: ReferenceCategory[] = [
         location: "Limburg",
         description: "Ontstopping van een verstopte afvoerput. De verstopping werd vakkundig verwijderd zodat het water weer correct kan aflopen.",
         images: [ontstoppingAfvoerput1],
+      },
+      {
+        title: "Verstopping oplossen",
+        location: "Limburg",
+        description: "Opsporing en verwijdering van een hardnekkige verstopping in de riolering.",
+        images: [verstopping1, verstopping2],
       },
     ],
   },
