@@ -8,7 +8,6 @@ import logoWhite from "@/assets/riory-logo-white.svg";
 
 const navLinks = [
   { label: "Diensten", href: "/diensten" },
-  { label: "Projecten", href: "#projecten" },
   { label: "Over Ons", href: "#over-ons" },
   { label: "Contact", href: "#contact" },
 ];
