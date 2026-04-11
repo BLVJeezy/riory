@@ -2,17 +2,23 @@ import serviceOntstoppingen from "@/assets/service-ontstoppingen-geurdetectie.we
 import serviceLeidingen from "@/assets/service-leidingen-septisch.webp";
 import serviceLeegpompen from "@/assets/service-leegpompen-reinigen.webp";
 import serviceCamera from "@/assets/service-camera-inspectie.webp";
+import dakgootHoogte1 from "@/assets/refs/dakgoot-hoogte-1.jpg";
+import dakgootHoogte2 from "@/assets/refs/dakgoot-hoogte-2.jpg";
+import dakgootHoogte3 from "@/assets/refs/dakgoot-hoogte-3.jpg";
+
+export interface ReferenceProject {
+  title: string;
+  location: string;
+  description: string;
+  images?: string[];
+}
 
 export interface ReferenceCategory {
   slug: string;
   title: string;
   image: string;
   description: string;
-  projects: {
-    title: string;
-    location: string;
-    description: string;
-  }[];
+  projects: ReferenceProject[];
 }
 
 export const referenceCategories: ReferenceCategory[] = [
