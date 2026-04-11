@@ -75,6 +75,19 @@ const ReferentieDetail = () => {
                   <p className="text-sm text-muted-foreground font-body leading-relaxed">
                     {project.description}
                   </p>
+                  {project.images && project.images.length > 0 && (
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mt-4">
+                      {project.images.map((img, i) => (
+                        <img
+                          key={i}
+                          src={img}
+                          alt={`${project.title} foto ${i + 1}`}
+                          loading="lazy"
+                          className="w-full h-32 sm:h-40 object-cover rounded-lg"
+                        />
+                      ))}
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
