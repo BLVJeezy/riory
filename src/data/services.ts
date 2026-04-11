@@ -6,6 +6,7 @@ import serviceLeegpompen from "@/assets/service-leegpompen-reinigen.webp";
 export interface Service {
   slug: string;
   title: string;
+  shortTitle?: string;
   description: string;
   image: string;
   longDescription: string;
@@ -68,7 +69,8 @@ export const allServices: Service[] = [
   },
   {
     slug: "leegpompen-en-reinigen",
-    title: "Leegpompen en reinigen",
+    title: "Leegpompen en reinigen van kelders & regenputten",
+    shortTitle: "Leegpompen en reinigen",
     description: "Leegpompen en reinigen bij wateroverlast, periodiek onderhoud en preventieve reiniging van uw rioleringssysteem.",
     image: serviceLeegpompen,
     longDescription:
