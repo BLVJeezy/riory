@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import logo from "@/assets/riory-logo-footer.svg";
 
 const Footer = () => {
@@ -71,30 +72,24 @@ const Footer = () => {
             © {new Date().getFullYear()} RIORY. Alle rechten voorbehouden.
           </p>
           <div className="flex flex-wrap gap-x-4 gap-y-1">
-            <a
-              href="/Riorybv_Data_Protection_Notice_2021.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              to="/data-protection"
               className="text-xs text-primary-foreground/30 hover:text-primary transition-colors font-body"
             >
               Data Protection Notice
-            </a>
-            <a
-              href="/Riorybv_Privacy_Policy_2021.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
+            </Link>
+            <Link
+              to="/privacy-policy"
               className="text-xs text-primary-foreground/30 hover:text-primary transition-colors font-body"
             >
               Privacy Policy
-            </a>
-            <a
-              href="/Riorybv_Gebruiksvoorwaarden_2021.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
+            </Link>
+            <Link
+              to="/gebruiksvoorwaarden"
               className="text-xs text-primary-foreground/30 hover:text-primary transition-colors font-body"
             >
               Gebruiksvoorwaarden
-            </a>
+            </Link>
           </div>
         </div>
       </div>
