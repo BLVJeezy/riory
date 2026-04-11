@@ -5,28 +5,13 @@ import Footer from "@/components/Footer";
 import FAQSection from "@/components/FAQSection";
 import AppointmentForm from "@/components/AppointmentForm";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
-
-import serviceOntstoppingen from "@/assets/service-ontstoppingen-geurdetectie.jpg";
-import serviceLeidingen from "@/assets/service-leidingen-septisch.jpg";
-import serviceCamera from "@/assets/service-camera-inspectie.jpg";
-import serviceLeegpompen from "@/assets/service-leegpompen-reinigen.jpg";
-
-const allServices = [
-  { title: "Ontstoppingen en geurdetectie", description: "Snelle en efficiënte ontstopping van rioleringen, afvoeren en leidingen. Opsporing en verhelping van stankoverlast en rioolvliegjes.", image: serviceOntstoppingen },
-  { title: "Leidingen en septische putten", description: "Professioneel ledigen en reinigen van septische putten, regenputten en aanleg of herstelling van leidingen.", image: serviceLeidingen },
-  { title: "Camera-inspectie", description: "Gedetailleerde camera-inspectie van rioleringen om problemen snel en nauwkeurig te lokaliseren.", image: serviceCamera },
-  { title: "Leegpompen en reinigen", description: "Leegpompen en reinigen bij wateroverlast, periodiek onderhoud en preventieve reiniging van uw rioleringssysteem.", image: serviceLeegpompen },
-];
+import { allServices } from "@/data/services";
 
 const Diensten = () => {
   usePageView("/diensten");
   const formRef = useRef<HTMLDivElement>(null);
-
-  const handleRequestQuote = () => {
-    formRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
 
   return (
     <>
@@ -54,14 +39,17 @@ const Diensten = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {allServices.map((service) => (
-              <div key={service.title} className="group relative h-64 rounded-lg overflow-hidden">
+              <div key={service.slug} className="group relative h-64 rounded-lg overflow-hidden">
                 <img src={service.image} alt={service.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                 <div className="absolute inset-0 bg-gradient-to-t from-charcoal/90 via-charcoal/30 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-6">
                   <h3 className="text-lg font-heading font-bold text-white mb-1">{service.title}</h3>
                   <p className="text-sm text-white font-body leading-relaxed mb-3 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">{service.description}</p>
-                  <Button variant="cta" size="sm" onClick={() => handleRequestQuote()}>
-                    Offerte aanvragen
+                  <Button variant="cta" size="sm" asChild>
+                    <Link to={`/diensten/${service.slug}`} className="gap-2">
+                      Meer weten
+                      <ArrowRight className="w-4 h-4" />
+                    </Link>
                   </Button>
                 </div>
               </div>
