@@ -103,7 +103,7 @@ const ScrollRow = ({ items, direction }: { items: typeof reviews; direction: "le
 
 const ReviewsSection = () => {
   return (
-    <section className="section-padding bg-background overflow-hidden">
+    <section id="reviews" className="section-padding bg-background overflow-hidden">
       <div className="section-container px-4 sm:px-6 md:px-8 mb-6 sm:mb-8">
         <div>
           <div className="flex items-center gap-2 mb-1.5">

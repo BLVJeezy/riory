@@ -39,7 +39,7 @@ const qualities = [
 
 const WhyChooseUs = () => {
   return (
-    <section className="section-padding bg-charcoal">
+    <section id="waarom-ons" className="section-padding bg-charcoal">
       <div className="section-container">
         <h2 className="text-3xl md:text-4xl font-heading font-bold uppercase text-white text-center mb-10">
           Waarom kiezen voor ons?
