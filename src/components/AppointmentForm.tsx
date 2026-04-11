@@ -246,10 +246,6 @@ const AppointmentForm = () => {
     }
   };
 
-  const inputClass =
-    "w-full h-12 px-4 rounded-lg bg-background border border-border text-foreground font-body text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-shadow";
-  const iconInputClass =
-    "w-full h-12 pl-11 pr-4 rounded-lg bg-background border border-border text-foreground font-body text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-shadow";
 
   const renderStep = () => {
     switch (step) {
