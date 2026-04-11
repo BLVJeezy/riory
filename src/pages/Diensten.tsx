@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useRef } from "react";
 import { usePageView } from "@/hooks/usePageView";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import FAQSection from "@/components/FAQSection";
-import QuoteFormDialog from "@/components/QuoteFormDialog";
+import AppointmentForm from "@/components/AppointmentForm";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -34,12 +34,10 @@ const allServices = [
 
 const Diensten = () => {
   usePageView("/diensten");
-  const [quoteOpen, setQuoteOpen] = useState(false);
-  const [selectedDienst, setSelectedDienst] = useState("");
+  const formRef = useRef<HTMLDivElement>(null);
 
-  const handleRequestQuote = (dienstTitle: string) => {
-    setSelectedDienst(dienstTitle);
-    setQuoteOpen(true);
+  const handleRequestQuote = () => {
+    formRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
@@ -74,7 +72,7 @@ const Diensten = () => {
                 <div className="absolute bottom-0 left-0 right-0 p-6">
                   <h3 className="text-lg font-heading font-bold text-white mb-1">{service.title}</h3>
                   <p className="text-sm text-white font-body leading-relaxed mb-3 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">{service.description}</p>
-                  <Button variant="cta" size="sm" onClick={() => handleRequestQuote(service.title)}>
+                  <Button variant="cta" size="sm" onClick={() => handleRequestQuote()}>
                     Offerte aanvragen
                   </Button>
                 </div>
@@ -83,9 +81,11 @@ const Diensten = () => {
           </div>
         </div>
       </section>
+      <div ref={formRef}>
+        <AppointmentForm />
+      </div>
       <FAQSection />
       <Footer />
-      <QuoteFormDialog open={quoteOpen} onOpenChange={setQuoteOpen} preselectedDienst={selectedDienst} />
     </>
   );
 };
