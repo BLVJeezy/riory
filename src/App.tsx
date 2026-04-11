@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { Navigate } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { AuthProvider } from "@/hooks/useAuth";
@@ -41,6 +42,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/diensten" element={<Diensten />} />
             <Route path="/diensten/:slug" element={<DienstDetail />} />
+            <Route path="/diensten/ontstoppingen-en-geurdetectie" element={<Navigate to="/diensten/ontstoppingen" replace />} />
             <Route path="/referenties/:slug" element={<ReferentieDetail />} />
             <Route path="/data-protection" element={<DataProtection />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
