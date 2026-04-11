@@ -70,6 +70,7 @@ export const allServices: Service[] = [
   {
     slug: "leegpompen-en-reinigen",
     title: "Leegpompen en reinigen van kelders & regenputten",
+    shortTitle: "Leegpompen en reinigen",
     description: "Leegpompen en reinigen bij wateroverlast, periodiek onderhoud en preventieve reiniging van uw rioleringssysteem.",
     image: serviceLeegpompen,
     longDescription:
