@@ -5,7 +5,7 @@ import EmergencyBanner from "@/components/EmergencyBanner";
 import ServicesSection from "@/components/ServicesSection";
 import ProjectsSection from "@/components/ProjectsSection";
 import ReviewsSection from "@/components/ReviewsSection";
-import QuoteForm from "@/components/QuoteForm";
+import AppointmentForm from "@/components/AppointmentForm";
 import AboutSection from "@/components/AboutSection";
 import ContactSection from "@/components/ContactSection";
 import FAQSection from "@/components/FAQSection";
@@ -24,7 +24,7 @@ const Index = () => {
       <AboutSection />
       <ProjectsSection />
       <ReviewsSection />
-      <QuoteForm />
+      <AppointmentForm />
       <FAQSection />
       <ContactSection />
       <Footer />
