@@ -2,17 +2,23 @@ import serviceOntstoppingen from "@/assets/service-ontstoppingen-geurdetectie.we
 import serviceLeidingen from "@/assets/service-leidingen-septisch.webp";
 import serviceLeegpompen from "@/assets/service-leegpompen-reinigen.webp";
 import serviceCamera from "@/assets/service-camera-inspectie.webp";
+import dakgootHoogte1 from "@/assets/refs/dakgoot-hoogte-1.jpg";
+import dakgootHoogte2 from "@/assets/refs/dakgoot-hoogte-2.jpg";
+import dakgootHoogte3 from "@/assets/refs/dakgoot-hoogte-3.jpg";
+
+export interface ReferenceProject {
+  title: string;
+  location: string;
+  description: string;
+  images?: string[];
+}
 
 export interface ReferenceCategory {
   slug: string;
   title: string;
   image: string;
   description: string;
-  projects: {
-    title: string;
-    location: string;
-    description: string;
-  }[];
+  projects: ReferenceProject[];
 }
 
 export const referenceCategories: ReferenceCategory[] = [
@@ -23,6 +29,12 @@ export const referenceCategories: ReferenceCategory[] = [
     description:
       "Wij reinigen dakgoten grondig om wateroverlast en schade aan uw woning te voorkomen. Bladeren, mos en vuil worden volledig verwijderd zodat het regenwater weer vrij kan aflopen.",
     projects: [
+      {
+        title: "Dakgootreiniging op Hoogte",
+        location: "Tongeren, Limburg",
+        description: "Dakgootreiniging van een hoog appartementsgebouw met behulp van een telescopische camera en speciaal reinigingsmateriaal. Veilig en efficiënt uitgevoerd.",
+        images: [dakgootHoogte1, dakgootHoogte2, dakgootHoogte3],
+      },
       {
         title: "Dakgootreiniging Appartementsgebouw",
         location: "Bilzen, Limburg",
