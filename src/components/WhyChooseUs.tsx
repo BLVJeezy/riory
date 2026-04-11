@@ -52,9 +52,9 @@ const WhyChooseUs = () => {
               className="bg-primary rounded-xl p-4 md:p-5"
             >
               <span className="text-2xl md:text-3xl font-heading font-bold text-white/30">{q.number}</span>
-              <h4 className="text-xs md:text-sm font-heading font-bold uppercase text-white mt-1 mb-2 leading-tight">
+              <h3 className="text-xs md:text-sm font-heading font-bold uppercase text-white mt-1 mb-2 leading-tight">
                 {q.title}
-              </h4>
+              </h3>
               <p className="text-xs text-white/80 font-body leading-relaxed">
                 {q.description}
               </p>

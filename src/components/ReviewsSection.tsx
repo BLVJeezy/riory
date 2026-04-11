@@ -106,6 +106,9 @@ const ReviewsSection = () => {
     <section id="reviews" className="section-padding bg-background overflow-hidden">
       <div className="section-container px-4 sm:px-6 md:px-8 mb-6 sm:mb-8">
         <div>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-heading font-bold uppercase text-foreground mb-4">
+            Wat onze klanten zeggen
+          </h2>
           <div className="flex items-center gap-2 mb-1.5">
             <img
               src="https://www.google.com/favicon.ico"

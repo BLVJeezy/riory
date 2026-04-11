@@ -9,7 +9,7 @@ const ServicesSection = () => {
       <div className="section-container">
         <div className="text-center mb-14">
           <h2 className="text-3xl md:text-4xl font-heading font-bold uppercase text-foreground mb-4">
-            Onze Diensten
+            Ontstoppings- en ruimdienst in Bilzen-Hoeselt Limburg
           </h2>
           <div className="w-16 h-1 bg-primary mx-auto mb-4" />
           <p className="text-muted-foreground font-body max-w-xl mx-auto">

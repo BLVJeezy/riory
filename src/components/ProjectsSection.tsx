@@ -21,7 +21,7 @@ const ProjectsSection = () => {
       <div className="section-container px-4 sm:px-6 md:px-8">
         <div className="text-center mb-8 sm:mb-10">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-heading font-bold uppercase text-foreground mb-3">
-            Onze Referenties
+            Waarom 73+ mensen voor Riory kiezen
           </h2>
           <div className="w-16 h-1 bg-primary mx-auto mb-4" />
           <p className="text-muted-foreground font-body max-w-xl mx-auto text-sm sm:text-base">
