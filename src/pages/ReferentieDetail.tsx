@@ -79,6 +79,11 @@ const ReferentieDetail = () => {
               ))}
             </div>
           </div>
+
+          {/* Appointment Form */}
+          <div className="mt-16">
+            <AppointmentForm />
+          </div>
         </div>
       </section>
       <Footer />
