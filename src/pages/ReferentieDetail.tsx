@@ -50,7 +50,7 @@ const ReferentieDetail = () => {
           {/* Hero */}
           <div className="relative h-48 md:h-80 rounded-xl overflow-hidden mb-10">
             <img
-              src={category.image}
+              src={category.projects[0]?.images?.[0] ?? category.image}
               alt={category.title}
               loading="lazy"
               className="absolute inset-0 w-full h-full object-cover"
