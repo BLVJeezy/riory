@@ -193,7 +193,9 @@ const AppointmentForm = () => {
   const handleSubmit = async () => {
     setSubmitting(true);
     try {
+      const appointmentId = crypto.randomUUID();
       const { error } = await supabase.from("appointments").insert({
+        id: appointmentId,
         dienst,
         urgent: urgent ?? false,
         klant_type: klantType,
@@ -235,6 +237,39 @@ const AppointmentForm = () => {
         gevonden_detail: gevondenDetail || null,
       });
       if (error) throw error;
+
+      // Send notification email
+      const werfAdresStr = werfIsFacturatie === false && werf.straat
+        ? `${werf.straat} ${werf.huisnummer}, ${werf.postcode} ${werf.plaats}`
+        : undefined;
+      const syndicusStr = klantType === "syndicus" && syndicus.naam
+        ? `${syndicus.voornaam} ${syndicus.naam} — ${syndicus.kantoor}, ${syndicus.email}`
+        : undefined;
+
+      supabase.functions.invoke("send-transactional-email", {
+        body: {
+          templateName: "appointment-notification",
+          recipientEmail: "jasonbalongo@gmail.com",
+          idempotencyKey: `appointment-${appointmentId}`,
+          templateData: {
+            dienst,
+            urgent: urgent ?? false,
+            klantType,
+            naam: fact.naam,
+            voornaam: fact.voornaam,
+            bedrijfsnaam: fact.bedrijfsnaam || undefined,
+            email: fact.email,
+            telefoon: fact.telefoon,
+            btwNummer: fact.btw_nummer || undefined,
+            adres: `${fact.straat} ${fact.huisnummer}, ${fact.postcode} ${fact.plaats}`,
+            werfAdres: werfAdresStr,
+            syndicusInfo: syndicusStr,
+            beschrijving: beschrijving || undefined,
+            gevondenVia: gevondenVia || undefined,
+          },
+        },
+      }).catch((err) => console.error("Email notification failed:", err));
+
       toast.success("Uw afspraak is succesvol ingediend! Wij nemen spoedig contact op.");
       // Reset
       setStep(0);
