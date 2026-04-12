@@ -239,13 +239,6 @@ const AppointmentForm = () => {
       if (error) throw error;
 
       // Send notification email
-      const werfAdresStr = werfIsFacturatie === false && werf.straat
-        ? `${werf.straat} ${werf.huisnummer}, ${werf.postcode} ${werf.plaats}`
-        : undefined;
-      const syndicusStr = klantType === "syndicus" && syndicus.naam
-        ? `${syndicus.voornaam} ${syndicus.naam} — ${syndicus.kantoor}, ${syndicus.email}`
-        : undefined;
-
       supabase.functions.invoke("send-transactional-email", {
         body: {
           templateName: "appointment-notification",
@@ -255,17 +248,41 @@ const AppointmentForm = () => {
             dienst,
             urgent: urgent ?? false,
             klantType,
-            naam: fact.naam,
-            voornaam: fact.voornaam,
+            woningOuder: woningOuder ?? false,
+            naam: fact.naam || undefined,
+            voornaam: fact.voornaam || undefined,
             bedrijfsnaam: fact.bedrijfsnaam || undefined,
-            email: fact.email,
-            telefoon: fact.telefoon,
             btwNummer: fact.btw_nummer || undefined,
-            adres: `${fact.straat} ${fact.huisnummer}, ${fact.postcode} ${fact.plaats}`,
-            werfAdres: werfAdresStr,
-            syndicusInfo: syndicusStr,
+            kboNummer: fact.kbo_nummer || undefined,
+            email: fact.email || undefined,
+            facturatieEmail: fact.facturatie_email || undefined,
+            telefoon: fact.telefoon || undefined,
+            straat: fact.straat || undefined,
+            huisnummer: fact.huisnummer || undefined,
+            postcode: fact.postcode || undefined,
+            plaats: fact.plaats || undefined,
+            werfStraat: werf.straat || undefined,
+            werfHuisnummer: werf.huisnummer || undefined,
+            werfPostcode: werf.postcode || undefined,
+            werfPlaats: werf.plaats || undefined,
+            werfTelefoon: werf.telefoon || undefined,
+            werfContactpersoon: werf.contactpersoon || undefined,
+            werfProjectnaam: werf.projectnaam || undefined,
+            syndicusNaam: syndicus.naam || undefined,
+            syndicusVoornaam: syndicus.voornaam || undefined,
+            syndicusKantoor: syndicus.kantoor || undefined,
+            syndicusStraat: syndicus.straat || undefined,
+            syndicusHuisnummer: syndicus.huisnummer || undefined,
+            syndicusPostcode: syndicus.postcode || undefined,
+            syndicusPlaats: syndicus.plaats || undefined,
+            syndicusTelefoon: syndicus.telefoon || undefined,
+            syndicusEmail: syndicus.email || undefined,
+            syndicusFacturatieEmail: syndicus.facturatie_email || undefined,
+            syndicusNaamVme: syndicus.naam_vme || undefined,
+            syndicusKboNummer: syndicus.kbo_nummer || undefined,
             beschrijving: beschrijving || undefined,
             gevondenVia: gevondenVia || undefined,
+            gevondenDetail: gevondenDetail || undefined,
           },
         },
       }).catch((err) => console.error("Email notification failed:", err));
