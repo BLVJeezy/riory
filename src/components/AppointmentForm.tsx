@@ -18,7 +18,6 @@ import {
   Home,
   Users,
 } from "lucide-react";
-import rhinoSewer from "@/assets/rhino-sewer.png";
 
 const diensten = [
   "Ontstopping",
@@ -539,16 +538,7 @@ const AppointmentForm = () => {
           </a>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-8 max-w-5xl mx-auto items-start">
-          <div className="hidden lg:block">
-            <img
-              src={rhinoSewer}
-              alt="Riory neushoorn in riool"
-              className="w-72 rounded-xl object-cover sticky top-32"
-            />
-          </div>
-
-        <div className="bg-background rounded-xl p-4 sm:p-8 md:p-10 border border-border shadow-sm">
+        <div className="bg-background rounded-xl p-4 sm:p-8 md:p-10 border border-border max-w-3xl mx-auto shadow-sm">
           {/* Stepper - compact on mobile */}
           <div className="mb-6 sm:mb-8">
             {/* Mobile: progress bar + label */}
@@ -637,16 +627,6 @@ const AppointmentForm = () => {
                 {submitting ? "VERZENDEN..." : "AFSPRAAK MAKEN"}
               </Button>
             )}
-          </div>
-        </div>
-
-          {/* Mobile: image below form */}
-          <div className="lg:hidden">
-            <img
-              src={rhinoSewer}
-              alt="Riory neushoorn in riool"
-              className="w-full rounded-xl object-cover"
-            />
           </div>
         </div>
       </div>
