@@ -34,12 +34,12 @@ const ProjectsSection = () => {
         </div>
 
         {/* Filters */}
-        <div className="flex flex-wrap justify-center gap-1.5 sm:gap-2 mb-8 sm:mb-10">
+        <div className="grid grid-cols-2 sm:flex sm:flex-wrap justify-center gap-1.5 sm:gap-2 mb-8 sm:mb-10">
           {filters.map((f) => (
             <button
               key={f.value}
               onClick={() => setActive(f.value)}
-              className={`px-2.5 py-1 sm:px-4 sm:py-2 rounded-full text-[10px] sm:text-xs font-heading uppercase tracking-wider whitespace-nowrap transition-colors ${
+              className={`px-2.5 py-2 sm:px-4 sm:py-2 rounded-full text-[11px] sm:text-xs font-heading uppercase tracking-wider whitespace-nowrap transition-colors text-center ${
                 active === f.value
                   ? "bg-primary text-primary-foreground"
                   : "bg-muted text-muted-foreground hover:bg-muted/80"
