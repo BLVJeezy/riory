@@ -79,44 +79,29 @@ const WhyChooseUs = () => {
           {qualities.map((q) => (
             <div
               key={q.number}
-              className="rounded-xl overflow-hidden flex flex-col"
+              className="bg-primary rounded-xl p-4 md:p-5 flex flex-col"
             >
-              {/* Step label */}
-              <div className="bg-primary px-3 py-1.5 text-center">
-                <span className="text-xs font-heading font-bold uppercase text-primary-foreground tracking-wider">
-                  Stap {q.number}
-                </span>
-              </div>
-
-              {/* Image */}
-              <div className="relative aspect-square">
-                <img
-                  src={q.image}
-                  alt={q.title}
-                  className="w-full h-full object-cover"
-                  loading="lazy"
-                />
-              </div>
-
-              {/* Title + button */}
-              <div className="bg-primary px-3 py-2.5 flex flex-col items-center gap-1.5">
-                <h3 className="text-xs md:text-sm font-heading font-bold uppercase text-white text-center leading-tight">
-                  {q.title}
-                </h3>
-                <button
-                  onClick={() => setOpenStep(q.number)}
-                  className="flex items-center gap-1 text-[10px] md:text-xs text-white/80 hover:text-white transition-colors font-body"
-                >
-                  <Info className="w-3 h-3" />
-                  Meer informatie
-                </button>
-              </div>
+              <span className="text-xs font-heading font-bold uppercase text-white/50 tracking-wider">
+                Stap {q.number}
+              </span>
+              <h3 className="text-xs md:text-sm font-heading font-bold uppercase text-white mt-1 mb-2 leading-tight">
+                {q.title}
+              </h3>
+              <p className="text-xs text-white/80 font-body leading-relaxed flex-1">
+                {q.description}
+              </p>
+              <button
+                onClick={() => setOpenStep(q.number)}
+                className="flex items-center gap-1 text-[10px] md:text-xs text-white/70 hover:text-white transition-colors font-body mt-3 self-start"
+              >
+                <Info className="w-3 h-3" />
+                Meer informatie
+              </button>
             </div>
           ))}
         </div>
       </div>
 
-      {/* Popup dialog */}
       <Dialog open={openStep !== null} onOpenChange={(open) => !open && setOpenStep(null)}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
