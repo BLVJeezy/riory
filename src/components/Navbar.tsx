@@ -57,7 +57,7 @@ const Navbar = () => {
             )
           )}
           <Button variant="cta" size="lg" className="rounded-full" asChild>
-            <a href="#offerte">OFFERTE AANVRAGEN</a>
+            <a href="#offerte">Afspraak</a>
           </Button>
           <button
             onClick={toggleTheme}
@@ -113,7 +113,7 @@ const Navbar = () => {
               )}
               <div className="px-3 pt-2 pb-1">
                 <Button variant="cta" size="sm" className="w-full" asChild>
-                  <a href="#offerte" onClick={() => setIsOpen(false)}>Offerte Aanvragen</a>
+                  <a href="#offerte" onClick={() => setIsOpen(false)}>Afspraak</a>
                 </Button>
               </div>
             </div>
