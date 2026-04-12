@@ -36,7 +36,7 @@ export const allServices: Service[] = [
   {
     slug: "leidingen-en-septische-putten",
     title: "Leidingen en septische putten",
-    description: "Professioneel ledigen en reinigen van septische putten, regenputten en aanleg of herstelling van leidingen.",
+    description: "Riory ruimt en reinigt septische putten voor eerlijke prijzen en met 24/7 service. Voorkom geurhinder en verstoppingen!",
     image: serviceLeidingen,
     longDescription:
       "Van het ledigen van septische putten tot het aanleggen of herstellen van rioolleidingen — wij bieden een totaalpakket voor uw ondergrondse infrastructuur. Met gespecialiseerde zuigwagens en graafmachines werken wij efficiënt en met minimale overlast. Regenputten reinigen we grondig zodat uw afwatering optimaal blijft functioneren.",
