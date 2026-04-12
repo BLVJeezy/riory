@@ -18,6 +18,7 @@ import AlgemeneVoorwaarden from "./pages/AlgemeneVoorwaarden.tsx";
 import CookiePolicy from "./pages/CookiePolicy.tsx";
 import AdminLogin from "./pages/AdminLogin.tsx";
 import Admin from "./pages/Admin.tsx";
+import Unsubscribe from "./pages/Unsubscribe.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -51,6 +52,7 @@ const App = () => (
             <Route path="/cookie-policy" element={<CookiePolicy />} />
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/admin" element={<Admin />} />
+            <Route path="/unsubscribe" element={<Unsubscribe />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
