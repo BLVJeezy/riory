@@ -42,30 +42,30 @@ const Footer = () => {
             <h4 className="font-heading font-semibold uppercase tracking-wider text-primary-foreground mb-4 text-sm">
               Volg ons
             </h4>
-            <div className="flex gap-4">
+            <div className="flex gap-3">
               <a
                 href="https://www.facebook.com/share/1Ad153BttY/?mibextid=wwXIfr"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm text-primary-foreground/50 hover:text-primary transition-colors font-body"
+                className="flex items-center justify-center w-9 h-9 rounded-full bg-primary-foreground/10 text-primary-foreground/50 hover:bg-primary hover:text-primary-foreground transition-colors"
               >
-                Facebook
+                <Facebook className="w-4 h-4" />
               </a>
               <a
                 href="https://www.linkedin.com/company/riory/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm text-primary-foreground/50 hover:text-primary transition-colors font-body"
+                className="flex items-center justify-center w-9 h-9 rounded-full bg-primary-foreground/10 text-primary-foreground/50 hover:bg-primary hover:text-primary-foreground transition-colors"
               >
-                LinkedIn
+                <Linkedin className="w-4 h-4" />
               </a>
               <a
                 href="https://www.instagram.com/riorybv/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm text-primary-foreground/50 hover:text-primary transition-colors font-body"
+                className="flex items-center justify-center w-9 h-9 rounded-full bg-primary-foreground/10 text-primary-foreground/50 hover:bg-primary hover:text-primary-foreground transition-colors"
               >
-                Instagram
+                <Instagram className="w-4 h-4" />
               </a>
             </div>
             <div className="mt-6">
