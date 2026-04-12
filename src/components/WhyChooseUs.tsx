@@ -41,9 +41,12 @@ const WhyChooseUs = () => {
   return (
     <section id="waarom-ons" className="section-padding bg-charcoal">
       <div className="section-container">
-        <h2 className="text-3xl md:text-4xl font-heading font-bold uppercase text-white text-center mb-10">
+        <h2 className="text-3xl md:text-4xl font-heading font-bold uppercase text-white text-center mb-4">
           Waarom kiezen voor ons?
         </h2>
+        <p className="text-muted-foreground font-body text-center max-w-2xl mx-auto mb-10">
+          Ontdek waarom mensen voor Riory kiezen: 24/7 bereikbaar, professioneel materiaal, kwalitatief werk en snelle service voor al uw rioleringsproblemen.
+        </p>
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-4">
           {qualities.map((q) => (
