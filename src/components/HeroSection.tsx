@@ -16,7 +16,7 @@ const HeroSection = () => {
         <div className="max-w-2xl">
           
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-heading font-bold uppercase leading-tight text-white mb-6">
-            Ontstopping-, riool- &amp; ruimdienst Bilzen-Hoeselt, Limburg
+            24/7 Ontstopping-, riool- &amp; ruimdienst Bilzen-Hoeselt, Limburg | Riory
           </h1>
           <p className="text-lg md:text-xl text-white/80 font-body leading-relaxed mb-10 max-w-xl">
             Septische put ledigen? Problemen met de riolering? Last van verstoppingen? Riory staat 24/7 klaar!
