@@ -511,7 +511,7 @@ const AppointmentForm = () => {
       <div className="section-container px-6 md:px-8">
         <div className="text-center mb-10">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-heading font-bold uppercase text-foreground mb-3">
-            Gratis Offerte Opvragen
+            Maak een Afspraak
           </h2>
           <div className="w-16 h-1 bg-primary mx-auto mb-4" />
           <p className="text-sm sm:text-base text-muted-foreground font-body max-w-lg mx-auto mb-5">
