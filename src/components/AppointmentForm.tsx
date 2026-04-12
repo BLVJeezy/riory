@@ -49,8 +49,8 @@ type KlantType = "particulier" | "bedrijf" | "vrij_beroep" | "syndicus";
 const TOTAL_STEPS = 7;
 
 const stepLabels = [
-  "Voorwaarden",
   "Dienst",
+  "Voorwaarden",
   "Urgentie",
   "Klanttype",
   "Gegevens",
@@ -155,8 +155,8 @@ const AppointmentForm = () => {
 
   const canProceed = (): boolean => {
     switch (step) {
-      case 0: return akkoord;
-      case 1: return dienst !== "";
+      case 0: return dienst !== "";
+      case 1: return akkoord;
       case 2: return urgent !== null;
       case 3: return klantType !== "";
       case 4: {
@@ -313,8 +313,30 @@ const AppointmentForm = () => {
 
   const renderStep = () => {
     switch (step) {
-      // STEP 0: Akkoord
+      // STEP 0: Dienst kiezen
       case 0:
+        return (
+          <div className="space-y-4">
+            <div className="text-center mb-2">
+              <h3 className="text-lg font-heading font-bold text-foreground">Kies een dienst</h3>
+              <p className="text-sm text-muted-foreground mt-1">Selecteer de gewenste dienst.</p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {diensten.map((d) => (
+                <OptionCard
+                  key={d}
+                  selected={dienst === d}
+                  onClick={() => setDienst(d)}
+                  icon={<FileText className="w-4 h-4" />}
+                  label={d}
+                />
+              ))}
+            </div>
+          </div>
+        );
+
+      // STEP 1: Akkoord
+      case 1:
         return (
           <div className="space-y-6">
             <div className="text-center">
@@ -335,28 +357,6 @@ const AppointmentForm = () => {
                 Ik ga akkoord met de <a href="/algemene-voorwaarden" target="_blank" className="text-primary underline font-semibold">algemene voorwaarden</a>.
               </span>
             </label>
-          </div>
-        );
-
-      // STEP 1: Dienst kiezen
-      case 1:
-        return (
-          <div className="space-y-4">
-            <div className="text-center mb-2">
-              <h3 className="text-lg font-heading font-bold text-foreground">Kies een dienst</h3>
-              <p className="text-sm text-muted-foreground mt-1">Selecteer de gewenste dienst.</p>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {diensten.map((d) => (
-                <OptionCard
-                  key={d}
-                  selected={dienst === d}
-                  onClick={() => setDienst(d)}
-                  icon={<FileText className="w-4 h-4" />}
-                  label={d}
-                />
-              ))}
-            </div>
           </div>
         );
 
