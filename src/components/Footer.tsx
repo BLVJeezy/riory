@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { Facebook, Linkedin, Instagram } from "lucide-react";
 import logo from "@/assets/riory-logo-footer.svg";
 
 const Footer = () => {
