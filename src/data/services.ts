@@ -19,7 +19,7 @@ export const allServices: Service[] = [
   {
     slug: "ontstoppingen-en-geurdetectie",
     title: "Ontstoppingen en geurdetectie",
-    description: "Snelle en efficiënte ontstopping van rioleringen, afvoeren en leidingen. Opsporing en verhelping van stankoverlast en rioolvliegjes.",
+    description: "Afvoer verstopt? Geurhinder? Riory spoort het probleem 24/7 op met efficiënte ontstopping en geurdetectie.",
     image: serviceOntstoppingen,
     longDescription:
       "Heeft u last van een verstopte afvoer, rioolverstopping of stankoverlast? Wij zorgen voor een snelle en grondige oplossing. Met professionele hogedrukapparatuur maken wij elke verstopping vrij — van keukens en badkamers tot hoofdrioleringen. Daarnaast sporen wij geurhinder en rioolvliegjes op aan de bron en verhelpen het probleem duurzaam.",
