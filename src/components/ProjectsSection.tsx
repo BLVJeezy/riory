@@ -38,10 +38,10 @@ const ProjectsSection = () => {
           {/* "Alle" button full-width on mobile */}
           <button
             onClick={() => setActive("alle")}
-            className={`w-full sm:w-auto px-2.5 py-2 sm:px-4 sm:py-2 rounded-full text-[11px] sm:text-xs font-heading uppercase tracking-wider transition-colors text-center ${
+            className={`w-full sm:w-auto px-2.5 py-2 sm:px-4 sm:py-2 rounded-full text-[11px] sm:text-xs font-heading uppercase tracking-wider transition-colors text-center border ${
               active === "alle"
-                ? "bg-primary text-primary-foreground"
-                : "bg-muted text-muted-foreground hover:bg-muted/80"
+                ? "bg-primary text-primary-foreground border-primary"
+                : "bg-muted text-muted-foreground hover:bg-muted/80 border-border"
             }`}
           >
             Alle referenties
@@ -51,10 +51,10 @@ const ProjectsSection = () => {
               <button
                 key={f.value}
                 onClick={() => setActive(f.value)}
-                className={`px-2.5 py-2 sm:px-4 sm:py-2 rounded-full text-[11px] sm:text-xs font-heading uppercase tracking-wider sm:whitespace-nowrap transition-colors text-center ${
+                className={`px-2.5 py-2 sm:px-4 sm:py-2 rounded-full text-[11px] sm:text-xs font-heading uppercase tracking-wider sm:whitespace-nowrap transition-colors text-center border ${
                   active === f.value
-                    ? "bg-primary text-primary-foreground"
-                    : "bg-muted text-muted-foreground hover:bg-muted/80"
+                    ? "bg-primary text-primary-foreground border-primary"
+                    : "bg-muted text-muted-foreground hover:bg-muted/80 border-border"
                 }`}
               >
                 {f.label}
