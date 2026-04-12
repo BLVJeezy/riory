@@ -6,8 +6,16 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import AppointmentForm from "@/components/AppointmentForm";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, CheckCircle, AlertTriangle } from "lucide-react";
+import { ArrowLeft, CheckCircle, AlertTriangle, ArrowRight } from "lucide-react";
 import { allServices } from "@/data/services";
+import { referenceCategories } from "@/data/references";
+
+const serviceToReferenceSlug: Record<string, string> = {
+  "ontstoppingen-en-geurdetectie": "ontstoppingen-en-geurdetectie",
+  "leidingen-en-septische-putten": "ledigen-van-septische-putten",
+  "camera-inspectie": "dakgootreinigingen",
+  "leegpompen-en-reinigen": "leegpompen-en-reinigen",
+};
 
 const DienstDetail = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -24,6 +32,11 @@ const DienstDetail = () => {
   const handleRequestQuote = () => {
     formRef.current?.scrollIntoView({ behavior: "smooth" });
   };
+
+  const refSlug = slug ? serviceToReferenceSlug[slug] : undefined;
+  const refCategory = refSlug
+    ? referenceCategories.find((c) => c.slug === refSlug)
+    : undefined;
 
   return (
     <>
@@ -72,6 +85,24 @@ const DienstDetail = () => {
                 </li>
               ))}
             </ul>
+
+            {/* Referenties sectie */}
+            {refCategory && (
+              <div className="mb-10 p-6 rounded-xl bg-muted/50 border border-border">
+                <h3 className="text-lg font-heading font-bold text-foreground mb-2">
+                  Bekijk onze referenties
+                </h3>
+                <p className="text-sm text-muted-foreground font-body mb-4">
+                  Ontdek wat wij al realiseerden in de categorie "{refCategory.title}".
+                </p>
+                <Button variant="outline" size="sm" className="rounded-full gap-2" asChild>
+                  <Link to={`/referenties/${refCategory.slug}`}>
+                    Bekijk projecten
+                    <ArrowRight className="w-4 h-4" />
+                  </Link>
+                </Button>
+              </div>
+            )}
 
             <div className="flex flex-col sm:flex-row items-center gap-4">
               <Button variant="cta" size="lg" className="rounded-full" onClick={handleRequestQuote}>
