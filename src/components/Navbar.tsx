@@ -7,19 +7,10 @@ import logoBlack from "@/assets/riory-logo-black.svg";
 import logoWhite from "@/assets/riory-logo-white.svg";
 
 const navLinks = [
-  { label: "Diensten", href: "/diensten" },
-  { label: "Over Ons", href: "#over-ons" },
-  { label: "Waarom Ons", href: "#waarom-ons" },
+  { label: "Onze Diensten", href: "/diensten" },
+  { label: "Waarom Kiezen Voor Ons?", href: "#waarom-ons" },
   { label: "Referenties", href: "#projecten" },
-  { label: "Reviews", href: "#reviews" },
-  { label: "Contact", href: "#contact" },
-];
-
-const mobileExtraLinks = [
-  { label: "Referenties", href: "#projecten" },
-  { label: "Waarom Ons", href: "#waarom-ons" },
-  { label: "Reviews", href: "#reviews" },
-  { label: "FAQ", href: "#faq" },
+  { label: "Afspraak", href: "#offerte" },
 ];
 
 const Navbar = () => {
