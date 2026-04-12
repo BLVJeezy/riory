@@ -175,8 +175,20 @@ const AppointmentForm = () => {
     }
   };
 
-  const next = () => { if (canProceed() && step < TOTAL_STEPS - 1) setStep(step + 1); };
-  const prev = () => { if (step > 0) setStep(step - 1); };
+  const next = () => {
+    if (canProceed() && step < TOTAL_STEPS - 1) {
+      const scrollY = window.scrollY;
+      setStep(step + 1);
+      requestAnimationFrame(() => window.scrollTo(0, scrollY));
+    }
+  };
+  const prev = () => {
+    if (step > 0) {
+      const scrollY = window.scrollY;
+      setStep(step - 1);
+      requestAnimationFrame(() => window.scrollTo(0, scrollY));
+    }
+  };
 
   const handleSubmit = async () => {
     setSubmitting(true);
