@@ -137,7 +137,7 @@ const ReviewsSection = () => {
 
       <div className="text-center mt-8">
         <a
-          href="https://g.page/r/YOUR_GOOGLE_REVIEW_LINK/review"
+          href="https://www.google.com/search?sca_esv=6818e8eb8875f33b&rlz=1C1GCEA_enBE1132BE1132&sxsrf=ANbL-n7jLuRPovAcsY9HFr_UQQvYa6fJcw:1775994268322&q=Riory+-+ontstoppingsdienst+Limburg+Reviews&rflfq=1&num=20&stick=H4sIAAAAAAAAAONgkxIxNDI1Mbc0BkJDSxNTc0NjMzPDDYyMrxi1gjLziyoVdBXy80qKS_ILCjLz0otTMlPziksUfDJzk0qL0hWCUssyU8uLF7GSoBgAHtLntXUAAAA&rldimm=12547939391945713661&tbm=lcl&hl=nl-BE&sa=X&ved=2ahUKEwiuoPGbnuiTAxUGNfsDHVxzEGQQ9fQKegQIMRAG&biw=1920&bih=945&dpr=1#lkt=LocalPoiReviews"
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-primary text-primary-foreground font-heading text-sm uppercase tracking-wider hover:bg-primary/90 transition-colors"
