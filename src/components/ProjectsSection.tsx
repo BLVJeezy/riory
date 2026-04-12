@@ -45,7 +45,7 @@ const ProjectsSection = () => {
                   : "bg-muted text-muted-foreground hover:bg-muted/80"
               }`}
             >
-              {f.label}
+              {f.label.replace(" en ", " &\n")}
             </button>
           ))}
         </div>
