@@ -34,20 +34,33 @@ const ProjectsSection = () => {
         </div>
 
         {/* Filters */}
-        <div className="grid grid-cols-2 sm:flex sm:flex-wrap justify-center gap-1.5 sm:gap-2 mb-8 sm:mb-10">
-          {filters.map((f) => (
-            <button
-              key={f.value}
-              onClick={() => setActive(f.value)}
-              className={`px-2.5 py-2 sm:px-4 sm:py-2 rounded-full text-[11px] sm:text-xs font-heading uppercase tracking-wider sm:whitespace-nowrap transition-colors text-center ${
-                active === f.value
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-muted text-muted-foreground hover:bg-muted/80"
-              }`}
-            >
-              {f.label}
-            </button>
-          ))}
+        <div className="flex flex-col sm:flex-row sm:flex-wrap justify-center gap-1.5 sm:gap-2 mb-8 sm:mb-10">
+          {/* "Alle" button full-width on mobile */}
+          <button
+            onClick={() => setActive("alle")}
+            className={`w-full sm:w-auto px-2.5 py-2 sm:px-4 sm:py-2 rounded-full text-[11px] sm:text-xs font-heading uppercase tracking-wider transition-colors text-center ${
+              active === "alle"
+                ? "bg-primary text-primary-foreground"
+                : "bg-muted text-muted-foreground hover:bg-muted/80"
+            }`}
+          >
+            Alle referenties
+          </button>
+          <div className="grid grid-cols-2 sm:contents gap-1.5 sm:gap-2">
+            {filters.filter((f) => f.value !== "alle").map((f) => (
+              <button
+                key={f.value}
+                onClick={() => setActive(f.value)}
+                className={`px-2.5 py-2 sm:px-4 sm:py-2 rounded-full text-[11px] sm:text-xs font-heading uppercase tracking-wider sm:whitespace-nowrap transition-colors text-center ${
+                  active === f.value
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-muted text-muted-foreground hover:bg-muted/80"
+                }`}
+              >
+                {f.label}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Projects */}
