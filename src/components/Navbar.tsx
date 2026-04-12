@@ -10,7 +10,6 @@ const navLinks = [
   { label: "Onze Diensten", href: "/diensten" },
   { label: "Waarom Kiezen Voor Ons?", href: "#waarom-ons" },
   { label: "Referenties", href: "#projecten" },
-  { label: "Afspraak", href: "#offerte" },
 ];
 
 const Navbar = () => {
