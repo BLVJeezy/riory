@@ -7,19 +7,10 @@ import logoBlack from "@/assets/riory-logo-black.svg";
 import logoWhite from "@/assets/riory-logo-white.svg";
 
 const navLinks = [
-  { label: "Diensten", href: "/diensten" },
-  { label: "Over Ons", href: "#over-ons" },
-  { label: "Waarom Ons", href: "#waarom-ons" },
+  { label: "Onze Diensten", href: "/diensten" },
+  { label: "Waarom Kiezen Voor Ons?", href: "#waarom-ons" },
   { label: "Referenties", href: "#projecten" },
-  { label: "Reviews", href: "#reviews" },
-  { label: "Contact", href: "#contact" },
-];
-
-const mobileExtraLinks = [
-  { label: "Referenties", href: "#projecten" },
-  { label: "Waarom Ons", href: "#waarom-ons" },
-  { label: "Reviews", href: "#reviews" },
-  { label: "FAQ", href: "#faq" },
+  { label: "Afspraak", href: "#offerte" },
 ];
 
 const Navbar = () => {
@@ -121,20 +112,9 @@ const Navbar = () => {
                   </a>
                 )
               )}
-              <div className="border-t border-white/10 my-1" />
-              {mobileExtraLinks.map((link) => (
-                <a
-                  key={link.href + link.label}
-                  href={link.href}
-                  onClick={() => setIsOpen(false)}
-                  className="px-5 py-3 text-sm font-body font-medium text-white/80 hover:text-white hover:bg-white/10 transition-colors"
-                >
-                  {link.label}
-                </a>
-              ))}
               <div className="px-3 pt-2 pb-1">
                 <Button variant="cta" size="sm" className="w-full" asChild>
-                  <a href="#offerte" onClick={() => setIsOpen(false)}>Offerte Aanvraag</a>
+                  <a href="#offerte" onClick={() => setIsOpen(false)}>Offerte Aanvragen</a>
                 </Button>
               </div>
             </div>
