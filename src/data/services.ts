@@ -71,7 +71,7 @@ export const allServices: Service[] = [
     slug: "leegpompen-en-reinigen",
     title: "Leegpompen en reinigen van kelders & regenputten",
     shortTitle: "Leegpompen en reinigen",
-    description: "Leegpompen en reinigen bij wateroverlast, periodiek onderhoud en preventieve reiniging van uw rioleringssysteem.",
+    description: "Kelder of regenput ondergelopen? Riory pompt snel leeg, spoort de oorzaak op & maakt schoon. 24/7 beschikbaar!",
     image: serviceLeegpompen,
     longDescription:
       "Bij wateroverlast staan wij snel ter plaatse om kelders, putten en terreinen leeg te pompen. Daarnaast bieden we periodieke reiniging aan als preventief onderhoud voor uw volledige rioleringssysteem. Regelmatig onderhoud voorkomt dure herstellingen en zorgt ervoor dat uw afvoersysteem optimaal blijft werken.",
