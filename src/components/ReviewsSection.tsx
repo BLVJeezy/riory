@@ -134,6 +134,18 @@ const ReviewsSection = () => {
         <ScrollRow items={reviews} direction="left" />
         <ScrollRow items={[...reviews].reverse()} direction="right" />
       </div>
+
+      <div className="text-center mt-8">
+        <a
+          href="https://g.page/r/YOUR_GOOGLE_REVIEW_LINK/review"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-primary text-primary-foreground font-heading text-sm uppercase tracking-wider hover:bg-primary/90 transition-colors"
+        >
+          <Star className="w-4 h-4" />
+          Plaats een review
+        </a>
+      </div>
     </section>
   );
 };
