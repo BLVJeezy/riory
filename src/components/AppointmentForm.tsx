@@ -515,7 +515,7 @@ const AppointmentForm = () => {
           </h2>
           <div className="w-16 h-1 bg-primary mx-auto mb-4" />
           <p className="text-sm sm:text-base text-muted-foreground font-body max-w-lg mx-auto mb-5">
-            Doorloop het formulier en wij contacteren u zo snel mogelijk.
+            Plan snel een afspraak voor ontstopping, camera‑inspectie of put‑lediging. Riory reageert onmiddellijk en biedt snelle, professionele service.
           </p>
           <a
             href="tel:+32472502814"
