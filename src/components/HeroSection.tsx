@@ -15,7 +15,7 @@ const HeroSection = () => {
       <div className="relative section-container px-6 md:px-8 pt-20">
         <div className="max-w-2xl">
           
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-heading font-bold uppercase leading-tight text-white mb-6">
+          <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-heading font-bold uppercase leading-snug text-white mb-6">
             24/7 Ontstopping-, riool- &amp; ruimdienst Bilzen-Hoeselt, Limburg | Riory
           </h1>
           <p className="text-lg md:text-xl text-white/80 font-body leading-relaxed mb-10 max-w-xl">
