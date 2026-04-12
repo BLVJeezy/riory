@@ -79,7 +79,7 @@ const Navbar = () => {
             )
           )}
           <Button variant="cta" size="lg" className="rounded-full" asChild>
-            <a href="#offerte">Afspraak</a>
+            <a href="#offerte" onClick={(e) => handleAnchorClick(e, "#offerte")}>Afspraak</a>
           </Button>
           <button
             onClick={toggleTheme}
