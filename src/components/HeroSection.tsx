@@ -19,7 +19,7 @@ const HeroSection = () => {
             Ontstopping-, riool- &amp; ruimdienst Bilzen-Hoeselt, Limburg
           </h1>
           <p className="text-lg md:text-xl text-white/80 font-body leading-relaxed mb-10 max-w-xl">
-            Professionele rioleringswerken en infrastructuurprojecten uitgevoerd met precisie en vakmanschap.
+            Septische put ledigen? Problemen met de riolering? Last van verstoppingen? Riory staat 24/7 klaar!
           </p>
           <div className="flex flex-col sm:flex-row gap-4 mb-4">
             <Button variant="hero" size="lg" className="text-base px-8 py-6 rounded-full" asChild>
