@@ -44,12 +44,14 @@ const Diensten = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {allServices.map((service) => (
-              <div key={service.slug} className="group relative h-64 rounded-lg overflow-hidden">
-                <img src={service.image} alt={service.title} loading="lazy" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                <div className="absolute inset-0 bg-gradient-to-t from-charcoal/90 via-charcoal/30 to-transparent" />
-                <div className="absolute bottom-0 left-0 right-0 p-6">
-                  <h3 className="text-lg font-heading font-bold text-white mb-1">{service.shortTitle || service.title}</h3>
-                  <p className="text-sm text-white font-body leading-relaxed mb-3 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">{service.description}</p>
+              <div key={service.slug} className="group rounded-lg overflow-hidden bg-card border border-border">
+                <div className="relative h-52 overflow-hidden">
+                  <img src={service.image} alt={service.title} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-charcoal/60 to-transparent" />
+                  <h3 className="absolute bottom-4 left-4 text-lg font-heading font-bold text-white">{service.shortTitle || service.title}</h3>
+                </div>
+                <div className="p-5">
+                  <p className="text-sm text-muted-foreground font-body leading-relaxed mb-4">{service.description}</p>
                   <Button variant="cta" size="sm" asChild>
                     <Link to={`/diensten/${service.slug}`} className="gap-2">
                       Meer weten
