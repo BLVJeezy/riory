@@ -14,6 +14,7 @@ import stap3 from "@/assets/stap-3.jpg";
 import stap4 from "@/assets/stap-4.jpg";
 import stap5 from "@/assets/stap-5.jpg";
 import stap6 from "@/assets/stap-6.jpg";
+import waaromOnsBanner from "@/assets/waarom-ons-banner.png";
 
 const qualities = [
   {
