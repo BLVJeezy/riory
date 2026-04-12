@@ -1,124 +1,194 @@
 import * as React from 'npm:react@18.3.1'
 import {
-  Body, Container, Head, Heading, Html, Preview, Text, Section, Hr,
+  Body, Container, Head, Html, Preview, Text,
 } from 'npm:@react-email/components@0.0.22'
 import type { TemplateEntry } from './registry.ts'
 
-const SITE_NAME = "Riory"
-
-interface AppointmentNotificationProps {
-  dienst?: string
-  urgent?: boolean
+interface Props {
   klantType?: string
-  naam?: string
+  urgent?: boolean
+  woningOuder?: boolean
+  dienst?: string
   voornaam?: string
+  naam?: string
   bedrijfsnaam?: string
-  email?: string
-  telefoon?: string
   btwNummer?: string
-  adres?: string
-  werfAdres?: string
-  syndicusInfo?: string
+  kboNummer?: string
+  email?: string
+  facturatieEmail?: string
+  telefoon?: string
+  straat?: string
+  huisnummer?: string
+  postcode?: string
+  plaats?: string
+  werfStraat?: string
+  werfHuisnummer?: string
+  werfPostcode?: string
+  werfPlaats?: string
+  werfTelefoon?: string
+  werfContactpersoon?: string
+  werfProjectnaam?: string
+  syndicusNaam?: string
+  syndicusVoornaam?: string
+  syndicusKantoor?: string
+  syndicusStraat?: string
+  syndicusHuisnummer?: string
+  syndicusPostcode?: string
+  syndicusPlaats?: string
+  syndicusTelefoon?: string
+  syndicusEmail?: string
+  syndicusFacturatieEmail?: string
+  syndicusNaamVme?: string
+  syndicusKboNummer?: string
   beschrijving?: string
   gevondenVia?: string
+  gevondenDetail?: string
 }
 
-const AppointmentNotificationEmail = (props: AppointmentNotificationProps) => (
-  <Html lang="nl" dir="ltr">
-    <Head />
-    <Preview>Nieuwe afspraak aanvraag{props.urgent ? ' — URGENT' : ''} via {SITE_NAME}</Preview>
-    <Body style={main}>
-      <Container style={container}>
-        <Heading style={h1}>
-          {props.urgent ? '🔴 URGENTE ' : ''}Nieuwe Afspraak Aanvraag
-        </Heading>
+const AppointmentNotificationEmail = (p: Props) => {
+  const isParticulier = p.klantType === 'particulier'
+  const isBedrijf = p.klantType === 'bedrijf' || p.klantType === 'vrij_beroep'
+  const isSyndicus = p.klantType === 'syndicus'
 
-        <Section style={section}>
-          <Text style={label}>Dienst</Text>
-          <Text style={value}>{props.dienst || '—'}</Text>
-        </Section>
+  const klantLabel = p.klantType === 'particulier' ? 'Particulier'
+    : p.klantType === 'bedrijf' ? 'Bedrijf'
+    : p.klantType === 'vrij_beroep' ? 'Vrij beroep'
+    : p.klantType === 'syndicus' ? 'Syndicus'
+    : p.klantType || ''
 
-        <Section style={section}>
-          <Text style={label}>Klant type</Text>
-          <Text style={value}>{props.klantType || '—'}</Text>
-        </Section>
+  const urgentLine = p.urgent ? 'Hoge urgentie, indien mogelijk vandaag geholpen*.' : ''
 
-        <Hr style={hr} />
+  // Build particulier block
+  const particulierLines: string[] = []
+  if (isParticulier) {
+    particulierLines.push(`Van: ${p.voornaam || ''} ${p.naam || ''}`.trim())
+    if (p.woningOuder) particulierLines.push('Woning ouder dan 10 jaar')
+    if (p.straat) particulierLines.push(`${p.straat} ${p.huisnummer || ''}`.trim())
+    if (p.postcode) particulierLines.push(p.postcode)
+    if (p.plaats) particulierLines.push(p.plaats)
+    if (p.email) particulierLines.push(p.email)
+    if (p.telefoon) particulierLines.push(p.telefoon)
+    if (p.dienst) particulierLines.push(p.dienst)
+    if (p.beschrijving) particulierLines.push(p.beschrijving)
+    particulierLines.push('Ik ga akkoord met de algemene voorwaarden Riory BV')
+  } else {
+    particulierLines.push('Van: ')
+    particulierLines.push('Septische put ledigen')
+  }
 
-        <Heading style={h2}>Contactgegevens</Heading>
-        <Text style={value}>
-          {props.voornaam} {props.naam}
-          {props.bedrijfsnaam ? ` — ${props.bedrijfsnaam}` : ''}
-        </Text>
-        {props.btwNummer && <Text style={value}>BTW: {props.btwNummer}</Text>}
-        <Text style={value}>E-mail: {props.email || '—'}</Text>
-        <Text style={value}>Telefoon: {props.telefoon || '—'}</Text>
-        {props.adres && <Text style={value}>Adres: {props.adres}</Text>}
+  // Build bedrijf block
+  const bedrijfLines: string[] = []
+  if (isBedrijf) {
+    bedrijfLines.push(`Van: ${p.voornaam || ''} ${p.naam || ''}`.trim())
+    if (p.bedrijfsnaam) bedrijfLines.push(p.bedrijfsnaam)
+    if (p.btwNummer) bedrijfLines.push(p.btwNummer)
+    if (p.email) bedrijfLines.push(p.email)
+    if (p.facturatieEmail) bedrijfLines.push(p.facturatieEmail)
+    if (p.straat) bedrijfLines.push(`${p.straat} ${p.huisnummer || ''}`.trim())
+    if (p.postcode) bedrijfLines.push(p.postcode)
+    if (p.plaats) bedrijfLines.push(p.plaats)
+    // Werf address if different
+    if (p.werfStraat) {
+      bedrijfLines.push('')
+      bedrijfLines.push(`${p.werfStraat} ${p.werfHuisnummer || ''}`.trim())
+      if (p.werfPostcode) bedrijfLines.push(p.werfPostcode)
+      if (p.werfPlaats) bedrijfLines.push(p.werfPlaats)
+      if (p.werfTelefoon) bedrijfLines.push(p.werfTelefoon)
+    } else if (p.telefoon) {
+      bedrijfLines.push(p.telefoon)
+    }
+    if (p.dienst) bedrijfLines.push(p.dienst)
+    if (p.beschrijving) bedrijfLines.push(p.beschrijving)
+    bedrijfLines.push('Ik ga akkoord met de algemene voorwaarden Riory BV')
+  } else {
+    bedrijfLines.push('Van: ')
+    bedrijfLines.push('Septische put ledigen')
+  }
 
-        {props.werfAdres && (
-          <>
-            <Hr style={hr} />
-            <Heading style={h2}>Werfadres</Heading>
-            <Text style={value}>{props.werfAdres}</Text>
-          </>
-        )}
+  // Build syndicus block
+  const syndicusLines: string[] = []
+  if (isSyndicus) {
+    syndicusLines.push(`Van: ${p.syndicusVoornaam || ''} ${p.syndicusNaam || ''}`.trim())
+    if (p.syndicusKantoor) syndicusLines.push(p.syndicusKantoor)
+    if (p.syndicusNaamVme) syndicusLines.push(`VME: ${p.syndicusNaamVme}`)
+    if (p.syndicusKboNummer) syndicusLines.push(p.syndicusKboNummer)
+    if (p.syndicusEmail) syndicusLines.push(p.syndicusEmail)
+    if (p.syndicusFacturatieEmail) syndicusLines.push(p.syndicusFacturatieEmail)
+    if (p.syndicusStraat) syndicusLines.push(`${p.syndicusStraat} ${p.syndicusHuisnummer || ''}`.trim())
+    if (p.syndicusPostcode) syndicusLines.push(p.syndicusPostcode)
+    if (p.syndicusPlaats) syndicusLines.push(p.syndicusPlaats)
+    if (p.syndicusTelefoon) syndicusLines.push(p.syndicusTelefoon)
+    // Werf
+    if (p.werfStraat) {
+      syndicusLines.push('')
+      syndicusLines.push(`${p.werfStraat} ${p.werfHuisnummer || ''}`.trim())
+      if (p.werfPostcode) syndicusLines.push(p.werfPostcode)
+      if (p.werfPlaats) syndicusLines.push(p.werfPlaats)
+      if (p.werfTelefoon) syndicusLines.push(p.werfTelefoon)
+    }
+    if (p.dienst) syndicusLines.push(p.dienst)
+    if (p.beschrijving) syndicusLines.push(p.beschrijving)
+    syndicusLines.push('Ik ga akkoord met de algemene voorwaarden Riory BV')
+  } else {
+    syndicusLines.push('Van: ')
+    syndicusLines.push('Septische put ledigen')
+  }
 
-        {props.syndicusInfo && (
-          <>
-            <Hr style={hr} />
-            <Heading style={h2}>Syndicus</Heading>
-            <Text style={value}>{props.syndicusInfo}</Text>
-          </>
-        )}
+  const renderBlock = (label: string, lines: string[]) => (
+    <Text style={block}>
+      <strong>{label}</strong>
+      <br />
+      {lines.map((line, i) =>
+        line === '' ? <br key={i} /> : <React.Fragment key={i}>{line}<br /></React.Fragment>
+      )}
+    </Text>
+  )
 
-        {props.beschrijving && (
-          <>
-            <Hr style={hr} />
-            <Heading style={h2}>Beschrijving</Heading>
-            <Text style={value}>{props.beschrijving}</Text>
-          </>
-        )}
+  return (
+    <Html lang="nl" dir="ltr">
+      <Head />
+      <Preview>Riory External System</Preview>
+      <Body style={main}>
+        <Container style={container}>
+          <Text style={block}>
+            {klantLabel}
+            {urgentLine && <><br />{urgentLine}</>}
+          </Text>
 
-        {props.gevondenVia && (
-          <>
-            <Hr style={hr} />
-            <Text style={label}>Gevonden via: {props.gevondenVia}</Text>
-          </>
-        )}
+          {renderBlock('Particulier', particulierLines)}
+          {renderBlock('Bedrijf', bedrijfLines)}
+          {renderBlock('Syndicus', syndicusLines)}
 
-        <Hr style={hr} />
-        <Text style={footer}>Dit bericht werd automatisch verstuurd door {SITE_NAME}.</Text>
-      </Container>
-    </Body>
-  </Html>
-)
+          <Text style={footer}>-- Deze e-mail is verzonden vanuit het contactformulier op Riory https://riory.be</Text>
+        </Container>
+      </Body>
+    </Html>
+  )
+}
 
 export const template = {
   component: AppointmentNotificationEmail,
-  subject: (data: Record<string, any>) =>
-    `${data.urgent ? '🔴 URGENT — ' : ''}Nieuwe afspraak: ${data.dienst || 'Onbekend'} — ${data.voornaam || ''} ${data.naam || ''}`.trim(),
+  subject: 'Riory External System',
   to: 'jasonbalongo@gmail.com',
   displayName: 'Afspraak notificatie',
   previewData: {
-    dienst: 'Rioleringswerken',
-    urgent: true,
-    klantType: 'Particulier',
-    naam: 'Janssens',
-    voornaam: 'Jan',
-    email: 'jan@voorbeeld.be',
-    telefoon: '0470 12 34 56',
-    adres: 'Kerkstraat 1, 2000 Antwerpen',
-    beschrijving: 'Verstopping in de keuken',
-    gevondenVia: 'Google',
+    klantType: 'particulier',
+    urgent: false,
+    voornaam: 'Liesbet',
+    naam: 'Dutillieux',
+    woningOuder: true,
+    straat: 'Bergweidestraat',
+    huisnummer: '11',
+    postcode: '3730',
+    plaats: 'Bilzen-Hoeselt',
+    email: 'liesbet.dutillieux@telenet.be',
+    telefoon: '0473508282',
+    dienst: 'Ontstopping',
+    beschrijving: 'Zoals zonet telefonisch besproken, zouden we graag een afspraak vastleggen.',
   },
 } satisfies TemplateEntry
 
-const main = { backgroundColor: '#ffffff', fontFamily: "'Rubik', Arial, sans-serif" }
-const container = { padding: '24px 28px', maxWidth: '600px' }
-const h1 = { fontSize: '22px', fontWeight: '700' as const, color: '#1a1a1a', margin: '0 0 24px' }
-const h2 = { fontSize: '16px', fontWeight: '600' as const, color: '#1a1a1a', margin: '0 0 8px' }
-const section = { marginBottom: '12px' }
-const label = { fontSize: '12px', fontWeight: '600' as const, color: '#999', margin: '0 0 2px', textTransform: 'uppercase' as const }
-const value = { fontSize: '14px', color: '#333', lineHeight: '1.5', margin: '0 0 4px' }
-const hr = { borderColor: '#eee', margin: '20px 0' }
+const main = { backgroundColor: '#ffffff', fontFamily: 'Arial, sans-serif' }
+const container = { padding: '12px 20px', maxWidth: '600px' }
+const block = { fontSize: '14px', color: '#333', lineHeight: '1.6', margin: '0 0 16px' }
 const footer = { fontSize: '12px', color: '#999', margin: '24px 0 0' }
