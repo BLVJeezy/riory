@@ -11,9 +11,13 @@ const ProjectsSection = () => {
     ...referenceCategories.map((cat) => ({ label: cat.title, value: cat.slug })),
   ];
 
+  const allProjects = referenceCategories.flatMap((cat) =>
+    cat.projects.map((p) => ({ ...p, catSlug: cat.slug, catImage: cat.image }))
+  );
+
   const visible =
     active === "alle"
-      ? referenceCategories
+      ? null
       : referenceCategories.filter((c) => c.slug === active);
 
   return (
@@ -46,55 +50,83 @@ const ProjectsSection = () => {
           ))}
         </div>
 
-        {/* Projects per category */}
+        {/* Projects */}
         <div className="space-y-8 sm:space-y-12">
-          {visible.map((cat) => (
-            <div key={cat.slug}>
-              {/* Category header */}
-              <div className="flex items-center justify-between mb-4 sm:mb-5 pb-2 border-b border-border">
-                <h3 className="text-base sm:text-lg md:text-xl font-heading font-bold text-foreground">
-                  {cat.title}
-                </h3>
+          {visible === null ? (
+            /* Alle: flat grid without category headers */
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+              {allProjects.map((project) => (
                 <Link
-                  to={`/referenties/${cat.slug}`}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/10 text-[10px] sm:text-xs text-primary font-heading uppercase tracking-wider hover:bg-primary/20 transition-colors"
+                  key={`${project.catSlug}-${project.title}`}
+                  to={`/referenties/${project.catSlug}`}
+                  className="group block"
                 >
-                  Bekijk alle <ArrowRight className="w-3 h-3" />
+                  <div className="relative aspect-[4/3] rounded-xl overflow-hidden">
+                    <img
+                      src={project.images?.[0] ?? project.catImage}
+                      alt={project.title}
+                      loading="lazy"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-charcoal/80 via-charcoal/20 to-transparent" />
+                    <div className="absolute bottom-0 left-0 right-0 p-2.5 sm:p-3">
+                      <p className="text-[11px] sm:text-sm font-heading font-semibold text-white leading-tight line-clamp-2">
+                        {project.title}
+                      </p>
+                    </div>
+                  </div>
                 </Link>
-              </div>
-
-              {cat.projects.length > 0 ? (
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
-                  {cat.projects.map((project) => (
-                    <Link
-                      key={project.title}
-                      to={`/referenties/${cat.slug}`}
-                      className="group block"
-                    >
-                      <div className="relative aspect-[4/3] rounded-xl overflow-hidden">
-                        <img
-                          src={project.images?.[0] ?? cat.image}
-                          alt={project.title}
-                          loading="lazy"
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-charcoal/80 via-charcoal/20 to-transparent" />
-                        <div className="absolute bottom-0 left-0 right-0 p-2.5 sm:p-3">
-                          <p className="text-[11px] sm:text-sm font-heading font-semibold text-white leading-tight line-clamp-2">
-                            {project.title}
-                          </p>
-                        </div>
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-              ) : (
-                <p className="text-sm text-muted-foreground font-body italic py-4">
-                  Binnenkort beschikbaar.
-                </p>
-              )}
+              ))}
             </div>
-          ))}
+          ) : (
+            /* Filtered: grouped by category */
+            visible.map((cat) => (
+              <div key={cat.slug}>
+                <div className="flex items-center justify-between mb-4 sm:mb-5 pb-2 border-b border-border">
+                  <h3 className="text-base sm:text-lg md:text-xl font-heading font-bold text-foreground">
+                    {cat.title}
+                  </h3>
+                  <Link
+                    to={`/referenties/${cat.slug}`}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/10 text-[10px] sm:text-xs text-primary font-heading uppercase tracking-wider hover:bg-primary/20 transition-colors"
+                  >
+                    Bekijk alle <ArrowRight className="w-3 h-3" />
+                  </Link>
+                </div>
+
+                {cat.projects.length > 0 ? (
+                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+                    {cat.projects.map((project) => (
+                      <Link
+                        key={project.title}
+                        to={`/referenties/${cat.slug}`}
+                        className="group block"
+                      >
+                        <div className="relative aspect-[4/3] rounded-xl overflow-hidden">
+                          <img
+                            src={project.images?.[0] ?? cat.image}
+                            alt={project.title}
+                            loading="lazy"
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-charcoal/80 via-charcoal/20 to-transparent" />
+                          <div className="absolute bottom-0 left-0 right-0 p-2.5 sm:p-3">
+                            <p className="text-[11px] sm:text-sm font-heading font-semibold text-white leading-tight line-clamp-2">
+                              {project.title}
+                            </p>
+                          </div>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-sm text-muted-foreground font-body italic py-4">
+                    Binnenkort beschikbaar.
+                  </p>
+                )}
+              </div>
+            ))
+          )}
         </div>
       </div>
     </section>
