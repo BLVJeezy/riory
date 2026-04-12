@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Menu, X, Sun, Moon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useTheme } from "@/components/ThemeProvider";
 import logoBlack from "@/assets/riory-logo-black.svg";
 import logoWhite from "@/assets/riory-logo-white.svg";
@@ -16,7 +16,28 @@ const Navbar = () => {
   const { theme, toggleTheme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
   const logo = theme === "dark" ? logoWhite : logoBlack;
+
+  const handleAnchorClick = (e: React.MouseEvent, href: string) => {
+    e.preventDefault();
+    if (location.pathname !== "/") {
+      navigate("/" + href);
+    } else {
+      const el = document.querySelector(href);
+      el?.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  useEffect(() => {
+    if (location.pathname === "/" && location.hash) {
+      setTimeout(() => {
+        const el = document.querySelector(location.hash);
+        el?.scrollIntoView({ behavior: "smooth" });
+      }, 100);
+    }
+  }, [location]);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -31,9 +52,9 @@ const Navbar = () => {
       }`}
     >
       <div className="section-container flex items-center justify-between h-16 md:h-20 px-6 md:px-8">
-        <a href="#home">
+        <Link to="/">
           <img src={logo} alt="RIORY - Sterk in Rioleringswerk" className="h-10 md:h-12 w-auto" />
-        </a>
+        </Link>
 
         {/* Desktop */}
         <div className="hidden lg:flex items-center gap-8">
@@ -50,6 +71,7 @@ const Navbar = () => {
               <a
                 key={link.href}
                 href={link.href}
+                onClick={(e) => handleAnchorClick(e, link.href)}
                 className="text-sm font-body font-semibold uppercase tracking-wider text-foreground hover:text-primary transition-colors"
               >
                 {link.label}
@@ -57,7 +79,7 @@ const Navbar = () => {
             )
           )}
           <Button variant="cta" size="lg" className="rounded-full" asChild>
-            <a href="#offerte">Afspraak</a>
+            <a href="#offerte" onClick={(e) => handleAnchorClick(e, "#offerte")}>Afspraak</a>
           </Button>
           <button
             onClick={toggleTheme}
@@ -104,7 +126,7 @@ const Navbar = () => {
                   <a
                     key={link.href}
                     href={link.href}
-                    onClick={() => setIsOpen(false)}
+                    onClick={(e) => { handleAnchorClick(e, link.href); setIsOpen(false); }}
                     className="px-5 py-3 text-sm font-body font-medium text-white/80 hover:text-white hover:bg-white/10 transition-colors"
                   >
                     {link.label}
@@ -113,7 +135,7 @@ const Navbar = () => {
               )}
               <div className="px-3 pt-2 pb-1">
                 <Button variant="cta" size="sm" className="w-full" asChild>
-                  <a href="#offerte" onClick={() => setIsOpen(false)}>Afspraak</a>
+                  <a href="#offerte" onClick={(e) => { handleAnchorClick(e, "#offerte"); setIsOpen(false); }}>Afspraak</a>
                 </Button>
               </div>
             </div>
