@@ -102,13 +102,6 @@ const WhyChooseUs = () => {
           ))}
         </div>
 
-        <div className="mt-8">
-          <img
-            src={waaromOnsBanner}
-            alt="Riory - Maak je afspraak"
-            className="w-full rounded-xl object-contain"
-          />
-        </div>
       </div>
 
       <Dialog open={openStep !== null} onOpenChange={(open) => !open && setOpenStep(null)}>
