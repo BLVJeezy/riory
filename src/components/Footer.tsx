@@ -100,6 +100,12 @@ const Footer = () => {
             >
               Algemene Voorwaarden
             </Link>
+            <Link
+              to="/cookie-policy"
+              className="text-xs text-primary-foreground/30 hover:text-primary transition-colors font-body"
+            >
+              Privacy & Cookiebeleid
+            </Link>
           </div>
         </div>
       </div>
