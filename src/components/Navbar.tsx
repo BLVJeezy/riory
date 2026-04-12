@@ -135,7 +135,7 @@ const Navbar = () => {
               )}
               <div className="px-3 pt-2 pb-1">
                 <Button variant="cta" size="sm" className="w-full" asChild>
-                  <a href="#offerte" onClick={() => setIsOpen(false)}>Afspraak</a>
+                  <a href="#offerte" onClick={(e) => { handleAnchorClick(e, "#offerte"); setIsOpen(false); }}>Afspraak</a>
                 </Button>
               </div>
             </div>
