@@ -19,16 +19,21 @@ const Footer = () => {
               Snelle links
             </h4>
             <ul className="space-y-2">
-              {["Home", "Diensten", "Projecten", "Offerte", "Contact"].map((link) => (
-                <li key={link}>
-                  <a
-                    href={`#${link.toLowerCase().replace("offerte", "offerte")}`}
-                    className="text-sm text-primary-foreground/50 hover:text-primary transition-colors font-body"
-                  >
-                    {link}
-                  </a>
-                </li>
-              ))}
+              <li>
+                <a href="#home" className="text-sm text-primary-foreground/50 hover:text-primary transition-colors font-body">Home</a>
+              </li>
+              <li>
+                <Link to="/diensten" className="text-sm text-primary-foreground/50 hover:text-primary transition-colors font-body">Onze Diensten</Link>
+              </li>
+              <li>
+                <a href="#waarom-ons" className="text-sm text-primary-foreground/50 hover:text-primary transition-colors font-body">Waarom Kiezen Voor Ons?</a>
+              </li>
+              <li>
+                <a href="#projecten" className="text-sm text-primary-foreground/50 hover:text-primary transition-colors font-body">Referenties</a>
+              </li>
+              <li>
+                <a href="#offerte" className="text-sm text-primary-foreground/50 hover:text-primary transition-colors font-body">Afspraak</a>
+              </li>
             </ul>
           </div>
 
