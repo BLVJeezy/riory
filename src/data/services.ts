@@ -53,7 +53,7 @@ export const allServices: Service[] = [
   {
     slug: "camera-inspectie",
     title: "Camera inspectie riool",
-    description: "Gedetailleerde camera-inspectie van riool en afvoer om problemen snel en nauwkeurig te lokaliseren.",
+    description: "Laat verborgen beer-, septische putten en verstoppingen exact lokaliseren met gericht camera onderzoek. Geen breekwerk , wel snelle detectie!",
     image: serviceCamera,
     longDescription:
       "Met onze professionele camera-inspectie van riool en afvoer krijgt u een duidelijk beeld van de toestand van uw rioleringssysteem. We brengen breuken, wortelingroei, verzakkingen en verstoppingen nauwkeurig in kaart. Na de inspectie ontvangt u een gedetailleerd rapport met beelden en advies voor eventuele herstellingen.",
