@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Menu, X, Sun, Moon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useTheme } from "@/components/ThemeProvider";
 import logoBlack from "@/assets/riory-logo-black.svg";
 import logoWhite from "@/assets/riory-logo-white.svg";
