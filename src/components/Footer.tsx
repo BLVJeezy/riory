@@ -53,6 +53,14 @@ const Footer = () => {
               >
                 LinkedIn
               </a>
+              <a
+                href="https://www.instagram.com/riorybv/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-primary-foreground/50 hover:text-primary transition-colors font-body"
+              >
+                Instagram
+              </a>
             </div>
             <div className="mt-6">
               <a
