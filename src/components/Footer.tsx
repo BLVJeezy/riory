@@ -68,16 +68,6 @@ const Footer = () => {
                 <Instagram className="w-4 h-4" />
               </a>
             </div>
-            <div className="mt-6">
-              <a
-                href="https://wa.me/32472502814"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-sm font-heading font-semibold uppercase tracking-wider text-primary hover:text-primary/80 transition-colors"
-              >
-                WhatsApp ons
-              </a>
-            </div>
           </div>
         </div>
 
