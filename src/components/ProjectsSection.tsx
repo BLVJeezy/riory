@@ -29,7 +29,7 @@ const ProjectsSection = () => {
           </h2>
           <div className="w-16 h-1 bg-primary mx-auto mb-4" />
           <p className="text-muted-foreground font-body max-w-xl mx-auto text-sm sm:text-base">
-            Ontdek onze uitgevoerde projecten per categorie.
+            professionele service, snelle oplossingen en eerlijke prijzen voor alle rioleringswerken: Lees de ervaringen van onze klanten
           </p>
         </div>
 
