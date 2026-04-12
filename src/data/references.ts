@@ -59,7 +59,7 @@ export const referenceCategories: ReferenceCategory[] = [
         title: "Dakgootreiniging op Hoogte",
         location: "Tongeren, Limburg",
         description: "Dakgootreiniging van een hoog appartementsgebouw met behulp van een telescopische camera en speciaal reinigingsmateriaal. Veilig en efficiënt uitgevoerd.",
-        images: [dakgootHoogte1, dakgootHoogte2, dakgootHoogte3],
+        images: [dakgootHoogte2, dakgootHoogte1, dakgootHoogte3],
       },
     ],
   },
