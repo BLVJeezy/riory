@@ -95,9 +95,16 @@ const DienstDetail = () => {
                 <p className="text-sm text-muted-foreground font-body mb-4">
                   Ontdek wat wij al realiseerden in de categorie "{refCategory.title}".
                 </p>
+                <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 mb-4">
+                  {refCategory.projects.flatMap((p) => p.images).slice(0, 8).map((img, i) => (
+                    <div key={i} className="aspect-square rounded-lg overflow-hidden">
+                      <img src={img} alt={`Referentie ${i + 1}`} loading="lazy" className="w-full h-full object-cover hover:scale-105 transition-transform duration-300" />
+                    </div>
+                  ))}
+                </div>
                 <Button variant="outline" size="sm" className="rounded-full gap-2" asChild>
                   <Link to={`/referenties/${refCategory.slug}`}>
-                    Bekijk projecten
+                    Bekijk alle projecten
                     <ArrowRight className="w-4 h-4" />
                   </Link>
                 </Button>
