@@ -1,4 +1,5 @@
 import { useState } from "react";
+import SubmitResultOverlay from "@/components/SubmitResultOverlay";
 import {
   Dialog,
   DialogContent,
@@ -39,6 +40,7 @@ const QuoteFormDialog = ({ open, onOpenChange, preselectedDienst }: QuoteFormDia
     beschrijving: "",
   });
   const [submitting, setSubmitting] = useState(false);
+  const [submitResult, setSubmitResult] = useState<"success" | "error" | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -80,12 +82,12 @@ const QuoteFormDialog = ({ open, onOpenChange, preselectedDienst }: QuoteFormDia
         },
       });
 
-      toast.success("Uw offerte aanvraag is verzonden! Wij nemen spoedig contact op.");
+      setSubmitResult("success");
       setFormData({ naam: "", email: "", telefoon: "", locatie: "", dienst: "", beschrijving: "" });
       onOpenChange(false);
     } catch (err) {
       console.error("Error submitting quote:", err);
-      toast.error("Er ging iets mis bij het verzenden. Probeer het opnieuw.");
+      setSubmitResult("error");
     } finally {
       setSubmitting(false);
     }
@@ -178,6 +180,15 @@ const QuoteFormDialog = ({ open, onOpenChange, preselectedDienst }: QuoteFormDia
           </Button>
         </form>
       </DialogContent>
+      <SubmitResultOverlay
+        status={submitResult}
+        onClose={() => setSubmitResult(null)}
+        onRetry={() => setSubmitResult(null)}
+        successTitle="Offerte aanvraag verzonden!"
+        successMessage="Wij nemen zo snel mogelijk contact met u op."
+        errorTitle="Er ging iets mis"
+        errorMessage="Uw offerte aanvraag kon niet worden verzonden. Probeer het opnieuw."
+      />
     </Dialog>
   );
 };

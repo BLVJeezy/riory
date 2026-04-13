@@ -1,4 +1,5 @@
 import React, { useState, useRef, useCallback } from "react";
+import SubmitResultOverlay from "@/components/SubmitResultOverlay";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
@@ -106,6 +107,7 @@ const AppointmentForm = () => {
   const formRef = useRef<HTMLDivElement>(null);
   const [step, setStep] = useState(0);
   const [submitting, setSubmitting] = useState(false);
+  const [submitResult, setSubmitResult] = useState<"success" | "error" | null>(null);
 
   // Step 1
   const [akkoord, setAkkoord] = useState(false);
@@ -292,7 +294,7 @@ const AppointmentForm = () => {
         },
       }).catch((err) => console.error("Email notification failed:", err));
 
-      toast.success("Uw afspraak is succesvol ingediend! Wij nemen spoedig contact op.");
+      setSubmitResult("success");
       // Reset
       setStep(0);
       setAkkoord(false);
@@ -309,7 +311,7 @@ const AppointmentForm = () => {
       setGevondenDetail("");
     } catch (err) {
       console.error("Error submitting appointment:", err);
-      toast.error("Er ging iets mis. Probeer het opnieuw.");
+      setSubmitResult("error");
     } finally {
       setSubmitting(false);
     }
@@ -687,6 +689,15 @@ const AppointmentForm = () => {
           </div>
         </div>
       </div>
+      <SubmitResultOverlay
+        status={submitResult}
+        onClose={() => setSubmitResult(null)}
+        onRetry={() => setSubmitResult(null)}
+        successTitle="Afspraak ingediend!"
+        successMessage="Wij nemen zo snel mogelijk contact met u op."
+        errorTitle="Er ging iets mis"
+        errorMessage="Uw afspraak kon niet worden verzonden. Probeer het opnieuw."
+      />
     </section>
   );
 };

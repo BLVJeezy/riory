@@ -1,4 +1,5 @@
 import { useState } from "react";
+import SubmitResultOverlay from "@/components/SubmitResultOverlay";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Send, User, Mail, Phone, MapPin, FileText } from "lucide-react";
@@ -27,6 +28,7 @@ const QuoteForm = () => {
     beschrijving: "",
   });
   const [submitting, setSubmitting] = useState(false);
+  const [submitResult, setSubmitResult] = useState<"success" | "error" | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -74,11 +76,11 @@ const QuoteForm = () => {
         },
       });
 
-      toast.success("Uw offerte aanvraag is verzonden! Wij nemen spoedig contact op.");
+      setSubmitResult("success");
       setFormData({ naam: "", email: "", telefoon: "", locatie: "", dienst: "", beschrijving: "" });
     } catch (err) {
       console.error("Error submitting quote:", err);
-      toast.error("Er ging iets mis bij het verzenden. Probeer het opnieuw.");
+      setSubmitResult("error");
     } finally {
       setSubmitting(false);
     }
@@ -88,6 +90,7 @@ const QuoteForm = () => {
     "w-full h-12 pl-11 pr-4 rounded-lg bg-background border border-border text-foreground font-body text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-shadow";
 
   return (
+    <>
     <section id="offerte" className="section-padding bg-surface">
       <div className="section-container px-6 md:px-8">
         <div className="text-center mb-10">
@@ -181,6 +184,16 @@ const QuoteForm = () => {
         </form>
       </div>
     </section>
+    <SubmitResultOverlay
+      status={submitResult}
+      onClose={() => setSubmitResult(null)}
+      onRetry={() => setSubmitResult(null)}
+      successTitle="Offerte aanvraag verzonden!"
+      successMessage="Wij nemen zo snel mogelijk contact met u op."
+      errorTitle="Er ging iets mis"
+      errorMessage="Uw offerte aanvraag kon niet worden verzonden. Probeer het opnieuw."
+    />
+    </>
   );
 };
 
