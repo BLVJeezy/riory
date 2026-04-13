@@ -49,7 +49,9 @@ const QuoteFormDialog = ({ open, onOpenChange, preselectedDienst }: QuoteFormDia
     setSubmitting(true);
 
     try {
+      const id = crypto.randomUUID();
       const { error } = await supabase.from("quote_requests").insert({
+        id,
         naam: formData.naam,
         email: formData.email,
         telefoon: formData.telefoon || null,
@@ -61,6 +63,22 @@ const QuoteFormDialog = ({ open, onOpenChange, preselectedDienst }: QuoteFormDia
       });
 
       if (error) throw error;
+
+      await supabase.functions.invoke('send-transactional-email', {
+        body: {
+          templateName: 'quote-notification',
+          recipientEmail: formData.email,
+          idempotencyKey: `quote-notify-${id}`,
+          templateData: {
+            naam: formData.naam,
+            email: formData.email,
+            telefoon: formData.telefoon || undefined,
+            locatie: formData.locatie || undefined,
+            dienst: formData.dienst || undefined,
+            beschrijving: formData.beschrijving || undefined,
+          },
+        },
+      });
 
       toast.success("Uw offerte aanvraag is verzonden! Wij nemen spoedig contact op.");
       setFormData({ naam: "", email: "", telefoon: "", locatie: "", dienst: "", beschrijving: "" });
