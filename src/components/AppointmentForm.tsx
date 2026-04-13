@@ -436,52 +436,56 @@ const AppointmentForm = () => {
               </div>
             )}
 
-            {/* Werfadres = facturatieadres */}
-            <div className="space-y-2">
-              <label className="block text-xs font-heading font-semibold uppercase tracking-wider text-foreground">
-                Is het werfadres hetzelfde als het facturatieadres?
-              </label>
-              <div className="flex gap-3">
-                <button type="button" onClick={() => setWerfIsFacturatie(true)} className={`px-6 py-2 rounded-lg border-2 text-sm font-semibold transition-all ${werfIsFacturatie === true ? "border-primary bg-primary/10 text-primary" : "border-border text-foreground hover:border-primary/40"}`}>Ja</button>
-                <button type="button" onClick={() => setWerfIsFacturatie(false)} className={`px-6 py-2 rounded-lg border-2 text-sm font-semibold transition-all ${werfIsFacturatie === false ? "border-primary bg-primary/10 text-primary" : "border-border text-foreground hover:border-primary/40"}`}>Nee</button>
+            {/* Werfadres = facturatieadres (niet voor syndicus) */}
+            {klantType !== "syndicus" && (
+              <div className="space-y-2">
+                <label className="block text-xs font-heading font-semibold uppercase tracking-wider text-foreground">
+                  Is het werfadres hetzelfde als het facturatieadres?
+                </label>
+                <div className="flex gap-3">
+                  <button type="button" onClick={() => setWerfIsFacturatie(true)} className={`px-6 py-2 rounded-lg border-2 text-sm font-semibold transition-all ${werfIsFacturatie === true ? "border-primary bg-primary/10 text-primary" : "border-border text-foreground hover:border-primary/40"}`}>Ja</button>
+                  <button type="button" onClick={() => setWerfIsFacturatie(false)} className={`px-6 py-2 rounded-lg border-2 text-sm font-semibold transition-all ${werfIsFacturatie === false ? "border-primary bg-primary/10 text-primary" : "border-border text-foreground hover:border-primary/40"}`}>Nee</button>
+                </div>
               </div>
-            </div>
+            )}
 
-            {/* Facturatiegegevens */}
-            <div>
-              <h4 className="text-sm font-heading font-bold uppercase tracking-wider text-foreground mb-3 flex items-center gap-2">
-                <FileText className="w-4 h-4 text-primary" /> Facturatiegegevens
-              </h4>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <InputField label="Naam" required name="naam" value={fact.naam} onChange={handleFactChange} icon={<User className="w-4 h-4" />} placeholder="Naam" maxLength={100} />
-                <InputField label="Voornaam" required name="voornaam" value={fact.voornaam} onChange={handleFactChange} icon={<User className="w-4 h-4" />} placeholder="Voornaam" maxLength={100} />
+            {/* Facturatiegegevens (niet-syndicus) */}
+            {klantType !== "syndicus" && (
+              <div>
+                <h4 className="text-sm font-heading font-bold uppercase tracking-wider text-foreground mb-3 flex items-center gap-2">
+                  <FileText className="w-4 h-4 text-primary" /> Facturatiegegevens
+                </h4>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <InputField label="Naam" required name="naam" value={fact.naam} onChange={handleFactChange} icon={<User className="w-4 h-4" />} placeholder="Naam" maxLength={100} />
+                  <InputField label="Voornaam" required name="voornaam" value={fact.voornaam} onChange={handleFactChange} icon={<User className="w-4 h-4" />} placeholder="Voornaam" maxLength={100} />
 
-                {(klantType === "bedrijf" || klantType === "vrij_beroep") && (
-                  <>
-                    <InputField label="Bedrijfsnaam" name="bedrijfsnaam" value={fact.bedrijfsnaam} onChange={handleFactChange} icon={<Building2 className="w-4 h-4" />} placeholder="Bedrijfsnaam" maxLength={200} />
-                    {klantType === "bedrijf" && (
-                      <InputField label="BTW-nummer" name="btw_nummer" value={fact.btw_nummer} onChange={handleFactChange} placeholder="BE0xxx.xxx.xxx" maxLength={20} />
-                    )}
-                    {klantType === "vrij_beroep" && (
-                      <InputField label="KBO-nummer" name="kbo_nummer" value={fact.kbo_nummer} onChange={handleFactChange} placeholder="0xxx.xxx.xxx" maxLength={20} />
-                    )}
-                  </>
-                )}
+                  {(klantType === "bedrijf" || klantType === "vrij_beroep") && (
+                    <>
+                      <InputField label="Bedrijfsnaam" name="bedrijfsnaam" value={fact.bedrijfsnaam} onChange={handleFactChange} icon={<Building2 className="w-4 h-4" />} placeholder="Bedrijfsnaam" maxLength={200} />
+                      {klantType === "bedrijf" && (
+                        <InputField label="BTW-nummer" name="btw_nummer" value={fact.btw_nummer} onChange={handleFactChange} placeholder="BE0xxx.xxx.xxx" maxLength={20} />
+                      )}
+                      {klantType === "vrij_beroep" && (
+                        <InputField label="KBO-nummer" name="kbo_nummer" value={fact.kbo_nummer} onChange={handleFactChange} placeholder="0xxx.xxx.xxx" maxLength={20} />
+                      )}
+                    </>
+                  )}
 
-                <InputField label="Straat" required name="straat" value={fact.straat} onChange={handleFactChange} icon={<MapPin className="w-4 h-4" />} placeholder="Straatnaam" maxLength={200} />
-                <InputField label="Huisnummer" required name="huisnummer" value={fact.huisnummer} onChange={handleFactChange} placeholder="Nr." maxLength={10} />
-                <InputField label="Postcode" required name="postcode" value={fact.postcode} onChange={handleFactChange} placeholder="1234" maxLength={10} />
-                <InputField label="Plaats" required name="plaats" value={fact.plaats} onChange={handleFactChange} placeholder="Gemeente" maxLength={100} />
-                <InputField label="Email" required name="email" value={fact.email} onChange={handleFactChange} icon={<Mail className="w-4 h-4" />} placeholder="uw@email.be" type="email" maxLength={255} />
-                {(klantType === "bedrijf" || klantType === "vrij_beroep") && (
-                  <InputField label="Facturatie-email" name="facturatie_email" value={fact.facturatie_email} onChange={handleFactChange} icon={<Mail className="w-4 h-4" />} placeholder="facturatie@bedrijf.be" type="email" maxLength={255} />
-                )}
-                <InputField label="Telefoon" required name="telefoon" value={fact.telefoon} onChange={handleFactChange} icon={<Phone className="w-4 h-4" />} placeholder="+32 4XX XX XX XX" maxLength={20} />
+                  <InputField label="Straat" required name="straat" value={fact.straat} onChange={handleFactChange} icon={<MapPin className="w-4 h-4" />} placeholder="Straatnaam" maxLength={200} />
+                  <InputField label="Huisnummer" required name="huisnummer" value={fact.huisnummer} onChange={handleFactChange} placeholder="Nr." maxLength={10} />
+                  <InputField label="Postcode" required name="postcode" value={fact.postcode} onChange={handleFactChange} placeholder="1234" maxLength={10} />
+                  <InputField label="Plaats" required name="plaats" value={fact.plaats} onChange={handleFactChange} placeholder="Gemeente" maxLength={100} />
+                  <InputField label="Email" required name="email" value={fact.email} onChange={handleFactChange} icon={<Mail className="w-4 h-4" />} placeholder="uw@email.be" type="email" maxLength={255} />
+                  {(klantType === "bedrijf" || klantType === "vrij_beroep") && (
+                    <InputField label="Facturatie-email" name="facturatie_email" value={fact.facturatie_email} onChange={handleFactChange} icon={<Mail className="w-4 h-4" />} placeholder="facturatie@bedrijf.be" type="email" maxLength={255} />
+                  )}
+                  <InputField label="Telefoon" required name="telefoon" value={fact.telefoon} onChange={handleFactChange} icon={<Phone className="w-4 h-4" />} placeholder="+32 4XX XX XX XX" maxLength={20} />
+                </div>
               </div>
-            </div>
+            )}
 
-            {/* Werfadres indien anders */}
-            {werfIsFacturatie === false && (
+            {/* Werfadres indien anders (niet voor syndicus) */}
+            {klantType !== "syndicus" && werfIsFacturatie === false && (
               <div>
                 <h4 className="text-sm font-heading font-bold uppercase tracking-wider text-foreground mb-3 flex items-center gap-2">
                   <MapPin className="w-4 h-4 text-primary" /> Werfadres
@@ -500,15 +504,31 @@ const AppointmentForm = () => {
               </div>
             )}
 
-            {/* Syndicus gegevens */}
+            {/* Syndicus: Facturatiegegevens (VME info) */}
+            {klantType === "syndicus" && (
+              <div>
+                <h4 className="text-sm font-heading font-bold uppercase tracking-wider text-foreground mb-3 flex items-center gap-2">
+                  <FileText className="w-4 h-4 text-primary" /> Facturatiegegevens
+                </h4>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <InputField label="Naam VME" name="naam_vme" value={syndicus.naam_vme} onChange={handleSyndicusChange} placeholder="Naam VME" maxLength={200} />
+                  <InputField label="KBO-nummer" name="kbo_nummer" value={syndicus.kbo_nummer} onChange={handleSyndicusChange} placeholder="0xxx.xxx.xxx" maxLength={20} />
+                  <InputField label="Straat" name="straat" value={fact.straat} onChange={handleFactChange} icon={<MapPin className="w-4 h-4" />} placeholder="Straatnaam" maxLength={200} />
+                  <InputField label="Huisnummer" name="huisnummer" value={fact.huisnummer} onChange={handleFactChange} placeholder="Nr." maxLength={10} />
+                  <InputField label="Postcode" name="postcode" value={fact.postcode} onChange={handleFactChange} placeholder="1234" maxLength={10} />
+                  <InputField label="Plaats" name="plaats" value={fact.plaats} onChange={handleFactChange} placeholder="Gemeente" maxLength={100} />
+                  <InputField label="Telefoonnummer contactpersoon" name="telefoon" value={fact.telefoon} onChange={handleFactChange} icon={<Phone className="w-4 h-4" />} placeholder="+32 4XX XX XX XX" maxLength={20} />
+                </div>
+              </div>
+            )}
+
+            {/* Syndicus: Gegevens Syndicus */}
             {klantType === "syndicus" && (
               <div>
                 <h4 className="text-sm font-heading font-bold uppercase tracking-wider text-foreground mb-3 flex items-center gap-2">
                   <Users className="w-4 h-4 text-primary" /> Gegevens Syndicus
                 </h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <InputField label="Naam VME" name="naam_vme" value={syndicus.naam_vme} onChange={handleSyndicusChange} placeholder="Naam VME" maxLength={200} />
-                  <InputField label="KBO-nummer" name="kbo_nummer" value={syndicus.kbo_nummer} onChange={handleSyndicusChange} placeholder="0xxx.xxx.xxx" maxLength={20} />
                   <InputField label="Naam" required name="naam" value={syndicus.naam} onChange={handleSyndicusChange} icon={<User className="w-4 h-4" />} placeholder="Naam syndicus" maxLength={100} />
                   <InputField label="Voornaam" required name="voornaam" value={syndicus.voornaam} onChange={handleSyndicusChange} icon={<User className="w-4 h-4" />} placeholder="Voornaam" maxLength={100} />
                   <InputField label="Naam kantoor" required name="kantoor" value={syndicus.kantoor} onChange={handleSyndicusChange} icon={<Building2 className="w-4 h-4" />} placeholder="Kantoor" maxLength={200} />
