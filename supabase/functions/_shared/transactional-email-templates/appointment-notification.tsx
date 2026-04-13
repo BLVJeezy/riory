@@ -87,7 +87,7 @@ const AppointmentNotificationEmail = (p: Props) => {
     if (p.straat) bedrijfLines.push(`${p.straat} ${p.huisnummer || ''}`.trim())
     if (p.postcode) bedrijfLines.push(p.postcode)
     if (p.plaats) bedrijfLines.push(p.plaats)
-    // Werf address if different
+    // Werf address block with empty line separator
     if (p.werfStraat) {
       bedrijfLines.push('')
       bedrijfLines.push(`${p.werfStraat} ${p.werfHuisnummer || ''}`.trim())
@@ -97,6 +97,7 @@ const AppointmentNotificationEmail = (p: Props) => {
     } else if (p.telefoon) {
       bedrijfLines.push(p.telefoon)
     }
+    bedrijfLines.push('')
     if (p.dienst) bedrijfLines.push(p.dienst)
     if (p.beschrijving) bedrijfLines.push(p.beschrijving)
     bedrijfLines.push('Ik ga akkoord met de algemene voorwaarden Riory BV')
@@ -126,6 +127,7 @@ const AppointmentNotificationEmail = (p: Props) => {
       if (p.werfPlaats) syndicusLines.push(p.werfPlaats)
       if (p.werfTelefoon) syndicusLines.push(p.werfTelefoon)
     }
+    syndicusLines.push('')
     if (p.dienst) syndicusLines.push(p.dienst)
     if (p.beschrijving) syndicusLines.push(p.beschrijving)
     syndicusLines.push('Ik ga akkoord met de algemene voorwaarden Riory BV')
