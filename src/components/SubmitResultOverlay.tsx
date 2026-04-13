@@ -4,8 +4,10 @@ import { CheckCircle2, XCircle, RotateCcw } from "lucide-react";
 
 interface SubmitResultOverlayProps {
   status: "success" | "error" | null;
+  retryCount?: number;
   onClose: () => void;
   onRetry?: () => void;
+  onStartOver?: () => void;
   successTitle?: string;
   successMessage?: string;
   errorTitle?: string;
