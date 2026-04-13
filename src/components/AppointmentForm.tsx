@@ -224,7 +224,7 @@ const AppointmentForm = () => {
         fact_huisnummer: fact.huisnummer || null,
         fact_postcode: fact.postcode || null,
         fact_plaats: fact.plaats || null,
-        fact_email: fact.email,
+        fact_email: effectiveFactEmail,
         fact_facturatie_email: fact.facturatie_email || null,
         fact_telefoon: fact.telefoon || null,
         werf_projectnaam: werf.projectnaam || null,
