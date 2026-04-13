@@ -164,12 +164,16 @@ const AppointmentForm = () => {
       case 2: return urgent !== null;
       case 3: return klantType !== "";
       case 4: {
-        if (!fact.naam || !fact.voornaam || !fact.email || !fact.telefoon || !fact.straat || !fact.huisnummer || !fact.postcode || !fact.plaats) return false;
         if (klantType === "syndicus") {
+          // VME address fields (stored in fact)
+          if (!fact.straat || !fact.huisnummer || !fact.postcode || !fact.plaats || !fact.telefoon) return false;
+          // Syndicus personal fields
           if (!syndicus.naam || !syndicus.voornaam || !syndicus.kantoor || !syndicus.email) return false;
-        }
-        if (werfIsFacturatie === false) {
-          if (!werf.straat || !werf.huisnummer || !werf.postcode || !werf.plaats) return false;
+        } else {
+          if (!fact.naam || !fact.voornaam || !fact.email || !fact.telefoon || !fact.straat || !fact.huisnummer || !fact.postcode || !fact.plaats) return false;
+          if (werfIsFacturatie === false) {
+            if (!werf.straat || !werf.huisnummer || !werf.postcode || !werf.plaats) return false;
+          }
         }
         return true;
       }
@@ -201,9 +205,9 @@ const AppointmentForm = () => {
   const handleSubmit = async () => {
     setSubmitting(true);
     try {
-      // TEMP: forceer fout voor preview
-      throw new Error("Test error voor preview");
       const appointmentId = crypto.randomUUID();
+      // For syndicus, use syndicus email as fact_email (required field)
+      const effectiveFactEmail = klantType === "syndicus" ? syndicus.email : fact.email;
       const { error } = await supabase.from("appointments").insert({
         id: appointmentId,
         dienst,
@@ -220,7 +224,7 @@ const AppointmentForm = () => {
         fact_huisnummer: fact.huisnummer || null,
         fact_postcode: fact.postcode || null,
         fact_plaats: fact.plaats || null,
-        fact_email: fact.email,
+        fact_email: effectiveFactEmail,
         fact_facturatie_email: fact.facturatie_email || null,
         fact_telefoon: fact.telefoon || null,
         werf_projectnaam: werf.projectnaam || null,
