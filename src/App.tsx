@@ -19,6 +19,7 @@ import CookiePolicy from "./pages/CookiePolicy.tsx";
 import AdminLogin from "./pages/AdminLogin.tsx";
 import Admin from "./pages/Admin.tsx";
 import Unsubscribe from "./pages/Unsubscribe.tsx";
+import Afspraak from "./pages/Afspraak.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();

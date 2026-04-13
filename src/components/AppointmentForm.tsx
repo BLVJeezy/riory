@@ -576,8 +576,8 @@ const AppointmentForm = () => {
   };
 
   return (
-    <section id="offerte" className="section-padding bg-surface">
-      <div className="section-container px-6 md:px-8">
+    <section id="offerte" className="section-padding bg-surface" ref={formRef}>
+      <div className="section-container px-6 md:px-8" style={{ scrollMarginTop: "2rem" }}>
         <div className="text-center mb-10">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-heading font-bold uppercase text-foreground mb-3">
             Maak een Afspraak
