@@ -19,6 +19,7 @@ const QuoteNotificationEmail = (p: Props) => {
   if (p.email) lines.push(p.email)
   if (p.telefoon) lines.push(p.telefoon)
   if (p.locatie) lines.push(p.locatie)
+  lines.push('')
   if (p.dienst) lines.push(p.dienst)
   if (p.beschrijving) lines.push(p.beschrijving)
 
@@ -30,7 +31,9 @@ const QuoteNotificationEmail = (p: Props) => {
         <Container style={container}>
           <Text style={block}>
             <strong>Offerte aanvraag</strong>
-            <br />
+          </Text>
+
+          <Text style={block}>
             {lines.map((line, i) =>
               line === '' ? <br key={i} /> : <React.Fragment key={i}>{line}<br /></React.Fragment>
             )}
