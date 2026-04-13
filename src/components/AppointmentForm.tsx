@@ -103,6 +103,7 @@ const InputField = ({ label, required, icon, ...props }: {
 );
 
 const AppointmentForm = () => {
+  const formRef = useRef<HTMLDivElement>(null);
   const [step, setStep] = useState(0);
   const [submitting, setSubmitting] = useState(false);
 

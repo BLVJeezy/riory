@@ -6,10 +6,10 @@ import Footer from "@/components/Footer";
 
 const Afspraak = () => {
   usePageView("/afspraak");
-  useDocumentMeta({
-    title: "Afspraak Maken | Riory",
-    description: "Plan snel een afspraak voor ontstopping, camera-inspectie of put-lediging bij Riory.",
-  });
+  useDocumentMeta(
+    "Afspraak Maken | Riory",
+    "Plan snel een afspraak voor ontstopping, camera-inspectie of put-lediging bij Riory."
+  );
 
   return (
     <>
