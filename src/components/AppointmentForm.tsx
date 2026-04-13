@@ -108,6 +108,7 @@ const AppointmentForm = () => {
   const [step, setStep] = useState(0);
   const [submitting, setSubmitting] = useState(false);
   const [submitResult, setSubmitResult] = useState<"success" | "error" | null>(null);
+  const [retryCount, setRetryCount] = useState(0);
 
   // Step 1
   const [akkoord, setAkkoord] = useState(false);
