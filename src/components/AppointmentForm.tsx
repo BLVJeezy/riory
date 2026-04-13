@@ -164,12 +164,16 @@ const AppointmentForm = () => {
       case 2: return urgent !== null;
       case 3: return klantType !== "";
       case 4: {
-        if (!fact.naam || !fact.voornaam || !fact.email || !fact.telefoon || !fact.straat || !fact.huisnummer || !fact.postcode || !fact.plaats) return false;
         if (klantType === "syndicus") {
+          // VME address fields (stored in fact)
+          if (!fact.straat || !fact.huisnummer || !fact.postcode || !fact.plaats || !fact.telefoon) return false;
+          // Syndicus personal fields
           if (!syndicus.naam || !syndicus.voornaam || !syndicus.kantoor || !syndicus.email) return false;
-        }
-        if (werfIsFacturatie === false) {
-          if (!werf.straat || !werf.huisnummer || !werf.postcode || !werf.plaats) return false;
+        } else {
+          if (!fact.naam || !fact.voornaam || !fact.email || !fact.telefoon || !fact.straat || !fact.huisnummer || !fact.postcode || !fact.plaats) return false;
+          if (werfIsFacturatie === false) {
+            if (!werf.straat || !werf.huisnummer || !werf.postcode || !werf.plaats) return false;
+          }
         }
         return true;
       }
