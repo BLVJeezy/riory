@@ -176,18 +176,22 @@ const AppointmentForm = () => {
     }
   };
 
+  const scrollToForm = useCallback(() => {
+    requestAnimationFrame(() => {
+      formRef.current?.scrollIntoView({ block: "start", behavior: "instant" });
+    });
+  }, []);
+
   const next = () => {
     if (canProceed() && step < TOTAL_STEPS - 1) {
-      const scrollY = window.scrollY;
       setStep(step + 1);
-      requestAnimationFrame(() => window.scrollTo(0, scrollY));
+      scrollToForm();
     }
   };
   const prev = () => {
     if (step > 0) {
-      const scrollY = window.scrollY;
       setStep(step - 1);
-      requestAnimationFrame(() => window.scrollTo(0, scrollY));
+      scrollToForm();
     }
   };
 
