@@ -29,6 +29,7 @@ const QuoteForm = () => {
   });
   const [submitting, setSubmitting] = useState(false);
   const [submitResult, setSubmitResult] = useState<"success" | "error" | null>(null);
+  const [retryCount, setRetryCount] = useState(0);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -80,6 +81,7 @@ const QuoteForm = () => {
       setFormData({ naam: "", email: "", telefoon: "", locatie: "", dienst: "", beschrijving: "" });
     } catch (err) {
       console.error("Error submitting quote:", err);
+      setRetryCount((c) => c + 1);
       setSubmitResult("error");
     } finally {
       setSubmitting(false);
@@ -186,8 +188,13 @@ const QuoteForm = () => {
     </section>
     <SubmitResultOverlay
       status={submitResult}
+      retryCount={retryCount}
       onClose={() => setSubmitResult(null)}
       onRetry={() => setSubmitResult(null)}
+      onStartOver={() => {
+        setRetryCount(0);
+        setFormData({ naam: "", email: "", telefoon: "", locatie: "", dienst: "", beschrijving: "" });
+      }}
       successTitle="Offerte aanvraag verzonden!"
       successMessage="Wij nemen zo snel mogelijk contact met u op."
       errorTitle="Er ging iets mis"
