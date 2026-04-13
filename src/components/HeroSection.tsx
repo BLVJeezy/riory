@@ -8,8 +8,8 @@ const HeroSection = () => {
   return (
     <section id="home" className="relative min-h-screen flex items-center">
       <div className="absolute inset-0">
-        <img src={heroMobile} alt="Infrastructure project" className="w-full h-full object-cover md:hidden" />
-        <img src={heroDesktop} alt="Infrastructure project" className="w-full h-full object-cover hidden md:block" />
+        <img src={heroMobile} alt="Infrastructure project" className="w-full h-full object-cover md:hidden" loading="eager" fetchPriority="high" decoding="async" />
+        <img src={heroDesktop} alt="Infrastructure project" className="w-full h-full object-cover hidden md:block" loading="eager" fetchPriority="high" decoding="async" />
         <div className="absolute inset-0 bg-black/70" />
       </div>
       <div className="relative section-container px-6 md:px-8 pt-20">
