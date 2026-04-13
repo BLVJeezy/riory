@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Phone, AlertTriangle } from "lucide-react";
-import heroDesktop from "@/assets/hero-desktop.png";
-import heroMobile from "@/assets/hero-mobile.png";
+import heroDesktop from "@/assets/hero-desktop.webp";
+import heroMobile from "@/assets/hero-mobile.webp";
 
 
 const HeroSection = () => {
