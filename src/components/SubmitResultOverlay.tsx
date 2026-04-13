@@ -16,8 +16,10 @@ interface SubmitResultOverlayProps {
 
 const SubmitResultOverlay = ({
   status,
+  retryCount = 0,
   onClose,
   onRetry,
+  onStartOver,
   successTitle = "Succesvol verzonden!",
   successMessage = "Wij nemen zo snel mogelijk contact met u op.",
   errorTitle = "Er ging iets mis",
