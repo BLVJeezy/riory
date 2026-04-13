@@ -90,6 +90,7 @@ const QuoteForm = () => {
     "w-full h-12 pl-11 pr-4 rounded-lg bg-background border border-border text-foreground font-body text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-shadow";
 
   return (
+    <>
     <section id="offerte" className="section-padding bg-surface">
       <div className="section-container px-6 md:px-8">
         <div className="text-center mb-10">
