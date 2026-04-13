@@ -4,8 +4,10 @@ import { CheckCircle2, XCircle, RotateCcw } from "lucide-react";
 
 interface SubmitResultOverlayProps {
   status: "success" | "error" | null;
+  retryCount?: number;
   onClose: () => void;
   onRetry?: () => void;
+  onStartOver?: () => void;
   successTitle?: string;
   successMessage?: string;
   errorTitle?: string;
@@ -14,8 +16,10 @@ interface SubmitResultOverlayProps {
 
 const SubmitResultOverlay = ({
   status,
+  retryCount = 0,
   onClose,
   onRetry,
+  onStartOver,
   successTitle = "Succesvol verzonden!",
   successMessage = "Wij nemen zo snel mogelijk contact met u op.",
   errorTitle = "Er ging iets mis",
@@ -45,6 +49,16 @@ const SubmitResultOverlay = ({
       onRetry?.();
     }, 400);
   };
+
+  const handleStartOver = () => {
+    setVisible(false);
+    setTimeout(() => {
+      onClose();
+      onStartOver?.();
+    }, 400);
+  };
+
+  const showStartOver = retryCount >= 1;
 
   return (
     <div
@@ -141,7 +155,9 @@ const SubmitResultOverlay = ({
                 visible ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
               }`}
             >
-              {errorMessage}
+              {showStartOver
+                ? "Het is helaas niet gelukt. U kunt het formulier opnieuw invullen."
+                : errorMessage}
             </p>
 
             <div
@@ -152,11 +168,20 @@ const SubmitResultOverlay = ({
               <Button variant="outline" size="lg" onClick={handleClose} className="px-8 py-6 text-base">
                 Sluiten
               </Button>
-              {onRetry && (
-                <Button variant="cta" size="lg" onClick={handleRetry} className="px-8 py-6 text-base gap-2">
-                  <RotateCcw className="w-4 h-4" />
-                  Probeer opnieuw
-                </Button>
+              {showStartOver ? (
+                onStartOver && (
+                  <Button variant="cta" size="lg" onClick={handleStartOver} className="px-8 py-6 text-base gap-2">
+                    <RotateCcw className="w-4 h-4" />
+                    Opnieuw beginnen
+                  </Button>
+                )
+              ) : (
+                onRetry && (
+                  <Button variant="cta" size="lg" onClick={handleRetry} className="px-8 py-6 text-base gap-2">
+                    <RotateCcw className="w-4 h-4" />
+                    Probeer opnieuw
+                  </Button>
+                )
               )}
             </div>
           </>

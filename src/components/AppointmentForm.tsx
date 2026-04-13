@@ -108,6 +108,7 @@ const AppointmentForm = () => {
   const [step, setStep] = useState(0);
   const [submitting, setSubmitting] = useState(false);
   const [submitResult, setSubmitResult] = useState<"success" | "error" | null>(null);
+  const [retryCount, setRetryCount] = useState(0);
 
   // Step 1
   const [akkoord, setAkkoord] = useState(false);
@@ -313,6 +314,7 @@ const AppointmentForm = () => {
       setGevondenDetail("");
     } catch (err) {
       console.error("Error submitting appointment:", err);
+      setRetryCount((c) => c + 1);
       setSubmitResult("error");
     } finally {
       setSubmitting(false);
@@ -693,8 +695,25 @@ const AppointmentForm = () => {
       </div>
       <SubmitResultOverlay
         status={submitResult}
+        retryCount={retryCount}
         onClose={() => setSubmitResult(null)}
         onRetry={() => setSubmitResult(null)}
+        onStartOver={() => {
+          setRetryCount(0);
+          setStep(0);
+          setAkkoord(false);
+          setDienst("");
+          setUrgent(null);
+          setKlantType("");
+          setWoningOuder(null);
+          setWerfIsFacturatie(null);
+          setFact({ naam: "", voornaam: "", bedrijfsnaam: "", btw_nummer: "", kbo_nummer: "", straat: "", huisnummer: "", postcode: "", plaats: "", email: "", facturatie_email: "", telefoon: "" });
+          setWerf({ projectnaam: "", contactpersoon: "", straat: "", huisnummer: "", postcode: "", plaats: "", telefoon: "" });
+          setSyndicus({ naam: "", voornaam: "", kantoor: "", straat: "", huisnummer: "", postcode: "", plaats: "", telefoon: "", email: "", facturatie_email: "", naam_vme: "", kbo_nummer: "" });
+          setBeschrijving("");
+          setGevondenVia("");
+          setGevondenDetail("");
+        }}
         successTitle="Afspraak ingediend!"
         successMessage="Wij nemen zo snel mogelijk contact met u op."
         errorTitle="Er ging iets mis"
