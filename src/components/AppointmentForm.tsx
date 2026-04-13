@@ -200,6 +200,8 @@ const AppointmentForm = () => {
   const handleSubmit = async () => {
     setSubmitting(true);
     try {
+      // TEMP: forceer fout voor preview
+      throw new Error("Test error voor preview");
       const appointmentId = crypto.randomUUID();
       const { error } = await supabase.from("appointments").insert({
         id: appointmentId,
