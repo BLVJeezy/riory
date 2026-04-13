@@ -50,6 +50,16 @@ const SubmitResultOverlay = ({
     }, 400);
   };
 
+  const handleStartOver = () => {
+    setVisible(false);
+    setTimeout(() => {
+      onClose();
+      onStartOver?.();
+    }, 400);
+  };
+
+  const showStartOver = retryCount >= 1;
+
   return (
     <div
       className={`fixed inset-0 z-[9999] flex items-center justify-center transition-all duration-500 ${
