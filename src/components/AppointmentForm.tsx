@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
@@ -103,6 +103,7 @@ const InputField = ({ label, required, icon, ...props }: {
 );
 
 const AppointmentForm = () => {
+  const formRef = useRef<HTMLDivElement>(null);
   const [step, setStep] = useState(0);
   const [submitting, setSubmitting] = useState(false);
 
@@ -175,18 +176,22 @@ const AppointmentForm = () => {
     }
   };
 
+  const scrollToForm = useCallback(() => {
+    requestAnimationFrame(() => {
+      formRef.current?.scrollIntoView({ block: "start", behavior: "instant" });
+    });
+  }, []);
+
   const next = () => {
     if (canProceed() && step < TOTAL_STEPS - 1) {
-      const scrollY = window.scrollY;
       setStep(step + 1);
-      requestAnimationFrame(() => window.scrollTo(0, scrollY));
+      scrollToForm();
     }
   };
   const prev = () => {
     if (step > 0) {
-      const scrollY = window.scrollY;
       setStep(step - 1);
-      requestAnimationFrame(() => window.scrollTo(0, scrollY));
+      scrollToForm();
     }
   };
 
@@ -571,7 +576,7 @@ const AppointmentForm = () => {
   };
 
   return (
-    <section id="offerte" className="section-padding bg-surface">
+    <section id="offerte" className="section-padding bg-surface scroll-mt-8" ref={formRef}>
       <div className="section-container px-6 md:px-8">
         <div className="text-center mb-10">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-heading font-bold uppercase text-foreground mb-3">
