@@ -689,10 +689,6 @@ const AppointmentForm = () => {
           </div>
         </div>
       </div>
-    </section>
-  );
-};
-
       <SubmitResultOverlay
         status={submitResult}
         onClose={() => setSubmitResult(null)}
@@ -705,5 +701,7 @@ const AppointmentForm = () => {
     </section>
   );
 };
+
+export default AppointmentForm;
 
 export default AppointmentForm;
