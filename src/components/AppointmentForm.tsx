@@ -703,5 +703,3 @@ const AppointmentForm = () => {
 };
 
 export default AppointmentForm;
-
-export default AppointmentForm;
