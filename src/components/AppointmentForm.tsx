@@ -205,9 +205,9 @@ const AppointmentForm = () => {
   const handleSubmit = async () => {
     setSubmitting(true);
     try {
-      // TEMP: forceer fout voor preview
-      throw new Error("Test error voor preview");
       const appointmentId = crypto.randomUUID();
+      // For syndicus, use syndicus email as fact_email (required field)
+      const effectiveFactEmail = klantType === "syndicus" ? syndicus.email : fact.email;
       const { error } = await supabase.from("appointments").insert({
         id: appointmentId,
         dienst,
