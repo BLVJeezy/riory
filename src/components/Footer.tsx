@@ -33,6 +33,9 @@ const Footer = () => {
                 <a href="#projecten" className="text-sm text-primary-foreground/50 hover:text-primary transition-colors font-body">Referenties</a>
               </li>
               <li>
+                <a href="#prijscalculator" className="text-sm text-primary-foreground/50 hover:text-primary transition-colors font-body">Prijscalculator</a>
+              </li>
+              <li>
                 <Link to="/afspraak" className="text-sm text-primary-foreground/50 hover:text-primary transition-colors font-body">Afspraak</Link>
               </li>
             </ul>

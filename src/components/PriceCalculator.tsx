@@ -363,7 +363,7 @@ const PriceCalculator = () => {
   const result = getPrice();
 
   return (
-    <section className="py-16 md:py-24 bg-background">
+    <section id="prijscalculator" className="py-16 md:py-24 bg-background">
       <div className="container max-w-3xl mx-auto px-4">
         <div className="text-center mb-10">
           <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full mb-4">
