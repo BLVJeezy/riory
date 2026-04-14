@@ -549,7 +549,7 @@ const PriceCalculator = () => {
                 </ul>
                 <div className="pt-4">
                   <Button variant="cta" size="lg" className="w-full" asChild>
-                    <Link to="/afspraak">
+                    <Link to={`/afspraak?dienst=${encodeURIComponent(getServiceMapping())}&straat=${encodeURIComponent(address.straat)}&huisnummer=${encodeURIComponent(address.huisnummer)}&postcode=${encodeURIComponent(address.postcode)}&plaats=${encodeURIComponent(address.plaats)}`}>
                       Interventie boeken <ArrowRight className="w-4 h-4" />
                     </Link>
                   </Button>
