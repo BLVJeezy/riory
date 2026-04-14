@@ -199,6 +199,7 @@ const PriceCalculator = () => {
     return selectedService ? map[selectedService] : "";
   };
 
+  const canShowResult = (): boolean => {
     if (!selectedService) return false;
     switch (selectedService) {
       case "interventie":
