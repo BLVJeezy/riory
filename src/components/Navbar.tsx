@@ -8,6 +8,7 @@ import logoWhite from "@/assets/riory-logo-white.svg";
 
 const navLinks = [
   { label: "Onze Diensten", href: "/diensten" },
+  { label: "Prijscalculator", href: "/prijscalculator" },
   { label: "Waarom Kiezen Voor Ons?", href: "#waarom-ons" },
   { label: "Referenties", href: "#projecten" },
 ];

@@ -1,0 +1,594 @@
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Card } from "@/components/ui/card";
+import { Link } from "react-router-dom";
+import {
+  Calculator,
+  MapPin,
+  ArrowRight,
+  ArrowLeft,
+  CheckCircle2,
+  AlertTriangle,
+  Wrench,
+  Camera,
+  Droplets,
+  Home,
+  Trash2,
+  CloudRain,
+  Info,
+} from "lucide-react";
+
+type ServiceId =
+  | "interventie"
+  | "camera"
+  | "pompwerken"
+  | "dakgoot"
+  | "septisch"
+  | "regenput";
+
+interface ServiceOption {
+  id: ServiceId;
+  label: string;
+  icon: React.ReactNode;
+  description: string;
+}
+
+const services: ServiceOption[] = [
+  {
+    id: "interventie",
+    label: "Interventie / Ontstopping",
+    icon: <Wrench className="w-6 h-6" />,
+    description: "Standaard of met camera-inspectie",
+  },
+  {
+    id: "camera",
+    label: "Camera-inspectie / Plaatsbepaling afvoeren",
+    icon: <Camera className="w-6 h-6" />,
+    description: "Inclusief 1 uur ter plaatse",
+  },
+  {
+    id: "pompwerken",
+    label: "Pompwerken / Wateroverlast",
+    icon: <Droplets className="w-6 h-6" />,
+    description: "Bij wateroverlast of liftput",
+  },
+  {
+    id: "dakgoot",
+    label: "Dakgootreiniging",
+    icon: <Home className="w-6 h-6" />,
+    description: "Prijs per strekkende meter",
+  },
+  {
+    id: "septisch",
+    label: "Ledigen septische put",
+    icon: <Trash2 className="w-6 h-6" />,
+    description: "Tot 2000L, goed bereikbaar",
+  },
+  {
+    id: "regenput",
+    label: "Reinigen regenput",
+    icon: <CloudRain className="w-6 h-6" />,
+    description: "Bepaal de inhoud van uw regenwaterput",
+  },
+];
+
+const PriceCalculator = () => {
+  const [step, setStep] = useState(0);
+  const [agreed, setAgreed] = useState(false);
+  const [address, setAddress] = useState({
+    straat: "",
+    huisnummer: "",
+    postcode: "",
+    plaats: "",
+    land: "België",
+  });
+  const [selectedService, setSelectedService] = useState<ServiceId | null>(null);
+
+  // Service-specific state
+  const [interventieType, setInterventieType] = useState<"standaard" | "camera">("standaard");
+  const [liftputOnderWater, setLiftputOnderWater] = useState<"ja" | "nee" | null>(null);
+  const [dakgootMeters, setDakgootMeters] = useState({ v1: "", v2: "", v3: "" });
+  const [regenputInhoud, setRegenputInhoud] = useState<string | null>(null);
+
+  const canProceedStep1 =
+    address.straat && address.huisnummer && address.postcode && address.plaats;
+
+  const getPrice = (): { label: string; price: string; details: string[] } | null => {
+    if (!selectedService) return null;
+    switch (selectedService) {
+      case "interventie":
+        return interventieType === "standaard"
+          ? {
+              label: "Interventie / Ontstopping (Standaard)",
+              price: "€ 165",
+              details: ["+ voorrijkosten (km)", "Inclusief 1 uur ter plaatse"],
+            }
+          : {
+              label: "Interventie / Ontstopping (Met camera)",
+              price: "€ 275",
+              details: ["+ voorrijkosten (km)", "Inclusief 1 uur ter plaatse"],
+            };
+      case "camera":
+        return {
+          label: "Camera-inspectie / Plaatsbepaling afvoeren",
+          price: "€ 275",
+          details: ["+ voorrijkosten (km)", "Inclusief 1 uur ter plaatse"],
+        };
+      case "pompwerken":
+        if (!liftputOnderWater) return null;
+        return liftputOnderWater === "ja"
+          ? {
+              label: "Pompwerken – Liftput onder water",
+              price: "€ 615",
+              details: [
+                "€ 165 (1e uur) + € 450 toeslag liftput",
+                "+ voorrijkosten (km)",
+              ],
+            }
+          : {
+              label: "Pompwerken / Wateroverlast",
+              price: "€ 165",
+              details: ["+ voorrijkosten (km)", "Inclusief 1 uur ter plaatse"],
+            };
+      case "dakgoot": {
+        const m1 = parseFloat(dakgootMeters.v1) || 0;
+        const m2 = parseFloat(dakgootMeters.v2) || 0;
+        const m3 = parseFloat(dakgootMeters.v3) || 0;
+        const total = m1 * 8.5 + m2 * 9.5 + m3 * 11;
+        const totalMeters = m1 + m2 + m3;
+        if (totalMeters < 10)
+          return {
+            label: "Dakgootreiniging",
+            price: "Min. 10m vereist",
+            details: ["Geldig tot 3 verdiepen of 10 meter hoogte", "Minimum 10m lengte te reinigen"],
+          };
+        return {
+          label: "Dakgootreiniging",
+          price: `€ ${total.toFixed(2)}`,
+          details: [
+            `1 verdiep: ${m1}m × € 8,50 = € ${(m1 * 8.5).toFixed(2)}`,
+            `2 verdiepen: ${m2}m × € 9,50 = € ${(m2 * 9.5).toFixed(2)}`,
+            `3 verdiepen: ${m3}m × € 11,00 = € ${(m3 * 11).toFixed(2)}`,
+            "+ voorrijkosten (km)",
+            "Geldig tot 3 verdiepen of 10 meter hoogte",
+          ].filter((d) => !d.startsWith("0m")),
+        };
+      }
+      case "septisch":
+        return {
+          label: "Ledigen septische put",
+          price: "€ 225",
+          details: ["+ voorrijkosten (km)", "Tot 2000L", "Goed bereikbaar"],
+        };
+      case "regenput":
+        if (!regenputInhoud) return null;
+        const prices: Record<string, string> = {
+          "5000": "€ 329,45",
+          "7500": "€ 349,77",
+          "10000": "€ 369,45",
+          "15000": "€ 406,29",
+          "20000": "Op aanvraag",
+        };
+        return {
+          label: `Reinigen regenput (${regenputInhoud === "20000" ? "20.000L" : `≤ ${parseInt(regenputInhoud).toLocaleString("nl-BE")}L`})`,
+          price: prices[regenputInhoud] || "Op aanvraag",
+          details: [
+            regenputInhoud !== "20000" ? "+ voorrijkosten (km)" : "",
+            "Deksel goed bereikbaar en toegankelijk",
+            "Inclusief 5 cm slib op de bodem",
+          ].filter(Boolean),
+        };
+      default:
+        return null;
+    }
+  };
+
+  const canShowResult = (): boolean => {
+    if (!selectedService) return false;
+    switch (selectedService) {
+      case "interventie":
+      case "camera":
+      case "septisch":
+        return true;
+      case "pompwerken":
+        return liftputOnderWater !== null;
+      case "dakgoot": {
+        const m1 = parseFloat(dakgootMeters.v1) || 0;
+        const m2 = parseFloat(dakgootMeters.v2) || 0;
+        const m3 = parseFloat(dakgootMeters.v3) || 0;
+        return m1 + m2 + m3 > 0;
+      }
+      case "regenput":
+        return regenputInhoud !== null;
+      default:
+        return false;
+    }
+  };
+
+  const renderServiceOptions = () => {
+    if (!selectedService) return null;
+
+    switch (selectedService) {
+      case "interventie":
+        return (
+          <div className="space-y-4">
+            <Label className="text-base font-heading font-semibold">Type interventie</Label>
+            <RadioGroup
+              value={interventieType}
+              onValueChange={(v) => setInterventieType(v as "standaard" | "camera")}
+              className="space-y-3"
+            >
+              <label className="flex items-center gap-3 p-4 rounded-lg border border-border bg-card cursor-pointer hover:border-primary transition-colors">
+                <RadioGroupItem value="standaard" />
+                <div>
+                  <p className="font-medium">Standaard</p>
+                  <p className="text-sm text-muted-foreground">€ 165 (+km) – Incl. 1 uur ter plaatse</p>
+                </div>
+              </label>
+              <label className="flex items-center gap-3 p-4 rounded-lg border border-border bg-card cursor-pointer hover:border-primary transition-colors">
+                <RadioGroupItem value="camera" />
+                <div>
+                  <p className="font-medium">Met camera-inspectie</p>
+                  <p className="text-sm text-muted-foreground">€ 275 (+km) – Incl. 1 uur ter plaatse</p>
+                </div>
+              </label>
+            </RadioGroup>
+          </div>
+        );
+
+      case "pompwerken":
+        return (
+          <div className="space-y-4">
+            <Label className="text-base font-heading font-semibold">Liftput onder water?</Label>
+            <RadioGroup
+              value={liftputOnderWater || ""}
+              onValueChange={(v) => setLiftputOnderWater(v as "ja" | "nee")}
+              className="space-y-3"
+            >
+              <label className="flex items-center gap-3 p-4 rounded-lg border border-border bg-card cursor-pointer hover:border-primary transition-colors">
+                <RadioGroupItem value="ja" />
+                <div>
+                  <p className="font-medium">Ja</p>
+                  <p className="text-sm text-muted-foreground">€ 165 (1e uur) + € 450 toeslag liftput (+km)</p>
+                </div>
+              </label>
+              <label className="flex items-center gap-3 p-4 rounded-lg border border-border bg-card cursor-pointer hover:border-primary transition-colors">
+                <RadioGroupItem value="nee" />
+                <div>
+                  <p className="font-medium">Nee</p>
+                  <p className="text-sm text-muted-foreground">€ 165 (+km) – Incl. 1 uur ter plaatse</p>
+                </div>
+              </label>
+            </RadioGroup>
+          </div>
+        );
+
+      case "dakgoot":
+        return (
+          <div className="space-y-4">
+            <Label className="text-base font-heading font-semibold">
+              Geschatte meters per verdieping
+            </Label>
+            <p className="text-sm text-muted-foreground">
+              Geldig tot 3 verdiepen of 10 meter hoogte. Minimum 10m lengte te reinigen.
+            </p>
+            <div className="grid gap-3">
+              <div className="flex items-center gap-3">
+                <Label className="w-32 text-sm">1 verdiep</Label>
+                <Input
+                  type="number"
+                  min="0"
+                  placeholder="meter"
+                  value={dakgootMeters.v1}
+                  onChange={(e) => setDakgootMeters((p) => ({ ...p, v1: e.target.value }))}
+                  className="max-w-[120px]"
+                />
+                <span className="text-sm text-muted-foreground">× € 8,50/m</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <Label className="w-32 text-sm">2 verdiepen</Label>
+                <Input
+                  type="number"
+                  min="0"
+                  placeholder="meter"
+                  value={dakgootMeters.v2}
+                  onChange={(e) => setDakgootMeters((p) => ({ ...p, v2: e.target.value }))}
+                  className="max-w-[120px]"
+                />
+                <span className="text-sm text-muted-foreground">× € 9,50/m</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <Label className="w-32 text-sm">3 verdiepen</Label>
+                <Input
+                  type="number"
+                  min="0"
+                  placeholder="meter"
+                  value={dakgootMeters.v3}
+                  onChange={(e) => setDakgootMeters((p) => ({ ...p, v3: e.target.value }))}
+                  className="max-w-[120px]"
+                />
+                <span className="text-sm text-muted-foreground">× € 11,00/m</span>
+              </div>
+            </div>
+          </div>
+        );
+
+      case "regenput":
+        return (
+          <div className="space-y-4">
+            <Label className="text-base font-heading font-semibold">
+              Bepaal de inhoud van uw regenwaterput
+            </Label>
+            <RadioGroup
+              value={regenputInhoud || ""}
+              onValueChange={setRegenputInhoud}
+              className="grid gap-3 sm:grid-cols-2"
+            >
+              {[
+                { value: "5000", label: "≤ 5.000L", price: "€ 329,45 (+km)" },
+                { value: "7500", label: "7.500L", price: "€ 349,77 (+km)" },
+                { value: "10000", label: "10.000L", price: "€ 369,45 (+km)" },
+                { value: "15000", label: "15.000L", price: "€ 406,29 (+km)" },
+                { value: "20000", label: "20.000L", price: "Op aanvraag" },
+              ].map((opt) => (
+                <label
+                  key={opt.value}
+                  className="flex items-center gap-3 p-4 rounded-lg border border-border bg-card cursor-pointer hover:border-primary transition-colors"
+                >
+                  <RadioGroupItem value={opt.value} />
+                  <div>
+                    <p className="font-medium">{opt.label}</p>
+                    <p className="text-sm text-muted-foreground">{opt.price}</p>
+                    <p className="text-xs text-muted-foreground">
+                      Deksel goed bereikbaar en toegankelijk. Incl. 5 cm slib.
+                    </p>
+                  </div>
+                </label>
+              ))}
+            </RadioGroup>
+          </div>
+        );
+
+      case "camera":
+      case "septisch":
+      default:
+        return null;
+    }
+  };
+
+  const result = getPrice();
+
+  return (
+    <section className="py-16 md:py-24 bg-background">
+      <div className="container max-w-3xl mx-auto px-4">
+        <div className="text-center mb-10">
+          <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full mb-4">
+            <Calculator className="w-5 h-5" />
+            <span className="font-heading font-semibold text-sm uppercase tracking-wider">
+              Prijscalculator
+            </span>
+          </div>
+          <h1 className="font-heading text-3xl md:text-4xl font-bold text-foreground">
+            Bereken uw indicatieve prijs
+          </h1>
+        </div>
+
+        {/* Step 0: Disclaimer */}
+        {step === 0 && (
+          <Card className="p-6 md:p-8 space-y-6 animate-fade-in">
+            <div className="flex gap-3 p-4 rounded-lg bg-primary/5 border border-primary/20">
+              <AlertTriangle className="w-5 h-5 text-primary shrink-0 mt-0.5" />
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Deze berekeningen zijn louter informatief. Riory kan in geen enkel geval
+                gebonden worden aan deze prijs. Elke interventie is uniek en kan niet
+                vergeleken worden met andere klanten door de verschillende voorrijkosten per
+                klant. De exacte prijs van de interventie zal steeds ter plaatse afgerekend
+                worden net na de interventie.
+              </p>
+            </div>
+            <div className="flex items-start gap-3">
+              <Checkbox
+                id="akkoord"
+                checked={agreed}
+                onCheckedChange={(v) => setAgreed(v === true)}
+              />
+              <Label htmlFor="akkoord" className="cursor-pointer leading-relaxed">
+                Ik begrijp dat deze prijzen louter informatief zijn en niet bindend.
+              </Label>
+            </div>
+            <Button
+              variant="cta"
+              size="lg"
+              disabled={!agreed}
+              onClick={() => setStep(1)}
+              className="w-full"
+            >
+              Verder <ArrowRight className="w-4 h-4" />
+            </Button>
+          </Card>
+        )}
+
+        {/* Step 1: Address */}
+        {step === 1 && (
+          <Card className="p-6 md:p-8 space-y-6 animate-fade-in">
+            <div className="flex items-center gap-2 mb-2">
+              <MapPin className="w-5 h-5 text-primary" />
+              <h2 className="font-heading text-xl font-semibold">Werkadres</h2>
+            </div>
+            <p className="text-sm text-muted-foreground">
+              Vul het werkadres in om de voorrijkosten te berekenen. Kilometers worden
+              automatisch berekend vanuit Riory tot klant en terug naar Riory. Beperkt tot
+              30 min reistijd.
+            </p>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div>
+                <Label>Straat *</Label>
+                <Input
+                  value={address.straat}
+                  onChange={(e) => setAddress((p) => ({ ...p, straat: e.target.value }))}
+                  placeholder="Straatnaam"
+                />
+              </div>
+              <div>
+                <Label>Huisnummer *</Label>
+                <Input
+                  value={address.huisnummer}
+                  onChange={(e) => setAddress((p) => ({ ...p, huisnummer: e.target.value }))}
+                  placeholder="Nr."
+                />
+              </div>
+              <div>
+                <Label>Postcode *</Label>
+                <Input
+                  value={address.postcode}
+                  onChange={(e) => setAddress((p) => ({ ...p, postcode: e.target.value }))}
+                  placeholder="Postcode"
+                />
+              </div>
+              <div>
+                <Label>Plaats *</Label>
+                <Input
+                  value={address.plaats}
+                  onChange={(e) => setAddress((p) => ({ ...p, plaats: e.target.value }))}
+                  placeholder="Gemeente"
+                />
+              </div>
+              <div className="sm:col-span-2">
+                <Label>Land</Label>
+                <Input
+                  value={address.land}
+                  onChange={(e) => setAddress((p) => ({ ...p, land: e.target.value }))}
+                  placeholder="Land"
+                />
+              </div>
+            </div>
+            <div className="flex gap-3">
+              <Button variant="outline" onClick={() => setStep(0)}>
+                <ArrowLeft className="w-4 h-4" /> Terug
+              </Button>
+              <Button
+                variant="cta"
+                size="lg"
+                disabled={!canProceedStep1}
+                onClick={() => setStep(2)}
+                className="flex-1"
+              >
+                Verder <ArrowRight className="w-4 h-4" />
+              </Button>
+            </div>
+          </Card>
+        )}
+
+        {/* Step 2: Service selection */}
+        {step === 2 && (
+          <Card className="p-6 md:p-8 space-y-6 animate-fade-in">
+            <h2 className="font-heading text-xl font-semibold">Kies een van onze diensten</h2>
+            <div className="grid gap-3 sm:grid-cols-2">
+              {services.map((s) => (
+                <button
+                  key={s.id}
+                  onClick={() => {
+                    setSelectedService(s.id);
+                    // Reset sub-options
+                    setInterventieType("standaard");
+                    setLiftputOnderWater(null);
+                    setDakgootMeters({ v1: "", v2: "", v3: "" });
+                    setRegenputInhoud(null);
+                    setStep(3);
+                  }}
+                  className="flex items-start gap-3 p-4 rounded-lg border border-border bg-card text-left hover:border-primary hover:shadow-md transition-all group"
+                >
+                  <div className="p-2 rounded-md bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                    {s.icon}
+                  </div>
+                  <div>
+                    <p className="font-medium text-foreground">{s.label}</p>
+                    <p className="text-sm text-muted-foreground">{s.description}</p>
+                  </div>
+                </button>
+              ))}
+            </div>
+            <Button variant="outline" onClick={() => setStep(1)}>
+              <ArrowLeft className="w-4 h-4" /> Terug
+            </Button>
+          </Card>
+        )}
+
+        {/* Step 3: Service-specific options + result */}
+        {step === 3 && selectedService && (
+          <Card className="p-6 md:p-8 space-y-6 animate-fade-in">
+            <h2 className="font-heading text-xl font-semibold">
+              {services.find((s) => s.id === selectedService)?.label}
+            </h2>
+
+            {renderServiceOptions()}
+
+            {canShowResult() && result && (
+              <div className="mt-6 p-6 rounded-xl bg-primary/5 border border-primary/20 space-y-3">
+                <div className="flex items-center gap-2 text-primary">
+                  <CheckCircle2 className="w-5 h-5" />
+                  <span className="font-heading font-semibold text-sm uppercase tracking-wider">
+                    Indicatieve prijs
+                  </span>
+                </div>
+                <p className="text-3xl font-heading font-bold text-foreground">
+                  {result.price}
+                </p>
+                <p className="text-sm font-medium text-foreground">{result.label}</p>
+                <ul className="space-y-1">
+                  {result.details.map((d, i) => (
+                    <li key={i} className="text-sm text-muted-foreground flex items-start gap-2">
+                      <Info className="w-3.5 h-3.5 mt-0.5 shrink-0" />
+                      {d}
+                    </li>
+                  ))}
+                </ul>
+                <div className="pt-4">
+                  <Button variant="cta" size="lg" className="w-full" asChild>
+                    <Link to="/afspraak">
+                      Interventie boeken <ArrowRight className="w-4 h-4" />
+                    </Link>
+                  </Button>
+                </div>
+              </div>
+            )}
+
+            <div className="flex gap-3">
+              <Button variant="outline" onClick={() => setStep(2)}>
+                <ArrowLeft className="w-4 h-4" /> Terug
+              </Button>
+              <Button
+                variant="ghost"
+                onClick={() => {
+                  setStep(0);
+                  setAgreed(false);
+                  setSelectedService(null);
+                }}
+              >
+                Opnieuw beginnen
+              </Button>
+            </div>
+          </Card>
+        )}
+
+        {/* Step indicator */}
+        <div className="flex justify-center gap-2 mt-8">
+          {[0, 1, 2, 3].map((s) => (
+            <div
+              key={s}
+              className={`w-2.5 h-2.5 rounded-full transition-colors ${
+                s === step ? "bg-primary" : "bg-border"
+              }`}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default PriceCalculator;
