@@ -105,18 +105,18 @@ const PriceCalculator = () => {
           ? {
               label: "Interventie / Ontstopping (Standaard)",
               price: "€ 165",
-              details: ["+ voorrijkosten (km)", "Inclusief 1 uur ter plaatse"],
+              details: ["+ rijkosten (km)", "Inclusief 1 uur ter plaatse"],
             }
           : {
               label: "Interventie / Ontstopping (Met camera)",
               price: "€ 275",
-              details: ["+ voorrijkosten (km)", "Inclusief 1 uur ter plaatse"],
+              details: ["+ rijkosten (km)", "Inclusief 1 uur ter plaatse"],
             };
       case "camera":
         return {
           label: "Camera-inspectie / Plaatsbepaling afvoeren",
           price: "€ 275",
-          details: ["+ voorrijkosten (km)", "Inclusief 1 uur ter plaatse"],
+          details: ["+ rijkosten (km)", "Inclusief 1 uur ter plaatse"],
         };
       case "pompwerken":
         if (!liftputOnderWater) return null;
@@ -126,13 +126,13 @@ const PriceCalculator = () => {
               price: "€ 615",
               details: [
                 "€ 165 (1e uur) + € 450 toeslag liftput",
-                "+ voorrijkosten (km)",
+                "+ rijkosten (km)",
               ],
             }
           : {
               label: "Pompwerken / Wateroverlast",
               price: "€ 165",
-              details: ["+ voorrijkosten (km)", "Inclusief 1 uur ter plaatse"],
+              details: ["+ rijkosten (km)", "Inclusief 1 uur ter plaatse"],
             };
       case "dakgoot": {
         const m1 = parseFloat(dakgootMeters.v1) || 0;
@@ -153,7 +153,7 @@ const PriceCalculator = () => {
             `1 verdiep: ${m1}m × € 8,50 = € ${(m1 * 8.5).toFixed(2)}`,
             `2 verdiepen: ${m2}m × € 9,50 = € ${(m2 * 9.5).toFixed(2)}`,
             `3 verdiepen: ${m3}m × € 11,00 = € ${(m3 * 11).toFixed(2)}`,
-            "+ voorrijkosten (km)",
+            "+ rijkosten (km)",
             "Geldig tot 3 verdiepen of 10 meter hoogte",
           ].filter((d) => !d.startsWith("0m")),
         };
@@ -162,7 +162,7 @@ const PriceCalculator = () => {
         return {
           label: "Ledigen septische put",
           price: "€ 225",
-          details: ["+ voorrijkosten (km)", "Tot 2000L", "Goed bereikbaar"],
+          details: ["+ rijkosten (km)", "Tot 2000L", "Goed bereikbaar"],
         };
       case "regenput":
         if (!regenputInhoud) return null;
@@ -177,7 +177,7 @@ const PriceCalculator = () => {
           label: `Reinigen regenput (${regenputInhoud === "20000" ? "20.000L" : `≤ ${parseInt(regenputInhoud).toLocaleString("nl-BE")}L`})`,
           price: prices[regenputInhoud] || "Op aanvraag",
           details: [
-            regenputInhoud !== "20000" ? "+ voorrijkosten (km)" : "",
+            regenputInhoud !== "20000" ? "+ rijkosten (km)" : "",
             "Deksel goed bereikbaar en toegankelijk",
             "Inclusief 5 cm slib op de bodem",
           ].filter(Boolean),
@@ -385,7 +385,7 @@ const PriceCalculator = () => {
               <p className="text-sm text-muted-foreground leading-relaxed">
                 Deze berekeningen zijn louter informatief. Riory kan in geen enkel geval
                 gebonden worden aan deze prijs. Elke interventie is uniek en kan niet
-                vergeleken worden met andere klanten door de verschillende voorrijkosten per
+                vergeleken worden met andere klanten door de verschillende rijkosten per
                 klant. De exacte prijs van de interventie zal steeds ter plaatse afgerekend
                 worden net na de interventie.
               </p>
@@ -420,7 +420,7 @@ const PriceCalculator = () => {
               <h2 className="font-heading text-xl font-semibold">Werkadres</h2>
             </div>
             <p className="text-sm text-muted-foreground">
-              Vul het werkadres in om de voorrijkosten te berekenen. Kilometers worden
+              Vul het werkadres in om de rijkosten te berekenen. Kilometers worden
               automatisch berekend vanuit Riory tot klant en terug naar Riory. Beperkt tot
               30 min reistijd.
             </p>
