@@ -187,6 +187,18 @@ const PriceCalculator = () => {
     }
   };
 
+  const getServiceMapping = (): string => {
+    const map: Record<ServiceId, string> = {
+      interventie: interventieType === "camera" ? "Camera inspectie riool" : "Ontstopping",
+      camera: "Camera inspectie riool",
+      pompwerken: "Wateroverlast/pompwerken",
+      dakgoot: "Dakgootreiniging",
+      septisch: "Septische put ledigen",
+      regenput: "Reinigen van regenput",
+    };
+    return selectedService ? map[selectedService] : "";
+  };
+
   const canShowResult = (): boolean => {
     if (!selectedService) return false;
     switch (selectedService) {
@@ -549,7 +561,7 @@ const PriceCalculator = () => {
                 </ul>
                 <div className="pt-4">
                   <Button variant="cta" size="lg" className="w-full" asChild>
-                    <Link to="/afspraak">
+                    <Link to={`/afspraak?dienst=${encodeURIComponent(getServiceMapping())}&straat=${encodeURIComponent(address.straat)}&huisnummer=${encodeURIComponent(address.huisnummer)}&postcode=${encodeURIComponent(address.postcode)}&plaats=${encodeURIComponent(address.plaats)}`}>
                       Interventie boeken <ArrowRight className="w-4 h-4" />
                     </Link>
                   </Button>
