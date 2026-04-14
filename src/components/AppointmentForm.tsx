@@ -105,6 +105,7 @@ const InputField = ({ label, required, icon, ...props }: {
 );
 
 const AppointmentForm = () => {
+  const [searchParams] = useSearchParams();
   const formRef = useRef<HTMLDivElement>(null);
   const [step, setStep] = useState(0);
   const [submitting, setSubmitting] = useState(false);
@@ -150,6 +151,28 @@ const AppointmentForm = () => {
   // Step 7
   const [gevondenVia, setGevondenVia] = useState("");
   const [gevondenDetail, setGevondenDetail] = useState("");
+
+  // Prefill from URL params (from prijscalculator)
+  useEffect(() => {
+    const paramDienst = searchParams.get("dienst");
+    const paramStraat = searchParams.get("straat");
+    const paramHuisnummer = searchParams.get("huisnummer");
+    const paramPostcode = searchParams.get("postcode");
+    const paramPlaats = searchParams.get("plaats");
+
+    if (paramDienst && diensten.includes(paramDienst)) {
+      setDienst(paramDienst);
+    }
+    if (paramStraat || paramHuisnummer || paramPostcode || paramPlaats) {
+      setWerf((p) => ({
+        ...p,
+        straat: paramStraat || p.straat,
+        huisnummer: paramHuisnummer || p.huisnummer,
+        postcode: paramPostcode || p.postcode,
+        plaats: paramPlaats || p.plaats,
+      }));
+    }
+  }, [searchParams]);
 
   const handleFactChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setFact((p) => ({ ...p, [e.target.name]: e.target.value }));
