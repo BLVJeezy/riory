@@ -1,4 +1,5 @@
-import React, { useState, useRef, useCallback } from "react";
+import React, { useState, useRef, useCallback, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import SubmitResultOverlay from "@/components/SubmitResultOverlay";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
