@@ -21,19 +21,19 @@ const Footer = () => {
             </h4>
             <ul className="space-y-2">
               <li>
-                <a href="#home" className="text-sm text-primary-foreground/50 hover:text-primary transition-colors font-body">Home</a>
+                <Link to="/#home" className="text-sm text-primary-foreground/50 hover:text-primary transition-colors font-body">Home</Link>
               </li>
               <li>
                 <Link to="/diensten" className="text-sm text-primary-foreground/50 hover:text-primary transition-colors font-body">Onze Diensten</Link>
               </li>
               <li>
-                <a href="#waarom-ons" className="text-sm text-primary-foreground/50 hover:text-primary transition-colors font-body">Waarom Kiezen Voor Ons?</a>
+                <Link to="/#waarom-ons" className="text-sm text-primary-foreground/50 hover:text-primary transition-colors font-body">Waarom Kiezen Voor Ons?</Link>
               </li>
               <li>
-                <a href="#projecten" className="text-sm text-primary-foreground/50 hover:text-primary transition-colors font-body">Referenties</a>
+                <Link to="/#projecten" className="text-sm text-primary-foreground/50 hover:text-primary transition-colors font-body">Referenties</Link>
               </li>
               <li>
-                <a href="#prijscalculator" className="text-sm text-primary-foreground/50 hover:text-primary transition-colors font-body">Prijscalculator</a>
+                <Link to="/#prijscalculator" className="text-sm text-primary-foreground/50 hover:text-primary transition-colors font-body">Prijscalculator</Link>
               </li>
               <li>
                 <Link to="/afspraak" className="text-sm text-primary-foreground/50 hover:text-primary transition-colors font-body">Afspraak</Link>
