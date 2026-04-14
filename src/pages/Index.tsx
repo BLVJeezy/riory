@@ -8,6 +8,7 @@ import WhyChooseUs from "@/components/WhyChooseUs";
 import ProjectsSection from "@/components/ProjectsSection";
 import ReviewsSection from "@/components/ReviewsSection";
 import PriceCalculator from "@/components/PriceCalculator";
+import AppointmentForm from "@/components/AppointmentForm";
 import AboutSection from "@/components/AboutSection";
 import ContactSection from "@/components/ContactSection";
 import FAQSection from "@/components/FAQSection";
@@ -29,6 +30,7 @@ const Index = () => {
       <ProjectsSection />
       <ReviewsSection />
       <PriceCalculator />
+      <AppointmentForm />
       <FAQSection />
       <ContactSection />
       <Footer />
