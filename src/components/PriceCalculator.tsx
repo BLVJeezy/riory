@@ -187,7 +187,18 @@ const PriceCalculator = () => {
     }
   };
 
-  const canShowResult = (): boolean => {
+  const getServiceMapping = (): string => {
+    const map: Record<ServiceId, string> = {
+      interventie: interventieType === "camera" ? "Camera inspectie riool" : "Ontstopping",
+      camera: "Camera inspectie riool",
+      pompwerken: "Wateroverlast/pompwerken",
+      dakgoot: "Dakgootreiniging",
+      septisch: "Septische put ledigen",
+      regenput: "Reinigen van regenput",
+    };
+    return selectedService ? map[selectedService] : "";
+  };
+
     if (!selectedService) return false;
     switch (selectedService) {
       case "interventie":
