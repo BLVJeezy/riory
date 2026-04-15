@@ -37,6 +37,7 @@ Deno.serve(async (req) => {
 
     const response = await fetch(url.toString());
     const data = await response.json();
+    console.log("Google Maps response:", JSON.stringify(data));
 
     if (
       data.status !== "OK" ||
@@ -47,6 +48,8 @@ Deno.serve(async (req) => {
         JSON.stringify({
           error: "Kon afstand niet berekenen",
           details: data.rows?.[0]?.elements?.[0]?.status || data.status,
+          error_message: data.error_message || null,
+          full_response: data,
         }),
         { status: 422, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
