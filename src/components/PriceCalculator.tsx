@@ -105,18 +105,18 @@ const PriceCalculator = () => {
           ? {
               label: "Interventie / Ontstopping (Standaard)",
               price: "€ 165",
-              details: ["+ rijkosten (km)", "Inclusief 1 uur ter plaatse"],
+              details: ["+ reiskosten (€ 1,45/km heen en terug)", "Inclusief 1 uur ter plaatse", "Prijzen excl. BTW"],
             }
           : {
               label: "Interventie / Ontstopping (Met camera)",
               price: "€ 275",
-              details: ["+ rijkosten (km)", "Inclusief 1 uur ter plaatse"],
+              details: ["+ reiskosten (€ 1,45/km heen en terug)", "Inclusief 1 uur ter plaatse", "Prijzen excl. BTW"],
             };
       case "camera":
         return {
           label: "Camera-inspectie / Plaatsbepaling afvoeren",
           price: "€ 275",
-          details: ["+ rijkosten (km)", "Inclusief 1 uur ter plaatse"],
+          details: ["+ reiskosten (€ 1,45/km heen en terug)", "Inclusief 1 uur ter plaatse", "Prijzen excl. BTW"],
         };
       case "pompwerken":
         if (!liftputOnderWater) return null;
@@ -126,13 +126,14 @@ const PriceCalculator = () => {
               price: "€ 615",
               details: [
                 "€ 165 (1e uur) + € 450 toeslag liftput",
-                "+ rijkosten (km)",
+                "+ reiskosten (€ 1,45/km heen en terug)",
+                "Prijzen excl. BTW",
               ],
             }
           : {
               label: "Pompwerken / Wateroverlast",
               price: "€ 165",
-              details: ["+ rijkosten (km)", "Inclusief 1 uur ter plaatse"],
+              details: ["+ reiskosten (€ 1,45/km heen en terug)", "Inclusief 1 uur ter plaatse", "Prijzen excl. BTW"],
             };
       case "dakgoot": {
         const m1 = parseFloat(dakgootMeters.v1) || 0;
@@ -153,8 +154,9 @@ const PriceCalculator = () => {
             `1 verdiep: ${m1}m × € 8,50 = € ${(m1 * 8.5).toFixed(2)}`,
             `2 verdiepen: ${m2}m × € 9,50 = € ${(m2 * 9.5).toFixed(2)}`,
             `3 verdiepen: ${m3}m × € 11,00 = € ${(m3 * 11).toFixed(2)}`,
-            "+ rijkosten (km)",
+            "+ reiskosten (€ 1,45/km heen en terug)",
             "Geldig tot 3 verdiepen of 10 meter hoogte",
+            "Prijzen excl. BTW",
           ].filter((d) => !d.startsWith("0m")),
         };
       }
@@ -162,7 +164,7 @@ const PriceCalculator = () => {
         return {
           label: "Ledigen septische put",
           price: "€ 225",
-          details: ["+ rijkosten (km)", "Tot 2000L", "Goed bereikbaar"],
+          details: ["+ reiskosten (€ 1,45/km heen en terug)", "Tot 2000L", "Goed bereikbaar", "Prijzen excl. BTW"],
         };
       case "regenput":
         if (!regenputInhoud) return null;
@@ -177,9 +179,10 @@ const PriceCalculator = () => {
           label: `Reinigen regenput (${regenputInhoud === "20000" ? "20.000L" : `≤ ${parseInt(regenputInhoud).toLocaleString("nl-BE")}L`})`,
           price: prices[regenputInhoud] || "Op aanvraag",
           details: [
-            regenputInhoud !== "20000" ? "+ rijkosten (km)" : "",
+            regenputInhoud !== "20000" ? "+ reiskosten (€ 1,45/km heen en terug)" : "",
             "Deksel goed bereikbaar en toegankelijk",
             "Inclusief 5 cm slib op de bodem",
+            "Prijzen excl. BTW",
           ].filter(Boolean),
         };
       default:
