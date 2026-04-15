@@ -739,7 +739,7 @@ const AppointmentForm = () => {
               </Button>
             )}
           </div>
-        </div>
+        </InViewBlock>
       </div>
       <SubmitResultOverlay
         status={submitResult}
