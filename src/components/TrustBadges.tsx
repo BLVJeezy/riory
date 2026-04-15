@@ -46,18 +46,21 @@ const TrustBadges = () => {
   return (
     <section className="bg-charcoal border-t border-white/10">
       <div className="section-container px-4 md:px-8 py-3 md:py-4">
-        <div className="flex flex-wrap justify-center md:justify-between gap-x-6 gap-y-2 md:gap-4">
-          {badges.map((badge, i) => (
+        <div className="flex flex-wrap justify-center gap-2 md:justify-between md:gap-4">
+          {badges.map((badge) => (
             <div
               key={badge.label}
-              className="flex items-center gap-2 px-2 py-1.5 md:px-3 md:py-2"
+              className="flex items-center gap-1.5 bg-white/10 rounded-full px-3 py-1.5 md:bg-transparent md:rounded-none md:px-3 md:py-2"
             >
-              <badge.icon className="w-4 h-4 md:w-5 md:h-5 text-primary shrink-0" />
-              <div>
-                <p className="text-[11px] md:text-sm font-heading font-bold text-white/90 leading-tight whitespace-nowrap">
+              <badge.icon className="w-3.5 h-3.5 md:w-5 md:h-5 text-primary shrink-0" />
+              <span className="text-[10px] md:text-sm font-heading font-semibold text-white/90 whitespace-nowrap md:hidden">
+                {badge.label}
+              </span>
+              <div className="hidden md:block">
+                <p className="text-sm font-heading font-bold text-white/90 leading-tight whitespace-nowrap">
                   {badge.label}
                 </p>
-                <p className="text-[9px] md:text-xs text-white/50 font-body leading-tight">
+                <p className="text-xs text-white/50 font-body leading-tight">
                   {badge.sub}
                 </p>
               </div>
