@@ -241,14 +241,14 @@ const PriceCalculator = () => {
                 <RadioGroupItem value="standaard" />
                 <div>
                   <p className="font-medium">Standaard</p>
-                  <p className="text-sm text-muted-foreground">€ 165 (+km) – Incl. 1 uur ter plaatse</p>
+                  <p className="text-sm text-muted-foreground">€ 165 excl. BTW (+reiskosten) – Incl. 1 uur ter plaatse</p>
                 </div>
               </label>
               <label className="flex items-center gap-3 p-4 rounded-lg border border-border bg-card cursor-pointer hover:border-primary transition-colors">
                 <RadioGroupItem value="camera" />
                 <div>
                   <p className="font-medium">Met camera-inspectie</p>
-                  <p className="text-sm text-muted-foreground">€ 275 (+km) – Incl. 1 uur ter plaatse</p>
+                  <p className="text-sm text-muted-foreground">€ 275 excl. BTW (+reiskosten) – Incl. 1 uur ter plaatse</p>
                 </div>
               </label>
             </RadioGroup>
@@ -268,14 +268,14 @@ const PriceCalculator = () => {
                 <RadioGroupItem value="ja" />
                 <div>
                   <p className="font-medium">Ja</p>
-                  <p className="text-sm text-muted-foreground">€ 165 (1e uur) + € 450 toeslag liftput (+km)</p>
+                  <p className="text-sm text-muted-foreground">€ 165 (1e uur) + € 450 toeslag liftput (+reiskosten) excl. BTW</p>
                 </div>
               </label>
               <label className="flex items-center gap-3 p-4 rounded-lg border border-border bg-card cursor-pointer hover:border-primary transition-colors">
                 <RadioGroupItem value="nee" />
                 <div>
                   <p className="font-medium">Nee</p>
-                  <p className="text-sm text-muted-foreground">€ 165 (+km) – Incl. 1 uur ter plaatse</p>
+                  <p className="text-sm text-muted-foreground">€ 165 excl. BTW (+reiskosten) – Incl. 1 uur ter plaatse</p>
                 </div>
               </label>
             </RadioGroup>
@@ -344,10 +344,10 @@ const PriceCalculator = () => {
               className="grid gap-3 sm:grid-cols-2"
             >
               {[
-                { value: "5000", label: "≤ 5.000L", price: "€ 329,45 (+km)" },
-                { value: "7500", label: "7.500L", price: "€ 349,77 (+km)" },
-                { value: "10000", label: "10.000L", price: "€ 369,45 (+km)" },
-                { value: "15000", label: "15.000L", price: "€ 406,29 (+km)" },
+                { value: "5000", label: "≤ 5.000L", price: "€ 329,45 excl. BTW (+reiskosten)" },
+                { value: "7500", label: "7.500L", price: "€ 349,77 excl. BTW (+reiskosten)" },
+                { value: "10000", label: "10.000L", price: "€ 369,45 excl. BTW (+reiskosten)" },
+                { value: "15000", label: "15.000L", price: "€ 406,29 excl. BTW (+reiskosten)" },
                 { value: "20000", label: "20.000L", price: "Op aanvraag" },
               ].map((opt) => (
                 <label
