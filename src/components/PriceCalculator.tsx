@@ -6,6 +6,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Card } from "@/components/ui/card";
 import { Link } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { Loader2 } from "lucide-react";
 import {
   Calculator,
   MapPin,
@@ -94,29 +96,78 @@ const PriceCalculator = () => {
   const [dakgootMeters, setDakgootMeters] = useState({ v1: "", v2: "", v3: "" });
   const [regenputInhoud, setRegenputInhoud] = useState<string | null>(null);
 
+  // Distance calculation state
+  const [distanceLoading, setDistanceLoading] = useState(false);
+  const [distanceData, setDistanceData] = useState<{
+    distance_km: number;
+    round_trip_km: number;
+    travel_cost: number;
+    duration_minutes: number;
+  } | null>(null);
+  const [distanceError, setDistanceError] = useState<string | null>(null);
+
+  const calculateDistance = async () => {
+    setDistanceLoading(true);
+    setDistanceError(null);
+    setDistanceData(null);
+    try {
+      const { data, error } = await supabase.functions.invoke("calculate-distance", {
+        body: {
+          straat: address.straat,
+          huisnummer: address.huisnummer,
+          postcode: address.postcode,
+          plaats: address.plaats,
+          land: address.land,
+        },
+      });
+      if (error) throw error;
+      if (data.error) {
+        setDistanceError(data.error);
+      } else {
+        setDistanceData(data);
+      }
+    } catch (err: any) {
+      setDistanceError("Kon afstand niet berekenen. Controleer het adres.");
+    } finally {
+      setDistanceLoading(false);
+    }
+  };
+
   const canProceedStep1 =
     address.straat && address.huisnummer && address.postcode && address.plaats;
 
-  const getPrice = (): { label: string; price: string; details: string[] } | null => {
+  const travelLabel = distanceData
+    ? `Reiskosten: ${distanceData.round_trip_km} km × € 1,45 = € ${distanceData.travel_cost.toFixed(2)}`
+    : "+ reiskosten (€ 1,45/km heen en terug)";
+
+  const getPrice = (): { label: string; price: string; total: string | null; details: string[] } | null => {
     if (!selectedService) return null;
+    const tc = distanceData?.travel_cost ?? null;
+
+    const makeTotal = (base: number) =>
+      tc !== null ? `€ ${(base + tc).toFixed(2)}` : null;
+
     switch (selectedService) {
       case "interventie":
         return interventieType === "standaard"
           ? {
               label: "Interventie / Ontstopping (Standaard)",
               price: "€ 165",
-              details: ["+ reiskosten (€ 1,45/km heen en terug)", "Inclusief 1 uur ter plaatse", "Prijzen excl. BTW"],
+              total: makeTotal(165),
+              details: [travelLabel, "Inclusief 1 uur ter plaatse", "Prijzen excl. BTW"],
             }
           : {
               label: "Interventie / Ontstopping (Met camera)",
               price: "€ 275",
-              details: ["+ reiskosten (€ 1,45/km heen en terug)", "Inclusief 1 uur ter plaatse", "Prijzen excl. BTW"],
+              total: makeTotal(275),
+              details: [travelLabel, "Inclusief 1 uur ter plaatse", "Prijzen excl. BTW"],
             };
       case "camera":
         return {
           label: "Camera-inspectie / Plaatsbepaling afvoeren",
           price: "€ 275",
-          details: ["+ reiskosten (€ 1,45/km heen en terug)", "Inclusief 1 uur ter plaatse", "Prijzen excl. BTW"],
+          total: makeTotal(275),
+          details: [travelLabel, "Inclusief 1 uur ter plaatse", "Prijzen excl. BTW"],
         };
       case "pompwerken":
         if (!liftputOnderWater) return null;
@@ -124,16 +175,18 @@ const PriceCalculator = () => {
           ? {
               label: "Pompwerken – Liftput onder water",
               price: "€ 615",
+              total: makeTotal(615),
               details: [
                 "€ 165 (1e uur) + € 450 toeslag liftput",
-                "+ reiskosten (€ 1,45/km heen en terug)",
+                travelLabel,
                 "Prijzen excl. BTW",
               ],
             }
           : {
               label: "Pompwerken / Wateroverlast",
               price: "€ 165",
-              details: ["+ reiskosten (€ 1,45/km heen en terug)", "Inclusief 1 uur ter plaatse", "Prijzen excl. BTW"],
+              total: makeTotal(165),
+              details: [travelLabel, "Inclusief 1 uur ter plaatse", "Prijzen excl. BTW"],
             };
       case "dakgoot": {
         const m1 = parseFloat(dakgootMeters.v1) || 0;
@@ -145,16 +198,18 @@ const PriceCalculator = () => {
           return {
             label: "Dakgootreiniging",
             price: "Min. 10m vereist",
+            total: null,
             details: ["Geldig tot 3 verdiepen of 10 meter hoogte", "Minimum 10m lengte te reinigen"],
           };
         return {
           label: "Dakgootreiniging",
           price: `€ ${total.toFixed(2)}`,
+          total: makeTotal(total),
           details: [
             `1 verdiep: ${m1}m × € 8,50 = € ${(m1 * 8.5).toFixed(2)}`,
             `2 verdiepen: ${m2}m × € 9,50 = € ${(m2 * 9.5).toFixed(2)}`,
             `3 verdiepen: ${m3}m × € 11,00 = € ${(m3 * 11).toFixed(2)}`,
-            "+ reiskosten (€ 1,45/km heen en terug)",
+            travelLabel,
             "Geldig tot 3 verdiepen of 10 meter hoogte",
             "Prijzen excl. BTW",
           ].filter((d) => !d.startsWith("0m")),
@@ -164,22 +219,25 @@ const PriceCalculator = () => {
         return {
           label: "Ledigen septische put",
           price: "€ 225",
-          details: ["+ reiskosten (€ 1,45/km heen en terug)", "Tot 2000L", "Goed bereikbaar", "Prijzen excl. BTW"],
+          total: makeTotal(225),
+          details: [travelLabel, "Tot 2000L", "Goed bereikbaar", "Prijzen excl. BTW"],
         };
       case "regenput":
         if (!regenputInhoud) return null;
-        const prices: Record<string, string> = {
-          "5000": "€ 329,45",
-          "7500": "€ 349,77",
-          "10000": "€ 369,45",
-          "15000": "€ 406,29",
-          "20000": "Op aanvraag",
+        const priceMap: Record<string, { label: string; value: number | null }> = {
+          "5000": { label: "€ 329,45", value: 329.45 },
+          "7500": { label: "€ 349,77", value: 349.77 },
+          "10000": { label: "€ 369,45", value: 369.45 },
+          "15000": { label: "€ 406,29", value: 406.29 },
+          "20000": { label: "Op aanvraag", value: null },
         };
+        const p = priceMap[regenputInhoud] || { label: "Op aanvraag", value: null };
         return {
           label: `Reinigen regenput (${regenputInhoud === "20000" ? "20.000L" : `≤ ${parseInt(regenputInhoud).toLocaleString("nl-BE")}L`})`,
-          price: prices[regenputInhoud] || "Op aanvraag",
+          price: p.label,
+          total: p.value !== null ? makeTotal(p.value) : null,
           details: [
-            regenputInhoud !== "20000" ? "+ reiskosten (€ 1,45/km heen en terug)" : "",
+            regenputInhoud !== "20000" ? travelLabel : "",
             "Deksel goed bereikbaar en toegankelijk",
             "Inclusief 5 cm slib op de bodem",
             "Prijzen excl. BTW",
@@ -487,11 +545,18 @@ const PriceCalculator = () => {
               <Button
                 variant="cta"
                 size="lg"
-                disabled={!canProceedStep1}
-                onClick={() => setStep(2)}
+                disabled={!canProceedStep1 || distanceLoading}
+                onClick={async () => {
+                  await calculateDistance();
+                  setStep(2);
+                }}
                 className="flex-1"
               >
-                Verder <ArrowRight className="w-4 h-4" />
+                {distanceLoading ? (
+                  <><Loader2 className="w-4 h-4 animate-spin" /> Afstand berekenen...</>
+                ) : (
+                  <>Verder <ArrowRight className="w-4 h-4" /></>
+                )}
               </Button>
             </div>
           </Card>
@@ -550,8 +615,13 @@ const PriceCalculator = () => {
                   </span>
                 </div>
                 <p className="text-3xl font-heading font-bold text-foreground">
-                  {result.price} <span className="text-base font-normal text-muted-foreground">excl. BTW</span>
+                  {result.total || result.price} <span className="text-base font-normal text-muted-foreground">excl. BTW</span>
                 </p>
+                {result.total && (
+                  <p className="text-sm text-muted-foreground">
+                    Dienst: {result.price} + reiskosten: € {distanceData?.travel_cost.toFixed(2)}
+                  </p>
+                )}
                 <p className="text-sm font-medium text-foreground">{result.label}</p>
                 <ul className="space-y-1">
                   {result.details.map((d, i) => (
