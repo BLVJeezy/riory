@@ -607,32 +607,32 @@ const PriceCalculator = () => {
             {renderServiceOptions()}
 
             {canShowResult() && result && (
-              <div className="mt-6 p-6 rounded-xl bg-primary/5 border border-primary/20 space-y-3">
+              <div className="mt-6 p-4 sm:p-6 rounded-xl bg-primary/5 border border-primary/20 space-y-2 sm:space-y-3">
                 <div className="flex items-center gap-2 text-primary">
-                  <CheckCircle2 className="w-5 h-5" />
-                  <span className="font-heading font-semibold text-sm uppercase tracking-wider">
+                  <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5" />
+                  <span className="font-heading font-semibold text-xs sm:text-sm uppercase tracking-wider">
                     Indicatieve prijs
                   </span>
                 </div>
-                <p className="text-3xl font-heading font-bold text-foreground">
-                  {result.total || result.price} <span className="text-base font-normal text-muted-foreground">excl. BTW</span>
+                <p className="text-2xl sm:text-3xl font-heading font-bold text-foreground break-words">
+                  {result.total || result.price} <span className="text-sm sm:text-base font-normal text-muted-foreground">excl. BTW</span>
                 </p>
                 {result.total && (
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-xs sm:text-sm text-muted-foreground break-words">
                     Dienst: {result.price} + reiskosten: € {distanceData?.travel_cost.toFixed(2)}
                   </p>
                 )}
-                <p className="text-sm font-medium text-foreground">{result.label}</p>
+                <p className="text-xs sm:text-sm font-medium text-foreground">{result.label}</p>
                 <ul className="space-y-1">
                   {result.details.map((d, i) => (
-                    <li key={i} className="text-sm text-muted-foreground flex items-start gap-2">
-                      <Info className="w-3.5 h-3.5 mt-0.5 shrink-0" />
-                      {d}
+                    <li key={i} className="text-xs sm:text-sm text-muted-foreground flex items-start gap-1.5 sm:gap-2">
+                      <Info className="w-3 h-3 sm:w-3.5 sm:h-3.5 mt-0.5 shrink-0" />
+                      <span className="break-words">{d}</span>
                     </li>
                   ))}
                 </ul>
-                <div className="pt-4">
-                  <Button variant="cta" size="lg" className="w-full" asChild>
+                <div className="pt-3 sm:pt-4">
+                  <Button variant="cta" size="lg" className="w-full text-sm sm:text-base" asChild>
                     <Link to={`/afspraak?dienst=${encodeURIComponent(getServiceMapping())}&straat=${encodeURIComponent(address.straat)}&huisnummer=${encodeURIComponent(address.huisnummer)}&postcode=${encodeURIComponent(address.postcode)}&plaats=${encodeURIComponent(address.plaats)}`}>
                       Interventie boeken <ArrowRight className="w-4 h-4" />
                     </Link>
