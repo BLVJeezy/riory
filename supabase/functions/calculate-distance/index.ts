@@ -1,6 +1,6 @@
 import { corsHeaders } from "@supabase/supabase-js/cors";
 
-const RIORY_ADDRESS = "Riory, Belgium";
+const RIORY_ADDRESS = "Tongersesteenweg 19, 3740 Bilzen, België";
 const RATE_PER_KM = 1.45;
 
 Deno.serve(async (req) => {
