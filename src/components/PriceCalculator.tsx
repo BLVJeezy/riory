@@ -615,8 +615,13 @@ const PriceCalculator = () => {
                   </span>
                 </div>
                 <p className="text-3xl font-heading font-bold text-foreground">
-                  {result.price} <span className="text-base font-normal text-muted-foreground">excl. BTW</span>
+                  {result.total || result.price} <span className="text-base font-normal text-muted-foreground">excl. BTW</span>
                 </p>
+                {result.total && (
+                  <p className="text-sm text-muted-foreground">
+                    Dienst: {result.price} + reiskosten: € {distanceData?.travel_cost.toFixed(2)}
+                  </p>
+                )}
                 <p className="text-sm font-medium text-foreground">{result.label}</p>
                 <ul className="space-y-1">
                   {result.details.map((d, i) => (
