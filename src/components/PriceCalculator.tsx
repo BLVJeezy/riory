@@ -545,11 +545,18 @@ const PriceCalculator = () => {
               <Button
                 variant="cta"
                 size="lg"
-                disabled={!canProceedStep1}
-                onClick={() => setStep(2)}
+                disabled={!canProceedStep1 || distanceLoading}
+                onClick={async () => {
+                  await calculateDistance();
+                  setStep(2);
+                }}
                 className="flex-1"
               >
-                Verder <ArrowRight className="w-4 h-4" />
+                {distanceLoading ? (
+                  <><Loader2 className="w-4 h-4 animate-spin" /> Afstand berekenen...</>
+                ) : (
+                  <>Verder <ArrowRight className="w-4 h-4" /></>
+                )}
               </Button>
             </div>
           </Card>
