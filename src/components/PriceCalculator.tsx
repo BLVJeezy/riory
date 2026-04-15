@@ -617,20 +617,18 @@ const PriceCalculator = () => {
                 <p className="text-2xl sm:text-3xl font-heading font-bold text-foreground break-words">
                   {result.total || result.price} <span className="text-sm sm:text-base font-normal text-muted-foreground">excl. BTW</span>
                 </p>
-                {result.total && (
-                  <p className="text-xs sm:text-sm text-muted-foreground break-words">
-                    Dienst: {result.price} + reiskosten: € {distanceData?.travel_cost.toFixed(2)}
-                  </p>
-                )}
                 <p className="text-xs sm:text-sm font-medium text-foreground">{result.label}</p>
                 <ul className="space-y-1">
-                  {result.details.map((d, i) => (
+                  {result.details.filter(d => !d.toLowerCase().includes('reiskosten') && !d.toLowerCase().includes('km ×')).map((d, i) => (
                     <li key={i} className="text-xs sm:text-sm text-muted-foreground flex items-start gap-1.5 sm:gap-2">
                       <Info className="w-3 h-3 sm:w-3.5 sm:h-3.5 mt-0.5 shrink-0" />
                       <span className="break-words">{d}</span>
                     </li>
                   ))}
                 </ul>
+                <p className="text-[11px] sm:text-xs text-muted-foreground/70 italic mt-2">
+                  Dit is een indicatieve schatting en geen definitief offerte. De uiteindelijke prijs kan afwijken na inspectie ter plaatse.
+                </p>
                 <div className="pt-3 sm:pt-4">
                   <Button variant="cta" size="lg" className="w-full text-sm sm:text-base" asChild>
                     <Link to={`/afspraak?dienst=${encodeURIComponent(getServiceMapping())}&straat=${encodeURIComponent(address.straat)}&huisnummer=${encodeURIComponent(address.huisnummer)}&postcode=${encodeURIComponent(address.postcode)}&plaats=${encodeURIComponent(address.plaats)}`}>
