@@ -620,7 +620,7 @@ const PriceCalculator = () => {
                 <p className="text-xs sm:text-sm font-medium text-foreground">{result.label}</p>
                 {distanceData && (
                   <p className="text-xs sm:text-sm text-muted-foreground">
-                    Reiskosten: € {distanceData.travel_cost.toFixed(2)}
+                    Reiskosten (heen & terug): € {distanceData.travel_cost.toFixed(2)}
                   </p>
                 )}
                 <ul className="space-y-1">
