@@ -6,9 +6,6 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type",
 };
 
-// Riory Google Place ID
-const PLACE_ID = "ChIJq6qqqlTmwEcRHdPYblaJxK0";
-
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response("ok", { headers: corsHeaders });
@@ -28,8 +25,32 @@ Deno.serve(async (req) => {
 
     const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
-    // Fetch reviews from Google Places API (New)
-    const url = `https://places.googleapis.com/v1/places/${PLACE_ID}?fields=reviews,rating,userRatingCount&languageCode=nl`;
+    // Step 1: Find the Place ID dynamically via Text Search
+    const searchRes = await fetch("https://places.googleapis.com/v1/places:searchText", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Goog-Api-Key": GOOGLE_MAPS_API_KEY,
+        "X-Goog-FieldMask": "places.id,places.displayName",
+      },
+      body: JSON.stringify({ textQuery: "Riory riolering Bilzen" }),
+    });
+
+    if (!searchRes.ok) {
+      const errText = await searchRes.text();
+      throw new Error(`Text Search API error [${searchRes.status}]: ${errText}`);
+    }
+
+    const searchData = await searchRes.json();
+    const placeId = searchData.places?.[0]?.id;
+    if (!placeId) {
+      throw new Error("Could not find Place ID for Riory via Text Search");
+    }
+
+    console.log("Found Place ID:", placeId, "Name:", searchData.places[0]?.displayName?.text);
+
+    // Step 2: Fetch reviews from Google Places API
+    const url = `https://places.googleapis.com/v1/places/${placeId}?fields=reviews,rating,userRatingCount&languageCode=nl`;
     
     const response = await fetch(url, {
       headers: {
