@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback, useEffect } from "react";
+import React, { useState, useRef, useCallback, useEffect, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import SubmitResultOverlay from "@/components/SubmitResultOverlay";
 import { Button } from "@/components/ui/button";
@@ -20,6 +20,36 @@ import {
   Home,
   Users,
 } from "lucide-react";
+
+const InViewBlock = ({ children, className = "", delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setVisible(true); observer.disconnect(); } },
+      { threshold: 0.15 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={ref}
+      className={className}
+      style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? "translateY(0) scale(1)" : "translateY(24px) scale(0.97)",
+        transition: `opacity 0.6s ease-out ${delay}ms, transform 0.6s ease-out ${delay}ms`,
+      }}
+    >
+      {children}
+    </div>
+  );
+};
 
 const diensten = [
   "Ontstopping",
@@ -632,7 +662,7 @@ const AppointmentForm = () => {
   return (
     <section id="offerte" className="section-padding bg-charcoal scroll-mt-8" ref={formRef}>
       <div className="section-container px-6 md:px-8">
-        <div className="text-center mb-10">
+        <InViewBlock className="text-center mb-10">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-heading font-bold uppercase text-primary-foreground mb-3">
             Maak een Afspraak
           </h2>
@@ -647,9 +677,9 @@ const AppointmentForm = () => {
             <AlertTriangle className="w-4 h-4" />
             URGENT? BEL NU
           </a>
-        </div>
+        </InViewBlock>
 
-        <div className="bg-background rounded-2xl p-4 sm:p-8 md:p-10 border-2 border-primary/30 max-w-3xl mx-auto shadow-[0_0_40px_hsl(var(--primary)/0.15),0_20px_60px_-15px_hsl(var(--primary)/0.2)]">
+        <InViewBlock delay={150} className="bg-background rounded-2xl p-4 sm:p-8 md:p-10 border-2 border-primary/30 max-w-3xl mx-auto shadow-[0_0_40px_hsl(var(--primary)/0.15),0_20px_60px_-15px_hsl(var(--primary)/0.2)]">
           {/* Stepper - compact on mobile */}
           <div className="mb-6 sm:mb-8">
             {/* Mobile: progress bar + label */}
@@ -739,7 +769,7 @@ const AppointmentForm = () => {
               </Button>
             )}
           </div>
-        </div>
+        </InViewBlock>
       </div>
       <SubmitResultOverlay
         status={submitResult}
