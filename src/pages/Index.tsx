@@ -27,6 +27,7 @@ const Index = () => {
       <Navbar />
       <HeroSection />
       <EmergencyBanner />
+      <TrustBadges />
       <ServicesSection />
       <AboutSection />
       <WhyChooseUs />
