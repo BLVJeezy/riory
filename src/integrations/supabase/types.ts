@@ -236,6 +236,42 @@ export type Database = {
         }
         Relationships: []
       }
+      google_reviews: {
+        Row: {
+          created_at: string
+          google_review_id: string | null
+          id: string
+          rating: number
+          review_date: string | null
+          review_text: string
+          reviewer_name: string
+          source: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          google_review_id?: string | null
+          id?: string
+          rating?: number
+          review_date?: string | null
+          review_text: string
+          reviewer_name: string
+          source?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          google_review_id?: string | null
+          id?: string
+          rating?: number
+          review_date?: string | null
+          review_text?: string
+          reviewer_name?: string
+          source?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       page_views: {
         Row: {
           created_at: string
