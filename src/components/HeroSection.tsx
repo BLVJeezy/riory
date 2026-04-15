@@ -20,7 +20,7 @@ const HeroSection = () => {
             24/7 Ontstopping-, riool- &amp; ruimdienst
           </h1>
           <p className="text-lg md:text-xl text-white/80 font-body leading-relaxed mb-10 max-w-xl">
-            Septische put ledigen? Problemen met de riolering? Last van verstoppingen? Riory staat 24/7 klaar!
+            Septische put ledigen? Problemen met de riolering? Last van verstoppingen? Riory staat 24/7 klaar in Bilzen, Hasselt en heel Limburg!
           </p>
           <div className="flex flex-col sm:flex-row gap-4 mb-4">
             <Button variant="hero" size="lg" className="text-base px-8 py-6 rounded-full" asChild>

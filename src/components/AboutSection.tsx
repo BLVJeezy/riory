@@ -15,10 +15,10 @@ const AboutSection = () => {
             </h3>
             <div className="w-12 h-1 bg-primary mb-6" />
             <p className="text-sm sm:text-base md:text-lg text-primary-foreground/70 font-body leading-relaxed mb-6">
-              Riory is uw perfecte partner voor rioleringswerk. Uw afvoer heeft geen geheimen voor ons. U kan bij ons 24/7 terecht voor camera inspectie riool, ontstoppingen, geurdetectie, ledigen van septische putten, leegpompen en reinigen van kelders, putten en regenputten.
+              Riory is uw perfecte partner voor rioleringswerk in Bilzen, Hasselt, Genk, Tongeren en de rest van Limburg. Uw afvoer heeft geen geheimen voor ons. U kan bij ons 24/7 terecht voor camera inspectie riool, ontstoppingen, geurdetectie, ledigen van septische putten, leegpompen en reinigen van kelders, putten en regenputten.
             </p>
             <p className="text-sm sm:text-base md:text-lg text-primary-foreground/70 font-body leading-relaxed mb-8">
-              Met de benodigde expertise van onze vakmensen en professioneel materiaal klaart Riory de vuilste werken voor een eerlijke prijs. Met één telefoontje zijn al uw problemen opgelost. Na iedere klus laten we de omgeving netjes achter, want kwaliteit is onze grootste P(Riory)teit!
+              Met de benodigde expertise van onze vakmensen en professioneel materiaal klaart Riory de vuilste werken voor een eerlijke prijs in heel Limburg en omstreken. Met één telefoontje zijn al uw problemen opgelost. Na iedere klus laten we de omgeving netjes achter, want kwaliteit is onze grootste P(Riory)teit!
             </p>
 
             <div className="grid grid-cols-3 gap-4">

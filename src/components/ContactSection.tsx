@@ -39,6 +39,9 @@ const ContactSection = () => {
                   Tongersesteenweg 19<br />
                   3740 Bilzen, België
                 </p>
+                <p className="text-muted-foreground/70 font-body text-sm mt-1">
+                  Actief in Bilzen, Hasselt, Genk, Tongeren, Sint-Truiden, Maasmechelen en heel Limburg.
+                </p>
               </div>
             </div>
           </div>
