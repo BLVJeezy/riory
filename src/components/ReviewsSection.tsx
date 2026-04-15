@@ -1,117 +1,28 @@
 import { Star } from "lucide-react";
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 
-const reviews = [
-  {
-    name: "Josy Stulens",
-    rating: 5,
-    text: "Super service & 100% vakman! Heel tevreden na snelle interventie + scherpe prijs. Echte aanrader!",
-    date: "2 maanden geleden",
-  },
-  {
-    name: "Danique van Mierlo",
-    rating: 5,
-    text: "Vakkundig en snel geholpen!",
-    date: "een maand geleden",
-  },
-  {
-    name: "Margriet Simenon",
-    rating: 5,
-    text: "Heel content. Vriendelijke en aimabele werkman.",
-    date: "een maand geleden",
-  },
-  {
-    name: "Fabienne Pirotte",
-    rating: 5,
-    text: "Dank je wel voor de super service en dat op een zondag!",
-    date: "3 maanden geleden",
-  },
-  {
-    name: "Dirk",
-    rating: 5,
-    text: "Heel snel en goed geholpen. Prima service!",
-    date: "4 maanden geleden",
-  },
-  {
-    name: "Davy Steegen",
-    rating: 5,
-    text: "Heel vriendelijke mensen! Na de camera inspectie werden we gerust gesteld dat er niets aan de hand is. Zeer professioneel!",
-    date: "7 maanden geleden",
-  },
-  {
-    name: "Cindy Moors",
-    rating: 5,
-    text: "Vlugge interventie toen onze riolering verstopt was. Daarna een goede herstelling van onze put met deksel. Heel tevreden van team Riory.",
-    date: "6 maanden geleden",
-  },
-  {
-    name: "Jan Slegers",
-    rating: 5,
-    text: "Speurden de geurhinder zonder problemen op. Snelle duidelijke oplossing. Proper gewerkt. Zeer fijne ervaring.",
-    date: "7 maanden geleden",
-  },
-  {
-    name: "Gerwin Smeets",
-    rating: 5,
-    text: "Snelle en correcte oplossing. Vriendelijke mannen, heel behulpzaam. Deze kun je met gemak contacteren. Niets is teveel.",
-    date: "7 maanden geleden",
-  },
-  {
-    name: "LEON RAMAEKERS",
-    rating: 5,
-    text: "Zeer snelle interventie. Eerste probleem meteen opgelost. Overzichtelijke en efficiënte website. Goede opvolging en alles correct afgehandeld.",
-    date: "11 maanden geleden",
-  },
-  {
-    name: "Els Heedfeld",
-    rating: 5,
-    text: "'s Morgens gebeld en 's middags al geholpen en dat op een brugdag. Professioneel, vriendelijk en tegen een correcte prijs!",
-    date: "11 maanden geleden",
-  },
-  {
-    name: "Peter Nijssen",
-    rating: 5,
-    text: "Riory heeft onze zeer moeilijk toegankelijke keukenafvoer open gekregen met gezond verstand en veel volharding. Correcte prijs!",
-    date: "11 maanden geleden",
-  },
-  {
-    name: "Johan Remels",
-    rating: 5,
-    text: "Zeer professionele firma! Weten duidelijk waar ze mee bezig zijn. Verstopping was onmiddellijk opgelost met professioneel materiaal.",
-    date: "een jaar geleden",
-  },
-  {
-    name: "Jurgen Machiels",
-    rating: 5,
-    text: "Super service. Eerlijke prijs. Zeer snelle reactie op contactformulier. Top gasten. Probleem volledig opgelost. Zeker aanraders 100%!",
-    date: "een jaar geleden",
-  },
-  {
-    name: "William Stassen",
-    rating: 5,
-    text: "Verstopte toilet op vrijdagavond. Gelukkig is Riory meteen zaterdagochtend kunnen komen en heeft het probleem snel verholpen.",
-    date: "een jaar geleden",
-  },
-  {
-    name: "Jos Oude Vrielink",
-    rating: 5,
-    text: "In minder dan 2 uur na mijn telefoontje stond de auto voor mijn deur. Een auto met alles erop en eraan. Hulde en een pluim!",
-    date: "10 maanden geleden",
-  },
-];
+interface Review {
+  id: string;
+  reviewer_name: string;
+  rating: number;
+  review_text: string;
+  review_date: string | null;
+}
 
-const ReviewCard = ({ review }: { review: typeof reviews[0] }) => (
+const ReviewCard = ({ review }: { review: Review }) => (
   <div className="flex-shrink-0 w-64 sm:w-80 bg-surface border border-border rounded-xl p-4 sm:p-5">
     <div className="flex items-center gap-2.5 sm:gap-3 mb-2.5 sm:mb-3">
       <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-primary/15 flex items-center justify-center">
         <span className="text-xs sm:text-sm font-heading font-bold text-primary">
-          {review.name.charAt(0)}
+          {review.reviewer_name.charAt(0)}
         </span>
       </div>
       <div>
         <p className="text-xs sm:text-sm font-heading font-semibold text-foreground leading-tight">
-          {review.name}
+          {review.reviewer_name}
         </p>
-        <p className="text-[10px] sm:text-xs text-muted-foreground">{review.date}</p>
+        <p className="text-[10px] sm:text-xs text-muted-foreground">{review.review_date}</p>
       </div>
     </div>
     <div className="flex gap-0.5 mb-2">
@@ -125,12 +36,12 @@ const ReviewCard = ({ review }: { review: typeof reviews[0] }) => (
       ))}
     </div>
     <p className="text-xs sm:text-sm text-muted-foreground font-body leading-relaxed line-clamp-3">
-      {review.text}
+      {review.review_text}
     </p>
   </div>
 );
 
-const ScrollRow = ({ items, direction }: { items: typeof reviews; direction: "left" | "right" }) => {
+const ScrollRow = ({ items, direction }: { items: Review[]; direction: "left" | "right" }) => {
   const animationClass = direction === "left" ? "animate-scroll-left" : "animate-scroll-right";
 
   return (
@@ -142,7 +53,7 @@ const ScrollRow = ({ items, direction }: { items: typeof reviews; direction: "le
         className={`flex gap-3 sm:gap-4 w-max ${animationClass} group-hover:[animation-play-state:paused]`}
       >
         {[...items, ...items].map((review, index) => (
-          <ReviewCard key={`${review.name}-${index}`} review={review} />
+          <ReviewCard key={`${review.id}-${index}`} review={review} />
         ))}
       </div>
     </div>
@@ -150,6 +61,33 @@ const ScrollRow = ({ items, direction }: { items: typeof reviews; direction: "le
 };
 
 const ReviewsSection = () => {
+  const [reviews, setReviews] = useState<Review[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchReviews = async () => {
+      const { data, error } = await supabase
+        .from("google_reviews")
+        .select("id, reviewer_name, rating, review_text, review_date")
+        .order("created_at", { ascending: false });
+
+      if (!error && data) {
+        setReviews(data);
+      }
+      setLoading(false);
+    };
+
+    fetchReviews();
+  }, []);
+
+  const midpoint = Math.ceil(reviews.length / 2);
+  const firstRow = reviews.slice(0, midpoint);
+  const secondRow = reviews.slice(midpoint);
+
+  if (loading || reviews.length === 0) {
+    return null;
+  }
+
   return (
     <section id="reviews" className="section-padding bg-background overflow-hidden">
       <div className="section-container px-4 sm:px-6 md:px-8 mb-6 sm:mb-8">
@@ -179,8 +117,8 @@ const ReviewsSection = () => {
       </div>
 
       <div className="space-y-3 sm:space-y-4">
-        <ScrollRow items={reviews} direction="left" />
-        <ScrollRow items={[...reviews].reverse()} direction="right" />
+        <ScrollRow items={firstRow} direction="left" />
+        <ScrollRow items={secondRow} direction="right" />
       </div>
 
       <div className="text-center mt-8">
