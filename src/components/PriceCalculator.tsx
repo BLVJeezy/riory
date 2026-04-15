@@ -493,8 +493,8 @@ const PriceCalculator = () => {
               <h2 className="font-heading text-xl font-semibold">Werkadres</h2>
             </div>
             <p className="text-sm text-muted-foreground">
-              Vul het werkadres in. Reiskosten worden berekend aan € 1,45/km van Riory
-              tot klant en terug. Beperkt tot 30 min reistijd.
+              Vul het werkadres in. Reiskosten worden berekend op basis van de afstand van Riory
+              tot de klant en terug. Beperkt tot 30 min reistijd.
             </p>
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
