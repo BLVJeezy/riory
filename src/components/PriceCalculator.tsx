@@ -621,7 +621,7 @@ const PriceCalculator = () => {
                 {distanceData && (
                   <div className="text-xs sm:text-sm text-muted-foreground">
                     <p>Reiskosten (heen & terug): € {distanceData.travel_cost.toFixed(2)}</p>
-                    <p className="text-[11px] sm:text-xs text-muted-foreground/70 italic">Reiskosten gelden enkel tussen 8u en 16u, exclusief urgentietoeslag.</p>
+                    <p className="text-[11px] sm:text-xs text-muted-foreground/70 italic"><p className="text-[11px] sm:text-xs text-muted-foreground/70 italic">Prijzen enkel geldig tussen 8u en 16u, exclusief urgentietoeslag.</p></p>
                   </div>
                 )}
                 <ul className="space-y-1">
