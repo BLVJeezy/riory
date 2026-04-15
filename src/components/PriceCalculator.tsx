@@ -136,26 +136,38 @@ const PriceCalculator = () => {
   const canProceedStep1 =
     address.straat && address.huisnummer && address.postcode && address.plaats;
 
-  const getPrice = (): { label: string; price: string; details: string[] } | null => {
+  const travelLabel = distanceData
+    ? `Reiskosten: ${distanceData.round_trip_km} km × € 1,45 = € ${distanceData.travel_cost.toFixed(2)}`
+    : "+ reiskosten (€ 1,45/km heen en terug)";
+
+  const getPrice = (): { label: string; price: string; total: string | null; details: string[] } | null => {
     if (!selectedService) return null;
+    const tc = distanceData?.travel_cost ?? null;
+
+    const makeTotal = (base: number) =>
+      tc !== null ? `€ ${(base + tc).toFixed(2)}` : null;
+
     switch (selectedService) {
       case "interventie":
         return interventieType === "standaard"
           ? {
               label: "Interventie / Ontstopping (Standaard)",
               price: "€ 165",
-              details: ["+ reiskosten (€ 1,45/km heen en terug)", "Inclusief 1 uur ter plaatse", "Prijzen excl. BTW"],
+              total: makeTotal(165),
+              details: [travelLabel, "Inclusief 1 uur ter plaatse", "Prijzen excl. BTW"],
             }
           : {
               label: "Interventie / Ontstopping (Met camera)",
               price: "€ 275",
-              details: ["+ reiskosten (€ 1,45/km heen en terug)", "Inclusief 1 uur ter plaatse", "Prijzen excl. BTW"],
+              total: makeTotal(275),
+              details: [travelLabel, "Inclusief 1 uur ter plaatse", "Prijzen excl. BTW"],
             };
       case "camera":
         return {
           label: "Camera-inspectie / Plaatsbepaling afvoeren",
           price: "€ 275",
-          details: ["+ reiskosten (€ 1,45/km heen en terug)", "Inclusief 1 uur ter plaatse", "Prijzen excl. BTW"],
+          total: makeTotal(275),
+          details: [travelLabel, "Inclusief 1 uur ter plaatse", "Prijzen excl. BTW"],
         };
       case "pompwerken":
         if (!liftputOnderWater) return null;
@@ -163,16 +175,18 @@ const PriceCalculator = () => {
           ? {
               label: "Pompwerken – Liftput onder water",
               price: "€ 615",
+              total: makeTotal(615),
               details: [
                 "€ 165 (1e uur) + € 450 toeslag liftput",
-                "+ reiskosten (€ 1,45/km heen en terug)",
+                travelLabel,
                 "Prijzen excl. BTW",
               ],
             }
           : {
               label: "Pompwerken / Wateroverlast",
               price: "€ 165",
-              details: ["+ reiskosten (€ 1,45/km heen en terug)", "Inclusief 1 uur ter plaatse", "Prijzen excl. BTW"],
+              total: makeTotal(165),
+              details: [travelLabel, "Inclusief 1 uur ter plaatse", "Prijzen excl. BTW"],
             };
       case "dakgoot": {
         const m1 = parseFloat(dakgootMeters.v1) || 0;
@@ -184,16 +198,18 @@ const PriceCalculator = () => {
           return {
             label: "Dakgootreiniging",
             price: "Min. 10m vereist",
+            total: null,
             details: ["Geldig tot 3 verdiepen of 10 meter hoogte", "Minimum 10m lengte te reinigen"],
           };
         return {
           label: "Dakgootreiniging",
           price: `€ ${total.toFixed(2)}`,
+          total: makeTotal(total),
           details: [
             `1 verdiep: ${m1}m × € 8,50 = € ${(m1 * 8.5).toFixed(2)}`,
             `2 verdiepen: ${m2}m × € 9,50 = € ${(m2 * 9.5).toFixed(2)}`,
             `3 verdiepen: ${m3}m × € 11,00 = € ${(m3 * 11).toFixed(2)}`,
-            "+ reiskosten (€ 1,45/km heen en terug)",
+            travelLabel,
             "Geldig tot 3 verdiepen of 10 meter hoogte",
             "Prijzen excl. BTW",
           ].filter((d) => !d.startsWith("0m")),
@@ -203,22 +219,25 @@ const PriceCalculator = () => {
         return {
           label: "Ledigen septische put",
           price: "€ 225",
-          details: ["+ reiskosten (€ 1,45/km heen en terug)", "Tot 2000L", "Goed bereikbaar", "Prijzen excl. BTW"],
+          total: makeTotal(225),
+          details: [travelLabel, "Tot 2000L", "Goed bereikbaar", "Prijzen excl. BTW"],
         };
       case "regenput":
         if (!regenputInhoud) return null;
-        const prices: Record<string, string> = {
-          "5000": "€ 329,45",
-          "7500": "€ 349,77",
-          "10000": "€ 369,45",
-          "15000": "€ 406,29",
-          "20000": "Op aanvraag",
+        const priceMap: Record<string, { label: string; value: number | null }> = {
+          "5000": { label: "€ 329,45", value: 329.45 },
+          "7500": { label: "€ 349,77", value: 349.77 },
+          "10000": { label: "€ 369,45", value: 369.45 },
+          "15000": { label: "€ 406,29", value: 406.29 },
+          "20000": { label: "Op aanvraag", value: null },
         };
+        const p = priceMap[regenputInhoud] || { label: "Op aanvraag", value: null };
         return {
           label: `Reinigen regenput (${regenputInhoud === "20000" ? "20.000L" : `≤ ${parseInt(regenputInhoud).toLocaleString("nl-BE")}L`})`,
-          price: prices[regenputInhoud] || "Op aanvraag",
+          price: p.label,
+          total: p.value !== null ? makeTotal(p.value) : null,
           details: [
-            regenputInhoud !== "20000" ? "+ reiskosten (€ 1,45/km heen en terug)" : "",
+            regenputInhoud !== "20000" ? travelLabel : "",
             "Deksel goed bereikbaar en toegankelijk",
             "Inclusief 5 cm slib op de bodem",
             "Prijzen excl. BTW",
