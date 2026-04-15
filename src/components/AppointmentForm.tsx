@@ -630,14 +630,14 @@ const AppointmentForm = () => {
   };
 
   return (
-    <section id="offerte" className="section-padding bg-surface scroll-mt-8" ref={formRef}>
+    <section id="offerte" className="section-padding bg-charcoal scroll-mt-8" ref={formRef}>
       <div className="section-container px-6 md:px-8">
         <div className="text-center mb-10">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-heading font-bold uppercase text-foreground mb-3">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-heading font-bold uppercase text-primary-foreground mb-3">
             Maak een Afspraak
           </h2>
           <div className="w-16 h-1 bg-primary mx-auto mb-4" />
-          <p className="text-sm sm:text-base text-muted-foreground font-body max-w-lg mx-auto mb-5">
+          <p className="text-sm sm:text-base text-primary-foreground/70 font-body max-w-lg mx-auto mb-5">
             Plan snel een afspraak voor ontstopping, camera‑inspectie of put‑lediging. Riory reageert onmiddellijk en biedt snelle, professionele service.
           </p>
           <a
@@ -649,7 +649,7 @@ const AppointmentForm = () => {
           </a>
         </div>
 
-        <div className="bg-background rounded-xl p-4 sm:p-8 md:p-10 border border-border max-w-3xl mx-auto shadow-sm">
+        <div className="bg-background rounded-2xl p-4 sm:p-8 md:p-10 border-2 border-primary/30 max-w-3xl mx-auto shadow-[0_0_40px_hsl(var(--primary)/0.15),0_20px_60px_-15px_hsl(var(--primary)/0.2)]">
           {/* Stepper - compact on mobile */}
           <div className="mb-6 sm:mb-8">
             {/* Mobile: progress bar + label */}
