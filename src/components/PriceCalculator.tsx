@@ -435,9 +435,8 @@ const PriceCalculator = () => {
               <h2 className="font-heading text-xl font-semibold">Werkadres</h2>
             </div>
             <p className="text-sm text-muted-foreground">
-              Vul het werkadres in om de rijkosten te berekenen. Kilometers worden
-              automatisch berekend vanuit Riory tot klant en terug naar Riory. Beperkt tot
-              30 min reistijd.
+              Vul het werkadres in. Reiskosten worden berekend aan € 1,45/km van Riory
+              tot klant en terug. Beperkt tot 30 min reistijd.
             </p>
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
@@ -551,7 +550,7 @@ const PriceCalculator = () => {
                   </span>
                 </div>
                 <p className="text-3xl font-heading font-bold text-foreground">
-                  {result.price}
+                  {result.price} <span className="text-base font-normal text-muted-foreground">excl. BTW</span>
                 </p>
                 <p className="text-sm font-medium text-foreground">{result.label}</p>
                 <ul className="space-y-1">
