@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Menu, X, Sun, Moon } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useTheme } from "@/components/ThemeProvider";
@@ -13,7 +13,7 @@ const navLinks = [
 ];
 
 const Navbar = () => {
-  const { theme, toggleTheme } = useTheme();
+  const { theme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
@@ -81,22 +81,10 @@ const Navbar = () => {
           <Button variant="cta" size="lg" className="rounded-full" asChild>
             <Link to="/afspraak">Afspraak</Link>
           </Button>
-          <button
-            onClick={toggleTheme}
-            className="w-10 h-10 flex items-center justify-center rounded-full border border-border text-foreground hover:text-primary transition-colors"
-          >
-            {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-          </button>
         </div>
 
         {/* Mobile controls */}
         <div className="lg:hidden flex items-center gap-2">
-          <button
-            onClick={toggleTheme}
-            className="w-10 h-10 flex items-center justify-center rounded border border-border text-foreground"
-          >
-            {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-          </button>
           <button
             className="relative z-50 w-10 h-10 flex items-center justify-center rounded border border-border text-foreground"
             onClick={() => setIsOpen(!isOpen)}
