@@ -23,7 +23,7 @@ export const allServices: Service[] = [
     description: "Afvoer verstopt? Geurhinder? Riory spoort het probleem 24/7 op met efficiënte ontstopping en geurdetectie in Bilzen, Hasselt en heel Limburg.",
     image: serviceOntstoppingen,
     longDescription:
-      "Heeft u last van een verstopte afvoer, rioolverstopping of stankoverlast? Wij zorgen voor een snelle en grondige oplossing in Bilzen, Hasselt, Genk, Tongeren en heel Limburg. Met professionele hogedrukapparatuur maken wij elke verstopping vrij — van keukens en badkamers tot hoofdrioleringen. Daarnaast sporen wij geurhinder en rioolvliegjes op aan de bron en verhelpen het probleem duurzaam.",
+      "Heeft u last van een verstopte afvoer, rioolverstopping of stankoverlast? WC verstopt, gootsteen verstopt of douche loopt niet weg? Wij zorgen voor een snelle en grondige oplossing in Bilzen, Hasselt, Genk, Tongeren en heel Limburg. Met professionele hogedrukapparatuur maken wij elke verstopping vrij — van keukens en badkamers tot hoofdrioleringen. Riool stinkt? Wij sporen geurhinder en rioolvliegjes op aan de bron en verhelpen het probleem duurzaam.",
     features: [
       "Riool ontstoppen — snel en professioneel",
       "Verstopte afvoer verhelpen met hogedrukreiniging",
