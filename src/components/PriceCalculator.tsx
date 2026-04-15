@@ -618,6 +618,11 @@ const PriceCalculator = () => {
                   {result.total || result.price} <span className="text-sm sm:text-base font-normal text-muted-foreground">excl. BTW</span>
                 </p>
                 <p className="text-xs sm:text-sm font-medium text-foreground">{result.label}</p>
+                {distanceData && (
+                  <p className="text-xs sm:text-sm text-muted-foreground">
+                    Reiskosten: € {distanceData.travel_cost.toFixed(2)}
+                  </p>
+                )}
                 <ul className="space-y-1">
                   {result.details.filter(d => !d.toLowerCase().includes('reiskosten') && !d.toLowerCase().includes('km ×')).map((d, i) => (
                     <li key={i} className="text-xs sm:text-sm text-muted-foreground flex items-start gap-1.5 sm:gap-2">
