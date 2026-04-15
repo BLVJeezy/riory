@@ -619,9 +619,10 @@ const PriceCalculator = () => {
                 </p>
                 <p className="text-xs sm:text-sm font-medium text-foreground">{result.label}</p>
                 {distanceData && (
-                  <p className="text-xs sm:text-sm text-muted-foreground">
-                    Reiskosten (heen & terug): € {distanceData.travel_cost.toFixed(2)}
-                  </p>
+                  <div className="text-xs sm:text-sm text-muted-foreground">
+                    <p>Reiskosten (heen & terug): € {distanceData.travel_cost.toFixed(2)}</p>
+                    <p className="text-[11px] sm:text-xs text-muted-foreground/70 italic">Reiskosten gelden enkel tussen 8u en 16u, exclusief urgentietoeslag.</p>
+                  </div>
                 )}
                 <ul className="space-y-1">
                   {result.details.filter(d => !d.toLowerCase().includes('reiskosten') && !d.toLowerCase().includes('km ×')).map((d, i) => (
