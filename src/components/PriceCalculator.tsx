@@ -96,6 +96,43 @@ const PriceCalculator = () => {
   const [dakgootMeters, setDakgootMeters] = useState({ v1: "", v2: "", v3: "" });
   const [regenputInhoud, setRegenputInhoud] = useState<string | null>(null);
 
+  // Distance calculation state
+  const [distanceLoading, setDistanceLoading] = useState(false);
+  const [distanceData, setDistanceData] = useState<{
+    distance_km: number;
+    round_trip_km: number;
+    travel_cost: number;
+    duration_minutes: number;
+  } | null>(null);
+  const [distanceError, setDistanceError] = useState<string | null>(null);
+
+  const calculateDistance = async () => {
+    setDistanceLoading(true);
+    setDistanceError(null);
+    setDistanceData(null);
+    try {
+      const { data, error } = await supabase.functions.invoke("calculate-distance", {
+        body: {
+          straat: address.straat,
+          huisnummer: address.huisnummer,
+          postcode: address.postcode,
+          plaats: address.plaats,
+          land: address.land,
+        },
+      });
+      if (error) throw error;
+      if (data.error) {
+        setDistanceError(data.error);
+      } else {
+        setDistanceData(data);
+      }
+    } catch (err: any) {
+      setDistanceError("Kon afstand niet berekenen. Controleer het adres.");
+    } finally {
+      setDistanceLoading(false);
+    }
+  };
+
   const canProceedStep1 =
     address.straat && address.huisnummer && address.postcode && address.plaats;
 
