@@ -27,7 +27,7 @@ const HeroSection = () => {
               <Link to="/afspraak">maak een afspraak</Link>
             </Button>
             <Button variant="heroOutline" size="lg" className="text-base px-8 py-6 rounded-full border-white/60 text-white hover:bg-white hover:text-foreground" asChild>
-              <a href="#projecten">BEKIJK PROJECTEN</a>
+              <Link to="/prijscalculator">PRIJS BEREKENEN</Link>
             </Button>
           </div>
           <div className="mb-10">
