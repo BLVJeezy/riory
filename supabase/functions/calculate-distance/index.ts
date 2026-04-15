@@ -37,6 +37,7 @@ Deno.serve(async (req) => {
 
     const response = await fetch(url.toString());
     const data = await response.json();
+    console.log("Google Maps response:", JSON.stringify(data));
 
     if (
       data.status !== "OK" ||
