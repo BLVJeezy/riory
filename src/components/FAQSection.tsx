@@ -9,7 +9,7 @@ const faqs = [
   {
     question: "Hoe snel kunnen jullie ter plaatse zijn bij een noodgeval?",
     answer:
-      "Bij dringende situaties zoals verstoppingen of wateroverlast streven wij ernaar om binnen 1 à 2 uur ter plaatse te zijn. Wij zijn 24/7 bereikbaar voor spoedgevallen.",
+      "Bij dringende situaties zoals verstoppingen of wateroverlast streven wij ernaar om binnen 1 à 2 uur ter plaatse te zijn in Bilzen, Hasselt, Genk, Tongeren en omliggende gemeenten in Limburg. Wij zijn 24/7 bereikbaar voor spoedgevallen.",
   },
   {
     question: "Wat kost een ontstopping gemiddeld?",
@@ -34,7 +34,7 @@ const faqs = [
   {
     question: "Bieden jullie ook preventief onderhoud aan?",
     answer:
-      "Absoluut. Wij bieden contracten voor periodieke reiniging en inspectie aan, zodat problemen voorkomen worden voordat ze ontstaan.",
+      "Absoluut. Wij bieden contracten voor periodieke reiniging en inspectie aan in Bilzen, Hasselt en heel Limburg, zodat problemen voorkomen worden voordat ze ontstaan.",
   },
 ];
 
