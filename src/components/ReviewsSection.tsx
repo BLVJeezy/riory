@@ -2,52 +2,100 @@ import { Star } from "lucide-react";
 
 const reviews = [
   {
-    name: "Tom Vandenberghe",
+    name: "Josy Stulens",
     rating: 5,
-    text: "Uitstekende service! Riory was binnen het uur ter plaatse voor een dringende ontstopping. Zeer professioneel en proper afgewerkt.",
-    date: "2 weken geleden",
-  },
-  {
-    name: "Sarah Martens",
-    rating: 5,
-    text: "Onze septische put werd perfect geledigd. Vriendelijk personeel en eerlijke prijs. Absolute aanrader!",
-    date: "1 maand geleden",
-  },
-  {
-    name: "Kevin Peeters",
-    rating: 5,
-    text: "Camera-inspectie laten doen van onze riolering. Heel duidelijke uitleg en snel geholpen. Top service!",
-    date: "3 weken geleden",
-  },
-  {
-    name: "Lies Janssen",
-    rating: 4,
-    text: "Dakgoten gereinigd en regenput leeggemaakt. Alles netjes achtergelaten. Zeker een aanrader voor iedereen in Limburg.",
+    text: "Super service & 100% vakman! Heel tevreden na snelle interventie + scherpe prijs. Echte aanrader!",
     date: "2 maanden geleden",
   },
   {
-    name: "Marc Wouters",
+    name: "Danique van Mierlo",
     rating: 5,
-    text: "Al twee keer beroep gedaan op Riory. Telkens snel, vakkundig en aan een correcte prijs. Blijven terugkomen!",
-    date: "1 maand geleden",
+    text: "Vakkundig en snel geholpen!",
+    date: "een maand geleden",
   },
   {
-    name: "Eline De Smedt",
+    name: "Margriet Simenon",
     rating: 5,
-    text: "Wateroverlast in de kelder en Riory was er dezelfde avond nog. Probleem snel opgelost. Dankbaar!",
-    date: "3 weken geleden",
+    text: "Heel content. Vriendelijke en aimabele werkman.",
+    date: "een maand geleden",
   },
   {
-    name: "Johan Claes",
+    name: "Fabienne Pirotte",
     rating: 5,
-    text: "Periodiek onderhoud van onze riolering. Werken altijd stipt op afspraak en laten alles proper achter.",
-    date: "1 maand geleden",
+    text: "Dank je wel voor de super service en dat op een zondag!",
+    date: "3 maanden geleden",
   },
   {
-    name: "Nathalie Hermans",
-    rating: 4,
-    text: "Geurhinder opgelost na één bezoek. Heel blij dat we Riory gevonden hebben. Professioneel team!",
-    date: "6 weken geleden",
+    name: "Dirk",
+    rating: 5,
+    text: "Heel snel en goed geholpen. Prima service!",
+    date: "4 maanden geleden",
+  },
+  {
+    name: "Davy Steegen",
+    rating: 5,
+    text: "Heel vriendelijke mensen! Na de camera inspectie werden we gerust gesteld dat er niets aan de hand is. Zeer professioneel!",
+    date: "7 maanden geleden",
+  },
+  {
+    name: "Cindy Moors",
+    rating: 5,
+    text: "Vlugge interventie toen onze riolering verstopt was. Daarna een goede herstelling van onze put met deksel. Heel tevreden van team Riory.",
+    date: "6 maanden geleden",
+  },
+  {
+    name: "Jan Slegers",
+    rating: 5,
+    text: "Speurden de geurhinder zonder problemen op. Snelle duidelijke oplossing. Proper gewerkt. Zeer fijne ervaring.",
+    date: "7 maanden geleden",
+  },
+  {
+    name: "Gerwin Smeets",
+    rating: 5,
+    text: "Snelle en correcte oplossing. Vriendelijke mannen, heel behulpzaam. Deze kun je met gemak contacteren. Niets is teveel.",
+    date: "7 maanden geleden",
+  },
+  {
+    name: "LEON RAMAEKERS",
+    rating: 5,
+    text: "Zeer snelle interventie. Eerste probleem meteen opgelost. Overzichtelijke en efficiënte website. Goede opvolging en alles correct afgehandeld.",
+    date: "11 maanden geleden",
+  },
+  {
+    name: "Els Heedfeld",
+    rating: 5,
+    text: "'s Morgens gebeld en 's middags al geholpen en dat op een brugdag. Professioneel, vriendelijk en tegen een correcte prijs!",
+    date: "11 maanden geleden",
+  },
+  {
+    name: "Peter Nijssen",
+    rating: 5,
+    text: "Riory heeft onze zeer moeilijk toegankelijke keukenafvoer open gekregen met gezond verstand en veel volharding. Correcte prijs!",
+    date: "11 maanden geleden",
+  },
+  {
+    name: "Johan Remels",
+    rating: 5,
+    text: "Zeer professionele firma! Weten duidelijk waar ze mee bezig zijn. Verstopping was onmiddellijk opgelost met professioneel materiaal.",
+    date: "een jaar geleden",
+  },
+  {
+    name: "Jurgen Machiels",
+    rating: 5,
+    text: "Super service. Eerlijke prijs. Zeer snelle reactie op contactformulier. Top gasten. Probleem volledig opgelost. Zeker aanraders 100%!",
+    date: "een jaar geleden",
+  },
+  {
+    name: "William Stassen",
+    rating: 5,
+    text: "Verstopte toilet op vrijdagavond. Gelukkig is Riory meteen zaterdagochtend kunnen komen en heeft het probleem snel verholpen.",
+    date: "een jaar geleden",
+  },
+  {
+    name: "Jos Oude Vrielink",
+    rating: 5,
+    text: "In minder dan 2 uur na mijn telefoontje stond de auto voor mijn deur. Een auto met alles erop en eraan. Hulde en een pluim!",
+    date: "10 maanden geleden",
   },
 ];
 
@@ -124,7 +172,7 @@ const ReviewsSection = () => {
               <Star key={i} className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-primary text-primary" />
             ))}
             <span className="text-xs sm:text-sm font-body text-muted-foreground ml-1">
-              4.9/5 — 73 beoordelingen
+              4.9/5 — 79 beoordelingen
             </span>
           </div>
         </div>
