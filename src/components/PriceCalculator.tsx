@@ -105,18 +105,18 @@ const PriceCalculator = () => {
           ? {
               label: "Interventie / Ontstopping (Standaard)",
               price: "€ 165",
-              details: ["+ rijkosten (km)", "Inclusief 1 uur ter plaatse"],
+              details: ["+ reiskosten (€ 1,45/km heen en terug)", "Inclusief 1 uur ter plaatse", "Prijzen excl. BTW"],
             }
           : {
               label: "Interventie / Ontstopping (Met camera)",
               price: "€ 275",
-              details: ["+ rijkosten (km)", "Inclusief 1 uur ter plaatse"],
+              details: ["+ reiskosten (€ 1,45/km heen en terug)", "Inclusief 1 uur ter plaatse", "Prijzen excl. BTW"],
             };
       case "camera":
         return {
           label: "Camera-inspectie / Plaatsbepaling afvoeren",
           price: "€ 275",
-          details: ["+ rijkosten (km)", "Inclusief 1 uur ter plaatse"],
+          details: ["+ reiskosten (€ 1,45/km heen en terug)", "Inclusief 1 uur ter plaatse", "Prijzen excl. BTW"],
         };
       case "pompwerken":
         if (!liftputOnderWater) return null;
@@ -126,13 +126,14 @@ const PriceCalculator = () => {
               price: "€ 615",
               details: [
                 "€ 165 (1e uur) + € 450 toeslag liftput",
-                "+ rijkosten (km)",
+                "+ reiskosten (€ 1,45/km heen en terug)",
+                "Prijzen excl. BTW",
               ],
             }
           : {
               label: "Pompwerken / Wateroverlast",
               price: "€ 165",
-              details: ["+ rijkosten (km)", "Inclusief 1 uur ter plaatse"],
+              details: ["+ reiskosten (€ 1,45/km heen en terug)", "Inclusief 1 uur ter plaatse", "Prijzen excl. BTW"],
             };
       case "dakgoot": {
         const m1 = parseFloat(dakgootMeters.v1) || 0;
@@ -153,8 +154,9 @@ const PriceCalculator = () => {
             `1 verdiep: ${m1}m × € 8,50 = € ${(m1 * 8.5).toFixed(2)}`,
             `2 verdiepen: ${m2}m × € 9,50 = € ${(m2 * 9.5).toFixed(2)}`,
             `3 verdiepen: ${m3}m × € 11,00 = € ${(m3 * 11).toFixed(2)}`,
-            "+ rijkosten (km)",
+            "+ reiskosten (€ 1,45/km heen en terug)",
             "Geldig tot 3 verdiepen of 10 meter hoogte",
+            "Prijzen excl. BTW",
           ].filter((d) => !d.startsWith("0m")),
         };
       }
@@ -162,7 +164,7 @@ const PriceCalculator = () => {
         return {
           label: "Ledigen septische put",
           price: "€ 225",
-          details: ["+ rijkosten (km)", "Tot 2000L", "Goed bereikbaar"],
+          details: ["+ reiskosten (€ 1,45/km heen en terug)", "Tot 2000L", "Goed bereikbaar", "Prijzen excl. BTW"],
         };
       case "regenput":
         if (!regenputInhoud) return null;
@@ -177,9 +179,10 @@ const PriceCalculator = () => {
           label: `Reinigen regenput (${regenputInhoud === "20000" ? "20.000L" : `≤ ${parseInt(regenputInhoud).toLocaleString("nl-BE")}L`})`,
           price: prices[regenputInhoud] || "Op aanvraag",
           details: [
-            regenputInhoud !== "20000" ? "+ rijkosten (km)" : "",
+            regenputInhoud !== "20000" ? "+ reiskosten (€ 1,45/km heen en terug)" : "",
             "Deksel goed bereikbaar en toegankelijk",
             "Inclusief 5 cm slib op de bodem",
+            "Prijzen excl. BTW",
           ].filter(Boolean),
         };
       default:
@@ -238,14 +241,14 @@ const PriceCalculator = () => {
                 <RadioGroupItem value="standaard" />
                 <div>
                   <p className="font-medium">Standaard</p>
-                  <p className="text-sm text-muted-foreground">€ 165 (+km) – Incl. 1 uur ter plaatse</p>
+                  <p className="text-sm text-muted-foreground">€ 165 excl. BTW (+reiskosten) – Incl. 1 uur ter plaatse</p>
                 </div>
               </label>
               <label className="flex items-center gap-3 p-4 rounded-lg border border-border bg-card cursor-pointer hover:border-primary transition-colors">
                 <RadioGroupItem value="camera" />
                 <div>
                   <p className="font-medium">Met camera-inspectie</p>
-                  <p className="text-sm text-muted-foreground">€ 275 (+km) – Incl. 1 uur ter plaatse</p>
+                  <p className="text-sm text-muted-foreground">€ 275 excl. BTW (+reiskosten) – Incl. 1 uur ter plaatse</p>
                 </div>
               </label>
             </RadioGroup>
@@ -265,14 +268,14 @@ const PriceCalculator = () => {
                 <RadioGroupItem value="ja" />
                 <div>
                   <p className="font-medium">Ja</p>
-                  <p className="text-sm text-muted-foreground">€ 165 (1e uur) + € 450 toeslag liftput (+km)</p>
+                  <p className="text-sm text-muted-foreground">€ 165 (1e uur) + € 450 toeslag liftput (+reiskosten) excl. BTW</p>
                 </div>
               </label>
               <label className="flex items-center gap-3 p-4 rounded-lg border border-border bg-card cursor-pointer hover:border-primary transition-colors">
                 <RadioGroupItem value="nee" />
                 <div>
                   <p className="font-medium">Nee</p>
-                  <p className="text-sm text-muted-foreground">€ 165 (+km) – Incl. 1 uur ter plaatse</p>
+                  <p className="text-sm text-muted-foreground">€ 165 excl. BTW (+reiskosten) – Incl. 1 uur ter plaatse</p>
                 </div>
               </label>
             </RadioGroup>
@@ -341,10 +344,10 @@ const PriceCalculator = () => {
               className="grid gap-3 sm:grid-cols-2"
             >
               {[
-                { value: "5000", label: "≤ 5.000L", price: "€ 329,45 (+km)" },
-                { value: "7500", label: "7.500L", price: "€ 349,77 (+km)" },
-                { value: "10000", label: "10.000L", price: "€ 369,45 (+km)" },
-                { value: "15000", label: "15.000L", price: "€ 406,29 (+km)" },
+                { value: "5000", label: "≤ 5.000L", price: "€ 329,45 excl. BTW (+reiskosten)" },
+                { value: "7500", label: "7.500L", price: "€ 349,77 excl. BTW (+reiskosten)" },
+                { value: "10000", label: "10.000L", price: "€ 369,45 excl. BTW (+reiskosten)" },
+                { value: "15000", label: "15.000L", price: "€ 406,29 excl. BTW (+reiskosten)" },
                 { value: "20000", label: "20.000L", price: "Op aanvraag" },
               ].map((opt) => (
                 <label
@@ -432,9 +435,8 @@ const PriceCalculator = () => {
               <h2 className="font-heading text-xl font-semibold">Werkadres</h2>
             </div>
             <p className="text-sm text-muted-foreground">
-              Vul het werkadres in om de rijkosten te berekenen. Kilometers worden
-              automatisch berekend vanuit Riory tot klant en terug naar Riory. Beperkt tot
-              30 min reistijd.
+              Vul het werkadres in. Reiskosten worden berekend aan € 1,45/km van Riory
+              tot klant en terug. Beperkt tot 30 min reistijd.
             </p>
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
@@ -548,7 +550,7 @@ const PriceCalculator = () => {
                   </span>
                 </div>
                 <p className="text-3xl font-heading font-bold text-foreground">
-                  {result.price}
+                  {result.price} <span className="text-base font-normal text-muted-foreground">excl. BTW</span>
                 </p>
                 <p className="text-sm font-medium text-foreground">{result.label}</p>
                 <ul className="space-y-1">
