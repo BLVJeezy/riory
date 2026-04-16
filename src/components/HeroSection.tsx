@@ -39,7 +39,7 @@ const HeroSection = () => {
                   <Star key={i} className="w-3.5 h-3.5 md:w-4 md:h-4 fill-yellow-400 text-yellow-400" />
                 ))}
               </div>
-              <span className="text-white/90 text-xs md:text-sm font-heading font-semibold ml-0.5">5.0</span>
+              <span className="text-white/90 text-xs md:text-sm font-heading font-semibold ml-0.5">4.9</span>
               <span className="text-white/50 text-xs md:text-sm font-body">Google</span>
             </div>
             <div className="w-px h-3.5 bg-white/20 hidden sm:block" />
