@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Phone, AlertTriangle } from "lucide-react";
+import { Phone, AlertTriangle, Star, Shield, Clock, Users } from "lucide-react";
 import { Link } from "react-router-dom";
 import heroDesktop from "@/assets/hero-desktop.webp";
 import heroMobile from "@/assets/hero-mobile.webp";
@@ -16,10 +16,18 @@ const HeroSection = () => {
       <div className="relative section-container px-6 md:px-8 pt-20">
         <div className="max-w-2xl">
           
+          {/* Urgentie-badge */}
+          <div className="inline-flex items-center gap-2 bg-[hsl(var(--urgent))]/15 border border-[hsl(var(--urgent))]/30 text-[hsl(var(--urgent))] px-4 py-1.5 rounded-full mb-4">
+            <Clock className="w-4 h-4" />
+            <span className="font-heading font-bold text-xs uppercase tracking-wider">
+              24/7 beschikbaar voor noodgevallen
+            </span>
+          </div>
+
           {/* Phone number — boven de fold, direct zichtbaar */}
           <a
             href="tel:+32472502814"
-            className="inline-flex items-center gap-3 group mb-6"
+            className="inline-flex items-center gap-3 group mb-5"
           >
             <div className="relative">
               <div className="w-12 h-12 rounded-full bg-primary/20 border border-primary/40 flex items-center justify-center group-hover:bg-primary/30 transition-colors">
@@ -39,12 +47,36 @@ const HeroSection = () => {
             </div>
           </a>
 
-          <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-heading font-bold uppercase leading-snug text-white mb-4">
+          <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-heading font-bold uppercase leading-snug text-white mb-3">
             24/7 Ontstopping-, riool- &amp; ruimdienst
           </h1>
-          <p className="text-base md:text-lg text-white/80 font-body leading-relaxed mb-6 max-w-xl">
+          <p className="text-base md:text-lg text-white/80 font-body leading-relaxed mb-5 max-w-xl">
             Septische put ledigen? Problemen met de riolering? Last van verstoppingen? Riory staat 24/7 klaar in Bilzen, Hasselt en heel Limburg!
           </p>
+
+          {/* Social proof balk */}
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-2 mb-5">
+            <div className="flex items-center gap-1.5">
+              <div className="flex -space-x-0.5">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                ))}
+              </div>
+              <span className="text-white/90 text-sm font-heading font-semibold">5.0</span>
+              <span className="text-white/50 text-sm font-body">op Google</span>
+            </div>
+            <div className="hidden sm:block w-px h-4 bg-white/20" />
+            <div className="flex items-center gap-1.5 text-white/70 text-sm font-body">
+              <Users className="w-4 h-4 text-primary" />
+              <span>500+ tevreden klanten</span>
+            </div>
+            <div className="hidden sm:block w-px h-4 bg-white/20" />
+            <div className="flex items-center gap-1.5 text-white/70 text-sm font-body">
+              <Shield className="w-4 h-4 text-primary" />
+              <span>Verzekerd & gecertificeerd</span>
+            </div>
+          </div>
+
           <div className="flex flex-col sm:flex-row gap-3 mb-4">
             <Button variant="hero" size="lg" className="text-base px-8 py-6 rounded-full" asChild>
               <Link to="/afspraak">maak een afspraak</Link>
