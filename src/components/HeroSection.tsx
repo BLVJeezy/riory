@@ -16,34 +16,10 @@ const HeroSection = () => {
       <div className="relative section-container px-6 md:px-8 pt-20">
         <div className="max-w-2xl">
           
-          <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-heading font-bold uppercase leading-snug text-white mb-6">
-            24/7 Ontstopping-, riool- &amp; ruimdienst
-          </h1>
-          <p className="text-lg md:text-xl text-white/80 font-body leading-relaxed mb-10 max-w-xl">
-            Septische put ledigen? Problemen met de riolering? Last van verstoppingen? Riory staat 24/7 klaar in Bilzen, Hasselt en heel Limburg!
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 mb-4">
-            <Button variant="hero" size="lg" className="text-base px-8 py-6 rounded-full" asChild>
-              <Link to="/afspraak">maak een afspraak</Link>
-            </Button>
-            <Button variant="heroOutline" size="lg" className="text-base px-8 py-6 rounded-full border-white/60 text-white hover:bg-white hover:text-foreground" asChild>
-              <Link to="/prijscalculator">PRIJS BEREKENEN</Link>
-            </Button>
-          </div>
-          <div className="mb-10">
-            <a
-              href="tel:+32472502814"
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-[hsl(var(--urgent))] text-[hsl(var(--urgent-foreground))] font-heading font-bold text-base uppercase tracking-wide shadow-[0_0_20px_hsl(var(--urgent)/0.6),0_0_40px_hsl(var(--urgent)/0.3)] hover:shadow-[0_0_30px_hsl(var(--urgent)/0.8),0_0_60px_hsl(var(--urgent)/0.4)] transition-shadow animate-pulse"
-            >
-              <AlertTriangle className="w-5 h-5" />
-              URGENT? BEL NU
-            </a>
-          </div>
-
-          {/* Phone number */}
+          {/* Phone number — boven de fold, direct zichtbaar */}
           <a
             href="tel:+32472502814"
-            className="inline-flex items-center gap-3 group"
+            className="inline-flex items-center gap-3 group mb-6"
           >
             <div className="relative">
               <div className="w-12 h-12 rounded-full bg-primary/20 border border-primary/40 flex items-center justify-center group-hover:bg-primary/30 transition-colors">
@@ -62,6 +38,28 @@ const HeroSection = () => {
               </p>
             </div>
           </a>
+
+          <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-heading font-bold uppercase leading-snug text-white mb-4">
+            24/7 Ontstopping-, riool- &amp; ruimdienst
+          </h1>
+          <p className="text-base md:text-lg text-white/80 font-body leading-relaxed mb-6 max-w-xl">
+            Septische put ledigen? Problemen met de riolering? Last van verstoppingen? Riory staat 24/7 klaar in Bilzen, Hasselt en heel Limburg!
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3 mb-4">
+            <Button variant="hero" size="lg" className="text-base px-8 py-6 rounded-full" asChild>
+              <Link to="/afspraak">maak een afspraak</Link>
+            </Button>
+            <a
+              href="tel:+32472502814"
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-[hsl(var(--urgent))] text-[hsl(var(--urgent-foreground))] font-heading font-bold text-base uppercase tracking-wide shadow-[0_0_20px_hsl(var(--urgent)/0.6),0_0_40px_hsl(var(--urgent)/0.3)] hover:shadow-[0_0_30px_hsl(var(--urgent)/0.8),0_0_60px_hsl(var(--urgent)/0.4)] transition-shadow animate-pulse"
+            >
+              <AlertTriangle className="w-5 h-5" />
+              URGENT? BEL NU
+            </a>
+          </div>
+          <Button variant="heroOutline" size="lg" className="text-base px-8 py-5 rounded-full border-white/60 text-white hover:bg-white hover:text-foreground" asChild>
+            <Link to="/prijscalculator">PRIJS BEREKENEN</Link>
+          </Button>
         </div>
       </div>
     </section>
