@@ -9,11 +9,11 @@ const ServicesSection = () => {
       <div className="section-container">
         <div className="text-center mb-14">
           <h2 className="text-3xl md:text-4xl font-heading font-bold uppercase text-foreground mb-4">
-            Onze Diensten
+            Onze Diensten in Limburg
           </h2>
           <div className="w-16 h-1 bg-primary mx-auto mb-4" />
           <p className="text-muted-foreground font-body max-w-xl mx-auto">
-            Van ontstoppingen tot camera-inspectie — wij bieden een compleet aanbod aan rioleringsdiensten, 24/7 beschikbaar.
+            Van ontstoppingen tot camera inspectie riool — Riory biedt een compleet aanbod aan rioleringsdiensten in Bilzen, Hasselt, Genk en heel Limburg. 24/7 beschikbaar.
           </p>
         </div>
 

@@ -31,8 +31,8 @@ export const allServices: Service[] = [
       "Duidelijk rapport met beelden en advies",
       "Geschikt voor preventieve controles bij aankoop woning",
     ],
-    metaTitle: "Camera inspectie riool & afvoer | Riory Bilzen-Hoeselt Limburg",
-    metaDescription: "Laat verborgen problemen exact lokaliseren met professioneel camera onderzoek van riool en afvoer. Geen breekwerk, wel snelle detectie!",
+    metaTitle: "Camera inspectie riool & afvoer Bilzen, Hasselt, Limburg | Riory",
+    metaDescription: "Professionele camera inspectie riool in Bilzen, Hasselt, Genk en heel Limburg. Geen breekwerk, wel snelle detectie. 24/7 beschikbaar!",
   },
   {
     slug: "ontstoppingen-en-geurdetectie",
@@ -50,8 +50,8 @@ export const allServices: Service[] = [
       "Bestrijding van rioolvliegjes aan de bron",
       "24/7 beschikbaar voor noodgevallen in Limburg",
     ],
-    metaTitle: "Ontstoppingen 24/7 & geurdetectie | Riory Bilzen-Hoeselt Limburg",
-    metaDescription: "Afvoer verstopt? Geurhinder? Riory spoort het probleem 24/7 op met efficiënte ontstopping en geurdetectie in Bilzen, Hasselt en heel Limburg.",
+    metaTitle: "Ontstopping Bilzen, Hasselt & Limburg 24/7 + geurdetectie | Riory",
+    metaDescription: "Afvoer verstopt in Bilzen, Hasselt of Genk? Riory spoort het probleem 24/7 op met efficiënte ontstopping en geurdetectie in heel Limburg.",
   },
   {
     slug: "leidingen-en-septische-putten",
@@ -69,8 +69,8 @@ export const allServices: Service[] = [
       "Herstelling van beschadigde leidingen",
       "Professionele zuigwagens en graafmachines",
     ],
-    metaTitle: "Ruiming septische put Bilzen-Hoeselt: beerput ruimen & reinigen | Riory",
-    metaDescription: "Riory ruimt en reinigt septische putten voor eerlijke prijzen en met 24/7 service in Bilzen, Hasselt en heel Limburg.",
+    metaTitle: "Septische put ledigen Bilzen, Hasselt, Limburg | Riory 24/7",
+    metaDescription: "Septische put of beerput ledigen in Bilzen, Hasselt, Genk of Tongeren? Riory ruimt en reinigt 24/7 voor eerlijke prijzen in heel Limburg.",
   },
   {
     slug: "leegpompen-en-reinigen",
@@ -87,7 +87,7 @@ export const allServices: Service[] = [
       "Dakgootreiniging en afvoerbuizen schoonmaken",
       "Snel ter plaatse — 24/7 bereikbaar in Limburg",
     ],
-    metaTitle: "Kelder & regenput leegpompen & reinigen 24/7 Bilzen-Hoeselt | Riory",
-    metaDescription: "Kelder of regenput ondergelopen? Riory pompt snel leeg, spoort de oorzaak op & maakt schoon. 24/7 beschikbaar in Limburg!",
+    metaTitle: "Kelder leegpompen Bilzen, Hasselt, Limburg 24/7 | Riory",
+    metaDescription: "Kelder of regenput ondergelopen in Bilzen, Hasselt of Genk? Riory pompt snel leeg en maakt schoon. 24/7 beschikbaar in heel Limburg!",
   },
 ];

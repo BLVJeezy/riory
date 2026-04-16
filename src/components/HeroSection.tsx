@@ -25,7 +25,7 @@ const HeroSection = () => {
           </div>
 
           <h1 className="text-[22px] sm:text-3xl md:text-5xl lg:text-6xl font-heading font-bold uppercase leading-tight text-white mb-2 md:mb-3">
-            24/7 Ontstopping-, riool- &amp; ruimdienst
+            Ontstopping &amp; rioolservice in Limburg
           </h1>
           <p className="text-sm md:text-lg text-white/80 font-body leading-relaxed mb-4 md:mb-5 max-w-xl">
             Septische put ledigen? Problemen met de riolering? Last van verstoppingen? Riory staat 24/7 klaar in Bilzen, Hasselt en heel Limburg!
