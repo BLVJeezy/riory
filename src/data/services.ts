@@ -17,6 +17,24 @@ export interface Service {
 
 export const allServices: Service[] = [
   {
+    slug: "camera-inspectie",
+    title: "Camera inspectie riool en afvoer in Limburg",
+    shortTitle: "Camera inspectie riool",
+    description: "Laat verborgen problemen exact lokaliseren met professioneel camera onderzoek van riool en afvoer in Bilzen, Hasselt en heel Limburg.",
+    image: serviceCamera,
+    longDescription:
+      "Met onze professionele camera-inspectie van riool en afvoer krijgt u een duidelijk beeld van de toestand van uw rioleringssysteem in Bilzen, Hasselt, Genk, Tongeren en heel Limburg. We brengen breuken, wortelingroei, verzakkingen en verstoppingen nauwkeurig in kaart. Na de inspectie ontvangt u een gedetailleerd rapport met beelden en advies voor eventuele herstellingen.",
+    features: [
+      "Riool inspecteren met professionele camera",
+      "Verstopte afvoer lokaliseren zonder breekwerk",
+      "Plaatsbepaling van ondergrondse afvoerleidingen",
+      "Duidelijk rapport met beelden en advies",
+      "Geschikt voor preventieve controles bij aankoop woning",
+    ],
+    metaTitle: "Camera inspectie riool & afvoer | Riory Bilzen-Hoeselt Limburg",
+    metaDescription: "Laat verborgen problemen exact lokaliseren met professioneel camera onderzoek van riool en afvoer. Geen breekwerk, wel snelle detectie!",
+  },
+  {
     slug: "ontstoppingen-en-geurdetectie",
     title: "Professionele ontstoppingen en geurdetectie in Limburg",
     shortTitle: "Ontstoppingen & Geurdetectie",
@@ -53,24 +71,6 @@ export const allServices: Service[] = [
     ],
     metaTitle: "Ruiming septische put Bilzen-Hoeselt: beerput ruimen & reinigen | Riory",
     metaDescription: "Riory ruimt en reinigt septische putten voor eerlijke prijzen en met 24/7 service in Bilzen, Hasselt en heel Limburg.",
-  },
-  {
-    slug: "camera-inspectie",
-    title: "Camera inspectie riool en afvoer in Limburg",
-    shortTitle: "Camera inspectie riool",
-    description: "Laat verborgen problemen exact lokaliseren met professioneel camera onderzoek van riool en afvoer in Bilzen, Hasselt en heel Limburg.",
-    image: serviceCamera,
-    longDescription:
-      "Met onze professionele camera-inspectie van riool en afvoer krijgt u een duidelijk beeld van de toestand van uw rioleringssysteem in Bilzen, Hasselt, Genk, Tongeren en heel Limburg. We brengen breuken, wortelingroei, verzakkingen en verstoppingen nauwkeurig in kaart. Na de inspectie ontvangt u een gedetailleerd rapport met beelden en advies voor eventuele herstellingen.",
-    features: [
-      "Riool inspecteren met professionele camera",
-      "Verstopte afvoer lokaliseren zonder breekwerk",
-      "Plaatsbepaling van ondergrondse afvoerleidingen",
-      "Duidelijk rapport met beelden en advies",
-      "Geschikt voor preventieve controles bij aankoop woning",
-    ],
-    metaTitle: "Camera inspectie riool & afvoer | Riory Bilzen-Hoeselt Limburg",
-    metaDescription: "Laat verborgen problemen exact lokaliseren met professioneel camera onderzoek van riool en afvoer. Geen breekwerk, wel snelle detectie!",
   },
   {
     slug: "leegpompen-en-reinigen",
