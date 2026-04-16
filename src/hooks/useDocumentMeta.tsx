@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
-const DEFAULT_TITLE = "24/7 Ontstopping-, riool- & ruimdienst Bilzen-Hoeselt, Limburg | Riory";
-const DEFAULT_DESCRIPTION = "Riool verstopt in Bilzen, Hasselt of Limburg? Riory staat 24/7 klaar: ontstopping, septische put ledigen, camera inspectie riool & leegpompen. Bel nu!";
+const DEFAULT_TITLE = "Ontstopping & Rioolservice Limburg 24/7 | Riory Bilzen";
+const DEFAULT_DESCRIPTION = "Riool verstopt? Riory is 24/7 bereikbaar in Bilzen, Hoeselt, Hasselt, Genk & Tongeren. ✓ Binnen 2 uur ter plaatse ✓ Vaste prijzen ✓ 4.9★ Google Reviews. Bel nu!";
 
 export const useDocumentMeta = (title?: string, description?: string) => {
   useEffect(() => {

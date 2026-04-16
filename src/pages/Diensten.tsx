@@ -13,8 +13,8 @@ import { allServices } from "@/data/services";
 const Diensten = () => {
   usePageView("/diensten");
   useDocumentMeta(
-    "Ontstopping, rioolservice & ruimdienst Bilzen-Hoeselt, Limburg | Riory",
-    "Alle rioleringsdiensten in Bilzen, Hasselt, Genk en heel Limburg: ontstopping, camera inspectie riool, septische put ledigen & leegpompen. 24/7 beschikbaar."
+    "Rioleringsdiensten Limburg | Ontstopping & Ruimdienst | Riory",
+    "Alle rioleringsdiensten onder één dak: ontstopping, camera inspectie, septische put ledigen & leegpompen. ✓ 24/7 bereikbaar ✓ Vaste prijzen ✓ Heel Limburg. Vraag nu een afspraak aan!"
   );
   const formRef = useRef<HTMLDivElement>(null);
 
