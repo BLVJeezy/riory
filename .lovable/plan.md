@@ -1,35 +1,24 @@
 
 
-## Plan: H1 & H2 Heading-optimalisatie met LSI-keywords
+## Plan: Zoektermen toevoegen aan FAQ-sectie
 
-### Probleem
-De H1-titels bevatten al lokale zoektermen, maar de H2-tussenkopjes zijn generiek ("Wat wij doen") en missen LSI-keywords. Elke dienstpagina gebruikt dezelfde H2, wat een gemiste SEO-kans is.
+### Wat
+Nieuwe FAQ-vragen toevoegen die specifieke zoektermen bevatten waar mensen actief op zoeken, plus bestaande antwoorden verrijken met die termen. De zoektermen: **wc ontstoppen**, **gootsteen verstopt**, **douche loopt niet af**, **rioollucht in huis**, **borrelende afvoer**, **rioolvliegjes**, **water dat terugkomt**.
 
-### Aanpak
+### Wijzigingen
 
-**1. Service data-model uitbreiden** (`src/data/services.ts`)
+**1. `src/components/FAQSection.tsx`** — Nieuwe FAQ-items toevoegen + bestaande antwoorden verrijken:
 
-Nieuw veld `h2Title` toevoegen aan de `Service` interface, zodat elke dienst een unieke, zoekwoordrijke H2 krijgt:
+- **Bestaand antwoord "Wat kost een ontstopping"** verrijken met concrete voorbeelden: "Of het nu gaat om een verstopte WC, gootsteen of een douche die niet afloopt..."
+- **Nieuwe FAQ**: "Mijn WC is verstopt, wat kan ik doen?" — antwoord met advies + verwijzing naar dienst
+- **Nieuwe FAQ**: "Mijn gootsteen of douche loopt niet af, wat is de oorzaak?" — antwoord met veelvoorkomende oorzaken
+- **Nieuwe FAQ**: "Ik ruik rioollucht in huis, is dat gevaarlijk?" — antwoord over oorzaken (droogstaande sifon, beschadigde leiding) + camera-inspectie
+- **Nieuwe FAQ**: "Wat betekent een borrelende afvoer of rioolvliegjes?" — antwoord over symptomen van diepere verstopping
 
-| Dienst | Huidige H2 | Nieuwe H2 (`h2Title`) |
-|---|---|---|
-| Camera inspectie | Wat wij doen | Riool inspecteren en afvoerproblemen opsporen |
-| Ontstoppingen & Geurdetectie | Wat wij doen | Riool ontstoppen en oorzaak van rioolstank opsporen |
-| Leidingen & Septische Putten | Wat wij doen | Septische put ruimen en rioolleidingen herstellen |
-| Leegpompen & Reinigen | Wat wij doen | Kelder droogpompen en rioleringssysteem reinigen |
+**2. `index.html`** — Dezelfde nieuwe FAQ-items toevoegen aan het FAQPage JSON-LD schema zodat Google ze als rich results kan tonen.
 
-**2. DienstDetail pagina updaten** (`src/pages/DienstDetail.tsx`)
-
-- De H2 "Wat wij doen" vervangen door `service.h2Title`
-- De H3 "Bekijk onze referenties" wordt ook zoekwoordrijker per dienst (optioneel, via een `refH3` veld)
-
-### Technische details
-
-- `Service` interface: `h2Title: string` toevoegen
-- Alle 4 services in `allServices` array krijgen een `h2Title` waarde
-- In `DienstDetail.tsx` regel 108-109: `"Wat wij doen"` → `{service.h2Title}`
-
-### Geen wijzigingen aan
-- H1-titels (zijn al geoptimaliseerd met lokale termen)
-- Meta titles/descriptions (zijn al geoptimaliseerd)
+### Resultaat
+- 10 FAQ-items in plaats van 6, met maximale dekking van long-tail zoektermen
+- FAQ schema in `index.html` blijft in sync
+- Geen dubbele schema's (enkel in `index.html`)
 
