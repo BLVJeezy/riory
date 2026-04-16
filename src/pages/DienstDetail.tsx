@@ -6,7 +6,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import AppointmentForm from "@/components/AppointmentForm";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, CheckCircle, AlertTriangle, ArrowRight } from "lucide-react";
+import { ArrowLeft, CheckCircle, AlertTriangle, ArrowRight, Phone, Star, ShieldCheck, Clock } from "lucide-react";
 import { allServices } from "@/data/services";
 import { referenceCategories } from "@/data/references";
 
@@ -43,7 +43,7 @@ const DienstDetail = () => {
       <Navbar />
       <section className="pt-24 pb-20 bg-background min-h-screen">
         <div className="section-container px-6 md:px-8">
-          <div className="mb-8">
+          <div className="mb-4">
             <Button variant="ghost" size="sm" asChild>
               <Link to="/diensten" className="gap-2 text-muted-foreground hover:text-foreground">
                 <ArrowLeft className="w-4 h-4" />
@@ -52,19 +52,50 @@ const DienstDetail = () => {
             </Button>
           </div>
 
-          {/* Hero image */}
-          <div className="relative h-64 md:h-96 rounded-xl overflow-hidden mb-10">
+          {/* Hero image with CTA overlay */}
+          <div className="relative h-72 md:h-[28rem] rounded-xl overflow-hidden mb-6">
             <img
               src={service.image}
               alt={service.title}
-              loading="lazy"
+              loading="eager"
+              fetchPriority="high"
               className="absolute inset-0 w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-charcoal/80 via-charcoal/20 to-transparent" />
-            <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10">
-              <h1 className="text-2xl md:text-4xl font-heading font-bold text-white uppercase">
+            <div className="absolute inset-0 bg-gradient-to-t from-charcoal/90 via-charcoal/40 to-transparent" />
+            <div className="absolute bottom-0 left-0 right-0 p-5 md:p-10">
+              <h1 className="text-xl md:text-4xl font-heading font-bold text-white uppercase leading-tight mb-3 md:mb-4">
                 {service.title}
               </h1>
+
+              {/* Above-the-fold CTA + phone */}
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2.5 sm:gap-3 mb-3 md:mb-4">
+                <Button variant="cta" size="lg" className="rounded-full text-sm md:text-base" onClick={handleRequestQuote}>
+                  Afspraak maken
+                </Button>
+                <a
+                  href="tel:+32472502814"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 md:px-6 md:py-3 rounded-full bg-[hsl(var(--urgent))] text-[hsl(var(--urgent-foreground))] font-heading font-bold text-xs md:text-sm uppercase tracking-wider shadow-[0_0_20px_hsl(var(--urgent)/0.6)] hover:shadow-[0_0_30px_hsl(var(--urgent)/0.8)] transition-shadow"
+                >
+                  <Phone className="w-4 h-4" />
+                  BEL NU: 0472 50 28 14
+                </a>
+              </div>
+
+              {/* Trust signals */}
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-white/80 text-xs md:text-sm font-heading">
+                <span className="inline-flex items-center gap-1.5">
+                  <Clock className="w-3.5 h-3.5 text-primary" />
+                  24/7 beschikbaar
+                </span>
+                <span className="inline-flex items-center gap-1.5">
+                  <Star className="w-3.5 h-3.5 text-yellow-400 fill-yellow-400" />
+                  4.9 Google Reviews
+                </span>
+                <span className="inline-flex items-center gap-1.5">
+                  <ShieldCheck className="w-3.5 h-3.5 text-primary" />
+                  Verzekerd & gecertificeerd
+                </span>
+              </div>
             </div>
           </div>
 
@@ -111,6 +142,7 @@ const DienstDetail = () => {
               </div>
             )}
 
+            {/* Bottom CTA herhaling */}
             <div className="flex flex-col sm:flex-row items-center gap-4">
               <Button variant="cta" size="lg" className="rounded-full" onClick={handleRequestQuote}>
                 Afspraak maken
