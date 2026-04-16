@@ -13,7 +13,7 @@ const ServicesSection = () => {
           </h2>
           <div className="w-16 h-1 bg-primary mx-auto mb-4" />
           <p className="text-muted-foreground font-body max-w-xl mx-auto">
-            Van ontstoppingen tot camera inspectie riool — Riory biedt een compleet aanbod aan rioleringsdiensten in Bilzen, Hasselt, Genk en heel Limburg. 24/7 beschikbaar.
+            Van ontstoppingen tot camera inspectie riool — Riory biedt een compleet aanbod aan rioleringsdiensten in Bilzen, Hoeselt, Hasselt, Genk, Tongeren en heel Limburg. 24/7 beschikbaar.
           </p>
         </div>
 

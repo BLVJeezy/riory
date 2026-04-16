@@ -28,7 +28,7 @@ const HeroSection = () => {
             Ontstopping &amp; rioolservice in Limburg
           </h1>
           <p className="text-sm md:text-lg text-white/80 font-body leading-relaxed mb-4 md:mb-5 max-w-xl">
-            Septische put ledigen? Problemen met de riolering? Last van verstoppingen? Riory staat 24/7 klaar in Bilzen, Hasselt en heel Limburg!
+            Septische put ledigen? Problemen met de riolering? Last van verstoppingen? Riory staat 24/7 klaar in Bilzen, Hoeselt, Hasselt, Genk, Tongeren en heel Limburg!
           </p>
 
           {/* Social proof balk */}
