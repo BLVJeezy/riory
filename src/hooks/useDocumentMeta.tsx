@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
 const DEFAULT_TITLE = "24/7 Ontstopping-, riool- & ruimdienst Bilzen-Hoeselt, Limburg | Riory";
-const DEFAULT_DESCRIPTION = "Septische put ledigen? Problemen met de riolering? Last van verstoppingen? Riory staat 24/7 klaar!";
+const DEFAULT_DESCRIPTION = "Riool verstopt in Bilzen, Hasselt of Limburg? Riory staat 24/7 klaar: ontstopping, septische put ledigen, camera inspectie riool & leegpompen. Bel nu!";
 
 export const useDocumentMeta = (title?: string, description?: string) => {
   useEffect(() => {
