@@ -14,7 +14,27 @@ const faqs = [
   {
     question: "Wat kost een ontstopping gemiddeld?",
     answer:
-      "De prijs hangt af van de aard en ernst van de verstopping. Gebruik onze online schattingstool voor een indicatieve prijs, of vraag een gratis offerte aan voor een exacte berekening.",
+      "De prijs hangt af van de aard en ernst van de verstopping. Of het nu gaat om een verstopte WC, gootsteen of een douche die niet afloopt — gebruik onze online schattingstool voor een indicatieve prijs, of vraag een gratis offerte aan voor een exacte berekening.",
+  },
+  {
+    question: "Mijn WC is verstopt, wat kan ik doen?",
+    answer:
+      "Een verstopte WC is één van de meest voorkomende problemen. Probeer eerst een ontstopper of heet water. Helpt dit niet? Dan zit de verstopping waarschijnlijk dieper in de afvoerleiding. Onze techniekers kunnen uw WC ontstoppen met professionele apparatuur, vaak binnen het uur.",
+  },
+  {
+    question: "Mijn gootsteen of douche loopt niet af, wat is de oorzaak?",
+    answer:
+      "Een gootsteen die verstopt zit of een douche die niet afloopt, wordt meestal veroorzaakt door ophoping van vet, haar of zeepresidu. Water dat terugkomt in de afvoer wijst op een blokkade verderop. Wij verhelpen dit snel met hogedruk-reiniging.",
+  },
+  {
+    question: "Ik ruik rioollucht in huis, is dat gevaarlijk?",
+    answer:
+      "Rioollucht in huis kan wijzen op een droogstaande sifon, een beschadigde leiding of een slechte aansluiting op het rioolstelsel. Het is niet direct gevaarlijk, maar wel onaangenaam en een teken van een onderliggend probleem. Een camera inspectie riool brengt de oorzaak snel in kaart.",
+  },
+  {
+    question: "Wat betekent een borrelende afvoer of rioolvliegjes?",
+    answer:
+      "Een borrelende afvoer duidt vaak op een beluchtigsprobleem of een verstopping dieper in de leiding. Rioolvliegjes zijn kleine insecten die gedijen op organisch materiaal in verstopte of trage afvoeren. Beide zijn symptomen van een probleem dat professioneel onderzocht en verholpen moet worden.",
   },
   {
     question: "Werken jullie ook in het weekend en op feestdagen?",
