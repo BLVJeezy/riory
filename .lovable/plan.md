@@ -1,40 +1,35 @@
 
 
-# Google Reviews Automatiseren — Opties
+## Plan: H1 & H2 Heading-optimalisatie met LSI-keywords
 
-## Optie 1: Google Places API (Aanbevolen)
-- Gebruik de **Google Places API** (die je al hebt via je Google Maps API key met billing ingeschakeld)
-- Maak een Edge Function die periodiek reviews ophaalt via `places/{placeId}/reviews`
-- Sla de reviews op in een database-tabel
-- De website leest uit de database in plaats van hardcoded data
+### Probleem
+De H1-titels bevatten al lokale zoektermen, maar de H2-tussenkopjes zijn generiek ("Wat wij doen") en missen LSI-keywords. Elke dienstpagina gebruikt dezelfde H2, wat een gemiste SEO-kans is.
 
-**Voordelen**: Betrouwbaar, officieel, real-time updates
-**Nadelen**: Google Places API toont maximaal **5 meest relevante reviews** per API-call (dit is een Google-beperking). Je kunt dus niet alle 79+ reviews automatisch ophalen.
+### Aanpak
 
-## Optie 2: Scheduled scraping via Firecrawl
-- Gebruik de Firecrawl connector om periodiek de Google Reviews pagina te scrapen
-- Parse de reviews en sla ze op in de database
-- Draait via een scheduled Edge Function (bijv. dagelijks)
+**1. Service data-model uitbreiden** (`src/data/services.ts`)
 
-**Voordelen**: Kan meer dan 5 reviews ophalen
-**Nadelen**: Fragiel (HTML-structuur kan veranderen), vereist Firecrawl connector setup
+Nieuw veld `h2Title` toevoegen aan de `Service` interface, zodat elke dienst een unieke, zoekwoordrijke H2 krijgt:
 
-## Optie 3: Hybride aanpak
-- Gebruik de Google Places API voor de 5 nieuwste/meest relevante reviews
-- Houd de overige reviews handmatig bij in de database
-- Toon alles samen op de website
+| Dienst | Huidige H2 | Nieuwe H2 (`h2Title`) |
+|---|---|---|
+| Camera inspectie | Wat wij doen | Riool inspecteren en afvoerproblemen opsporen |
+| Ontstoppingen & Geurdetectie | Wat wij doen | Riool ontstoppen en oorzaak van rioolstank opsporen |
+| Leidingen & Septische Putten | Wat wij doen | Septische put ruimen en rioolleidingen herstellen |
+| Leegpompen & Reinigen | Wat wij doen | Kelder droogpompen en rioleringssysteem reinigen |
 
-**Voordelen**: Betrouwbaar voor de nieuwste reviews, volledige controle over de rest
-**Nadelen**: Niet volledig geautomatiseerd
+**2. DienstDetail pagina updaten** (`src/pages/DienstDetail.tsx`)
 
-## Wat elke optie inhoudt (technisch)
+- De H2 "Wat wij doen" vervangen door `service.h2Title`
+- De H3 "Bekijk onze referenties" wordt ook zoekwoordrijker per dienst (optioneel, via een `refH3` veld)
 
-1. **Database-tabel** `google_reviews` met kolommen: naam, rating, tekst, datum, bron
-2. **Edge Function** die reviews ophaalt (API of scraping)
-3. **Scheduled job** (pg_cron) om periodiek te updaten
-4. **ReviewsSection** aanpassen om uit de database te lezen in plaats van hardcoded data
+### Technische details
 
-## Aanbeveling
+- `Service` interface: `h2Title: string` toevoegen
+- Alle 4 services in `allServices` array krijgen een `h2Title` waarde
+- In `DienstDetail.tsx` regel 108-109: `"Wat wij doen"` → `{service.h2Title}`
 
-**Optie 1 (Google Places API)** is het meest betrouwbaar, maar beperkt tot 5 reviews per call. Als je alle reviews wilt tonen, is **Optie 3 (hybride)** het beste: automatisch de nieuwste ophalen + de rest in de database beheren.
+### Geen wijzigingen aan
+- H1-titels (zijn al geoptimaliseerd met lokale termen)
+- Meta titles/descriptions (zijn al geoptimaliseerd)
 
