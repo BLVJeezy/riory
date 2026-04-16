@@ -41,19 +41,19 @@ const DienstDetail = () => {
   return (
     <>
       <Navbar />
-      <section className="pt-24 pb-20 bg-background min-h-screen">
-        <div className="section-container px-6 md:px-8">
-          <div className="mb-4">
+      <section className="pt-20 md:pt-24 pb-16 md:pb-20 bg-background min-h-screen">
+        <div className="section-container px-4 md:px-8">
+          <div className="mb-2 md:mb-4">
             <Button variant="ghost" size="sm" asChild>
-              <Link to="/diensten" className="gap-2 text-muted-foreground hover:text-foreground">
-                <ArrowLeft className="w-4 h-4" />
+              <Link to="/diensten" className="gap-2 text-muted-foreground hover:text-foreground text-xs md:text-sm">
+                <ArrowLeft className="w-3.5 h-3.5 md:w-4 md:h-4" />
                 Terug naar diensten
               </Link>
             </Button>
           </div>
 
           {/* Hero image with CTA overlay */}
-          <div className="relative h-72 md:h-[28rem] rounded-xl overflow-hidden mb-6">
+          <div className="relative h-[21rem] md:h-[28rem] rounded-xl overflow-hidden mb-5 md:mb-6">
             <img
               src={service.image}
               alt={service.title}
@@ -61,38 +61,38 @@ const DienstDetail = () => {
               fetchPriority="high"
               className="absolute inset-0 w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-charcoal/90 via-charcoal/40 to-transparent" />
-            <div className="absolute bottom-0 left-0 right-0 p-5 md:p-10">
-              <h1 className="text-xl md:text-4xl font-heading font-bold text-white uppercase leading-tight mb-3 md:mb-4">
+            <div className="absolute inset-0 bg-gradient-to-t from-charcoal/95 via-charcoal/50 to-transparent" />
+            <div className="absolute bottom-0 left-0 right-0 p-4 md:p-10">
+              <h1 className="text-lg md:text-4xl font-heading font-bold text-white uppercase leading-tight mb-2.5 md:mb-4">
                 {service.title}
               </h1>
 
               {/* Above-the-fold CTA + phone */}
-              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2.5 sm:gap-3 mb-3 md:mb-4">
-                <Button variant="cta" size="lg" className="rounded-full text-sm md:text-base" onClick={handleRequestQuote}>
+              <div className="flex flex-row items-center gap-2 sm:gap-3 mb-2.5 md:mb-4">
+                <Button variant="cta" size="default" className="rounded-full text-xs md:text-base px-4 md:px-6 h-9 md:h-11" onClick={handleRequestQuote}>
                   Afspraak maken
                 </Button>
                 <a
                   href="tel:+32472502814"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 md:px-6 md:py-3 rounded-full bg-[hsl(var(--urgent))] text-[hsl(var(--urgent-foreground))] font-heading font-bold text-xs md:text-sm uppercase tracking-wider shadow-[0_0_20px_hsl(var(--urgent)/0.6)] hover:shadow-[0_0_30px_hsl(var(--urgent)/0.8)] transition-shadow"
+                  className="inline-flex items-center gap-1.5 px-3.5 py-2 md:px-6 md:py-3 rounded-full bg-[hsl(var(--urgent))] text-[hsl(var(--urgent-foreground))] font-heading font-bold text-[11px] md:text-sm uppercase tracking-wider shadow-[0_0_20px_hsl(var(--urgent)/0.6)] hover:shadow-[0_0_30px_hsl(var(--urgent)/0.8)] transition-shadow"
                 >
-                  <Phone className="w-4 h-4" />
-                  BEL NU: 0472 50 28 14
+                  <Phone className="w-3.5 h-3.5 md:w-4 md:h-4" />
+                  <span className="hidden sm:inline">BEL NU: </span>0472 50 28 14
                 </a>
               </div>
 
               {/* Trust signals */}
-              <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-white/80 text-xs md:text-sm font-heading">
-                <span className="inline-flex items-center gap-1.5">
-                  <Clock className="w-3.5 h-3.5 text-primary" />
+              <div className="flex flex-wrap items-center gap-x-3 md:gap-x-4 gap-y-1 text-white/80 text-[11px] md:text-sm font-heading">
+                <span className="inline-flex items-center gap-1">
+                  <Clock className="w-3 h-3 md:w-3.5 md:h-3.5 text-primary" />
                   24/7 beschikbaar
                 </span>
-                <span className="inline-flex items-center gap-1.5">
-                  <Star className="w-3.5 h-3.5 text-yellow-400 fill-yellow-400" />
+                <span className="inline-flex items-center gap-1">
+                  <Star className="w-3 h-3 md:w-3.5 md:h-3.5 text-yellow-400 fill-yellow-400" />
                   4.9 Google Reviews
                 </span>
-                <span className="inline-flex items-center gap-1.5">
-                  <ShieldCheck className="w-3.5 h-3.5 text-primary" />
+                <span className="inline-flex items-center gap-1">
+                  <ShieldCheck className="w-3 h-3 md:w-3.5 md:h-3.5 text-primary" />
                   Verzekerd & gecertificeerd
                 </span>
               </div>
