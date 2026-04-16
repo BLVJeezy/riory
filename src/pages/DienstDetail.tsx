@@ -106,7 +106,7 @@ const DienstDetail = () => {
             </p>
 
             <h2 className="text-xl md:text-2xl font-heading font-bold text-foreground mb-6">
-              Wat wij doen
+              {service.h2Title}
             </h2>
             <ul className="space-y-4 mb-10">
               {service.features.map((feature) => (
