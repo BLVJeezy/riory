@@ -21,10 +21,10 @@ export const allServices: Service[] = [
     slug: "camera-inspectie",
     title: "Camera inspectie riool en afvoer in Limburg",
     shortTitle: "Camera inspectie riool",
-    description: "Laat verborgen problemen exact lokaliseren met professioneel camera onderzoek van riool en afvoer in Bilzen, Hasselt en heel Limburg. Ideaal bij een verstopte afvoer, terugkerende rioollucht of aankoop van een woning.",
+    description: "Laat verborgen problemen exact lokaliseren met professioneel camera onderzoek van riool en afvoer in Bilzen, Hoeselt, Hasselt, Genk, Tongeren en heel Limburg. Ideaal bij een verstopte afvoer, terugkerende rioollucht of aankoop van een woning.",
     image: serviceCamera,
     longDescription:
-      "Met onze professionele camera-inspectie van riool en afvoer krijgt u een duidelijk beeld van de toestand van uw rioleringssysteem in Bilzen, Hasselt, Genk, Tongeren en heel Limburg. We brengen breuken, wortelingroei, verzakkingen en verstoppingen nauwkeurig in kaart. WC die steeds verstopt raakt? Douche die niet afloopt? Gootsteen die traag wegloopt? Een camera-inspectie legt de exacte oorzaak bloot — zonder breekwerk. Na de inspectie ontvangt u een gedetailleerd rapport met beelden en advies voor eventuele herstellingen.",
+      "Met onze professionele camera-inspectie van riool en afvoer krijgt u een duidelijk beeld van de toestand van uw rioleringssysteem in Bilzen, Hoeselt, Hasselt, Genk, Tongeren en heel Limburg. We brengen breuken, wortelingroei, verzakkingen en verstoppingen nauwkeurig in kaart. WC die steeds verstopt raakt? Douche die niet afloopt? Gootsteen die traag wegloopt? Een camera-inspectie legt de exacte oorzaak bloot — zonder breekwerk. Na de inspectie ontvangt u een gedetailleerd rapport met beelden en advies voor eventuele herstellingen.",
     features: [
       "Riool inspecteren met professionele camera",
       "Oorzaak van verstopte WC, douche of gootsteen opsporen",
@@ -42,10 +42,10 @@ export const allServices: Service[] = [
     slug: "ontstoppingen-en-geurdetectie",
     title: "Professionele ontstoppingen en geurdetectie in Limburg",
     shortTitle: "Ontstoppingen & Geurdetectie",
-    description: "Afvoer verstopt? Geurhinder? Riory spoort het probleem 24/7 op met efficiënte ontstopping en geurdetectie in Bilzen, Hasselt en heel Limburg.",
+    description: "Afvoer verstopt? Geurhinder? Riory spoort het probleem 24/7 op met efficiënte ontstopping en geurdetectie in Bilzen, Hoeselt, Hasselt, Genk, Tongeren en heel Limburg.",
     image: serviceOntstoppingen,
     longDescription:
-      "Heeft u last van een verstopte afvoer, rioolverstopping of stankoverlast? WC verstopt, gootsteen verstopt of douche loopt niet af? Rioollucht in huis of een riool dat stinkt? Wij zorgen voor een snelle en grondige oplossing in Bilzen, Hasselt, Genk, Tongeren en heel Limburg. Met professionele hogedrukapparatuur maken wij elke verstopping vrij — van keukens en badkamers tot hoofdrioleringen. Ook bij een overlopende WC, borrelende afvoer of water dat terugkomt via de douche staan wij 24/7 paraat. Wij sporen geurhinder en rioolvliegjes op aan de bron en verhelpen het probleem duurzaam.",
+      "Heeft u last van een verstopte afvoer, rioolverstopping of stankoverlast? WC verstopt, gootsteen verstopt of douche loopt niet af? Rioollucht in huis of een riool dat stinkt? Wij zorgen voor een snelle en grondige oplossing in Bilzen, Hoeselt, Hasselt, Genk, Tongeren en heel Limburg. Met professionele hogedrukapparatuur maken wij elke verstopping vrij — van keukens en badkamers tot hoofdrioleringen. Ook bij een overlopende WC, borrelende afvoer of water dat terugkomt via de douche staan wij 24/7 paraat. Wij sporen geurhinder en rioolvliegjes op aan de bron en verhelpen het probleem duurzaam.",
     features: [
       "Riool ontstoppen — snel en professioneel",
       "WC ontstoppen bij verstopping of overloop",
@@ -65,10 +65,10 @@ export const allServices: Service[] = [
     slug: "leidingen-en-septische-putten",
     title: "Septische put ledigen en leidingen herstellen in Limburg",
     shortTitle: "Leidingen & Septische Putten",
-    description: "Riory ruimt en reinigt septische putten in Bilzen, Hasselt en heel Limburg voor eerlijke prijzen en met 24/7 service.",
+    description: "Riory ruimt en reinigt septische putten in Bilzen, Hoeselt, Hasselt, Genk, Tongeren en heel Limburg voor eerlijke prijzen en met 24/7 service.",
     image: serviceLeidingen,
     longDescription:
-      "Van het ledigen van septische putten tot het aanleggen of herstellen van rioolleidingen — wij bieden een totaalpakket voor uw ondergrondse infrastructuur in Bilzen, Hasselt, Genk en omstreken. Septische put vol? Beerput die overloopt? Rioollucht uit de put? Met gespecialiseerde zuigwagens en graafmachines werken wij efficiënt en met minimale overlast. Regenputten reinigen we grondig zodat uw afwatering optimaal blijft functioneren en wateroverlast wordt voorkomen.",
+      "Van het ledigen van septische putten tot het aanleggen of herstellen van rioolleidingen — wij bieden een totaalpakket voor uw ondergrondse infrastructuur in Bilzen, Hoeselt, Hasselt, Genk, Tongeren en heel Limburg. Septische put vol? Beerput die overloopt? Rioollucht uit de put? Met gespecialiseerde zuigwagens en graafmachines werken wij efficiënt en met minimale overlast. Regenputten reinigen we grondig zodat uw afwatering optimaal blijft functioneren en wateroverlast wordt voorkomen.",
     features: [
       "Septische put ledigen en reinigen",
       "Beerput ruimen en onderhouden",
@@ -88,7 +88,7 @@ export const allServices: Service[] = [
     description: "Kelder of regenput ondergelopen? Riory pompt snel leeg, spoort de oorzaak op en maakt schoon. 24/7 beschikbaar in Limburg!",
     image: serviceLeegpompen,
     longDescription:
-      "Bij wateroverlast staan wij snel ter plaatse in Bilzen, Hasselt, Genk en heel Limburg om kelders, putten en terreinen leeg te pompen. Kelder onder water na hevige regenval? Regenput die overloopt? Riool dat terugkomt via de afvoer? Wij pompen snel leeg en sporen de oorzaak op. Daarnaast bieden we periodieke reiniging aan als preventief onderhoud voor uw volledige rioleringssysteem. Regelmatig onderhoud voorkomt dure herstellingen, verstopte afvoeren en rioollucht in huis.",
+      "Bij wateroverlast staan wij snel ter plaatse in Bilzen, Hoeselt, Hasselt, Genk, Tongeren en heel Limburg om kelders, putten en terreinen leeg te pompen. Kelder onder water na hevige regenval? Regenput die overloopt? Riool dat terugkomt via de afvoer? Wij pompen snel leeg en sporen de oorzaak op. Daarnaast bieden we periodieke reiniging aan als preventief onderhoud voor uw volledige rioleringssysteem. Regelmatig onderhoud voorkomt dure herstellingen, verstopte afvoeren en rioollucht in huis.",
     features: [
       "Kelder leegpompen bij wateroverlast of overstroming",
       "Regenput reinigen en onderhouden",
