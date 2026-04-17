@@ -52,12 +52,6 @@ const HeroSection = () => {
               <Shield className="w-3.5 h-3.5 md:w-4 md:h-4 text-primary" />
               <span>Verzekerd</span>
             </div>
-            <div className="w-px h-3.5 bg-white/20 hidden sm:block" />
-            <div className="flex items-center gap-1 text-xs md:text-sm font-body">
-              <span className="text-white/60">Vanaf</span>
-              <span className="text-white font-heading font-bold">€95</span>
-              <span className="text-white/60">incl. verplaatsing</span>
-            </div>
           </div>
 
           {/* CTA knoppen */}
