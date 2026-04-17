@@ -1,24 +1,39 @@
 
+## Plan: Audit & optimaliseren van Meta Titel + Meta Beschrijving (best practices)
 
-## Plan: Zoektermen toevoegen aan FAQ-sectie
+### Huidige situatie
+- **Homepage** (`index.html`): Title 56 tekens ✓, Description 169 tekens ⚠️ (te lang, knipt af rond 155-160).
+- **Diensten-detailpagina's** (`src/data/services.ts`): titles en descriptions zien er goed uit, maar `metaDescription` voor "Ontstoppingen" (~157) en "Kelder leegpompen" (~152) zitten op de grens.
+- **Locatiepagina's** (`src/data/locations.ts`): meeste meta-descriptions tussen 145-165 tekens — een paar zitten boven de aanbevolen 160.
+- **Diensten-overzicht** (`/diensten`) en **Afspraak** (`/afspraak`): meta-tags via `useDocumentMeta()` zijn **kort en generiek** — missen power-words, USP's en CTA.
+- **OG image**: verwijst naar een tijdelijke Lovable preview-URL (niet brand-eigen).
 
-### Wat
-Nieuwe FAQ-vragen toevoegen die specifieke zoektermen bevatten waar mensen actief op zoeken, plus bestaande antwoorden verrijken met die termen. De zoektermen: **wc ontstoppen**, **gootsteen verstopt**, **douche loopt niet af**, **rioollucht in huis**, **borrelende afvoer**, **rioolvliegjes**, **water dat terugkomt**.
+### Best practices die we toepassen
+1. **Title**: 50-60 tekens, primair zoekwoord vooraan, locatie + brand achteraan, pipe-separator.
+2. **Description**: 140-158 tekens, USP's met ✓ vinkjes, urgentie ("24/7", "Binnen 2u"), social proof ("4.9★"), duidelijke CTA ("Bel nu", "Plan in").
+3. **Uniek per pagina** — geen duplicates.
+4. **Bevat primair zoekwoord** + minstens 1 locatie waar relevant.
 
 ### Wijzigingen
 
-**1. `src/components/FAQSection.tsx`** — Nieuwe FAQ-items toevoegen + bestaande antwoorden verrijken:
+**1. `index.html`** — homepage description inkorten naar ~155 tekens, OG image vervangen door brand-asset of stabiele URL behouden met notitie.
 
-- **Bestaand antwoord "Wat kost een ontstopping"** verrijken met concrete voorbeelden: "Of het nu gaat om een verstopte WC, gootsteen of een douche die niet afloopt..."
-- **Nieuwe FAQ**: "Mijn WC is verstopt, wat kan ik doen?" — antwoord met advies + verwijzing naar dienst
-- **Nieuwe FAQ**: "Mijn gootsteen of douche loopt niet af, wat is de oorzaak?" — antwoord met veelvoorkomende oorzaken
-- **Nieuwe FAQ**: "Ik ruik rioollucht in huis, is dat gevaarlijk?" — antwoord over oorzaken (droogstaande sifon, beschadigde leiding) + camera-inspectie
-- **Nieuwe FAQ**: "Wat betekent een borrelende afvoer of rioolvliegjes?" — antwoord over symptomen van diepere verstopping
+**2. `src/data/services.ts`** — herzien van alle 4 `metaTitle` + `metaDescription` waar nodig (lengte + krachtigere CTA/USP).
 
-**2. `index.html`** — Dezelfde nieuwe FAQ-items toevoegen aan het FAQPage JSON-LD schema zodat Google ze als rich results kan tonen.
+**3. `src/data/locations.ts`** — alle 6 locatie meta-tags optimaliseren (lengte trimmen tot ≤158 tekens, consistent format: "Dienst Locatie 24/7 | USP's | Brand").
+
+**4. `src/pages/Diensten.tsx`** + **`src/pages/Afspraak.tsx`** — vervang generieke titels met SEO-rijke versies:
+- Diensten: `"Rioleringsdiensten Limburg | Ontstopping, Camera & Septische Put | Riory"` + krachtige description.
+- Afspraak: `"Afspraak Maken Riory | 24/7 Ontstoppingsdienst Limburg"` + CTA-gerichte description.
+
+**5. `src/hooks/useDocumentMeta.tsx`** — uitbreiden om ook `og:url` (canonical) per pagina te updaten zodat social shares correct linken.
 
 ### Resultaat
-- 10 FAQ-items in plaats van 6, met maximale dekking van long-tail zoektermen
-- FAQ schema in `index.html` blijft in sync
-- Geen dubbele schema's (enkel in `index.html`)
+- Alle meta-tags binnen Google's aanbevolen lengte (geen afkappingen in SERP).
+- Consistent format met USP-vinkjes, urgentie, social proof en CTA → hogere CTR.
+- Unieke meta-tags per pagina (geen duplicate content signals).
+- OG-tags blijven in sync per route.
 
+### Niet in scope (apart vragen indien gewenst)
+- CRO-aanpassingen (formulier-achtergrond, prijsrange, hero CTA boven fold).
+- SEA-keyword campagnestructuur (separate Google Ads strategie-document).
