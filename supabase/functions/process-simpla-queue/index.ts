@@ -52,7 +52,15 @@ Deno.serve(async (req) => {
       const attempts = (message.attempts ?? 0) + 1;
 
       try {
-        const res = await fetch(SIMPLA_ENDPOINT, {
+        const params = new URLSearchParams();
+        params.set("appointmentId", String(appointmentId));
+        for (const [k, v] of Object.entries(payload ?? {})) {
+          if (v === undefined || v === null || v === "") continue;
+          params.set(k, typeof v === "object" ? JSON.stringify(v) : String(v));
+        }
+        const urlWithParams = `${SIMPLA_ENDPOINT}?${params.toString()}`;
+
+        const res = await fetch(urlWithParams, {
           method: "POST",
           headers: {
             "Authorization": `Bearer ${apiKey}`,

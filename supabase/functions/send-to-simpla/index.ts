@@ -22,9 +22,18 @@ Deno.serve(async (req) => {
     const apiKey = Deno.env.get("SIMPLA_API_KEY");
     if (!apiKey) throw new Error("SIMPLA_API_KEY not configured");
 
+    // Build URL with payload as query params (so Simpla can read from URL)
+    const params = new URLSearchParams();
+    params.set("appointmentId", String(appointmentId));
+    for (const [k, v] of Object.entries(payload)) {
+      if (v === undefined || v === null || v === "") continue;
+      params.set(k, typeof v === "object" ? JSON.stringify(v) : String(v));
+    }
+    const urlWithParams = `${SIMPLA_ENDPOINT}?${params.toString()}`;
+
     // Try direct send first
     try {
-      const res = await fetch(SIMPLA_ENDPOINT, {
+      const res = await fetch(urlWithParams, {
         method: "POST",
         headers: {
           "Authorization": `Bearer ${apiKey}`,
