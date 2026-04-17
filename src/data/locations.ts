@@ -25,7 +25,7 @@ export const allLocations: LocationData[] = [
     postalCode: "3500",
     h1: "Ontstopping & rioleringsdienst in Hasselt",
     metaTitle: "Ontstoppingsdienst Hasselt 24/7 | Riool, WC & Septische Put | Riory",
-    metaDescription: "Verstopte afvoer of riool in Hasselt? Riory is 24/7 bereikbaar. ✓ WC ontstoppen ✓ Camera-inspectie ✓ Septische put ledigen ✓ Binnen 1-2 uur ter plaatse. Bel nu!",
+    metaDescription: "Verstopte riool in Hasselt? Riory 24/7 bereikbaar. ✓ WC ontstoppen ✓ Camera-inspectie ✓ Septische put ledigen ✓ Binnen 1-2u ter plaatse. Bel nu!",
     intro: "Riory is uw betrouwbare partner voor alle riolerings- en ontstoppingsdiensten in Hasselt en omgeving. Of het nu gaat om een verstopte WC, een gootsteen die niet afloopt, rioollucht in huis of het ledigen van uw septische put — wij staan 24/7 paraat om u snel en vakkundig te helpen. Als hoofdstad van Limburg bedienen wij zowel het centrum van Hasselt als de deelgemeenten Kermt, Kuringen, Stevoort, Wimmertingen en Sint-Lambrechts-Herk.",
     services: [
       {

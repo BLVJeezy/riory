@@ -7,8 +7,8 @@ import Footer from "@/components/Footer";
 const Afspraak = () => {
   usePageView("/afspraak");
   useDocumentMeta(
-    "Afspraak Maken | Riory",
-    "Plan snel een afspraak voor ontstopping, camera-inspectie of put-lediging bij Riory."
+    "Afspraak Maken | 24/7 Ontstoppingsdienst Limburg | Riory",
+    "Plan direct uw afspraak bij Riory. ✓ 24/7 bereikbaar ✓ Binnen 1-2u ter plaatse ✓ Vaste prijzen in Bilzen, Hasselt, Genk & Tongeren. Boek nu!"
   );
 
   return (

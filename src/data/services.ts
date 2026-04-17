@@ -34,8 +34,8 @@ export const allServices: Service[] = [
       "Duidelijk rapport met beelden en advies",
       "Geschikt voor preventieve controles bij aankoop woning",
     ],
-    metaTitle: "Camera Inspectie Riool Limburg | Snel & Zonder Breekwerk | Riory",
-    metaDescription: "Rioolprobleem? Onze camera-inspectie legt de oorzaak bloot — zonder breekwerk. ✓ Rapport met beelden ✓ 24/7 bereikbaar in Bilzen, Hasselt, Genk & Tongeren. Plan nu in!",
+    metaTitle: "Camera Inspectie Riool Limburg | Zonder Breekwerk | Riory",
+    metaDescription: "Camera-inspectie van uw riool — oorzaak bloot zonder breekwerk. ✓ Rapport met beelden ✓ 24/7 in Bilzen, Hasselt, Genk & Tongeren. Plan nu in!",
     h2Title: "Riool inspecteren en afvoerproblemen opsporen",
   },
   {
@@ -58,7 +58,7 @@ export const allServices: Service[] = [
       "24/7 beschikbaar voor noodgevallen in Limburg",
     ],
     metaTitle: "Ontstopping Limburg 24/7 | WC, Douche & Riool | Riory",
-    metaDescription: "WC verstopt? Gootsteen loopt niet door? Riory lost het op — 24/7, ook in het weekend. ✓ Binnen 2 uur ter plaatse ✓ Vaste prijzen ✓ Bilzen, Hasselt, Genk. Bel nu!",
+    metaDescription: "WC of gootsteen verstopt? Riory lost het 24/7 op. ✓ Binnen 2 uur ter plaatse ✓ Vaste prijzen ✓ Bilzen, Hasselt, Genk & Tongeren. Bel nu!",
     h2Title: "Riool ontstoppen en oorzaak van rioolstank opsporen",
   },
   {
@@ -78,7 +78,7 @@ export const allServices: Service[] = [
       "Professionele zuigwagens en graafmachines",
     ],
     metaTitle: "Septische Put Ledigen Limburg | Eerlijke Prijs | Riory 24/7",
-    metaDescription: "Septische put of beerput vol? Riory ledigt en reinigt 24/7 in Bilzen, Hasselt, Genk & Tongeren. ✓ Vaste tarieven ✓ Geen verrassingen ✓ 4.9★ reviews. Plan nu in!",
+    metaDescription: "Septische of beerput vol? Riory ledigt 24/7 in Bilzen, Hasselt, Genk & Tongeren. ✓ Vaste tarieven ✓ Geen verrassingen ✓ 4.9★ reviews. Bel nu!",
     h2Title: "Septische put ruimen en rioolleidingen herstellen",
   },
   {
@@ -99,7 +99,7 @@ export const allServices: Service[] = [
       "Snel ter plaatse — 24/7 bereikbaar in Limburg",
     ],
     metaTitle: "Kelder Leegpompen Limburg 24/7 | Snel Ter Plaatse | Riory",
-    metaDescription: "Kelder onder water? Regenput overloopt? Riory pompt snel leeg en spoort de oorzaak op. ✓ 24/7 beschikbaar ✓ Bilzen, Hasselt, Genk & Tongeren. Bel direct!",
+    metaDescription: "Kelder onder water of regenput overloopt? Riory pompt leeg & spoort oorzaak op. ✓ 24/7 ✓ Bilzen, Hasselt, Genk & Tongeren. Bel direct!",
     h2Title: "Kelder droogpompen en rioleringssysteem reinigen",
   },
 ];

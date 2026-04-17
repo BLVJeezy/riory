@@ -13,8 +13,8 @@ import { allServices } from "@/data/services";
 const Diensten = () => {
   usePageView("/diensten");
   useDocumentMeta(
-    "Rioleringsdiensten Limburg | Ontstopping & Ruimdienst | Riory",
-    "Alle rioleringsdiensten onder één dak: ontstopping, camera inspectie, septische put ledigen & leegpompen. ✓ 24/7 bereikbaar ✓ Vaste prijzen ✓ Heel Limburg. Vraag nu een afspraak aan!"
+    "Rioleringsdiensten Limburg | Ontstopping, Camera & Septische Put | Riory",
+    "Alle rioleringsdiensten van Riory: ontstopping, camera-inspectie, septische put ledigen & leegpompen. ✓ 24/7 ✓ Vaste prijzen ✓ Heel Limburg. Plan nu in!"
   );
   const formRef = useRef<HTMLDivElement>(null);
 
