@@ -679,7 +679,7 @@ const AppointmentForm = () => {
           </a>
         </InViewBlock>
 
-        <InViewBlock delay={150} className="bg-background rounded-2xl p-4 sm:p-8 md:p-10 border-2 border-primary/30 max-w-3xl mx-auto shadow-[0_0_40px_hsl(var(--primary)/0.15),0_20px_60px_-15px_hsl(var(--primary)/0.2)]">
+        <InViewBlock delay={150} className="bg-background rounded-2xl p-4 sm:p-8 md:p-10 border-4 border-primary max-w-3xl mx-auto shadow-[0_0_60px_hsl(var(--primary)/0.45),0_25px_80px_-10px_hsl(var(--primary)/0.4)] ring-4 ring-primary/20">
           {/* Stepper - compact on mobile */}
           <div className="mb-6 sm:mb-8">
             {/* Mobile: progress bar + label */}
