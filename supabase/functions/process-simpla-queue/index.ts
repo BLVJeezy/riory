@@ -5,7 +5,7 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-const SIMPLA_ENDPOINT = "https://api.simpla.be/v1/leads";
+const SIMPLA_ENDPOINT = "https://api.simpla.be/api/";
 const MAX_ATTEMPTS = 5;
 const BATCH_SIZE = 10;
 const VT_SECONDS = 60;

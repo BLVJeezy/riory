@@ -5,7 +5,7 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-const SIMPLA_ENDPOINT = "https://api.simpla.be/v1/leads";
+const SIMPLA_ENDPOINT = "https://api.simpla.be/api/";
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
@@ -33,6 +33,7 @@ Deno.serve(async (req) => {
 
     // Try direct send first
     try {
+      console.log(`[simpla] POST ${urlWithParams}`);
       const res = await fetch(urlWithParams, {
         method: "POST",
         headers: {
@@ -42,14 +43,15 @@ Deno.serve(async (req) => {
         body: JSON.stringify(payload),
       });
 
+      const respBody = await res.text();
       if (res.ok) {
-        console.log(`[simpla] sent OK appointment=${appointmentId}`);
+        console.log(`[simpla] sent OK appointment=${appointmentId} body=${respBody.slice(0, 200)}`);
         return new Response(JSON.stringify({ success: true, queued: false }), {
           headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
 
-      console.warn(`[simpla] direct send failed status=${res.status}, enqueueing`);
+      console.warn(`[simpla] direct send failed status=${res.status} body=${respBody.slice(0, 300)}, enqueueing`);
     } catch (err) {
       console.warn(`[simpla] direct send threw, enqueueing:`, err);
     }
