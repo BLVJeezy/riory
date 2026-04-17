@@ -1,0 +1,112 @@
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
+
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+};
+
+const SIMPLA_ENDPOINT = "https://api.simpla.be/v1/leads";
+const MAX_ATTEMPTS = 5;
+const BATCH_SIZE = 10;
+const VT_SECONDS = 60;
+
+Deno.serve(async (req) => {
+  if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
+
+  const apiKey = Deno.env.get("SIMPLA_API_KEY");
+  if (!apiKey) {
+    return new Response(JSON.stringify({ error: "SIMPLA_API_KEY missing" }), {
+      status: 500,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+  }
+
+  const supabase = createClient(
+    Deno.env.get("SUPABASE_URL")!,
+    Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
+  );
+
+  let processed = 0;
+  let succeeded = 0;
+  let failed = 0;
+  let dlq = 0;
+
+  try {
+    const { data: messages, error: readErr } = await supabase.rpc("read_email_batch", {
+      queue_name: "simpla_leads",
+      batch_size: BATCH_SIZE,
+      vt: VT_SECONDS,
+    });
+
+    if (readErr) throw readErr;
+    if (!messages || messages.length === 0) {
+      return new Response(JSON.stringify({ processed: 0 }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    for (const msg of messages) {
+      processed++;
+      const { msg_id, message, read_ct } = msg;
+      const { appointmentId, payload } = message;
+      const attempts = (message.attempts ?? 0) + 1;
+
+      try {
+        const res = await fetch(SIMPLA_ENDPOINT, {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${apiKey}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        });
+
+        if (res.ok) {
+          await supabase.rpc("delete_email", { queue_name: "simpla_leads", message_id: msg_id });
+          console.log(`[simpla-queue] sent OK appointment=${appointmentId} attempt=${attempts}`);
+          succeeded++;
+          continue;
+        }
+
+        const body = await res.text();
+        console.warn(`[simpla-queue] send failed appointment=${appointmentId} status=${res.status} body=${body}`);
+        failed++;
+
+        // Move to DLQ if max attempts reached
+        if (read_ct >= MAX_ATTEMPTS || attempts >= MAX_ATTEMPTS) {
+          await supabase.rpc("move_to_dlq", {
+            source_queue: "simpla_leads",
+            dlq_name: "simpla_leads_dlq",
+            message_id: msg_id,
+            payload: { ...message, attempts, lastError: `${res.status}: ${body}` },
+          });
+          dlq++;
+          console.error(`[simpla-queue] moved to DLQ appointment=${appointmentId}`);
+        }
+        // else: visibility timeout expires, message gets retried
+      } catch (err) {
+        console.error(`[simpla-queue] exception appointment=${appointmentId}:`, err);
+        failed++;
+        if (read_ct >= MAX_ATTEMPTS) {
+          await supabase.rpc("move_to_dlq", {
+            source_queue: "simpla_leads",
+            dlq_name: "simpla_leads_dlq",
+            message_id: msg_id,
+            payload: { ...message, attempts, lastError: String(err) },
+          });
+          dlq++;
+        }
+      }
+    }
+
+    return new Response(JSON.stringify({ processed, succeeded, failed, dlq }), {
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+  } catch (err) {
+    console.error("[simpla-queue] fatal:", err);
+    return new Response(JSON.stringify({ error: String(err), processed, succeeded, failed, dlq }), {
+      status: 500,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+  }
+});

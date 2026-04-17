@@ -355,6 +355,53 @@ const AppointmentForm = () => {
         },
       }).catch((err) => console.error("Email notification failed:", err));
 
+      // Send to Simpla CRM (fire-and-forget; failures are queued for retry)
+      supabase.functions.invoke("send-to-simpla", {
+        body: {
+          appointmentId,
+          payload: {
+            dienst,
+            urgent: urgent ?? false,
+            klantType,
+            woningOuder: woningOuder ?? false,
+            naam: fact.naam || undefined,
+            voornaam: fact.voornaam || undefined,
+            bedrijfsnaam: fact.bedrijfsnaam || undefined,
+            btwNummer: fact.btw_nummer || undefined,
+            kboNummer: fact.kbo_nummer || undefined,
+            email: effectiveFactEmail,
+            facturatieEmail: fact.facturatie_email || undefined,
+            telefoon: fact.telefoon || undefined,
+            straat: fact.straat || undefined,
+            huisnummer: fact.huisnummer || undefined,
+            postcode: fact.postcode || undefined,
+            plaats: fact.plaats || undefined,
+            werfStraat: werf.straat || undefined,
+            werfHuisnummer: werf.huisnummer || undefined,
+            werfPostcode: werf.postcode || undefined,
+            werfPlaats: werf.plaats || undefined,
+            werfTelefoon: werf.telefoon || undefined,
+            werfContactpersoon: werf.contactpersoon || undefined,
+            werfProjectnaam: werf.projectnaam || undefined,
+            syndicusNaam: syndicus.naam || undefined,
+            syndicusVoornaam: syndicus.voornaam || undefined,
+            syndicusKantoor: syndicus.kantoor || undefined,
+            syndicusStraat: syndicus.straat || undefined,
+            syndicusHuisnummer: syndicus.huisnummer || undefined,
+            syndicusPostcode: syndicus.postcode || undefined,
+            syndicusPlaats: syndicus.plaats || undefined,
+            syndicusTelefoon: syndicus.telefoon || undefined,
+            syndicusEmail: syndicus.email || undefined,
+            syndicusFacturatieEmail: syndicus.facturatie_email || undefined,
+            syndicusNaamVme: syndicus.naam_vme || undefined,
+            syndicusKboNummer: syndicus.kbo_nummer || undefined,
+            beschrijving: beschrijving || undefined,
+            gevondenVia: gevondenVia || undefined,
+            gevondenDetail: gevondenDetail || undefined,
+          },
+        },
+      }).catch((err) => console.error("Simpla send failed (queued for retry):", err));
+
       setSubmitResult("success");
       // Reset
       setStep(0);
