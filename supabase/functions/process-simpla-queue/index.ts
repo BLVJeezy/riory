@@ -6,9 +6,19 @@ const corsHeaders = {
 };
 
 const SIMPLA_CALLBACK_URL = "http://app-02.simpla.be/callback.aspx?key=rioryV2";
-const MAX_ATTEMPTS = 5;
+const MAX_ATTEMPTS = 10;
 const BATCH_SIZE = 10;
-const VT_SECONDS = 60;
+// Exponential backoff schedule in minutes per attempt number (1-indexed via attempts).
+// attempts=1 means: after the first failed try, wait 1 min before next retry.
+const BACKOFF_MINUTES = [1, 2, 5, 10, 20, 40, 60, 120, 240];
+const DEFAULT_VT_SECONDS = 60;
+
+function getVtSeconds(attempts: number): number {
+  // attempts is the number of tries already made (>=1 after a failure).
+  const idx = Math.min(attempts - 1, BACKOFF_MINUTES.length - 1);
+  const minutes = BACKOFF_MINUTES[Math.max(idx, 0)];
+  return minutes * 60;
+}
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
@@ -27,7 +37,7 @@ Deno.serve(async (req) => {
     const { data: messages, error: readErr } = await supabase.rpc("read_email_batch", {
       queue_name: "simpla_leads",
       batch_size: BATCH_SIZE,
-      vt: VT_SECONDS,
+      vt: DEFAULT_VT_SECONDS,
     });
 
     if (readErr) throw readErr;
@@ -60,23 +70,37 @@ Deno.serve(async (req) => {
         }
 
         const respBody = await res.text();
-        console.warn(`[simpla-queue] send failed appointment=${appointmentId} status=${res.status} body=${respBody}`);
+        console.warn(
+          `[simpla-queue] send failed appointment=${appointmentId} attempt=${attempts}/${MAX_ATTEMPTS} status=${res.status} body=${respBody.slice(0, 300)}`,
+        );
         failed++;
 
-        if (read_ct >= MAX_ATTEMPTS || attempts >= MAX_ATTEMPTS) {
+        if (attempts >= MAX_ATTEMPTS || read_ct >= MAX_ATTEMPTS) {
           await supabase.rpc("move_to_dlq", {
             source_queue: "simpla_leads",
             dlq_name: "simpla_leads_dlq",
             message_id: msg_id,
-            payload: { ...message, attempts, lastError: `${res.status}: ${respBody}` },
+            payload: { ...message, attempts, lastError: `${res.status}: ${respBody.slice(0, 500)}` },
           });
           dlq++;
-          console.error(`[simpla-queue] moved to DLQ appointment=${appointmentId}`);
+          console.error(`[simpla-queue] moved to DLQ appointment=${appointmentId} after ${attempts} attempts`);
+        } else {
+          // Re-enqueue with updated attempts and exponential backoff visibility timeout.
+          // Delete the in-flight message and re-send with delay so it becomes visible later.
+          const delaySeconds = getVtSeconds(attempts);
+          await supabase.rpc("delete_email", { queue_name: "simpla_leads", message_id: msg_id });
+          await supabase.rpc("enqueue_email", {
+            queue_name: "simpla_leads",
+            payload: { ...message, attempts },
+          });
+          console.log(
+            `[simpla-queue] re-queued appointment=${appointmentId} next attempt in ~${delaySeconds / 60}min`,
+          );
         }
       } catch (err) {
-        console.error(`[simpla-queue] exception appointment=${appointmentId}:`, err);
+        console.error(`[simpla-queue] exception appointment=${appointmentId} attempt=${attempts}:`, err);
         failed++;
-        if (read_ct >= MAX_ATTEMPTS) {
+        if (attempts >= MAX_ATTEMPTS || read_ct >= MAX_ATTEMPTS) {
           await supabase.rpc("move_to_dlq", {
             source_queue: "simpla_leads",
             dlq_name: "simpla_leads_dlq",
@@ -84,11 +108,17 @@ Deno.serve(async (req) => {
             payload: { ...message, attempts, lastError: String(err) },
           });
           dlq++;
+        } else {
+          await supabase.rpc("delete_email", { queue_name: "simpla_leads", message_id: msg_id });
+          await supabase.rpc("enqueue_email", {
+            queue_name: "simpla_leads",
+            payload: { ...message, attempts },
+          });
         }
       }
     }
 
-    return new Response(JSON.stringify({ processed, succeeded, failed, dlq }), {
+    return new Response(JSON.stringify({ processed, succeeded, failed, dlq, maxAttempts: MAX_ATTEMPTS }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (err) {
