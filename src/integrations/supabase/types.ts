@@ -380,6 +380,42 @@ export type Database = {
         }
         Relationships: []
       }
+      simpla_health_incidents: {
+        Row: {
+          alert_count: number
+          consecutive_failures: number
+          id: string
+          last_alert_at: string | null
+          last_error_message: string | null
+          last_http_status: number | null
+          opened_at: string
+          resolved_at: string | null
+          status: string
+        }
+        Insert: {
+          alert_count?: number
+          consecutive_failures?: number
+          id?: string
+          last_alert_at?: string | null
+          last_error_message?: string | null
+          last_http_status?: number | null
+          opened_at?: string
+          resolved_at?: string | null
+          status?: string
+        }
+        Update: {
+          alert_count?: number
+          consecutive_failures?: number
+          id?: string
+          last_alert_at?: string | null
+          last_error_message?: string | null
+          last_http_status?: number | null
+          opened_at?: string
+          resolved_at?: string | null
+          status?: string
+        }
+        Relationships: []
+      }
       suppressed_emails: {
         Row: {
           created_at: string
