@@ -9,7 +9,8 @@ const SIMPLA_CALLBACK_URL = "http://app-02.simpla.be/callback.aspx?key=rioryV2";
 const TIMEOUT_MS = 10_000;
 const ALERT_AFTER_CONSECUTIVE_FAILURES = 3;
 const MAX_ATTEMPTS = 3;
-const BASE_BACKOFF_MS = 500; // 500ms, 1000ms, 2000ms (+ jitter)
+const BASE_BACKOFF_MS = 500;
+const REMINDER_INTERVAL_HOURS = 24;
 
 async function probeSimpla(payload: unknown): Promise<{
   ok: boolean;
@@ -37,7 +38,6 @@ async function probeSimpla(payload: unknown): Promise<{
       if (res.ok) return { ok: true, httpStatus: res.status, error: null, attempts: attempt };
 
       lastError = `HTTP ${res.status}: ${respBody.slice(0, 300)}`;
-      // Only retry on 5xx, 408, 429 — don't retry permanent client errors
       if (!(res.status >= 500 || res.status === 408 || res.status === 429)) {
         return { ok: false, httpStatus: res.status, error: lastError, attempts: attempt };
       }
@@ -59,6 +59,15 @@ async function probeSimpla(payload: unknown): Promise<{
   return { ok: false, httpStatus: lastStatus, error: lastError, attempts: MAX_ATTEMPTS };
 }
 
+function fmt(ts: string | null | undefined): string {
+  if (!ts) return "";
+  try {
+    return new Date(ts).toLocaleString("nl-BE", { timeZone: "Europe/Brussels" });
+  } catch {
+    return ts;
+  }
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
@@ -68,7 +77,6 @@ Deno.serve(async (req) => {
   );
 
   const startedAt = Date.now();
-
   const probePayload = {
     appointmentId: "health-check",
     healthCheck: true,
@@ -83,7 +91,6 @@ Deno.serve(async (req) => {
     ? null
     : `${result.error} (after ${result.attempts} attempts)`;
 
-  // Persist result
   const { error: insertErr } = await supabase.from("simpla_health_checks").insert({
     status,
     http_status: httpStatus,
@@ -92,12 +99,23 @@ Deno.serve(async (req) => {
   });
   if (insertErr) console.error("[simpla-health] insert failed:", insertErr);
 
-  // Alert on consecutive failures
   let alerted = false;
+  let alertType: "incident" | "reminder" | null = null;
+
+  // Get currently open incident, if any
+  const { data: openIncidents } = await supabase
+    .from("simpla_health_incidents")
+    .select("*")
+    .eq("status", "open")
+    .order("opened_at", { ascending: false })
+    .limit(1);
+  const openIncident = openIncidents?.[0] ?? null;
+
   if (status === "fail") {
+    // Count recent consecutive failures
     const { data: recent } = await supabase
       .from("simpla_health_checks")
-      .select("status")
+      .select("status, checked_at")
       .order("checked_at", { ascending: false })
       .limit(ALERT_AFTER_CONSECUTIVE_FAILURES);
 
@@ -106,15 +124,104 @@ Deno.serve(async (req) => {
       recent.every((r) => r.status === "fail");
 
     if (consecutiveFails) {
-      alerted = true;
-      console.error(
-        `🚨 [simpla-health] ALERT: Simpla callback URL failed ${ALERT_AFTER_CONSECUTIVE_FAILURES}x in a row. ` +
-        `Last error: ${errorMessage} (HTTP ${httpStatus}, ${latencyMs}ms total)`,
-      );
+      const now = new Date().toISOString();
+      let incident = openIncident;
+
+      // If no open incident yet, create one and send first alert
+      if (!incident) {
+        const firstFailedAt = recent[recent.length - 1]?.checked_at ?? now;
+        const { data: created } = await supabase
+          .from("simpla_health_incidents")
+          .insert({
+            status: "open",
+            opened_at: firstFailedAt,
+            last_alert_at: now,
+            alert_count: 1,
+            last_error_message: errorMessage,
+            last_http_status: httpStatus,
+            consecutive_failures: ALERT_AFTER_CONSECUTIVE_FAILURES,
+          })
+          .select()
+          .single();
+        incident = created;
+        alertType = "incident";
+      } else {
+        // Update incident state
+        await supabase
+          .from("simpla_health_incidents")
+          .update({
+            last_error_message: errorMessage,
+            last_http_status: httpStatus,
+            consecutive_failures: (incident.consecutive_failures ?? 0) + 1,
+          })
+          .eq("id", incident.id);
+
+        // Check if 24h reminder is due
+        const lastAlertAt = incident.last_alert_at ? new Date(incident.last_alert_at).getTime() : 0;
+        const hoursSinceLastAlert = (Date.now() - lastAlertAt) / (1000 * 60 * 60);
+        if (hoursSinceLastAlert >= REMINDER_INTERVAL_HOURS) {
+          await supabase
+            .from("simpla_health_incidents")
+            .update({
+              last_alert_at: now,
+              alert_count: (incident.alert_count ?? 0) + 1,
+            })
+            .eq("id", incident.id);
+          alertType = "reminder";
+        }
+      }
+
+      // Send alert email if needed
+      if (alertType && incident) {
+        try {
+          const { error: emailErr } = await supabase.functions.invoke("send-transactional-email", {
+            body: {
+              templateName: "simpla-health-alert",
+              recipientEmail: "jasonbalongo@gmail.com",
+              idempotencyKey: `simpla-alert-${incident.id}-${alertType}-${incident.alert_count ?? 1}`,
+              templateData: {
+                alertType,
+                consecutiveFailures: (incident.consecutive_failures ?? ALERT_AFTER_CONSECUTIVE_FAILURES) + (alertType === "reminder" ? 1 : 0),
+                errorMessage: errorMessage ?? "onbekend",
+                httpStatus: httpStatus ?? "geen respons",
+                latencyMs,
+                attempts: result.attempts,
+                firstFailedAt: fmt(incident.opened_at),
+                lastCheckedAt: fmt(now),
+              },
+            },
+          });
+          if (emailErr) {
+            console.error("[simpla-health] alert email failed:", emailErr);
+          } else {
+            alerted = true;
+            console.error(
+              `🚨 [simpla-health] ALERT (${alertType}) sent. ` +
+              `Last error: ${errorMessage} (HTTP ${httpStatus}, ${latencyMs}ms, ${result.attempts} attempts)`,
+            );
+          }
+        } catch (e) {
+          console.error("[simpla-health] alert send threw:", e);
+        }
+      } else {
+        console.warn(`[simpla-health] failure: ${errorMessage} (HTTP ${httpStatus}, ${latencyMs}ms)`);
+      }
     } else {
-      console.warn(`[simpla-health] failure: ${errorMessage} (HTTP ${httpStatus}, ${latencyMs}ms total)`);
+      console.warn(`[simpla-health] failure: ${errorMessage} (HTTP ${httpStatus}, ${latencyMs}ms)`);
     }
   } else {
+    // Success: resolve any open incident
+    if (openIncident) {
+      await supabase
+        .from("simpla_health_incidents")
+        .update({
+          status: "resolved",
+          resolved_at: new Date().toISOString(),
+          consecutive_failures: 0,
+        })
+        .eq("id", openIncident.id);
+      console.log(`[simpla-health] incident ${openIncident.id} resolved`);
+    }
     console.log(`[simpla-health] OK (HTTP ${httpStatus}, ${latencyMs}ms, ${result.attempts} attempt${result.attempts > 1 ? "s" : ""})`);
   }
 
@@ -126,6 +233,7 @@ Deno.serve(async (req) => {
       errorMessage,
       attempts: result.attempts,
       alerted,
+      alertType,
     }),
     { headers: { ...corsHeaders, "Content-Type": "application/json" } },
   );
