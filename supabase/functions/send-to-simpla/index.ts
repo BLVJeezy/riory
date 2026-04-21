@@ -5,7 +5,7 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-const SIMPLA_ENDPOINT = "https://api.simpla.be/api/";
+const SIMPLA_CALLBACK_URL = "http://app-02.simpla.be/callback.aspx?key=rioryV2";
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
@@ -19,28 +19,15 @@ Deno.serve(async (req) => {
       });
     }
 
-    const apiKey = Deno.env.get("SIMPLA_API_KEY");
-    if (!apiKey) throw new Error("SIMPLA_API_KEY not configured");
-
-    // Build URL with payload as query params (so Simpla can read from URL)
-    const params = new URLSearchParams();
-    params.set("appointmentId", String(appointmentId));
-    for (const [k, v] of Object.entries(payload)) {
-      if (v === undefined || v === null || v === "") continue;
-      params.set(k, typeof v === "object" ? JSON.stringify(v) : String(v));
-    }
-    const urlWithParams = `${SIMPLA_ENDPOINT}?${params.toString()}`;
+    const body = JSON.stringify({ appointmentId, ...payload });
 
     // Try direct send first
     try {
-      console.log(`[simpla] POST ${urlWithParams}`);
-      const res = await fetch(urlWithParams, {
+      console.log(`[simpla] POST ${SIMPLA_CALLBACK_URL} appointment=${appointmentId}`);
+      const res = await fetch(SIMPLA_CALLBACK_URL, {
         method: "POST",
-        headers: {
-          "Authorization": `Bearer ${apiKey}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
+        headers: { "Content-Type": "application/json" },
+        body,
       });
 
       const respBody = await res.text();
