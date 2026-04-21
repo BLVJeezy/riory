@@ -5,21 +5,13 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-const SIMPLA_ENDPOINT = "https://api.simpla.be/api/";
+const SIMPLA_CALLBACK_URL = "http://app-02.simpla.be/callback.aspx?key=rioryV2";
 const MAX_ATTEMPTS = 5;
 const BATCH_SIZE = 10;
 const VT_SECONDS = 60;
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
-
-  const apiKey = Deno.env.get("SIMPLA_API_KEY");
-  if (!apiKey) {
-    return new Response(JSON.stringify({ error: "SIMPLA_API_KEY missing" }), {
-      status: 500,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-    });
-  }
 
   const supabase = createClient(
     Deno.env.get("SUPABASE_URL")!,
@@ -52,21 +44,12 @@ Deno.serve(async (req) => {
       const attempts = (message.attempts ?? 0) + 1;
 
       try {
-        const params = new URLSearchParams();
-        params.set("appointmentId", String(appointmentId));
-        for (const [k, v] of Object.entries(payload ?? {})) {
-          if (v === undefined || v === null || v === "") continue;
-          params.set(k, typeof v === "object" ? JSON.stringify(v) : String(v));
-        }
-        const urlWithParams = `${SIMPLA_ENDPOINT}?${params.toString()}`;
+        const body = JSON.stringify({ appointmentId, ...(payload ?? {}) });
 
-        const res = await fetch(urlWithParams, {
+        const res = await fetch(SIMPLA_CALLBACK_URL, {
           method: "POST",
-          headers: {
-            "Authorization": `Bearer ${apiKey}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
+          headers: { "Content-Type": "application/json" },
+          body,
         });
 
         if (res.ok) {
@@ -76,22 +59,20 @@ Deno.serve(async (req) => {
           continue;
         }
 
-        const body = await res.text();
-        console.warn(`[simpla-queue] send failed appointment=${appointmentId} status=${res.status} body=${body}`);
+        const respBody = await res.text();
+        console.warn(`[simpla-queue] send failed appointment=${appointmentId} status=${res.status} body=${respBody}`);
         failed++;
 
-        // Move to DLQ if max attempts reached
         if (read_ct >= MAX_ATTEMPTS || attempts >= MAX_ATTEMPTS) {
           await supabase.rpc("move_to_dlq", {
             source_queue: "simpla_leads",
             dlq_name: "simpla_leads_dlq",
             message_id: msg_id,
-            payload: { ...message, attempts, lastError: `${res.status}: ${body}` },
+            payload: { ...message, attempts, lastError: `${res.status}: ${respBody}` },
           });
           dlq++;
           console.error(`[simpla-queue] moved to DLQ appointment=${appointmentId}`);
         }
-        // else: visibility timeout expires, message gets retried
       } catch (err) {
         console.error(`[simpla-queue] exception appointment=${appointmentId}:`, err);
         failed++;
