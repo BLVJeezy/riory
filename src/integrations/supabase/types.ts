@@ -353,6 +353,33 @@ export type Database = {
         }
         Relationships: []
       }
+      simpla_health_checks: {
+        Row: {
+          checked_at: string
+          error_message: string | null
+          http_status: number | null
+          id: string
+          latency_ms: number | null
+          status: string
+        }
+        Insert: {
+          checked_at?: string
+          error_message?: string | null
+          http_status?: number | null
+          id?: string
+          latency_ms?: number | null
+          status: string
+        }
+        Update: {
+          checked_at?: string
+          error_message?: string | null
+          http_status?: number | null
+          id?: string
+          latency_ms?: number | null
+          status?: string
+        }
+        Relationships: []
+      }
       suppressed_emails: {
         Row: {
           created_at: string
