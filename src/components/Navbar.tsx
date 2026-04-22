@@ -3,27 +3,33 @@ import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useTheme } from "@/components/ThemeProvider";
+import { useTranslation } from "react-i18next";
+import { useLanguage } from "@/i18n/LanguageProvider";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 import logoBlack from "@/assets/riory-logo-black.svg";
 import logoWhite from "@/assets/riory-logo-white.svg";
 
-const navLinks = [
-  { label: "Onze Diensten", href: "/diensten" },
-  { label: "Waarom Kiezen Voor Ons?", href: "#waarom-ons" },
-  { label: "Referenties", href: "#projecten" },
-];
-
 const Navbar = () => {
   const { theme } = useTheme();
+  const { t } = useTranslation();
+  const { localizedPath } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const logo = theme === "dark" ? logoWhite : logoBlack;
 
+  const navLinks = [
+    { label: t("nav.services"), href: localizedPath("/diensten"), isRoute: true },
+    { label: t("nav.whyUs"), href: "#waarom-ons", isRoute: false },
+    { label: t("nav.references"), href: "#projecten", isRoute: false },
+  ];
+
   const handleAnchorClick = (e: React.MouseEvent, href: string) => {
     e.preventDefault();
-    if (location.pathname !== "/") {
-      navigate("/" + href);
+    const homePath = localizedPath("/");
+    if (location.pathname !== homePath) {
+      navigate(homePath + href);
     } else {
       const el = document.querySelector(href);
       el?.scrollIntoView({ behavior: "smooth" });
@@ -31,7 +37,7 @@ const Navbar = () => {
   };
 
   useEffect(() => {
-    if (location.pathname === "/" && location.hash) {
+    if (location.hash) {
       setTimeout(() => {
         const el = document.querySelector(location.hash);
         el?.scrollIntoView({ behavior: "smooth" });
@@ -52,14 +58,14 @@ const Navbar = () => {
       }`}
     >
       <div className="section-container flex items-center justify-between h-16 md:h-20 px-6 md:px-8">
-        <Link to="/">
+        <Link to={localizedPath("/")}>
           <img src={logo} alt="RIORY - Sterk in Rioleringswerk" className="h-10 md:h-12 w-auto" />
         </Link>
 
         {/* Desktop */}
         <div className="hidden lg:flex items-center gap-8">
           {navLinks.map((link) =>
-            link.href.startsWith("/") ? (
+            link.isRoute ? (
               <Link
                 key={link.href}
                 to={link.href}
@@ -78,8 +84,9 @@ const Navbar = () => {
               </a>
             )
           )}
+          <LanguageSwitcher />
           <Button variant="cta" size="lg" className="rounded-full" asChild>
-            <Link to="/afspraak">Afspraak</Link>
+            <Link to={localizedPath("/afspraak")}>{t("nav.appointment")}</Link>
           </Button>
         </div>
 
@@ -98,10 +105,10 @@ const Navbar = () => {
       {isOpen && (
         <>
           <div className="fixed inset-0 z-40 bg-charcoal/50 lg:hidden" onClick={() => setIsOpen(false)} />
-          <div className="absolute right-6 top-16 z-50 w-48 bg-charcoal rounded-lg shadow-xl overflow-hidden lg:hidden animate-in fade-in slide-in-from-top-2 duration-200">
+          <div className="absolute right-6 top-16 z-50 w-56 bg-charcoal rounded-lg shadow-xl overflow-hidden lg:hidden animate-in fade-in slide-in-from-top-2 duration-200">
             <div className="flex flex-col py-2">
               {navLinks.map((link) =>
-                link.href.startsWith("/") ? (
+                link.isRoute ? (
                   <Link
                     key={link.href}
                     to={link.href}
@@ -121,9 +128,12 @@ const Navbar = () => {
                   </a>
                 )
               )}
+              <div className="border-t border-white/10 mt-1 pt-1">
+                <LanguageSwitcher variant="mobile" />
+              </div>
               <div className="px-3 pt-2 pb-1">
                 <Button variant="cta" size="sm" className="w-full" asChild>
-                  <Link to="/afspraak" onClick={() => setIsOpen(false)}>Afspraak</Link>
+                  <Link to={localizedPath("/afspraak")} onClick={() => setIsOpen(false)}>{t("nav.appointment")}</Link>
                 </Button>
               </div>
             </div>

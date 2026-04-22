@@ -1,19 +1,24 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { useLanguage } from "@/i18n/LanguageProvider";
 import { allServices } from "@/data/services";
 
 const ServicesSection = () => {
+  const { t } = useTranslation();
+  const { localizedPath } = useLanguage();
+
   return (
     <section id="diensten" className="section-padding bg-background">
       <div className="section-container">
         <div className="text-center mb-14">
           <h2 className="text-3xl md:text-4xl font-heading font-bold uppercase text-foreground mb-4">
-            Onze Diensten in Limburg
+            {t("services.sectionTitle")}
           </h2>
           <div className="w-16 h-1 bg-primary mx-auto mb-4" />
           <p className="text-muted-foreground font-body max-w-xl mx-auto">
-            Van ontstoppingen tot camera inspectie riool — Riory biedt een compleet aanbod aan rioleringsdiensten in Bilzen, Hoeselt, Hasselt, Genk, Tongeren en heel Limburg. 24/7 beschikbaar.
+            {t("services.sectionDescription")}
           </p>
         </div>
 
@@ -21,7 +26,7 @@ const ServicesSection = () => {
           {allServices.map((service) => (
             <Link
               key={service.slug}
-              to={`/diensten/${service.slug}`}
+              to={localizedPath(`/diensten/${service.slug}`)}
               className="group block"
             >
               <div className="relative aspect-[4/3] rounded-xl overflow-hidden">
@@ -42,7 +47,7 @@ const ServicesSection = () => {
                 {service.description}
               </p>
               <span className="inline-flex items-center gap-1 mt-2 text-xs sm:text-sm font-heading font-semibold text-primary group-hover:underline">
-                Meer weten <ArrowRight className="w-3 h-3" />
+                {t("services.learnMore")} <ArrowRight className="w-3 h-3" />
               </span>
             </Link>
           ))}

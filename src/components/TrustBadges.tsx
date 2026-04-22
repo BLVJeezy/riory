@@ -1,13 +1,15 @@
 import { Shield, Clock, Zap, Star } from "lucide-react";
-
-const badges = [
-  { icon: Clock, label: "24/7 beschikbaar" },
-  { icon: Zap, label: "Snelle interventie" },
-  { icon: Star, label: "100+ tevreden klanten" },
-  { icon: Shield, label: "Erkend & verzekerd" },
-];
+import { useTranslation } from "react-i18next";
 
 const TrustBadges = () => {
+  const { t } = useTranslation();
+  const badges = [
+    { icon: Clock, label: t("trust.available") },
+    { icon: Zap, label: t("trust.fastIntervention") },
+    { icon: Star, label: t("trust.happyCustomers") },
+    { icon: Shield, label: t("trust.certified") },
+  ];
+
   return (
     <section className="bg-background border-t border-border">
       <div className="section-container px-4 md:px-8 py-3 md:py-4">

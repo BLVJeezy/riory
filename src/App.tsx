@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { LanguageProvider } from "@/i18n/LanguageProvider";
 import CookieBanner from "@/components/CookieBanner";
 import Index from "./pages/Index.tsx";
 import Diensten from "./pages/Diensten.tsx";
@@ -34,6 +35,28 @@ const ScrollToTop = () => {
   return null;
 };
 
+// Routes are defined relatively so they can be mounted under "/", "/en/*", "/fr/*"
+const AppRoutes = () => (
+  <Routes>
+    <Route index element={<Index />} />
+    <Route path="diensten" element={<Diensten />} />
+    <Route path="diensten/:slug" element={<DienstDetail />} />
+    <Route path="referenties/:slug" element={<ReferentieDetail />} />
+    <Route path="data-protection" element={<DataProtection />} />
+    <Route path="privacy-policy" element={<PrivacyPolicy />} />
+    <Route path="gebruiksvoorwaarden" element={<Gebruiksvoorwaarden />} />
+    <Route path="algemene-voorwaarden" element={<AlgemeneVoorwaarden />} />
+    <Route path="cookie-policy" element={<CookiePolicy />} />
+    <Route path="admin/login" element={<AdminLogin />} />
+    <Route path="admin" element={<Admin />} />
+    <Route path="afspraak" element={<Afspraak />} />
+    <Route path="prijscalculator" element={<Prijscalculator />} />
+    <Route path="regio/:slug" element={<LocatieDetail />} />
+    <Route path="unsubscribe" element={<Unsubscribe />} />
+    <Route path="*" element={<NotFound />} />
+  </Routes>
+);
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <ThemeProvider>
@@ -41,29 +64,17 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <AuthProvider>
-          <ScrollToTop />
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/diensten" element={<Diensten />} />
-            <Route path="/diensten/:slug" element={<DienstDetail />} />
-            <Route path="/referenties/:slug" element={<ReferentieDetail />} />
-            <Route path="/data-protection" element={<DataProtection />} />
-            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-            <Route path="/gebruiksvoorwaarden" element={<Gebruiksvoorwaarden />} />
-            <Route path="/algemene-voorwaarden" element={<AlgemeneVoorwaarden />} />
-            <Route path="/cookie-policy" element={<CookiePolicy />} />
-            <Route path="/admin/login" element={<AdminLogin />} />
-            <Route path="/admin" element={<Admin />} />
-            <Route path="/afspraak" element={<Afspraak />} />
-            <Route path="/prijscalculator" element={<Prijscalculator />} />
-            <Route path="/regio/:slug" element={<LocatieDetail />} />
-            <Route path="/unsubscribe" element={<Unsubscribe />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-          <CookieBanner />
-        </AuthProvider>
+        <LanguageProvider>
+          <AuthProvider>
+            <ScrollToTop />
+            <Routes>
+              <Route path="/en/*" element={<AppRoutes />} />
+              <Route path="/fr/*" element={<AppRoutes />} />
+              <Route path="/*" element={<AppRoutes />} />
+            </Routes>
+            <CookieBanner />
+          </AuthProvider>
+        </LanguageProvider>
       </BrowserRouter>
     </TooltipProvider>
     </ThemeProvider>

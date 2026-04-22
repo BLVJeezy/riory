@@ -1,0 +1,112 @@
+{
+  "nav": {
+    "services": "Our Services",
+    "whyUs": "Why Choose Us?",
+    "references": "References",
+    "appointment": "Book Now"
+  },
+  "emergency": {
+    "cameraInspection": "Sewer Camera Inspection",
+    "unblocking": "Unblocking & Odour Detection",
+    "septicTanks": "Pipes & Septic Tanks",
+    "pumpingCleaning": "Pumping & Cleaning"
+  },
+  "hero": {
+    "badge": "24/7 available for emergencies",
+    "title": "Drain unblocking & sewer service in Limburg",
+    "description": "Need to empty your septic tank? Sewer problems? Blocked drains? Riory is on call 24/7 in Bilzen, Hoeselt, Hasselt, Genk, Tongeren and across Limburg!",
+    "customers": "500+ customers",
+    "insured": "Insured",
+    "ctaAppointment": "book an appointment",
+    "ctaUrgent": "URGENT? CALL NOW",
+    "callUs": "Call us now",
+    "calculatePrice": "GET A PRICE"
+  },
+  "trust": {
+    "available": "24/7 available",
+    "fastIntervention": "Fast response",
+    "happyCustomers": "100+ happy customers",
+    "certified": "Certified & insured"
+  },
+  "services": {
+    "sectionTitle": "Our Services in Limburg",
+    "sectionDescription": "From drain unblocking to sewer camera inspection — Riory offers a complete range of sewer services in Bilzen, Hoeselt, Hasselt, Genk, Tongeren and across Limburg. Available 24/7.",
+    "learnMore": "Learn more"
+  },
+  "about": {
+    "title": "About Riory",
+    "subtitle": "Quality is our top P(Riory)ty!",
+    "p1": "Riory is your reliable partner for sewer work in Bilzen, Hasselt, Genk, Tongeren and across Limburg. Your drain holds no secrets for us. We are available 24/7 for sewer camera inspection, unblocking, odour detection, septic tank emptying, pumping and cleaning of cellars, wells and rainwater tanks.",
+    "p2": "With the expertise of our specialists and professional equipment, Riory tackles the dirtiest jobs at a fair price across Limburg and beyond. One phone call solves all your problems. After every job we leave the area clean, because quality is our top P(Riory)ty!",
+    "reliable": "Reliable",
+    "reliableSub": "Craftsmanship guaranteed",
+    "available247": "24/7 available",
+    "available247Sub": "Always on standby",
+    "fairPrice": "Fair price",
+    "fairPriceSub": "Transparent and correct",
+    "vanCaption": "Bilzen, BE"
+  },
+  "whyUs": {
+    "title": "Why choose us?",
+    "subtitle": "Discover why people choose Riory: 24/7 available, professional equipment, quality work and fast service for all your sewer problems.",
+    "step": "Step",
+    "moreInfo": "More info",
+    "qualities": [
+      { "title": "24/7 Available", "description": "Riory is reachable 24 hours a day, 7 days a week. One phone call solves all your problems!" },
+      { "title": "Clean and fast emptying", "description": "Our specialists empty your septic tank in no time with professional equipment — at a fair price." },
+      { "title": "Quality work", "description": "Our staff have the expertise needed to deliver quality, thorough and clean work." },
+      { "title": "Not afraid of dirty work", "description": "No job is too dirty for our specialists. We tackle the messiest tasks and leave the area neat." },
+      { "title": "Professional equipment", "description": "We use modern, professional equipment to handle the dirtiest jobs thoroughly." },
+      { "title": "Book your appointment", "description": "Quickly and easily book an appointment via our form. Urgent? Call us directly on 0472 50 28 14!" }
+    ]
+  },
+  "faq": {
+    "title": "Frequently asked questions about sewer work",
+    "subtitle": "Have a question? Browse the most common questions below or get in touch.",
+    "items": [
+      { "q": "How quickly can you arrive in an emergency?", "a": "For urgent situations like blockages or flooding, we aim to be on site within 1 to 2 hours in Bilzen, Hasselt, Genk, Tongeren and surrounding areas in Limburg. We are reachable 24/7 for emergencies." },
+      { "q": "What does an unblocking cost on average?", "a": "The price depends on the type and severity of the blockage. Whether it's a blocked toilet, sink or shower that won't drain — use our online estimation tool for an indicative price, or request a free quote for an exact calculation." },
+      { "q": "My toilet is blocked, what can I do?", "a": "A blocked toilet is one of the most common issues. First try a plunger or hot water. Doesn't work? Then the blockage is likely deeper in the drain. Our technicians can unblock your toilet with professional equipment, often within the hour." },
+      { "q": "My sink or shower won't drain, what's the cause?", "a": "A blocked sink or shower that won't drain is usually caused by build-up of fat, hair or soap residue. Water coming back up the drain points to a blockage further down. We solve this quickly with high-pressure cleaning." },
+      { "q": "I smell sewer gas in the house — is that dangerous?", "a": "Sewer smells in the house can indicate a dry siphon, a damaged pipe or a poor connection to the sewer system. It's not immediately dangerous, but unpleasant and a sign of an underlying problem. A sewer camera inspection quickly reveals the cause." },
+      { "q": "What does a gurgling drain or drain flies mean?", "a": "A gurgling drain often points to a ventilation issue or a blockage deeper in the pipe. Drain flies are small insects that thrive on organic material in blocked or slow drains. Both are symptoms of a problem that needs professional inspection." },
+      { "q": "Do you also work weekends and holidays?", "a": "Yes, we are available 24/7 — including weekends and holidays. For emergencies you can always reach us by phone or WhatsApp." },
+      { "q": "Is a sewer camera inspection always needed?", "a": "Not always, but it's recommended for recurring blockages or when buying a property. It gives you a clear picture of the state of your sewer system." },
+      { "q": "How often should a septic tank be emptied?", "a": "On average we recommend emptying your septic tank every 2 to 4 years, depending on usage and tank size." },
+      { "q": "Do you also offer preventive maintenance?", "a": "Absolutely. We offer contracts for periodic cleaning and inspection in Bilzen, Hasselt and across Limburg, so problems are prevented before they arise." }
+    ]
+  },
+  "contact": {
+    "title": "Contact Us",
+    "phone": "Phone",
+    "email": "Email",
+    "address": "Address",
+    "addressLine1": "Tongersesteenweg 19",
+    "addressLine2": "3740 Bilzen, Belgium",
+    "serviceArea": "Active in Bilzen, Hasselt, Genk, Tongeren, Sint-Truiden, Maasmechelen and across Limburg."
+  },
+  "footer": {
+    "tagline1": "Strong in sewer work.",
+    "tagline2": "Professional infrastructure work in Belgium.",
+    "quickLinks": "Quick links",
+    "home": "Home",
+    "services": "Our Services",
+    "whyUs": "Why Choose Us?",
+    "references": "References",
+    "calculator": "Price calculator",
+    "appointment": "Book Now",
+    "follow": "Follow us",
+    "rights": "All rights reserved.",
+    "dataProtection": "Data Protection Notice",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Use",
+    "generalTerms": "General Terms",
+    "cookies": "Privacy & Cookie Policy"
+  },
+  "language": {
+    "label": "Language",
+    "nl": "Nederlands",
+    "en": "English",
+    "fr": "Français"
+  }
+}

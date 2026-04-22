@@ -1,11 +1,14 @@
 import { Phone, Mail, MapPin } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const ContactSection = () => {
+  const { t } = useTranslation();
+
   return (
     <section id="contact" className="section-padding bg-background">
       <div className="section-container">
         <h2 className="text-3xl md:text-4xl font-heading font-bold uppercase text-foreground mb-4">
-          Contacteer Ons
+          {t("contact.title")}
         </h2>
         <div className="w-16 h-1 bg-primary mb-12" />
 
@@ -14,7 +17,7 @@ const ContactSection = () => {
             <div className="flex items-start gap-4">
               <Phone className="w-6 h-6 text-primary mt-1 shrink-0" />
               <div>
-                <h3 className="font-heading font-semibold text-foreground mb-1">Telefoon</h3>
+                <h3 className="font-heading font-semibold text-foreground mb-1">{t("contact.phone")}</h3>
                 <a href="tel:+32472502814" className="text-muted-foreground font-body hover:text-primary transition-colors">
                   +32 472 50 28 14
                 </a>
@@ -24,7 +27,7 @@ const ContactSection = () => {
             <div className="flex items-start gap-4">
               <Mail className="w-6 h-6 text-primary mt-1 shrink-0" />
               <div>
-                <h3 className="font-heading font-semibold text-foreground mb-1">Email</h3>
+                <h3 className="font-heading font-semibold text-foreground mb-1">{t("contact.email")}</h3>
                 <a href="mailto:info@riory.be" className="text-muted-foreground font-body hover:text-primary transition-colors">
                   info@riory.be
                 </a>
@@ -34,13 +37,13 @@ const ContactSection = () => {
             <div className="flex items-start gap-4">
               <MapPin className="w-6 h-6 text-primary mt-1 shrink-0" />
               <div>
-                <h3 className="font-heading font-semibold text-foreground mb-1">Adres</h3>
+                <h3 className="font-heading font-semibold text-foreground mb-1">{t("contact.address")}</h3>
                 <p className="text-muted-foreground font-body">
-                  Tongersesteenweg 19<br />
-                  3740 Bilzen, België
+                  {t("contact.addressLine1")}<br />
+                  {t("contact.addressLine2")}
                 </p>
                 <p className="text-muted-foreground/70 font-body text-sm mt-1">
-                  Actief in Bilzen, Hasselt, Genk, Tongeren, Sint-Truiden, Maasmechelen en heel Limburg.
+                  {t("contact.serviceArea")}
                 </p>
               </div>
             </div>
