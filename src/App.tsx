@@ -35,25 +35,24 @@ const ScrollToTop = () => {
   return null;
 };
 
-// Renders the same routes nested under each language prefix
+// Routes are defined relatively so they can be mounted under "/", "/en/*", "/fr/*"
 const AppRoutes = () => (
   <Routes>
-    <Route path="/" element={<Index />} />
-    <Route path="/diensten" element={<Diensten />} />
-    <Route path="/diensten/:slug" element={<DienstDetail />} />
-    <Route path="/referenties/:slug" element={<ReferentieDetail />} />
-    <Route path="/data-protection" element={<DataProtection />} />
-    <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-    <Route path="/gebruiksvoorwaarden" element={<Gebruiksvoorwaarden />} />
-    <Route path="/algemene-voorwaarden" element={<AlgemeneVoorwaarden />} />
-    <Route path="/cookie-policy" element={<CookiePolicy />} />
-    <Route path="/admin/login" element={<AdminLogin />} />
-    <Route path="/admin" element={<Admin />} />
-    <Route path="/afspraak" element={<Afspraak />} />
-    <Route path="/prijscalculator" element={<Prijscalculator />} />
-    <Route path="/regio/:slug" element={<LocatieDetail />} />
-    <Route path="/unsubscribe" element={<Unsubscribe />} />
-    {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+    <Route index element={<Index />} />
+    <Route path="diensten" element={<Diensten />} />
+    <Route path="diensten/:slug" element={<DienstDetail />} />
+    <Route path="referenties/:slug" element={<ReferentieDetail />} />
+    <Route path="data-protection" element={<DataProtection />} />
+    <Route path="privacy-policy" element={<PrivacyPolicy />} />
+    <Route path="gebruiksvoorwaarden" element={<Gebruiksvoorwaarden />} />
+    <Route path="algemene-voorwaarden" element={<AlgemeneVoorwaarden />} />
+    <Route path="cookie-policy" element={<CookiePolicy />} />
+    <Route path="admin/login" element={<AdminLogin />} />
+    <Route path="admin" element={<Admin />} />
+    <Route path="afspraak" element={<Afspraak />} />
+    <Route path="prijscalculator" element={<Prijscalculator />} />
+    <Route path="regio/:slug" element={<LocatieDetail />} />
+    <Route path="unsubscribe" element={<Unsubscribe />} />
     <Route path="*" element={<NotFound />} />
   </Routes>
 );
