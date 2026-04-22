@@ -1,14 +1,19 @@
 import { ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
-
-const quickServices = [
-  { label: "Camera inspectie riool", href: "/diensten/camera-inspectie" },
-  { label: "Ontstoppingen & Geurdetectie", href: "/diensten/ontstoppingen-en-geurdetectie" },
-  { label: "Leidingen & Septische Putten", href: "/diensten/leidingen-en-septische-putten" },
-  { label: "Leegpompen & Reinigen", href: "/diensten/leegpompen-en-reinigen" },
-];
+import { useTranslation } from "react-i18next";
+import { useLanguage } from "@/i18n/LanguageProvider";
 
 const EmergencyBanner = () => {
+  const { t } = useTranslation();
+  const { localizedPath } = useLanguage();
+
+  const quickServices = [
+    { label: t("emergency.cameraInspection"), href: localizedPath("/diensten/camera-inspectie") },
+    { label: t("emergency.unblocking"), href: localizedPath("/diensten/ontstoppingen-en-geurdetectie") },
+    { label: t("emergency.septicTanks"), href: localizedPath("/diensten/leidingen-en-septische-putten") },
+    { label: t("emergency.pumpingCleaning"), href: localizedPath("/diensten/leegpompen-en-reinigen") },
+  ];
+
   return (
     <section className="bg-charcoal">
       <div className="section-container px-6 md:px-8 py-4">
