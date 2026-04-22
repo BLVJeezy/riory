@@ -52,28 +52,76 @@
     "step": "Step",
     "moreInfo": "More info",
     "qualities": [
-      { "title": "24/7 Available", "description": "Riory is reachable 24 hours a day, 7 days a week. One phone call solves all your problems!" },
-      { "title": "Clean and fast emptying", "description": "Our specialists empty your septic tank in no time with professional equipment — at a fair price." },
-      { "title": "Quality work", "description": "Our staff have the expertise needed to deliver quality, thorough and clean work." },
-      { "title": "Not afraid of dirty work", "description": "No job is too dirty for our specialists. We tackle the messiest tasks and leave the area neat." },
-      { "title": "Professional equipment", "description": "We use modern, professional equipment to handle the dirtiest jobs thoroughly." },
-      { "title": "Book your appointment", "description": "Quickly and easily book an appointment via our form. Urgent? Call us directly on 0472 50 28 14!" }
+      {
+        "title": "24/7 Available",
+        "description": "Riory is reachable 24 hours a day, 7 days a week. One phone call solves all your problems!"
+      },
+      {
+        "title": "Clean and fast emptying",
+        "description": "Our specialists empty your septic tank in no time with professional equipment — at a fair price."
+      },
+      {
+        "title": "Quality work",
+        "description": "Our staff have the expertise needed to deliver quality, thorough and clean work."
+      },
+      {
+        "title": "Not afraid of dirty work",
+        "description": "No job is too dirty for our specialists. We tackle the messiest tasks and leave the area neat."
+      },
+      {
+        "title": "Professional equipment",
+        "description": "We use modern, professional equipment to handle the dirtiest jobs thoroughly."
+      },
+      {
+        "title": "Book your appointment",
+        "description": "Quickly and easily book an appointment via our form. Urgent? Call us directly on 0472 50 28 14!"
+      }
     ]
   },
   "faq": {
     "title": "Frequently asked questions about sewer work",
     "subtitle": "Have a question? Browse the most common questions below or get in touch.",
     "items": [
-      { "q": "How quickly can you arrive in an emergency?", "a": "For urgent situations like blockages or flooding, we aim to be on site within 1 to 2 hours in Bilzen, Hasselt, Genk, Tongeren and surrounding areas in Limburg. We are reachable 24/7 for emergencies." },
-      { "q": "What does an unblocking cost on average?", "a": "The price depends on the type and severity of the blockage. Whether it's a blocked toilet, sink or shower that won't drain — use our online estimation tool for an indicative price, or request a free quote for an exact calculation." },
-      { "q": "My toilet is blocked, what can I do?", "a": "A blocked toilet is one of the most common issues. First try a plunger or hot water. Doesn't work? Then the blockage is likely deeper in the drain. Our technicians can unblock your toilet with professional equipment, often within the hour." },
-      { "q": "My sink or shower won't drain, what's the cause?", "a": "A blocked sink or shower that won't drain is usually caused by build-up of fat, hair or soap residue. Water coming back up the drain points to a blockage further down. We solve this quickly with high-pressure cleaning." },
-      { "q": "I smell sewer gas in the house — is that dangerous?", "a": "Sewer smells in the house can indicate a dry siphon, a damaged pipe or a poor connection to the sewer system. It's not immediately dangerous, but unpleasant and a sign of an underlying problem. A sewer camera inspection quickly reveals the cause." },
-      { "q": "What does a gurgling drain or drain flies mean?", "a": "A gurgling drain often points to a ventilation issue or a blockage deeper in the pipe. Drain flies are small insects that thrive on organic material in blocked or slow drains. Both are symptoms of a problem that needs professional inspection." },
-      { "q": "Do you also work weekends and holidays?", "a": "Yes, we are available 24/7 — including weekends and holidays. For emergencies you can always reach us by phone or WhatsApp." },
-      { "q": "Is a sewer camera inspection always needed?", "a": "Not always, but it's recommended for recurring blockages or when buying a property. It gives you a clear picture of the state of your sewer system." },
-      { "q": "How often should a septic tank be emptied?", "a": "On average we recommend emptying your septic tank every 2 to 4 years, depending on usage and tank size." },
-      { "q": "Do you also offer preventive maintenance?", "a": "Absolutely. We offer contracts for periodic cleaning and inspection in Bilzen, Hasselt and across Limburg, so problems are prevented before they arise." }
+      {
+        "q": "How quickly can you arrive in an emergency?",
+        "a": "For urgent situations like blockages or flooding, we aim to be on site within 1 to 2 hours in Bilzen, Hasselt, Genk, Tongeren and surrounding areas in Limburg. We are reachable 24/7 for emergencies."
+      },
+      {
+        "q": "What does an unblocking cost on average?",
+        "a": "The price depends on the type and severity of the blockage. Whether it's a blocked toilet, sink or shower that won't drain — use our online estimation tool for an indicative price, or request a free quote for an exact calculation."
+      },
+      {
+        "q": "My toilet is blocked, what can I do?",
+        "a": "A blocked toilet is one of the most common issues. First try a plunger or hot water. Doesn't work? Then the blockage is likely deeper in the drain. Our technicians can unblock your toilet with professional equipment, often within the hour."
+      },
+      {
+        "q": "My sink or shower won't drain, what's the cause?",
+        "a": "A blocked sink or shower that won't drain is usually caused by build-up of fat, hair or soap residue. Water coming back up the drain points to a blockage further down. We solve this quickly with high-pressure cleaning."
+      },
+      {
+        "q": "I smell sewer gas in the house — is that dangerous?",
+        "a": "Sewer smells in the house can indicate a dry siphon, a damaged pipe or a poor connection to the sewer system. It's not immediately dangerous, but unpleasant and a sign of an underlying problem. A sewer camera inspection quickly reveals the cause."
+      },
+      {
+        "q": "What does a gurgling drain or drain flies mean?",
+        "a": "A gurgling drain often points to a ventilation issue or a blockage deeper in the pipe. Drain flies are small insects that thrive on organic material in blocked or slow drains. Both are symptoms of a problem that needs professional inspection."
+      },
+      {
+        "q": "Do you also work weekends and holidays?",
+        "a": "Yes, we are available 24/7 — including weekends and holidays. For emergencies you can always reach us by phone or WhatsApp."
+      },
+      {
+        "q": "Is a sewer camera inspection always needed?",
+        "a": "Not always, but it's recommended for recurring blockages or when buying a property. It gives you a clear picture of the state of your sewer system."
+      },
+      {
+        "q": "How often should a septic tank be emptied?",
+        "a": "On average we recommend emptying your septic tank every 2 to 4 years, depending on usage and tank size."
+      },
+      {
+        "q": "Do you also offer preventive maintenance?",
+        "a": "Absolutely. We offer contracts for periodic cleaning and inspection in Bilzen, Hasselt and across Limburg, so problems are prevented before they arise."
+      }
     ]
   },
   "contact": {
@@ -175,7 +223,15 @@
   "appointmentForm": {
     "sectionTitle": "Book an Appointment",
     "sectionSubtitle": "Fill in the form and we'll contact you as soon as possible.",
-    "stepLabels": ["Service", "Terms", "Urgency", "Customer", "Details", "Description", "Finish"],
+    "stepLabels": [
+      "Service",
+      "Terms",
+      "Urgency",
+      "Customer",
+      "Details",
+      "Description",
+      "Finish"
+    ],
     "diensten": [
       "Unblocking",
       "Septic tank emptying",
@@ -341,12 +397,30 @@
     "exclVatPlain": "Prices excl. VAT",
     "travelLabelDefault": "+ travel costs (€ 1.45/km round trip)",
     "services": {
-      "interventie": { "label": "Intervention / Unblocking", "description": "Standard or with camera inspection" },
-      "camera": { "label": "Camera inspection / Pipe location", "description": "Includes 1 hour on site" },
-      "pompwerken": { "label": "Pumping work / Flooding", "description": "For flooding or lift pits" },
-      "dakgoot": { "label": "Gutter cleaning", "description": "Price per linear metre" },
-      "septisch": { "label": "Empty septic tank", "description": "Up to 2000L, easily accessible" },
-      "regenput": { "label": "Clean rainwater tank", "description": "Determine the capacity of your tank" }
+      "interventie": {
+        "label": "Intervention / Unblocking",
+        "description": "Standard or with camera inspection"
+      },
+      "camera": {
+        "label": "Camera inspection / Pipe location",
+        "description": "Includes 1 hour on site"
+      },
+      "pompwerken": {
+        "label": "Pumping work / Flooding",
+        "description": "For flooding or lift pits"
+      },
+      "dakgoot": {
+        "label": "Gutter cleaning",
+        "description": "Price per linear metre"
+      },
+      "septisch": {
+        "label": "Empty septic tank",
+        "description": "Up to 2000L, easily accessible"
+      },
+      "regenput": {
+        "label": "Clean rainwater tank",
+        "description": "Determine the capacity of your tank"
+      }
     },
     "rainTankOptions": {
       "5000": "≤ 5,000L",
@@ -514,6 +588,39 @@
       "metaTitle": "Cellar Pumping Limburg 24/7 | Quickly On Site | Riory",
       "metaDescription": "Cellar under water or rainwater tank overflowing? Riory pumps it out & traces the cause. ✓ 24/7 ✓ Bilzen, Hasselt, Genk & Tongeren. Call now!",
       "h2Title": "Pump out cellars and clean your sewer system"
+    }
+  },
+  "referencesData": {
+    "dakgootreinigingen": {
+      "title": "Gutter cleaning",
+      "projects": {
+        "Dakgootreiniging op Hoogte": "Gutter cleaning at height"
+      }
+    },
+    "ledigen-van-septische-putten": {
+      "title": "Septic tank emptying",
+      "projects": {
+        "Ledigen Septische put": "Emptying septic tank",
+        "Opsporen septische put": "Locating septic tank"
+      }
+    },
+    "leegpompen-en-reinigen": {
+      "title": "Pumping and cleaning",
+      "projects": {
+        "Reinigen Regenput": "Cleaning rainwater tank",
+        "Ondergelopen kelder": "Flooded basement",
+        "Zuiveren riolering": "Sewer cleaning"
+      }
+    },
+    "ontstoppingen-en-geurdetectie": {
+      "title": "Unblocking and odour detection",
+      "projects": {
+        "Opsporen en traceren gebroken sifon": "Locating and tracing a broken siphon",
+        "Geurdetectie": "Odour detection",
+        "Ontstopping afvoerput": "Unblocking drain pit",
+        "Verstopping oplossen": "Resolving blockage",
+        "Verwijderen van vochtige doekjes": "Removing wet wipes"
+      }
     }
   }
 }

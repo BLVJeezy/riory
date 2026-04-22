@@ -52,28 +52,76 @@
     "step": "Stap",
     "moreInfo": "Meer informatie",
     "qualities": [
-      { "title": "24/7 Bereikbaar", "description": "Riory is 24 uur per dag en 7 dagen per week bereikbaar. Met één telefoontje zijn al uw problemen opgelost!" },
-      { "title": "Propere en snelle lediging", "description": "In een mum van tijd ledigen onze vakmensen uw septische put met professioneel materiaal. En dit voor een eerlijke prijs." },
-      { "title": "Kwalitatief werk", "description": "Onze werknemers beschikken over de benodigde expertise om kwalitatief, grondig en proper werk te leveren." },
-      { "title": "Niet vies van vuil werk", "description": "Voor onze vakmensen is geen klusje te vuil. Wij klaren de vuilste werken en laten de omgeving netjes achter." },
-      { "title": "Professioneel materiaal", "description": "Wij beschikken over modern en professioneel materiaal om de vuilste werken grondig te klaren." },
-      { "title": "Maak je afspraak", "description": "Plan snel en eenvoudig een afspraak via ons formulier. Urgentie? Bel ons direct op 0472 50 28 14!" }
+      {
+        "title": "24/7 Bereikbaar",
+        "description": "Riory is 24 uur per dag en 7 dagen per week bereikbaar. Met één telefoontje zijn al uw problemen opgelost!"
+      },
+      {
+        "title": "Propere en snelle lediging",
+        "description": "In een mum van tijd ledigen onze vakmensen uw septische put met professioneel materiaal. En dit voor een eerlijke prijs."
+      },
+      {
+        "title": "Kwalitatief werk",
+        "description": "Onze werknemers beschikken over de benodigde expertise om kwalitatief, grondig en proper werk te leveren."
+      },
+      {
+        "title": "Niet vies van vuil werk",
+        "description": "Voor onze vakmensen is geen klusje te vuil. Wij klaren de vuilste werken en laten de omgeving netjes achter."
+      },
+      {
+        "title": "Professioneel materiaal",
+        "description": "Wij beschikken over modern en professioneel materiaal om de vuilste werken grondig te klaren."
+      },
+      {
+        "title": "Maak je afspraak",
+        "description": "Plan snel en eenvoudig een afspraak via ons formulier. Urgentie? Bel ons direct op 0472 50 28 14!"
+      }
     ]
   },
   "faq": {
     "title": "Veelgestelde vragen over rioleringswerken",
     "subtitle": "Heeft u een vraag? Bekijk hieronder de meest gestelde vragen of neem contact met ons op.",
     "items": [
-      { "q": "Hoe snel kunnen jullie ter plaatse zijn bij een noodgeval?", "a": "Bij dringende situaties zoals verstoppingen of wateroverlast streven wij ernaar om binnen 1 à 2 uur ter plaatse te zijn in Bilzen, Hasselt, Genk, Tongeren en omliggende gemeenten in Limburg. Wij zijn 24/7 bereikbaar voor spoedgevallen." },
-      { "q": "Wat kost een ontstopping gemiddeld?", "a": "De prijs hangt af van de aard en ernst van de verstopping. Of het nu gaat om een verstopte WC, gootsteen of een douche die niet afloopt — gebruik onze online schattingstool voor een indicatieve prijs, of vraag een gratis offerte aan voor een exacte berekening." },
-      { "q": "Mijn WC is verstopt, wat kan ik doen?", "a": "Een verstopte WC is één van de meest voorkomende problemen. Probeer eerst een ontstopper of heet water. Helpt dit niet? Dan zit de verstopping waarschijnlijk dieper in de afvoerleiding. Onze techniekers kunnen uw WC ontstoppen met professionele apparatuur, vaak binnen het uur." },
-      { "q": "Mijn gootsteen of douche loopt niet af, wat is de oorzaak?", "a": "Een gootsteen die verstopt zit of een douche die niet afloopt, wordt meestal veroorzaakt door ophoping van vet, haar of zeepresidu. Water dat terugkomt in de afvoer wijst op een blokkade verderop. Wij verhelpen dit snel met hogedruk-reiniging." },
-      { "q": "Ik ruik rioollucht in huis, is dat gevaarlijk?", "a": "Rioollucht in huis kan wijzen op een droogstaande sifon, een beschadigde leiding of een slechte aansluiting op het rioolstelsel. Het is niet direct gevaarlijk, maar wel onaangenaam en een teken van een onderliggend probleem. Een camera inspectie riool brengt de oorzaak snel in kaart." },
-      { "q": "Wat betekent een borrelende afvoer of rioolvliegjes?", "a": "Een borrelende afvoer duidt vaak op een beluchtigsprobleem of een verstopping dieper in de leiding. Rioolvliegjes zijn kleine insecten die gedijen op organisch materiaal in verstopte of trage afvoeren. Beide zijn symptomen van een probleem dat professioneel onderzocht en verholpen moet worden." },
-      { "q": "Werken jullie ook in het weekend en op feestdagen?", "a": "Ja, wij zijn 24/7 beschikbaar — ook in het weekend en op feestdagen. Voor spoedgevallen kunt u ons altijd bereiken via telefoon of WhatsApp." },
-      { "q": "Is een camera inspectie riool altijd nodig?", "a": "Niet altijd, maar het is wel aan te raden bij terugkerende verstoppingen of bij de aankoop van een woning. Zo krijgt u een duidelijk beeld van de staat van uw riolering." },
-      { "q": "Hoe vaak moet een septische put geledigd worden?", "a": "Gemiddeld raden wij aan om uw septische put elke 2 tot 4 jaar te laten ledigen, afhankelijk van het gebruik en de grootte van de put." },
-      { "q": "Bieden jullie ook preventief onderhoud aan?", "a": "Absoluut. Wij bieden contracten voor periodieke reiniging en inspectie aan in Bilzen, Hasselt en heel Limburg, zodat problemen voorkomen worden voordat ze ontstaan." }
+      {
+        "q": "Hoe snel kunnen jullie ter plaatse zijn bij een noodgeval?",
+        "a": "Bij dringende situaties zoals verstoppingen of wateroverlast streven wij ernaar om binnen 1 à 2 uur ter plaatse te zijn in Bilzen, Hasselt, Genk, Tongeren en omliggende gemeenten in Limburg. Wij zijn 24/7 bereikbaar voor spoedgevallen."
+      },
+      {
+        "q": "Wat kost een ontstopping gemiddeld?",
+        "a": "De prijs hangt af van de aard en ernst van de verstopping. Of het nu gaat om een verstopte WC, gootsteen of een douche die niet afloopt — gebruik onze online schattingstool voor een indicatieve prijs, of vraag een gratis offerte aan voor een exacte berekening."
+      },
+      {
+        "q": "Mijn WC is verstopt, wat kan ik doen?",
+        "a": "Een verstopte WC is één van de meest voorkomende problemen. Probeer eerst een ontstopper of heet water. Helpt dit niet? Dan zit de verstopping waarschijnlijk dieper in de afvoerleiding. Onze techniekers kunnen uw WC ontstoppen met professionele apparatuur, vaak binnen het uur."
+      },
+      {
+        "q": "Mijn gootsteen of douche loopt niet af, wat is de oorzaak?",
+        "a": "Een gootsteen die verstopt zit of een douche die niet afloopt, wordt meestal veroorzaakt door ophoping van vet, haar of zeepresidu. Water dat terugkomt in de afvoer wijst op een blokkade verderop. Wij verhelpen dit snel met hogedruk-reiniging."
+      },
+      {
+        "q": "Ik ruik rioollucht in huis, is dat gevaarlijk?",
+        "a": "Rioollucht in huis kan wijzen op een droogstaande sifon, een beschadigde leiding of een slechte aansluiting op het rioolstelsel. Het is niet direct gevaarlijk, maar wel onaangenaam en een teken van een onderliggend probleem. Een camera inspectie riool brengt de oorzaak snel in kaart."
+      },
+      {
+        "q": "Wat betekent een borrelende afvoer of rioolvliegjes?",
+        "a": "Een borrelende afvoer duidt vaak op een beluchtigsprobleem of een verstopping dieper in de leiding. Rioolvliegjes zijn kleine insecten die gedijen op organisch materiaal in verstopte of trage afvoeren. Beide zijn symptomen van een probleem dat professioneel onderzocht en verholpen moet worden."
+      },
+      {
+        "q": "Werken jullie ook in het weekend en op feestdagen?",
+        "a": "Ja, wij zijn 24/7 beschikbaar — ook in het weekend en op feestdagen. Voor spoedgevallen kunt u ons altijd bereiken via telefoon of WhatsApp."
+      },
+      {
+        "q": "Is een camera inspectie riool altijd nodig?",
+        "a": "Niet altijd, maar het is wel aan te raden bij terugkerende verstoppingen of bij de aankoop van een woning. Zo krijgt u een duidelijk beeld van de staat van uw riolering."
+      },
+      {
+        "q": "Hoe vaak moet een septische put geledigd worden?",
+        "a": "Gemiddeld raden wij aan om uw septische put elke 2 tot 4 jaar te laten ledigen, afhankelijk van het gebruik en de grootte van de put."
+      },
+      {
+        "q": "Bieden jullie ook preventief onderhoud aan?",
+        "a": "Absoluut. Wij bieden contracten voor periodieke reiniging en inspectie aan in Bilzen, Hasselt en heel Limburg, zodat problemen voorkomen worden voordat ze ontstaan."
+      }
     ]
   },
   "contact": {
@@ -175,7 +223,15 @@
   "appointmentForm": {
     "sectionTitle": "Maak een Afspraak",
     "sectionSubtitle": "Vul het formulier in en wij contacteren u zo snel mogelijk.",
-    "stepLabels": ["Dienst", "Voorwaarden", "Urgentie", "Klanttype", "Gegevens", "Omschrijving", "Afronden"],
+    "stepLabels": [
+      "Dienst",
+      "Voorwaarden",
+      "Urgentie",
+      "Klanttype",
+      "Gegevens",
+      "Omschrijving",
+      "Afronden"
+    ],
     "diensten": [
       "Ontstopping",
       "Septische put ledigen",
@@ -341,12 +397,30 @@
     "exclVatPlain": "Prijzen excl. BTW",
     "travelLabelDefault": "+ reiskosten (€ 1,45/km heen en terug)",
     "services": {
-      "interventie": { "label": "Interventie / Ontstopping", "description": "Standaard of met camera-inspectie" },
-      "camera": { "label": "Camera-inspectie / Plaatsbepaling afvoeren", "description": "Inclusief 1 uur ter plaatse" },
-      "pompwerken": { "label": "Pompwerken / Wateroverlast", "description": "Bij wateroverlast of liftput" },
-      "dakgoot": { "label": "Dakgootreiniging", "description": "Prijs per strekkende meter" },
-      "septisch": { "label": "Ledigen septische put", "description": "Tot 2000L, goed bereikbaar" },
-      "regenput": { "label": "Reinigen regenput", "description": "Bepaal de inhoud van uw regenwaterput" }
+      "interventie": {
+        "label": "Interventie / Ontstopping",
+        "description": "Standaard of met camera-inspectie"
+      },
+      "camera": {
+        "label": "Camera-inspectie / Plaatsbepaling afvoeren",
+        "description": "Inclusief 1 uur ter plaatse"
+      },
+      "pompwerken": {
+        "label": "Pompwerken / Wateroverlast",
+        "description": "Bij wateroverlast of liftput"
+      },
+      "dakgoot": {
+        "label": "Dakgootreiniging",
+        "description": "Prijs per strekkende meter"
+      },
+      "septisch": {
+        "label": "Ledigen septische put",
+        "description": "Tot 2000L, goed bereikbaar"
+      },
+      "regenput": {
+        "label": "Reinigen regenput",
+        "description": "Bepaal de inhoud van uw regenwaterput"
+      }
     },
     "rainTankOptions": {
       "5000": "≤ 5.000L",
@@ -440,5 +514,38 @@
       "h1": "Data Protection Notice"
     },
     "translationNote": "Dit juridisch document is enkel beschikbaar in het Nederlands. Bij verschillen tussen vertalingen prevaleert de Nederlandse versie."
+  },
+  "referencesData": {
+    "dakgootreinigingen": {
+      "title": "Dakgootreinigingen",
+      "projects": {
+        "Dakgootreiniging op Hoogte": "Dakgootreiniging op Hoogte"
+      }
+    },
+    "ledigen-van-septische-putten": {
+      "title": "Ledigen van septische putten",
+      "projects": {
+        "Ledigen Septische put": "Ledigen Septische put",
+        "Opsporen septische put": "Opsporen septische put"
+      }
+    },
+    "leegpompen-en-reinigen": {
+      "title": "Leegpompen en reinigen",
+      "projects": {
+        "Reinigen Regenput": "Reinigen Regenput",
+        "Ondergelopen kelder": "Ondergelopen kelder",
+        "Zuiveren riolering": "Zuiveren riolering"
+      }
+    },
+    "ontstoppingen-en-geurdetectie": {
+      "title": "Ontstoppingen en geurdetectie",
+      "projects": {
+        "Opsporen en traceren gebroken sifon": "Opsporen en traceren gebroken sifon",
+        "Geurdetectie": "Geurdetectie",
+        "Ontstopping afvoerput": "Ontstopping afvoerput",
+        "Verstopping oplossen": "Verstopping oplossen",
+        "Verwijderen van vochtige doekjes": "Verwijderen van vochtige doekjes"
+      }
+    }
   }
 }

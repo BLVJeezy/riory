@@ -89,7 +89,7 @@ const ProjectsSection = () => {
                     <div className="absolute inset-0 bg-gradient-to-t from-charcoal/80 via-charcoal/20 to-transparent" />
                     <div className="absolute bottom-0 left-0 right-0 p-2.5 sm:p-3">
                       <p className="text-[11px] sm:text-sm font-heading font-semibold text-white leading-tight line-clamp-2">
-                        {project.title}
+                        {t(`referencesData.${project.catSlug}.projects.${project.title}`, { defaultValue: project.title })}
                       </p>
                     </div>
                   </div>
@@ -129,7 +129,7 @@ const ProjectsSection = () => {
                           <div className="absolute inset-0 bg-gradient-to-t from-charcoal/80 via-charcoal/20 to-transparent" />
                           <div className="absolute bottom-0 left-0 right-0 p-2.5 sm:p-3">
                             <p className="text-[11px] sm:text-sm font-heading font-semibold text-white leading-tight line-clamp-2">
-                              {project.title}
+                              {t(`referencesData.${cat.slug}.projects.${project.title}`, { defaultValue: project.title })}
                             </p>
                           </div>
                         </div>
