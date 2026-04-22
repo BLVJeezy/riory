@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useLanguage } from "@/i18n/LanguageProvider";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -34,51 +36,21 @@ type ServiceId =
 
 interface ServiceOption {
   id: ServiceId;
-  label: string;
   icon: React.ReactNode;
-  description: string;
 }
 
-const services: ServiceOption[] = [
-  {
-    id: "interventie",
-    label: "Interventie / Ontstopping",
-    icon: <Wrench className="w-6 h-6" />,
-    description: "Standaard of met camera-inspectie",
-  },
-  {
-    id: "camera",
-    label: "Camera-inspectie / Plaatsbepaling afvoeren",
-    icon: <Camera className="w-6 h-6" />,
-    description: "Inclusief 1 uur ter plaatse",
-  },
-  {
-    id: "pompwerken",
-    label: "Pompwerken / Wateroverlast",
-    icon: <Droplets className="w-6 h-6" />,
-    description: "Bij wateroverlast of liftput",
-  },
-  {
-    id: "dakgoot",
-    label: "Dakgootreiniging",
-    icon: <Home className="w-6 h-6" />,
-    description: "Prijs per strekkende meter",
-  },
-  {
-    id: "septisch",
-    label: "Ledigen septische put",
-    icon: <Trash2 className="w-6 h-6" />,
-    description: "Tot 2000L, goed bereikbaar",
-  },
-  {
-    id: "regenput",
-    label: "Reinigen regenput",
-    icon: <CloudRain className="w-6 h-6" />,
-    description: "Bepaal de inhoud van uw regenwaterput",
-  },
+const serviceDefs: ServiceOption[] = [
+  { id: "interventie", icon: <Wrench className="w-6 h-6" /> },
+  { id: "camera", icon: <Camera className="w-6 h-6" /> },
+  { id: "pompwerken", icon: <Droplets className="w-6 h-6" /> },
+  { id: "dakgoot", icon: <Home className="w-6 h-6" /> },
+  { id: "septisch", icon: <Trash2 className="w-6 h-6" /> },
+  { id: "regenput", icon: <CloudRain className="w-6 h-6" /> },
 ];
 
 const PriceCalculator = () => {
+  const { t } = useTranslation();
+  const { localizedPath } = useLanguage();
   const [step, setStep] = useState(0);
   const [agreed, setAgreed] = useState(false);
   const [address, setAddress] = useState({
@@ -90,13 +62,11 @@ const PriceCalculator = () => {
   });
   const [selectedService, setSelectedService] = useState<ServiceId | null>(null);
 
-  // Service-specific state
   const [interventieType, setInterventieType] = useState<"standaard" | "camera">("standaard");
   const [liftputOnderWater, setLiftputOnderWater] = useState<"ja" | "nee" | null>(null);
   const [dakgootMeters, setDakgootMeters] = useState({ v1: "", v2: "", v3: "" });
   const [regenputInhoud, setRegenputInhoud] = useState<string | null>(null);
 
-  // Distance calculation state
   const [distanceLoading, setDistanceLoading] = useState(false);
   const [distanceData, setDistanceData] = useState<{
     distance_km: number;
@@ -127,7 +97,7 @@ const PriceCalculator = () => {
         setDistanceData(data);
       }
     } catch (err: any) {
-      setDistanceError("Kon afstand niet berekenen. Controleer het adres.");
+      setDistanceError(t("calculator.addressError"));
     } finally {
       setDistanceLoading(false);
     }
@@ -137,12 +107,14 @@ const PriceCalculator = () => {
     address.straat && address.huisnummer && address.postcode && address.plaats;
 
   const travelLabel = distanceData
-    ? `Reiskosten: ${distanceData.round_trip_km} km × € 1,45 = € ${distanceData.travel_cost.toFixed(2)}`
-    : "+ reiskosten (€ 1,45/km heen en terug)";
+    ? `${t("calculator.travelCostsLabel")} ${distanceData.round_trip_km} km × € 1,45 = € ${distanceData.travel_cost.toFixed(2)}`
+    : t("calculator.travelLabelDefault");
 
   const getPrice = (): { label: string; price: string; total: string | null; details: string[] } | null => {
     if (!selectedService) return null;
     const tc = distanceData?.travel_cost ?? null;
+    const incl1Hour = t("calculator.incl1Hour");
+    const exclVatPlain = t("calculator.exclVatPlain");
 
     const makeTotal = (base: number) =>
       tc !== null ? `€ ${(base + tc).toFixed(2)}` : null;
@@ -151,42 +123,42 @@ const PriceCalculator = () => {
       case "interventie":
         return interventieType === "standaard"
           ? {
-              label: "Interventie / Ontstopping (Standaard)",
+              label: `${t("calculator.services.interventie.label")} (${t("calculator.standard")})`,
               price: "€ 165",
               total: makeTotal(165),
-              details: [travelLabel, "Inclusief 1 uur ter plaatse", "Prijzen excl. BTW"],
+              details: [travelLabel, incl1Hour, exclVatPlain],
             }
           : {
-              label: "Interventie / Ontstopping (Met camera)",
+              label: `${t("calculator.services.interventie.label")} (${t("calculator.withCamera")})`,
               price: "€ 275",
               total: makeTotal(275),
-              details: [travelLabel, "Inclusief 1 uur ter plaatse", "Prijzen excl. BTW"],
+              details: [travelLabel, incl1Hour, exclVatPlain],
             };
       case "camera":
         return {
-          label: "Camera-inspectie / Plaatsbepaling afvoeren",
+          label: t("calculator.services.camera.label"),
           price: "€ 275",
           total: makeTotal(275),
-          details: [travelLabel, "Inclusief 1 uur ter plaatse", "Prijzen excl. BTW"],
+          details: [travelLabel, incl1Hour, exclVatPlain],
         };
       case "pompwerken":
         if (!liftputOnderWater) return null;
         return liftputOnderWater === "ja"
           ? {
-              label: "Pompwerken – Liftput onder water",
+              label: `${t("calculator.services.pompwerken.label")} – ${t("calculator.liftpitUnderWater")}`,
               price: "€ 615",
               total: makeTotal(615),
               details: [
                 "€ 165 (1e uur) + € 450 toeslag liftput",
                 travelLabel,
-                "Prijzen excl. BTW",
+                exclVatPlain,
               ],
             }
           : {
-              label: "Pompwerken / Wateroverlast",
+              label: t("calculator.services.pompwerken.label"),
               price: "€ 165",
               total: makeTotal(165),
-              details: [travelLabel, "Inclusief 1 uur ter plaatse", "Prijzen excl. BTW"],
+              details: [travelLabel, incl1Hour, exclVatPlain],
             };
       case "dakgoot": {
         const m1 = parseFloat(dakgootMeters.v1) || 0;
@@ -196,31 +168,31 @@ const PriceCalculator = () => {
         const totalMeters = m1 + m2 + m3;
         if (totalMeters < 10)
           return {
-            label: "Dakgootreiniging",
-            price: "Min. 10m vereist",
+            label: t("calculator.services.dakgoot.label"),
+            price: t("calculator.minRequired"),
             total: null,
-            details: ["Geldig tot 3 verdiepen of 10 meter hoogte", "Minimum 10m lengte te reinigen"],
+            details: [t("calculator.validUpTo"), t("calculator.minLength")],
           };
         return {
-          label: "Dakgootreiniging",
+          label: t("calculator.services.dakgoot.label"),
           price: `€ ${total.toFixed(2)}`,
           total: makeTotal(total),
           details: [
-            `1 verdiep: ${m1}m × € 8,50 = € ${(m1 * 8.5).toFixed(2)}`,
-            `2 verdiepen: ${m2}m × € 9,50 = € ${(m2 * 9.5).toFixed(2)}`,
-            `3 verdiepen: ${m3}m × € 11,00 = € ${(m3 * 11).toFixed(2)}`,
+            `${t("calculator.floor1")}: ${m1}m × € 8,50 = € ${(m1 * 8.5).toFixed(2)}`,
+            `${t("calculator.floor2")}: ${m2}m × € 9,50 = € ${(m2 * 9.5).toFixed(2)}`,
+            `${t("calculator.floor3")}: ${m3}m × € 11,00 = € ${(m3 * 11).toFixed(2)}`,
             travelLabel,
-            "Geldig tot 3 verdiepen of 10 meter hoogte",
-            "Prijzen excl. BTW",
-          ].filter((d) => !d.startsWith("0m")),
+            t("calculator.validUpTo"),
+            exclVatPlain,
+          ],
         };
       }
       case "septisch":
         return {
-          label: "Ledigen septische put",
+          label: t("calculator.services.septisch.label"),
           price: "€ 225",
           total: makeTotal(225),
-          details: [travelLabel, "Tot 2000L", "Goed bereikbaar", "Prijzen excl. BTW"],
+          details: [travelLabel, t("calculator.septicTankFull"), t("calculator.wellAccessible"), exclVatPlain],
         };
       case "regenput":
         if (!regenputInhoud) return null;
@@ -229,18 +201,18 @@ const PriceCalculator = () => {
           "7500": { label: "€ 349,77", value: 349.77 },
           "10000": { label: "€ 369,45", value: 369.45 },
           "15000": { label: "€ 406,29", value: 406.29 },
-          "20000": { label: "Op aanvraag", value: null },
+          "20000": { label: t("calculator.onRequest"), value: null },
         };
-        const p = priceMap[regenputInhoud] || { label: "Op aanvraag", value: null };
+        const p = priceMap[regenputInhoud] || { label: t("calculator.onRequest"), value: null };
+        const rainOptions = t("calculator.rainTankOptions", { returnObjects: true }) as Record<string, string>;
         return {
-          label: `Reinigen regenput (${regenputInhoud === "20000" ? "20.000L" : `≤ ${parseInt(regenputInhoud).toLocaleString("nl-BE")}L`})`,
+          label: `${t("calculator.services.regenput.label")} (${rainOptions[regenputInhoud] || regenputInhoud})`,
           price: p.label,
           total: p.value !== null ? makeTotal(p.value) : null,
           details: [
             regenputInhoud !== "20000" ? travelLabel : "",
-            "Deksel goed bereikbaar en toegankelijk",
-            "Inclusief 5 cm slib op de bodem",
-            "Prijzen excl. BTW",
+            t("calculator.rainTankNote"),
+            exclVatPlain,
           ].filter(Boolean),
         };
       default:
@@ -289,7 +261,7 @@ const PriceCalculator = () => {
       case "interventie":
         return (
           <div className="space-y-4">
-            <Label className="text-base font-heading font-semibold">Type interventie</Label>
+            <Label className="text-base font-heading font-semibold">{t("calculator.interventionType")}</Label>
             <RadioGroup
               value={interventieType}
               onValueChange={(v) => setInterventieType(v as "standaard" | "camera")}
@@ -298,15 +270,15 @@ const PriceCalculator = () => {
               <label className="flex items-center gap-3 p-4 rounded-lg border border-border bg-card cursor-pointer hover:border-primary transition-colors">
                 <RadioGroupItem value="standaard" />
                 <div>
-                  <p className="font-medium">Standaard</p>
-                  <p className="text-sm text-muted-foreground">€ 165 excl. BTW (+reiskosten) – Incl. 1 uur ter plaatse</p>
+                  <p className="font-medium">{t("calculator.standard")}</p>
+                  <p className="text-sm text-muted-foreground">€ 165 {t("calculator.exclVat")} (+{t("calculator.travelCostsLabel").replace(":", "").toLowerCase()}) – {t("calculator.incl1Hour")}</p>
                 </div>
               </label>
               <label className="flex items-center gap-3 p-4 rounded-lg border border-border bg-card cursor-pointer hover:border-primary transition-colors">
                 <RadioGroupItem value="camera" />
                 <div>
-                  <p className="font-medium">Met camera-inspectie</p>
-                  <p className="text-sm text-muted-foreground">€ 275 excl. BTW (+reiskosten) – Incl. 1 uur ter plaatse</p>
+                  <p className="font-medium">{t("calculator.withCamera")}</p>
+                  <p className="text-sm text-muted-foreground">€ 275 {t("calculator.exclVat")} – {t("calculator.incl1Hour")}</p>
                 </div>
               </label>
             </RadioGroup>
@@ -316,7 +288,7 @@ const PriceCalculator = () => {
       case "pompwerken":
         return (
           <div className="space-y-4">
-            <Label className="text-base font-heading font-semibold">Liftput onder water?</Label>
+            <Label className="text-base font-heading font-semibold">{t("calculator.liftpitUnderWater")}</Label>
             <RadioGroup
               value={liftputOnderWater || ""}
               onValueChange={(v) => setLiftputOnderWater(v as "ja" | "nee")}
@@ -325,15 +297,15 @@ const PriceCalculator = () => {
               <label className="flex items-center gap-3 p-4 rounded-lg border border-border bg-card cursor-pointer hover:border-primary transition-colors">
                 <RadioGroupItem value="ja" />
                 <div>
-                  <p className="font-medium">Ja</p>
-                  <p className="text-sm text-muted-foreground">€ 165 (1e uur) + € 450 toeslag liftput (+reiskosten) excl. BTW</p>
+                  <p className="font-medium">{t("calculator.yes")}</p>
+                  <p className="text-sm text-muted-foreground">€ 615 {t("calculator.exclVat")}</p>
                 </div>
               </label>
               <label className="flex items-center gap-3 p-4 rounded-lg border border-border bg-card cursor-pointer hover:border-primary transition-colors">
                 <RadioGroupItem value="nee" />
                 <div>
-                  <p className="font-medium">Nee</p>
-                  <p className="text-sm text-muted-foreground">€ 165 excl. BTW (+reiskosten) – Incl. 1 uur ter plaatse</p>
+                  <p className="font-medium">{t("calculator.no")}</p>
+                  <p className="text-sm text-muted-foreground">€ 165 {t("calculator.exclVat")} – {t("calculator.incl1Hour")}</p>
                 </div>
               </label>
             </RadioGroup>
@@ -344,18 +316,18 @@ const PriceCalculator = () => {
         return (
           <div className="space-y-4">
             <Label className="text-base font-heading font-semibold">
-              Geschatte meters per verdieping
+              {t("calculator.metersPerFloor")}
             </Label>
             <p className="text-sm text-muted-foreground">
-              Geldig tot 3 verdiepen of 10 meter hoogte. Minimum 10m lengte te reinigen.
+              {t("calculator.metersHelp")}
             </p>
             <div className="grid gap-3">
               <div className="flex items-center gap-3">
-                <Label className="w-32 text-sm">1 verdiep</Label>
+                <Label className="w-32 text-sm">{t("calculator.floor1")}</Label>
                 <Input
                   type="number"
                   min="0"
-                  placeholder="meter"
+                  placeholder={t("calculator.meters")}
                   value={dakgootMeters.v1}
                   onChange={(e) => setDakgootMeters((p) => ({ ...p, v1: e.target.value }))}
                   className="max-w-[120px]"
@@ -363,11 +335,11 @@ const PriceCalculator = () => {
                 <span className="text-sm text-muted-foreground">× € 8,50/m</span>
               </div>
               <div className="flex items-center gap-3">
-                <Label className="w-32 text-sm">2 verdiepen</Label>
+                <Label className="w-32 text-sm">{t("calculator.floor2")}</Label>
                 <Input
                   type="number"
                   min="0"
-                  placeholder="meter"
+                  placeholder={t("calculator.meters")}
                   value={dakgootMeters.v2}
                   onChange={(e) => setDakgootMeters((p) => ({ ...p, v2: e.target.value }))}
                   className="max-w-[120px]"
@@ -375,11 +347,11 @@ const PriceCalculator = () => {
                 <span className="text-sm text-muted-foreground">× € 9,50/m</span>
               </div>
               <div className="flex items-center gap-3">
-                <Label className="w-32 text-sm">3 verdiepen</Label>
+                <Label className="w-32 text-sm">{t("calculator.floor3")}</Label>
                 <Input
                   type="number"
                   min="0"
-                  placeholder="meter"
+                  placeholder={t("calculator.meters")}
                   value={dakgootMeters.v3}
                   onChange={(e) => setDakgootMeters((p) => ({ ...p, v3: e.target.value }))}
                   className="max-w-[120px]"
@@ -390,34 +362,36 @@ const PriceCalculator = () => {
           </div>
         );
 
-      case "regenput":
+      case "regenput": {
+        const rainOptions = t("calculator.rainTankOptions", { returnObjects: true }) as Record<string, string>;
+        const opts = [
+          { value: "5000", price: `€ 329,45 ${t("calculator.exclVat")}` },
+          { value: "7500", price: `€ 349,77 ${t("calculator.exclVat")}` },
+          { value: "10000", price: `€ 369,45 ${t("calculator.exclVat")}` },
+          { value: "15000", price: `€ 406,29 ${t("calculator.exclVat")}` },
+          { value: "20000", price: t("calculator.onRequest") },
+        ];
         return (
           <div className="space-y-4">
             <Label className="text-base font-heading font-semibold">
-              Bepaal de inhoud van uw regenwaterput
+              {t("calculator.rainTankContent")}
             </Label>
             <RadioGroup
               value={regenputInhoud || ""}
               onValueChange={setRegenputInhoud}
               className="grid gap-3 sm:grid-cols-2"
             >
-              {[
-                { value: "5000", label: "≤ 5.000L", price: "€ 329,45 excl. BTW (+reiskosten)" },
-                { value: "7500", label: "7.500L", price: "€ 349,77 excl. BTW (+reiskosten)" },
-                { value: "10000", label: "10.000L", price: "€ 369,45 excl. BTW (+reiskosten)" },
-                { value: "15000", label: "15.000L", price: "€ 406,29 excl. BTW (+reiskosten)" },
-                { value: "20000", label: "20.000L", price: "Op aanvraag" },
-              ].map((opt) => (
+              {opts.map((opt) => (
                 <label
                   key={opt.value}
                   className="flex items-center gap-3 p-4 rounded-lg border border-border bg-card cursor-pointer hover:border-primary transition-colors"
                 >
                   <RadioGroupItem value={opt.value} />
                   <div>
-                    <p className="font-medium">{opt.label}</p>
+                    <p className="font-medium">{rainOptions[opt.value]}</p>
                     <p className="text-sm text-muted-foreground">{opt.price}</p>
                     <p className="text-xs text-muted-foreground">
-                      Deksel goed bereikbaar en toegankelijk. Incl. 5 cm slib.
+                      {t("calculator.rainTankNote")}
                     </p>
                   </div>
                 </label>
@@ -425,6 +399,7 @@ const PriceCalculator = () => {
             </RadioGroup>
           </div>
         );
+      }
 
       case "camera":
       case "septisch":
@@ -442,11 +417,11 @@ const PriceCalculator = () => {
           <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full mb-4">
             <Calculator className="w-5 h-5" />
             <span className="font-heading font-semibold text-sm uppercase tracking-wider">
-              Prijscalculator
+              {t("calculator.badge")}
             </span>
           </div>
           <h1 className="font-heading text-3xl md:text-4xl font-bold text-foreground">
-            Bereken uw indicatieve prijs
+            {t("calculator.h1")}
           </h1>
         </div>
 
@@ -456,11 +431,7 @@ const PriceCalculator = () => {
             <div className="flex gap-3 p-4 rounded-lg bg-primary/5 border border-primary/20">
               <AlertTriangle className="w-5 h-5 text-primary shrink-0 mt-0.5" />
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Deze berekeningen zijn louter informatief. Riory kan in geen enkel geval
-                gebonden worden aan deze prijs. Elke interventie is uniek en kan niet
-                vergeleken worden met andere klanten door de verschillende rijkosten per
-                klant. De exacte prijs van de interventie zal steeds ter plaatse afgerekend
-                worden net na de interventie.
+                {t("calculator.disclaimer")}
               </p>
             </div>
             <div className="flex items-start gap-3">
@@ -470,7 +441,7 @@ const PriceCalculator = () => {
                 onCheckedChange={(v) => setAgreed(v === true)}
               />
               <Label htmlFor="akkoord" className="cursor-pointer leading-relaxed">
-                Ik begrijp dat deze prijzen louter informatief zijn en niet bindend.
+                {t("calculator.agree")}
               </Label>
             </div>
             <Button
@@ -480,7 +451,7 @@ const PriceCalculator = () => {
               onClick={() => setStep(1)}
               className="w-full"
             >
-              Verder <ArrowRight className="w-4 h-4" />
+              {t("calculator.continue")} <ArrowRight className="w-4 h-4" />
             </Button>
           </Card>
         )}
@@ -490,57 +461,56 @@ const PriceCalculator = () => {
           <Card className="p-6 md:p-8 space-y-6 animate-fade-in">
             <div className="flex items-center gap-2 mb-2">
               <MapPin className="w-5 h-5 text-primary" />
-              <h2 className="font-heading text-xl font-semibold">Werkadres</h2>
+              <h2 className="font-heading text-xl font-semibold">{t("calculator.addressTitle")}</h2>
             </div>
             <p className="text-sm text-muted-foreground">
-              Vul het werkadres in. Reiskosten worden berekend op basis van de afstand van Riory
-              tot de klant en terug. Beperkt tot 30 min reistijd.
+              {t("calculator.addressSubtitle")}
             </p>
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
-                <Label>Straat *</Label>
+                <Label>{t("calculator.street")} *</Label>
                 <Input
                   value={address.straat}
                   onChange={(e) => setAddress((p) => ({ ...p, straat: e.target.value }))}
-                  placeholder="Straatnaam"
+                  placeholder={t("calculator.streetPh")}
                 />
               </div>
               <div>
-                <Label>Huisnummer *</Label>
+                <Label>{t("calculator.houseNumber")} *</Label>
                 <Input
                   value={address.huisnummer}
                   onChange={(e) => setAddress((p) => ({ ...p, huisnummer: e.target.value }))}
-                  placeholder="Nr."
+                  placeholder={t("calculator.houseNumberPh")}
                 />
               </div>
               <div>
-                <Label>Postcode *</Label>
+                <Label>{t("calculator.postcode")} *</Label>
                 <Input
                   value={address.postcode}
                   onChange={(e) => setAddress((p) => ({ ...p, postcode: e.target.value }))}
-                  placeholder="Postcode"
+                  placeholder={t("calculator.postcodePh")}
                 />
               </div>
               <div>
-                <Label>Plaats *</Label>
+                <Label>{t("calculator.city")} *</Label>
                 <Input
                   value={address.plaats}
                   onChange={(e) => setAddress((p) => ({ ...p, plaats: e.target.value }))}
-                  placeholder="Gemeente"
+                  placeholder={t("calculator.cityPh")}
                 />
               </div>
               <div className="sm:col-span-2">
-                <Label>Land</Label>
+                <Label>{t("calculator.country")}</Label>
                 <Input
                   value={address.land}
                   onChange={(e) => setAddress((p) => ({ ...p, land: e.target.value }))}
-                  placeholder="Land"
+                  placeholder={t("calculator.countryPh")}
                 />
               </div>
             </div>
             <div className="flex gap-3">
               <Button variant="outline" onClick={() => setStep(0)}>
-                <ArrowLeft className="w-4 h-4" /> Terug
+                <ArrowLeft className="w-4 h-4" /> {t("calculator.back")}
               </Button>
               <Button
                 variant="cta"
@@ -553,9 +523,9 @@ const PriceCalculator = () => {
                 className="flex-1"
               >
                 {distanceLoading ? (
-                  <><Loader2 className="w-4 h-4 animate-spin" /> Afstand berekenen...</>
+                  <><Loader2 className="w-4 h-4 animate-spin" /> {t("calculator.calculating")}</>
                 ) : (
-                  <>Verder <ArrowRight className="w-4 h-4" /></>
+                  <>{t("calculator.continue")} <ArrowRight className="w-4 h-4" /></>
                 )}
               </Button>
             </div>
@@ -565,14 +535,13 @@ const PriceCalculator = () => {
         {/* Step 2: Service selection */}
         {step === 2 && (
           <Card className="p-6 md:p-8 space-y-6 animate-fade-in">
-            <h2 className="font-heading text-xl font-semibold">Kies een van onze diensten</h2>
+            <h2 className="font-heading text-xl font-semibold">{t("calculator.chooseService")}</h2>
             <div className="grid gap-3 sm:grid-cols-2">
-              {services.map((s) => (
+              {serviceDefs.map((s) => (
                 <button
                   key={s.id}
                   onClick={() => {
                     setSelectedService(s.id);
-                    // Reset sub-options
                     setInterventieType("standaard");
                     setLiftputOnderWater(null);
                     setDakgootMeters({ v1: "", v2: "", v3: "" });
@@ -585,14 +554,14 @@ const PriceCalculator = () => {
                     {s.icon}
                   </div>
                   <div>
-                    <p className="font-medium text-foreground">{s.label}</p>
-                    <p className="text-sm text-muted-foreground">{s.description}</p>
+                    <p className="font-medium text-foreground">{t(`calculator.services.${s.id}.label`)}</p>
+                    <p className="text-sm text-muted-foreground">{t(`calculator.services.${s.id}.description`)}</p>
                   </div>
                 </button>
               ))}
             </div>
             <Button variant="outline" onClick={() => setStep(1)}>
-              <ArrowLeft className="w-4 h-4" /> Terug
+              <ArrowLeft className="w-4 h-4" /> {t("calculator.back")}
             </Button>
           </Card>
         )}
@@ -601,7 +570,7 @@ const PriceCalculator = () => {
         {step === 3 && selectedService && (
           <Card className="p-6 md:p-8 space-y-6 animate-fade-in">
             <h2 className="font-heading text-xl font-semibold">
-              {services.find((s) => s.id === selectedService)?.label}
+              {t(`calculator.services.${selectedService}.label`)}
             </h2>
 
             {renderServiceOptions()}
@@ -611,21 +580,21 @@ const PriceCalculator = () => {
                 <div className="flex items-center gap-2 text-primary">
                   <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5" />
                   <span className="font-heading font-semibold text-xs sm:text-sm uppercase tracking-wider">
-                    Indicatieve prijs
+                    {t("calculator.indicativePrice")}
                   </span>
                 </div>
                 <p className="text-2xl sm:text-3xl font-heading font-bold text-foreground break-words">
-                  {result.total || result.price} <span className="text-sm sm:text-base font-normal text-muted-foreground">excl. BTW</span>
+                  {result.total || result.price} <span className="text-sm sm:text-base font-normal text-muted-foreground">{t("calculator.exclVat")}</span>
                 </p>
                 <p className="text-xs sm:text-sm font-medium text-foreground">{result.label}</p>
                 {distanceData && (
                   <div className="text-xs sm:text-sm text-muted-foreground">
-                    <p>Reiskosten (heen & terug): € {distanceData.travel_cost.toFixed(2)}</p>
-                    <p className="text-[11px] sm:text-xs text-muted-foreground/70 italic"><p className="text-[11px] sm:text-xs text-muted-foreground/70 italic">Prijzen enkel geldig tussen 8u en 16u, exclusief urgentietoeslag.</p></p>
+                    <p>{t("calculator.travelCostsLabel")} € {distanceData.travel_cost.toFixed(2)}</p>
+                    <p className="text-[11px] sm:text-xs text-muted-foreground/70 italic">{t("calculator.priceTimeNote")}</p>
                   </div>
                 )}
                 <ul className="space-y-1">
-                  {result.details.filter(d => !d.toLowerCase().includes('reiskosten') && !d.toLowerCase().includes('km ×')).map((d, i) => (
+                  {result.details.filter(d => !d.toLowerCase().includes('reiskosten') && !d.toLowerCase().includes('travel') && !d.toLowerCase().includes('déplacement') && !d.toLowerCase().includes('km ×')).map((d, i) => (
                     <li key={i} className="text-xs sm:text-sm text-muted-foreground flex items-start gap-1.5 sm:gap-2">
                       <Info className="w-3 h-3 sm:w-3.5 sm:h-3.5 mt-0.5 shrink-0" />
                       <span className="break-words">{d}</span>
@@ -633,12 +602,12 @@ const PriceCalculator = () => {
                   ))}
                 </ul>
                 <p className="text-[11px] sm:text-xs text-muted-foreground/70 italic mt-2">
-                  Dit is een indicatieve schatting en geen definitief offerte. De uiteindelijke prijs kan afwijken na inspectie ter plaatse.
+                  {t("calculator.estimateNote")}
                 </p>
                 <div className="pt-3 sm:pt-4">
                   <Button variant="cta" size="lg" className="w-full text-sm sm:text-base" asChild>
-                    <Link to={`/afspraak?dienst=${encodeURIComponent(getServiceMapping())}&straat=${encodeURIComponent(address.straat)}&huisnummer=${encodeURIComponent(address.huisnummer)}&postcode=${encodeURIComponent(address.postcode)}&plaats=${encodeURIComponent(address.plaats)}`}>
-                      Interventie boeken <ArrowRight className="w-4 h-4" />
+                    <Link to={`${localizedPath("/afspraak")}?dienst=${encodeURIComponent(getServiceMapping())}&straat=${encodeURIComponent(address.straat)}&huisnummer=${encodeURIComponent(address.huisnummer)}&postcode=${encodeURIComponent(address.postcode)}&plaats=${encodeURIComponent(address.plaats)}`}>
+                      {t("calculator.bookIntervention")} <ArrowRight className="w-4 h-4" />
                     </Link>
                   </Button>
                 </div>
@@ -647,7 +616,7 @@ const PriceCalculator = () => {
 
             <div className="flex gap-3">
               <Button variant="outline" onClick={() => setStep(2)}>
-                <ArrowLeft className="w-4 h-4" /> Terug
+                <ArrowLeft className="w-4 h-4" /> {t("calculator.back")}
               </Button>
               <Button
                 variant="ghost"
@@ -657,7 +626,7 @@ const PriceCalculator = () => {
                   setSelectedService(null);
                 }}
               >
-                Opnieuw beginnen
+                {t("calculator.startOver")}
               </Button>
             </div>
           </Card>
