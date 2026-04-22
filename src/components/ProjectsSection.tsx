@@ -1,14 +1,21 @@
 import { useState } from "react";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { useLanguage } from "@/i18n/LanguageProvider";
 import { referenceCategories } from "@/data/references";
 
 const ProjectsSection = () => {
+  const { t } = useTranslation();
+  const { localizedPath } = useLanguage();
   const [active, setActive] = useState<string>("alle");
 
   const filters = [
-    { label: "Alle", value: "alle" },
-    ...referenceCategories.map((cat) => ({ label: cat.title, value: cat.slug })),
+    { label: t("projects.all"), value: "alle" },
+    ...referenceCategories.map((cat) => ({
+      label: t(`referencesData.${cat.slug}.title`, { defaultValue: cat.title }),
+      value: cat.slug,
+    })),
   ];
 
   const allProjects = referenceCategories.flatMap((cat) =>
@@ -25,17 +32,16 @@ const ProjectsSection = () => {
       <div className="section-container px-4 sm:px-6 md:px-8">
         <div className="text-center mb-8 sm:mb-10">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-heading font-bold uppercase text-foreground mb-3">
-            Onze Referenties
+            {t("projects.title")}
           </h2>
           <div className="w-16 h-1 bg-primary mx-auto mb-4" />
           <p className="text-muted-foreground font-body max-w-xl mx-auto text-sm sm:text-base">
-            professionele service, snelle oplossingen en eerlijke prijzen voor alle rioleringswerken: Lees de ervaringen van onze klanten
+            {t("projects.subtitle")}
           </p>
         </div>
 
         {/* Filters */}
         <div className="flex flex-col sm:flex-row sm:flex-wrap justify-center gap-1.5 sm:gap-2 mb-8 sm:mb-10">
-          {/* "Alle" button full-width on mobile */}
           <button
             onClick={() => setActive("alle")}
             className={`w-full sm:w-auto px-2.5 py-2 sm:px-4 sm:py-2 rounded-full text-[11px] sm:text-xs font-heading uppercase tracking-wider transition-colors text-center border ${
@@ -44,7 +50,7 @@ const ProjectsSection = () => {
                 : "bg-muted text-muted-foreground hover:bg-muted/80 border-border"
             }`}
           >
-            Alle referenties
+            {t("projects.all")}
           </button>
           <div className="grid grid-cols-2 sm:contents gap-1.5 sm:gap-2">
             {filters.filter((f) => f.value !== "alle").map((f) => (
@@ -66,12 +72,11 @@ const ProjectsSection = () => {
         {/* Projects */}
         <div className="space-y-8 sm:space-y-12">
           {visible === null ? (
-            /* Alle: flat grid without category headers */
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
               {allProjects.map((project) => (
                 <Link
                   key={`${project.catSlug}-${project.title}`}
-                  to={`/referenties/${project.catSlug}`}
+                  to={localizedPath(`/referenties/${project.catSlug}`)}
                   className="group block"
                 >
                   <div className="relative aspect-[4/3] rounded-xl overflow-hidden">
@@ -92,18 +97,17 @@ const ProjectsSection = () => {
               ))}
             </div>
           ) : (
-            /* Filtered: grouped by category */
             visible.map((cat) => (
               <div key={cat.slug}>
                 <div className="flex items-center justify-between mb-4 sm:mb-5 pb-2 border-b border-border">
                   <h3 className="text-base sm:text-lg md:text-xl font-heading font-bold text-foreground">
-                    {cat.title}
+                    {t(`referencesData.${cat.slug}.title`, { defaultValue: cat.title })}
                   </h3>
                   <Link
-                    to={`/referenties/${cat.slug}`}
+                    to={localizedPath(`/referenties/${cat.slug}`)}
                     className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/10 text-[10px] sm:text-xs text-primary font-heading uppercase tracking-wider hover:bg-primary/20 transition-colors"
                   >
-                    Bekijk alle <ArrowRight className="w-3 h-3" />
+                    {t("common.viewAll")} <ArrowRight className="w-3 h-3" />
                   </Link>
                 </div>
 
@@ -112,7 +116,7 @@ const ProjectsSection = () => {
                     {cat.projects.map((project) => (
                       <Link
                         key={project.title}
-                        to={`/referenties/${cat.slug}`}
+                        to={localizedPath(`/referenties/${cat.slug}`)}
                         className="group block"
                       >
                         <div className="relative aspect-[4/3] rounded-xl overflow-hidden">
@@ -134,7 +138,7 @@ const ProjectsSection = () => {
                   </div>
                 ) : (
                   <p className="text-sm text-muted-foreground font-body italic py-4">
-                    Binnenkort beschikbaar.
+                    {t("common.soonAvailable")}
                   </p>
                 )}
               </div>
