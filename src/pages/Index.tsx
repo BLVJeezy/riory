@@ -2,6 +2,8 @@ import { usePageView } from "@/hooks/usePageView";
 import { useDocumentMeta } from "@/hooks/useDocumentMeta";
 import { Link } from "react-router-dom";
 import { Calculator, ArrowRight } from "lucide-react";
+import { useTranslation } from "react-i18next";
+import { useLanguage } from "@/i18n/LanguageProvider";
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
@@ -19,6 +21,8 @@ import Footer from "@/components/Footer";
 
 
 const Index = () => {
+  const { t } = useTranslation();
+  const { localizedPath } = useLanguage();
   usePageView("/");
   useDocumentMeta();
 
@@ -40,18 +44,18 @@ const Index = () => {
           <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full">
             <Calculator className="w-5 h-5" />
             <span className="font-heading font-semibold text-sm uppercase tracking-wider">
-              Prijscalculator
+              {t("calculator.badge")}
             </span>
           </div>
           <h2 className="font-heading text-3xl md:text-4xl font-bold text-foreground">
-            Bereken uw indicatieve prijs
+            {t("calculator.stepCtaCalculator")}
           </h2>
           <p className="text-muted-foreground max-w-xl mx-auto">
-            Gebruik onze handige prijscalculator om een indicatieve prijs te berekenen voor uw project. Alle prijzen zijn excl. BTW.
+            {t("calculator.stepCtaText")}
           </p>
           <Button variant="cta" size="lg" asChild>
-            <Link to="/prijscalculator">
-              Naar prijscalculator <ArrowRight className="w-4 h-4" />
+            <Link to={localizedPath("/prijscalculator")}>
+              {t("calculator.stepCtaButton")} <ArrowRight className="w-4 h-4" />
             </Link>
           </Button>
         </div>

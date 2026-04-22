@@ -1,5 +1,6 @@
 import { useParams, Link, Navigate } from "react-router-dom";
 import { useRef, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { usePageView } from "@/hooks/usePageView";
 import { useDocumentMeta } from "@/hooks/useDocumentMeta";
 import Navbar from "@/components/Navbar";
@@ -12,13 +13,13 @@ import {
   ArrowRight,
   Phone,
   AlertTriangle,
-  CheckCircle,
   Clock,
   Star,
   ShieldCheck,
   MapPin,
 } from "lucide-react";
 import { allLocations } from "@/data/locations";
+import { useLanguage } from "@/i18n/LanguageProvider";
 import {
   Accordion,
   AccordionContent,
@@ -28,13 +29,19 @@ import {
 
 const LocatieDetail = () => {
   const { slug } = useParams<{ slug: string }>();
+  const { t } = useTranslation();
+  const { localizedPath } = useLanguage();
   const location = allLocations.find((l) => l.slug === slug);
   const formRef = useRef<HTMLDivElement>(null);
 
-  usePageView(`/regio/${slug}`);
-  useDocumentMeta(location?.metaTitle, location?.metaDescription);
+  const localH1 = location ? t(`locationsData.${location.slug}.h1`, { defaultValue: location.h1 }) : "";
+  const localIntro = location ? t(`locationsData.${location.slug}.intro`, { defaultValue: location.intro }) : "";
+  const localMetaTitle = location ? t(`locationsData.${location.slug}.metaTitle`, { defaultValue: location.metaTitle }) : undefined;
+  const localMetaDesc = location ? t(`locationsData.${location.slug}.metaDescription`, { defaultValue: location.metaDescription }) : undefined;
 
-  // JSON-LD for local business + FAQ
+  usePageView(`/regio/${slug}`);
+  useDocumentMeta(localMetaTitle, localMetaDesc);
+
   useEffect(() => {
     if (!location) return;
 
@@ -60,15 +67,8 @@ const LocatieDetail = () => {
           addressRegion: "Limburg",
           addressCountry: "BE",
         },
-        areaServed: {
-          "@type": "City",
-          name: location.city,
-        },
-        aggregateRating: {
-          "@type": "AggregateRating",
-          ratingValue: "4.9",
-          reviewCount: "50",
-        },
+        areaServed: { "@type": "City", name: location.city },
+        aggregateRating: { "@type": "AggregateRating", ratingValue: "4.9", reviewCount: "50" },
       },
       {
         "@context": "https://schema.org",
@@ -76,10 +76,7 @@ const LocatieDetail = () => {
         mainEntity: location.faq.map((f) => ({
           "@type": "Question",
           name: f.question,
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: f.answer,
-          },
+          acceptedAnswer: { "@type": "Answer", text: f.answer },
         })),
       },
     ]);
@@ -91,7 +88,7 @@ const LocatieDetail = () => {
   }, [location, slug]);
 
   if (!location) {
-    return <Navigate to="/" replace />;
+    return <Navigate to={localizedPath("/")} replace />;
   }
 
   const handleScrollToForm = () => {
@@ -103,20 +100,18 @@ const LocatieDetail = () => {
       <Navbar />
       <section className="pt-20 md:pt-24 pb-16 md:pb-20 bg-background min-h-screen">
         <div className="section-container px-4 md:px-8">
-          {/* Back link */}
           <div className="mb-4 md:mb-6">
             <Button variant="ghost" size="sm" asChild>
               <Link
-                to="/"
+                to={localizedPath("/")}
                 className="gap-2 text-muted-foreground hover:text-foreground text-xs md:text-sm"
               >
                 <ArrowLeft className="w-3.5 h-3.5 md:w-4 md:h-4" />
-                Terug naar home
+                {t("common.backHome")}
               </Link>
             </Button>
           </div>
 
-          {/* Hero banner */}
           <div className="relative rounded-xl overflow-hidden bg-charcoal p-6 md:p-12 mb-8 md:mb-12">
             <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-transparent" />
             <div className="relative z-10">
@@ -127,10 +122,9 @@ const LocatieDetail = () => {
                 </span>
               </div>
               <h1 className="text-2xl md:text-4xl font-heading font-bold text-white uppercase leading-tight mb-4 md:mb-6">
-                {location.h1}
+                {localH1}
               </h1>
 
-              {/* CTA + phone */}
               <div className="flex flex-row items-center gap-2 sm:gap-3 mb-4">
                 <Button
                   variant="cta"
@@ -138,47 +132,43 @@ const LocatieDetail = () => {
                   className="rounded-full text-xs md:text-base px-4 md:px-6 h-9 md:h-11"
                   onClick={handleScrollToForm}
                 >
-                  Afspraak maken
+                  {t("common.appointment")}
                 </Button>
                 <a
                   href="tel:+32472502814"
                   className="inline-flex items-center gap-1.5 px-3.5 py-2 md:px-6 md:py-3 rounded-full bg-[hsl(var(--urgent))] text-[hsl(var(--urgent-foreground))] font-heading font-bold text-[11px] md:text-sm uppercase tracking-wider shadow-[0_0_20px_hsl(var(--urgent)/0.6)] hover:shadow-[0_0_30px_hsl(var(--urgent)/0.8)] transition-shadow"
                 >
                   <Phone className="w-3.5 h-3.5 md:w-4 md:h-4" />
-                  <span className="hidden sm:inline">BEL NU: </span>0472 50 28
-                  14
+                  <span className="hidden sm:inline">{t("common.callNow")} </span>0472 50 28 14
                 </a>
               </div>
 
-              {/* Trust signals */}
               <div className="flex flex-wrap items-center gap-x-3 md:gap-x-4 gap-y-1 text-white/80 text-[11px] md:text-sm font-heading">
                 <span className="inline-flex items-center gap-1">
                   <Clock className="w-3 h-3 md:w-3.5 md:h-3.5 text-primary" />
-                  24/7 beschikbaar
+                  {t("common.available247")}
                 </span>
                 <span className="inline-flex items-center gap-1">
                   <Star className="w-3 h-3 md:w-3.5 md:h-3.5 text-yellow-400 fill-yellow-400" />
-                  4.9 Google Reviews
+                  {t("common.googleReviews")}
                 </span>
                 <span className="inline-flex items-center gap-1">
                   <ShieldCheck className="w-3 h-3 md:w-3.5 md:h-3.5 text-primary" />
-                  Verzekerd & gecertificeerd
+                  {t("common.insuredCertified")}
                 </span>
               </div>
             </div>
           </div>
 
-          {/* Intro */}
           <div className="max-w-3xl mx-auto mb-12 md:mb-16">
             <p className="text-lg text-muted-foreground font-body leading-relaxed">
-              {location.intro}
+              {localIntro}
             </p>
           </div>
 
-          {/* Services grid */}
           <div className="max-w-4xl mx-auto mb-12 md:mb-16">
             <h2 className="text-xl md:text-2xl font-heading font-bold text-foreground mb-6">
-              Onze diensten in {location.city}
+              {t("locatieDetail.ourServicesIn", { city: location.city })}
             </h2>
             <div className="grid md:grid-cols-2 gap-4 md:gap-6">
               {location.services.map((svc) => (
@@ -198,8 +188,8 @@ const LocatieDetail = () => {
                     className="rounded-full gap-2 self-start"
                     asChild
                   >
-                    <Link to={`/diensten/${svc.slug}`}>
-                      Meer weten
+                    <Link to={localizedPath(`/diensten/${svc.slug}`)}>
+                      {t("services.learnMore")}
                       <ArrowRight className="w-4 h-4" />
                     </Link>
                   </Button>
@@ -208,10 +198,9 @@ const LocatieDetail = () => {
             </div>
           </div>
 
-          {/* Location FAQ */}
           <div className="max-w-3xl mx-auto mb-12 md:mb-16">
             <h2 className="text-xl md:text-2xl font-heading font-bold text-foreground mb-6">
-              Veelgestelde vragen — {location.city}
+              {t("locatieDetail.faqTitle", { city: location.city })}
             </h2>
             <Accordion type="single" collapsible className="w-full">
               {location.faq.map((item, i) => (
@@ -227,20 +216,17 @@ const LocatieDetail = () => {
             </Accordion>
           </div>
 
-          {/* Nearby areas */}
           <div className="max-w-3xl mx-auto mb-12 md:mb-16">
             <h2 className="text-xl md:text-2xl font-heading font-bold text-foreground mb-4">
-              Ook actief in de buurt van {location.city}
+              {t("locatieDetail.nearbyTitle", { city: location.city })}
             </h2>
             <div className="flex flex-wrap gap-2">
               {location.nearbyAreas.map((area) => {
-                const areaLocation = allLocations.find(
-                  (l) => l.city === area
-                );
+                const areaLocation = allLocations.find((l) => l.city === area);
                 return areaLocation ? (
                   <Link
                     key={area}
-                    to={`/regio/${areaLocation.slug}`}
+                    to={localizedPath(`/regio/${areaLocation.slug}`)}
                     className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full border border-border bg-card hover:bg-accent text-sm font-heading font-semibold text-foreground transition-colors"
                   >
                     <MapPin className="w-3.5 h-3.5 text-primary" />
@@ -259,7 +245,6 @@ const LocatieDetail = () => {
             </div>
           </div>
 
-          {/* Bottom CTA */}
           <div className="max-w-3xl mx-auto flex flex-col sm:flex-row items-center gap-4">
             <Button
               variant="cta"
@@ -267,14 +252,14 @@ const LocatieDetail = () => {
               className="rounded-full"
               onClick={handleScrollToForm}
             >
-              Afspraak maken
+              {t("common.appointment")}
             </Button>
             <a
               href="tel:+32472502814"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[hsl(var(--urgent))] text-[hsl(var(--urgent-foreground))] font-heading font-bold text-sm uppercase tracking-wider shadow-[0_0_20px_hsl(var(--urgent)/0.6)] hover:shadow-[0_0_30px_hsl(var(--urgent)/0.8)] transition-shadow"
             >
               <AlertTriangle className="w-4 h-4" />
-              URGENT? BEL NU
+              {t("common.urgentCallNow")}
             </a>
           </div>
         </div>

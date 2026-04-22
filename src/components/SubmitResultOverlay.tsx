@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { CheckCircle2, XCircle, RotateCcw } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 interface SubmitResultOverlayProps {
   status: "success" | "error" | null;
@@ -20,12 +21,18 @@ const SubmitResultOverlay = ({
   onClose,
   onRetry,
   onStartOver,
-  successTitle = "Succesvol verzonden!",
-  successMessage = "Wij nemen zo snel mogelijk contact met u op.",
-  errorTitle = "Er ging iets mis",
-  errorMessage = "Uw aanvraag kon niet worden verzonden. Probeer het opnieuw.",
+  successTitle,
+  successMessage,
+  errorTitle,
+  errorMessage,
 }: SubmitResultOverlayProps) => {
   const [visible, setVisible] = useState(false);
+  const { t } = useTranslation();
+
+  const successTitleFinal = successTitle ?? t("submitOverlay.successTitle");
+  const successMessageFinal = successMessage ?? t("submitOverlay.successMessage");
+  const errorTitleFinal = errorTitle ?? t("submitOverlay.errorTitle");
+  const errorMessageFinal = errorMessage ?? t("submitOverlay.errorMessage");
 
   useEffect(() => {
     if (status) {
@@ -67,14 +74,12 @@ const SubmitResultOverlay = ({
       }`}
       style={{ backdropFilter: "blur(8px)" }}
     >
-      {/* Background */}
       <div
         className={`absolute inset-0 transition-opacity duration-500 ${
           visible ? "opacity-90" : "opacity-0"
-        } ${status === "success" ? "bg-background" : "bg-background"}`}
+        } bg-background`}
       />
 
-      {/* Content */}
       <div
         className={`relative flex flex-col items-center text-center px-8 py-12 max-w-md transition-all duration-700 ${
           visible ? "scale-100 translate-y-0 opacity-100" : "scale-75 translate-y-8 opacity-0"
@@ -82,7 +87,6 @@ const SubmitResultOverlay = ({
       >
         {status === "success" ? (
           <>
-            {/* Animated success ring */}
             <div className="relative mb-8">
               <div
                 className={`w-28 h-28 rounded-full border-4 border-primary flex items-center justify-center transition-all duration-700 delay-200 ${
@@ -95,7 +99,6 @@ const SubmitResultOverlay = ({
                   }`}
                 />
               </div>
-              {/* Pulse rings */}
               <div className="absolute inset-0 w-28 h-28 rounded-full border-2 border-primary/30 animate-ping" />
               <div className="absolute -inset-3 w-34 h-34 rounded-full border border-primary/10 animate-pulse" />
             </div>
@@ -105,14 +108,14 @@ const SubmitResultOverlay = ({
                 visible ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
               }`}
             >
-              {successTitle}
+              {successTitleFinal}
             </h2>
             <p
               className={`text-muted-foreground font-body text-lg mb-10 transition-all duration-500 delay-500 ${
                 visible ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
               }`}
             >
-              {successMessage}
+              {successMessageFinal}
             </p>
 
             <Button
@@ -123,12 +126,11 @@ const SubmitResultOverlay = ({
                 visible ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
               }`}
             >
-              Sluiten
+              {t("submitOverlay.close")}
             </Button>
           </>
         ) : (
           <>
-            {/* Error icon */}
             <div className="relative mb-8">
               <div
                 className={`w-28 h-28 rounded-full border-4 border-destructive flex items-center justify-center transition-all duration-700 delay-200 ${
@@ -148,16 +150,14 @@ const SubmitResultOverlay = ({
                 visible ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
               }`}
             >
-              {errorTitle}
+              {errorTitleFinal}
             </h2>
             <p
               className={`text-muted-foreground font-body text-lg mb-10 transition-all duration-500 delay-500 ${
                 visible ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
               }`}
             >
-              {showStartOver
-                ? "Het is helaas niet gelukt. U kunt het formulier opnieuw invullen."
-                : errorMessage}
+              {showStartOver ? t("submitOverlay.errorRetry") : errorMessageFinal}
             </p>
 
             <div
@@ -166,20 +166,20 @@ const SubmitResultOverlay = ({
               }`}
             >
               <Button variant="outline" size="lg" onClick={handleClose} className="px-8 py-6 text-base">
-                Sluiten
+                {t("submitOverlay.close")}
               </Button>
               {showStartOver ? (
                 onStartOver && (
                   <Button variant="cta" size="lg" onClick={handleStartOver} className="px-8 py-6 text-base gap-2">
                     <RotateCcw className="w-4 h-4" />
-                    Opnieuw beginnen
+                    {t("submitOverlay.startOver")}
                   </Button>
                 )
               ) : (
                 onRetry && (
                   <Button variant="cta" size="lg" onClick={handleRetry} className="px-8 py-6 text-base gap-2">
                     <RotateCcw className="w-4 h-4" />
-                    Probeer opnieuw
+                    {t("submitOverlay.retry")}
                   </Button>
                 )
               )}

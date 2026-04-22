@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useParams, Link, Navigate, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { usePageView } from "@/hooks/usePageView";
 import { useDocumentMeta } from "@/hooks/useDocumentMeta";
 import Navbar from "@/components/Navbar";
@@ -8,21 +9,27 @@ import AppointmentForm from "@/components/AppointmentForm";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, MapPin, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { referenceCategories } from "@/data/references";
+import { useLanguage } from "@/i18n/LanguageProvider";
 
 const ReferentieDetail = () => {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
+  const { t } = useTranslation();
+  const { localizedPath } = useLanguage();
   const category = referenceCategories.find((c) => c.slug === slug);
   const [lightbox, setLightbox] = useState<{ images: string[]; index: number } | null>(null);
 
+  const localCatTitle = category ? t(`referencesData.${category.slug}.title`, { defaultValue: category.title }) : "";
+  const localCatDesc = category ? t(`referencesData.${category.slug}.description`, { defaultValue: category.description }) : "";
+
   usePageView(`/referenties/${slug}`);
   useDocumentMeta(
-    category ? `${category.title} | Riory Limburg` : undefined,
-    category ? `Riory ${category.title.toLowerCase()} - professionele service en snelle oplossingen. Ontdek deze realisatie en onze aanpak.` : undefined
+    category ? `${localCatTitle} | ${t("referentieDetail.metaTitleSuffix")}` : undefined,
+    category ? `Riory ${localCatTitle.toLowerCase()}` : undefined
   );
 
   if (!category) {
-    return <Navigate to="/#projecten" replace />;
+    return <Navigate to={`${localizedPath("/")}#projecten`} replace />;
   }
 
   return (
@@ -36,44 +43,41 @@ const ReferentieDetail = () => {
               size="sm"
               className="gap-2 text-muted-foreground hover:text-foreground"
               onClick={() => {
-                navigate("/#projecten");
+                navigate(`${localizedPath("/")}#projecten`);
                 setTimeout(() => {
                   document.getElementById("projecten")?.scrollIntoView({ behavior: "smooth" });
                 }, 100);
               }}
             >
               <ArrowLeft className="w-4 h-4" />
-              Terug naar referenties
+              {t("common.backReferences")}
             </Button>
           </div>
 
-          {/* Hero */}
           <div className="relative h-48 md:h-80 rounded-xl overflow-hidden mb-10">
             <img
               src={category.projects[0]?.images?.[0] ?? category.image}
-              alt={category.title}
+              alt={localCatTitle}
               loading="lazy"
               className="absolute inset-0 w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-charcoal/80 via-charcoal/20 to-transparent" />
             <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10">
               <h1 className="text-2xl md:text-4xl font-heading font-bold text-white uppercase">
-                {category.title}
+                {localCatTitle}
               </h1>
             </div>
           </div>
 
-          {/* Description */}
           <div className="max-w-3xl mx-auto mb-12">
             <p className="text-base sm:text-lg text-muted-foreground font-body leading-relaxed">
-              {category.description}
+              {localCatDesc}
             </p>
           </div>
 
-          {/* Projects */}
           <div className="max-w-3xl mx-auto">
             <h2 className="text-xl md:text-2xl font-heading font-bold text-foreground mb-6">
-              Uitgevoerde projecten
+              {t("referentieDetail.executedProjects")}
             </h2>
             <div className="grid gap-4 sm:gap-6">
               {category.projects.map((project) => (
@@ -97,7 +101,7 @@ const ReferentieDetail = () => {
                         <img
                           key={i}
                           src={img}
-                          alt={`${project.title} foto ${i + 1}`}
+                          alt={`${project.title} ${i + 1}`}
                           loading="lazy"
                           onClick={() => setLightbox({ images: project.images!, index: i })}
                           className="w-full h-32 sm:h-40 object-cover rounded-lg cursor-pointer hover:opacity-80 transition-opacity"
@@ -110,7 +114,6 @@ const ReferentieDetail = () => {
             </div>
           </div>
 
-          {/* Appointment Form */}
           <div className="mt-16">
             <AppointmentForm />
           </div>
@@ -118,7 +121,6 @@ const ReferentieDetail = () => {
       </section>
       <Footer />
 
-      {/* Lightbox */}
       {lightbox && (
         <div
           className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4"
