@@ -52,28 +52,76 @@
     "step": "Étape",
     "moreInfo": "Plus d'infos",
     "qualities": [
-      { "title": "Disponible 24/7", "description": "Riory est joignable 24 heures sur 24, 7 jours sur 7. Un coup de fil et tous vos problèmes sont résolus !" },
-      { "title": "Vidange propre et rapide", "description": "Nos spécialistes vident votre fosse septique en un rien de temps avec un matériel professionnel. Et ce, à un prix juste." },
-      { "title": "Travail de qualité", "description": "Nos employés disposent de l'expertise nécessaire pour fournir un travail de qualité, soigné et propre." },
-      { "title": "Sans peur du sale boulot", "description": "Aucun travail n'est trop sale pour nos spécialistes. Nous réalisons les tâches les plus salissantes et laissons les lieux propres." },
-      { "title": "Matériel professionnel", "description": "Nous disposons d'un matériel moderne et professionnel pour réaliser à fond les travaux les plus difficiles." },
-      { "title": "Prenez rendez-vous", "description": "Planifiez rapidement et facilement un rendez-vous via notre formulaire. Urgence ? Appelez-nous directement au 0472 50 28 14 !" }
+      {
+        "title": "Disponible 24/7",
+        "description": "Riory est joignable 24 heures sur 24, 7 jours sur 7. Un coup de fil et tous vos problèmes sont résolus !"
+      },
+      {
+        "title": "Vidange propre et rapide",
+        "description": "Nos spécialistes vident votre fosse septique en un rien de temps avec un matériel professionnel. Et ce, à un prix juste."
+      },
+      {
+        "title": "Travail de qualité",
+        "description": "Nos employés disposent de l'expertise nécessaire pour fournir un travail de qualité, soigné et propre."
+      },
+      {
+        "title": "Sans peur du sale boulot",
+        "description": "Aucun travail n'est trop sale pour nos spécialistes. Nous réalisons les tâches les plus salissantes et laissons les lieux propres."
+      },
+      {
+        "title": "Matériel professionnel",
+        "description": "Nous disposons d'un matériel moderne et professionnel pour réaliser à fond les travaux les plus difficiles."
+      },
+      {
+        "title": "Prenez rendez-vous",
+        "description": "Planifiez rapidement et facilement un rendez-vous via notre formulaire. Urgence ? Appelez-nous directement au 0472 50 28 14 !"
+      }
     ]
   },
   "faq": {
     "title": "Questions fréquentes sur les travaux d'égouts",
     "subtitle": "Une question ? Consultez les questions les plus fréquentes ci-dessous ou contactez-nous.",
     "items": [
-      { "q": "À quelle vitesse pouvez-vous intervenir en cas d'urgence ?", "a": "En cas de situations urgentes comme des bouchons ou des inondations, nous nous efforçons d'être sur place dans les 1 à 2 heures à Bilzen, Hasselt, Genk, Tongres et les communes environnantes du Limbourg. Nous sommes joignables 24/7 pour les urgences." },
-      { "q": "Combien coûte un débouchage en moyenne ?", "a": "Le prix dépend de la nature et de la gravité du bouchon. Qu'il s'agisse d'un WC, d'un évier ou d'une douche bouchée — utilisez notre outil d'estimation en ligne pour un prix indicatif, ou demandez un devis gratuit pour un calcul exact." },
-      { "q": "Mon WC est bouché, que puis-je faire ?", "a": "Un WC bouché est l'un des problèmes les plus courants. Essayez d'abord une ventouse ou de l'eau chaude. Cela ne fonctionne pas ? Le bouchon se trouve probablement plus profond dans la canalisation. Nos techniciens peuvent déboucher votre WC avec du matériel professionnel, souvent en moins d'une heure." },
-      { "q": "Mon évier ou ma douche ne s'écoule pas, quelle est la cause ?", "a": "Un évier bouché ou une douche qui ne s'écoule pas est généralement causé par une accumulation de graisse, de cheveux ou de résidus de savon. L'eau qui remonte indique un blocage plus loin. Nous résolvons cela rapidement avec un nettoyage haute pression." },
-      { "q": "Je sens des odeurs d'égouts dans la maison, est-ce dangereux ?", "a": "Des odeurs d'égouts dans la maison peuvent indiquer un siphon asséché, une canalisation endommagée ou un mauvais raccordement au réseau d'égouts. Ce n'est pas immédiatement dangereux, mais désagréable et signe d'un problème sous-jacent. Une inspection caméra révèle rapidement la cause." },
-      { "q": "Que signifie un écoulement qui glougloute ou des moucherons d'égout ?", "a": "Un écoulement qui glougloute indique souvent un problème de ventilation ou un bouchon plus profond. Les moucherons d'égout sont de petits insectes qui se développent sur la matière organique dans les canalisations bouchées ou lentes. Les deux sont des symptômes d'un problème nécessitant une inspection professionnelle." },
-      { "q": "Travaillez-vous aussi le week-end et les jours fériés ?", "a": "Oui, nous sommes disponibles 24/7 — y compris le week-end et les jours fériés. Pour les urgences, vous pouvez toujours nous joindre par téléphone ou WhatsApp." },
-      { "q": "Une inspection caméra est-elle toujours nécessaire ?", "a": "Pas toujours, mais elle est recommandée en cas de bouchons récurrents ou lors de l'achat d'une habitation. Vous obtenez ainsi une image claire de l'état de vos égouts." },
-      { "q": "À quelle fréquence faut-il vidanger une fosse septique ?", "a": "En moyenne, nous recommandons de faire vidanger votre fosse septique tous les 2 à 4 ans, selon l'utilisation et la taille de la fosse." },
-      { "q": "Proposez-vous aussi un entretien préventif ?", "a": "Absolument. Nous proposons des contrats de nettoyage et d'inspection périodiques à Bilzen, Hasselt et dans tout le Limbourg, afin de prévenir les problèmes avant qu'ils ne surviennent." }
+      {
+        "q": "À quelle vitesse pouvez-vous intervenir en cas d'urgence ?",
+        "a": "En cas de situations urgentes comme des bouchons ou des inondations, nous nous efforçons d'être sur place dans les 1 à 2 heures à Bilzen, Hasselt, Genk, Tongres et les communes environnantes du Limbourg. Nous sommes joignables 24/7 pour les urgences."
+      },
+      {
+        "q": "Combien coûte un débouchage en moyenne ?",
+        "a": "Le prix dépend de la nature et de la gravité du bouchon. Qu'il s'agisse d'un WC, d'un évier ou d'une douche bouchée — utilisez notre outil d'estimation en ligne pour un prix indicatif, ou demandez un devis gratuit pour un calcul exact."
+      },
+      {
+        "q": "Mon WC est bouché, que puis-je faire ?",
+        "a": "Un WC bouché est l'un des problèmes les plus courants. Essayez d'abord une ventouse ou de l'eau chaude. Cela ne fonctionne pas ? Le bouchon se trouve probablement plus profond dans la canalisation. Nos techniciens peuvent déboucher votre WC avec du matériel professionnel, souvent en moins d'une heure."
+      },
+      {
+        "q": "Mon évier ou ma douche ne s'écoule pas, quelle est la cause ?",
+        "a": "Un évier bouché ou une douche qui ne s'écoule pas est généralement causé par une accumulation de graisse, de cheveux ou de résidus de savon. L'eau qui remonte indique un blocage plus loin. Nous résolvons cela rapidement avec un nettoyage haute pression."
+      },
+      {
+        "q": "Je sens des odeurs d'égouts dans la maison, est-ce dangereux ?",
+        "a": "Des odeurs d'égouts dans la maison peuvent indiquer un siphon asséché, une canalisation endommagée ou un mauvais raccordement au réseau d'égouts. Ce n'est pas immédiatement dangereux, mais désagréable et signe d'un problème sous-jacent. Une inspection caméra révèle rapidement la cause."
+      },
+      {
+        "q": "Que signifie un écoulement qui glougloute ou des moucherons d'égout ?",
+        "a": "Un écoulement qui glougloute indique souvent un problème de ventilation ou un bouchon plus profond. Les moucherons d'égout sont de petits insectes qui se développent sur la matière organique dans les canalisations bouchées ou lentes. Les deux sont des symptômes d'un problème nécessitant une inspection professionnelle."
+      },
+      {
+        "q": "Travaillez-vous aussi le week-end et les jours fériés ?",
+        "a": "Oui, nous sommes disponibles 24/7 — y compris le week-end et les jours fériés. Pour les urgences, vous pouvez toujours nous joindre par téléphone ou WhatsApp."
+      },
+      {
+        "q": "Une inspection caméra est-elle toujours nécessaire ?",
+        "a": "Pas toujours, mais elle est recommandée en cas de bouchons récurrents ou lors de l'achat d'une habitation. Vous obtenez ainsi une image claire de l'état de vos égouts."
+      },
+      {
+        "q": "À quelle fréquence faut-il vidanger une fosse septique ?",
+        "a": "En moyenne, nous recommandons de faire vidanger votre fosse septique tous les 2 à 4 ans, selon l'utilisation et la taille de la fosse."
+      },
+      {
+        "q": "Proposez-vous aussi un entretien préventif ?",
+        "a": "Absolument. Nous proposons des contrats de nettoyage et d'inspection périodiques à Bilzen, Hasselt et dans tout le Limbourg, afin de prévenir les problèmes avant qu'ils ne surviennent."
+      }
     ]
   },
   "contact": {
@@ -175,7 +223,15 @@
   "appointmentForm": {
     "sectionTitle": "Prendre Rendez-vous",
     "sectionSubtitle": "Remplissez le formulaire et nous vous contacterons dans les plus brefs délais.",
-    "stepLabels": ["Service", "Conditions", "Urgence", "Client", "Coordonnées", "Description", "Finaliser"],
+    "stepLabels": [
+      "Service",
+      "Conditions",
+      "Urgence",
+      "Client",
+      "Coordonnées",
+      "Description",
+      "Finaliser"
+    ],
     "diensten": [
       "Débouchage",
       "Vidange de fosse septique",
@@ -341,12 +397,30 @@
     "exclVatPlain": "Prix HTVA",
     "travelLabelDefault": "+ frais de déplacement (€ 1,45/km aller-retour)",
     "services": {
-      "interventie": { "label": "Intervention / Débouchage", "description": "Standard ou avec inspection caméra" },
-      "camera": { "label": "Inspection caméra / Localisation", "description": "Inclut 1 heure sur place" },
-      "pompwerken": { "label": "Pompage / Inondation", "description": "Pour inondation ou puits de relevage" },
-      "dakgoot": { "label": "Nettoyage de gouttière", "description": "Prix par mètre linéaire" },
-      "septisch": { "label": "Vidange fosse septique", "description": "Jusqu'à 2000L, accessible" },
-      "regenput": { "label": "Nettoyage citerne d'eau", "description": "Déterminez la capacité de votre citerne" }
+      "interventie": {
+        "label": "Intervention / Débouchage",
+        "description": "Standard ou avec inspection caméra"
+      },
+      "camera": {
+        "label": "Inspection caméra / Localisation",
+        "description": "Inclut 1 heure sur place"
+      },
+      "pompwerken": {
+        "label": "Pompage / Inondation",
+        "description": "Pour inondation ou puits de relevage"
+      },
+      "dakgoot": {
+        "label": "Nettoyage de gouttière",
+        "description": "Prix par mètre linéaire"
+      },
+      "septisch": {
+        "label": "Vidange fosse septique",
+        "description": "Jusqu'à 2000L, accessible"
+      },
+      "regenput": {
+        "label": "Nettoyage citerne d'eau",
+        "description": "Déterminez la capacité de votre citerne"
+      }
     },
     "rainTankOptions": {
       "5000": "≤ 5.000L",
@@ -514,6 +588,39 @@
       "metaTitle": "Pompage Cave Limbourg 24/7 | Sur Place Vite | Riory",
       "metaDescription": "Cave inondée ou citerne qui déborde ? Riory pompe & identifie la cause. ✓ 24/7 ✓ Bilzen, Hasselt, Genk & Tongres. Appelez !",
       "h2Title": "Pomper les caves et nettoyer le système d'égouts"
+    }
+  },
+  "referencesData": {
+    "dakgootreinigingen": {
+      "title": "Nettoyage de gouttières",
+      "projects": {
+        "Dakgootreiniging op Hoogte": "Nettoyage de gouttières en hauteur"
+      }
+    },
+    "ledigen-van-septische-putten": {
+      "title": "Vidange de fosses septiques",
+      "projects": {
+        "Ledigen Septische put": "Vidange de fosse septique",
+        "Opsporen septische put": "Localisation de fosse septique"
+      }
+    },
+    "leegpompen-en-reinigen": {
+      "title": "Pompage et nettoyage",
+      "projects": {
+        "Reinigen Regenput": "Nettoyage de citerne d'eau de pluie",
+        "Ondergelopen kelder": "Cave inondée",
+        "Zuiveren riolering": "Curage des égouts"
+      }
+    },
+    "ontstoppingen-en-geurdetectie": {
+      "title": "Débouchage et détection d'odeurs",
+      "projects": {
+        "Opsporen en traceren gebroken sifon": "Localisation et traçage d'un siphon cassé",
+        "Geurdetectie": "Détection d'odeurs",
+        "Ontstopping afvoerput": "Débouchage de regard d'égout",
+        "Verstopping oplossen": "Résolution de bouchon",
+        "Verwijderen van vochtige doekjes": "Retrait de lingettes humides"
+      }
     }
   }
 }
