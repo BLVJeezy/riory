@@ -1,5 +1,6 @@
 import React, { useState, useRef, useCallback, useEffect, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import SubmitResultOverlay from "@/components/SubmitResultOverlay";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
@@ -80,16 +81,6 @@ type KlantType = "particulier" | "bedrijf" | "vrij_beroep" | "syndicus";
 
 const TOTAL_STEPS = 7;
 
-const stepLabels = [
-  "Dienst",
-  "Voorwaarden",
-  "Urgentie",
-  "Klanttype",
-  "Gegevens",
-  "Omschrijving",
-  "Afronden",
-];
-
 const INPUT_CLASS =
   "w-full h-12 px-4 rounded-lg bg-background border border-border text-foreground font-body text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-shadow";
 const ICON_INPUT_CLASS =
@@ -135,6 +126,13 @@ const InputField = ({ label, required, icon, ...props }: {
 );
 
 const AppointmentForm = () => {
+  const { t } = useTranslation();
+  const stepLabels = t("appointmentForm.stepLabels", { returnObjects: true }) as string[];
+  const tDiensten = t("appointmentForm.diensten", { returnObjects: true }) as string[];
+  const tGevondenLabels = t("appointmentForm.gevondenOpties", { returnObjects: true }) as Record<string, string>;
+  const tFields = t("appointmentForm.fields", { returnObjects: true }) as Record<string, string>;
+  const tPh = t("appointmentForm.placeholders", { returnObjects: true }) as Record<string, string>;
+  const tDetail = t("appointmentForm.detailLabels", { returnObjects: true }) as Record<string, string>;
   const [searchParams] = useSearchParams();
   const formRef = useRef<HTMLDivElement>(null);
   const [step, setStep] = useState(0);
