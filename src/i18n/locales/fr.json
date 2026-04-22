@@ -282,7 +282,12 @@
     "successTitle": "Rendez-vous envoyé !",
     "successMessage": "Nous vous contacterons dans les plus brefs délais pour confirmer votre rendez-vous.",
     "errorTitle": "Une erreur est survenue",
-    "errorMessage": "Votre rendez-vous n'a pas pu être envoyé. Veuillez réessayer."
+    "errorMessage": "Votre rendez-vous n'a pas pu être envoyé. Veuillez réessayer.",
+    "intro": "Réservez rapidement un rendez-vous pour un débouchage, une inspection caméra ou la vidange d'une fosse. Riory répond immédiatement et offre un service rapide et professionnel.",
+    "urgentCta": "URGENT ? APPELEZ MAINTENANT",
+    "stepPrefix": "Étape",
+    "submitCta": "PRENDRE RENDEZ-VOUS",
+    "submitting": "ENVOI..."
   },
   "calculator": {
     "metaTitle": "Calculateur de Prix | Riory",
