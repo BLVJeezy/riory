@@ -1,5 +1,6 @@
 import { Star } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { supabase } from "@/integrations/supabase/client";
 
 interface Review {
@@ -61,6 +62,7 @@ const ScrollRow = ({ items, direction }: { items: Review[]; direction: "left" | 
 };
 
 const ReviewsSection = () => {
+  const { t } = useTranslation();
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -93,7 +95,7 @@ const ReviewsSection = () => {
       <div className="section-container px-4 sm:px-6 md:px-8 mb-6 sm:mb-8">
         <div>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-heading font-bold uppercase text-foreground mb-4">
-            Wat onze klanten zeggen
+            {t("reviews.title")}
           </h2>
           <div className="flex items-center gap-2 mb-1.5">
             <img
@@ -102,7 +104,7 @@ const ReviewsSection = () => {
               className="w-4 h-4 sm:w-5 sm:h-5"
             />
             <span className="text-xs sm:text-sm font-heading font-semibold text-foreground uppercase tracking-wider">
-              Google Reviews
+              {t("reviews.label")}
             </span>
           </div>
           <div className="flex items-center gap-1">
@@ -110,7 +112,7 @@ const ReviewsSection = () => {
               <Star key={i} className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-primary text-primary" />
             ))}
             <span className="text-xs sm:text-sm font-body text-muted-foreground ml-1">
-              4.9/5 — 79 beoordelingen
+              {t("reviews.rating")}
             </span>
           </div>
         </div>
@@ -129,7 +131,7 @@ const ReviewsSection = () => {
           className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-primary text-primary-foreground font-heading text-sm uppercase tracking-wider hover:bg-primary/90 transition-colors"
         >
           <Star className="w-4 h-4" />
-          Plaats een review
+          {t("reviews.writeReview")}
         </a>
       </div>
     </section>
