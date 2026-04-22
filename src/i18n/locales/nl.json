@@ -282,7 +282,12 @@
     "successTitle": "Afspraak verzonden!",
     "successMessage": "Wij nemen zo snel mogelijk contact met u op om uw afspraak te bevestigen.",
     "errorTitle": "Er ging iets mis",
-    "errorMessage": "Uw afspraak kon niet worden verzonden. Probeer het opnieuw."
+    "errorMessage": "Uw afspraak kon niet worden verzonden. Probeer het opnieuw.",
+    "intro": "Plan snel een afspraak voor ontstopping, camera-inspectie of put-lediging. Riory reageert onmiddellijk en biedt snelle, professionele service.",
+    "urgentCta": "URGENT? BEL NU",
+    "stepPrefix": "Stap",
+    "submitCta": "AFSPRAAK MAKEN",
+    "submitting": "VERZENDEN..."
   },
   "calculator": {
     "metaTitle": "Prijscalculator | Riory",

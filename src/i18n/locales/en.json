@@ -282,7 +282,12 @@
     "successTitle": "Appointment sent!",
     "successMessage": "We will contact you as soon as possible to confirm your appointment.",
     "errorTitle": "Something went wrong",
-    "errorMessage": "Your appointment could not be sent. Please try again."
+    "errorMessage": "Your appointment could not be sent. Please try again.",
+    "intro": "Quickly book an appointment for unclogging, camera inspection or pit emptying. Riory responds immediately and delivers fast, professional service.",
+    "urgentCta": "URGENT? CALL NOW",
+    "stepPrefix": "Step",
+    "submitCta": "BOOK APPOINTMENT",
+    "submitting": "SENDING..."
   },
   "calculator": {
     "metaTitle": "Price Calculator | Riory",
