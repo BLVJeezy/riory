@@ -1,5 +1,6 @@
 import { useParams, Link, Navigate } from "react-router-dom";
 import { useRef } from "react";
+import { useTranslation } from "react-i18next";
 import { usePageView } from "@/hooks/usePageView";
 import { useDocumentMeta } from "@/hooks/useDocumentMeta";
 import Navbar from "@/components/Navbar";
@@ -9,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, CheckCircle, AlertTriangle, ArrowRight, Phone, Star, ShieldCheck, Clock } from "lucide-react";
 import { allServices } from "@/data/services";
 import { referenceCategories } from "@/data/references";
+import { useLanguage } from "@/i18n/LanguageProvider";
 
 const serviceToReferenceSlug: Record<string, string> = {
   "ontstoppingen-en-geurdetectie": "ontstoppingen-en-geurdetectie",
@@ -19,14 +21,23 @@ const serviceToReferenceSlug: Record<string, string> = {
 
 const DienstDetail = () => {
   const { slug } = useParams<{ slug: string }>();
+  const { t } = useTranslation();
+  const { localizedPath } = useLanguage();
   const service = allServices.find((s) => s.slug === slug);
   const formRef = useRef<HTMLDivElement>(null);
 
+  const localTitle = service ? t(`servicesData.${service.slug}.title`, { defaultValue: service.title }) : "";
+  const localLong = service ? t(`servicesData.${service.slug}.longDescription`, { defaultValue: service.longDescription }) : "";
+  const localH2 = service ? t(`servicesData.${service.slug}.h2Title`, { defaultValue: service.h2Title }) : "";
+  const localFeatures = service ? (t(`servicesData.${service.slug}.features`, { returnObjects: true, defaultValue: service.features }) as string[]) : [];
+  const localMetaTitle = service ? t(`servicesData.${service.slug}.metaTitle`, { defaultValue: service.metaTitle }) : undefined;
+  const localMetaDesc = service ? t(`servicesData.${service.slug}.metaDescription`, { defaultValue: service.metaDescription }) : undefined;
+
   usePageView(`/diensten/${slug}`);
-  useDocumentMeta(service?.metaTitle, service?.metaDescription);
+  useDocumentMeta(localMetaTitle, localMetaDesc);
 
   if (!service) {
-    return <Navigate to="/diensten" replace />;
+    return <Navigate to={localizedPath("/diensten")} replace />;
   }
 
   const handleRequestQuote = () => {
@@ -37,6 +48,7 @@ const DienstDetail = () => {
   const refCategory = refSlug
     ? referenceCategories.find((c) => c.slug === refSlug)
     : undefined;
+  const refCategoryTitle = refCategory ? t(`referencesData.${refCategory.slug}.title`, { defaultValue: refCategory.title }) : "";
 
   return (
     <>
@@ -45,18 +57,17 @@ const DienstDetail = () => {
         <div className="section-container px-4 md:px-8">
           <div className="mb-2 md:mb-4">
             <Button variant="ghost" size="sm" asChild>
-              <Link to="/diensten" className="gap-2 text-muted-foreground hover:text-foreground text-xs md:text-sm">
+              <Link to={localizedPath("/diensten")} className="gap-2 text-muted-foreground hover:text-foreground text-xs md:text-sm">
                 <ArrowLeft className="w-3.5 h-3.5 md:w-4 md:h-4" />
-                Terug naar diensten
+                {t("common.backServices")}
               </Link>
             </Button>
           </div>
 
-          {/* Hero image with CTA overlay */}
           <div className="relative h-[21rem] md:h-[28rem] rounded-xl overflow-hidden mb-5 md:mb-6">
             <img
               src={service.image}
-              alt={service.title}
+              alt={localTitle}
               loading="eager"
               fetchPriority="high"
               className="absolute inset-0 w-full h-full object-cover"
@@ -64,52 +75,49 @@ const DienstDetail = () => {
             <div className="absolute inset-0 bg-gradient-to-t from-charcoal/95 via-charcoal/50 to-transparent" />
             <div className="absolute bottom-0 left-0 right-0 p-4 md:p-10">
               <h1 className="text-lg md:text-4xl font-heading font-bold text-white uppercase leading-tight mb-2.5 md:mb-4">
-                {service.title}
+                {localTitle}
               </h1>
 
-              {/* Above-the-fold CTA + phone */}
               <div className="flex flex-row items-center gap-2 sm:gap-3 mb-2.5 md:mb-4">
                 <Button variant="cta" size="default" className="rounded-full text-xs md:text-base px-4 md:px-6 h-9 md:h-11" onClick={handleRequestQuote}>
-                  Afspraak maken
+                  {t("common.appointment")}
                 </Button>
                 <a
                   href="tel:+32472502814"
                   className="inline-flex items-center gap-1.5 px-3.5 py-2 md:px-6 md:py-3 rounded-full bg-[hsl(var(--urgent))] text-[hsl(var(--urgent-foreground))] font-heading font-bold text-[11px] md:text-sm uppercase tracking-wider shadow-[0_0_20px_hsl(var(--urgent)/0.6)] hover:shadow-[0_0_30px_hsl(var(--urgent)/0.8)] transition-shadow"
                 >
                   <Phone className="w-3.5 h-3.5 md:w-4 md:h-4" />
-                  <span className="hidden sm:inline">BEL NU: </span>0472 50 28 14
+                  <span className="hidden sm:inline">{t("common.callNow")} </span>0472 50 28 14
                 </a>
               </div>
 
-              {/* Trust signals */}
               <div className="flex flex-wrap items-center gap-x-3 md:gap-x-4 gap-y-1 text-white/80 text-[11px] md:text-sm font-heading">
                 <span className="inline-flex items-center gap-1">
                   <Clock className="w-3 h-3 md:w-3.5 md:h-3.5 text-primary" />
-                  24/7 beschikbaar
+                  {t("common.available247")}
                 </span>
                 <span className="inline-flex items-center gap-1">
                   <Star className="w-3 h-3 md:w-3.5 md:h-3.5 text-yellow-400 fill-yellow-400" />
-                  4.9 Google Reviews
+                  {t("common.googleReviews")}
                 </span>
                 <span className="inline-flex items-center gap-1">
                   <ShieldCheck className="w-3 h-3 md:w-3.5 md:h-3.5 text-primary" />
-                  Verzekerd & gecertificeerd
+                  {t("common.insuredCertified")}
                 </span>
               </div>
             </div>
           </div>
 
-          {/* Content */}
           <div className="max-w-3xl mx-auto">
             <p className="text-lg text-muted-foreground font-body leading-relaxed mb-10">
-              {service.longDescription}
+              {localLong}
             </p>
 
             <h2 className="text-xl md:text-2xl font-heading font-bold text-foreground mb-6">
-              {service.h2Title}
+              {localH2}
             </h2>
             <ul className="space-y-4 mb-10">
-              {service.features.map((feature) => (
+              {localFeatures.map((feature) => (
                 <li key={feature} className="flex items-start gap-3">
                   <CheckCircle className="w-5 h-5 text-primary mt-0.5 shrink-0" />
                   <span className="text-foreground font-body">{feature}</span>
@@ -117,42 +125,40 @@ const DienstDetail = () => {
               ))}
             </ul>
 
-            {/* Referenties sectie */}
             {refCategory && (
               <div className="mb-10 p-6 rounded-xl bg-muted/50 border border-border">
                 <h3 className="text-lg font-heading font-bold text-foreground mb-2">
-                  Bekijk onze referenties
+                  {t("dienstDetail.viewReferences")}
                 </h3>
                 <p className="text-sm text-muted-foreground font-body mb-4">
-                  Ontdek wat wij al realiseerden in de categorie "{refCategory.title}".
+                  {t("dienstDetail.referenceIntro", { name: refCategoryTitle })}
                 </p>
                 <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 mb-4">
                   {refCategory.projects.flatMap((p) => p.images).slice(0, 8).map((img, i) => (
                     <div key={i} className="aspect-square rounded-lg overflow-hidden">
-                      <img src={img} alt={`Referentie ${i + 1}`} loading="lazy" className="w-full h-full object-cover hover:scale-105 transition-transform duration-300" />
+                      <img src={img} alt={`${refCategoryTitle} ${i + 1}`} loading="lazy" className="w-full h-full object-cover hover:scale-105 transition-transform duration-300" />
                     </div>
                   ))}
                 </div>
                 <Button variant="outline" size="sm" className="rounded-full gap-2" asChild>
-                  <Link to={`/referenties/${refCategory.slug}`}>
-                    Bekijk alle projecten
+                  <Link to={localizedPath(`/referenties/${refCategory.slug}`)}>
+                    {t("common.viewAllProjects")}
                     <ArrowRight className="w-4 h-4" />
                   </Link>
                 </Button>
               </div>
             )}
 
-            {/* Bottom CTA herhaling */}
             <div className="flex flex-col sm:flex-row items-center gap-4">
               <Button variant="cta" size="lg" className="rounded-full" onClick={handleRequestQuote}>
-                Afspraak maken
+                {t("common.appointment")}
               </Button>
               <a
                 href="tel:+32472502814"
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[hsl(var(--urgent))] text-[hsl(var(--urgent-foreground))] font-heading font-bold text-sm uppercase tracking-wider shadow-[0_0_20px_hsl(var(--urgent)/0.6)] hover:shadow-[0_0_30px_hsl(var(--urgent)/0.8)] transition-shadow"
               >
                 <AlertTriangle className="w-4 h-4" />
-                URGENT? BEL NU
+                {t("common.urgentCallNow")}
               </a>
             </div>
           </div>
