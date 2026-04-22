@@ -440,5 +440,80 @@
       "h1": "Avis de Protection des Données"
     },
     "translationNote": "Ce document juridique n'est disponible qu'en néerlandais. En cas de divergence entre les traductions, la version néerlandaise prévaut."
+  },
+  "servicesData": {
+    "camera-inspectie": {
+      "title": "Inspection caméra des égouts et évacuations au Limbourg",
+      "shortTitle": "Inspection caméra égouts",
+      "description": "Localisez précisément les problèmes cachés grâce à une inspection caméra professionnelle de vos égouts et évacuations à Bilzen, Hoeselt, Hasselt, Genk, Tongres et dans tout le Limbourg. Idéal pour une évacuation bouchée, des odeurs récurrentes ou l'achat d'une maison.",
+      "longDescription": "Avec notre inspection caméra professionnelle des égouts et évacuations, vous obtenez une image claire de l'état de votre système d'égouts à Bilzen, Hoeselt, Hasselt, Genk, Tongres et dans tout le Limbourg. Nous cartographions précisément les fissures, les racines, les affaissements et les bouchons. WC qui se bouche sans cesse ? Douche qui ne s'écoule pas ? Évier lent ? Une inspection caméra révèle la cause exacte — sans casse. Après l'inspection, vous recevez un rapport détaillé avec images et conseils de réparation.",
+      "features": [
+        "Inspecter les égouts avec une caméra professionnelle",
+        "Identifier la cause d'un WC, d'une douche ou d'un évier bouché",
+        "Localiser une évacuation bouchée sans casse",
+        "Odeur d'égout dans la maison ? La caméra révèle la source",
+        "Localisation des conduites d'évacuation souterraines",
+        "Rapport clair avec images et conseils",
+        "Idéal pour les contrôles préventifs lors d'un achat immobilier"
+      ],
+      "metaTitle": "Inspection Caméra Égouts Limbourg | Sans Casse | Riory",
+      "metaDescription": "Inspection caméra de vos égouts — la cause révélée sans casse. ✓ Rapport avec images ✓ 24/7 à Bilzen, Hasselt, Genk & Tongres. Réservez !",
+      "h2Title": "Inspecter les égouts et identifier les problèmes d'évacuation"
+    },
+    "ontstoppingen-en-geurdetectie": {
+      "title": "Débouchage professionnel et détection d'odeurs au Limbourg",
+      "shortTitle": "Débouchage & Détection d'odeurs",
+      "description": "Évacuation bouchée ? Mauvaises odeurs ? Riory localise le problème 24/7 avec un débouchage efficace et une détection d'odeurs à Bilzen, Hoeselt, Hasselt, Genk, Tongres et dans tout le Limbourg.",
+      "longDescription": "Vous souffrez d'une évacuation bouchée, d'un égout obstrué ou d'odeurs nauséabondes ? WC, évier ou douche qui ne s'écoule pas ? Odeur d'égout dans la maison ou égout qui sent mauvais ? Nous offrons une solution rapide et complète à Bilzen, Hoeselt, Hasselt, Genk, Tongres et dans tout le Limbourg. Avec notre matériel haute pression professionnel, nous débouchons toutes les obstructions — des cuisines et salles de bains aux égouts principaux. Même en cas de WC qui déborde, d'évacuation qui glougloute ou d'eau qui remonte par la douche, nous sommes disponibles 24/7. Nous détectons les nuisances olfactives et les mouchettes d'égout à la source pour une solution durable.",
+      "features": [
+        "Déboucher les égouts — rapide et professionnel",
+        "Déboucher un WC en cas d'obstruction ou de débordement",
+        "Évier bouché ? Nous le débouchons",
+        "Douche qui ne s'écoule pas — solution immédiate",
+        "Déboucher une évacuation par nettoyage haute pression",
+        "Détecter et éliminer les odeurs d'égout dans la maison",
+        "Évacuation qui glougloute ou eau qui remonte",
+        "Élimination des mouchettes d'égout à la source",
+        "Disponible 24/7 pour les urgences au Limbourg"
+      ],
+      "metaTitle": "Débouchage Limbourg 24/7 | WC, Douche & Égout | Riory",
+      "metaDescription": "WC ou évier bouché ? Riory intervient 24/7. ✓ Sur place sous 2 h ✓ Prix fixes ✓ Bilzen, Hasselt, Genk & Tongres. Appelez !",
+      "h2Title": "Déboucher les égouts et identifier la cause des odeurs"
+    },
+    "leidingen-en-septische-putten": {
+      "title": "Vidange de fosses septiques et réparation de conduites au Limbourg",
+      "shortTitle": "Conduites & Fosses septiques",
+      "description": "Riory vide et nettoie les fosses septiques à Bilzen, Hoeselt, Hasselt, Genk, Tongres et dans tout le Limbourg à des prix justes et avec un service 24/7.",
+      "longDescription": "De la vidange de fosses septiques à la pose ou la réparation de conduites d'égout — nous offrons un service complet pour votre infrastructure souterraine à Bilzen, Hoeselt, Hasselt, Genk, Tongres et dans tout le Limbourg. Fosse septique pleine ? Fosse à purin qui déborde ? Odeur d'égout sortant de la fosse ? Avec des camions-citernes et des pelleteuses spécialisés, nous travaillons efficacement et avec un minimum de nuisances. Nous nettoyons soigneusement les citernes d'eau de pluie pour que votre évacuation continue de fonctionner de façon optimale et que les inondations soient évitées.",
+      "features": [
+        "Vider et nettoyer les fosses septiques",
+        "Vider et entretenir les fosses à purin",
+        "Nettoyer en profondeur les citernes d'eau de pluie",
+        "Pose de nouvelles conduites d'égout",
+        "Réparation de conduites endommagées",
+        "Camions-citernes et pelleteuses professionnels"
+      ],
+      "metaTitle": "Vidange Fosse Septique Limbourg | Prix Juste | Riory 24/7",
+      "metaDescription": "Fosse septique ou à purin pleine ? Riory vide 24/7 à Bilzen, Hasselt, Genk & Tongres. ✓ Tarifs fixes ✓ Sans surprise ✓ 4,9★ avis. Appelez !",
+      "h2Title": "Vider les fosses septiques et réparer les conduites d'égout"
+    },
+    "leegpompen-en-reinigen": {
+      "title": "Pompage de caves et nettoyage de citernes au Limbourg",
+      "shortTitle": "Pompage & Nettoyage",
+      "description": "Cave ou citerne inondée ? Riory pompe rapidement, identifie la cause et nettoie. Disponible 24/7 au Limbourg !",
+      "longDescription": "En cas d'inondation, nous intervenons rapidement à Bilzen, Hoeselt, Hasselt, Genk, Tongres et dans tout le Limbourg pour pomper caves, fosses et terrains. Cave sous eau après de fortes pluies ? Citerne d'eau de pluie qui déborde ? Égout qui remonte par l'évacuation ? Nous pompons rapidement et identifions la cause. Nous proposons aussi un nettoyage périodique en entretien préventif pour l'ensemble de votre système d'égouts. Un entretien régulier évite les réparations coûteuses, les évacuations bouchées et les odeurs d'égout dans la maison.",
+      "features": [
+        "Pompage de cave en cas d'inondation",
+        "Nettoyage et entretien des citernes d'eau de pluie",
+        "Égout qui remonte ? Cause identifiée et résolue",
+        "Nettoyage périodique des systèmes d'égouts",
+        "Nettoyage des gouttières et des conduites d'évacuation",
+        "Prévenir les évacuations bouchées par un entretien préventif",
+        "Sur place rapidement — 24/7 au Limbourg"
+      ],
+      "metaTitle": "Pompage Cave Limbourg 24/7 | Sur Place Vite | Riory",
+      "metaDescription": "Cave inondée ou citerne qui déborde ? Riory pompe & identifie la cause. ✓ 24/7 ✓ Bilzen, Hasselt, Genk & Tongres. Appelez !",
+      "h2Title": "Pomper les caves et nettoyer le système d'égouts"
+    }
   }
 }

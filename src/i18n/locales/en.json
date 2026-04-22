@@ -440,5 +440,80 @@
       "h1": "Data Protection Notice"
     },
     "translationNote": "This legal document is only available in Dutch. In case of differences between translations, the Dutch version prevails."
+  },
+  "servicesData": {
+    "camera-inspectie": {
+      "title": "Sewer and drain camera inspection in Limburg",
+      "shortTitle": "Sewer camera inspection",
+      "description": "Pinpoint hidden problems with a professional camera inspection of your sewer and drains in Bilzen, Hoeselt, Hasselt, Genk, Tongeren and across Limburg. Ideal for a clogged drain, recurring sewer odor or a property purchase.",
+      "longDescription": "Our professional camera inspection of sewers and drains gives you a clear picture of the condition of your sewer system in Bilzen, Hoeselt, Hasselt, Genk, Tongeren and across Limburg. We accurately map breaks, root intrusion, sagging and blockages. Toilet that keeps clogging? Shower that won't drain? Slow sink? A camera inspection reveals the exact cause — without breaking anything open. After the inspection you receive a detailed report with footage and advice for any repairs.",
+      "features": [
+        "Inspect your sewer with a professional camera",
+        "Trace the cause of a clogged toilet, shower or sink",
+        "Locate a clogged drain without breaking anything open",
+        "Sewer smell at home? The camera reveals the source",
+        "Pinpoint the location of underground drain pipes",
+        "Clear report with footage and advice",
+        "Suitable for preventive checks when buying a home"
+      ],
+      "metaTitle": "Sewer Camera Inspection Limburg | No Demolition | Riory",
+      "metaDescription": "Camera inspection of your sewer — find the cause without breaking anything open. ✓ Report with footage ✓ 24/7 in Bilzen, Hasselt, Genk & Tongeren. Book now!",
+      "h2Title": "Inspect your sewer and trace drain problems"
+    },
+    "ontstoppingen-en-geurdetectie": {
+      "title": "Professional unclogging and odor detection in Limburg",
+      "shortTitle": "Unclogging & Odor detection",
+      "description": "Drain clogged? Bad smell? Riory tracks down the problem 24/7 with efficient unclogging and odor detection in Bilzen, Hoeselt, Hasselt, Genk, Tongeren and across Limburg.",
+      "longDescription": "Are you dealing with a clogged drain, sewer blockage or bad odor? Toilet, sink or shower that won't drain? Sewer smell in the house or a stinking sewer? We provide a fast and thorough solution in Bilzen, Hoeselt, Hasselt, Genk, Tongeren and across Limburg. With professional high-pressure equipment we clear every blockage — from kitchens and bathrooms to main sewers. Even for an overflowing toilet, gurgling drain or water coming back through the shower we're available 24/7. We trace odor nuisance and drain flies at the source and resolve the problem permanently.",
+      "features": [
+        "Unclog your sewer — fast and professional",
+        "Unclog a toilet in case of blockage or overflow",
+        "Sink clogged? We clear it",
+        "Shower won't drain — immediate solution",
+        "Clear a clogged drain with high-pressure cleaning",
+        "Trace and fix sewer smells in the home",
+        "Gurgling drain or water coming back",
+        "Eliminate drain flies at the source",
+        "24/7 available for emergencies in Limburg"
+      ],
+      "metaTitle": "Unclogging Limburg 24/7 | Toilet, Shower & Sewer | Riory",
+      "metaDescription": "Toilet or sink clogged? Riory solves it 24/7. ✓ On site within 2 hours ✓ Fixed prices ✓ Bilzen, Hasselt, Genk & Tongeren. Call now!",
+      "h2Title": "Unclog your sewer and trace the cause of sewer odor"
+    },
+    "leidingen-en-septische-putten": {
+      "title": "Septic tank emptying and pipe repairs in Limburg",
+      "shortTitle": "Pipes & Septic tanks",
+      "description": "Riory empties and cleans septic tanks in Bilzen, Hoeselt, Hasselt, Genk, Tongeren and across Limburg at fair prices and with 24/7 service.",
+      "longDescription": "From emptying septic tanks to installing or repairing sewer pipes — we offer a full package for your underground infrastructure in Bilzen, Hoeselt, Hasselt, Genk, Tongeren and across Limburg. Septic tank full? Cesspit overflowing? Sewer smell coming from the pit? With specialized vacuum trucks and excavators we work efficiently and with minimal disruption. We thoroughly clean rainwater tanks so your drainage keeps working optimally and flooding is prevented.",
+      "features": [
+        "Empty and clean septic tanks",
+        "Empty and maintain cesspits",
+        "Thoroughly clean rainwater tanks",
+        "Install new sewer pipes",
+        "Repair damaged pipes",
+        "Professional vacuum trucks and excavators"
+      ],
+      "metaTitle": "Septic Tank Emptying Limburg | Fair Price | Riory 24/7",
+      "metaDescription": "Septic tank or cesspit full? Riory empties 24/7 in Bilzen, Hasselt, Genk & Tongeren. ✓ Fixed rates ✓ No surprises ✓ 4.9★ reviews. Call now!",
+      "h2Title": "Empty septic tanks and repair sewer pipes"
+    },
+    "leegpompen-en-reinigen": {
+      "title": "Cellar pumping and rainwater tank cleaning in Limburg",
+      "shortTitle": "Pumping & Cleaning",
+      "description": "Cellar or rainwater tank flooded? Riory pumps it dry quickly, traces the cause and cleans up. 24/7 available in Limburg!",
+      "longDescription": "In case of flooding we're quickly on site in Bilzen, Hoeselt, Hasselt, Genk, Tongeren and across Limburg to pump out cellars, pits and grounds. Cellar under water after heavy rain? Rainwater tank overflowing? Sewer water coming back through the drain? We pump it out fast and trace the cause. We also offer periodic cleaning as preventive maintenance for your full sewer system. Regular maintenance prevents costly repairs, clogged drains and sewer odors at home.",
+      "features": [
+        "Pump out cellars after flooding or overflow",
+        "Clean and maintain rainwater tanks",
+        "Sewer coming back? Trace and fix the cause",
+        "Periodic cleaning of sewer systems",
+        "Gutter cleaning and drain pipe cleaning",
+        "Prevent clogged drains with preventive maintenance",
+        "Quickly on site — 24/7 in Limburg"
+      ],
+      "metaTitle": "Cellar Pumping Limburg 24/7 | Quickly On Site | Riory",
+      "metaDescription": "Cellar under water or rainwater tank overflowing? Riory pumps it out & traces the cause. ✓ 24/7 ✓ Bilzen, Hasselt, Genk & Tongeren. Call now!",
+      "h2Title": "Pump out cellars and clean your sewer system"
+    }
   }
 }
