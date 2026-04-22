@@ -709,18 +709,18 @@ const AppointmentForm = () => {
       <div className="section-container px-6 md:px-8">
         <InViewBlock className="text-center mb-10">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-heading font-bold uppercase text-primary-foreground mb-3">
-            Maak een Afspraak
+            {t("appointmentForm.sectionTitle")}
           </h2>
           <div className="w-16 h-1 bg-primary mx-auto mb-4" />
           <p className="text-sm sm:text-base text-primary-foreground/70 font-body max-w-lg mx-auto mb-5">
-            Plan snel een afspraak voor ontstopping, camera‑inspectie of put‑lediging. Riory reageert onmiddellijk en biedt snelle, professionele service.
+            {t("appointmentForm.intro")}
           </p>
           <a
             href="tel:+32472502814"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[hsl(var(--urgent))] text-[hsl(var(--urgent-foreground))] font-heading font-bold text-sm uppercase tracking-wider shadow-[0_0_20px_hsl(var(--urgent)/0.6),0_0_40px_hsl(var(--urgent)/0.3)] hover:shadow-[0_0_30px_hsl(var(--urgent)/0.8),0_0_60px_hsl(var(--urgent)/0.4)] transition-shadow animate-pulse"
           >
             <AlertTriangle className="w-4 h-4" />
-            URGENT? BEL NU
+            {t("appointmentForm.urgentCta")}
           </a>
         </InViewBlock>
 
@@ -731,7 +731,7 @@ const AppointmentForm = () => {
             <div className="sm:hidden">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-xs font-heading font-semibold uppercase tracking-wider text-primary">
-                  Stap {step + 1}/{TOTAL_STEPS}: {stepLabels[step]}
+                  {t("appointmentForm.stepPrefix")} {step + 1}/{TOTAL_STEPS}: {stepLabels[step]}
                 </span>
               </div>
               <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
@@ -787,7 +787,7 @@ const AppointmentForm = () => {
               className="gap-1 sm:gap-2 text-xs sm:text-sm px-3 sm:px-4"
             >
               <ChevronLeft className="w-4 h-4" />
-              Vorige
+              {t("appointmentForm.previous")}
             </Button>
 
             {step < TOTAL_STEPS - 1 ? (
@@ -798,7 +798,7 @@ const AppointmentForm = () => {
                 disabled={!canProceed()}
                 className="gap-1 sm:gap-2 text-xs sm:text-sm px-3 sm:px-4"
               >
-                Volgende
+                {t("appointmentForm.nextStep")}
                 <ChevronRight className="w-4 h-4" />
               </Button>
             ) : (
@@ -810,7 +810,7 @@ const AppointmentForm = () => {
                 className="gap-1 sm:gap-2 text-xs sm:text-sm px-3 sm:px-4"
               >
                 <Send className="w-4 h-4" />
-                {submitting ? "VERZENDEN..." : "AFSPRAAK MAKEN"}
+                {submitting ? t("appointmentForm.submitting") : t("appointmentForm.submitCta")}
               </Button>
             )}
           </div>
@@ -837,10 +837,10 @@ const AppointmentForm = () => {
           setGevondenVia("");
           setGevondenDetail("");
         }}
-        successTitle="Afspraak ingediend!"
-        successMessage="Wij nemen zo snel mogelijk contact met u op."
-        errorTitle="Er ging iets mis"
-        errorMessage="Uw afspraak kon niet worden verzonden. Probeer het opnieuw."
+        successTitle={t("appointmentForm.successTitle")}
+        successMessage={t("appointmentForm.successMessage")}
+        errorTitle={t("appointmentForm.errorTitle")}
+        errorMessage={t("appointmentForm.errorMessage")}
       />
     </section>
   );
