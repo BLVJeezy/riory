@@ -3,7 +3,10 @@
     "services": "Onze Diensten",
     "whyUs": "Waarom Kiezen Voor Ons?",
     "references": "Referenties",
-    "appointment": "Afspraak"
+    "appointment": "Afspraak",
+    "regions": "Regio's",
+    "regionsLimburg": "Limburg",
+    "regionsLiege": "Luik regio"
   },
   "emergency": {
     "cameraInspection": "Camera inspectie riool",
