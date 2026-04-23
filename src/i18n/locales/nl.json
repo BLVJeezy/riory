@@ -516,35 +516,76 @@
     "translationNote": "Dit juridisch document is enkel beschikbaar in het Nederlands. Bij verschillen tussen vertalingen prevaleert de Nederlandse versie."
   },
   "referencesData": {
+    "locations": {
+      "Tongeren, Limburg": "Tongeren, Limburg",
+      "Limburg": "Limburg"
+    },
     "dakgootreinigingen": {
       "title": "Dakgootreinigingen",
+      "description": "Wij reinigen dakgoten grondig om wateroverlast en schade aan uw woning te voorkomen. Bladeren, mos en vuil worden volledig verwijderd zodat het regenwater weer vrij kan aflopen.",
       "projects": {
-        "Dakgootreiniging op Hoogte": "Dakgootreiniging op Hoogte"
+        "Dakgootreiniging op Hoogte": {
+          "title": "Dakgootreiniging op Hoogte",
+          "description": "Dakgootreiniging van een hoog appartementsgebouw met behulp van een telescopische camera en speciaal reinigingsmateriaal. Veilig en efficiënt uitgevoerd."
+        }
       }
     },
     "ledigen-van-septische-putten": {
       "title": "Ledigen van septische putten",
+      "description": "Professioneel ledigen en reinigen van septische putten met gespecialiseerde zuigwagens. Wij zorgen voor een correcte afvoer conform de milieuwetgeving.",
       "projects": {
-        "Ledigen Septische put": "Ledigen Septische put",
-        "Opsporen septische put": "Opsporen septische put"
+        "Ledigen Septische put": {
+          "title": "Ledigen Septische put",
+          "description": "Volledige ledigen en vernieuwing van een septische put bij een woning. Inclusief graafwerken, zuiging en heraanleg van de riolering."
+        },
+        "Opsporen septische put": {
+          "title": "Opsporen septische put",
+          "description": "Opsporing en blootleggen van een septische put voor inspectie en onderhoud."
+        }
       }
     },
     "leegpompen-en-reinigen": {
       "title": "Leegpompen en reinigen",
+      "description": "Bij wateroverlast staan wij snel ter plaatse om kelders, putten en terreinen leeg te pompen. Daarnaast bieden we periodieke reiniging aan als preventief onderhoud.",
       "projects": {
-        "Reinigen Regenput": "Reinigen Regenput",
-        "Ondergelopen kelder": "Ondergelopen kelder",
-        "Zuiveren riolering": "Zuiveren riolering"
+        "Reinigen Regenput": {
+          "title": "Reinigen Regenput",
+          "description": "Volledige reiniging van een regenput inclusief inspectie van leidingen en vlotter. De put werd grondig schoongemaakt zodat het regenwater weer correct kan worden opgevangen."
+        },
+        "Ondergelopen kelder": {
+          "title": "Ondergelopen kelder",
+          "description": "Leegpompen en reinigen van een ondergelopen kelder na wateroverlast."
+        },
+        "Zuiveren riolering": {
+          "title": "Zuiveren riolering",
+          "description": "Professioneel zuiveren van de riolering met gespecialiseerd materiaal en zuigwagen."
+        }
       }
     },
     "ontstoppingen-en-geurdetectie": {
       "title": "Ontstoppingen en geurdetectie",
+      "description": "Snelle en efficiënte ontstopping van rioleringen, afvoeren en leidingen. Wij sporen geurhinder en rioolvliegjes op aan de bron en verhelpen het probleem duurzaam.",
       "projects": {
-        "Opsporen en traceren gebroken sifon": "Opsporen en traceren gebroken sifon",
-        "Geurdetectie": "Geurdetectie",
-        "Ontstopping afvoerput": "Ontstopping afvoerput",
-        "Verstopping oplossen": "Verstopping oplossen",
-        "Verwijderen van vochtige doekjes": "Verwijderen van vochtige doekjes"
+        "Opsporen en traceren gebroken sifon": {
+          "title": "Opsporen en traceren gebroken sifon",
+          "description": "Opsporing en tracering van een gebroken sifon met gespecialiseerd materiaal. De beschadigde sifon werd gelokaliseerd, uitgegraven en vakkundig hersteld."
+        },
+        "Geurdetectie": {
+          "title": "Geurdetectie",
+          "description": "Opsporing van geurhinder met rooktesten om lekken in de riolering te detecteren."
+        },
+        "Ontstopping afvoerput": {
+          "title": "Ontstopping afvoerput",
+          "description": "Ontstopping van een verstopte afvoerput. De verstopping werd vakkundig verwijderd zodat het water weer correct kan aflopen."
+        },
+        "Verstopping oplossen": {
+          "title": "Verstopping oplossen",
+          "description": "Opsporing en verwijdering van een hardnekkige verstopping in de riolering."
+        },
+        "Verwijderen van vochtige doekjes": {
+          "title": "Verwijderen van vochtige doekjes",
+          "description": "Verwijdering van vochtige doekjes die de riolering verstopten. Deze doekjes zijn een veelvoorkomende oorzaak van verstoppingen."
+        }
       }
     }
   }
