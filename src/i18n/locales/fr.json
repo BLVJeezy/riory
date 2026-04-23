@@ -3,7 +3,10 @@
     "services": "Nos Services",
     "whyUs": "Pourquoi Nous Choisir ?",
     "references": "Références",
-    "appointment": "Rendez-vous"
+    "appointment": "Rendez-vous",
+    "regions": "Régions",
+    "regionsLimburg": "Limbourg",
+    "regionsLiege": "Région de Liège"
   },
   "emergency": {
     "cameraInspection": "Inspection caméra d'égout",
