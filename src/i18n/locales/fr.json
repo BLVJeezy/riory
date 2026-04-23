@@ -20,7 +20,8 @@
     "ctaAppointment": "prendre rendez-vous",
     "ctaUrgent": "URGENT ? APPELEZ MAINTENANT",
     "callUs": "Appelez-nous",
-    "calculatePrice": "CALCULER LE PRIX"
+    "calculatePrice": "CALCULER LE PRIX",
+    "servesRegions": "Nous intervenons à :"
   },
   "trust": {
     "available": "Disponible 24/7",
