@@ -3,7 +3,10 @@
     "services": "Our Services",
     "whyUs": "Why Choose Us?",
     "references": "References",
-    "appointment": "Book Now"
+    "appointment": "Book Now",
+    "regions": "Regions",
+    "regionsLimburg": "Limburg",
+    "regionsLiege": "Liège region"
   },
   "emergency": {
     "cameraInspection": "Sewer Camera Inspection",
