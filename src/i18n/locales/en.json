@@ -20,7 +20,8 @@
     "ctaAppointment": "book an appointment",
     "ctaUrgent": "URGENT? CALL NOW",
     "callUs": "Call us now",
-    "calculatePrice": "GET A PRICE"
+    "calculatePrice": "GET A PRICE",
+    "servesRegions": "We serve:"
   },
   "trust": {
     "available": "24/7 available",
