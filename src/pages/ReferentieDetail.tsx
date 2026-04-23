@@ -80,37 +80,43 @@ const ReferentieDetail = () => {
               {t("referentieDetail.executedProjects")}
             </h2>
             <div className="grid gap-4 sm:gap-6">
-              {category.projects.map((project) => (
-                <div
-                  key={project.title}
-                  className="bg-surface rounded-xl border border-border p-5 sm:p-6"
-                >
-                  <h3 className="text-base sm:text-lg font-heading font-semibold text-foreground mb-1">
-                    {project.title}
-                  </h3>
-                  <p className="flex items-center gap-1.5 text-xs sm:text-sm text-primary font-heading mb-3">
-                    <MapPin className="w-3.5 h-3.5" />
-                    {project.location}
-                  </p>
-                  <p className="text-sm text-muted-foreground font-body leading-relaxed">
-                    {project.description}
-                  </p>
-                  {project.images && project.images.length > 0 && (
-                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mt-4">
-                      {project.images.map((img, i) => (
-                        <img
-                          key={i}
-                          src={img}
-                          alt={`${project.title} ${i + 1}`}
-                          loading="lazy"
-                          onClick={() => setLightbox({ images: project.images!, index: i })}
-                          className="w-full h-32 sm:h-40 object-cover rounded-lg cursor-pointer hover:opacity-80 transition-opacity"
-                        />
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ))}
+              {category.projects.map((project) => {
+                const projectKeyBase = `referencesData.${category.slug}.projects.${project.title}`;
+                const localTitle = t(`${projectKeyBase}.title`, { defaultValue: project.title });
+                const localDesc = t(`${projectKeyBase}.description`, { defaultValue: project.description });
+                const localLocation = t(`referencesData.locations.${project.location}`, { defaultValue: project.location });
+                return (
+                  <div
+                    key={project.title}
+                    className="bg-surface rounded-xl border border-border p-5 sm:p-6"
+                  >
+                    <h3 className="text-base sm:text-lg font-heading font-semibold text-foreground mb-1">
+                      {localTitle}
+                    </h3>
+                    <p className="flex items-center gap-1.5 text-xs sm:text-sm text-primary font-heading mb-3">
+                      <MapPin className="w-3.5 h-3.5" />
+                      {localLocation}
+                    </p>
+                    <p className="text-sm text-muted-foreground font-body leading-relaxed">
+                      {localDesc}
+                    </p>
+                    {project.images && project.images.length > 0 && (
+                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mt-4">
+                        {project.images.map((img, i) => (
+                          <img
+                            key={i}
+                            src={img}
+                            alt={`${localTitle} ${i + 1}`}
+                            loading="lazy"
+                            onClick={() => setLightbox({ images: project.images!, index: i })}
+                            className="w-full h-32 sm:h-40 object-cover rounded-lg cursor-pointer hover:opacity-80 transition-opacity"
+                          />
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           </div>
 
