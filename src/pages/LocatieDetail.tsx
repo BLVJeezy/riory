@@ -39,8 +39,11 @@ const LocatieDetail = () => {
   const localMetaTitle = location ? t(`locationsData.${location.slug}.metaTitle`, { defaultValue: location.metaTitle }) : undefined;
   const localMetaDesc = location ? t(`locationsData.${location.slug}.metaDescription`, { defaultValue: location.metaDescription }) : undefined;
 
+  const FR_REGION_SLUGS = new Set(["luik", "rocourt", "juprelle", "ans", "milmort", "vottem"]);
+  const xDefaultLang = slug && FR_REGION_SLUGS.has(slug) ? "fr" : "nl";
+
   usePageView(`/regio/${slug}`);
-  useDocumentMeta(localMetaTitle, localMetaDesc);
+  useDocumentMeta(localMetaTitle, localMetaDesc, { xDefaultLang });
 
   useEffect(() => {
     if (!location) return;
