@@ -153,7 +153,9 @@
     "privacy": "Privacy Policy",
     "terms": "Terms of Use",
     "generalTerms": "General Terms",
-    "cookies": "Privacy & Cookie Policy"
+    "cookies": "Privacy & Cookie Policy",
+    "regionsLimburg": "Service area Limburg",
+    "regionsLiege": "Service area Liège"
   },
   "language": {
     "label": "Language",
