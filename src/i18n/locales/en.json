@@ -591,35 +591,76 @@
     }
   },
   "referencesData": {
+    "locations": {
+      "Tongeren, Limburg": "Tongeren, Limburg",
+      "Limburg": "Limburg"
+    },
     "dakgootreinigingen": {
       "title": "Gutter cleaning",
+      "description": "We thoroughly clean gutters to prevent water damage to your home. Leaves, moss and dirt are fully removed so rainwater can flow freely again.",
       "projects": {
-        "Dakgootreiniging op Hoogte": "Gutter cleaning at height"
+        "Dakgootreiniging op Hoogte": {
+          "title": "Gutter cleaning at height",
+          "description": "Gutter cleaning of a tall apartment building using a telescopic camera and specialised cleaning equipment. Carried out safely and efficiently."
+        }
       }
     },
     "ledigen-van-septische-putten": {
       "title": "Septic tank emptying",
+      "description": "Professional emptying and cleaning of septic tanks with specialised vacuum trucks. We ensure proper disposal in line with environmental regulations.",
       "projects": {
-        "Ledigen Septische put": "Emptying septic tank",
-        "Opsporen septische put": "Locating septic tank"
+        "Ledigen Septische put": {
+          "title": "Emptying septic tank",
+          "description": "Complete emptying and renewal of a septic tank at a home. Includes excavation, suction and rebuilding of the sewer connection."
+        },
+        "Opsporen septische put": {
+          "title": "Locating septic tank",
+          "description": "Locating and exposing a septic tank for inspection and maintenance."
+        }
       }
     },
     "leegpompen-en-reinigen": {
       "title": "Pumping and cleaning",
+      "description": "In case of flooding we are quickly on site to pump out cellars, pits and grounds. We also offer periodic cleaning as preventive maintenance.",
       "projects": {
-        "Reinigen Regenput": "Cleaning rainwater tank",
-        "Ondergelopen kelder": "Flooded basement",
-        "Zuiveren riolering": "Sewer cleaning"
+        "Reinigen Regenput": {
+          "title": "Cleaning rainwater tank",
+          "description": "Full cleaning of a rainwater tank including inspection of pipes and float. The tank was thoroughly cleaned so rainwater can be collected correctly again."
+        },
+        "Ondergelopen kelder": {
+          "title": "Flooded basement",
+          "description": "Pumping out and cleaning a flooded basement after water damage."
+        },
+        "Zuiveren riolering": {
+          "title": "Sewer cleaning",
+          "description": "Professional cleaning of the sewer using specialised equipment and a vacuum truck."
+        }
       }
     },
     "ontstoppingen-en-geurdetectie": {
       "title": "Unblocking and odour detection",
+      "description": "Fast and efficient unblocking of sewers, drains and pipes. We trace odour nuisance and drain flies at the source and solve the problem sustainably.",
       "projects": {
-        "Opsporen en traceren gebroken sifon": "Locating and tracing a broken siphon",
-        "Geurdetectie": "Odour detection",
-        "Ontstopping afvoerput": "Unblocking drain pit",
-        "Verstopping oplossen": "Resolving blockage",
-        "Verwijderen van vochtige doekjes": "Removing wet wipes"
+        "Opsporen en traceren gebroken sifon": {
+          "title": "Locating and tracing a broken siphon",
+          "description": "Locating and tracing a broken siphon with specialised equipment. The damaged siphon was located, excavated and professionally repaired."
+        },
+        "Geurdetectie": {
+          "title": "Odour detection",
+          "description": "Detecting odour nuisance using smoke tests to identify leaks in the sewer system."
+        },
+        "Ontstopping afvoerput": {
+          "title": "Unblocking drain pit",
+          "description": "Unblocking a clogged drain pit. The blockage was professionally removed so water can flow freely again."
+        },
+        "Verstopping oplossen": {
+          "title": "Resolving blockage",
+          "description": "Detecting and removing a stubborn blockage in the sewer system."
+        },
+        "Verwijderen van vochtige doekjes": {
+          "title": "Removing wet wipes",
+          "description": "Removing wet wipes that clogged the sewer. These wipes are a common cause of blockages."
+        }
       }
     }
   }

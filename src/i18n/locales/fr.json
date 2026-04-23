@@ -591,35 +591,76 @@
     }
   },
   "referencesData": {
+    "locations": {
+      "Tongeren, Limburg": "Tongres, Limbourg",
+      "Limburg": "Limbourg"
+    },
     "dakgootreinigingen": {
       "title": "Nettoyage de gouttières",
+      "description": "Nous nettoyons les gouttières en profondeur afin d'éviter les dégâts d'eau à votre habitation. Feuilles, mousse et saletés sont entièrement éliminées pour que l'eau de pluie puisse à nouveau s'écouler librement.",
       "projects": {
-        "Dakgootreiniging op Hoogte": "Nettoyage de gouttières en hauteur"
+        "Dakgootreiniging op Hoogte": {
+          "title": "Nettoyage de gouttières en hauteur",
+          "description": "Nettoyage des gouttières d'un immeuble d'appartements élevé à l'aide d'une caméra télescopique et d'un matériel de nettoyage spécialisé. Réalisé de manière sûre et efficace."
+        }
       }
     },
     "ledigen-van-septische-putten": {
       "title": "Vidange de fosses septiques",
+      "description": "Vidange et nettoyage professionnels de fosses septiques avec des camions aspirateurs spécialisés. Nous garantissons une évacuation correcte conforme à la législation environnementale.",
       "projects": {
-        "Ledigen Septische put": "Vidange de fosse septique",
-        "Opsporen septische put": "Localisation de fosse septique"
+        "Ledigen Septische put": {
+          "title": "Vidange de fosse septique",
+          "description": "Vidange complète et rénovation d'une fosse septique chez un particulier. Comprend les travaux de terrassement, l'aspiration et le réaménagement des canalisations."
+        },
+        "Opsporen septische put": {
+          "title": "Localisation de fosse septique",
+          "description": "Repérage et mise à découvert d'une fosse septique en vue d'une inspection et d'un entretien."
+        }
       }
     },
     "leegpompen-en-reinigen": {
       "title": "Pompage et nettoyage",
+      "description": "En cas d'inondation, nous sommes rapidement sur place pour pomper caves, regards et terrains. Nous proposons également un nettoyage périodique comme entretien préventif.",
       "projects": {
-        "Reinigen Regenput": "Nettoyage de citerne d'eau de pluie",
-        "Ondergelopen kelder": "Cave inondée",
-        "Zuiveren riolering": "Curage des égouts"
+        "Reinigen Regenput": {
+          "title": "Nettoyage de citerne d'eau de pluie",
+          "description": "Nettoyage complet d'une citerne d'eau de pluie, y compris l'inspection des canalisations et du flotteur. La citerne a été soigneusement nettoyée afin que l'eau de pluie puisse à nouveau être correctement collectée."
+        },
+        "Ondergelopen kelder": {
+          "title": "Cave inondée",
+          "description": "Pompage et nettoyage d'une cave inondée à la suite d'un dégât des eaux."
+        },
+        "Zuiveren riolering": {
+          "title": "Curage des égouts",
+          "description": "Curage professionnel des égouts à l'aide d'un matériel spécialisé et d'un camion aspirateur."
+        }
       }
     },
     "ontstoppingen-en-geurdetectie": {
       "title": "Débouchage et détection d'odeurs",
+      "description": "Débouchage rapide et efficace des égouts, évacuations et canalisations. Nous repérons les nuisances olfactives et les moucherons d'égout à la source et résolvons le problème durablement.",
       "projects": {
-        "Opsporen en traceren gebroken sifon": "Localisation et traçage d'un siphon cassé",
-        "Geurdetectie": "Détection d'odeurs",
-        "Ontstopping afvoerput": "Débouchage de regard d'égout",
-        "Verstopping oplossen": "Résolution de bouchon",
-        "Verwijderen van vochtige doekjes": "Retrait de lingettes humides"
+        "Opsporen en traceren gebroken sifon": {
+          "title": "Localisation et traçage d'un siphon cassé",
+          "description": "Localisation et traçage d'un siphon cassé à l'aide d'un matériel spécialisé. Le siphon endommagé a été localisé, dégagé et réparé dans les règles de l'art."
+        },
+        "Geurdetectie": {
+          "title": "Détection d'odeurs",
+          "description": "Détection des nuisances olfactives à l'aide de tests fumigènes pour identifier les fuites dans les égouts."
+        },
+        "Ontstopping afvoerput": {
+          "title": "Débouchage de regard d'égout",
+          "description": "Débouchage d'un regard d'égout obstrué. Le bouchon a été retiré dans les règles de l'art afin que l'eau puisse à nouveau s'écouler correctement."
+        },
+        "Verstopping oplossen": {
+          "title": "Résolution de bouchon",
+          "description": "Détection et élimination d'un bouchon tenace dans les égouts."
+        },
+        "Verwijderen van vochtige doekjes": {
+          "title": "Retrait de lingettes humides",
+          "description": "Retrait de lingettes humides qui obstruaient les égouts. Ces lingettes sont une cause fréquente de bouchons."
+        }
       }
     }
   }
