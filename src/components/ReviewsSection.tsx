@@ -2,6 +2,7 @@ import { Star } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { supabase } from "@/integrations/supabase/client";
+import { useLanguage } from "@/i18n/LanguageProvider";
 
 interface Review {
   id: string;
@@ -63,24 +64,69 @@ const ScrollRow = ({ items, direction }: { items: Review[]; direction: "left" | 
 
 const ReviewsSection = () => {
   const { t } = useTranslation();
+  const { lang } = useLanguage();
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchReviews = async () => {
+    let cancelled = false;
+
+    const run = async () => {
       const { data, error } = await supabase
         .from("google_reviews")
         .select("id, reviewer_name, rating, review_text, review_date")
         .order("created_at", { ascending: false });
 
-      if (!error && data) {
-        setReviews(data);
+      if (cancelled) return;
+      if (error || !data) {
+        setLoading(false);
+        return;
       }
+
+      if (lang === "nl") {
+        setReviews(data);
+        setLoading(false);
+        return;
+      }
+
+      const cacheKey = `reviews_translations_${lang}`;
+      const cached = sessionStorage.getItem(cacheKey);
+      if (cached) {
+        try {
+          const map = JSON.parse(cached) as Record<string, string>;
+          setReviews(data.map((r) => ({ ...r, review_text: map[r.id] ?? r.review_text })));
+          setLoading(false);
+          return;
+        } catch {
+          /* ignore */
+        }
+      }
+
+      setReviews(data);
       setLoading(false);
+
+      try {
+        const { data: tr, error: trErr } = await supabase.functions.invoke(
+          "translate-reviews",
+          { body: { reviews: data.map((r) => ({ id: r.id, text: r.review_text })), target: lang } }
+        );
+        if (cancelled || trErr || !tr?.translations) return;
+        const map: Record<string, string> = {};
+        for (const item of tr.translations as Array<{ id: string; text: string }>) {
+          map[item.id] = item.text;
+        }
+        sessionStorage.setItem(cacheKey, JSON.stringify(map));
+        setReviews((prev) => prev.map((r) => ({ ...r, review_text: map[r.id] ?? r.review_text })));
+      } catch (e) {
+        console.error("Review translation failed", e);
+      }
     };
 
-    fetchReviews();
-  }, []);
+    run();
+    return () => {
+      cancelled = true;
+    };
+  }, [lang]);
 
   const midpoint = Math.ceil(reviews.length / 2);
   const firstRow = reviews.slice(0, midpoint);
