@@ -3,7 +3,10 @@
     "services": "Our Services",
     "whyUs": "Why Choose Us?",
     "references": "References",
-    "appointment": "Book Now"
+    "appointment": "Book Now",
+    "regions": "Regions",
+    "regionsLimburg": "Limburg",
+    "regionsLiege": "Liège region"
   },
   "emergency": {
     "cameraInspection": "Sewer Camera Inspection",
@@ -20,7 +23,8 @@
     "ctaAppointment": "book an appointment",
     "ctaUrgent": "URGENT? CALL NOW",
     "callUs": "Call us now",
-    "calculatePrice": "GET A PRICE"
+    "calculatePrice": "GET A PRICE",
+    "servesRegions": "We serve:"
   },
   "trust": {
     "available": "24/7 available",
@@ -149,7 +153,9 @@
     "privacy": "Privacy Policy",
     "terms": "Terms of Use",
     "generalTerms": "General Terms",
-    "cookies": "Privacy & Cookie Policy"
+    "cookies": "Privacy & Cookie Policy",
+    "regionsLimburg": "Service area Limburg",
+    "regionsLiege": "Service area Liège"
   },
   "language": {
     "label": "Language",

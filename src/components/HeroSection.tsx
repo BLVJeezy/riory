@@ -30,9 +30,37 @@ const HeroSection = () => {
           <h1 className="text-[22px] sm:text-3xl md:text-5xl lg:text-6xl font-heading font-bold uppercase leading-tight text-white mb-2 md:mb-3">
             {t("hero.title")}
           </h1>
-          <p className="text-sm md:text-lg text-white/80 font-body leading-relaxed mb-4 md:mb-5 max-w-xl">
+          <p className="text-sm md:text-lg text-white/80 font-body leading-relaxed mb-3 md:mb-4 max-w-xl">
             {t("hero.description")}
           </p>
+
+          <div className="mb-4 md:mb-5 max-w-xl">
+            <p className="text-[10px] md:text-xs font-heading font-bold uppercase tracking-wider text-white/60 mb-1.5">
+              {t("hero.servesRegions")}
+            </p>
+            <div className="flex flex-wrap gap-1.5">
+              {[
+                { slug: "hasselt", label: "Hasselt" },
+                { slug: "genk", label: "Genk" },
+                { slug: "tongeren", label: "Tongeren" },
+                { slug: "sint-truiden", label: "Sint-Truiden" },
+                { slug: "luik", label: "Luik" },
+                { slug: "ans", label: "Ans" },
+                { slug: "rocourt", label: "Rocourt" },
+                { slug: "juprelle", label: "Juprelle" },
+                { slug: "vottem", label: "Vottem" },
+                { slug: "milmort", label: "Milmort" },
+              ].map((c) => (
+                <Link
+                  key={c.slug}
+                  to={localizedPath(`/regio/${c.slug}`)}
+                  className="inline-flex items-center px-2.5 py-1 rounded-full bg-white/10 hover:bg-primary hover:text-primary-foreground border border-white/20 text-white/90 text-[11px] md:text-xs font-body font-medium transition-colors"
+                >
+                  {c.label}
+                </Link>
+              ))}
+            </div>
+          </div>
 
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 mb-4 md:mb-5">
             <div className="flex items-center gap-1">

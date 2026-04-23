@@ -3,7 +3,10 @@
     "services": "Nos Services",
     "whyUs": "Pourquoi Nous Choisir ?",
     "references": "Références",
-    "appointment": "Rendez-vous"
+    "appointment": "Rendez-vous",
+    "regions": "Régions",
+    "regionsLimburg": "Limbourg",
+    "regionsLiege": "Région de Liège"
   },
   "emergency": {
     "cameraInspection": "Inspection caméra d'égout",
@@ -20,7 +23,8 @@
     "ctaAppointment": "prendre rendez-vous",
     "ctaUrgent": "URGENT ? APPELEZ MAINTENANT",
     "callUs": "Appelez-nous",
-    "calculatePrice": "CALCULER LE PRIX"
+    "calculatePrice": "CALCULER LE PRIX",
+    "servesRegions": "Nous intervenons à :"
   },
   "trust": {
     "available": "Disponible 24/7",
@@ -149,7 +153,9 @@
     "privacy": "Politique de confidentialité",
     "terms": "Conditions d'utilisation",
     "generalTerms": "Conditions générales",
-    "cookies": "Confidentialité & Cookies"
+    "cookies": "Confidentialité & Cookies",
+    "regionsLimburg": "Zone Limbourg",
+    "regionsLiege": "Zone Liège"
   },
   "language": {
     "label": "Langue",

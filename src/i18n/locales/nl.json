@@ -3,7 +3,10 @@
     "services": "Onze Diensten",
     "whyUs": "Waarom Kiezen Voor Ons?",
     "references": "Referenties",
-    "appointment": "Afspraak"
+    "appointment": "Afspraak",
+    "regions": "Regio's",
+    "regionsLimburg": "Limburg",
+    "regionsLiege": "Luik regio"
   },
   "emergency": {
     "cameraInspection": "Camera inspectie riool",
@@ -20,7 +23,8 @@
     "ctaAppointment": "maak een afspraak",
     "ctaUrgent": "URGENT? BEL NU",
     "callUs": "Bel ons nu",
-    "calculatePrice": "PRIJS BEREKENEN"
+    "calculatePrice": "PRIJS BEREKENEN",
+    "servesRegions": "Werkzaam in:"
   },
   "trust": {
     "available": "24/7 beschikbaar",
@@ -149,7 +153,9 @@
     "privacy": "Privacy Policy",
     "terms": "Gebruiksvoorwaarden",
     "generalTerms": "Algemene Voorwaarden",
-    "cookies": "Privacy & Cookiebeleid"
+    "cookies": "Privacy & Cookiebeleid",
+    "regionsLimburg": "Werkgebied Limburg",
+    "regionsLiege": "Werkgebied Luik"
   },
   "language": {
     "label": "Taal",

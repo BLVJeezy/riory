@@ -1,13 +1,39 @@
 import { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useTheme } from "@/components/ThemeProvider";
 import { useTranslation } from "react-i18next";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import logoBlack from "@/assets/riory-logo-black.svg";
 import logoWhite from "@/assets/riory-logo-white.svg";
+
+const LIMBURG_CITIES = [
+  { slug: "hasselt", label: "Hasselt" },
+  { slug: "genk", label: "Genk" },
+  { slug: "hoeselt", label: "Hoeselt" },
+  { slug: "tongeren", label: "Tongeren" },
+  { slug: "maasmechelen", label: "Maasmechelen" },
+  { slug: "sint-truiden", label: "Sint-Truiden" },
+];
+
+const LIEGE_CITIES = [
+  { slug: "luik", label: "Luik / Liège" },
+  { slug: "rocourt", label: "Rocourt" },
+  { slug: "juprelle", label: "Juprelle" },
+  { slug: "ans", label: "Ans" },
+  { slug: "milmort", label: "Milmort" },
+  { slug: "vottem", label: "Vottem" },
+];
 
 const Navbar = () => {
   const { theme } = useTheme();
@@ -84,6 +110,37 @@ const Navbar = () => {
               </a>
             )
           )}
+
+          <DropdownMenu>
+            <DropdownMenuTrigger className="flex items-center gap-1 text-sm font-body font-semibold uppercase tracking-wider text-foreground hover:text-primary transition-colors outline-none">
+              {t("nav.regions")}
+              <ChevronDown className="w-3.5 h-3.5" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-56">
+              <DropdownMenuLabel className="text-xs uppercase tracking-wider text-muted-foreground">
+                {t("nav.regionsLimburg")}
+              </DropdownMenuLabel>
+              {LIMBURG_CITIES.map((c) => (
+                <DropdownMenuItem key={c.slug} asChild>
+                  <Link to={localizedPath(`/regio/${c.slug}`)} className="cursor-pointer">
+                    {c.label}
+                  </Link>
+                </DropdownMenuItem>
+              ))}
+              <DropdownMenuSeparator />
+              <DropdownMenuLabel className="text-xs uppercase tracking-wider text-muted-foreground">
+                {t("nav.regionsLiege")}
+              </DropdownMenuLabel>
+              {LIEGE_CITIES.map((c) => (
+                <DropdownMenuItem key={c.slug} asChild>
+                  <Link to={localizedPath(`/regio/${c.slug}`)} className="cursor-pointer">
+                    {c.label}
+                  </Link>
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+
           <LanguageSwitcher />
           <Button variant="cta" size="lg" className="rounded-full" asChild>
             <Link to={localizedPath("/afspraak")}>{t("nav.appointment")}</Link>
@@ -95,6 +152,7 @@ const Navbar = () => {
           <button
             className="relative z-50 w-10 h-10 flex items-center justify-center rounded border border-border text-foreground"
             onClick={() => setIsOpen(!isOpen)}
+            aria-label="Menu"
           >
             {isOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
@@ -105,7 +163,7 @@ const Navbar = () => {
       {isOpen && (
         <>
           <div className="fixed inset-0 z-40 bg-charcoal/50 lg:hidden" onClick={() => setIsOpen(false)} />
-          <div className="absolute right-6 top-16 z-50 w-56 bg-charcoal rounded-lg shadow-xl overflow-hidden lg:hidden animate-in fade-in slide-in-from-top-2 duration-200">
+          <div className="absolute right-6 top-16 z-50 w-72 max-h-[80vh] overflow-y-auto bg-charcoal rounded-lg shadow-xl lg:hidden animate-in fade-in slide-in-from-top-2 duration-200">
             <div className="flex flex-col py-2">
               {navLinks.map((link) =>
                 link.isRoute ? (
@@ -128,6 +186,39 @@ const Navbar = () => {
                   </a>
                 )
               )}
+
+              <div className="border-t border-white/10 mt-1 pt-2">
+                <p className="px-5 py-1 text-[10px] font-heading font-bold uppercase tracking-wider text-primary">
+                  {t("nav.regionsLimburg")}
+                </p>
+                {LIMBURG_CITIES.map((c) => (
+                  <Link
+                    key={c.slug}
+                    to={localizedPath(`/regio/${c.slug}`)}
+                    onClick={() => setIsOpen(false)}
+                    className="block px-5 py-2 text-sm font-body text-white/70 hover:text-white hover:bg-white/10 transition-colors"
+                  >
+                    {c.label}
+                  </Link>
+                ))}
+              </div>
+
+              <div className="border-t border-white/10 mt-1 pt-2">
+                <p className="px-5 py-1 text-[10px] font-heading font-bold uppercase tracking-wider text-primary">
+                  {t("nav.regionsLiege")}
+                </p>
+                {LIEGE_CITIES.map((c) => (
+                  <Link
+                    key={c.slug}
+                    to={localizedPath(`/regio/${c.slug}`)}
+                    onClick={() => setIsOpen(false)}
+                    className="block px-5 py-2 text-sm font-body text-white/70 hover:text-white hover:bg-white/10 transition-colors"
+                  >
+                    {c.label}
+                  </Link>
+                ))}
+              </div>
+
               <div className="border-t border-white/10 mt-1 pt-1">
                 <LanguageSwitcher variant="mobile" />
               </div>
