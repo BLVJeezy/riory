@@ -33,7 +33,11 @@ const setOrCreateLink = (rel: string, href: string, hreflang?: string) => {
   link.setAttribute("href", href);
 };
 
-export const useDocumentMeta = (title?: string, description?: string) => {
+export const useDocumentMeta = (
+  title?: string,
+  description?: string,
+  options?: { xDefaultLang?: Language },
+) => {
   const location = useLocation();
 
   useEffect(() => {
@@ -60,18 +64,24 @@ export const useDocumentMeta = (title?: string, description?: string) => {
 
     setOrCreateLink("canonical", canonicalUrl);
 
-    // hreflang alternates
+    // hreflang alternates — region-targeted for BE markets
     const nlUrl = `${SITE_URL}${basePath}`;
     const enUrl = `${SITE_URL}${basePath === "/" ? "/en" : `/en${basePath}`}`;
     const frUrl = `${SITE_URL}${basePath === "/" ? "/fr" : `/fr${basePath}`}`;
+    setOrCreateLink("alternate", nlUrl, "nl-BE");
     setOrCreateLink("alternate", nlUrl, "nl");
-    setOrCreateLink("alternate", enUrl, "en");
+    setOrCreateLink("alternate", frUrl, "fr-BE");
     setOrCreateLink("alternate", frUrl, "fr");
-    setOrCreateLink("alternate", nlUrl, "x-default");
+    setOrCreateLink("alternate", enUrl, "en");
+
+    // x-default: NL by default; pages can override (e.g. Liège-region → FR)
+    const xDefault =
+      options?.xDefaultLang === "fr" ? frUrl : options?.xDefaultLang === "en" ? enUrl : nlUrl;
+    setOrCreateLink("alternate", xDefault, "x-default");
 
     return () => {
       document.title = prevTitle;
       if (metaDesc) metaDesc.setAttribute("content", prevDesc);
     };
-  }, [title, description, location.pathname]);
+  }, [title, description, location.pathname, options?.xDefaultLang]);
 };
