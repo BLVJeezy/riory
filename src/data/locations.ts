@@ -56,7 +56,7 @@ export const allLocations: LocationData[] = [
       },
       {
         question: "Wat kost een ontstopping in Hasselt?",
-        answer: "Onze prijzen zijn transparant en vast. Een standaard ontstopping in Hasselt start vanaf €95 inclusief verplaatsing. Geen verrassingen achteraf — u krijgt altijd vooraf een duidelijke prijs.",
+        answer: "Onze prijzen zijn transparant en vast, zonder verrassingen achteraf. Voor een duidelijke prijsschatting op maat van uw situatie kunt u terecht op onze prijscalculator (/prijscalculator). U krijgt altijd vooraf een helder voorstel.",
       },
       {
         question: "Bedient Riory ook de deelgemeenten van Hasselt?",
