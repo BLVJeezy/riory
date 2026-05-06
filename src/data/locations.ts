@@ -362,7 +362,7 @@ export const allLocations: LocationData[] = [
       },
       {
         question: "Quel est le tarif d'un débouchage à Rocourt ?",
-        answer: "Un débouchage standard à Rocourt démarre à 95 € déplacement compris. Contactez-nous pour une estimation gratuite et sans engagement.",
+        answer: "Pour une estimation claire et précise selon votre situation, utilisez notre calculateur de prix en ligne (/prijscalculator). Tarifs transparents et sans engagement.",
       },
     ],
     nearbyAreas: ["Luik", "Ans", "Juprelle", "Vottem", "Milmort"],
