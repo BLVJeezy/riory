@@ -91,13 +91,13 @@ const Navbar = () => {
         </Link>
 
         {/* Desktop */}
-        <div className="hidden lg:flex items-center gap-8">
+        <div className="hidden lg:flex items-center gap-6 xl:gap-8">
           {navLinks.map((link) =>
             link.isRoute ? (
               <Link
                 key={link.href}
                 to={link.href}
-                className="text-sm font-body font-semibold uppercase tracking-wider text-foreground hover:text-primary transition-colors"
+                className="text-xs xl:text-sm font-body font-semibold uppercase tracking-wider text-foreground hover:text-primary transition-colors"
               >
                 {link.label}
               </Link>
@@ -106,7 +106,7 @@ const Navbar = () => {
                 key={link.href}
                 href={link.href}
                 onClick={(e) => handleAnchorClick(e, link.href)}
-                className="text-sm font-body font-semibold uppercase tracking-wider text-foreground hover:text-primary transition-colors"
+                className="text-xs xl:text-sm font-body font-semibold uppercase tracking-wider text-foreground hover:text-primary transition-colors"
               >
                 {link.label}
               </a>
@@ -114,7 +114,7 @@ const Navbar = () => {
           )}
 
           <DropdownMenu>
-            <DropdownMenuTrigger className="flex items-center gap-1 text-sm font-body font-semibold uppercase tracking-wider text-foreground hover:text-primary transition-colors outline-none">
+            <DropdownMenuTrigger className="flex items-center gap-1 text-xs xl:text-sm font-body font-semibold uppercase tracking-wider text-foreground hover:text-primary transition-colors outline-none">
               {t("nav.regions")}
               <ChevronDown className="w-3.5 h-3.5" />
             </DropdownMenuTrigger>
