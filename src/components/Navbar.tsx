@@ -41,6 +41,8 @@ const Navbar = () => {
   const { localizedPath } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [limburgOpen, setLimburgOpen] = useState(false);
+  const [liegeOpen, setLiegeOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const logo = theme === "dark" ? logoWhite : logoBlack;
@@ -188,10 +190,16 @@ const Navbar = () => {
               )}
 
               <div className="border-t border-white/10 mt-1 pt-2">
-                <p className="px-5 py-1 text-[10px] font-heading font-bold uppercase tracking-wider text-primary">
-                  {t("nav.regionsLimburg")}
-                </p>
-                {LIMBURG_CITIES.map((c) => (
+                <button
+                  type="button"
+                  onClick={() => setLimburgOpen((v) => !v)}
+                  className="w-full flex items-center justify-between px-5 py-2 text-[10px] font-heading font-bold uppercase tracking-wider text-primary hover:bg-white/10 transition-colors"
+                  aria-expanded={limburgOpen}
+                >
+                  <span>{t("nav.regionsLimburg")}</span>
+                  <ChevronDown className={`w-3.5 h-3.5 transition-transform ${limburgOpen ? "rotate-180" : ""}`} />
+                </button>
+                {limburgOpen && LIMBURG_CITIES.map((c) => (
                   <Link
                     key={c.slug}
                     to={localizedPath(`/regio/${c.slug}`)}
@@ -204,10 +212,16 @@ const Navbar = () => {
               </div>
 
               <div className="border-t border-white/10 mt-1 pt-2">
-                <p className="px-5 py-1 text-[10px] font-heading font-bold uppercase tracking-wider text-primary">
-                  {t("nav.regionsLiege")}
-                </p>
-                {LIEGE_CITIES.map((c) => (
+                <button
+                  type="button"
+                  onClick={() => setLiegeOpen((v) => !v)}
+                  className="w-full flex items-center justify-between px-5 py-2 text-[10px] font-heading font-bold uppercase tracking-wider text-primary hover:bg-white/10 transition-colors"
+                  aria-expanded={liegeOpen}
+                >
+                  <span>{t("nav.regionsLiege")}</span>
+                  <ChevronDown className={`w-3.5 h-3.5 transition-transform ${liegeOpen ? "rotate-180" : ""}`} />
+                </button>
+                {liegeOpen && LIEGE_CITIES.map((c) => (
                   <Link
                     key={c.slug}
                     to={localizedPath(`/regio/${c.slug}`)}
@@ -218,6 +232,7 @@ const Navbar = () => {
                   </Link>
                 ))}
               </div>
+
 
               <div className="border-t border-white/10 mt-1 pt-1">
                 <LanguageSwitcher variant="mobile" />
