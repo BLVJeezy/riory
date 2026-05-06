@@ -56,7 +56,7 @@ export const allLocations: LocationData[] = [
       },
       {
         question: "Wat kost een ontstopping in Hasselt?",
-        answer: "Onze prijzen zijn transparant en vast. Een standaard ontstopping in Hasselt start vanaf €95 inclusief verplaatsing. Geen verrassingen achteraf — u krijgt altijd vooraf een duidelijke prijs.",
+        answer: "Onze prijzen zijn transparant en vast, zonder verrassingen achteraf. Voor een duidelijke prijsschatting op maat van uw situatie kunt u terecht op onze prijscalculator (/prijscalculator). U krijgt altijd vooraf een helder voorstel.",
       },
       {
         question: "Bedient Riory ook de deelgemeenten van Hasselt?",
@@ -316,7 +316,7 @@ export const allLocations: LocationData[] = [
       },
       {
         question: "Combien coûte un débouchage à Liège ?",
-        answer: "Nos prix sont transparents et fixes. Un débouchage standard à Liège démarre à partir de 95 € déplacement compris. Pas de mauvaises surprises — vous recevez toujours un prix clair à l'avance.",
+        answer: "Nos prix sont transparents et fixes, sans mauvaises surprises. Pour une estimation claire adaptée à votre situation, utilisez notre calculateur de prix (/prijscalculator). Vous recevez toujours une proposition précise à l'avance.",
       },
       {
         question: "Riory intervient-il aussi dans les quartiers de Liège ?",
@@ -362,7 +362,7 @@ export const allLocations: LocationData[] = [
       },
       {
         question: "Quel est le tarif d'un débouchage à Rocourt ?",
-        answer: "Un débouchage standard à Rocourt démarre à 95 € déplacement compris. Contactez-nous pour une estimation gratuite et sans engagement.",
+        answer: "Pour une estimation claire et précise selon votre situation, utilisez notre calculateur de prix en ligne (/prijscalculator). Tarifs transparents et sans engagement.",
       },
     ],
     nearbyAreas: ["Luik", "Ans", "Juprelle", "Vottem", "Milmort"],
@@ -488,7 +488,7 @@ export const allLocations: LocationData[] = [
       },
       {
         question: "Quel est le tarif à Milmort ?",
-        answer: "Un débouchage standard à Milmort démarre à 95 € déplacement compris. Tarifs transparents et fixes.",
+        answer: "Pour une estimation tarifaire claire adaptée à votre situation à Milmort, consultez notre calculateur de prix (/prijscalculator). Tarifs transparents et fixes.",
       },
     ],
     nearbyAreas: ["Vottem", "Rocourt", "Juprelle", "Ans", "Luik"],
