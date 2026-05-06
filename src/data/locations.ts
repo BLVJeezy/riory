@@ -488,7 +488,7 @@ export const allLocations: LocationData[] = [
       },
       {
         question: "Quel est le tarif à Milmort ?",
-        answer: "Un débouchage standard à Milmort démarre à 95 € déplacement compris. Tarifs transparents et fixes.",
+        answer: "Pour une estimation tarifaire claire adaptée à votre situation à Milmort, consultez notre calculateur de prix (/prijscalculator). Tarifs transparents et fixes.",
       },
     ],
     nearbyAreas: ["Vottem", "Rocourt", "Juprelle", "Ans", "Luik"],
