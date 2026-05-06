@@ -316,7 +316,7 @@ export const allLocations: LocationData[] = [
       },
       {
         question: "Combien coûte un débouchage à Liège ?",
-        answer: "Nos prix sont transparents et fixes. Un débouchage standard à Liège démarre à partir de 95 € déplacement compris. Pas de mauvaises surprises — vous recevez toujours un prix clair à l'avance.",
+        answer: "Nos prix sont transparents et fixes, sans mauvaises surprises. Pour une estimation claire adaptée à votre situation, utilisez notre calculateur de prix (/prijscalculator). Vous recevez toujours une proposition précise à l'avance.",
       },
       {
         question: "Riory intervient-il aussi dans les quartiers de Liège ?",
