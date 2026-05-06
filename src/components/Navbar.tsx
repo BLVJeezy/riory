@@ -41,6 +41,8 @@ const Navbar = () => {
   const { localizedPath } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [limburgOpen, setLimburgOpen] = useState(false);
+  const [liegeOpen, setLiegeOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const logo = theme === "dark" ? logoWhite : logoBlack;
