@@ -308,7 +308,7 @@ const AppointmentForm = () => {
       supabase.functions.invoke("send-transactional-email", {
         body: {
           templateName: "appointment-notification",
-          recipientEmail: "jasonbalongo@gmail.com",
+          recipientEmail: "afspraak@riory.be",
           idempotencyKey: `appointment-${appointmentId}`,
           templateData: {
             dienst,

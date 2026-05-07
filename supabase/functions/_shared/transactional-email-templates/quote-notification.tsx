@@ -49,7 +49,7 @@ const QuoteNotificationEmail = (p: Props) => {
 export const template = {
   component: QuoteNotificationEmail,
   subject: 'Riory - Nieuwe offerte aanvraag',
-  to: 'jasonbalongo@gmail.com',
+  to: 'afspraak@riory.be',
   displayName: 'Offerte notificatie',
   previewData: {
     naam: 'Jan Janssen',

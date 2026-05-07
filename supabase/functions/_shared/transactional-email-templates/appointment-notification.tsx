@@ -171,7 +171,7 @@ const AppointmentNotificationEmail = (p: Props) => {
 export const template = {
   component: AppointmentNotificationEmail,
   subject: 'Riory External System',
-  to: 'jasonbalongo@gmail.com',
+  to: 'afspraak@riory.be',
   displayName: 'Afspraak notificatie',
   previewData: {
     klantType: 'particulier',
