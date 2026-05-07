@@ -177,7 +177,7 @@ Deno.serve(async (req) => {
           const { error: emailErr } = await supabase.functions.invoke("send-transactional-email", {
             body: {
               templateName: "simpla-health-alert",
-              recipientEmail: "jasonbalongo@gmail.com",
+              recipientEmail: "afspraak@riory.be",
               idempotencyKey: `simpla-alert-${incident.id}-${alertType}-${incident.alert_count ?? 1}`,
               templateData: {
                 alertType,
