@@ -101,13 +101,7 @@ Deno.serve(async (req) => {
   );
 
   const startedAt = Date.now();
-  const probePayload = {
-    appointmentId: "health-check",
-    healthCheck: true,
-    timestamp: new Date().toISOString(),
-  };
-
-  const result = await probeSimpla(probePayload);
+  const result = await probeSimpla();
   const latencyMs = Date.now() - startedAt;
   const status = result.ok ? "ok" : "fail";
   const httpStatus = result.httpStatus;
