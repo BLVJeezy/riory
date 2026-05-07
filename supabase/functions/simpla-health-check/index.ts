@@ -12,7 +12,7 @@ const MAX_ATTEMPTS = 3;
 const BASE_BACKOFF_MS = 500;
 const REMINDER_INTERVAL_HOURS = 24;
 
-async function probeSimpla(payload: unknown): Promise<{
+async function probeSimpla(): Promise<{
   ok: boolean;
   httpStatus: number | null;
   error: string | null;
@@ -21,26 +21,32 @@ async function probeSimpla(payload: unknown): Promise<{
   let lastError: string | null = null;
   let lastStatus: number | null = null;
 
+  // Health probe uses GET (not POST) so Simpla's appointment-lookup code path
+  // is NOT invoked. Posting a fake appointmentId returns HTTP 500
+  // (NullReferenceException in their .NET handler), which is NOT an outage —
+  // it just means our test payload doesn't match a real record. A simple GET
+  // returns 200 when the endpoint is reachable, which is what we actually
+  // want to monitor.
   for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), TIMEOUT_MS);
     try {
       const res = await fetch(SIMPLA_CALLBACK_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+        method: "GET",
         signal: controller.signal,
       });
       clearTimeout(timeoutId);
       lastStatus = res.status;
-      const respBody = await res.text();
+      // Drain body to free the connection
+      await res.text().catch(() => "");
 
-      if (res.ok) return { ok: true, httpStatus: res.status, error: null, attempts: attempt };
-
-      lastError = `HTTP ${res.status}: ${respBody.slice(0, 300)}`;
-      if (!(res.status >= 500 || res.status === 408 || res.status === 429)) {
-        return { ok: false, httpStatus: res.status, error: lastError, attempts: attempt };
+      // Treat any non-5xx response as "endpoint is up" — 4xx means Simpla
+      // is alive and answering, just not happy with the request shape.
+      if (res.status < 500) {
+        return { ok: true, httpStatus: res.status, error: null, attempts: attempt };
       }
+
+      lastError = `HTTP ${res.status}`;
     } catch (err) {
       clearTimeout(timeoutId);
       lastError = err instanceof Error ? err.message : String(err);
