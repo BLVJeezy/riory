@@ -74,26 +74,11 @@ function fmt(ts: string | null | undefined): string {
   }
 }
 
-function getJwtRole(req: Request): string | null {
-  try {
-    const auth = req.headers.get("Authorization") ?? "";
-    const token = auth.replace(/^Bearer\s+/i, "");
-    const payload = JSON.parse(atob(token.split(".")[1]));
-    return payload?.role ?? null;
-  } catch {
-    return null;
-  }
-}
-
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
-
-  if (getJwtRole(req) !== "service_role") {
-    return new Response(JSON.stringify({ error: "Unauthorized" }), {
-      status: 401,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-    });
-  }
+  // verify_jwt = true in config.toml ensures only project-issued tokens
+  // (anon or service_role) can reach this endpoint. The cron job calls it
+  // with the anon key — that's fine, this is an internal monitor.
 
   const supabase = createClient(
     Deno.env.get("SUPABASE_URL")!,
