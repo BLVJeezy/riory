@@ -58,7 +58,32 @@ const Admin = () => {
         .from("quote_requests")
         .select("*")
         .order("created_at", { ascending: false });
-      setQuotes((data as QuoteRequest[]) || []);
+      const quotesData = (data as QuoteRequest[]) || [];
+
+      // Convert any stored public URLs in the (now private) quote-attachments
+      // bucket into short-lived signed URLs admins can preview.
+      const extractPath = (url: string): string | null => {
+        const marker = "/quote-attachments/";
+        const idx = url.indexOf(marker);
+        if (idx === -1) return null;
+        return decodeURIComponent(url.slice(idx + marker.length).split("?")[0]);
+      };
+      const sign = async (url: string): Promise<string> => {
+        const path = extractPath(url);
+        if (!path) return url;
+        const { data: signed } = await supabase
+          .storage.from("quote-attachments").createSignedUrl(path, 3600);
+        return signed?.signedUrl ?? url;
+      };
+
+      const withSigned = await Promise.all(
+        quotesData.map(async (q) => ({
+          ...q,
+          audio_url: q.audio_url ? await sign(q.audio_url) : null,
+          photo_urls: q.photo_urls ? await Promise.all(q.photo_urls.map(sign)) : null,
+        }))
+      );
+      setQuotes(withSigned);
     } else {
       const { data: views } = await supabase.from("page_views").select("*");
       if (views) {
