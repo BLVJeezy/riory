@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import {
-  LogOut, FileText, BarChart3, Trash2, Eye, Calendar, Users, TrendingUp, Volume2, ImageIcon,
+  LogOut, FileText, BarChart3, Trash2, Eye, Calendar, Users, TrendingUp, Volume2, ImageIcon, Activity,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -171,6 +171,12 @@ const Admin = () => {
             <BarChart3 className="w-4 h-4" />
             Analytics
           </Button>
+          <Link to="/admin/simpla">
+            <Button variant="outline" size="sm" className="gap-2">
+              <Activity className="w-4 h-4" />
+              Simpla monitoring
+            </Button>
+          </Link>
         </div>
       </div>
 

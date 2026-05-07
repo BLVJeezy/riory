@@ -19,6 +19,7 @@ import AlgemeneVoorwaarden from "./pages/AlgemeneVoorwaarden.tsx";
 import CookiePolicy from "./pages/CookiePolicy.tsx";
 import AdminLogin from "./pages/AdminLogin.tsx";
 import Admin from "./pages/Admin.tsx";
+import AdminSimpla from "./pages/AdminSimpla.tsx";
 import Unsubscribe from "./pages/Unsubscribe.tsx";
 import Afspraak from "./pages/Afspraak.tsx";
 import Prijscalculator from "./pages/Prijscalculator.tsx";
@@ -49,6 +50,7 @@ const AppRoutes = () => (
     <Route path="cookie-policy" element={<CookiePolicy />} />
     <Route path="admin/login" element={<AdminLogin />} />
     <Route path="admin" element={<Admin />} />
+    <Route path="admin/simpla" element={<AdminSimpla />} />
     <Route path="afspraak" element={<Afspraak />} />
     <Route path="prijscalculator" element={<Prijscalculator />} />
     <Route path="regio/:slug" element={<LocatieDetail />} />
