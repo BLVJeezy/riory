@@ -73,8 +73,9 @@ Deno.serve(async (req) => {
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   } catch (err) {
+    console.error("calculate-distance error:", err);
     return new Response(
-      JSON.stringify({ error: "Interne fout", details: String(err) }),
+      JSON.stringify({ error: "Interne fout" }),
       { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   }
