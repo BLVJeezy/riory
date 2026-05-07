@@ -44,12 +44,11 @@ Deno.serve(async (req) => {
       !data.rows?.[0]?.elements?.[0] ||
       data.rows[0].elements[0].status !== "OK"
     ) {
+      console.error("Distance calculation failed:", JSON.stringify(data));
       return new Response(
         JSON.stringify({
           error: "Kon afstand niet berekenen",
           details: data.rows?.[0]?.elements?.[0]?.status || data.status,
-          error_message: data.error_message || null,
-          full_response: data,
         }),
         { status: 422, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
@@ -74,8 +73,9 @@ Deno.serve(async (req) => {
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   } catch (err) {
+    console.error("calculate-distance error:", err);
     return new Response(
-      JSON.stringify({ error: "Interne fout", details: String(err) }),
+      JSON.stringify({ error: "Interne fout" }),
       { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   }

@@ -6,7 +6,7 @@ const corsHeaders = {
   "Access-Control-Allow-Methods": "POST, OPTIONS",
 };
 
-const SIMPLA_CALLBACK_URL = "http://app-02.simpla.be/callback.aspx?key=rioryV2";
+const SIMPLA_CALLBACK_URL = `https://app-02.simpla.be/callback.aspx?key=${encodeURIComponent(Deno.env.get("SIMPLA_API_KEY") ?? "rioryV2")}`;
 const MAX_ATTEMPTS = 10;
 const BATCH_SIZE = 10;
 // Exponential backoff schedule in minutes per attempt number (1-indexed via attempts).
