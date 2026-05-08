@@ -149,7 +149,7 @@ const AppointmentNotificationEmail = (p: Props) => {
   return (
     <Html lang="nl" dir="ltr">
       <Head />
-      <Preview>Riory External System</Preview>
+      <Preview>{`${klantLabel}${p.urgent ? ' • URGENT' : ''}${p.dienst ? ' • ' + p.dienst : ''}${p.plaats || p.werfPlaats || p.syndicusPlaats ? ' • ' + (p.plaats || p.werfPlaats || p.syndicusPlaats) : ''}`}</Preview>
       <Body style={main}>
         <Container style={container}>
           <Text style={block}>
@@ -168,9 +168,28 @@ const AppointmentNotificationEmail = (p: Props) => {
   )
 }
 
+const buildSubject = (d: Record<string, any>) => {
+  const isSyndicus = d.klantType === 'syndicus'
+  const isBedrijf = d.klantType === 'bedrijf' || d.klantType === 'vrij_beroep'
+  const naam = isSyndicus
+    ? `${d.syndicusVoornaam || ''} ${d.syndicusNaam || ''}`.trim()
+    : `${d.voornaam || ''} ${d.naam || ''}`.trim()
+  const bedrijf = isBedrijf && d.bedrijfsnaam ? ` (${d.bedrijfsnaam})` : ''
+  const kantoor = isSyndicus && d.syndicusKantoor ? ` (${d.syndicusKantoor})` : ''
+  const klantLabel = d.klantType === 'particulier' ? 'Particulier'
+    : d.klantType === 'bedrijf' ? 'Bedrijf'
+    : d.klantType === 'vrij_beroep' ? 'Vrij beroep'
+    : d.klantType === 'syndicus' ? 'Syndicus'
+    : 'Aanvraag'
+  const urgent = d.urgent ? '[URGENT] ' : ''
+  const dienst = d.dienst ? ` – ${d.dienst}` : ''
+  const wie = naam || klantLabel
+  return `${urgent}Afspraak ${klantLabel}: ${wie}${bedrijf}${kantoor}${dienst}`
+}
+
 export const template = {
   component: AppointmentNotificationEmail,
-  subject: 'Riory External System',
+  subject: buildSubject,
   to: 'afspraak@riory.be',
   displayName: 'Afspraak notificatie',
   previewData: {
