@@ -5,7 +5,7 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-const SIMPLA_CALLBACK_URL = `https://app-02.simpla.be/callback.aspx?key=${encodeURIComponent(Deno.env.get("SIMPLA_API_KEY") ?? "rioryV2")}`;
+const SIMPLA_CALLBACK_URL = `http://app-02.simpla.be/callback.aspx?key=${encodeURIComponent(Deno.env.get("SIMPLA_API_KEY") ?? "rioryV2")}`;
 const TIMEOUT_MS = 10_000;
 const ALERT_AFTER_CONSECUTIVE_FAILURES = 3;
 const MAX_ATTEMPTS = 3;
