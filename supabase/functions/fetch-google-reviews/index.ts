@@ -6,27 +6,9 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type",
 };
 
-function getJwtRole(req: Request): string | null {
-  try {
-    const auth = req.headers.get("Authorization") ?? "";
-    const token = auth.replace(/^Bearer\s+/i, "");
-    const payload = JSON.parse(atob(token.split(".")[1]));
-    return payload?.role ?? null;
-  } catch {
-    return null;
-  }
-}
-
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response("ok", { headers: corsHeaders });
-  }
-
-  if (getJwtRole(req) !== "service_role") {
-    return new Response(JSON.stringify({ error: "Unauthorized" }), {
-      status: 401,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-    });
   }
 
   try {

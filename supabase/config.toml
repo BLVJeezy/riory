@@ -19,7 +19,7 @@ verify_jwt = false
 verify_jwt = false
 
 [functions.fetch-google-reviews]
-verify_jwt = true
+verify_jwt = false
 
 [functions.simpla-health-check]
-verify_jwt = true
+verify_jwt = false

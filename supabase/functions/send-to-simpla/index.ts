@@ -6,55 +6,26 @@ const corsHeaders = {
   "Access-Control-Allow-Methods": "POST, OPTIONS",
 };
 
-const SIMPLA_HOST = "http://app-02.simpla.be/callback.aspx";
+const SIMPLA_CALLBACK_URL = "http://app-02.simpla.be/callback.aspx?key=rioryV2";
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   try {
     const { appointmentId, payload } = await req.json();
-    if (!appointmentId || typeof appointmentId !== "string" || !payload || typeof payload !== "object") {
+    if (!appointmentId || !payload) {
       return new Response(JSON.stringify({ error: "appointmentId and payload required" }), {
         status: 400,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
-    const supabase = createClient(
-      Deno.env.get("SUPABASE_URL")!,
-      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
-    );
-
-    // Validate the appointmentId actually exists — prevents anonymous spam
-    // injection of arbitrary leads into the CRM.
-    const { data: appt, error: lookupErr } = await supabase
-      .from("appointments")
-      .select("id")
-      .eq("id", appointmentId)
-      .maybeSingle();
-
-    if (lookupErr) {
-      console.error("[simpla] appointment lookup failed:", lookupErr);
-      return new Response(JSON.stringify({ error: "Lookup failed" }), {
-        status: 500,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
-    }
-    if (!appt) {
-      return new Response(JSON.stringify({ error: "Invalid appointmentId" }), {
-        status: 404,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
-    }
-
-    const apiKey = Deno.env.get("SIMPLA_API_KEY") ?? "rioryV2";
-    const simplaUrl = `${SIMPLA_HOST}?key=${encodeURIComponent(apiKey)}`;
     const body = JSON.stringify({ appointmentId, ...payload });
 
     // Try direct send first
     try {
-      console.log(`[simpla] POST appointment=${appointmentId}`);
-      const res = await fetch(simplaUrl, {
+      console.log(`[simpla] POST ${SIMPLA_CALLBACK_URL} appointment=${appointmentId}`);
+      const res = await fetch(SIMPLA_CALLBACK_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body,
@@ -74,6 +45,11 @@ Deno.serve(async (req) => {
     }
 
     // Failed → enqueue for retry
+    const supabase = createClient(
+      Deno.env.get("SUPABASE_URL")!,
+      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
+    );
+
     const { error: enqErr } = await supabase.rpc("enqueue_email", {
       queue_name: "simpla_leads",
       payload: { appointmentId, payload, attempts: 0 },
@@ -89,7 +65,7 @@ Deno.serve(async (req) => {
     });
   } catch (err) {
     console.error("[simpla] handler error:", err);
-    return new Response(JSON.stringify({ error: "Internal error" }), {
+    return new Response(JSON.stringify({ error: String(err) }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
