@@ -1,62 +1,33 @@
-## Doel
+## Wachten op DNS-verificatie
 
-Wanneer een klant een **afspraak** of **offerte** indient, ontvangt hij/zij automatisch een bevestigingsmail ("Je aanvraag is succesvol aangekomen") **verzonden vanaf `afspraak@riory.be`**.
+Domein `notify.riory.be` staat nu nog op **⏳ Verifying DNS**. Zodra de status **Active** is (te volgen via Cloud → Emails → Manage Domains), voer ik onderstaande implementatie uit.
 
-## Huidige situatie
+## Implementatie
 
-- Transactionele e-mail infrastructuur is al aanwezig (`send-transactional-email`, queue, suppression, unsubscribe).
-- Het verzenddomein is op dit moment `notify.test-solyn.pw` — een testdomein. Mails worden nu verstuurd vanaf `noreply@notify.test-solyn.pw`.
-- Er bestaan al notificatie-templates richting Riory zelf (`afspraak@riory.be`), maar **geen bevestigingsmail richting de klant**.
-
-## Belangrijk: domein moet eerst geconfigureerd worden
-
-Om mails te versturen vanaf `afspraak@riory.be` moet `riory.be` (of een subdomein zoals `notify.riory.be`) als e-maildomein gekoppeld worden via **Cloud → Emails → Manage Domains**. Dit vereist:
-
-1. Domein `riory.be` toevoegen in de Lovable Cloud email-setup dialog
-2. NS-records plaatsen bij de DNS-provider van riory.be (richting `ns3.lovable.cloud` / `ns4.lovable.cloud`)
-3. Wachten tot DNS verificatie geslaagd is
-
-Zonder die stap blijven mails vanaf `notify.test-solyn.pw` vertrekken — een mail "from afspraak@riory.be" zou geweigerd worden door de email API.
-
-> Lovable kan `display_from_root` gebruiken zodat de From-header `afspraak@riory.be` toont, terwijl het technische verzenddomein `notify.riory.be` blijft. Dit is de standaard, professionele opzet.
-
-## Plan
-
-### Stap 1 — Domein `riory.be` koppelen (vereist actie van jou)
-Via de email setup dialog. Ik open die voor je zodra je akkoord gaat. Je krijgt 2 NS-records die je bij je DNS-provider moet plaatsen.
-
-### Stap 2 — Verzendconfiguratie aanpassen
+### 1. Verzendconfig aanpassen
 In `supabase/functions/send-transactional-email/index.ts`:
-- `SENDER_DOMAIN = "notify.riory.be"`
-- `FROM_DOMAIN = "riory.be"`
-- From-header → `Riory <afspraak@riory.be>`
 
-### Stap 3 — Twee nieuwe klant-bevestigingstemplates
-In `supabase/functions/_shared/transactional-email-templates/`:
+```text
+SENDER_DOMAIN = "notify.riory.be"   (was: notify.test-solyn.pw)
+FROM_DOMAIN   = "riory.be"          (was: test-solyn.pw)
+```
 
-1. **`afspraak-confirmation.tsx`** — bevestigt afspraak-aanvraag aan klant
-   - Subject: "Je afspraak-aanvraag bij Riory is goed ontvangen"
-   - Bevat: dienst, datum-indicatie, contactgegevens Riory, verwachte reactietijd
-2. **`offerte-confirmation.tsx`** — bevestigt offerte-aanvraag aan klant
-   - Subject: "Je offerte-aanvraag bij Riory is goed ontvangen"
-   - Bevat: dienst, beschrijving, verwachte reactietijd
+Resultaat in elke uitgaande mail:
+```text
+From:     Riory <afspraak@riory.be>
+Reply-To: afspraak@riory.be
+```
 
-Beide gestyled in Riory-huisstijl (zwart/oranje, conform bestaande templates), met kort, professioneel copy en zonder marketingtaal. Reply-to: `afspraak@riory.be`.
+### 2. Edge function redeployen
+`send-transactional-email` opnieuw deployen zodat de wijziging live is.
 
-Beide registreren in `_shared/transactional-email-templates/registry.ts`.
+### 3. Verificatie-testmail
+Eén testmail (afspraak-bevestiging) naar `jasonbalongo@gmail.com` zodat je in de inbox kan controleren dat het zichtbare From-adres `Riory <afspraak@riory.be>` is en dat "Beantwoorden" naar `afspraak@riory.be` gaat.
 
-### Stap 4 — Triggers in de UI
-- **`src/components/AppointmentForm.tsx`** (na succesvolle insert in `appointments`): `supabase.functions.invoke('send-transactional-email', { body: { templateName: 'afspraak-confirmation', recipientEmail: <klant-email>, idempotencyKey: 'afspraak-confirm-<id>', templateData: { voornaam, dienst } } })`
-- **`src/components/QuoteForm.tsx`** (na succesvolle insert): zelfde patroon met `offerte-confirmation`.
+## Wat NIET wijzigt
+- Templates (logo, opmaak, copy) blijven identiek.
+- `AppointmentForm`, `QuoteForm` en alle triggerlogica blijven ongewijzigd.
+- Je SPF-record op `riory.be` (Microsoft 365) blijft ongewijzigd.
 
-Verzending gebeurt non-blocking — als de mail faalt, blijft de form-submit succesvol.
-
-### Stap 5 — Deploy
-`send-transactional-email` redeployen na de codewijzigingen.
-
-## Wat ik nodig heb van jou
-
-1. **Bevestiging** dat je `riory.be` als verzenddomein wil koppelen (NS-records plaatsen).
-2. Voorkeur voor het **subdomein** dat gebruikt wordt voor verzending: `notify.riory.be` (default) of iets anders zoals `mail.riory.be`. De zichtbare From blijft `afspraak@riory.be`.
-
-Als je akkoord bent, switch ik naar build-mode, open de email-setup dialog en voer ik stappen 2-5 uit.
+## Trigger om te starten
+Stuur een berichtje "DNS is geverifieerd, ga maar" zodra de status **Active** staat — dan voer ik bovenstaande 3 stappen uit.
