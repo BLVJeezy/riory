@@ -77,6 +77,20 @@ const QuoteForm = () => {
         },
       });
 
+      // Confirmation email to customer
+      supabase.functions.invoke('send-transactional-email', {
+        body: {
+          templateName: 'offerte-confirmation',
+          recipientEmail: formData.email,
+          idempotencyKey: `offerte-confirm-${id}`,
+          templateData: {
+            voornaam: formData.naam?.split(' ')[0] || undefined,
+            dienst: formData.dienst || undefined,
+            beschrijving: formData.beschrijving || undefined,
+          },
+        },
+      }).catch((err) => console.error("Customer confirmation email failed:", err));
+
       setSubmitResult("success");
       setFormData({ naam: "", email: "", telefoon: "", locatie: "", dienst: "", beschrijving: "" });
     } catch (err) {
