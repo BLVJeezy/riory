@@ -353,6 +353,23 @@ const AppointmentForm = () => {
         },
       }).catch((err) => console.error("Email notification failed:", err));
 
+      // Send confirmation email to customer
+      if (effectiveFactEmail) {
+        const customerVoornaam = klantType === "syndicus" ? syndicus.voornaam : fact.voornaam;
+        supabase.functions.invoke("send-transactional-email", {
+          body: {
+            templateName: "afspraak-confirmation",
+            recipientEmail: effectiveFactEmail,
+            idempotencyKey: `afspraak-confirm-${appointmentId}`,
+            templateData: {
+              voornaam: customerVoornaam || undefined,
+              dienst,
+              urgent: urgent ?? false,
+            },
+          },
+        }).catch((err) => console.error("Customer confirmation email failed:", err));
+      }
+
       // Send to Simpla CRM (fire-and-forget; failures are queued for retry)
       supabase.functions.invoke("send-to-simpla", {
         body: {
