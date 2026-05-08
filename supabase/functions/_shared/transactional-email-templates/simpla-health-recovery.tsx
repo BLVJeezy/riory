@@ -34,7 +34,7 @@ const SimplaHealthRecoveryEmail = (p: Props) => (
         {p.note && <Text style={block}>{p.note}</Text>}
 
         <Text style={block}>
-          Endpoint: <code>https://app-02.simpla.be/callback.aspx?key=rioryV2</code>
+          Endpoint: <code>http://app-02.simpla.be/callback.aspx?key=rioryV2</code>
         </Text>
 
         <Text style={footer}>

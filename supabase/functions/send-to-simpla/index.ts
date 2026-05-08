@@ -6,7 +6,7 @@ const corsHeaders = {
   "Access-Control-Allow-Methods": "POST, OPTIONS",
 };
 
-const SIMPLA_HOST = "https://app-02.simpla.be/callback.aspx";
+const SIMPLA_HOST = "http://app-02.simpla.be/callback.aspx";
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
