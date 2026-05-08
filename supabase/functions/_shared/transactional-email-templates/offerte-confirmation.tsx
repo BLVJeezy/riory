@@ -1,7 +1,9 @@
 import * as React from 'npm:react@18.3.1'
 import {
-  Body, Container, Head, Heading, Html, Preview, Section, Text, Hr, Link,
+  Body, Container, Head, Heading, Html, Img, Preview, Section, Text, Hr, Link,
 } from 'npm:@react-email/components@0.0.22'
+
+const LOGO_URL = 'https://bqcxvvpawbwupornueww.supabase.co/storage/v1/object/public/email-assets/riory-logo.png'
 import type { TemplateEntry } from './registry.ts'
 
 interface Props {
@@ -17,7 +19,7 @@ const OfferteConfirmation = ({ voornaam, dienst, beschrijving }: Props) => (
     <Body style={main}>
       <Container style={container}>
         <Section style={header}>
-          <Heading style={brand}>RIORY</Heading>
+          <Img src={LOGO_URL} alt="Riory" width="180" style={logo} />
           <Text style={tagline}>Sterk in Rioleringswerk</Text>
         </Section>
 
@@ -76,9 +78,9 @@ export const template = {
 
 const main = { backgroundColor: '#ffffff', fontFamily: 'Arial, Helvetica, sans-serif', margin: 0, padding: 0 }
 const container = { maxWidth: '600px', margin: '0 auto', padding: '0' }
-const header = { backgroundColor: '#000000', padding: '32px 32px 24px', textAlign: 'center' as const }
-const brand = { color: '#ffffff', fontSize: '32px', fontWeight: 'bold' as const, letterSpacing: '4px', margin: 0 }
-const tagline = { color: '#FF6B00', fontSize: '13px', fontWeight: 'bold' as const, letterSpacing: '2px', margin: '4px 0 0', textTransform: 'uppercase' as const }
+const header = { backgroundColor: '#ffffff', padding: '32px 32px 16px', textAlign: 'center' as const }
+const logo = { display: 'block', margin: '0 auto', maxWidth: '180px', height: 'auto' }
+const tagline = { color: '#FF6B00', fontSize: '13px', fontWeight: 'bold' as const, letterSpacing: '2px', margin: '12px 0 0', textTransform: 'uppercase' as const }
 const content = { padding: '32px 32px 24px' }
 const h1 = { fontSize: '22px', fontWeight: 'bold' as const, color: '#000000', margin: '0 0 16px' }
 const text = { fontSize: '15px', color: '#333333', lineHeight: '1.6', margin: '0 0 14px' }
