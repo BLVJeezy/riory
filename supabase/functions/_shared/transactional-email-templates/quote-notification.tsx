@@ -26,7 +26,7 @@ const QuoteNotificationEmail = (p: Props) => {
   return (
     <Html lang="nl" dir="ltr">
       <Head />
-      <Preview>Riory - Nieuwe offerte aanvraag</Preview>
+      <Preview>{`${p.naam || 'Nieuwe aanvraag'}${p.dienst ? ' • ' + p.dienst : ''}${p.locatie ? ' • ' + p.locatie : ''}`}</Preview>
       <Body style={main}>
         <Container style={container}>
           <Text style={block}>
@@ -48,7 +48,8 @@ const QuoteNotificationEmail = (p: Props) => {
 
 export const template = {
   component: QuoteNotificationEmail,
-  subject: 'Riory - Nieuwe offerte aanvraag',
+  subject: (d: Record<string, any>) =>
+    `Offerte aanvraag: ${d.naam || 'Onbekend'}${d.dienst ? ' – ' + d.dienst : ''}`,
   to: 'afspraak@riory.be',
   displayName: 'Offerte notificatie',
   previewData: {
