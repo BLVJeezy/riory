@@ -318,7 +318,7 @@ Deno.serve(async (req) => {
       message_id: messageId,
       to: effectiveRecipient,
       from: `Riory <afspraak@${FROM_DOMAIN}>`,
-      reply_to: `afspraak@${FROM_DOMAIN}`,
+      reply_to: replyToEmail || `afspraak@${FROM_DOMAIN}`,
       sender_domain: SENDER_DOMAIN,
       subject: resolvedSubject,
       html,
