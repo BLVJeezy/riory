@@ -305,10 +305,12 @@ const AppointmentForm = () => {
       if (error) throw error;
 
       // Send notification email
+      const klantReplyTo = klantType === "syndicus" ? syndicus.email : fact.email;
       supabase.functions.invoke("send-transactional-email", {
         body: {
           templateName: "appointment-notification",
           recipientEmail: "afspraak@riory.be",
+          replyToEmail: klantReplyTo || undefined,
           idempotencyKey: `appointment-${appointmentId}`,
           templateData: {
             dienst,

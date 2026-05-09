@@ -1,33 +1,34 @@
-## Wachten op DNS-verificatie
+## Doel
+Wanneer jij als eigenaar een **afspraak-notificatie** ontvangt op `afspraak@riory.be`, moet "Beantwoorden" rechtstreeks naar het e-mailadres van de klant gaan — niet terug naar `afspraak@riory.be`.
 
-Domein `notify.riory.be` staat nu nog op **⏳ Verifying DNS**. Zodra de status **Active** is (te volgen via Cloud → Emails → Manage Domains), voer ik onderstaande implementatie uit.
+## Hoe
+De edge function `send-transactional-email` zet nu altijd `Reply-To: afspraak@riory.be`. We voegen een optionele `replyToEmail` parameter toe en gebruiken die in `AppointmentForm` voor de eigenaar-notificatie.
 
-## Implementatie
+### 1. `supabase/functions/send-transactional-email/index.ts`
+- Lees `replyToEmail` (of `reply_to_email`) uit de request body.
+- Valideer dat het een geldig e-mailadres is (anders negeren en fallback gebruiken).
+- In de enqueue payload: `reply_to: replyToEmail || \`afspraak@${FROM_DOMAIN}\``.
+- Standaardgedrag voor alle bestaande calls (zoals klantbevestigingen) blijft ongewijzigd.
 
-### 1. Verzendconfig aanpassen
-In `supabase/functions/send-transactional-email/index.ts`:
+### 2. `src/components/AppointmentForm.tsx` (regel ~308)
+Bij de aanroep voor `appointment-notification` (mail naar eigenaar):
+- Bepaal het juiste klant-e-mailadres:
+  - syndicus → `syndicus.email`
+  - particulier/bedrijf/vrij beroep → `fact.email`
+- Voeg `replyToEmail: <klantEmail>` toe aan de body.
+- De klantbevestiging (`afspraak-confirmation`) blijft ongewijzigd — die gaat nog steeds met standaard reply-to weg.
 
-```text
-SENDER_DOMAIN = "notify.riory.be"   (was: notify.test-solyn.pw)
-FROM_DOMAIN   = "riory.be"          (was: test-solyn.pw)
-```
+### 3. Deployen
+`send-transactional-email` opnieuw deployen.
 
-Resultaat in elke uitgaande mail:
+### 4. Verificatie
+Eén testafspraak indienen of een directe testcall doen, controleren dat de mail naar `afspraak@riory.be` als header heeft:
 ```text
 From:     Riory <afspraak@riory.be>
-Reply-To: afspraak@riory.be
+Reply-To: <klant-email>
 ```
+Klikken op "Beantwoorden" in de inbox moet automatisch het klant-adres invullen.
 
-### 2. Edge function redeployen
-`send-transactional-email` opnieuw deployen zodat de wijziging live is.
-
-### 3. Verificatie-testmail
-Eén testmail (afspraak-bevestiging) naar `jasonbalongo@gmail.com` zodat je in de inbox kan controleren dat het zichtbare From-adres `Riory <afspraak@riory.be>` is en dat "Beantwoorden" naar `afspraak@riory.be` gaat.
-
-## Wat NIET wijzigt
-- Templates (logo, opmaak, copy) blijven identiek.
-- `AppointmentForm`, `QuoteForm` en alle triggerlogica blijven ongewijzigd.
-- Je SPF-record op `riory.be` (Microsoft 365) blijft ongewijzigd.
-
-## Trigger om te starten
-Stuur een berichtje "DNS is geverifieerd, ga maar" zodra de status **Active** staat — dan voer ik bovenstaande 3 stappen uit.
+## Niet in scope
+- QuoteForm / offertes (zelfde patroon mogelijk later — laat me weten als je dit ook daar wil).
+- Wijzigingen aan templates of From-adres.
