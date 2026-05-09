@@ -20,7 +20,6 @@ const AfspraakConfirmation = ({ voornaam, dienst, urgent }: Props) => (
       <Container style={container}>
         <Section style={header}>
           <Img src={LOGO_URL} alt="Riory" width="180" style={logo} />
-          <Text style={tagline}>Sterk in Rioleringswerk</Text>
         </Section>
 
         <Section style={content}>
