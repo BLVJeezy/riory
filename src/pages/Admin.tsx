@@ -519,12 +519,19 @@ const Admin = () => {
                       Op basis van {total} afspra{total === 1 ? "ak" : "ken"}.
                     </p>
                   </div>
-                  <Button size="sm" className="gap-2" onClick={exportSourcesCSV} disabled={total === 0}>
-                    <Download className="w-4 h-4" />
-                    Exporteer CSV
-                  </Button>
+                  <div className="flex flex-wrap gap-2">
+                    <Button size="sm" variant="outline" className="gap-2" onClick={exportSourcesCSV} disabled={total === 0}>
+                      <Download className="w-4 h-4" />
+                      CSV
+                    </Button>
+                    <Button size="sm" className="gap-2" onClick={exportSourcesPDF} disabled={total === 0}>
+                      <Download className="w-4 h-4" />
+                      PDF
+                    </Button>
+                  </div>
                 </div>
 
+                <div ref={sourcesReportRef} className="space-y-6 bg-background">
                 <div className="bg-background rounded-xl p-4 sm:p-6 border border-border shadow-sm">
                   <h3 className="font-heading font-semibold text-foreground mb-4">Verdeling per kanaal</h3>
                   {ranked.length ? (
