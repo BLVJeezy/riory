@@ -397,15 +397,6 @@ const Admin = () => {
       <div className="px-4 sm:px-6 pt-4">
         <div className="flex gap-2 mb-6">
           <Button
-            variant={tab === "quotes" ? "default" : "outline"}
-            size="sm"
-            className="gap-2"
-            onClick={() => setTab("quotes")}
-          >
-            <FileText className="w-4 h-4" />
-            Offertes
-          </Button>
-          <Button
             variant={tab === "analytics" ? "default" : "outline"}
             size="sm"
             className="gap-2"
