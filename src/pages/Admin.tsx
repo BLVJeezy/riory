@@ -362,29 +362,6 @@ const Admin = () => {
         </Button>
       </header>
 
-      {/* Tabs */}
-      <div className="px-4 sm:px-6 pt-4">
-        <div className="flex gap-2 mb-6">
-          <Button
-            variant={tab === "analytics" ? "default" : "outline"}
-            size="sm"
-            className="gap-2"
-            onClick={() => setTab("analytics")}
-          >
-            <BarChart3 className="w-4 h-4" />
-            Analytics
-          </Button>
-          <Button
-            variant={tab === "sources" ? "default" : "outline"}
-            size="sm"
-            className="gap-2"
-            onClick={() => setTab("sources")}
-          >
-            <Share2 className="w-4 h-4" />
-            Bronnen
-          </Button>
-        </div>
-      </div>
 
       {/* Content */}
       <div className="px-4 sm:px-6 pb-8">
