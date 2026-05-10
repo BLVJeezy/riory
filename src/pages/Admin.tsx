@@ -9,21 +9,6 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 
-interface QuoteRequest {
-  id: string;
-  naam: string;
-  email: string;
-  telefoon: string | null;
-  locatie: string | null;
-  dienst: string | null;
-  beschrijving: string | null;
-  schatting_project_type: string | null;
-  schatting_min: number | null;
-  schatting_max: number | null;
-  audio_url: string | null;
-  photo_urls: string[] | null;
-  created_at: string;
-}
 
 interface AnalyticsData {
   totalViews: number;
