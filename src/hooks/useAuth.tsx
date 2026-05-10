@@ -37,7 +37,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
 
     const { data } = await supabase.rpc("has_role", {
-      _user_id: userId,
+      _user_id: session.user.id,
       _role: "admin",
     });
 
