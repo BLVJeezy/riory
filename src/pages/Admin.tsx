@@ -475,16 +475,18 @@ const Admin = () => {
                             >
                               {ranked.map((_, i) => {
                                 const palette = [
-                                  "hsl(var(--primary))",
-                                  "hsl(24 95% 53%)",
-                                  "hsl(217 91% 60%)",
-                                  "hsl(142 71% 45%)",
-                                  "hsl(280 65% 60%)",
-                                  "hsl(346 77% 49%)",
-                                  "hsl(38 92% 50%)",
-                                  "hsl(189 94% 43%)",
-                                  "hsl(160 84% 39%)",
-                                  "hsl(258 90% 66%)",
+                                  "hsl(217 91% 60%)",   // blue
+                                  "hsl(24 95% 53%)",    // orange
+                                  "hsl(142 71% 45%)",   // green
+                                  "hsl(346 77% 49%)",   // red
+                                  "hsl(280 65% 60%)",   // purple
+                                  "hsl(48 96% 53%)",    // yellow
+                                  "hsl(189 94% 43%)",   // cyan
+                                  "hsl(330 81% 60%)",   // pink
+                                  "hsl(160 84% 39%)",   // teal
+                                  "hsl(15 79% 35%)",    // brown
+                                  "hsl(258 90% 66%)",   // violet
+                                  "hsl(75 64% 45%)",    // lime
                                 ];
                                 return <Cell key={i} fill={palette[i % palette.length]} />;
                               })}
