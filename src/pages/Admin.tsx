@@ -5,25 +5,10 @@ import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import {
-  LogOut, FileText, BarChart3, Trash2, Eye, Calendar, Users, TrendingUp, Volume2, ImageIcon, Share2, Download,
+  LogOut, BarChart3, Eye, Calendar, TrendingUp, Share2, Download,
 } from "lucide-react";
 import { toast } from "sonner";
 
-interface QuoteRequest {
-  id: string;
-  naam: string;
-  email: string;
-  telefoon: string | null;
-  locatie: string | null;
-  dienst: string | null;
-  beschrijving: string | null;
-  schatting_project_type: string | null;
-  schatting_min: number | null;
-  schatting_max: number | null;
-  audio_url: string | null;
-  photo_urls: string[] | null;
-  created_at: string;
-}
 
 interface AnalyticsData {
   totalViews: number;
@@ -68,8 +53,7 @@ const labelFor = (v: string | null) => {
 const Admin = () => {
   const { user, isAdmin, loading, signOut } = useAuth();
   const navigate = useNavigate();
-  const [tab, setTab] = useState<"quotes" | "analytics" | "sources">("quotes");
-  const [quotes, setQuotes] = useState<QuoteRequest[]>([]);
+  const [tab, setTab] = useState<"analytics" | "sources">("analytics");
   const [analytics, setAnalytics] = useState<AnalyticsData | null>(null);
   const [sources, setSources] = useState<SourceRow[]>([]);
   const [monthFilter, setMonthFilter] = useState<string>("all");
@@ -108,13 +92,7 @@ const Admin = () => {
 
   const fetchData = async () => {
     setLoadingData(true);
-    if (tab === "quotes") {
-      const { data } = await supabase
-        .from("quote_requests")
-        .select("*")
-        .order("created_at", { ascending: false });
-      setQuotes((data as QuoteRequest[]) || []);
-    } else if (tab === "analytics") {
+    if (tab === "analytics") {
       const { data: views } = await supabase.from("page_views").select("*");
       if (views) {
         const today = new Date().toISOString().split("T")[0];
@@ -362,15 +340,6 @@ const Admin = () => {
     }
   };
 
-  const handleDelete = async (id: string) => {
-    const { error } = await supabase.from("quote_requests").delete().eq("id", id);
-    if (error) {
-      toast.error("Verwijderen mislukt.");
-    } else {
-      toast.success("Offerte verwijderd.");
-      setQuotes((prev) => prev.filter((q) => q.id !== id));
-    }
-  };
 
   if (loading || !user || !isAdmin) {
     return (
@@ -397,15 +366,6 @@ const Admin = () => {
       <div className="px-4 sm:px-6 pt-4">
         <div className="flex gap-2 mb-6">
           <Button
-            variant={tab === "quotes" ? "default" : "outline"}
-            size="sm"
-            className="gap-2"
-            onClick={() => setTab("quotes")}
-          >
-            <FileText className="w-4 h-4" />
-            Offertes
-          </Button>
-          <Button
             variant={tab === "analytics" ? "default" : "outline"}
             size="sm"
             className="gap-2"
@@ -430,116 +390,6 @@ const Admin = () => {
       <div className="px-4 sm:px-6 pb-8">
         {loadingData ? (
           <p className="text-muted-foreground font-body">Laden...</p>
-        ) : tab === "quotes" ? (
-          <div className="space-y-4">
-            <p className="text-sm text-muted-foreground font-body">
-              {quotes.length} offerte{quotes.length !== 1 ? "s" : ""} ontvangen
-            </p>
-            {quotes.length === 0 ? (
-              <div className="bg-background rounded-xl p-8 border border-border text-center">
-                <FileText className="w-8 h-8 text-muted-foreground mx-auto mb-2" />
-                <p className="text-muted-foreground font-body">Nog geen offertes ontvangen.</p>
-              </div>
-            ) : (
-              quotes.map((q) => (
-                <div
-                  key={q.id}
-                  className="bg-background rounded-xl p-4 sm:p-6 border border-border shadow-sm"
-                >
-                  <div className="flex items-start justify-between gap-4 mb-3">
-                    <div>
-                      <h3 className="font-heading font-semibold text-foreground">{q.naam}</h3>
-                      <p className="text-sm text-muted-foreground font-body">{q.email}</p>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs text-muted-foreground font-body">
-                        {new Date(q.created_at).toLocaleDateString("nl-BE")}
-                      </span>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="text-destructive hover:text-destructive"
-                        onClick={() => handleDelete(q.id)}
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </Button>
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-sm font-body">
-                    {q.telefoon && (
-                      <div>
-                        <span className="text-muted-foreground">Tel: </span>
-                        <span className="text-foreground">{q.telefoon}</span>
-                      </div>
-                    )}
-                    {q.locatie && (
-                      <div>
-                        <span className="text-muted-foreground">Locatie: </span>
-                        <span className="text-foreground">{q.locatie}</span>
-                      </div>
-                    )}
-                    {q.dienst && (
-                      <div>
-                        <span className="text-muted-foreground">Dienst: </span>
-                        <span className="text-foreground">{q.dienst}</span>
-                      </div>
-                    )}
-                  </div>
-
-                  {q.beschrijving && (
-                    <p className="text-sm text-foreground font-body mt-2 bg-muted p-3 rounded-lg">
-                      {q.beschrijving}
-                    </p>
-                  )}
-
-                  {q.schatting_project_type && (
-                    <div className="mt-3 p-3 rounded-lg border border-primary/20 bg-primary/5">
-                      <p className="text-xs font-heading font-semibold uppercase tracking-wider text-primary mb-1">
-                        Kostenraming
-                      </p>
-                      <p className="text-sm font-body text-foreground">
-                        {q.schatting_project_type} — €{q.schatting_min?.toLocaleString("nl-BE")} – €
-                        {q.schatting_max?.toLocaleString("nl-BE")}
-                      </p>
-                    </div>
-                  )}
-
-                  {/* Audio attachment */}
-                  {q.audio_url && (
-                    <div className="mt-3 p-3 rounded-lg border border-border bg-muted/50">
-                      <div className="flex items-center gap-2 mb-2">
-                        <Volume2 className="w-4 h-4 text-primary" />
-                        <p className="text-xs font-heading font-semibold uppercase tracking-wider text-primary">
-                          Spraakbericht
-                        </p>
-                      </div>
-                      <audio src={q.audio_url} controls className="w-full h-10" />
-                    </div>
-                  )}
-
-                  {/* Photo attachments */}
-                  {q.photo_urls && q.photo_urls.length > 0 && (
-                    <div className="mt-3 p-3 rounded-lg border border-border bg-muted/50">
-                      <div className="flex items-center gap-2 mb-2">
-                        <ImageIcon className="w-4 h-4 text-primary" />
-                        <p className="text-xs font-heading font-semibold uppercase tracking-wider text-primary">
-                          Foto's ({q.photo_urls.length})
-                        </p>
-                      </div>
-                      <div className="flex flex-wrap gap-2">
-                        {q.photo_urls.map((url, i) => (
-                          <a key={i} href={url} target="_blank" rel="noopener noreferrer" className="block w-20 h-20 rounded-lg overflow-hidden border border-border hover:ring-2 hover:ring-primary transition-all">
-                            <img src={url} alt={`Foto ${i + 1}`} className="w-full h-full object-cover" />
-                          </a>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              ))
-            )}
-          </div>
         ) : tab === "analytics" ? (
           /* Analytics Tab */
           <div className="space-y-6">
