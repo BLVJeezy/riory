@@ -160,67 +160,166 @@ const Admin = () => {
   };
 
   const exportSourcesPDF = async () => {
-    if (!sourcesReportRef.current) return;
+    if (sources.length === 0) return;
     try {
       toast.loading("PDF wordt voorbereid...", { id: "pdf-export" });
-      const [{ default: html2canvas }, { default: jsPDF }] = await Promise.all([
+      const [{ default: html2canvas }, { default: jsPDF }, autoTableMod] = await Promise.all([
         import("html2canvas"),
         import("jspdf"),
+        import("jspdf-autotable"),
       ]);
-      const canvas = await html2canvas(sourcesReportRef.current, {
-        backgroundColor: "#ffffff",
-        scale: 2,
-        useCORS: true,
+      const autoTable = (autoTableMod as any).default || (autoTableMod as any);
+
+      // Build aggregated data
+      const counts: Record<string, number> = {};
+      sources.forEach((s) => {
+        const k = labelFor(s.gevonden_via);
+        counts[k] = (counts[k] || 0) + 1;
       });
-      const imgData = canvas.toDataURL("image/png");
+      const ranked = Object.entries(counts)
+        .map(([label, count]) => ({ label, count }))
+        .sort((a, b) => b.count - a.count);
+      const total = sources.length;
+
+      // PDF setup
       const pdf = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
       const pageW = pdf.internal.pageSize.getWidth();
       const pageH = pdf.internal.pageSize.getHeight();
-      const margin = 10;
-      const imgW = pageW - margin * 2;
-      const imgH = (canvas.height * imgW) / canvas.width;
+      const margin = 15;
+      const contentW = pageW - margin * 2;
 
-      // Header
-      pdf.setFontSize(16);
-      pdf.text("Riory — Bronnen rapport", margin, 14);
-      pdf.setFontSize(10);
-      pdf.setTextColor(120);
-      pdf.text(new Date().toLocaleString("nl-BE"), margin, 19);
-      pdf.setTextColor(0);
+      const drawHeader = () => {
+        pdf.setFont("helvetica", "bold");
+        pdf.setFontSize(18);
+        pdf.setTextColor(20);
+        pdf.text("RIORY", margin, margin + 2);
+        pdf.setFont("helvetica", "normal");
+        pdf.setFontSize(10);
+        pdf.setTextColor(120);
+        pdf.text("Bronnen rapport", margin, margin + 7);
+        pdf.text(
+          new Date().toLocaleDateString("nl-BE", { day: "numeric", month: "long", year: "numeric" }),
+          pageW - margin,
+          margin + 7,
+          { align: "right" }
+        );
+        pdf.setDrawColor(220);
+        pdf.setLineWidth(0.3);
+        pdf.line(margin, margin + 10, pageW - margin, margin + 10);
+        pdf.setTextColor(0);
+      };
 
-      let y = 24;
-      let remainingH = imgH;
-      let srcY = 0;
-      const usableH = pageH - y - margin;
-
-      if (imgH <= usableH) {
-        pdf.addImage(imgData, "PNG", margin, y, imgW, imgH);
-      } else {
-        // Multi-page: slice the canvas
-        const pxPerMm = canvas.width / imgW;
-        while (remainingH > 0) {
-          const sliceH = Math.min(usableH, remainingH);
-          const sliceCanvas = document.createElement("canvas");
-          sliceCanvas.width = canvas.width;
-          sliceCanvas.height = sliceH * pxPerMm;
-          const ctx = sliceCanvas.getContext("2d")!;
-          ctx.fillStyle = "#ffffff";
-          ctx.fillRect(0, 0, sliceCanvas.width, sliceCanvas.height);
-          ctx.drawImage(
-            canvas,
-            0, srcY * pxPerMm, canvas.width, sliceH * pxPerMm,
-            0, 0, canvas.width, sliceH * pxPerMm
-          );
-          pdf.addImage(sliceCanvas.toDataURL("image/png"), "PNG", margin, y, imgW, sliceH);
-          remainingH -= sliceH;
-          srcY += sliceH;
-          if (remainingH > 0) {
-            pdf.addPage();
-            y = margin;
-          }
+      const drawFooter = () => {
+        const total = (pdf as any).internal.getNumberOfPages();
+        for (let i = 1; i <= total; i++) {
+          pdf.setPage(i);
+          pdf.setFont("helvetica", "normal");
+          pdf.setFontSize(8);
+          pdf.setTextColor(140);
+          pdf.text("riory.be", margin, pageH - 8);
+          pdf.text(`Pagina ${i} / ${total}`, pageW - margin, pageH - 8, { align: "right" });
+          pdf.setTextColor(0);
         }
+      };
+
+      drawHeader();
+      let y = margin + 18;
+
+      // Summary
+      pdf.setFont("helvetica", "bold");
+      pdf.setFontSize(14);
+      pdf.text("Hoe vinden klanten je?", margin, y);
+      y += 5;
+      pdf.setFont("helvetica", "normal");
+      pdf.setFontSize(10);
+      pdf.setTextColor(110);
+      pdf.text(`Op basis van ${total} afspraak${total === 1 ? "" : "ken"}.`, margin, y);
+      pdf.setTextColor(0);
+      y += 8;
+
+      // Capture only the chart
+      const chartEl = document.querySelector<HTMLDivElement>("[data-pdf-chart]");
+      if (chartEl) {
+        const chartCanvas = await html2canvas(chartEl, {
+          backgroundColor: "#ffffff",
+          scale: 3,
+          useCORS: true,
+        });
+        const chartW = 80;
+        const chartH = (chartCanvas.height * chartW) / chartCanvas.width;
+        pdf.addImage(chartCanvas.toDataURL("image/png"), "PNG", margin, y, chartW, chartH);
+
+        // Legend / bars next to chart
+        const legendX = margin + chartW + 8;
+        const legendW = contentW - chartW - 8;
+        const palette = [
+          [59, 130, 246],   // blue
+          [249, 115, 22],   // orange
+          [34, 197, 94],    // green
+          [239, 68, 68],    // red
+          [168, 85, 247],   // purple
+          [234, 179, 8],    // yellow
+          [6, 182, 212],    // cyan
+          [236, 72, 153],   // pink
+          [20, 184, 166],   // teal
+          [120, 53, 15],    // brown
+          [139, 92, 246],   // violet
+          [132, 204, 22],   // lime
+        ];
+        let ly = y + 2;
+        const rowH = 7;
+        const max = ranked[0]?.count || 1;
+        ranked.forEach((r, i) => {
+          if (ly + rowH > y + chartH) return;
+          const [rC, gC, bC] = palette[i % palette.length];
+          pdf.setFillColor(rC, gC, bC);
+          pdf.circle(legendX + 1.5, ly + 1.5, 1.5, "F");
+          pdf.setFont("helvetica", "normal");
+          pdf.setFontSize(9);
+          pdf.setTextColor(40);
+          const pct = total ? Math.round((r.count / total) * 100) : 0;
+          pdf.text(r.label, legendX + 5, ly + 2.5);
+          pdf.text(`${r.count} (${pct}%)`, legendX + legendW, ly + 2.5, { align: "right" });
+          // Bar
+          pdf.setFillColor(238, 238, 238);
+          pdf.rect(legendX + 5, ly + 3.5, legendW - 5, 1.4, "F");
+          pdf.setFillColor(rC, gC, bC);
+          pdf.rect(legendX + 5, ly + 3.5, Math.max(2, ((legendW - 5) * r.count) / max), 1.4, "F");
+          ly += rowH;
+        });
+        y += chartH + 8;
       }
 
+      // Table of recent appointments
+      autoTable(pdf, {
+        startY: y,
+        head: [["Datum", "Bron", "Detail", "Dienst", "Klant", "Email"]],
+        body: sources.map((s) => [
+          new Date(s.created_at).toLocaleDateString("nl-BE"),
+          labelFor(s.gevonden_via),
+          s.gevonden_detail || "—",
+          s.dienst || "",
+          `${s.fact_voornaam || ""} ${s.fact_naam || ""}`.trim() || "—",
+          s.fact_email || "",
+        ]),
+        margin: { left: margin, right: margin, top: margin + 14, bottom: 14 },
+        styles: { fontSize: 8.5, cellPadding: 2.2, overflow: "linebreak", textColor: 40 },
+        headStyles: { fillColor: [25, 25, 25], textColor: 255, fontStyle: "bold", fontSize: 9 },
+        alternateRowStyles: { fillColor: [248, 248, 248] },
+        columnStyles: {
+          0: { cellWidth: 22 },
+          1: { cellWidth: 26 },
+          2: { cellWidth: 32 },
+          3: { cellWidth: 38 },
+          4: { cellWidth: 32 },
+          5: { cellWidth: "auto" },
+        },
+        didDrawPage: () => {
+          drawHeader();
+        },
+      });
+
+      drawFooter();
       pdf.save(`riory-bronnen-${new Date().toISOString().split("T")[0]}.pdf`);
       toast.success("PDF geëxporteerd.", { id: "pdf-export" });
     } catch (e) {
@@ -536,7 +635,7 @@ const Admin = () => {
                   <h3 className="font-heading font-semibold text-foreground mb-4">Verdeling per kanaal</h3>
                   {ranked.length ? (
                     <div className="grid md:grid-cols-2 gap-6 items-center">
-                      <div className="h-64 w-full">
+                      <div className="h-64 w-full" data-pdf-chart>
                         <ResponsiveContainer width="100%" height="100%">
                           <PieChart>
                             <Pie
