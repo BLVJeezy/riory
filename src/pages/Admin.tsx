@@ -4,18 +4,10 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from "recha
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import {
-  LogOut, BarChart3, Eye, Calendar, TrendingUp, Share2, Download,
-} from "lucide-react";
+import { LogOut, Share2, Download } from "lucide-react";
 import { toast } from "sonner";
 
 
-interface AnalyticsData {
-  totalViews: number;
-  todayViews: number;
-  topPages: { page: string; count: number }[];
-  viewsByDay: { date: string; count: number }[];
-}
 
 interface SourceRow {
   gevonden_via: string | null;
