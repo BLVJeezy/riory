@@ -644,6 +644,7 @@ const Admin = () => {
                     <p className="text-sm text-muted-foreground font-body">Nog geen afspraken.</p>
                   )}
                 </div>
+                </div>
               </div>
             );
           })()
