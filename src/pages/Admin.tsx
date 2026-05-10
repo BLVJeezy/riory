@@ -335,7 +335,7 @@ const Admin = () => {
               ))
             )}
           </div>
-        ) : (
+        ) : tab === "analytics" ? (
           /* Analytics Tab */
           <div className="space-y-6">
             {/* Stats cards */}
