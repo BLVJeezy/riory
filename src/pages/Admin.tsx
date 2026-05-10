@@ -108,13 +108,7 @@ const Admin = () => {
 
   const fetchData = async () => {
     setLoadingData(true);
-    if (tab === "quotes") {
-      const { data } = await supabase
-        .from("quote_requests")
-        .select("*")
-        .order("created_at", { ascending: false });
-      setQuotes((data as QuoteRequest[]) || []);
-    } else if (tab === "analytics") {
+    if (tab === "analytics") {
       const { data: views } = await supabase.from("page_views").select("*");
       if (views) {
         const today = new Date().toISOString().split("T")[0];
