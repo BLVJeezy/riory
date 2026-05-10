@@ -425,6 +425,101 @@ const Admin = () => {
               )}
             </div>
           </div>
+        ) : (
+          /* Sources Tab */
+          (() => {
+            const counts: Record<string, number> = {};
+            sources.forEach((s) => {
+              const k = labelFor(s.gevonden_via);
+              counts[k] = (counts[k] || 0) + 1;
+            });
+            const ranked = Object.entries(counts)
+              .map(([label, count]) => ({ label, count }))
+              .sort((a, b) => b.count - a.count);
+            const total = sources.length;
+            const max = ranked[0]?.count || 1;
+            return (
+              <div className="space-y-6">
+                <div className="flex items-center justify-between gap-4 flex-wrap">
+                  <div>
+                    <h2 className="font-heading font-semibold text-foreground">Hoe vinden klanten je?</h2>
+                    <p className="text-sm text-muted-foreground font-body">
+                      Op basis van {total} afspra{total === 1 ? "ak" : "ken"}.
+                    </p>
+                  </div>
+                  <Button size="sm" className="gap-2" onClick={exportSourcesCSV} disabled={total === 0}>
+                    <Download className="w-4 h-4" />
+                    Exporteer CSV
+                  </Button>
+                </div>
+
+                <div className="bg-background rounded-xl p-4 sm:p-6 border border-border shadow-sm">
+                  <h3 className="font-heading font-semibold text-foreground mb-4">Verdeling per kanaal</h3>
+                  {ranked.length ? (
+                    <div className="space-y-3">
+                      {ranked.map((r) => {
+                        const pct = total ? Math.round((r.count / total) * 100) : 0;
+                        return (
+                          <div key={r.label} className="flex items-center gap-3">
+                            <span className="text-sm font-body text-foreground w-32 sm:w-40 shrink-0 truncate">
+                              {r.label}
+                            </span>
+                            <div className="flex-1 bg-muted rounded-full h-5 overflow-hidden">
+                              <div
+                                className="bg-primary h-full rounded-full transition-all"
+                                style={{ width: `${Math.max(5, (r.count / max) * 100)}%` }}
+                              />
+                            </div>
+                            <span className="text-sm font-heading font-semibold text-foreground w-20 text-right">
+                              {r.count} ({pct}%)
+                            </span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    <p className="text-sm text-muted-foreground font-body">Nog geen data beschikbaar.</p>
+                  )}
+                </div>
+
+                <div className="bg-background rounded-xl p-4 sm:p-6 border border-border shadow-sm">
+                  <h3 className="font-heading font-semibold text-foreground mb-4">Recente afspraken</h3>
+                  {sources.length ? (
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-sm font-body">
+                        <thead>
+                          <tr className="text-left text-muted-foreground border-b border-border">
+                            <th className="py-2 pr-3">Datum</th>
+                            <th className="py-2 pr-3">Bron</th>
+                            <th className="py-2 pr-3">Detail</th>
+                            <th className="py-2 pr-3">Dienst</th>
+                            <th className="py-2 pr-3">Klant</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {sources.slice(0, 50).map((s, i) => (
+                            <tr key={i} className="border-b border-border last:border-0">
+                              <td className="py-2 pr-3 text-foreground whitespace-nowrap">
+                                {new Date(s.created_at).toLocaleDateString("nl-BE")}
+                              </td>
+                              <td className="py-2 pr-3 text-foreground">{labelFor(s.gevonden_via)}</td>
+                              <td className="py-2 pr-3 text-muted-foreground">{s.gevonden_detail || "—"}</td>
+                              <td className="py-2 pr-3 text-muted-foreground">{s.dienst}</td>
+                              <td className="py-2 pr-3 text-muted-foreground">
+                                {`${s.fact_voornaam || ""} ${s.fact_naam || ""}`.trim() || s.fact_email}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  ) : (
+                    <p className="text-sm text-muted-foreground font-body">Nog geen afspraken.</p>
+                  )}
+                </div>
+              </div>
+            );
+          })()
         )}
       </div>
     </div>
