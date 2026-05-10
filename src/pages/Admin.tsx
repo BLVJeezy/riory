@@ -73,6 +73,7 @@ const Admin = () => {
   const [analytics, setAnalytics] = useState<AnalyticsData | null>(null);
   const [sources, setSources] = useState<SourceRow[]>([]);
   const [loadingData, setLoadingData] = useState(true);
+  const sourcesReportRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!loading && (!user || !isAdmin)) {
