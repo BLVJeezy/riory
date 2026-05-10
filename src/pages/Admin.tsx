@@ -536,7 +536,7 @@ const Admin = () => {
                   <h3 className="font-heading font-semibold text-foreground mb-4">Verdeling per kanaal</h3>
                   {ranked.length ? (
                     <div className="grid md:grid-cols-2 gap-6 items-center">
-                      <div className="h-64 w-full">
+                      <div className="h-64 w-full" data-pdf-chart>
                         <ResponsiveContainer width="100%" height="100%">
                           <PieChart>
                             <Pie
