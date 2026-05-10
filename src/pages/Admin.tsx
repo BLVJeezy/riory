@@ -157,7 +157,7 @@ const Admin = () => {
 
   const exportSourcesCSV = () => {
     const headers = ["Datum", "Bron", "Detail", "Dienst", "Naam", "Email"];
-    const rows = sources.map((s) => [
+    const rows = filteredSources.map((s) => [
       new Date(s.created_at).toLocaleString("nl-BE"),
       labelFor(s.gevonden_via),
       s.gevonden_detail || "",
@@ -179,7 +179,7 @@ const Admin = () => {
   };
 
   const exportSourcesPDF = async () => {
-    if (sources.length === 0) return;
+    if (filteredSources.length === 0) return;
     try {
       toast.loading("PDF wordt voorbereid...", { id: "pdf-export" });
       const [{ default: html2canvas }, { default: jsPDF }, autoTableMod] = await Promise.all([
@@ -191,14 +191,14 @@ const Admin = () => {
 
       // Build aggregated data
       const counts: Record<string, number> = {};
-      sources.forEach((s) => {
+      filteredSources.forEach((s) => {
         const k = labelFor(s.gevonden_via);
         counts[k] = (counts[k] || 0) + 1;
       });
       const ranked = Object.entries(counts)
         .map(([label, count]) => ({ label, count }))
         .sort((a, b) => b.count - a.count);
-      const total = sources.length;
+      const total = filteredSources.length;
 
       // PDF setup
       const pdf = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
@@ -316,7 +316,7 @@ const Admin = () => {
       autoTable(pdf, {
         startY: y,
         head: [["Datum", "Bron", "Detail", "Dienst", "Klant", "Email"]],
-        body: sources.map((s) => [
+        body: filteredSources.map((s) => [
           new Date(s.created_at).toLocaleDateString("nl-BE"),
           labelFor(s.gevonden_via),
           s.gevonden_detail || "—",
@@ -634,14 +634,14 @@ const Admin = () => {
           /* Sources Tab */
           (() => {
             const counts: Record<string, number> = {};
-            sources.forEach((s) => {
+            filteredSources.forEach((s) => {
               const k = labelFor(s.gevonden_via);
               counts[k] = (counts[k] || 0) + 1;
             });
             const ranked = Object.entries(counts)
               .map(([label, count]) => ({ label, count }))
               .sort((a, b) => b.count - a.count);
-            const total = sources.length;
+            const total = filteredSources.length;
             const max = ranked[0]?.count || 1;
             return (
               <div className="space-y-6">
@@ -744,7 +744,7 @@ const Admin = () => {
 
                 <div className="bg-background rounded-xl p-4 sm:p-6 border border-border shadow-sm">
                   <h3 className="font-heading font-semibold text-foreground mb-4">Recente afspraken</h3>
-                  {sources.length ? (
+                  {filteredSources.length ? (
                     <div className="overflow-x-auto">
                       <table className="w-full text-sm font-body">
                         <thead>
@@ -757,7 +757,7 @@ const Admin = () => {
                           </tr>
                         </thead>
                         <tbody>
-                          {sources.slice(0, 50).map((s, i) => (
+                          {filteredSources.slice(0, 50).map((s, i) => (
                             <tr key={i} className="border-b border-border last:border-0">
                               <td className="py-2 pr-3 text-foreground whitespace-nowrap">
                                 {new Date(s.created_at).toLocaleDateString("nl-BE")}
