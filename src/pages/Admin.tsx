@@ -209,6 +209,15 @@ const Admin = () => {
             <BarChart3 className="w-4 h-4" />
             Analytics
           </Button>
+          <Button
+            variant={tab === "sources" ? "default" : "outline"}
+            size="sm"
+            className="gap-2"
+            onClick={() => setTab("sources")}
+          >
+            <Share2 className="w-4 h-4" />
+            Bronnen
+          </Button>
         </div>
       </div>
 
