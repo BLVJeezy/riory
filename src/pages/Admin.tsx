@@ -374,8 +374,8 @@ const Admin = () => {
                 <div className="bg-background rounded-xl p-4 sm:p-6 border border-border shadow-sm">
                   <h3 className="font-heading font-semibold text-foreground mb-4">Verdeling per kanaal</h3>
                   {ranked.length ? (
-                    <div className="grid md:grid-cols-2 gap-6 items-center">
-                      <div className="h-64 w-full" data-pdf-chart>
+                    <div className="grid md:grid-cols-2 gap-4 sm:gap-6 items-center">
+                      <div className="h-56 sm:h-64 w-full" data-pdf-chart>
                         <ResponsiveContainer width="100%" height="100%">
                           <PieChart>
                             <Pie
@@ -384,8 +384,8 @@ const Admin = () => {
                               nameKey="label"
                               cx="50%"
                               cy="50%"
-                              innerRadius={45}
-                              outerRadius={90}
+                              innerRadius="40%"
+                              outerRadius="78%"
                               paddingAngle={2}
                               label={(e: any) => `${Math.round((e.count / total) * 100)}%`}
                               labelLine={false}
@@ -413,29 +413,28 @@ const Admin = () => {
                                 background: "hsl(var(--background))",
                                 border: "1px solid hsl(var(--border))",
                                 borderRadius: "0.5rem",
-                                fontSize: "0.875rem",
+                                fontSize: "0.75rem",
                               }}
                               formatter={(v: number, n: string) => [`${v} (${Math.round((v / total) * 100)}%)`, n]}
                             />
-                            <Legend wrapperStyle={{ fontSize: "0.75rem" }} />
                           </PieChart>
                         </ResponsiveContainer>
                       </div>
-                      <div className="space-y-3">
+                      <div className="space-y-2 sm:space-y-3">
                         {ranked.map((r) => {
                           const pct = total ? Math.round((r.count / total) * 100) : 0;
                           return (
-                            <div key={r.label} className="flex items-center gap-3">
-                              <span className="text-sm font-body text-foreground w-32 sm:w-40 shrink-0 truncate">
+                            <div key={r.label} className="flex items-center gap-2 sm:gap-3">
+                              <span className="text-xs sm:text-sm font-body text-foreground w-20 sm:w-40 shrink-0 truncate">
                                 {r.label}
                               </span>
-                              <div className="flex-1 bg-muted rounded-full h-5 overflow-hidden">
+                              <div className="flex-1 bg-muted rounded-full h-4 sm:h-5 overflow-hidden min-w-0">
                                 <div
                                   className="bg-primary h-full rounded-full transition-all"
                                   style={{ width: `${Math.max(5, (r.count / max) * 100)}%` }}
                                 />
                               </div>
-                              <span className="text-sm font-heading font-semibold text-foreground w-20 text-right">
+                              <span className="text-xs sm:text-sm font-heading font-semibold text-foreground w-14 sm:w-20 text-right shrink-0">
                                 {r.count} ({pct}%)
                               </span>
                             </div>
