@@ -78,48 +78,15 @@ const Admin = () => {
     if (user && isAdmin) {
       fetchData();
     }
-  }, [user, isAdmin, tab]);
+  }, [user, isAdmin]);
 
   const fetchData = async () => {
     setLoadingData(true);
-    if (tab === "analytics") {
-      const { data: views } = await supabase.from("page_views").select("*");
-      if (views) {
-        const today = new Date().toISOString().split("T")[0];
-        const todayViews = views.filter((v) => v.created_at.startsWith(today)).length;
-
-        const pageCounts: Record<string, number> = {};
-        const dayCounts: Record<string, number> = {};
-        views.forEach((v) => {
-          pageCounts[v.page] = (pageCounts[v.page] || 0) + 1;
-          const day = v.created_at.split("T")[0];
-          dayCounts[day] = (dayCounts[day] || 0) + 1;
-        });
-
-        const topPages = Object.entries(pageCounts)
-          .map(([page, count]) => ({ page, count }))
-          .sort((a, b) => b.count - a.count)
-          .slice(0, 10);
-
-        const viewsByDay = Object.entries(dayCounts)
-          .map(([date, count]) => ({ date, count }))
-          .sort((a, b) => a.date.localeCompare(b.date))
-          .slice(-14);
-
-        setAnalytics({
-          totalViews: views.length,
-          todayViews,
-          topPages,
-          viewsByDay,
-        });
-      }
-    } else if (tab === "sources") {
-      const { data } = await supabase
-        .from("appointments")
-        .select("gevonden_via, gevonden_detail, created_at, dienst, fact_naam, fact_voornaam, fact_email")
-        .order("created_at", { ascending: false });
-      setSources((data as SourceRow[]) || []);
-    }
+    const { data } = await supabase
+      .from("appointments")
+      .select("gevonden_via, gevonden_detail, created_at, dienst, fact_naam, fact_voornaam, fact_email")
+      .order("created_at", { ascending: false });
+    setSources((data as SourceRow[]) || []);
     setLoadingData(false);
   };
 
