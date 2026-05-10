@@ -48,9 +48,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }).then(({ data }) => {
       if (!cancelled) {
         setIsAdmin(!!data);
+        setLoading(false);
       }
-    }).finally(() => {
+    }, () => {
       if (!cancelled) {
+        setIsAdmin(false);
         setLoading(false);
       }
     });
