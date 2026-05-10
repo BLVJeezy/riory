@@ -4,18 +4,10 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from "recha
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import {
-  LogOut, BarChart3, Eye, Calendar, TrendingUp, Share2, Download,
-} from "lucide-react";
+import { LogOut, Share2, Download } from "lucide-react";
 import { toast } from "sonner";
 
 
-interface AnalyticsData {
-  totalViews: number;
-  todayViews: number;
-  topPages: { page: string; count: number }[];
-  viewsByDay: { date: string; count: number }[];
-}
 
 interface SourceRow {
   gevonden_via: string | null;
@@ -53,8 +45,6 @@ const labelFor = (v: string | null) => {
 const Admin = () => {
   const { user, isAdmin, loading, signOut } = useAuth();
   const navigate = useNavigate();
-  const [tab, setTab] = useState<"analytics" | "sources">("analytics");
-  const [analytics, setAnalytics] = useState<AnalyticsData | null>(null);
   const [sources, setSources] = useState<SourceRow[]>([]);
   const [monthFilter, setMonthFilter] = useState<string>("all");
   const [loadingData, setLoadingData] = useState(true);
@@ -88,48 +78,15 @@ const Admin = () => {
     if (user && isAdmin) {
       fetchData();
     }
-  }, [user, isAdmin, tab]);
+  }, [user, isAdmin]);
 
   const fetchData = async () => {
     setLoadingData(true);
-    if (tab === "analytics") {
-      const { data: views } = await supabase.from("page_views").select("*");
-      if (views) {
-        const today = new Date().toISOString().split("T")[0];
-        const todayViews = views.filter((v) => v.created_at.startsWith(today)).length;
-
-        const pageCounts: Record<string, number> = {};
-        const dayCounts: Record<string, number> = {};
-        views.forEach((v) => {
-          pageCounts[v.page] = (pageCounts[v.page] || 0) + 1;
-          const day = v.created_at.split("T")[0];
-          dayCounts[day] = (dayCounts[day] || 0) + 1;
-        });
-
-        const topPages = Object.entries(pageCounts)
-          .map(([page, count]) => ({ page, count }))
-          .sort((a, b) => b.count - a.count)
-          .slice(0, 10);
-
-        const viewsByDay = Object.entries(dayCounts)
-          .map(([date, count]) => ({ date, count }))
-          .sort((a, b) => a.date.localeCompare(b.date))
-          .slice(-14);
-
-        setAnalytics({
-          totalViews: views.length,
-          todayViews,
-          topPages,
-          viewsByDay,
-        });
-      }
-    } else if (tab === "sources") {
-      const { data } = await supabase
-        .from("appointments")
-        .select("gevonden_via, gevonden_detail, created_at, dienst, fact_naam, fact_voornaam, fact_email")
-        .order("created_at", { ascending: false });
-      setSources((data as SourceRow[]) || []);
-    }
+    const { data } = await supabase
+      .from("appointments")
+      .select("gevonden_via, gevonden_detail, created_at, dienst, fact_naam, fact_voornaam, fact_email")
+      .order("created_at", { ascending: false });
+    setSources((data as SourceRow[]) || []);
     setLoadingData(false);
   };
 
@@ -362,124 +319,11 @@ const Admin = () => {
         </Button>
       </header>
 
-      {/* Tabs */}
-      <div className="px-4 sm:px-6 pt-4">
-        <div className="flex gap-2 mb-6">
-          <Button
-            variant={tab === "analytics" ? "default" : "outline"}
-            size="sm"
-            className="gap-2"
-            onClick={() => setTab("analytics")}
-          >
-            <BarChart3 className="w-4 h-4" />
-            Analytics
-          </Button>
-          <Button
-            variant={tab === "sources" ? "default" : "outline"}
-            size="sm"
-            className="gap-2"
-            onClick={() => setTab("sources")}
-          >
-            <Share2 className="w-4 h-4" />
-            Bronnen
-          </Button>
-        </div>
-      </div>
 
       {/* Content */}
       <div className="px-4 sm:px-6 pb-8">
         {loadingData ? (
           <p className="text-muted-foreground font-body">Laden...</p>
-        ) : tab === "analytics" ? (
-          /* Analytics Tab */
-          <div className="space-y-6">
-            {/* Stats cards */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-              <div className="bg-background rounded-xl p-4 sm:p-6 border border-border shadow-sm text-center">
-                <Eye className="w-6 h-6 text-primary mx-auto mb-2" />
-                <p className="text-2xl sm:text-3xl font-heading font-bold text-foreground">
-                  {analytics?.totalViews || 0}
-                </p>
-                <p className="text-xs text-muted-foreground font-body uppercase tracking-wider">
-                  Totaal weergaven
-                </p>
-              </div>
-              <div className="bg-background rounded-xl p-4 sm:p-6 border border-border shadow-sm text-center">
-                <Calendar className="w-6 h-6 text-primary mx-auto mb-2" />
-                <p className="text-2xl sm:text-3xl font-heading font-bold text-foreground">
-                  {analytics?.todayViews || 0}
-                </p>
-                <p className="text-xs text-muted-foreground font-body uppercase tracking-wider">
-                  Vandaag
-                </p>
-              </div>
-              <div className="bg-background rounded-xl p-4 sm:p-6 border border-border shadow-sm text-center">
-                <TrendingUp className="w-6 h-6 text-primary mx-auto mb-2" />
-                <p className="text-2xl sm:text-3xl font-heading font-bold text-foreground">
-                  {analytics?.topPages.length || 0}
-                </p>
-                <p className="text-xs text-muted-foreground font-body uppercase tracking-wider">
-                  Pagina's
-                </p>
-              </div>
-            </div>
-
-            {/* Views by day */}
-            <div className="bg-background rounded-xl p-4 sm:p-6 border border-border shadow-sm">
-              <h3 className="font-heading font-semibold text-foreground mb-4">
-                Weergaven per dag (laatste 14 dagen)
-              </h3>
-              {analytics?.viewsByDay.length ? (
-                <div className="space-y-2">
-                  {analytics.viewsByDay.map((d) => (
-                    <div key={d.date} className="flex items-center gap-3">
-                      <span className="text-xs text-muted-foreground font-body w-20 shrink-0">
-                        {new Date(d.date).toLocaleDateString("nl-BE", { day: "numeric", month: "short" })}
-                      </span>
-                      <div className="flex-1 bg-muted rounded-full h-5 overflow-hidden">
-                        <div
-                          className="bg-primary h-full rounded-full transition-all"
-                          style={{
-                            width: `${Math.max(
-                              5,
-                              (d.count / Math.max(...analytics.viewsByDay.map((v) => v.count))) * 100
-                            )}%`,
-                          }}
-                        />
-                      </div>
-                      <span className="text-sm font-heading font-semibold text-foreground w-8 text-right">
-                        {d.count}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <p className="text-sm text-muted-foreground font-body">Nog geen data beschikbaar.</p>
-              )}
-            </div>
-
-            {/* Top pages */}
-            <div className="bg-background rounded-xl p-4 sm:p-6 border border-border shadow-sm">
-              <h3 className="font-heading font-semibold text-foreground mb-4">Top pagina's</h3>
-              {analytics?.topPages.length ? (
-                <div className="space-y-2">
-                  {analytics.topPages.map((p) => (
-                    <div
-                      key={p.page}
-                      className="flex items-center justify-between py-2 border-b border-border last:border-0"
-                    >
-                      <span className="text-sm font-body text-foreground">{p.page}</span>
-                      <span className="text-sm font-heading font-semibold text-primary">
-                        {p.count}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <p className="text-sm text-muted-foreground font-body">Nog geen data beschikbaar.</p>
-              )}
-            </div>
-          </div>
         ) : (
           /* Sources Tab */
           (() => {
