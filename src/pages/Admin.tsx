@@ -356,15 +356,6 @@ const Admin = () => {
     }
   };
 
-  const handleDelete = async (id: string) => {
-    const { error } = await supabase.from("quote_requests").delete().eq("id", id);
-    if (error) {
-      toast.error("Verwijderen mislukt.");
-    } else {
-      toast.success("Offerte verwijderd.");
-      setQuotes((prev) => prev.filter((q) => q.id !== id));
-    }
-  };
 
   if (loading || !user || !isAdmin) {
     return (
