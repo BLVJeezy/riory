@@ -239,58 +239,61 @@ const Admin = () => {
 
       // Capture only the chart
       const chartEl = document.querySelector<HTMLDivElement>("[data-pdf-chart]");
+      // Auto-size chart so chart + legend rows always fit beside each other
+      const rowH = 6.5;
+      const minChart = 55;
+      const maxChart = 80;
+      const desiredChartH = Math.max(minChart, Math.min(maxChart, ranked.length * rowH + 6));
+
       if (chartEl) {
         const chartCanvas = await html2canvas(chartEl, {
           backgroundColor: "#ffffff",
           scale: 3,
           useCORS: true,
         });
-        const chartW = 80;
-        const chartH = (chartCanvas.height * chartW) / chartCanvas.width;
+        const aspect = chartCanvas.width / chartCanvas.height;
+        let chartH = desiredChartH;
+        let chartW = chartH * aspect;
+        // Ensure chart doesn't overpower legend (max 45% of content width)
+        const maxChartW = contentW * 0.45;
+        if (chartW > maxChartW) {
+          chartW = maxChartW;
+          chartH = chartW / aspect;
+        }
         pdf.addImage(chartCanvas.toDataURL("image/png"), "PNG", margin, y, chartW, chartH);
 
         // Legend / bars next to chart
         const legendX = margin + chartW + 8;
         const legendW = contentW - chartW - 8;
         const palette = [
-          [59, 130, 246],   // blue
-          [249, 115, 22],   // orange
-          [34, 197, 94],    // green
-          [239, 68, 68],    // red
-          [168, 85, 247],   // purple
-          [234, 179, 8],    // yellow
-          [6, 182, 212],    // cyan
-          [236, 72, 153],   // pink
-          [20, 184, 166],   // teal
-          [120, 53, 15],    // brown
-          [139, 92, 246],   // violet
-          [132, 204, 22],   // lime
+          [59, 130, 246], [249, 115, 22], [34, 197, 94], [239, 68, 68],
+          [168, 85, 247], [234, 179, 8], [6, 182, 212], [236, 72, 153],
+          [20, 184, 166], [120, 53, 15], [139, 92, 246], [132, 204, 22],
         ];
-        let ly = y + 2;
-        const rowH = 7;
         const max = ranked[0]?.count || 1;
+        // Center legend rows vertically next to chart
+        const totalLegendH = ranked.length * rowH;
+        let ly = y + Math.max(0, (chartH - totalLegendH) / 2);
         ranked.forEach((r, i) => {
-          if (ly + rowH > y + chartH) return;
           const [rC, gC, bC] = palette[i % palette.length];
           pdf.setFillColor(rC, gC, bC);
-          pdf.circle(legendX + 1.5, ly + 1.5, 1.5, "F");
+          pdf.circle(legendX + 1.6, ly + 1.8, 1.6, "F");
           pdf.setFont("helvetica", "normal");
           pdf.setFontSize(9);
           pdf.setTextColor(40);
           const pct = total ? Math.round((r.count / total) * 100) : 0;
-          pdf.text(r.label, legendX + 5, ly + 2.5);
-          pdf.text(`${r.count} (${pct}%)`, legendX + legendW, ly + 2.5, { align: "right" });
-          // Bar
+          pdf.text(r.label, legendX + 5.5, ly + 2.6);
+          pdf.text(`${r.count} (${pct}%)`, legendX + legendW, ly + 2.6, { align: "right" });
           pdf.setFillColor(238, 238, 238);
-          pdf.rect(legendX + 5, ly + 3.5, legendW - 5, 1.4, "F");
+          pdf.rect(legendX + 5.5, ly + 3.8, legendW - 5.5, 1.2, "F");
           pdf.setFillColor(rC, gC, bC);
-          pdf.rect(legendX + 5, ly + 3.5, Math.max(2, ((legendW - 5) * r.count) / max), 1.4, "F");
+          pdf.rect(legendX + 5.5, ly + 3.8, Math.max(2, ((legendW - 5.5) * r.count) / max), 1.2, "F");
           ly += rowH;
         });
-        y += chartH + 8;
+        y += Math.max(chartH, totalLegendH) + 10;
       }
 
-      // Table of recent appointments
+      // Table of recent appointments — single line per row, ellipsis on overflow
       autoTable(pdf, {
         startY: y,
         head: [["Datum", "Bron", "Detail", "Dienst", "Klant", "Email"]],
@@ -303,16 +306,28 @@ const Admin = () => {
           s.fact_email || "",
         ]),
         margin: { left: margin, right: margin, top: margin + 14, bottom: 14 },
-        styles: { fontSize: 8.5, cellPadding: 2.2, overflow: "linebreak", textColor: 40 },
-        headStyles: { fillColor: [25, 25, 25], textColor: 255, fontStyle: "bold", fontSize: 9 },
+        styles: {
+          fontSize: 8,
+          cellPadding: { top: 1.8, right: 2, bottom: 1.8, left: 2 },
+          overflow: "ellipsize",
+          textColor: 40,
+          valign: "middle",
+        },
+        headStyles: {
+          fillColor: [25, 25, 25],
+          textColor: 255,
+          fontStyle: "bold",
+          fontSize: 8.5,
+          overflow: "ellipsize",
+        },
         alternateRowStyles: { fillColor: [248, 248, 248] },
         columnStyles: {
-          0: { cellWidth: 22 },
-          1: { cellWidth: 26 },
-          2: { cellWidth: 32 },
-          3: { cellWidth: 38 },
-          4: { cellWidth: 32 },
-          5: { cellWidth: "auto" },
+          0: { cellWidth: 20 },
+          1: { cellWidth: 22 },
+          2: { cellWidth: 28 },
+          3: { cellWidth: 36 },
+          4: { cellWidth: 32, overflow: "ellipsize" },
+          5: { cellWidth: "auto", overflow: "ellipsize" },
         },
         didDrawPage: () => {
           drawHeader();
