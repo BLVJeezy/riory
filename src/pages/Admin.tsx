@@ -93,7 +93,7 @@ const Admin = () => {
         .select("*")
         .order("created_at", { ascending: false });
       setQuotes((data as QuoteRequest[]) || []);
-    } else {
+    } else if (tab === "analytics") {
       const { data: views } = await supabase.from("page_views").select("*");
       if (views) {
         const today = new Date().toISOString().split("T")[0];
@@ -124,8 +124,37 @@ const Admin = () => {
           viewsByDay,
         });
       }
+    } else if (tab === "sources") {
+      const { data } = await supabase
+        .from("appointments")
+        .select("gevonden_via, gevonden_detail, created_at, dienst, fact_naam, fact_voornaam, fact_email")
+        .order("created_at", { ascending: false });
+      setSources((data as SourceRow[]) || []);
     }
     setLoadingData(false);
+  };
+
+  const exportSourcesCSV = () => {
+    const headers = ["Datum", "Bron", "Detail", "Dienst", "Naam", "Email"];
+    const rows = sources.map((s) => [
+      new Date(s.created_at).toLocaleString("nl-BE"),
+      labelFor(s.gevonden_via),
+      s.gevonden_detail || "",
+      s.dienst || "",
+      `${s.fact_voornaam || ""} ${s.fact_naam || ""}`.trim(),
+      s.fact_email || "",
+    ]);
+    const csv = [headers, ...rows]
+      .map((r) => r.map((c) => `"${String(c).replace(/"/g, '""')}"`).join(","))
+      .join("\n");
+    const blob = new Blob(["\ufeff" + csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `riory-bronnen-${new Date().toISOString().split("T")[0]}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+    toast.success("CSV geëxporteerd.");
   };
 
   const handleDelete = async (id: string) => {
