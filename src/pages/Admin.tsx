@@ -72,8 +72,27 @@ const Admin = () => {
   const [quotes, setQuotes] = useState<QuoteRequest[]>([]);
   const [analytics, setAnalytics] = useState<AnalyticsData | null>(null);
   const [sources, setSources] = useState<SourceRow[]>([]);
+  const [monthFilter, setMonthFilter] = useState<string>("all");
   const [loadingData, setLoadingData] = useState(true);
   const sourcesReportRef = useRef<HTMLDivElement>(null);
+
+  const monthOptions = useMemo(() => {
+    const set = new Set<string>();
+    sources.forEach((s) => {
+      const d = new Date(s.created_at);
+      set.add(`${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`);
+    });
+    return Array.from(set).sort().reverse();
+  }, [sources]);
+
+  const filteredSources = useMemo(() => {
+    if (monthFilter === "all") return sources;
+    return sources.filter((s) => {
+      const d = new Date(s.created_at);
+      const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+      return key === monthFilter;
+    });
+  }, [sources, monthFilter]);
 
   useEffect(() => {
     if (!loading && (!user || !isAdmin)) {
