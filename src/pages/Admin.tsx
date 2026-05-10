@@ -652,7 +652,19 @@ const Admin = () => {
                       Op basis van {total} afspra{total === 1 ? "ak" : "ken"}.
                     </p>
                   </div>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-2 items-center">
+                    <select
+                      value={monthFilter}
+                      onChange={(e) => setMonthFilter(e.target.value)}
+                      className="h-9 rounded-md border border-border bg-background px-3 text-sm font-body text-foreground"
+                    >
+                      <option value="all">Alle maanden</option>
+                      {monthOptions.map((m) => {
+                        const [y, mo] = m.split("-");
+                        const label = new Date(Number(y), Number(mo) - 1, 1).toLocaleDateString("nl-BE", { month: "long", year: "numeric" });
+                        return <option key={m} value={m}>{label}</option>;
+                      })}
+                    </select>
                     <Button size="sm" variant="outline" className="gap-2" onClick={exportSourcesCSV} disabled={total === 0}>
                       <Download className="w-4 h-4" />
                       CSV
