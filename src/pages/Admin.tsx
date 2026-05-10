@@ -5,7 +5,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import {
-  LogOut, FileText, BarChart3, Trash2, Eye, Calendar, Users, TrendingUp, Volume2, ImageIcon, Share2, Download,
+  LogOut, BarChart3, Eye, Calendar, Share2, Download,
 } from "lucide-react";
 import { toast } from "sonner";
 
