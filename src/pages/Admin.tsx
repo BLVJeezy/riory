@@ -457,26 +457,72 @@ const Admin = () => {
                 <div className="bg-background rounded-xl p-4 sm:p-6 border border-border shadow-sm">
                   <h3 className="font-heading font-semibold text-foreground mb-4">Verdeling per kanaal</h3>
                   {ranked.length ? (
-                    <div className="space-y-3">
-                      {ranked.map((r) => {
-                        const pct = total ? Math.round((r.count / total) * 100) : 0;
-                        return (
-                          <div key={r.label} className="flex items-center gap-3">
-                            <span className="text-sm font-body text-foreground w-32 sm:w-40 shrink-0 truncate">
-                              {r.label}
-                            </span>
-                            <div className="flex-1 bg-muted rounded-full h-5 overflow-hidden">
-                              <div
-                                className="bg-primary h-full rounded-full transition-all"
-                                style={{ width: `${Math.max(5, (r.count / max) * 100)}%` }}
-                              />
+                    <div className="grid md:grid-cols-2 gap-6 items-center">
+                      <div className="h-64 w-full">
+                        <ResponsiveContainer width="100%" height="100%">
+                          <PieChart>
+                            <Pie
+                              data={ranked}
+                              dataKey="count"
+                              nameKey="label"
+                              cx="50%"
+                              cy="50%"
+                              innerRadius={45}
+                              outerRadius={90}
+                              paddingAngle={2}
+                              label={(e: any) => `${Math.round((e.count / total) * 100)}%`}
+                              labelLine={false}
+                            >
+                              {ranked.map((_, i) => {
+                                const palette = [
+                                  "hsl(var(--primary))",
+                                  "hsl(24 95% 53%)",
+                                  "hsl(217 91% 60%)",
+                                  "hsl(142 71% 45%)",
+                                  "hsl(280 65% 60%)",
+                                  "hsl(346 77% 49%)",
+                                  "hsl(38 92% 50%)",
+                                  "hsl(189 94% 43%)",
+                                  "hsl(160 84% 39%)",
+                                  "hsl(258 90% 66%)",
+                                ];
+                                return <Cell key={i} fill={palette[i % palette.length]} />;
+                              })}
+                            </Pie>
+                            <Tooltip
+                              contentStyle={{
+                                background: "hsl(var(--background))",
+                                border: "1px solid hsl(var(--border))",
+                                borderRadius: "0.5rem",
+                                fontSize: "0.875rem",
+                              }}
+                              formatter={(v: number, n: string) => [`${v} (${Math.round((v / total) * 100)}%)`, n]}
+                            />
+                            <Legend wrapperStyle={{ fontSize: "0.75rem" }} />
+                          </PieChart>
+                        </ResponsiveContainer>
+                      </div>
+                      <div className="space-y-3">
+                        {ranked.map((r) => {
+                          const pct = total ? Math.round((r.count / total) * 100) : 0;
+                          return (
+                            <div key={r.label} className="flex items-center gap-3">
+                              <span className="text-sm font-body text-foreground w-32 sm:w-40 shrink-0 truncate">
+                                {r.label}
+                              </span>
+                              <div className="flex-1 bg-muted rounded-full h-5 overflow-hidden">
+                                <div
+                                  className="bg-primary h-full rounded-full transition-all"
+                                  style={{ width: `${Math.max(5, (r.count / max) * 100)}%` }}
+                                />
+                              </div>
+                              <span className="text-sm font-heading font-semibold text-foreground w-20 text-right">
+                                {r.count} ({pct}%)
+                              </span>
                             </div>
-                            <span className="text-sm font-heading font-semibold text-foreground w-20 text-right">
-                              {r.count} ({pct}%)
-                            </span>
-                          </div>
-                        );
-                      })}
+                          );
+                        })}
+                      </div>
                     </div>
                   ) : (
                     <p className="text-sm text-muted-foreground font-body">Nog geen data beschikbaar.</p>
