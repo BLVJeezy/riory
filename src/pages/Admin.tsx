@@ -4,7 +4,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import {
-  LogOut, FileText, BarChart3, Trash2, Eye, Calendar, Users, TrendingUp, Volume2, ImageIcon,
+  LogOut, FileText, BarChart3, Trash2, Eye, Calendar, Users, TrendingUp, Volume2, ImageIcon, Share2, Download,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -31,12 +31,46 @@ interface AnalyticsData {
   viewsByDay: { date: string; count: number }[];
 }
 
+interface SourceRow {
+  gevonden_via: string | null;
+  gevonden_detail: string | null;
+  created_at: string;
+  dienst: string;
+  fact_naam: string | null;
+  fact_voornaam: string | null;
+  fact_email: string;
+}
+
+const SOURCE_LABELS: Record<string, string> = {
+  facebook: "Facebook",
+  instagram: "Instagram",
+  google: "Google",
+  tiktok: "TikTok",
+  linkedin: "LinkedIn",
+  youtube: "YouTube",
+  aanbeveling: "Aanbeveling",
+  doorverwijzing: "Doorverwijzing",
+  voertuig: "Bedrijfsvoertuig",
+  flyer: "Flyer / Folder",
+  krant: "Krant / Magazine",
+  radio: "Radio",
+  tv: "TV",
+  beurs: "Beurs / Event",
+  anders: "Anders",
+};
+
+const labelFor = (v: string | null) => {
+  if (!v) return "Onbekend";
+  return SOURCE_LABELS[v.toLowerCase()] || v;
+};
+
 const Admin = () => {
   const { user, isAdmin, loading, signOut } = useAuth();
   const navigate = useNavigate();
-  const [tab, setTab] = useState<"quotes" | "analytics">("quotes");
+  const [tab, setTab] = useState<"quotes" | "analytics" | "sources">("quotes");
   const [quotes, setQuotes] = useState<QuoteRequest[]>([]);
   const [analytics, setAnalytics] = useState<AnalyticsData | null>(null);
+  const [sources, setSources] = useState<SourceRow[]>([]);
   const [loadingData, setLoadingData] = useState(true);
 
   useEffect(() => {
@@ -59,7 +93,7 @@ const Admin = () => {
         .select("*")
         .order("created_at", { ascending: false });
       setQuotes((data as QuoteRequest[]) || []);
-    } else {
+    } else if (tab === "analytics") {
       const { data: views } = await supabase.from("page_views").select("*");
       if (views) {
         const today = new Date().toISOString().split("T")[0];
@@ -90,8 +124,37 @@ const Admin = () => {
           viewsByDay,
         });
       }
+    } else if (tab === "sources") {
+      const { data } = await supabase
+        .from("appointments")
+        .select("gevonden_via, gevonden_detail, created_at, dienst, fact_naam, fact_voornaam, fact_email")
+        .order("created_at", { ascending: false });
+      setSources((data as SourceRow[]) || []);
     }
     setLoadingData(false);
+  };
+
+  const exportSourcesCSV = () => {
+    const headers = ["Datum", "Bron", "Detail", "Dienst", "Naam", "Email"];
+    const rows = sources.map((s) => [
+      new Date(s.created_at).toLocaleString("nl-BE"),
+      labelFor(s.gevonden_via),
+      s.gevonden_detail || "",
+      s.dienst || "",
+      `${s.fact_voornaam || ""} ${s.fact_naam || ""}`.trim(),
+      s.fact_email || "",
+    ]);
+    const csv = [headers, ...rows]
+      .map((r) => r.map((c) => `"${String(c).replace(/"/g, '""')}"`).join(","))
+      .join("\n");
+    const blob = new Blob(["\ufeff" + csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `riory-bronnen-${new Date().toISOString().split("T")[0]}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+    toast.success("CSV geëxporteerd.");
   };
 
   const handleDelete = async (id: string) => {
@@ -145,6 +208,15 @@ const Admin = () => {
           >
             <BarChart3 className="w-4 h-4" />
             Analytics
+          </Button>
+          <Button
+            variant={tab === "sources" ? "default" : "outline"}
+            size="sm"
+            className="gap-2"
+            onClick={() => setTab("sources")}
+          >
+            <Share2 className="w-4 h-4" />
+            Bronnen
           </Button>
         </div>
       </div>
@@ -263,7 +335,7 @@ const Admin = () => {
               ))
             )}
           </div>
-        ) : (
+        ) : tab === "analytics" ? (
           /* Analytics Tab */
           <div className="space-y-6">
             {/* Stats cards */}
@@ -353,6 +425,101 @@ const Admin = () => {
               )}
             </div>
           </div>
+        ) : (
+          /* Sources Tab */
+          (() => {
+            const counts: Record<string, number> = {};
+            sources.forEach((s) => {
+              const k = labelFor(s.gevonden_via);
+              counts[k] = (counts[k] || 0) + 1;
+            });
+            const ranked = Object.entries(counts)
+              .map(([label, count]) => ({ label, count }))
+              .sort((a, b) => b.count - a.count);
+            const total = sources.length;
+            const max = ranked[0]?.count || 1;
+            return (
+              <div className="space-y-6">
+                <div className="flex items-center justify-between gap-4 flex-wrap">
+                  <div>
+                    <h2 className="font-heading font-semibold text-foreground">Hoe vinden klanten je?</h2>
+                    <p className="text-sm text-muted-foreground font-body">
+                      Op basis van {total} afspra{total === 1 ? "ak" : "ken"}.
+                    </p>
+                  </div>
+                  <Button size="sm" className="gap-2" onClick={exportSourcesCSV} disabled={total === 0}>
+                    <Download className="w-4 h-4" />
+                    Exporteer CSV
+                  </Button>
+                </div>
+
+                <div className="bg-background rounded-xl p-4 sm:p-6 border border-border shadow-sm">
+                  <h3 className="font-heading font-semibold text-foreground mb-4">Verdeling per kanaal</h3>
+                  {ranked.length ? (
+                    <div className="space-y-3">
+                      {ranked.map((r) => {
+                        const pct = total ? Math.round((r.count / total) * 100) : 0;
+                        return (
+                          <div key={r.label} className="flex items-center gap-3">
+                            <span className="text-sm font-body text-foreground w-32 sm:w-40 shrink-0 truncate">
+                              {r.label}
+                            </span>
+                            <div className="flex-1 bg-muted rounded-full h-5 overflow-hidden">
+                              <div
+                                className="bg-primary h-full rounded-full transition-all"
+                                style={{ width: `${Math.max(5, (r.count / max) * 100)}%` }}
+                              />
+                            </div>
+                            <span className="text-sm font-heading font-semibold text-foreground w-20 text-right">
+                              {r.count} ({pct}%)
+                            </span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    <p className="text-sm text-muted-foreground font-body">Nog geen data beschikbaar.</p>
+                  )}
+                </div>
+
+                <div className="bg-background rounded-xl p-4 sm:p-6 border border-border shadow-sm">
+                  <h3 className="font-heading font-semibold text-foreground mb-4">Recente afspraken</h3>
+                  {sources.length ? (
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-sm font-body">
+                        <thead>
+                          <tr className="text-left text-muted-foreground border-b border-border">
+                            <th className="py-2 pr-3">Datum</th>
+                            <th className="py-2 pr-3">Bron</th>
+                            <th className="py-2 pr-3">Detail</th>
+                            <th className="py-2 pr-3">Dienst</th>
+                            <th className="py-2 pr-3">Klant</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {sources.slice(0, 50).map((s, i) => (
+                            <tr key={i} className="border-b border-border last:border-0">
+                              <td className="py-2 pr-3 text-foreground whitespace-nowrap">
+                                {new Date(s.created_at).toLocaleDateString("nl-BE")}
+                              </td>
+                              <td className="py-2 pr-3 text-foreground">{labelFor(s.gevonden_via)}</td>
+                              <td className="py-2 pr-3 text-muted-foreground">{s.gevonden_detail || "—"}</td>
+                              <td className="py-2 pr-3 text-muted-foreground">{s.dienst}</td>
+                              <td className="py-2 pr-3 text-muted-foreground">
+                                {`${s.fact_voornaam || ""} ${s.fact_naam || ""}`.trim() || s.fact_email}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  ) : (
+                    <p className="text-sm text-muted-foreground font-body">Nog geen afspraken.</p>
+                  )}
+                </div>
+              </div>
+            );
+          })()
         )}
       </div>
     </div>
