@@ -159,6 +159,76 @@ const Admin = () => {
     toast.success("CSV geëxporteerd.");
   };
 
+  const exportSourcesPDF = async () => {
+    if (!sourcesReportRef.current) return;
+    try {
+      toast.loading("PDF wordt voorbereid...", { id: "pdf-export" });
+      const [{ default: html2canvas }, { default: jsPDF }] = await Promise.all([
+        import("html2canvas"),
+        import("jspdf"),
+      ]);
+      const canvas = await html2canvas(sourcesReportRef.current, {
+        backgroundColor: "#ffffff",
+        scale: 2,
+        useCORS: true,
+      });
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
+      const pageW = pdf.internal.pageSize.getWidth();
+      const pageH = pdf.internal.pageSize.getHeight();
+      const margin = 10;
+      const imgW = pageW - margin * 2;
+      const imgH = (canvas.height * imgW) / canvas.width;
+
+      // Header
+      pdf.setFontSize(16);
+      pdf.text("Riory — Bronnen rapport", margin, 14);
+      pdf.setFontSize(10);
+      pdf.setTextColor(120);
+      pdf.text(new Date().toLocaleString("nl-BE"), margin, 19);
+      pdf.setTextColor(0);
+
+      let y = 24;
+      let remainingH = imgH;
+      let srcY = 0;
+      const usableH = pageH - y - margin;
+
+      if (imgH <= usableH) {
+        pdf.addImage(imgData, "PNG", margin, y, imgW, imgH);
+      } else {
+        // Multi-page: slice the canvas
+        const pxPerMm = canvas.width / imgW;
+        while (remainingH > 0) {
+          const sliceH = Math.min(usableH, remainingH);
+          const sliceCanvas = document.createElement("canvas");
+          sliceCanvas.width = canvas.width;
+          sliceCanvas.height = sliceH * pxPerMm;
+          const ctx = sliceCanvas.getContext("2d")!;
+          ctx.fillStyle = "#ffffff";
+          ctx.fillRect(0, 0, sliceCanvas.width, sliceCanvas.height);
+          ctx.drawImage(
+            canvas,
+            0, srcY * pxPerMm, canvas.width, sliceH * pxPerMm,
+            0, 0, canvas.width, sliceH * pxPerMm
+          );
+          pdf.addImage(sliceCanvas.toDataURL("image/png"), "PNG", margin, y, imgW, sliceH);
+          remainingH -= sliceH;
+          srcY += sliceH;
+          if (remainingH > 0) {
+            pdf.addPage();
+            y = margin;
+          }
+        }
+      }
+
+      pdf.save(`riory-bronnen-${new Date().toISOString().split("T")[0]}.pdf`);
+      toast.success("PDF geëxporteerd.", { id: "pdf-export" });
+    } catch (e) {
+      console.error(e);
+      toast.error("PDF export mislukt.", { id: "pdf-export" });
+    }
+  };
+
   const handleDelete = async (id: string) => {
     const { error } = await supabase.from("quote_requests").delete().eq("id", id);
     if (error) {
