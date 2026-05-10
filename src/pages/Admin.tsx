@@ -31,12 +31,46 @@ interface AnalyticsData {
   viewsByDay: { date: string; count: number }[];
 }
 
+interface SourceRow {
+  gevonden_via: string | null;
+  gevonden_detail: string | null;
+  created_at: string;
+  dienst: string;
+  fact_naam: string | null;
+  fact_voornaam: string | null;
+  fact_email: string;
+}
+
+const SOURCE_LABELS: Record<string, string> = {
+  facebook: "Facebook",
+  instagram: "Instagram",
+  google: "Google",
+  tiktok: "TikTok",
+  linkedin: "LinkedIn",
+  youtube: "YouTube",
+  aanbeveling: "Aanbeveling",
+  doorverwijzing: "Doorverwijzing",
+  voertuig: "Bedrijfsvoertuig",
+  flyer: "Flyer / Folder",
+  krant: "Krant / Magazine",
+  radio: "Radio",
+  tv: "TV",
+  beurs: "Beurs / Event",
+  anders: "Anders",
+};
+
+const labelFor = (v: string | null) => {
+  if (!v) return "Onbekend";
+  return SOURCE_LABELS[v.toLowerCase()] || v;
+};
+
 const Admin = () => {
   const { user, isAdmin, loading, signOut } = useAuth();
   const navigate = useNavigate();
-  const [tab, setTab] = useState<"quotes" | "analytics">("quotes");
+  const [tab, setTab] = useState<"quotes" | "analytics" | "sources">("quotes");
   const [quotes, setQuotes] = useState<QuoteRequest[]>([]);
   const [analytics, setAnalytics] = useState<AnalyticsData | null>(null);
+  const [sources, setSources] = useState<SourceRow[]>([]);
   const [loadingData, setLoadingData] = useState(true);
 
   useEffect(() => {
