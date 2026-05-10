@@ -450,34 +450,62 @@ const Admin = () => {
                 <div className="bg-background rounded-xl p-4 sm:p-6 border border-border shadow-sm">
                   <h3 className="font-heading font-semibold text-foreground mb-4">Recente afspraken</h3>
                   {filteredSources.length ? (
-                    <div className="overflow-x-auto">
-                      <table className="w-full text-sm font-body">
-                        <thead>
-                          <tr className="text-left text-muted-foreground border-b border-border">
-                            <th className="py-2 pr-3">Datum</th>
-                            <th className="py-2 pr-3">Bron</th>
-                            <th className="py-2 pr-3">Detail</th>
-                            <th className="py-2 pr-3">Dienst</th>
-                            <th className="py-2 pr-3">Klant</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {filteredSources.slice(0, 50).map((s, i) => (
-                            <tr key={i} className="border-b border-border last:border-0">
-                              <td className="py-2 pr-3 text-foreground whitespace-nowrap">
-                                {new Date(s.created_at).toLocaleDateString("nl-BE")}
-                              </td>
-                              <td className="py-2 pr-3 text-foreground">{labelFor(s.gevonden_via)}</td>
-                              <td className="py-2 pr-3 text-muted-foreground">{s.gevonden_detail || "—"}</td>
-                              <td className="py-2 pr-3 text-muted-foreground">{s.dienst}</td>
-                              <td className="py-2 pr-3 text-muted-foreground">
-                                {`${s.fact_voornaam || ""} ${s.fact_naam || ""}`.trim() || s.fact_email}
-                              </td>
+                    <>
+                      {/* Mobile: card list */}
+                      <div className="space-y-3 sm:hidden">
+                        {filteredSources.slice(0, 50).map((s, i) => {
+                          const klant = `${s.fact_voornaam || ""} ${s.fact_naam || ""}`.trim() || s.fact_email;
+                          return (
+                            <div key={i} className="rounded-lg border border-border p-3 space-y-1">
+                              <div className="flex items-center justify-between gap-2">
+                                <span className="text-xs text-muted-foreground font-body">
+                                  {new Date(s.created_at).toLocaleDateString("nl-BE")}
+                                </span>
+                                <span className="text-xs font-heading font-semibold text-primary truncate">
+                                  {labelFor(s.gevonden_via)}
+                                </span>
+                              </div>
+                              <p className="text-sm font-body text-foreground truncate">{klant}</p>
+                              <p className="text-xs text-muted-foreground font-body truncate">{s.dienst}</p>
+                              {s.gevonden_detail && (
+                                <p className="text-xs text-muted-foreground font-body italic truncate">
+                                  {s.gevonden_detail}
+                                </p>
+                              )}
+                            </div>
+                          );
+                        })}
+                      </div>
+                      {/* Desktop: table */}
+                      <div className="hidden sm:block overflow-x-auto">
+                        <table className="w-full text-sm font-body">
+                          <thead>
+                            <tr className="text-left text-muted-foreground border-b border-border">
+                              <th className="py-2 pr-3">Datum</th>
+                              <th className="py-2 pr-3">Bron</th>
+                              <th className="py-2 pr-3">Detail</th>
+                              <th className="py-2 pr-3">Dienst</th>
+                              <th className="py-2 pr-3">Klant</th>
                             </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
+                          </thead>
+                          <tbody>
+                            {filteredSources.slice(0, 50).map((s, i) => (
+                              <tr key={i} className="border-b border-border last:border-0">
+                                <td className="py-2 pr-3 text-foreground whitespace-nowrap">
+                                  {new Date(s.created_at).toLocaleDateString("nl-BE")}
+                                </td>
+                                <td className="py-2 pr-3 text-foreground">{labelFor(s.gevonden_via)}</td>
+                                <td className="py-2 pr-3 text-muted-foreground">{s.gevonden_detail || "—"}</td>
+                                <td className="py-2 pr-3 text-muted-foreground">{s.dienst}</td>
+                                <td className="py-2 pr-3 text-muted-foreground">
+                                  {`${s.fact_voornaam || ""} ${s.fact_naam || ""}`.trim() || s.fact_email}
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </>
                   ) : (
                     <p className="text-sm text-muted-foreground font-body">Nog geen afspraken.</p>
                   )}
