@@ -24,9 +24,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  const updateSessionState = async (session: Session | null, showLoading = false) => {
-    if (showLoading) setLoading(true);
-
+  const updateSessionState = (session: Session | null) => {
     setSession(session);
     setUser(session?.user ?? null);
 
@@ -36,24 +34,41 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       return;
     }
 
-    const { data } = await supabase.rpc("has_role", {
-      _user_id: session.user.id,
+    setLoading(true);
+  };
+
+  useEffect(() => {
+    if (!user) return;
+
+    let cancelled = false;
+
+    supabase.rpc("has_role", {
+      _user_id: user.id,
       _role: "admin",
+    }).then(({ data }) => {
+      if (!cancelled) {
+        setIsAdmin(!!data);
+      }
+    }).finally(() => {
+      if (!cancelled) {
+        setLoading(false);
+      }
     });
 
-    setIsAdmin(!!data);
-    setLoading(false);
-  };
+    return () => {
+      cancelled = true;
+    };
+  }, [user]);
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (_event, session) => {
-        void updateSessionState(session, true);
+        updateSessionState(session);
       }
     );
 
     supabase.auth.getSession().then(({ data: { session } }) => {
-      void updateSessionState(session);
+      updateSessionState(session);
     });
 
     return () => subscription.unsubscribe();
