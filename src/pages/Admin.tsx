@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from "recharts";
 import { useAuth } from "@/hooks/useAuth";
@@ -72,8 +72,27 @@ const Admin = () => {
   const [quotes, setQuotes] = useState<QuoteRequest[]>([]);
   const [analytics, setAnalytics] = useState<AnalyticsData | null>(null);
   const [sources, setSources] = useState<SourceRow[]>([]);
+  const [monthFilter, setMonthFilter] = useState<string>("all");
   const [loadingData, setLoadingData] = useState(true);
   const sourcesReportRef = useRef<HTMLDivElement>(null);
+
+  const monthOptions = useMemo(() => {
+    const set = new Set<string>();
+    sources.forEach((s) => {
+      const d = new Date(s.created_at);
+      set.add(`${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`);
+    });
+    return Array.from(set).sort().reverse();
+  }, [sources]);
+
+  const filteredSources = useMemo(() => {
+    if (monthFilter === "all") return sources;
+    return sources.filter((s) => {
+      const d = new Date(s.created_at);
+      const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+      return key === monthFilter;
+    });
+  }, [sources, monthFilter]);
 
   useEffect(() => {
     if (!loading && (!user || !isAdmin)) {
@@ -138,7 +157,7 @@ const Admin = () => {
 
   const exportSourcesCSV = () => {
     const headers = ["Datum", "Bron", "Detail", "Dienst", "Naam", "Email"];
-    const rows = sources.map((s) => [
+    const rows = filteredSources.map((s) => [
       new Date(s.created_at).toLocaleString("nl-BE"),
       labelFor(s.gevonden_via),
       s.gevonden_detail || "",
@@ -160,7 +179,7 @@ const Admin = () => {
   };
 
   const exportSourcesPDF = async () => {
-    if (sources.length === 0) return;
+    if (filteredSources.length === 0) return;
     try {
       toast.loading("PDF wordt voorbereid...", { id: "pdf-export" });
       const [{ default: html2canvas }, { default: jsPDF }, autoTableMod] = await Promise.all([
@@ -172,14 +191,14 @@ const Admin = () => {
 
       // Build aggregated data
       const counts: Record<string, number> = {};
-      sources.forEach((s) => {
+      filteredSources.forEach((s) => {
         const k = labelFor(s.gevonden_via);
         counts[k] = (counts[k] || 0) + 1;
       });
       const ranked = Object.entries(counts)
         .map(([label, count]) => ({ label, count }))
         .sort((a, b) => b.count - a.count);
-      const total = sources.length;
+      const total = filteredSources.length;
 
       // PDF setup
       const pdf = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
@@ -297,7 +316,7 @@ const Admin = () => {
       autoTable(pdf, {
         startY: y,
         head: [["Datum", "Bron", "Detail", "Dienst", "Klant", "Email"]],
-        body: sources.map((s) => [
+        body: filteredSources.map((s) => [
           new Date(s.created_at).toLocaleDateString("nl-BE"),
           labelFor(s.gevonden_via),
           s.gevonden_detail || "—",
@@ -615,14 +634,14 @@ const Admin = () => {
           /* Sources Tab */
           (() => {
             const counts: Record<string, number> = {};
-            sources.forEach((s) => {
+            filteredSources.forEach((s) => {
               const k = labelFor(s.gevonden_via);
               counts[k] = (counts[k] || 0) + 1;
             });
             const ranked = Object.entries(counts)
               .map(([label, count]) => ({ label, count }))
               .sort((a, b) => b.count - a.count);
-            const total = sources.length;
+            const total = filteredSources.length;
             const max = ranked[0]?.count || 1;
             return (
               <div className="space-y-6">
@@ -633,7 +652,19 @@ const Admin = () => {
                       Op basis van {total} afspra{total === 1 ? "ak" : "ken"}.
                     </p>
                   </div>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-2 items-center">
+                    <select
+                      value={monthFilter}
+                      onChange={(e) => setMonthFilter(e.target.value)}
+                      className="h-9 rounded-md border border-border bg-background px-3 text-sm font-body text-foreground"
+                    >
+                      <option value="all">Alle maanden</option>
+                      {monthOptions.map((m) => {
+                        const [y, mo] = m.split("-");
+                        const label = new Date(Number(y), Number(mo) - 1, 1).toLocaleDateString("nl-BE", { month: "long", year: "numeric" });
+                        return <option key={m} value={m}>{label}</option>;
+                      })}
+                    </select>
                     <Button size="sm" variant="outline" className="gap-2" onClick={exportSourcesCSV} disabled={total === 0}>
                       <Download className="w-4 h-4" />
                       CSV
@@ -725,7 +756,7 @@ const Admin = () => {
 
                 <div className="bg-background rounded-xl p-4 sm:p-6 border border-border shadow-sm">
                   <h3 className="font-heading font-semibold text-foreground mb-4">Recente afspraken</h3>
-                  {sources.length ? (
+                  {filteredSources.length ? (
                     <div className="overflow-x-auto">
                       <table className="w-full text-sm font-body">
                         <thead>
@@ -738,7 +769,7 @@ const Admin = () => {
                           </tr>
                         </thead>
                         <tbody>
-                          {sources.slice(0, 50).map((s, i) => (
+                          {filteredSources.slice(0, 50).map((s, i) => (
                             <tr key={i} className="border-b border-border last:border-0">
                               <td className="py-2 pr-3 text-foreground whitespace-nowrap">
                                 {new Date(s.created_at).toLocaleDateString("nl-BE")}
