@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from "recharts";
 import { useAuth } from "@/hooks/useAuth";
@@ -73,6 +73,7 @@ const Admin = () => {
   const [analytics, setAnalytics] = useState<AnalyticsData | null>(null);
   const [sources, setSources] = useState<SourceRow[]>([]);
   const [loadingData, setLoadingData] = useState(true);
+  const sourcesReportRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!loading && (!user || !isAdmin)) {
@@ -156,6 +157,76 @@ const Admin = () => {
     a.click();
     URL.revokeObjectURL(url);
     toast.success("CSV geëxporteerd.");
+  };
+
+  const exportSourcesPDF = async () => {
+    if (!sourcesReportRef.current) return;
+    try {
+      toast.loading("PDF wordt voorbereid...", { id: "pdf-export" });
+      const [{ default: html2canvas }, { default: jsPDF }] = await Promise.all([
+        import("html2canvas"),
+        import("jspdf"),
+      ]);
+      const canvas = await html2canvas(sourcesReportRef.current, {
+        backgroundColor: "#ffffff",
+        scale: 2,
+        useCORS: true,
+      });
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
+      const pageW = pdf.internal.pageSize.getWidth();
+      const pageH = pdf.internal.pageSize.getHeight();
+      const margin = 10;
+      const imgW = pageW - margin * 2;
+      const imgH = (canvas.height * imgW) / canvas.width;
+
+      // Header
+      pdf.setFontSize(16);
+      pdf.text("Riory — Bronnen rapport", margin, 14);
+      pdf.setFontSize(10);
+      pdf.setTextColor(120);
+      pdf.text(new Date().toLocaleString("nl-BE"), margin, 19);
+      pdf.setTextColor(0);
+
+      let y = 24;
+      let remainingH = imgH;
+      let srcY = 0;
+      const usableH = pageH - y - margin;
+
+      if (imgH <= usableH) {
+        pdf.addImage(imgData, "PNG", margin, y, imgW, imgH);
+      } else {
+        // Multi-page: slice the canvas
+        const pxPerMm = canvas.width / imgW;
+        while (remainingH > 0) {
+          const sliceH = Math.min(usableH, remainingH);
+          const sliceCanvas = document.createElement("canvas");
+          sliceCanvas.width = canvas.width;
+          sliceCanvas.height = sliceH * pxPerMm;
+          const ctx = sliceCanvas.getContext("2d")!;
+          ctx.fillStyle = "#ffffff";
+          ctx.fillRect(0, 0, sliceCanvas.width, sliceCanvas.height);
+          ctx.drawImage(
+            canvas,
+            0, srcY * pxPerMm, canvas.width, sliceH * pxPerMm,
+            0, 0, canvas.width, sliceH * pxPerMm
+          );
+          pdf.addImage(sliceCanvas.toDataURL("image/png"), "PNG", margin, y, imgW, sliceH);
+          remainingH -= sliceH;
+          srcY += sliceH;
+          if (remainingH > 0) {
+            pdf.addPage();
+            y = margin;
+          }
+        }
+      }
+
+      pdf.save(`riory-bronnen-${new Date().toISOString().split("T")[0]}.pdf`);
+      toast.success("PDF geëxporteerd.", { id: "pdf-export" });
+    } catch (e) {
+      console.error(e);
+      toast.error("PDF export mislukt.", { id: "pdf-export" });
+    }
   };
 
   const handleDelete = async (id: string) => {
@@ -448,12 +519,19 @@ const Admin = () => {
                       Op basis van {total} afspra{total === 1 ? "ak" : "ken"}.
                     </p>
                   </div>
-                  <Button size="sm" className="gap-2" onClick={exportSourcesCSV} disabled={total === 0}>
-                    <Download className="w-4 h-4" />
-                    Exporteer CSV
-                  </Button>
+                  <div className="flex flex-wrap gap-2">
+                    <Button size="sm" variant="outline" className="gap-2" onClick={exportSourcesCSV} disabled={total === 0}>
+                      <Download className="w-4 h-4" />
+                      CSV
+                    </Button>
+                    <Button size="sm" className="gap-2" onClick={exportSourcesPDF} disabled={total === 0}>
+                      <Download className="w-4 h-4" />
+                      PDF
+                    </Button>
+                  </div>
                 </div>
 
+                <div ref={sourcesReportRef} className="space-y-6 bg-background">
                 <div className="bg-background rounded-xl p-4 sm:p-6 border border-border shadow-sm">
                   <h3 className="font-heading font-semibold text-foreground mb-4">Verdeling per kanaal</h3>
                   {ranked.length ? (
@@ -565,6 +643,7 @@ const Admin = () => {
                   ) : (
                     <p className="text-sm text-muted-foreground font-body">Nog geen afspraken.</p>
                   )}
+                </div>
                 </div>
               </div>
             );
