@@ -45,8 +45,6 @@ const labelFor = (v: string | null) => {
 const Admin = () => {
   const { user, isAdmin, loading, signOut } = useAuth();
   const navigate = useNavigate();
-  const [tab, setTab] = useState<"analytics" | "sources">("analytics");
-  const [analytics, setAnalytics] = useState<AnalyticsData | null>(null);
   const [sources, setSources] = useState<SourceRow[]>([]);
   const [monthFilter, setMonthFilter] = useState<string>("all");
   const [loadingData, setLoadingData] = useState(true);
