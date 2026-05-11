@@ -47,6 +47,7 @@ const Admin = () => {
   const navigate = useNavigate();
   const [sources, setSources] = useState<SourceRow[]>([]);
   const [monthFilter, setMonthFilter] = useState<string>("all");
+  const [sourceFilter, setSourceFilter] = useState<string>("all");
   const [loadingData, setLoadingData] = useState(true);
   const sourcesReportRef = useRef<HTMLDivElement>(null);
 
