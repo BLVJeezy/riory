@@ -372,6 +372,16 @@ const Admin = () => {
                         return <option key={m} value={m}>{label}</option>;
                       })}
                     </select>
+                    <select
+                      value={sourceFilter}
+                      onChange={(e) => setSourceFilter(e.target.value)}
+                      className="h-9 rounded-md border border-border bg-background px-3 text-sm font-body text-foreground"
+                    >
+                      <option value="all">Alle bronnen</option>
+                      {sourceOptions.map((v) => (
+                        <option key={v} value={v}>{labelFor(v)}</option>
+                      ))}
+                    </select>
                     <Button size="sm" variant="outline" className="gap-2" onClick={exportSourcesCSV} disabled={total === 0}>
                       <Download className="w-4 h-4" />
                       CSV
