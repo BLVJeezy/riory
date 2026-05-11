@@ -60,14 +60,26 @@ const Admin = () => {
     return Array.from(set).sort().reverse();
   }, [sources]);
 
+  const sourceOptions = useMemo(() => {
+    const set = new Set<string>();
+    sources.forEach((s) => set.add((s.gevonden_via || "onbekend").toLowerCase()));
+    return Array.from(set).sort();
+  }, [sources]);
+
   const filteredSources = useMemo(() => {
-    if (monthFilter === "all") return sources;
     return sources.filter((s) => {
-      const d = new Date(s.created_at);
-      const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
-      return key === monthFilter;
+      if (monthFilter !== "all") {
+        const d = new Date(s.created_at);
+        const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+        if (key !== monthFilter) return false;
+      }
+      if (sourceFilter !== "all") {
+        const v = (s.gevonden_via || "onbekend").toLowerCase();
+        if (v !== sourceFilter) return false;
+      }
+      return true;
     });
-  }, [sources, monthFilter]);
+  }, [sources, monthFilter, sourceFilter]);
 
   useEffect(() => {
     if (!loading && (!user || !isAdmin)) {
