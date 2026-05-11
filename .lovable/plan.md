@@ -1,34 +1,20 @@
-## Doel
-Wanneer jij als eigenaar een **afspraak-notificatie** ontvangt op `afspraak@riory.be`, moet "Beantwoorden" rechtstreeks naar het e-mailadres van de klant gaan — niet terug naar `afspraak@riory.be`.
+## Wat ik ga doen
 
-## Hoe
-De edge function `send-transactional-email` zet nu altijd `Reply-To: afspraak@riory.be`. We voegen een optionele `replyToEmail` parameter toe en gebruiken die in `AppointmentForm` voor de eigenaar-notificatie.
+**1. Bron-veld verplicht maken in het afspraakformulier**
 
-### 1. `supabase/functions/send-transactional-email/index.ts`
-- Lees `replyToEmail` (of `reply_to_email`) uit de request body.
-- Valideer dat het een geldig e-mailadres is (anders negeren en fallback gebruiken).
-- In de enqueue payload: `reply_to: replyToEmail || \`afspraak@${FROM_DOMAIN}\``.
-- Standaardgedrag voor alle bestaande calls (zoals klantbevestigingen) blijft ongewijzigd.
+In `src/components/AppointmentForm.tsx`, stap 6:
+- Validatie aanscherpen: gebruiker moet een bron aanduiden om te kunnen verzenden.
+- Als de keuze "Mond-aan-mond", "Installateur" of "Andere" is, moet ook het detail-veld ingevuld zijn.
+- Sterretje (*) bij de titel van stap 6 zodat zichtbaar is dat het verplicht is.
 
-### 2. `src/components/AppointmentForm.tsx` (regel ~308)
-Bij de aanroep voor `appointment-notification` (mail naar eigenaar):
-- Bepaal het juiste klant-e-mailadres:
-  - syndicus → `syndicus.email`
-  - particulier/bedrijf/vrij beroep → `fact.email`
-- Voeg `replyToEmail: <klantEmail>` toe aan de body.
-- De klantbevestiging (`afspraak-confirmation`) blijft ongewijzigd — die gaat nog steeds met standaard reply-to weg.
+**2. Bestaande "onbekend" records opkuisen**
 
-### 3. Deployen
-`send-transactional-email` opnieuw deployen.
+De 3 oude afspraken zonder bron worden bijgewerkt naar `gevonden_via = 'andere'`:
+- 11/05/2026 — Ontstopping
+- 11/05/2026 — Ontstopping
+- 08/05/2026 — Septische put ledigen
 
-### 4. Verificatie
-Eén testafspraak indienen of een directe testcall doen, controleren dat de mail naar `afspraak@riory.be` als header heeft:
-```text
-From:     Riory <afspraak@riory.be>
-Reply-To: <klant-email>
-```
-Klikken op "Beantwoorden" in de inbox moet automatisch het klant-adres invullen.
+**3. Resultaat**
 
-## Niet in scope
-- QuoteForm / offertes (zelfde patroon mogelijk later — laat me weten als je dit ook daar wil).
-- Wijzigingen aan templates of From-adres.
+- Geen nieuwe "onbekend" inzendingen meer mogelijk.
+- De filter "Bronnen" in admin toont enkel echte bronnen — "onbekend" verdwijnt volledig.
