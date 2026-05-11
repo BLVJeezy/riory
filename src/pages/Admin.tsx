@@ -47,6 +47,7 @@ const Admin = () => {
   const navigate = useNavigate();
   const [sources, setSources] = useState<SourceRow[]>([]);
   const [monthFilter, setMonthFilter] = useState<string>("all");
+  const [sourceFilter, setSourceFilter] = useState<string>("all");
   const [loadingData, setLoadingData] = useState(true);
   const sourcesReportRef = useRef<HTMLDivElement>(null);
 
@@ -59,14 +60,26 @@ const Admin = () => {
     return Array.from(set).sort().reverse();
   }, [sources]);
 
+  const sourceOptions = useMemo(() => {
+    const set = new Set<string>();
+    sources.forEach((s) => set.add((s.gevonden_via || "onbekend").toLowerCase()));
+    return Array.from(set).sort();
+  }, [sources]);
+
   const filteredSources = useMemo(() => {
-    if (monthFilter === "all") return sources;
     return sources.filter((s) => {
-      const d = new Date(s.created_at);
-      const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
-      return key === monthFilter;
+      if (monthFilter !== "all") {
+        const d = new Date(s.created_at);
+        const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+        if (key !== monthFilter) return false;
+      }
+      if (sourceFilter !== "all") {
+        const v = (s.gevonden_via || "onbekend").toLowerCase();
+        if (v !== sourceFilter) return false;
+      }
+      return true;
     });
-  }, [sources, monthFilter]);
+  }, [sources, monthFilter, sourceFilter]);
 
   useEffect(() => {
     if (!loading && (!user || !isAdmin)) {
@@ -358,6 +371,16 @@ const Admin = () => {
                         const label = new Date(Number(y), Number(mo) - 1, 1).toLocaleDateString("nl-BE", { month: "long", year: "numeric" });
                         return <option key={m} value={m}>{label}</option>;
                       })}
+                    </select>
+                    <select
+                      value={sourceFilter}
+                      onChange={(e) => setSourceFilter(e.target.value)}
+                      className="h-9 rounded-md border border-border bg-background px-3 text-sm font-body text-foreground"
+                    >
+                      <option value="all">Alle bronnen</option>
+                      {sourceOptions.map((v) => (
+                        <option key={v} value={v}>{labelFor(v)}</option>
+                      ))}
                     </select>
                     <Button size="sm" variant="outline" className="gap-2" onClick={exportSourcesCSV} disabled={total === 0}>
                       <Download className="w-4 h-4" />
