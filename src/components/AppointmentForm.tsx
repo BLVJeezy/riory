@@ -230,7 +230,11 @@ const AppointmentForm = () => {
         return true;
       }
       case 5: return true;
-      case 6: return true;
+      case 6: {
+        if (!gevondenVia) return false;
+        if ((gevondenVia === "mond_aan_mond" || gevondenVia === "installateur" || gevondenVia === "andere") && !gevondenDetail.trim()) return false;
+        return true;
+      }
       default: return false;
     }
   };
@@ -691,7 +695,7 @@ const AppointmentForm = () => {
         return (
           <div className="space-y-4">
             <div className="text-center mb-2">
-              <h3 className="text-lg font-heading font-bold text-foreground">{t("appointmentForm.step6Title")}</h3>
+              <h3 className="text-lg font-heading font-bold text-foreground">{t("appointmentForm.step6Title")} <span className="text-primary">*</span></h3>
               <p className="text-sm text-muted-foreground mt-1">{t("appointmentForm.step6Sub")}</p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
