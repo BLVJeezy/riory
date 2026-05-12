@@ -650,13 +650,13 @@ const AppointmentForm = () => {
                   <FileText className="w-4 h-4 text-primary" /> {t("appointmentForm.billingDetails")}
                 </h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <InputField label={tFields.vmeName} name="naam_vme" value={syndicus.naam_vme} onChange={handleSyndicusChange} placeholder={tPh.vmeName} maxLength={200} />
-                  <InputField label={tFields.kbo} name="kbo_nummer" value={syndicus.kbo_nummer} onChange={handleSyndicusChange} placeholder="0xxx.xxx.xxx" maxLength={20} />
-                  <InputField label={tFields.street} name="straat" value={fact.straat} onChange={handleFactChange} icon={<MapPin className="w-4 h-4" />} placeholder={tPh.street} maxLength={200} />
-                  <InputField label={tFields.houseNumber} name="huisnummer" value={fact.huisnummer} onChange={handleFactChange} placeholder={tPh.houseNumber} maxLength={10} />
-                  <InputField label={tFields.postcode} name="postcode" value={fact.postcode} onChange={handleFactChange} placeholder={tPh.postcode} maxLength={10} />
-                  <InputField label={tFields.city} name="plaats" value={fact.plaats} onChange={handleFactChange} placeholder={tPh.city} maxLength={100} />
-                  <InputField label={tFields.phoneContact} name="telefoon" value={fact.telefoon} onChange={handleFactChange} icon={<Phone className="w-4 h-4" />} placeholder={tPh.phone} maxLength={20} />
+                  <InputField label={tFields.vmeName} required name="naam_vme" value={syndicus.naam_vme} onChange={handleSyndicusChange} placeholder={tPh.vmeName} maxLength={200} />
+                  <InputField label={tFields.kbo} required name="kbo_nummer" value={syndicus.kbo_nummer} onChange={handleSyndicusChange} placeholder="0xxx.xxx.xxx" maxLength={20} />
+                  <InputField label={tFields.street} required name="straat" value={fact.straat} onChange={handleFactChange} icon={<MapPin className="w-4 h-4" />} placeholder={tPh.street} maxLength={200} />
+                  <InputField label={tFields.houseNumber} required name="huisnummer" value={fact.huisnummer} onChange={handleFactChange} placeholder={tPh.houseNumber} maxLength={10} />
+                  <InputField label={tFields.postcode} required name="postcode" value={fact.postcode} onChange={handleFactChange} placeholder={tPh.postcode} maxLength={10} />
+                  <InputField label={tFields.city} required name="plaats" value={fact.plaats} onChange={handleFactChange} placeholder={tPh.city} maxLength={100} />
+                  <InputField label={tFields.phoneContact} required name="telefoon" value={fact.telefoon} onChange={handleFactChange} icon={<Phone className="w-4 h-4" />} placeholder={tPh.phone} maxLength={20} />
                 </div>
               </div>
             )}
