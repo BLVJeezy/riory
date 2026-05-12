@@ -318,7 +318,7 @@ Deno.serve(async (req) => {
       message_id: messageId,
       to: effectiveRecipient,
       from: templateName === 'appointment-notification' || templateName === 'quote-notification'
-        ? `RIORY <noreply@${FROM_DOMAIN}>`
+        ? `RIORY <noreply@${SENDER_DOMAIN}>`
         : `Riory <afspraak@${FROM_DOMAIN}>`,
       reply_to: replyToEmail || `afspraak@${FROM_DOMAIN}`,
       sender_domain: SENDER_DOMAIN,
