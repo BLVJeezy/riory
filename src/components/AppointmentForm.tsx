@@ -579,7 +579,7 @@ const AppointmentForm = () => {
             {klantType !== "syndicus" && (
               <div className="space-y-2">
                 <label className="block text-xs font-heading font-semibold uppercase tracking-wider text-foreground">
-                  {t("appointmentForm.siteEqualsBilling")}
+                  {t("appointmentForm.siteEqualsBilling")} <span className="text-primary">*</span>
                 </label>
                 <div className="flex gap-3">
                   <button type="button" onClick={() => setWerfIsFacturatie(true)} className={`px-6 py-2 rounded-lg border-2 text-sm font-semibold transition-all ${werfIsFacturatie === true ? "border-primary bg-primary/10 text-primary" : "border-border text-foreground hover:border-primary/40"}`}>{t("appointmentForm.yes")}</button>
