@@ -456,9 +456,9 @@ const AppointmentForm = () => {
       setKlantType("");
       setWoningOuder(null);
       setWerfIsFacturatie(null);
-      setFact({ naam: "", voornaam: "", bedrijfsnaam: "", btw_nummer: "", kbo_nummer: "", straat: "", huisnummer: "", postcode: "", plaats: "", email: "", facturatie_email: "", telefoon: "" });
-      setWerf({ projectnaam: "", contactpersoon: "", straat: "", huisnummer: "", postcode: "", plaats: "", telefoon: "" });
-      setSyndicus({ naam: "", voornaam: "", kantoor: "", straat: "", huisnummer: "", postcode: "", plaats: "", telefoon: "", email: "", facturatie_email: "", naam_vme: "", kbo_nummer: "" });
+      setFact({ naam: "", voornaam: "", bedrijfsnaam: "", btw_nummer: "", kbo_nummer: "", straat: "", huisnummer: "", postcode: "", plaats: "", email: "", facturatie_email: "", telefoon: "+32" });
+      setWerf({ projectnaam: "", contactpersoon: "", straat: "", huisnummer: "", postcode: "", plaats: "", telefoon: "+32" });
+      setSyndicus({ naam: "", voornaam: "", kantoor: "", straat: "", huisnummer: "", postcode: "", plaats: "", telefoon: "+32", email: "", facturatie_email: "", naam_vme: "", kbo_nummer: "" });
       setBeschrijving("");
       setGevondenVia("");
       setGevondenDetail("");
@@ -877,9 +877,9 @@ const AppointmentForm = () => {
           setKlantType("");
           setWoningOuder(null);
           setWerfIsFacturatie(null);
-          setFact({ naam: "", voornaam: "", bedrijfsnaam: "", btw_nummer: "", kbo_nummer: "", straat: "", huisnummer: "", postcode: "", plaats: "", email: "", facturatie_email: "", telefoon: "" });
-          setWerf({ projectnaam: "", contactpersoon: "", straat: "", huisnummer: "", postcode: "", plaats: "", telefoon: "" });
-          setSyndicus({ naam: "", voornaam: "", kantoor: "", straat: "", huisnummer: "", postcode: "", plaats: "", telefoon: "", email: "", facturatie_email: "", naam_vme: "", kbo_nummer: "" });
+          setFact({ naam: "", voornaam: "", bedrijfsnaam: "", btw_nummer: "", kbo_nummer: "", straat: "", huisnummer: "", postcode: "", plaats: "", email: "", facturatie_email: "", telefoon: "+32" });
+          setWerf({ projectnaam: "", contactpersoon: "", straat: "", huisnummer: "", postcode: "", plaats: "", telefoon: "+32" });
+          setSyndicus({ naam: "", voornaam: "", kantoor: "", straat: "", huisnummer: "", postcode: "", plaats: "", telefoon: "+32", email: "", facturatie_email: "", naam_vme: "", kbo_nummer: "" });
           setBeschrijving("");
           setGevondenVia("");
           setGevondenDetail("");
