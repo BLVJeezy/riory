@@ -231,7 +231,7 @@ const AppointmentForm = () => {
           if (woningOuder === null) return false;
           // VME (facturatie) fields
           if (!syndicus.naam_vme || !syndicus.kbo_nummer) return false;
-          if (!fact.straat || !fact.huisnummer || !fact.postcode || !fact.plaats || !fact.telefoon) return false;
+          if (!fact.straat || !fact.huisnummer || !fact.postcode || !fact.plaats || !isValidBePhone(fact.telefoon)) return false;
           // Syndicus personal fields
           if (!syndicus.naam || !syndicus.voornaam || !syndicus.kantoor || !syndicus.email) return false;
           if (!syndicus.straat || !syndicus.huisnummer || !syndicus.postcode || !syndicus.plaats) return false;
