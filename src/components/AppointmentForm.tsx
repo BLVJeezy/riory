@@ -239,7 +239,7 @@ const AppointmentForm = () => {
         } else {
           if (klantType === "particulier" && woningOuder === null) return false;
           if (werfIsFacturatie === null) return false;
-          if (!fact.naam || !fact.voornaam || !fact.email || !fact.telefoon || !fact.straat || !fact.huisnummer || !fact.postcode || !fact.plaats) return false;
+          if (!fact.naam || !fact.voornaam || !fact.email || !isValidBePhone(fact.telefoon) || !fact.straat || !fact.huisnummer || !fact.postcode || !fact.plaats) return false;
           if (klantType === "bedrijf" || klantType === "vrij_beroep") {
             if (!fact.bedrijfsnaam || !fact.facturatie_email) return false;
             if (klantType === "bedrijf" && !fact.btw_nummer) return false;
