@@ -629,7 +629,7 @@ const AppointmentForm = () => {
                   {(klantType === "bedrijf" || klantType === "vrij_beroep") && (
                     <InputField label={tFields.billingEmail} required name="facturatie_email" value={fact.facturatie_email} onChange={handleFactChange} icon={<Mail className="w-4 h-4" />} placeholder={tPh.billingEmail} type="email" maxLength={255} />
                   )}
-                  <InputField label={tFields.phone} required name="telefoon" value={fact.telefoon} onChange={handleFactChange} icon={<Phone className="w-4 h-4" />} placeholder={tPh.phone} maxLength={20} />
+                  <InputField label={tFields.phone} required name="telefoon" value={fact.telefoon} onChange={handlePhoneChange(setFact)} icon={<Phone className="w-4 h-4" />} placeholder="+32XXXXXXXXX" type="tel" maxLength={12} />
                 </div>
               </div>
             )}
