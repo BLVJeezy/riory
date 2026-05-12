@@ -671,13 +671,13 @@ const AppointmentForm = () => {
                   <InputField label={tFields.name} required name="naam" value={syndicus.naam} onChange={handleSyndicusChange} icon={<User className="w-4 h-4" />} placeholder={tPh.syndicusName} maxLength={100} />
                   <InputField label={tFields.firstName} required name="voornaam" value={syndicus.voornaam} onChange={handleSyndicusChange} icon={<User className="w-4 h-4" />} placeholder={tPh.firstName} maxLength={100} />
                   <InputField label={tFields.officeName} required name="kantoor" value={syndicus.kantoor} onChange={handleSyndicusChange} icon={<Building2 className="w-4 h-4" />} placeholder={tPh.officeName} maxLength={200} />
-                  <InputField label={tFields.street} name="straat" value={syndicus.straat} onChange={handleSyndicusChange} icon={<MapPin className="w-4 h-4" />} placeholder={tPh.street} maxLength={200} />
-                  <InputField label={tFields.houseNumber} name="huisnummer" value={syndicus.huisnummer} onChange={handleSyndicusChange} placeholder={tPh.houseNumber} maxLength={10} />
-                  <InputField label={tFields.postcode} name="postcode" value={syndicus.postcode} onChange={handleSyndicusChange} placeholder={tPh.postcode} maxLength={10} />
-                  <InputField label={tFields.city} name="plaats" value={syndicus.plaats} onChange={handleSyndicusChange} placeholder={tPh.city} maxLength={100} />
-                  <InputField label={tFields.phone} name="telefoon" value={syndicus.telefoon} onChange={handleSyndicusChange} icon={<Phone className="w-4 h-4" />} placeholder={tPh.phone} maxLength={20} />
+                  <InputField label={tFields.street} required name="straat" value={syndicus.straat} onChange={handleSyndicusChange} icon={<MapPin className="w-4 h-4" />} placeholder={tPh.street} maxLength={200} />
+                  <InputField label={tFields.houseNumber} required name="huisnummer" value={syndicus.huisnummer} onChange={handleSyndicusChange} placeholder={tPh.houseNumber} maxLength={10} />
+                  <InputField label={tFields.postcode} required name="postcode" value={syndicus.postcode} onChange={handleSyndicusChange} placeholder={tPh.postcode} maxLength={10} />
+                  <InputField label={tFields.city} required name="plaats" value={syndicus.plaats} onChange={handleSyndicusChange} placeholder={tPh.city} maxLength={100} />
+                  <InputField label={tFields.phone} required name="telefoon" value={syndicus.telefoon} onChange={handleSyndicusChange} icon={<Phone className="w-4 h-4" />} placeholder={tPh.phone} maxLength={20} />
                   <InputField label={tFields.generalEmail} required name="email" value={syndicus.email} onChange={handleSyndicusChange} icon={<Mail className="w-4 h-4" />} placeholder={tPh.syndicusEmail} type="email" maxLength={255} />
-                  <InputField label={tFields.billingEmailLong} name="facturatie_email" value={syndicus.facturatie_email} onChange={handleSyndicusChange} icon={<Mail className="w-4 h-4" />} placeholder={tPh.syndicusBillingEmail} type="email" maxLength={255} />
+                  <InputField label={tFields.billingEmailLong} required name="facturatie_email" value={syndicus.facturatie_email} onChange={handleSyndicusChange} icon={<Mail className="w-4 h-4" />} placeholder={tPh.syndicusBillingEmail} type="email" maxLength={255} />
                 </div>
               </div>
             )}
