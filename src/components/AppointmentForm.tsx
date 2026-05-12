@@ -217,19 +217,32 @@ const AppointmentForm = () => {
       case 3: return klantType !== "";
       case 4: {
         if (klantType === "syndicus") {
-          // VME address fields (stored in fact)
+          if (woningOuder === null) return false;
+          // VME (facturatie) fields
+          if (!syndicus.naam_vme || !syndicus.kbo_nummer) return false;
           if (!fact.straat || !fact.huisnummer || !fact.postcode || !fact.plaats || !fact.telefoon) return false;
           // Syndicus personal fields
           if (!syndicus.naam || !syndicus.voornaam || !syndicus.kantoor || !syndicus.email) return false;
+          if (!syndicus.straat || !syndicus.huisnummer || !syndicus.postcode || !syndicus.plaats) return false;
+          if (!syndicus.telefoon || !syndicus.facturatie_email) return false;
         } else {
+          if (klantType === "particulier" && woningOuder === null) return false;
+          if (werfIsFacturatie === null) return false;
           if (!fact.naam || !fact.voornaam || !fact.email || !fact.telefoon || !fact.straat || !fact.huisnummer || !fact.postcode || !fact.plaats) return false;
+          if (klantType === "bedrijf" || klantType === "vrij_beroep") {
+            if (!fact.bedrijfsnaam || !fact.facturatie_email) return false;
+            if (klantType === "bedrijf" && !fact.btw_nummer) return false;
+            if (klantType === "vrij_beroep" && !fact.kbo_nummer) return false;
+          }
           if (werfIsFacturatie === false) {
             if (!werf.straat || !werf.huisnummer || !werf.postcode || !werf.plaats) return false;
+            if (!werf.contactpersoon || !werf.telefoon) return false;
+            if ((klantType === "bedrijf" || klantType === "vrij_beroep") && !werf.projectnaam) return false;
           }
         }
         return true;
       }
-      case 5: return true;
+      case 5: return beschrijving.trim().length > 0;
       case 6: {
         if (!gevondenVia) return false;
         if ((gevondenVia === "mond_aan_mond" || gevondenVia === "installateur" || gevondenVia === "andere") && !gevondenDetail.trim()) return false;
@@ -553,7 +566,7 @@ const AppointmentForm = () => {
             {(klantType === "particulier" || klantType === "syndicus") && (
               <div className="space-y-2">
                 <label className="block text-xs font-heading font-semibold uppercase tracking-wider text-foreground">
-                  {t("appointmentForm.olderThan10")} <span className="text-muted-foreground font-normal normal-case">{t("appointmentForm.vat6")}</span>
+                  {t("appointmentForm.olderThan10")} <span className="text-primary">*</span> <span className="text-muted-foreground font-normal normal-case">{t("appointmentForm.vat6")}</span>
                 </label>
                 <div className="flex gap-3">
                   <button type="button" onClick={() => setWoningOuder(true)} className={`px-6 py-2 rounded-lg border-2 text-sm font-semibold transition-all ${woningOuder === true ? "border-primary bg-primary/10 text-primary" : "border-border text-foreground hover:border-primary/40"}`}>{t("appointmentForm.yes")}</button>
@@ -566,7 +579,7 @@ const AppointmentForm = () => {
             {klantType !== "syndicus" && (
               <div className="space-y-2">
                 <label className="block text-xs font-heading font-semibold uppercase tracking-wider text-foreground">
-                  {t("appointmentForm.siteEqualsBilling")}
+                  {t("appointmentForm.siteEqualsBilling")} <span className="text-primary">*</span>
                 </label>
                 <div className="flex gap-3">
                   <button type="button" onClick={() => setWerfIsFacturatie(true)} className={`px-6 py-2 rounded-lg border-2 text-sm font-semibold transition-all ${werfIsFacturatie === true ? "border-primary bg-primary/10 text-primary" : "border-border text-foreground hover:border-primary/40"}`}>{t("appointmentForm.yes")}</button>
@@ -587,12 +600,12 @@ const AppointmentForm = () => {
 
                   {(klantType === "bedrijf" || klantType === "vrij_beroep") && (
                     <>
-                      <InputField label={tFields.companyName} name="bedrijfsnaam" value={fact.bedrijfsnaam} onChange={handleFactChange} icon={<Building2 className="w-4 h-4" />} placeholder={tPh.companyName} maxLength={200} />
+                      <InputField label={tFields.companyName} required name="bedrijfsnaam" value={fact.bedrijfsnaam} onChange={handleFactChange} icon={<Building2 className="w-4 h-4" />} placeholder={tPh.companyName} maxLength={200} />
                       {klantType === "bedrijf" && (
-                        <InputField label={tFields.vat} name="btw_nummer" value={fact.btw_nummer} onChange={handleFactChange} placeholder="BE0xxx.xxx.xxx" maxLength={20} />
+                        <InputField label={tFields.vat} required name="btw_nummer" value={fact.btw_nummer} onChange={handleFactChange} placeholder="BE0xxx.xxx.xxx" maxLength={20} />
                       )}
                       {klantType === "vrij_beroep" && (
-                        <InputField label={tFields.kbo} name="kbo_nummer" value={fact.kbo_nummer} onChange={handleFactChange} placeholder="0xxx.xxx.xxx" maxLength={20} />
+                        <InputField label={tFields.kbo} required name="kbo_nummer" value={fact.kbo_nummer} onChange={handleFactChange} placeholder="0xxx.xxx.xxx" maxLength={20} />
                       )}
                     </>
                   )}
@@ -603,7 +616,7 @@ const AppointmentForm = () => {
                   <InputField label={tFields.city} required name="plaats" value={fact.plaats} onChange={handleFactChange} placeholder={tPh.city} maxLength={100} />
                   <InputField label={tFields.email} required name="email" value={fact.email} onChange={handleFactChange} icon={<Mail className="w-4 h-4" />} placeholder={tPh.email} type="email" maxLength={255} />
                   {(klantType === "bedrijf" || klantType === "vrij_beroep") && (
-                    <InputField label={tFields.billingEmail} name="facturatie_email" value={fact.facturatie_email} onChange={handleFactChange} icon={<Mail className="w-4 h-4" />} placeholder={tPh.billingEmail} type="email" maxLength={255} />
+                    <InputField label={tFields.billingEmail} required name="facturatie_email" value={fact.facturatie_email} onChange={handleFactChange} icon={<Mail className="w-4 h-4" />} placeholder={tPh.billingEmail} type="email" maxLength={255} />
                   )}
                   <InputField label={tFields.phone} required name="telefoon" value={fact.telefoon} onChange={handleFactChange} icon={<Phone className="w-4 h-4" />} placeholder={tPh.phone} maxLength={20} />
                 </div>
@@ -618,14 +631,14 @@ const AppointmentForm = () => {
                 </h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {(klantType === "bedrijf" || klantType === "vrij_beroep") && (
-                    <InputField label={tFields.projectName} name="projectnaam" value={werf.projectnaam} onChange={handleWerfChange} placeholder={tPh.projectName} maxLength={200} />
+                    <InputField label={tFields.projectName} required name="projectnaam" value={werf.projectnaam} onChange={handleWerfChange} placeholder={tPh.projectName} maxLength={200} />
                   )}
-                  <InputField label={tFields.contactPerson} name="contactpersoon" value={werf.contactpersoon} onChange={handleWerfChange} icon={<User className="w-4 h-4" />} placeholder={tPh.contactPerson} maxLength={100} />
+                  <InputField label={tFields.contactPerson} required name="contactpersoon" value={werf.contactpersoon} onChange={handleWerfChange} icon={<User className="w-4 h-4" />} placeholder={tPh.contactPerson} maxLength={100} />
                   <InputField label={tFields.street} required name="straat" value={werf.straat} onChange={handleWerfChange} icon={<MapPin className="w-4 h-4" />} placeholder={tPh.street} maxLength={200} />
                   <InputField label={tFields.houseNumber} required name="huisnummer" value={werf.huisnummer} onChange={handleWerfChange} placeholder={tPh.houseNumber} maxLength={10} />
                   <InputField label={tFields.postcode} required name="postcode" value={werf.postcode} onChange={handleWerfChange} placeholder={tPh.postcode} maxLength={10} />
                   <InputField label={tFields.city} required name="plaats" value={werf.plaats} onChange={handleWerfChange} placeholder={tPh.city} maxLength={100} />
-                  <InputField label={tFields.phone} name="telefoon" value={werf.telefoon} onChange={handleWerfChange} icon={<Phone className="w-4 h-4" />} placeholder={tPh.phone} maxLength={20} />
+                  <InputField label={tFields.phone} required name="telefoon" value={werf.telefoon} onChange={handleWerfChange} icon={<Phone className="w-4 h-4" />} placeholder={tPh.phone} maxLength={20} />
                 </div>
               </div>
             )}
@@ -637,13 +650,13 @@ const AppointmentForm = () => {
                   <FileText className="w-4 h-4 text-primary" /> {t("appointmentForm.billingDetails")}
                 </h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <InputField label={tFields.vmeName} name="naam_vme" value={syndicus.naam_vme} onChange={handleSyndicusChange} placeholder={tPh.vmeName} maxLength={200} />
-                  <InputField label={tFields.kbo} name="kbo_nummer" value={syndicus.kbo_nummer} onChange={handleSyndicusChange} placeholder="0xxx.xxx.xxx" maxLength={20} />
-                  <InputField label={tFields.street} name="straat" value={fact.straat} onChange={handleFactChange} icon={<MapPin className="w-4 h-4" />} placeholder={tPh.street} maxLength={200} />
-                  <InputField label={tFields.houseNumber} name="huisnummer" value={fact.huisnummer} onChange={handleFactChange} placeholder={tPh.houseNumber} maxLength={10} />
-                  <InputField label={tFields.postcode} name="postcode" value={fact.postcode} onChange={handleFactChange} placeholder={tPh.postcode} maxLength={10} />
-                  <InputField label={tFields.city} name="plaats" value={fact.plaats} onChange={handleFactChange} placeholder={tPh.city} maxLength={100} />
-                  <InputField label={tFields.phoneContact} name="telefoon" value={fact.telefoon} onChange={handleFactChange} icon={<Phone className="w-4 h-4" />} placeholder={tPh.phone} maxLength={20} />
+                  <InputField label={tFields.vmeName} required name="naam_vme" value={syndicus.naam_vme} onChange={handleSyndicusChange} placeholder={tPh.vmeName} maxLength={200} />
+                  <InputField label={tFields.kbo} required name="kbo_nummer" value={syndicus.kbo_nummer} onChange={handleSyndicusChange} placeholder="0xxx.xxx.xxx" maxLength={20} />
+                  <InputField label={tFields.street} required name="straat" value={fact.straat} onChange={handleFactChange} icon={<MapPin className="w-4 h-4" />} placeholder={tPh.street} maxLength={200} />
+                  <InputField label={tFields.houseNumber} required name="huisnummer" value={fact.huisnummer} onChange={handleFactChange} placeholder={tPh.houseNumber} maxLength={10} />
+                  <InputField label={tFields.postcode} required name="postcode" value={fact.postcode} onChange={handleFactChange} placeholder={tPh.postcode} maxLength={10} />
+                  <InputField label={tFields.city} required name="plaats" value={fact.plaats} onChange={handleFactChange} placeholder={tPh.city} maxLength={100} />
+                  <InputField label={tFields.phoneContact} required name="telefoon" value={fact.telefoon} onChange={handleFactChange} icon={<Phone className="w-4 h-4" />} placeholder={tPh.phone} maxLength={20} />
                 </div>
               </div>
             )}
@@ -658,13 +671,13 @@ const AppointmentForm = () => {
                   <InputField label={tFields.name} required name="naam" value={syndicus.naam} onChange={handleSyndicusChange} icon={<User className="w-4 h-4" />} placeholder={tPh.syndicusName} maxLength={100} />
                   <InputField label={tFields.firstName} required name="voornaam" value={syndicus.voornaam} onChange={handleSyndicusChange} icon={<User className="w-4 h-4" />} placeholder={tPh.firstName} maxLength={100} />
                   <InputField label={tFields.officeName} required name="kantoor" value={syndicus.kantoor} onChange={handleSyndicusChange} icon={<Building2 className="w-4 h-4" />} placeholder={tPh.officeName} maxLength={200} />
-                  <InputField label={tFields.street} name="straat" value={syndicus.straat} onChange={handleSyndicusChange} icon={<MapPin className="w-4 h-4" />} placeholder={tPh.street} maxLength={200} />
-                  <InputField label={tFields.houseNumber} name="huisnummer" value={syndicus.huisnummer} onChange={handleSyndicusChange} placeholder={tPh.houseNumber} maxLength={10} />
-                  <InputField label={tFields.postcode} name="postcode" value={syndicus.postcode} onChange={handleSyndicusChange} placeholder={tPh.postcode} maxLength={10} />
-                  <InputField label={tFields.city} name="plaats" value={syndicus.plaats} onChange={handleSyndicusChange} placeholder={tPh.city} maxLength={100} />
-                  <InputField label={tFields.phone} name="telefoon" value={syndicus.telefoon} onChange={handleSyndicusChange} icon={<Phone className="w-4 h-4" />} placeholder={tPh.phone} maxLength={20} />
+                  <InputField label={tFields.street} required name="straat" value={syndicus.straat} onChange={handleSyndicusChange} icon={<MapPin className="w-4 h-4" />} placeholder={tPh.street} maxLength={200} />
+                  <InputField label={tFields.houseNumber} required name="huisnummer" value={syndicus.huisnummer} onChange={handleSyndicusChange} placeholder={tPh.houseNumber} maxLength={10} />
+                  <InputField label={tFields.postcode} required name="postcode" value={syndicus.postcode} onChange={handleSyndicusChange} placeholder={tPh.postcode} maxLength={10} />
+                  <InputField label={tFields.city} required name="plaats" value={syndicus.plaats} onChange={handleSyndicusChange} placeholder={tPh.city} maxLength={100} />
+                  <InputField label={tFields.phone} required name="telefoon" value={syndicus.telefoon} onChange={handleSyndicusChange} icon={<Phone className="w-4 h-4" />} placeholder={tPh.phone} maxLength={20} />
                   <InputField label={tFields.generalEmail} required name="email" value={syndicus.email} onChange={handleSyndicusChange} icon={<Mail className="w-4 h-4" />} placeholder={tPh.syndicusEmail} type="email" maxLength={255} />
-                  <InputField label={tFields.billingEmailLong} name="facturatie_email" value={syndicus.facturatie_email} onChange={handleSyndicusChange} icon={<Mail className="w-4 h-4" />} placeholder={tPh.syndicusBillingEmail} type="email" maxLength={255} />
+                  <InputField label={tFields.billingEmailLong} required name="facturatie_email" value={syndicus.facturatie_email} onChange={handleSyndicusChange} icon={<Mail className="w-4 h-4" />} placeholder={tPh.syndicusBillingEmail} type="email" maxLength={255} />
                 </div>
               </div>
             )}
@@ -676,7 +689,7 @@ const AppointmentForm = () => {
         return (
           <div className="space-y-4">
             <div className="text-center mb-2">
-              <h3 className="text-lg font-heading font-bold text-foreground">{t("appointmentForm.step5Title")}</h3>
+              <h3 className="text-lg font-heading font-bold text-foreground">{t("appointmentForm.step5Title")} <span className="text-primary">*</span></h3>
               <p className="text-sm text-muted-foreground mt-1">{t("appointmentForm.step5Sub")}</p>
             </div>
             <textarea
