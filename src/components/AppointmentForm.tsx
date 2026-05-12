@@ -689,7 +689,7 @@ const AppointmentForm = () => {
         return (
           <div className="space-y-4">
             <div className="text-center mb-2">
-              <h3 className="text-lg font-heading font-bold text-foreground">{t("appointmentForm.step5Title")}</h3>
+              <h3 className="text-lg font-heading font-bold text-foreground">{t("appointmentForm.step5Title")} <span className="text-primary">*</span></h3>
               <p className="text-sm text-muted-foreground mt-1">{t("appointmentForm.step5Sub")}</p>
             </div>
             <textarea
