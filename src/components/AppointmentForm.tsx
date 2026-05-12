@@ -247,7 +247,7 @@ const AppointmentForm = () => {
           }
           if (werfIsFacturatie === false) {
             if (!werf.straat || !werf.huisnummer || !werf.postcode || !werf.plaats) return false;
-            if (!werf.contactpersoon || !werf.telefoon) return false;
+            if (!werf.contactpersoon || !isValidBePhone(werf.telefoon)) return false;
             if ((klantType === "bedrijf" || klantType === "vrij_beroep") && !werf.projectnaam) return false;
           }
         }
