@@ -631,14 +631,14 @@ const AppointmentForm = () => {
                 </h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {(klantType === "bedrijf" || klantType === "vrij_beroep") && (
-                    <InputField label={tFields.projectName} name="projectnaam" value={werf.projectnaam} onChange={handleWerfChange} placeholder={tPh.projectName} maxLength={200} />
+                    <InputField label={tFields.projectName} required name="projectnaam" value={werf.projectnaam} onChange={handleWerfChange} placeholder={tPh.projectName} maxLength={200} />
                   )}
-                  <InputField label={tFields.contactPerson} name="contactpersoon" value={werf.contactpersoon} onChange={handleWerfChange} icon={<User className="w-4 h-4" />} placeholder={tPh.contactPerson} maxLength={100} />
+                  <InputField label={tFields.contactPerson} required name="contactpersoon" value={werf.contactpersoon} onChange={handleWerfChange} icon={<User className="w-4 h-4" />} placeholder={tPh.contactPerson} maxLength={100} />
                   <InputField label={tFields.street} required name="straat" value={werf.straat} onChange={handleWerfChange} icon={<MapPin className="w-4 h-4" />} placeholder={tPh.street} maxLength={200} />
                   <InputField label={tFields.houseNumber} required name="huisnummer" value={werf.huisnummer} onChange={handleWerfChange} placeholder={tPh.houseNumber} maxLength={10} />
                   <InputField label={tFields.postcode} required name="postcode" value={werf.postcode} onChange={handleWerfChange} placeholder={tPh.postcode} maxLength={10} />
                   <InputField label={tFields.city} required name="plaats" value={werf.plaats} onChange={handleWerfChange} placeholder={tPh.city} maxLength={100} />
-                  <InputField label={tFields.phone} name="telefoon" value={werf.telefoon} onChange={handleWerfChange} icon={<Phone className="w-4 h-4" />} placeholder={tPh.phone} maxLength={20} />
+                  <InputField label={tFields.phone} required name="telefoon" value={werf.telefoon} onChange={handleWerfChange} icon={<Phone className="w-4 h-4" />} placeholder={tPh.phone} maxLength={20} />
                 </div>
               </div>
             )}
