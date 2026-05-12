@@ -174,7 +174,7 @@ const AppointmentForm = () => {
   });
 
   // Belgisch telefoonnummer: +32 gevolgd door 8 of 9 cijfers (vast/mobiel)
-  const isValidBePhone = (val: string) => /^\+32\d{8,9}$/.test(val.replace(/\s+/g, ""));
+  const isValidBePhone = (val: string) => /^\+32\d{9}$/.test(val.replace(/\s+/g, ""));
   const handlePhoneChange = (setter: (fn: (p: any) => any) => void) =>
     (e: React.ChangeEvent<HTMLInputElement>) => {
       let v = e.target.value.replace(/\s+/g, "");
