@@ -686,7 +686,7 @@ const AppointmentForm = () => {
                   <InputField label={tFields.houseNumber} required name="huisnummer" value={syndicus.huisnummer} onChange={handleSyndicusChange} placeholder={tPh.houseNumber} maxLength={10} />
                   <InputField label={tFields.postcode} required name="postcode" value={syndicus.postcode} onChange={handleSyndicusChange} placeholder={tPh.postcode} maxLength={10} />
                   <InputField label={tFields.city} required name="plaats" value={syndicus.plaats} onChange={handleSyndicusChange} placeholder={tPh.city} maxLength={100} />
-                  <InputField label={tFields.phone} required name="telefoon" value={syndicus.telefoon} onChange={handleSyndicusChange} icon={<Phone className="w-4 h-4" />} placeholder={tPh.phone} maxLength={20} />
+                  <InputField label={tFields.phone} required name="telefoon" value={syndicus.telefoon} onChange={handlePhoneChange(setSyndicus)} icon={<Phone className="w-4 h-4" />} placeholder="+32XXXXXXXXX" type="tel" maxLength={12} />
                   <InputField label={tFields.generalEmail} required name="email" value={syndicus.email} onChange={handleSyndicusChange} icon={<Mail className="w-4 h-4" />} placeholder={tPh.syndicusEmail} type="email" maxLength={255} />
                   <InputField label={tFields.billingEmailLong} required name="facturatie_email" value={syndicus.facturatie_email} onChange={handleSyndicusChange} icon={<Mail className="w-4 h-4" />} placeholder={tPh.syndicusBillingEmail} type="email" maxLength={255} />
                 </div>
