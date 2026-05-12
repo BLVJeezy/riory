@@ -159,19 +159,30 @@ const AppointmentForm = () => {
   const [fact, setFact] = useState({
     naam: "", voornaam: "", bedrijfsnaam: "", btw_nummer: "", kbo_nummer: "",
     straat: "", huisnummer: "", postcode: "", plaats: "",
-    email: "", facturatie_email: "", telefoon: "",
+    email: "", facturatie_email: "", telefoon: "+32",
   });
 
   const [werf, setWerf] = useState({
     projectnaam: "", contactpersoon: "", straat: "", huisnummer: "",
-    postcode: "", plaats: "", telefoon: "",
+    postcode: "", plaats: "", telefoon: "+32",
   });
 
   const [syndicus, setSyndicus] = useState({
     naam: "", voornaam: "", kantoor: "", straat: "", huisnummer: "",
-    postcode: "", plaats: "", telefoon: "", email: "", facturatie_email: "",
+    postcode: "", plaats: "", telefoon: "+32", email: "", facturatie_email: "",
     naam_vme: "", kbo_nummer: "",
   });
+
+  // Belgisch telefoonnummer: +32 gevolgd door 8 of 9 cijfers (vast/mobiel)
+  const isValidBePhone = (val: string) => /^\+32\d{8,9}$/.test(val.replace(/\s+/g, ""));
+  const handlePhoneChange = (setter: (fn: (p: any) => any) => void) =>
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      let v = e.target.value.replace(/\s+/g, "");
+      if (!v.startsWith("+32")) v = "+32" + v.replace(/^\+?\d*/, "").replace(/\D/g, "");
+      // strip non-digits after +32
+      v = "+32" + v.slice(3).replace(/\D/g, "").slice(0, 9);
+      setter((p: any) => ({ ...p, [e.target.name]: v }));
+    };
 
   // Step 6
   const [beschrijving, setBeschrijving] = useState("");
