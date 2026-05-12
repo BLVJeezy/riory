@@ -566,7 +566,7 @@ const AppointmentForm = () => {
             {(klantType === "particulier" || klantType === "syndicus") && (
               <div className="space-y-2">
                 <label className="block text-xs font-heading font-semibold uppercase tracking-wider text-foreground">
-                  {t("appointmentForm.olderThan10")} <span className="text-muted-foreground font-normal normal-case">{t("appointmentForm.vat6")}</span>
+                  {t("appointmentForm.olderThan10")} <span className="text-primary">*</span> <span className="text-muted-foreground font-normal normal-case">{t("appointmentForm.vat6")}</span>
                 </label>
                 <div className="flex gap-3">
                   <button type="button" onClick={() => setWoningOuder(true)} className={`px-6 py-2 rounded-lg border-2 text-sm font-semibold transition-all ${woningOuder === true ? "border-primary bg-primary/10 text-primary" : "border-border text-foreground hover:border-primary/40"}`}>{t("appointmentForm.yes")}</button>
