@@ -217,19 +217,32 @@ const AppointmentForm = () => {
       case 3: return klantType !== "";
       case 4: {
         if (klantType === "syndicus") {
-          // VME address fields (stored in fact)
+          if (woningOuder === null) return false;
+          // VME (facturatie) fields
+          if (!syndicus.naam_vme || !syndicus.kbo_nummer) return false;
           if (!fact.straat || !fact.huisnummer || !fact.postcode || !fact.plaats || !fact.telefoon) return false;
           // Syndicus personal fields
           if (!syndicus.naam || !syndicus.voornaam || !syndicus.kantoor || !syndicus.email) return false;
+          if (!syndicus.straat || !syndicus.huisnummer || !syndicus.postcode || !syndicus.plaats) return false;
+          if (!syndicus.telefoon || !syndicus.facturatie_email) return false;
         } else {
+          if (klantType === "particulier" && woningOuder === null) return false;
+          if (werfIsFacturatie === null) return false;
           if (!fact.naam || !fact.voornaam || !fact.email || !fact.telefoon || !fact.straat || !fact.huisnummer || !fact.postcode || !fact.plaats) return false;
+          if (klantType === "bedrijf" || klantType === "vrij_beroep") {
+            if (!fact.bedrijfsnaam || !fact.facturatie_email) return false;
+            if (klantType === "bedrijf" && !fact.btw_nummer) return false;
+            if (klantType === "vrij_beroep" && !fact.kbo_nummer) return false;
+          }
           if (werfIsFacturatie === false) {
             if (!werf.straat || !werf.huisnummer || !werf.postcode || !werf.plaats) return false;
+            if (!werf.contactpersoon || !werf.telefoon) return false;
+            if ((klantType === "bedrijf" || klantType === "vrij_beroep") && !werf.projectnaam) return false;
           }
         }
         return true;
       }
-      case 5: return true;
+      case 5: return beschrijving.trim().length > 0;
       case 6: {
         if (!gevondenVia) return false;
         if ((gevondenVia === "mond_aan_mond" || gevondenVia === "installateur" || gevondenVia === "andere") && !gevondenDetail.trim()) return false;
