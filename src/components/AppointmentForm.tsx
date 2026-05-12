@@ -667,7 +667,7 @@ const AppointmentForm = () => {
                   <InputField label={tFields.houseNumber} required name="huisnummer" value={fact.huisnummer} onChange={handleFactChange} placeholder={tPh.houseNumber} maxLength={10} />
                   <InputField label={tFields.postcode} required name="postcode" value={fact.postcode} onChange={handleFactChange} placeholder={tPh.postcode} maxLength={10} />
                   <InputField label={tFields.city} required name="plaats" value={fact.plaats} onChange={handleFactChange} placeholder={tPh.city} maxLength={100} />
-                  <InputField label={tFields.phoneContact} required name="telefoon" value={fact.telefoon} onChange={handleFactChange} icon={<Phone className="w-4 h-4" />} placeholder={tPh.phone} maxLength={20} />
+                  <InputField label={tFields.phoneContact} required name="telefoon" value={fact.telefoon} onChange={handlePhoneChange(setFact)} icon={<Phone className="w-4 h-4" />} placeholder="+32XXXXXXXXX" type="tel" maxLength={12} />
                 </div>
               </div>
             )}
