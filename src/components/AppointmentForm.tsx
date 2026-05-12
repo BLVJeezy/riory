@@ -235,7 +235,7 @@ const AppointmentForm = () => {
           // Syndicus personal fields
           if (!syndicus.naam || !syndicus.voornaam || !syndicus.kantoor || !syndicus.email) return false;
           if (!syndicus.straat || !syndicus.huisnummer || !syndicus.postcode || !syndicus.plaats) return false;
-          if (!syndicus.telefoon || !syndicus.facturatie_email) return false;
+          if (!isValidBePhone(syndicus.telefoon) || !syndicus.facturatie_email) return false;
         } else {
           if (klantType === "particulier" && woningOuder === null) return false;
           if (werfIsFacturatie === null) return false;
