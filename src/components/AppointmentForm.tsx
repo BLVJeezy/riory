@@ -600,12 +600,12 @@ const AppointmentForm = () => {
 
                   {(klantType === "bedrijf" || klantType === "vrij_beroep") && (
                     <>
-                      <InputField label={tFields.companyName} name="bedrijfsnaam" value={fact.bedrijfsnaam} onChange={handleFactChange} icon={<Building2 className="w-4 h-4" />} placeholder={tPh.companyName} maxLength={200} />
+                      <InputField label={tFields.companyName} required name="bedrijfsnaam" value={fact.bedrijfsnaam} onChange={handleFactChange} icon={<Building2 className="w-4 h-4" />} placeholder={tPh.companyName} maxLength={200} />
                       {klantType === "bedrijf" && (
-                        <InputField label={tFields.vat} name="btw_nummer" value={fact.btw_nummer} onChange={handleFactChange} placeholder="BE0xxx.xxx.xxx" maxLength={20} />
+                        <InputField label={tFields.vat} required name="btw_nummer" value={fact.btw_nummer} onChange={handleFactChange} placeholder="BE0xxx.xxx.xxx" maxLength={20} />
                       )}
                       {klantType === "vrij_beroep" && (
-                        <InputField label={tFields.kbo} name="kbo_nummer" value={fact.kbo_nummer} onChange={handleFactChange} placeholder="0xxx.xxx.xxx" maxLength={20} />
+                        <InputField label={tFields.kbo} required name="kbo_nummer" value={fact.kbo_nummer} onChange={handleFactChange} placeholder="0xxx.xxx.xxx" maxLength={20} />
                       )}
                     </>
                   )}
@@ -616,7 +616,7 @@ const AppointmentForm = () => {
                   <InputField label={tFields.city} required name="plaats" value={fact.plaats} onChange={handleFactChange} placeholder={tPh.city} maxLength={100} />
                   <InputField label={tFields.email} required name="email" value={fact.email} onChange={handleFactChange} icon={<Mail className="w-4 h-4" />} placeholder={tPh.email} type="email" maxLength={255} />
                   {(klantType === "bedrijf" || klantType === "vrij_beroep") && (
-                    <InputField label={tFields.billingEmail} name="facturatie_email" value={fact.facturatie_email} onChange={handleFactChange} icon={<Mail className="w-4 h-4" />} placeholder={tPh.billingEmail} type="email" maxLength={255} />
+                    <InputField label={tFields.billingEmail} required name="facturatie_email" value={fact.facturatie_email} onChange={handleFactChange} icon={<Mail className="w-4 h-4" />} placeholder={tPh.billingEmail} type="email" maxLength={255} />
                   )}
                   <InputField label={tFields.phone} required name="telefoon" value={fact.telefoon} onChange={handleFactChange} icon={<Phone className="w-4 h-4" />} placeholder={tPh.phone} maxLength={20} />
                 </div>
