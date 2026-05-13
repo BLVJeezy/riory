@@ -14,54 +14,6 @@ export type Database = {
   }
   public: {
     Tables: {
-      analytics_snapshots: {
-        Row: {
-          avg_duration_seconds: number | null
-          bounce_rate: number | null
-          countries: Json
-          created_at: string
-          devices: Json
-          id: string
-          notes: string | null
-          pageviews: number
-          snapshot_date: string
-          sources: Json
-          top_pages: Json
-          updated_at: string
-          visitors: number
-        }
-        Insert: {
-          avg_duration_seconds?: number | null
-          bounce_rate?: number | null
-          countries?: Json
-          created_at?: string
-          devices?: Json
-          id?: string
-          notes?: string | null
-          pageviews?: number
-          snapshot_date: string
-          sources?: Json
-          top_pages?: Json
-          updated_at?: string
-          visitors?: number
-        }
-        Update: {
-          avg_duration_seconds?: number | null
-          bounce_rate?: number | null
-          countries?: Json
-          created_at?: string
-          devices?: Json
-          id?: string
-          notes?: string | null
-          pageviews?: number
-          snapshot_date?: string
-          sources?: Json
-          top_pages?: Json
-          updated_at?: string
-          visitors?: number
-        }
-        Relationships: []
-      }
       appointments: {
         Row: {
           akkoord_voorwaarden: boolean
