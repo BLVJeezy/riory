@@ -4,8 +4,10 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from "recha
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { LogOut, Share2, Download } from "lucide-react";
 import { toast } from "sonner";
+import AnalyticsTab from "@/components/admin/AnalyticsTab";
 
 
 
@@ -334,7 +336,16 @@ const Admin = () => {
 
 
       {/* Content */}
-      <div className="px-4 sm:px-6 pb-8">
+      <div className="px-4 sm:px-6 pb-8 pt-6">
+        <Tabs defaultValue="bronnen" className="space-y-6">
+          <TabsList>
+            <TabsTrigger value="bronnen">Bronnen</TabsTrigger>
+            <TabsTrigger value="analytics">Website analytics</TabsTrigger>
+          </TabsList>
+          <TabsContent value="analytics" className="mt-0">
+            <AnalyticsTab />
+          </TabsContent>
+          <TabsContent value="bronnen" className="mt-0">
         {loadingData ? (
           <p className="text-muted-foreground font-body">Laden...</p>
         ) : (
@@ -538,6 +549,8 @@ const Admin = () => {
             );
           })()
         )}
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   );
