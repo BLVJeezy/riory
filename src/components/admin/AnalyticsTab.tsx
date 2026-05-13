@@ -1,7 +1,7 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Download } from "lucide-react";
+import { Download, RefreshCw } from "lucide-react";
 import {
   ResponsiveContainer,
   LineChart,
@@ -11,20 +11,25 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
-  BarChart,
-  Bar,
   PieChart,
   Pie,
   Cell,
 } from "recharts";
 import { toast } from "sonner";
 
-interface PageViewRow {
-  page: string;
-  referrer: string | null;
-  user_agent: string | null;
-  visitor_id: string | null;
-  created_at: string;
+type Bucket = { label: string; count: number };
+
+interface SnapshotRow {
+  snapshot_date: string;
+  pageviews: number;
+  visitors: number;
+  bounce_rate: number | null;
+  avg_duration_seconds: number | null;
+  top_pages: Bucket[];
+  sources: Bucket[];
+  devices: Bucket[];
+  countries: Bucket[];
+  updated_at: string;
 }
 
 const RANGE_OPTIONS = [
@@ -45,178 +50,139 @@ const PALETTE = [
   "hsl(330 81% 60%)",
 ];
 
-const detectDevice = (ua: string | null): "Mobile" | "Tablet" | "Desktop" | "Bot" => {
-  if (!ua) return "Desktop";
-  const u = ua.toLowerCase();
-  if (/bot|crawl|spider|slurp|bingpreview|facebookexternalhit/i.test(u)) return "Bot";
-  if (/ipad|tablet|playbook|silk/i.test(u)) return "Tablet";
-  if (/mobi|android|iphone|ipod|opera mini|iemobile/i.test(u)) return "Mobile";
-  return "Desktop";
-};
-
-const detectBrowser = (ua: string | null): string => {
-  if (!ua) return "Onbekend";
-  if (/edg\//i.test(ua)) return "Edge";
-  if (/opr\//i.test(ua) || /opera/i.test(ua)) return "Opera";
-  if (/chrome/i.test(ua) && !/edg|opr/i.test(ua)) return "Chrome";
-  if (/firefox/i.test(ua)) return "Firefox";
-  if (/safari/i.test(ua) && !/chrome/i.test(ua)) return "Safari";
-  return "Anders";
-};
-
-const cleanReferrer = (r: string | null): string => {
-  if (!r) return "Direct";
-  try {
-    const u = new URL(r);
-    const host = u.hostname.replace(/^www\./, "");
-    if (host.includes("google")) return "Google";
-    if (host.includes("facebook") || host.includes("fb.")) return "Facebook";
-    if (host.includes("instagram")) return "Instagram";
-    if (host.includes("bing")) return "Bing";
-    if (host.includes("duckduckgo")) return "DuckDuckGo";
-    if (host.includes("linkedin")) return "LinkedIn";
-    if (host.includes("riory.")) return "Direct";
-    return host;
-  } catch {
-    return "Direct";
-  }
-};
-
 const formatDay = (d: Date) =>
   d.toLocaleDateString("nl-BE", { day: "2-digit", month: "short" });
 
-const AnalyticsTab = () => {
-  const [rows, setRows] = useState<PageViewRow[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [days, setDays] = useState<number>(30);
+const timeAgo = (iso: string): string => {
+  const diff = (Date.now() - new Date(iso).getTime()) / 1000;
+  if (diff < 60) return "zojuist";
+  if (diff < 3600) return `${Math.floor(diff / 60)} min geleden`;
+  if (diff < 86400) return `${Math.floor(diff / 3600)} uur geleden`;
+  return `${Math.floor(diff / 86400)} dagen geleden`;
+};
 
-  useEffect(() => {
-    let cancelled = false;
-    const load = async () => {
-      setLoading(true);
-      const since = new Date();
-      since.setDate(since.getDate() - days);
-      // Pull in batches to bypass 1000 row default
-      const all: PageViewRow[] = [];
-      const pageSize = 1000;
-      let from = 0;
-      while (true) {
-        const { data, error } = await supabase
-          .from("page_views")
-          .select("page, referrer, user_agent, visitor_id, created_at")
-          .gte("created_at", since.toISOString())
-          .order("created_at", { ascending: false })
-          .range(from, from + pageSize - 1);
-        if (error) {
-          toast.error("Kon analytics niet laden.");
-          break;
-        }
-        if (!data || data.length === 0) break;
-        all.push(...(data as PageViewRow[]));
-        if (data.length < pageSize) break;
-        from += pageSize;
-        if (all.length > 50000) break;
-      }
-      if (!cancelled) {
-        setRows(all);
-        setLoading(false);
-      }
-    };
-    load();
-    return () => {
-      cancelled = true;
-    };
+const AnalyticsTab = () => {
+  const [snapshots, setSnapshots] = useState<SnapshotRow[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [syncing, setSyncing] = useState(false);
+  const [days, setDays] = useState<number>(30);
+  const [lastSync, setLastSync] = useState<string | null>(null);
+
+  const load = useCallback(async () => {
+    setLoading(true);
+    const since = new Date();
+    since.setDate(since.getDate() - days);
+    const { data, error } = await supabase
+      .from("analytics_snapshots")
+      .select(
+        "snapshot_date, pageviews, visitors, bounce_rate, avg_duration_seconds, top_pages, sources, devices, countries, updated_at"
+      )
+      .gte("snapshot_date", since.toISOString().slice(0, 10))
+      .order("snapshot_date", { ascending: true });
+    if (error) {
+      toast.error("Kon analytics niet laden.");
+      setLoading(false);
+      return;
+    }
+    const rows = (data || []) as unknown as SnapshotRow[];
+    setSnapshots(rows);
+    const latest = rows.reduce<string | null>(
+      (acc, r) => (!acc || r.updated_at > acc ? r.updated_at : acc),
+      null
+    );
+    setLastSync(latest);
+    setLoading(false);
   }, [days]);
 
-  const stats = useMemo(() => {
-    const totalViews = rows.length;
-    const uniqueVisitors = new Set(
-      rows.map((r) => r.visitor_id || `${r.user_agent || "anon"}|${r.referrer || ""}`)
-    ).size;
-    const viewsPerVisitor =
-      uniqueVisitors > 0 ? (totalViews / uniqueVisitors).toFixed(1) : "0";
+  useEffect(() => {
+    load();
+  }, [load]);
 
-    // Daily series
-    const dayMap = new Map<string, { date: string; views: number; visitors: Set<string> }>();
+  const sync = async () => {
+    setSyncing(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("sync-analytics", {
+        body: { days: 365 },
+      });
+      if (error) throw error;
+      toast.success(
+        `Gesynchroniseerd: ${data?.days_synced ?? 0} dagen, ${data?.rows_processed ?? 0} bezoeken.`
+      );
+      await load();
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Sync mislukt.");
+    } finally {
+      setSyncing(false);
+    }
+  };
+
+  const stats = useMemo(() => {
+    const totalViews = snapshots.reduce((s, r) => s + (r.pageviews || 0), 0);
+    const totalVisitors = snapshots.reduce((s, r) => s + (r.visitors || 0), 0);
+    const viewsPerVisitor =
+      totalVisitors > 0 ? (totalViews / totalVisitors).toFixed(1) : "0";
+
+    const weighted = snapshots.reduce(
+      (acc, r) => {
+        if (r.bounce_rate != null && r.visitors > 0) {
+          acc.sum += r.bounce_rate * r.visitors;
+          acc.w += r.visitors;
+        }
+        return acc;
+      },
+      { sum: 0, w: 0 }
+    );
+    const bounceRate = weighted.w > 0 ? Math.round((weighted.sum / weighted.w) * 100) : 0;
+
+    // Build daily buckets with zero-fill
+    const dayMap = new Map<string, { Bezoeken: number; Bezoekers: number }>();
     for (let i = days - 1; i >= 0; i--) {
       const d = new Date();
       d.setHours(0, 0, 0, 0);
       d.setDate(d.getDate() - i);
-      const key = d.toISOString().slice(0, 10);
-      dayMap.set(key, { date: key, views: 0, visitors: new Set() });
+      dayMap.set(d.toISOString().slice(0, 10), { Bezoeken: 0, Bezoekers: 0 });
     }
-    rows.forEach((r) => {
-      const key = r.created_at.slice(0, 10);
-      const entry = dayMap.get(key);
-      if (entry) {
-        entry.views++;
-        entry.visitors.add(
-          r.visitor_id || `${r.user_agent || "anon"}|${r.referrer || ""}`
-        );
+    snapshots.forEach((r) => {
+      if (dayMap.has(r.snapshot_date)) {
+        dayMap.set(r.snapshot_date, {
+          Bezoeken: r.pageviews,
+          Bezoekers: r.visitors,
+        });
       }
     });
-    const daily = Array.from(dayMap.values()).map((d) => ({
-      date: formatDay(new Date(d.date)),
-      Bezoeken: d.views,
-      Bezoekers: d.visitors.size,
+    const daily = Array.from(dayMap.entries()).map(([date, v]) => ({
+      date: formatDay(new Date(date)),
+      ...v,
     }));
 
-    // Top pages
-    const pageCounts: Record<string, number> = {};
-    rows.forEach((r) => {
-      pageCounts[r.page] = (pageCounts[r.page] || 0) + 1;
-    });
-    const topPages = Object.entries(pageCounts)
-      .map(([page, count]) => ({ page, count }))
-      .sort((a, b) => b.count - a.count)
-      .slice(0, 10);
-
-    // Referrers
-    const refCounts: Record<string, number> = {};
-    rows.forEach((r) => {
-      const k = cleanReferrer(r.referrer);
-      refCounts[k] = (refCounts[k] || 0) + 1;
-    });
-    const referrers = Object.entries(refCounts)
-      .map(([label, count]) => ({ label, count }))
-      .sort((a, b) => b.count - a.count)
-      .slice(0, 8);
-
-    // Devices
-    const devCounts: Record<string, number> = {};
-    rows.forEach((r) => {
-      const d = detectDevice(r.user_agent);
-      devCounts[d] = (devCounts[d] || 0) + 1;
-    });
-    const devices = Object.entries(devCounts).map(([label, count]) => ({
-      label,
-      count,
-    }));
-
-    // Browsers
-    const brCounts: Record<string, number> = {};
-    rows.forEach((r) => {
-      const b = detectBrowser(r.user_agent);
-      brCounts[b] = (brCounts[b] || 0) + 1;
-    });
-    const browsers = Object.entries(brCounts)
-      .map(([label, count]) => ({ label, count }))
-      .sort((a, b) => b.count - a.count);
+    const merge = (key: keyof SnapshotRow, n: number) => {
+      const map: Record<string, number> = {};
+      snapshots.forEach((r) => {
+        const arr = (r[key] as Bucket[]) || [];
+        arr.forEach((b) => {
+          map[b.label] = (map[b.label] || 0) + b.count;
+        });
+      });
+      return Object.entries(map)
+        .map(([label, count]) => ({ label, count }))
+        .sort((a, b) => b.count - a.count)
+        .slice(0, n);
+    };
 
     return {
       totalViews,
-      uniqueVisitors,
+      totalVisitors,
       viewsPerVisitor,
+      bounceRate,
       daily,
-      topPages,
-      referrers,
-      devices,
-      browsers,
+      topPages: merge("top_pages", 10),
+      sources: merge("sources", 8),
+      devices: merge("devices", 10),
     };
-  }, [rows, days]);
+  }, [snapshots, days]);
 
   const exportCSV = () => {
-    const headers = ["Datum", "Bezoeken", "Unieke bezoekers"];
+    const headers = ["Datum", "Bezoeken", "Bezoekers"];
     const csv = [
       headers,
       ...stats.daily.map((d) => [d.date, d.Bezoeken, d.Bezoekers]),
@@ -241,7 +207,9 @@ const AnalyticsTab = () => {
             Website analytics
           </h2>
           <p className="text-sm text-muted-foreground font-body">
-            Realtime data uit je eigen database — geen externe tool nodig.
+            {lastSync
+              ? `Laatst gesynct: ${timeAgo(lastSync)}`
+              : "Nog niet gesynchroniseerd. Klik op 'Sync nu'."}
           </p>
         </div>
         <div className="flex flex-wrap gap-2 items-center">
@@ -266,6 +234,10 @@ const AnalyticsTab = () => {
             <Download className="w-4 h-4" />
             CSV
           </Button>
+          <Button size="sm" className="gap-2" onClick={sync} disabled={syncing}>
+            <RefreshCw className={`w-4 h-4 ${syncing ? "animate-spin" : ""}`} />
+            {syncing ? "Synchroniseren..." : "Sync nu"}
+          </Button>
         </div>
       </div>
 
@@ -273,19 +245,13 @@ const AnalyticsTab = () => {
         <p className="text-muted-foreground font-body">Laden...</p>
       ) : (
         <>
-          {/* KPI cards */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
-            <KPI label="Totaal bezoeken" value={stats.totalViews.toLocaleString("nl-BE")} />
-            <KPI label="Unieke bezoekers" value={stats.uniqueVisitors.toLocaleString("nl-BE")} />
+            <KPI label="Pageviews" value={stats.totalViews.toLocaleString("nl-BE")} />
+            <KPI label="Unieke bezoekers" value={stats.totalVisitors.toLocaleString("nl-BE")} />
             <KPI label="Pagina's per bezoeker" value={stats.viewsPerVisitor} />
-            <KPI
-              label="Top pagina"
-              value={stats.topPages[0]?.page || "—"}
-              small
-            />
+            <KPI label="Bounce rate" value={`${stats.bounceRate}%`} />
           </div>
 
-          {/* Daily chart */}
           <div className="bg-background rounded-xl p-4 sm:p-6 border border-border shadow-sm">
             <h3 className="font-heading font-semibold text-foreground mb-4">
               Verkeer per dag
@@ -294,18 +260,8 @@ const AnalyticsTab = () => {
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={stats.daily}>
                   <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                  <XAxis
-                    dataKey="date"
-                    stroke="hsl(var(--muted-foreground))"
-                    fontSize={11}
-                    tick={{ fill: "hsl(var(--muted-foreground))" }}
-                  />
-                  <YAxis
-                    stroke="hsl(var(--muted-foreground))"
-                    fontSize={11}
-                    tick={{ fill: "hsl(var(--muted-foreground))" }}
-                    allowDecimals={false}
-                  />
+                  <XAxis dataKey="date" stroke="hsl(var(--muted-foreground))" fontSize={11} />
+                  <YAxis stroke="hsl(var(--muted-foreground))" fontSize={11} allowDecimals={false} />
                   <Tooltip
                     contentStyle={{
                       background: "hsl(var(--background))",
@@ -315,119 +271,67 @@ const AnalyticsTab = () => {
                     }}
                   />
                   <Legend wrapperStyle={{ fontSize: "0.75rem" }} />
-                  <Line
-                    type="monotone"
-                    dataKey="Bezoeken"
-                    stroke="hsl(217 91% 60%)"
-                    strokeWidth={2}
-                    dot={false}
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="Bezoekers"
-                    stroke="hsl(24 95% 53%)"
-                    strokeWidth={2}
-                    dot={false}
-                  />
+                  <Line type="monotone" dataKey="Bezoeken" stroke="hsl(217 91% 60%)" strokeWidth={2} dot={false} />
+                  <Line type="monotone" dataKey="Bezoekers" stroke="hsl(24 95% 53%)" strokeWidth={2} dot={false} />
                 </LineChart>
               </ResponsiveContainer>
             </div>
           </div>
 
           <div className="grid lg:grid-cols-2 gap-4 sm:gap-6">
-            {/* Top pages */}
             <div className="bg-background rounded-xl p-4 sm:p-6 border border-border shadow-sm">
-              <h3 className="font-heading font-semibold text-foreground mb-4">
-                Top pagina's
-              </h3>
+              <h3 className="font-heading font-semibold text-foreground mb-4">Top pagina's</h3>
               {stats.topPages.length ? (
-                <RankedBars
-                  items={stats.topPages.map((p) => ({ label: p.page, count: p.count }))}
-                />
+                <RankedBars items={stats.topPages} />
               ) : (
                 <p className="text-sm text-muted-foreground font-body">Geen data.</p>
               )}
             </div>
 
-            {/* Referrers */}
             <div className="bg-background rounded-xl p-4 sm:p-6 border border-border shadow-sm">
-              <h3 className="font-heading font-semibold text-foreground mb-4">
-                Verkeersbronnen
-              </h3>
-              {stats.referrers.length ? (
-                <RankedBars items={stats.referrers} />
+              <h3 className="font-heading font-semibold text-foreground mb-4">Verkeersbronnen</h3>
+              {stats.sources.length ? (
+                <RankedBars items={stats.sources} />
               ) : (
                 <p className="text-sm text-muted-foreground font-body">Geen data.</p>
               )}
             </div>
 
-            {/* Devices */}
-            <div className="bg-background rounded-xl p-4 sm:p-6 border border-border shadow-sm">
-              <h3 className="font-heading font-semibold text-foreground mb-4">
-                Apparaten
-              </h3>
+            <div className="bg-background rounded-xl p-4 sm:p-6 border border-border shadow-sm lg:col-span-2">
+              <h3 className="font-heading font-semibold text-foreground mb-4">Apparaten</h3>
               <div className="h-56">
-                <ResponsiveContainer width="100%" height="100%">
-                  <PieChart>
-                    <Pie
-                      data={stats.devices}
-                      dataKey="count"
-                      nameKey="label"
-                      innerRadius="45%"
-                      outerRadius="78%"
-                      paddingAngle={2}
-                      label={(e: any) =>
-                        `${e.label} ${Math.round((e.count / stats.totalViews) * 100)}%`
-                      }
-                      labelLine={false}
-                    >
-                      {stats.devices.map((_, i) => (
-                        <Cell key={i} fill={PALETTE[i % PALETTE.length]} />
-                      ))}
-                    </Pie>
-                    <Tooltip
-                      contentStyle={{
-                        background: "hsl(var(--background))",
-                        border: "1px solid hsl(var(--border))",
-                        borderRadius: "0.5rem",
-                        fontSize: "0.75rem",
-                      }}
-                    />
-                  </PieChart>
-                </ResponsiveContainer>
-              </div>
-            </div>
-
-            {/* Browsers */}
-            <div className="bg-background rounded-xl p-4 sm:p-6 border border-border shadow-sm">
-              <h3 className="font-heading font-semibold text-foreground mb-4">
-                Browsers
-              </h3>
-              <div className="h-56">
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={stats.browsers}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                    <XAxis
-                      dataKey="label"
-                      stroke="hsl(var(--muted-foreground))"
-                      fontSize={11}
-                    />
-                    <YAxis
-                      stroke="hsl(var(--muted-foreground))"
-                      fontSize={11}
-                      allowDecimals={false}
-                    />
-                    <Tooltip
-                      contentStyle={{
-                        background: "hsl(var(--background))",
-                        border: "1px solid hsl(var(--border))",
-                        borderRadius: "0.5rem",
-                        fontSize: "0.75rem",
-                      }}
-                    />
-                    <Bar dataKey="count" fill="hsl(217 91% 60%)" radius={[4, 4, 0, 0]} />
-                  </BarChart>
-                </ResponsiveContainer>
+                {stats.devices.length ? (
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                      <Pie
+                        data={stats.devices}
+                        dataKey="count"
+                        nameKey="label"
+                        innerRadius="45%"
+                        outerRadius="78%"
+                        paddingAngle={2}
+                        label={(e: { label?: string; count?: number }) =>
+                          `${e.label} ${Math.round(((e.count || 0) / Math.max(stats.totalViews, 1)) * 100)}%`
+                        }
+                        labelLine={false}
+                      >
+                        {stats.devices.map((_, i) => (
+                          <Cell key={i} fill={PALETTE[i % PALETTE.length]} />
+                        ))}
+                      </Pie>
+                      <Tooltip
+                        contentStyle={{
+                          background: "hsl(var(--background))",
+                          border: "1px solid hsl(var(--border))",
+                          borderRadius: "0.5rem",
+                          fontSize: "0.75rem",
+                        }}
+                      />
+                    </PieChart>
+                  </ResponsiveContainer>
+                ) : (
+                  <p className="text-sm text-muted-foreground font-body">Geen data.</p>
+                )}
               </div>
             </div>
           </div>
@@ -437,23 +341,10 @@ const AnalyticsTab = () => {
   );
 };
 
-const KPI = ({
-  label,
-  value,
-  small = false,
-}: {
-  label: string;
-  value: string;
-  small?: boolean;
-}) => (
+const KPI = ({ label, value }: { label: string; value: string }) => (
   <div className="bg-background rounded-xl p-4 border border-border shadow-sm">
     <p className="text-xs sm:text-sm font-body text-muted-foreground">{label}</p>
-    <p
-      className={`font-heading font-bold text-foreground mt-1 truncate ${
-        small ? "text-base sm:text-lg" : "text-2xl sm:text-3xl"
-      }`}
-      title={value}
-    >
+    <p className="font-heading font-bold text-foreground mt-1 truncate text-2xl sm:text-3xl" title={value}>
       {value}
     </p>
   </div>
