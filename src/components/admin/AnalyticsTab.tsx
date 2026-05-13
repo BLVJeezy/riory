@@ -514,10 +514,10 @@ const SnapshotDialog = ({
       pageviews: p,
       bounce_rate: bounce ? Number(bounce) : null,
       avg_duration_seconds: duration ? parseInt(duration, 10) : null,
-      top_pages: parseBreakdown(topPages),
-      sources: parseBreakdown(sources),
-      devices: parseBreakdown(devices),
-      countries: parseBreakdown(countries),
+      top_pages: parseBreakdown(topPages) as any,
+      sources: parseBreakdown(sources) as any,
+      devices: parseBreakdown(devices) as any,
+      countries: parseBreakdown(countries) as any,
       notes: notes.trim() || null,
       updated_at: new Date().toISOString(),
     };
@@ -526,7 +526,7 @@ const SnapshotDialog = ({
           .from("analytics_snapshots")
           .update(payload)
           .eq("id", editing.id)
-      : await supabase.from("analytics_snapshots").insert(payload);
+      : await supabase.from("analytics_snapshots").insert([payload]);
     setSaving(false);
     if (error) {
       console.error(error);
