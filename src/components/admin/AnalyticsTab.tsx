@@ -1,7 +1,18 @@
 import { useEffect, useMemo, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Download } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Plus, Pencil, Trash2, Download } from "lucide-react";
 import {
   ResponsiveContainer,
   LineChart,
@@ -11,20 +22,26 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
-  BarChart,
-  Bar,
-  PieChart,
-  Pie,
-  Cell,
 } from "recharts";
 import { toast } from "sonner";
 
-interface PageViewRow {
-  page: string;
-  referrer: string | null;
-  user_agent: string | null;
-  visitor_id: string | null;
-  created_at: string;
+interface BreakdownItem {
+  label: string;
+  count: number;
+}
+
+interface Snapshot {
+  id: string;
+  snapshot_date: string;
+  visitors: number;
+  pageviews: number;
+  bounce_rate: number | null;
+  avg_duration_seconds: number | null;
+  top_pages: BreakdownItem[];
+  sources: BreakdownItem[];
+  devices: BreakdownItem[];
+  countries: BreakdownItem[];
+  notes: string | null;
 }
 
 const RANGE_OPTIONS = [
@@ -32,205 +49,153 @@ const RANGE_OPTIONS = [
   { value: 30, label: "Laatste 30 dagen" },
   { value: 90, label: "Laatste 90 dagen" },
   { value: 365, label: "Laatste 12 maanden" },
+  { value: 0, label: "Alles" },
 ];
 
-const PALETTE = [
-  "hsl(217 91% 60%)",
-  "hsl(24 95% 53%)",
-  "hsl(142 71% 45%)",
-  "hsl(280 65% 60%)",
-  "hsl(346 77% 49%)",
-  "hsl(48 96% 53%)",
-  "hsl(189 94% 43%)",
-  "hsl(330 81% 60%)",
-];
+const todayISO = () => new Date().toISOString().slice(0, 10);
 
-const detectDevice = (ua: string | null): "Mobile" | "Tablet" | "Desktop" | "Bot" => {
-  if (!ua) return "Desktop";
-  const u = ua.toLowerCase();
-  if (/bot|crawl|spider|slurp|bingpreview|facebookexternalhit/i.test(u)) return "Bot";
-  if (/ipad|tablet|playbook|silk/i.test(u)) return "Tablet";
-  if (/mobi|android|iphone|ipod|opera mini|iemobile/i.test(u)) return "Mobile";
-  return "Desktop";
+const parseBreakdown = (raw: string): BreakdownItem[] => {
+  // Each line: "label, number" or "label number" or "label\tnumber"
+  return raw
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .map((line) => {
+      const m = line.match(/^(.*?)[\s,;\t]+(\d[\d\.\s]*)\s*$/);
+      if (!m) return null;
+      const label = m[1].trim();
+      const count = parseInt(m[2].replace(/[^\d]/g, ""), 10);
+      if (!label || isNaN(count)) return null;
+      return { label, count };
+    })
+    .filter((x): x is BreakdownItem => !!x);
 };
 
-const detectBrowser = (ua: string | null): string => {
-  if (!ua) return "Onbekend";
-  if (/edg\//i.test(ua)) return "Edge";
-  if (/opr\//i.test(ua) || /opera/i.test(ua)) return "Opera";
-  if (/chrome/i.test(ua) && !/edg|opr/i.test(ua)) return "Chrome";
-  if (/firefox/i.test(ua)) return "Firefox";
-  if (/safari/i.test(ua) && !/chrome/i.test(ua)) return "Safari";
-  return "Anders";
-};
+const formatBreakdown = (items: BreakdownItem[]) =>
+  items.map((i) => `${i.label}, ${i.count}`).join("\n");
 
-const cleanReferrer = (r: string | null): string => {
-  if (!r) return "Direct";
-  try {
-    const u = new URL(r);
-    const host = u.hostname.replace(/^www\./, "");
-    if (host.includes("google")) return "Google";
-    if (host.includes("facebook") || host.includes("fb.")) return "Facebook";
-    if (host.includes("instagram")) return "Instagram";
-    if (host.includes("bing")) return "Bing";
-    if (host.includes("duckduckgo")) return "DuckDuckGo";
-    if (host.includes("linkedin")) return "LinkedIn";
-    if (host.includes("riory.")) return "Direct";
-    return host;
-  } catch {
-    return "Direct";
-  }
+const formatDuration = (sec: number | null): string => {
+  if (sec == null) return "—";
+  const m = Math.floor(sec / 60);
+  const s = sec % 60;
+  return `${m}m ${s}s`;
 };
-
-const formatDay = (d: Date) =>
-  d.toLocaleDateString("nl-BE", { day: "2-digit", month: "short" });
 
 const AnalyticsTab = () => {
-  const [rows, setRows] = useState<PageViewRow[]>([]);
+  const [snapshots, setSnapshots] = useState<Snapshot[]>([]);
   const [loading, setLoading] = useState(true);
-  const [days, setDays] = useState<number>(30);
+  const [days, setDays] = useState(30);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [editing, setEditing] = useState<Snapshot | null>(null);
+
+  const load = async () => {
+    setLoading(true);
+    const { data, error } = await supabase
+      .from("analytics_snapshots")
+      .select("*")
+      .order("snapshot_date", { ascending: false });
+    if (error) {
+      toast.error("Kon snapshots niet laden.");
+    } else {
+      setSnapshots((data as any) || []);
+    }
+    setLoading(false);
+  };
 
   useEffect(() => {
-    let cancelled = false;
-    const load = async () => {
-      setLoading(true);
-      const since = new Date();
-      since.setDate(since.getDate() - days);
-      // Pull in batches to bypass 1000 row default
-      const all: PageViewRow[] = [];
-      const pageSize = 1000;
-      let from = 0;
-      while (true) {
-        const { data, error } = await supabase
-          .from("page_views")
-          .select("page, referrer, user_agent, visitor_id, created_at")
-          .gte("created_at", since.toISOString())
-          .order("created_at", { ascending: false })
-          .range(from, from + pageSize - 1);
-        if (error) {
-          toast.error("Kon analytics niet laden.");
-          break;
-        }
-        if (!data || data.length === 0) break;
-        all.push(...(data as PageViewRow[]));
-        if (data.length < pageSize) break;
-        from += pageSize;
-        if (all.length > 50000) break;
-      }
-      if (!cancelled) {
-        setRows(all);
-        setLoading(false);
-      }
-    };
     load();
-    return () => {
-      cancelled = true;
-    };
-  }, [days]);
+  }, []);
 
-  const stats = useMemo(() => {
-    const totalViews = rows.length;
-    const uniqueVisitors = new Set(
-      rows.map((r) => r.visitor_id || `${r.user_agent || "anon"}|${r.referrer || ""}`)
-    ).size;
-    const viewsPerVisitor =
-      uniqueVisitors > 0 ? (totalViews / uniqueVisitors).toFixed(1) : "0";
+  const filtered = useMemo(() => {
+    if (days === 0) return snapshots;
+    const since = new Date();
+    since.setHours(0, 0, 0, 0);
+    since.setDate(since.getDate() - days);
+    return snapshots.filter((s) => new Date(s.snapshot_date) >= since);
+  }, [snapshots, days]);
 
-    // Daily series
-    const dayMap = new Map<string, { date: string; views: number; visitors: Set<string> }>();
-    for (let i = days - 1; i >= 0; i--) {
-      const d = new Date();
-      d.setHours(0, 0, 0, 0);
-      d.setDate(d.getDate() - i);
-      const key = d.toISOString().slice(0, 10);
-      dayMap.set(key, { date: key, views: 0, visitors: new Set() });
-    }
-    rows.forEach((r) => {
-      const key = r.created_at.slice(0, 10);
-      const entry = dayMap.get(key);
-      if (entry) {
-        entry.views++;
-        entry.visitors.add(
-          r.visitor_id || `${r.user_agent || "anon"}|${r.referrer || ""}`
-        );
-      }
-    });
-    const daily = Array.from(dayMap.values()).map((d) => ({
-      date: formatDay(new Date(d.date)),
-      Bezoeken: d.views,
-      Bezoekers: d.visitors.size,
-    }));
+  const totals = useMemo(() => {
+    const totalVisitors = filtered.reduce((s, x) => s + (x.visitors || 0), 0);
+    const totalPageviews = filtered.reduce((s, x) => s + (x.pageviews || 0), 0);
+    const bounceVals = filtered
+      .map((x) => x.bounce_rate)
+      .filter((v): v is number => v != null);
+    const avgBounce = bounceVals.length
+      ? bounceVals.reduce((a, b) => a + b, 0) / bounceVals.length
+      : null;
+    const durVals = filtered
+      .map((x) => x.avg_duration_seconds)
+      .filter((v): v is number => v != null);
+    const avgDur = durVals.length
+      ? Math.round(durVals.reduce((a, b) => a + b, 0) / durVals.length)
+      : null;
+    return { totalVisitors, totalPageviews, avgBounce, avgDur };
+  }, [filtered]);
 
-    // Top pages
-    const pageCounts: Record<string, number> = {};
-    rows.forEach((r) => {
-      pageCounts[r.page] = (pageCounts[r.page] || 0) + 1;
-    });
-    const topPages = Object.entries(pageCounts)
-      .map(([page, count]) => ({ page, count }))
-      .sort((a, b) => b.count - a.count)
-      .slice(0, 10);
+  const chartData = useMemo(() => {
+    return [...filtered]
+      .sort((a, b) => a.snapshot_date.localeCompare(b.snapshot_date))
+      .map((s) => ({
+        date: new Date(s.snapshot_date).toLocaleDateString("nl-BE", {
+          day: "2-digit",
+          month: "short",
+        }),
+        Bezoekers: s.visitors,
+        Pageviews: s.pageviews,
+      }));
+  }, [filtered]);
 
-    // Referrers
-    const refCounts: Record<string, number> = {};
-    rows.forEach((r) => {
-      const k = cleanReferrer(r.referrer);
-      refCounts[k] = (refCounts[k] || 0) + 1;
-    });
-    const referrers = Object.entries(refCounts)
-      .map(([label, count]) => ({ label, count }))
-      .sort((a, b) => b.count - a.count)
-      .slice(0, 8);
-
-    // Devices
-    const devCounts: Record<string, number> = {};
-    rows.forEach((r) => {
-      const d = detectDevice(r.user_agent);
-      devCounts[d] = (devCounts[d] || 0) + 1;
-    });
-    const devices = Object.entries(devCounts).map(([label, count]) => ({
-      label,
-      count,
-    }));
-
-    // Browsers
-    const brCounts: Record<string, number> = {};
-    rows.forEach((r) => {
-      const b = detectBrowser(r.user_agent);
-      brCounts[b] = (brCounts[b] || 0) + 1;
-    });
-    const browsers = Object.entries(brCounts)
-      .map(([label, count]) => ({ label, count }))
-      .sort((a, b) => b.count - a.count);
-
-    return {
-      totalViews,
-      uniqueVisitors,
-      viewsPerVisitor,
-      daily,
-      topPages,
-      referrers,
-      devices,
-      browsers,
-    };
-  }, [rows, days]);
+  const handleDelete = async (id: string) => {
+    if (!confirm("Snapshot verwijderen?")) return;
+    const { error } = await supabase
+      .from("analytics_snapshots")
+      .delete()
+      .eq("id", id);
+    if (error) return toast.error("Verwijderen mislukt.");
+    toast.success("Verwijderd.");
+    load();
+  };
 
   const exportCSV = () => {
-    const headers = ["Datum", "Bezoeken", "Unieke bezoekers"];
-    const csv = [
-      headers,
-      ...stats.daily.map((d) => [d.date, d.Bezoeken, d.Bezoekers]),
-    ]
+    const headers = [
+      "Datum",
+      "Bezoekers",
+      "Pageviews",
+      "Bounce %",
+      "Sessieduur (s)",
+      "Notities",
+    ];
+    const rows = filtered.map((s) => [
+      s.snapshot_date,
+      s.visitors,
+      s.pageviews,
+      s.bounce_rate ?? "",
+      s.avg_duration_seconds ?? "",
+      (s.notes || "").replace(/\n/g, " "),
+    ]);
+    const csv = [headers, ...rows]
       .map((r) => r.map((c) => `"${String(c).replace(/"/g, '""')}"`).join(","))
       .join("\n");
-    const blob = new Blob(["\ufeff" + csv], { type: "text/csv;charset=utf-8;" });
+    const blob = new Blob(["\ufeff" + csv], {
+      type: "text/csv;charset=utf-8;",
+    });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `riory-analytics-${days}d-${new Date().toISOString().slice(0, 10)}.csv`;
+    a.download = `riory-analytics-${todayISO()}.csv`;
     a.click();
     URL.revokeObjectURL(url);
     toast.success("CSV geëxporteerd.");
+  };
+
+  const openNew = () => {
+    setEditing(null);
+    setDialogOpen(true);
+  };
+
+  const openEdit = (s: Snapshot) => {
+    setEditing(s);
+    setDialogOpen(true);
   };
 
   return (
@@ -238,10 +203,11 @@ const AnalyticsTab = () => {
       <div className="flex items-center justify-between gap-4 flex-wrap">
         <div>
           <h2 className="font-heading font-semibold text-foreground">
-            Website analytics
+            Lovable Analytics — manuele snapshots
           </h2>
           <p className="text-sm text-muted-foreground font-body">
-            Realtime data uit je eigen database — geen externe tool nodig.
+            Voeg per dag de cijfers in die je in Lovable Analytics ziet. Zo bouw je een
+            historiek op die 100% identiek is aan de bron.
           </p>
         </div>
         <div className="flex flex-wrap gap-2 items-center">
@@ -261,154 +227,71 @@ const AnalyticsTab = () => {
             variant="outline"
             className="gap-2"
             onClick={exportCSV}
-            disabled={!stats.totalViews}
+            disabled={!filtered.length}
           >
             <Download className="w-4 h-4" />
             CSV
+          </Button>
+          <Button size="sm" className="gap-2" onClick={openNew}>
+            <Plus className="w-4 h-4" />
+            Nieuwe snapshot
           </Button>
         </div>
       </div>
 
       {loading ? (
         <p className="text-muted-foreground font-body">Laden...</p>
+      ) : snapshots.length === 0 ? (
+        <div className="bg-background rounded-xl p-8 border border-dashed border-border text-center space-y-3">
+          <p className="font-heading font-semibold text-foreground">
+            Nog geen snapshots
+          </p>
+          <p className="text-sm text-muted-foreground font-body max-w-md mx-auto">
+            Open Lovable Analytics, kies een datum en kopieer de cijfers naar een
+            nieuwe snapshot. Doe dit elke dag voor een volledige historiek.
+          </p>
+          <Button onClick={openNew} className="gap-2">
+            <Plus className="w-4 h-4" />
+            Eerste snapshot toevoegen
+          </Button>
+        </div>
       ) : (
         <>
           {/* KPI cards */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
-            <KPI label="Totaal bezoeken" value={stats.totalViews.toLocaleString("nl-BE")} />
-            <KPI label="Unieke bezoekers" value={stats.uniqueVisitors.toLocaleString("nl-BE")} />
-            <KPI label="Pagina's per bezoeker" value={stats.viewsPerVisitor} />
             <KPI
-              label="Top pagina"
-              value={stats.topPages[0]?.page || "—"}
-              small
+              label={`Bezoekers (${filtered.length} dag${filtered.length === 1 ? "" : "en"})`}
+              value={totals.totalVisitors.toLocaleString("nl-BE")}
+            />
+            <KPI
+              label="Pageviews"
+              value={totals.totalPageviews.toLocaleString("nl-BE")}
+            />
+            <KPI
+              label="Gem. bounce"
+              value={totals.avgBounce != null ? `${totals.avgBounce.toFixed(1)}%` : "—"}
+            />
+            <KPI
+              label="Gem. sessieduur"
+              value={formatDuration(totals.avgDur)}
             />
           </div>
 
-          {/* Daily chart */}
-          <div className="bg-background rounded-xl p-4 sm:p-6 border border-border shadow-sm">
-            <h3 className="font-heading font-semibold text-foreground mb-4">
-              Verkeer per dag
-            </h3>
-            <div className="h-72 w-full">
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={stats.daily}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                  <XAxis
-                    dataKey="date"
-                    stroke="hsl(var(--muted-foreground))"
-                    fontSize={11}
-                    tick={{ fill: "hsl(var(--muted-foreground))" }}
-                  />
-                  <YAxis
-                    stroke="hsl(var(--muted-foreground))"
-                    fontSize={11}
-                    tick={{ fill: "hsl(var(--muted-foreground))" }}
-                    allowDecimals={false}
-                  />
-                  <Tooltip
-                    contentStyle={{
-                      background: "hsl(var(--background))",
-                      border: "1px solid hsl(var(--border))",
-                      borderRadius: "0.5rem",
-                      fontSize: "0.75rem",
-                    }}
-                  />
-                  <Legend wrapperStyle={{ fontSize: "0.75rem" }} />
-                  <Line
-                    type="monotone"
-                    dataKey="Bezoeken"
-                    stroke="hsl(217 91% 60%)"
-                    strokeWidth={2}
-                    dot={false}
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="Bezoekers"
-                    stroke="hsl(24 95% 53%)"
-                    strokeWidth={2}
-                    dot={false}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-
-          <div className="grid lg:grid-cols-2 gap-4 sm:gap-6">
-            {/* Top pages */}
+          {/* Trend chart */}
+          {chartData.length > 1 && (
             <div className="bg-background rounded-xl p-4 sm:p-6 border border-border shadow-sm">
               <h3 className="font-heading font-semibold text-foreground mb-4">
-                Top pagina's
+                Verkeer per dag
               </h3>
-              {stats.topPages.length ? (
-                <RankedBars
-                  items={stats.topPages.map((p) => ({ label: p.page, count: p.count }))}
-                />
-              ) : (
-                <p className="text-sm text-muted-foreground font-body">Geen data.</p>
-              )}
-            </div>
-
-            {/* Referrers */}
-            <div className="bg-background rounded-xl p-4 sm:p-6 border border-border shadow-sm">
-              <h3 className="font-heading font-semibold text-foreground mb-4">
-                Verkeersbronnen
-              </h3>
-              {stats.referrers.length ? (
-                <RankedBars items={stats.referrers} />
-              ) : (
-                <p className="text-sm text-muted-foreground font-body">Geen data.</p>
-              )}
-            </div>
-
-            {/* Devices */}
-            <div className="bg-background rounded-xl p-4 sm:p-6 border border-border shadow-sm">
-              <h3 className="font-heading font-semibold text-foreground mb-4">
-                Apparaten
-              </h3>
-              <div className="h-56">
+              <div className="h-72 w-full">
                 <ResponsiveContainer width="100%" height="100%">
-                  <PieChart>
-                    <Pie
-                      data={stats.devices}
-                      dataKey="count"
-                      nameKey="label"
-                      innerRadius="45%"
-                      outerRadius="78%"
-                      paddingAngle={2}
-                      label={(e: any) =>
-                        `${e.label} ${Math.round((e.count / stats.totalViews) * 100)}%`
-                      }
-                      labelLine={false}
-                    >
-                      {stats.devices.map((_, i) => (
-                        <Cell key={i} fill={PALETTE[i % PALETTE.length]} />
-                      ))}
-                    </Pie>
-                    <Tooltip
-                      contentStyle={{
-                        background: "hsl(var(--background))",
-                        border: "1px solid hsl(var(--border))",
-                        borderRadius: "0.5rem",
-                        fontSize: "0.75rem",
-                      }}
+                  <LineChart data={chartData}>
+                    <CartesianGrid
+                      strokeDasharray="3 3"
+                      stroke="hsl(var(--border))"
                     />
-                  </PieChart>
-                </ResponsiveContainer>
-              </div>
-            </div>
-
-            {/* Browsers */}
-            <div className="bg-background rounded-xl p-4 sm:p-6 border border-border shadow-sm">
-              <h3 className="font-heading font-semibold text-foreground mb-4">
-                Browsers
-              </h3>
-              <div className="h-56">
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={stats.browsers}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
                     <XAxis
-                      dataKey="label"
+                      dataKey="date"
                       stroke="hsl(var(--muted-foreground))"
                       fontSize={11}
                     />
@@ -425,33 +308,128 @@ const AnalyticsTab = () => {
                         fontSize: "0.75rem",
                       }}
                     />
-                    <Bar dataKey="count" fill="hsl(217 91% 60%)" radius={[4, 4, 0, 0]} />
-                  </BarChart>
+                    <Legend wrapperStyle={{ fontSize: "0.75rem" }} />
+                    <Line
+                      type="monotone"
+                      dataKey="Bezoekers"
+                      stroke="hsl(217 91% 60%)"
+                      strokeWidth={2}
+                      dot={false}
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="Pageviews"
+                      stroke="hsl(24 95% 53%)"
+                      strokeWidth={2}
+                      dot={false}
+                    />
+                  </LineChart>
                 </ResponsiveContainer>
               </div>
+            </div>
+          )}
+
+          {/* Snapshot list */}
+          <div className="bg-background rounded-xl p-4 sm:p-6 border border-border shadow-sm">
+            <h3 className="font-heading font-semibold text-foreground mb-4">
+              Snapshots
+            </h3>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm font-body">
+                <thead>
+                  <tr className="text-left text-muted-foreground border-b border-border">
+                    <th className="py-2 pr-3">Datum</th>
+                    <th className="py-2 pr-3 text-right">Bezoekers</th>
+                    <th className="py-2 pr-3 text-right">Pageviews</th>
+                    <th className="py-2 pr-3 text-right">Bounce</th>
+                    <th className="py-2 pr-3 text-right">Duur</th>
+                    <th className="py-2 pr-3">Top bron</th>
+                    <th className="py-2 pr-3 w-24"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filtered.map((s) => {
+                    const topSource = s.sources?.[0]?.label || "—";
+                    return (
+                      <tr key={s.id} className="border-b border-border last:border-0">
+                        <td className="py-2 pr-3 text-foreground whitespace-nowrap">
+                          {new Date(s.snapshot_date).toLocaleDateString("nl-BE", {
+                            day: "2-digit",
+                            month: "short",
+                            year: "numeric",
+                          })}
+                        </td>
+                        <td className="py-2 pr-3 text-right text-foreground">
+                          {s.visitors.toLocaleString("nl-BE")}
+                        </td>
+                        <td className="py-2 pr-3 text-right text-foreground">
+                          {s.pageviews.toLocaleString("nl-BE")}
+                        </td>
+                        <td className="py-2 pr-3 text-right text-muted-foreground">
+                          {s.bounce_rate != null ? `${s.bounce_rate}%` : "—"}
+                        </td>
+                        <td className="py-2 pr-3 text-right text-muted-foreground">
+                          {formatDuration(s.avg_duration_seconds)}
+                        </td>
+                        <td className="py-2 pr-3 text-muted-foreground truncate max-w-[160px]">
+                          {topSource}
+                        </td>
+                        <td className="py-2 pr-3">
+                          <div className="flex justify-end gap-1">
+                            <Button
+                              size="icon"
+                              variant="ghost"
+                              className="h-8 w-8"
+                              onClick={() => openEdit(s)}
+                            >
+                              <Pencil className="w-4 h-4" />
+                            </Button>
+                            <Button
+                              size="icon"
+                              variant="ghost"
+                              className="h-8 w-8 text-destructive hover:text-destructive"
+                              onClick={() => handleDelete(s.id)}
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </Button>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                  {filtered.length === 0 && (
+                    <tr>
+                      <td
+                        colSpan={7}
+                        className="py-6 text-center text-muted-foreground"
+                      >
+                        Geen snapshots in deze periode.
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
             </div>
           </div>
         </>
       )}
+
+      <SnapshotDialog
+        open={dialogOpen}
+        onOpenChange={setDialogOpen}
+        editing={editing}
+        existingDates={snapshots.map((s) => s.snapshot_date)}
+        onSaved={load}
+      />
     </div>
   );
 };
 
-const KPI = ({
-  label,
-  value,
-  small = false,
-}: {
-  label: string;
-  value: string;
-  small?: boolean;
-}) => (
+const KPI = ({ label, value }: { label: string; value: string }) => (
   <div className="bg-background rounded-xl p-4 border border-border shadow-sm">
     <p className="text-xs sm:text-sm font-body text-muted-foreground">{label}</p>
     <p
-      className={`font-heading font-bold text-foreground mt-1 truncate ${
-        small ? "text-base sm:text-lg" : "text-2xl sm:text-3xl"
-      }`}
+      className="font-heading font-bold text-foreground mt-1 text-2xl sm:text-3xl truncate"
       title={value}
     >
       {value}
@@ -459,35 +437,246 @@ const KPI = ({
   </div>
 );
 
-const RankedBars = ({ items }: { items: { label: string; count: number }[] }) => {
-  const max = items[0]?.count || 1;
-  const total = items.reduce((s, i) => s + i.count, 0);
+interface DialogProps {
+  open: boolean;
+  onOpenChange: (v: boolean) => void;
+  editing: Snapshot | null;
+  existingDates: string[];
+  onSaved: () => void;
+}
+
+const SnapshotDialog = ({
+  open,
+  onOpenChange,
+  editing,
+  existingDates,
+  onSaved,
+}: DialogProps) => {
+  const [date, setDate] = useState(todayISO());
+  const [visitors, setVisitors] = useState("");
+  const [pageviews, setPageviews] = useState("");
+  const [bounce, setBounce] = useState("");
+  const [duration, setDuration] = useState("");
+  const [topPages, setTopPages] = useState("");
+  const [sources, setSources] = useState("");
+  const [devices, setDevices] = useState("");
+  const [countries, setCountries] = useState("");
+  const [notes, setNotes] = useState("");
+  const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    if (!open) return;
+    if (editing) {
+      setDate(editing.snapshot_date);
+      setVisitors(String(editing.visitors));
+      setPageviews(String(editing.pageviews));
+      setBounce(editing.bounce_rate != null ? String(editing.bounce_rate) : "");
+      setDuration(
+        editing.avg_duration_seconds != null
+          ? String(editing.avg_duration_seconds)
+          : ""
+      );
+      setTopPages(formatBreakdown(editing.top_pages || []));
+      setSources(formatBreakdown(editing.sources || []));
+      setDevices(formatBreakdown(editing.devices || []));
+      setCountries(formatBreakdown(editing.countries || []));
+      setNotes(editing.notes || "");
+    } else {
+      setDate(todayISO());
+      setVisitors("");
+      setPageviews("");
+      setBounce("");
+      setDuration("");
+      setTopPages("");
+      setSources("");
+      setDevices("");
+      setCountries("");
+      setNotes("");
+    }
+  }, [open, editing]);
+
+  const handleSave = async () => {
+    if (!date) return toast.error("Datum is verplicht.");
+    if (!editing && existingDates.includes(date)) {
+      return toast.error(
+        "Er bestaat al een snapshot voor deze datum. Bewerk die in plaats van een nieuwe te maken."
+      );
+    }
+    const v = parseInt(visitors, 10);
+    const p = parseInt(pageviews, 10);
+    if (isNaN(v) || isNaN(p)) {
+      return toast.error("Bezoekers en pageviews moeten getallen zijn.");
+    }
+    setSaving(true);
+    const payload = {
+      snapshot_date: date,
+      visitors: v,
+      pageviews: p,
+      bounce_rate: bounce ? Number(bounce) : null,
+      avg_duration_seconds: duration ? parseInt(duration, 10) : null,
+      top_pages: parseBreakdown(topPages) as any,
+      sources: parseBreakdown(sources) as any,
+      devices: parseBreakdown(devices) as any,
+      countries: parseBreakdown(countries) as any,
+      notes: notes.trim() || null,
+      updated_at: new Date().toISOString(),
+    };
+    const { error } = editing
+      ? await supabase
+          .from("analytics_snapshots")
+          .update(payload)
+          .eq("id", editing.id)
+      : await supabase.from("analytics_snapshots").insert([payload]);
+    setSaving(false);
+    if (error) {
+      console.error(error);
+      return toast.error("Opslaan mislukt: " + error.message);
+    }
+    toast.success(editing ? "Snapshot bijgewerkt." : "Snapshot toegevoegd.");
+    onOpenChange(false);
+    onSaved();
+  };
+
   return (
-    <div className="space-y-2">
-      {items.map((r) => {
-        const pct = total ? Math.round((r.count / total) * 100) : 0;
-        return (
-          <div key={r.label} className="flex items-center gap-3">
-            <span
-              className="text-xs sm:text-sm font-body text-foreground w-32 sm:w-44 shrink-0 truncate"
-              title={r.label}
-            >
-              {r.label}
-            </span>
-            <div className="flex-1 bg-muted rounded-full h-4 overflow-hidden min-w-0">
-              <div
-                className="bg-primary h-full rounded-full transition-all"
-                style={{ width: `${Math.max(4, (r.count / max) * 100)}%` }}
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle>
+            {editing ? "Snapshot bewerken" : "Nieuwe snapshot"}
+          </DialogTitle>
+        </DialogHeader>
+
+        <div className="space-y-4">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div className="col-span-2 sm:col-span-1">
+              <Label htmlFor="date">Datum</Label>
+              <Input
+                id="date"
+                type="date"
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
+                disabled={!!editing}
               />
             </div>
-            <span className="text-xs sm:text-sm font-heading font-semibold text-foreground w-16 text-right shrink-0">
-              {r.count} ({pct}%)
-            </span>
+            <div>
+              <Label htmlFor="visitors">Bezoekers</Label>
+              <Input
+                id="visitors"
+                type="number"
+                value={visitors}
+                onChange={(e) => setVisitors(e.target.value)}
+                placeholder="0"
+              />
+            </div>
+            <div>
+              <Label htmlFor="pageviews">Pageviews</Label>
+              <Input
+                id="pageviews"
+                type="number"
+                value={pageviews}
+                onChange={(e) => setPageviews(e.target.value)}
+                placeholder="0"
+              />
+            </div>
+            <div>
+              <Label htmlFor="bounce">Bounce %</Label>
+              <Input
+                id="bounce"
+                type="number"
+                step="0.1"
+                value={bounce}
+                onChange={(e) => setBounce(e.target.value)}
+                placeholder="0"
+              />
+            </div>
+            <div className="col-span-2 sm:col-span-1">
+              <Label htmlFor="duration">Sessieduur (sec)</Label>
+              <Input
+                id="duration"
+                type="number"
+                value={duration}
+                onChange={(e) => setDuration(e.target.value)}
+                placeholder="0"
+              />
+            </div>
           </div>
-        );
-      })}
-    </div>
+
+          <p className="text-xs text-muted-foreground italic">
+            Tip: kopieer voor onderstaande velden de lijst zoals die in Lovable
+            Analytics staat. Eén regel per item, formaat: <code>label, getal</code>
+          </p>
+
+          <BreakdownField
+            label="Top pagina's"
+            value={topPages}
+            onChange={setTopPages}
+            placeholder="/, 450&#10;/diensten, 230&#10;/afspraak, 180"
+          />
+          <BreakdownField
+            label="Verkeersbronnen"
+            value={sources}
+            onChange={setSources}
+            placeholder="Google, 320&#10;Direct, 180&#10;Facebook, 90"
+          />
+          <BreakdownField
+            label="Apparaten"
+            value={devices}
+            onChange={setDevices}
+            placeholder="Mobile, 420&#10;Desktop, 280&#10;Tablet, 60"
+          />
+          <BreakdownField
+            label="Landen"
+            value={countries}
+            onChange={setCountries}
+            placeholder="België, 580&#10;Nederland, 90&#10;Frankrijk, 30"
+          />
+
+          <div>
+            <Label htmlFor="notes">Notities (optioneel)</Label>
+            <Textarea
+              id="notes"
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+              rows={2}
+              placeholder="Bijv. campagne live, promo verstuurd, ..."
+            />
+          </div>
+        </div>
+
+        <DialogFooter>
+          <Button variant="outline" onClick={() => onOpenChange(false)}>
+            Annuleren
+          </Button>
+          <Button onClick={handleSave} disabled={saving}>
+            {saving ? "Opslaan..." : "Opslaan"}
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 };
+
+const BreakdownField = ({
+  label,
+  value,
+  onChange,
+  placeholder,
+}: {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+  placeholder: string;
+}) => (
+  <div>
+    <Label>{label}</Label>
+    <Textarea
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      rows={4}
+      placeholder={placeholder}
+      className="font-mono text-xs"
+    />
+  </div>
+);
 
 export default AnalyticsTab;
