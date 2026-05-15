@@ -27,11 +27,24 @@ import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
 
+declare global {
+  interface Window {
+    gtag?: (...args: unknown[]) => void;
+  }
+}
+
 const ScrollToTop = () => {
-  const { pathname } = useLocation();
+  const { pathname, search } = useLocation();
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [pathname]);
+    if (typeof window.gtag === "function") {
+      window.gtag("event", "page_view", {
+        page_path: pathname + search,
+        page_location: window.location.href,
+        page_title: document.title,
+      });
+    }
+  }, [pathname, search]);
   return null;
 };
 
