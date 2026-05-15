@@ -38,10 +38,8 @@ const ScrollToTop = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
     if (typeof window.gtag === "function") {
-      window.gtag("event", "page_view", {
+      window.gtag("config", "G-2XP4PSTDFS", {
         page_path: pathname + search,
-        page_location: window.location.href,
-        page_title: document.title,
       });
     }
   }, [pathname, search]);
