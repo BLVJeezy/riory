@@ -112,6 +112,17 @@ const Footer = () => {
             <Link to={localizedPath("/cookie-policy")} className="text-xs text-primary-foreground/30 hover:text-primary transition-colors font-body">{t("footer.cookies")}</Link>
           </div>
         </div>
+
+        <div className="mt-6 pt-4 border-t border-primary-foreground/5 text-center">
+          <a
+            href="https://solyn-global.com/portfolio"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs text-primary-foreground/30 hover:text-primary transition-colors font-body"
+          >
+            Created by Solyn
+          </a>
+        </div>
       </div>
     </footer>
   );
