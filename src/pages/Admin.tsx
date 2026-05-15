@@ -551,8 +551,9 @@ const Admin = () => {
             );
           })()
         )}
-          </TabsContent>
-        </Tabs>
+        </div>
+      </div>
+    </div>
       </div>
     </div>
   );
