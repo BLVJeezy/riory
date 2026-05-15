@@ -4,10 +4,8 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from "recha
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { LogOut, Share2, Download } from "lucide-react";
+import { LogOut, Share2, Download, BarChart3 } from "lucide-react";
 import { toast } from "sonner";
-import AnalyticsTab from "@/components/admin/AnalyticsTab";
 
 
 
@@ -337,15 +335,19 @@ const Admin = () => {
 
       {/* Content */}
       <div className="px-4 sm:px-6 pb-8 pt-6">
-        <Tabs defaultValue="bronnen" className="space-y-6">
-          <TabsList>
-            <TabsTrigger value="bronnen">Bronnen</TabsTrigger>
-            <TabsTrigger value="analytics">Website analytics</TabsTrigger>
-          </TabsList>
-          <TabsContent value="analytics" className="mt-0">
-            <AnalyticsTab />
-          </TabsContent>
-          <TabsContent value="bronnen" className="mt-0">
+        <div className="space-y-6">
+          <div className="flex justify-end">
+            <a
+              href="https://analytics.google.com/analytics/web/#/p/reports/dashboard"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Button variant="outline" size="sm" className="gap-2">
+                <BarChart3 className="w-4 h-4" />
+                Open Google Analytics
+              </Button>
+            </a>
+          </div>
         {loadingData ? (
           <p className="text-muted-foreground font-body">Laden...</p>
         ) : (
@@ -549,8 +551,7 @@ const Admin = () => {
             );
           })()
         )}
-          </TabsContent>
-        </Tabs>
+        </div>
       </div>
     </div>
   );
