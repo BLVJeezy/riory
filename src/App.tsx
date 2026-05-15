@@ -38,7 +38,7 @@ const ScrollToTop = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
     if (typeof window.gtag === "function") {
-      window.gtag("config", "G-2XP4PSTDFS", {
+      window.gtag("config", "G-E54E9FCFZQ", {
         page_path: pathname + search,
       });
     }
