@@ -892,13 +892,27 @@ const AppointmentForm = () => {
                 type="button"
                 variant="cta"
                 onClick={next}
-                disabled={!canProceed()}
                 className="gap-1 sm:gap-2 text-xs sm:text-sm px-3 sm:px-4"
               >
                 {t("appointmentForm.nextStep")}
                 <ChevronRight className="w-4 h-4" />
               </Button>
             ) : (
+              <Button
+                type="button"
+                variant="cta"
+                onClick={() => {
+                  const missing = getMissingFields();
+                  if (missing.length > 0) { showMissingToast(missing); return; }
+                  handleSubmit();
+                }}
+                disabled={submitting}
+                className="gap-1 sm:gap-2 text-xs sm:text-sm px-3 sm:px-4"
+              >
+                <Send className="w-4 h-4" />
+                {submitting ? t("appointmentForm.submitting") : t("appointmentForm.submitCta")}
+              </Button>
+            )}
               <Button
                 type="button"
                 variant="cta"
