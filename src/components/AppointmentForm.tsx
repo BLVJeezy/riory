@@ -220,48 +220,87 @@ const AppointmentForm = () => {
   const handleSyndicusChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setSyndicus((p) => ({ ...p, [e.target.name]: e.target.value }));
 
-  const canProceed = (): boolean => {
+  const getMissingFields = (): string[] => {
+    const missing: string[] = [];
+    const req = (cond: boolean, label: string) => { if (cond) missing.push(label); };
     switch (step) {
-      case 0: return dienst !== "";
-      case 1: return akkoord;
-      case 2: return urgent !== null;
-      case 3: return klantType !== "";
+      case 0:
+        req(!dienst, tFields.service ?? "Dienst");
+        break;
+      case 1:
+        req(!akkoord, t("appointmentForm.step1Terms"));
+        break;
+      case 2:
+        req(urgent === null, t("appointmentForm.step2Title"));
+        break;
+      case 3:
+        req(!klantType, t("appointmentForm.step3Title"));
+        break;
       case 4: {
         if (klantType === "syndicus") {
-          if (woningOuder === null) return false;
-          // VME (facturatie) fields
-          if (!syndicus.naam_vme || !syndicus.kbo_nummer) return false;
-          if (!fact.straat || !fact.huisnummer || !fact.postcode || !fact.plaats || !isValidBePhone(fact.telefoon)) return false;
-          // Syndicus personal fields
-          if (!syndicus.naam || !syndicus.voornaam || !syndicus.kantoor || !syndicus.email) return false;
-          if (!syndicus.straat || !syndicus.huisnummer || !syndicus.postcode || !syndicus.plaats) return false;
-          if (!isValidBePhone(syndicus.telefoon) || !syndicus.facturatie_email) return false;
-        } else {
-          if (klantType === "particulier" && woningOuder === null) return false;
-          if (werfIsFacturatie === null) return false;
-          if (!fact.naam || !fact.voornaam || !fact.email || !isValidBePhone(fact.telefoon) || !fact.straat || !fact.huisnummer || !fact.postcode || !fact.plaats) return false;
+          req(woningOuder === null, t("appointmentForm.olderThan10"));
+          req(!syndicus.naam_vme, tFields.vmeName);
+          req(!syndicus.kbo_nummer, `VME ${tFields.kbo}`);
+          req(!fact.straat, `VME ${tFields.street}`);
+          req(!fact.huisnummer, `VME ${tFields.houseNumber}`);
+          req(!fact.postcode, `VME ${tFields.postcode}`);
+          req(!fact.plaats, `VME ${tFields.city}`);
+          req(!isValidBePhone(fact.telefoon), `VME ${tFields.phoneContact} (+32XXXXXXXXX)`);
+          req(!syndicus.naam, `Syndicus ${tFields.name}`);
+          req(!syndicus.voornaam, `Syndicus ${tFields.firstName}`);
+          req(!syndicus.kantoor, tFields.officeName);
+          req(!syndicus.straat, `Syndicus ${tFields.street}`);
+          req(!syndicus.huisnummer, `Syndicus ${tFields.houseNumber}`);
+          req(!syndicus.postcode, `Syndicus ${tFields.postcode}`);
+          req(!syndicus.plaats, `Syndicus ${tFields.city}`);
+          req(!isValidBePhone(syndicus.telefoon), `Syndicus ${tFields.phone} (+32XXXXXXXXX)`);
+          req(!syndicus.email, `Syndicus ${tFields.generalEmail}`);
+          req(!syndicus.facturatie_email, tFields.billingEmailLong);
+        } else if (klantType) {
+          if (klantType === "particulier") req(woningOuder === null, t("appointmentForm.olderThan10"));
+          req(werfIsFacturatie === null, t("appointmentForm.siteEqualsBilling"));
+          req(!fact.naam, tFields.name);
+          req(!fact.voornaam, tFields.firstName);
+          req(!fact.email, tFields.email);
+          req(!isValidBePhone(fact.telefoon), `${tFields.phone} (+32XXXXXXXXX)`);
+          req(!fact.straat, tFields.street);
+          req(!fact.huisnummer, tFields.houseNumber);
+          req(!fact.postcode, tFields.postcode);
+          req(!fact.plaats, tFields.city);
           if (klantType === "bedrijf" || klantType === "vrij_beroep") {
-            if (!fact.bedrijfsnaam || !fact.facturatie_email) return false;
-            if (klantType === "bedrijf" && !fact.btw_nummer) return false;
-            if (klantType === "vrij_beroep" && !fact.kbo_nummer) return false;
+            req(!fact.bedrijfsnaam, tFields.companyName);
+            req(!fact.facturatie_email, tFields.billingEmail);
+            if (klantType === "bedrijf") req(!fact.btw_nummer, tFields.vat);
+            if (klantType === "vrij_beroep") req(!fact.kbo_nummer, tFields.kbo);
           }
           if (werfIsFacturatie === false) {
-            if (!werf.straat || !werf.huisnummer || !werf.postcode || !werf.plaats) return false;
-            if (!werf.contactpersoon || !isValidBePhone(werf.telefoon)) return false;
-            if ((klantType === "bedrijf" || klantType === "vrij_beroep") && !werf.projectnaam) return false;
+            if (klantType === "bedrijf" || klantType === "vrij_beroep") req(!werf.projectnaam, `Werf ${tFields.projectName}`);
+            req(!werf.contactpersoon, `Werf ${tFields.contactPerson}`);
+            req(!werf.straat, `Werf ${tFields.street}`);
+            req(!werf.huisnummer, `Werf ${tFields.houseNumber}`);
+            req(!werf.postcode, `Werf ${tFields.postcode}`);
+            req(!werf.plaats, `Werf ${tFields.city}`);
+            req(!isValidBePhone(werf.telefoon), `Werf ${tFields.phone} (+32XXXXXXXXX)`);
           }
+        } else {
+          missing.push(t("appointmentForm.step3Title"));
         }
-        return true;
+        break;
       }
-      case 5: return beschrijving.trim().length > 0;
-      case 6: {
-        if (!gevondenVia) return false;
-        if ((gevondenVia === "mond_aan_mond" || gevondenVia === "installateur" || gevondenVia === "andere") && !gevondenDetail.trim()) return false;
-        return true;
-      }
-      default: return false;
+      case 5:
+        req(beschrijving.trim().length === 0, t("appointmentForm.step5Title"));
+        break;
+      case 6:
+        req(!gevondenVia, t("appointmentForm.step6Title"));
+        if ((gevondenVia === "mond_aan_mond" || gevondenVia === "installateur" || gevondenVia === "andere")) {
+          req(!gevondenDetail.trim(), tDetail[gevondenVia] ?? "");
+        }
+        break;
     }
+    return missing;
   };
+
+  const canProceed = (): boolean => getMissingFields().length === 0;
 
   const scrollToForm = useCallback(() => {
     requestAnimationFrame(() => {
@@ -269,8 +308,19 @@ const AppointmentForm = () => {
     });
   }, []);
 
+  const showMissingToast = (missing: string[]) => {
+    toast.error(t("appointmentForm.fillAllRequired", { defaultValue: "Vul alle verplichte velden in" }), {
+      description: missing.slice(0, 8).join(" • ") + (missing.length > 8 ? ` • +${missing.length - 8}` : ""),
+    });
+  };
+
   const next = () => {
-    if (canProceed() && step < TOTAL_STEPS - 1) {
+    const missing = getMissingFields();
+    if (missing.length > 0) {
+      showMissingToast(missing);
+      return;
+    }
+    if (step < TOTAL_STEPS - 1) {
       setStep(step + 1);
       scrollToForm();
     }
@@ -842,7 +892,6 @@ const AppointmentForm = () => {
                 type="button"
                 variant="cta"
                 onClick={next}
-                disabled={!canProceed()}
                 className="gap-1 sm:gap-2 text-xs sm:text-sm px-3 sm:px-4"
               >
                 {t("appointmentForm.nextStep")}
@@ -852,7 +901,11 @@ const AppointmentForm = () => {
               <Button
                 type="button"
                 variant="cta"
-                onClick={handleSubmit}
+                onClick={() => {
+                  const missing = getMissingFields();
+                  if (missing.length > 0) { showMissingToast(missing); return; }
+                  handleSubmit();
+                }}
                 disabled={submitting}
                 className="gap-1 sm:gap-2 text-xs sm:text-sm px-3 sm:px-4"
               >
