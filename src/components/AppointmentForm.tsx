@@ -913,17 +913,6 @@ const AppointmentForm = () => {
                 {submitting ? t("appointmentForm.submitting") : t("appointmentForm.submitCta")}
               </Button>
             )}
-              <Button
-                type="button"
-                variant="cta"
-                onClick={handleSubmit}
-                disabled={submitting}
-                className="gap-1 sm:gap-2 text-xs sm:text-sm px-3 sm:px-4"
-              >
-                <Send className="w-4 h-4" />
-                {submitting ? t("appointmentForm.submitting") : t("appointmentForm.submitCta")}
-              </Button>
-            )}
           </div>
         </InViewBlock>
       </div>
