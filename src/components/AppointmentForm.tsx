@@ -332,6 +332,17 @@ const AppointmentForm = () => {
     }
   };
 
+  // Returns the phone only if it contains actual subscriber digits (more than just the dial-code prefix like "+32")
+  const cleanPhone = (val?: string | null): string | undefined => {
+    if (!val) return undefined;
+    const trimmed = val.trim();
+    if (!trimmed) return undefined;
+    const digits = trimmed.replace(/\D/g, "");
+    // Country dial codes are 1-3 digits; require at least 4 extra digits to count as a real number
+    if (digits.length <= 3) return undefined;
+    return trimmed;
+  };
+
   const handleSubmit = async () => {
     setSubmitting(true);
     try {
@@ -356,14 +367,14 @@ const AppointmentForm = () => {
         fact_plaats: fact.plaats || null,
         fact_email: effectiveFactEmail,
         fact_facturatie_email: fact.facturatie_email || null,
-        fact_telefoon: fact.telefoon || null,
+        fact_telefoon: cleanPhone(fact.telefoon) ?? null,
         werf_projectnaam: werf.projectnaam || null,
         werf_contactpersoon: werf.contactpersoon || null,
         werf_straat: werf.straat || null,
         werf_huisnummer: werf.huisnummer || null,
         werf_postcode: werf.postcode || null,
         werf_plaats: werf.plaats || null,
-        werf_telefoon: werf.telefoon || null,
+        werf_telefoon: cleanPhone(werf.telefoon) ?? null,
         syndicus_naam: klantType === "syndicus" ? (syndicus.naam || null) : null,
         syndicus_voornaam: klantType === "syndicus" ? (syndicus.voornaam || null) : null,
         syndicus_kantoor: klantType === "syndicus" ? (syndicus.kantoor || null) : null,
@@ -371,7 +382,7 @@ const AppointmentForm = () => {
         syndicus_huisnummer: klantType === "syndicus" ? (syndicus.huisnummer || null) : null,
         syndicus_postcode: klantType === "syndicus" ? (syndicus.postcode || null) : null,
         syndicus_plaats: klantType === "syndicus" ? (syndicus.plaats || null) : null,
-        syndicus_telefoon: klantType === "syndicus" ? (syndicus.telefoon || null) : null,
+        syndicus_telefoon: klantType === "syndicus" ? (cleanPhone(syndicus.telefoon) ?? null) : null,
         syndicus_email: klantType === "syndicus" ? (syndicus.email || null) : null,
         syndicus_facturatie_email: klantType === "syndicus" ? (syndicus.facturatie_email || null) : null,
         syndicus_naam_vme: klantType === "syndicus" ? (syndicus.naam_vme || null) : null,
@@ -402,7 +413,7 @@ const AppointmentForm = () => {
             kboNummer: fact.kbo_nummer || undefined,
             email: fact.email || undefined,
             facturatieEmail: fact.facturatie_email || undefined,
-            telefoon: fact.telefoon || undefined,
+            telefoon: cleanPhone(fact.telefoon),
             straat: fact.straat || undefined,
             huisnummer: fact.huisnummer || undefined,
             postcode: fact.postcode || undefined,
@@ -411,7 +422,7 @@ const AppointmentForm = () => {
             werfHuisnummer: werf.huisnummer || undefined,
             werfPostcode: werf.postcode || undefined,
             werfPlaats: werf.plaats || undefined,
-            werfTelefoon: werf.telefoon || undefined,
+            werfTelefoon: cleanPhone(werf.telefoon),
             werfContactpersoon: werf.contactpersoon || undefined,
             werfProjectnaam: werf.projectnaam || undefined,
             syndicusNaam: syndicus.naam || undefined,
@@ -421,7 +432,7 @@ const AppointmentForm = () => {
             syndicusHuisnummer: syndicus.huisnummer || undefined,
             syndicusPostcode: syndicus.postcode || undefined,
             syndicusPlaats: syndicus.plaats || undefined,
-            syndicusTelefoon: syndicus.telefoon || undefined,
+            syndicusTelefoon: cleanPhone(syndicus.telefoon),
             syndicusEmail: syndicus.email || undefined,
             syndicusFacturatieEmail: syndicus.facturatie_email || undefined,
             syndicusNaamVme: syndicus.naam_vme || undefined,
@@ -466,7 +477,7 @@ const AppointmentForm = () => {
             kboNummer: fact.kbo_nummer || undefined,
             email: effectiveFactEmail,
             facturatieEmail: fact.facturatie_email || undefined,
-            telefoon: fact.telefoon || undefined,
+            telefoon: cleanPhone(fact.telefoon),
             straat: fact.straat || undefined,
             huisnummer: fact.huisnummer || undefined,
             postcode: fact.postcode || undefined,
@@ -475,7 +486,7 @@ const AppointmentForm = () => {
             werfHuisnummer: werf.huisnummer || undefined,
             werfPostcode: werf.postcode || undefined,
             werfPlaats: werf.plaats || undefined,
-            werfTelefoon: werf.telefoon || undefined,
+            werfTelefoon: cleanPhone(werf.telefoon),
             werfContactpersoon: werf.contactpersoon || undefined,
             werfProjectnaam: werf.projectnaam || undefined,
             syndicusNaam: syndicus.naam || undefined,
@@ -485,7 +496,7 @@ const AppointmentForm = () => {
             syndicusHuisnummer: syndicus.huisnummer || undefined,
             syndicusPostcode: syndicus.postcode || undefined,
             syndicusPlaats: syndicus.plaats || undefined,
-            syndicusTelefoon: syndicus.telefoon || undefined,
+            syndicusTelefoon: cleanPhone(syndicus.telefoon),
             syndicusEmail: syndicus.email || undefined,
             syndicusFacturatieEmail: syndicus.facturatie_email || undefined,
             syndicusNaamVme: syndicus.naam_vme || undefined,
