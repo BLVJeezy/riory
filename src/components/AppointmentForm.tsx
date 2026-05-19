@@ -332,6 +332,17 @@ const AppointmentForm = () => {
     }
   };
 
+  // Returns the phone only if it contains actual subscriber digits (more than just the dial-code prefix like "+32")
+  const cleanPhone = (val?: string | null): string | undefined => {
+    if (!val) return undefined;
+    const trimmed = val.trim();
+    if (!trimmed) return undefined;
+    const digits = trimmed.replace(/\D/g, "");
+    // Country dial codes are 1-3 digits; require at least 4 extra digits to count as a real number
+    if (digits.length <= 3) return undefined;
+    return trimmed;
+  };
+
   const handleSubmit = async () => {
     setSubmitting(true);
     try {
