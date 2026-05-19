@@ -14,6 +14,7 @@ import { template as quoteNotification } from './quote-notification.tsx'
 import { template as simplaHealthAlert } from './simpla-health-alert.tsx'
 import { template as afspraakConfirmation } from './afspraak-confirmation.tsx'
 import { template as offerteConfirmation } from './offerte-confirmation.tsx'
+import { template as simplaPayloadSample } from './simpla-payload-sample.tsx'
 
 export const TEMPLATES: Record<string, TemplateEntry> = {
   'appointment-notification': appointmentNotification,
@@ -21,4 +22,5 @@ export const TEMPLATES: Record<string, TemplateEntry> = {
   'simpla-health-alert': simplaHealthAlert,
   'afspraak-confirmation': afspraakConfirmation,
   'offerte-confirmation': offerteConfirmation,
+  'simpla-payload-sample': simplaPayloadSample,
 }
