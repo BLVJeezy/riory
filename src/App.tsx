@@ -7,6 +7,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { LanguageProvider } from "@/i18n/LanguageProvider";
+import { captureAttribution, getAttribution } from "@/lib/attribution";
 
 import Index from "./pages/Index.tsx";
 import Diensten from "./pages/Diensten.tsx";
@@ -37,12 +38,40 @@ const ScrollToTop = () => {
   const { pathname, search } = useLocation();
   useEffect(() => {
     window.scrollTo(0, 0);
+    captureAttribution();
     if (typeof window.gtag === "function") {
       window.gtag("config", "G-E54E9FCFZQ", {
         page_path: pathname + search,
       });
     }
   }, [pathname, search]);
+  return null;
+};
+
+const ClickTracker = () => {
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (!target) return;
+      const tel = target.closest('a[href^="tel:"]') as HTMLAnchorElement | null;
+      if (tel) {
+        window.gtag?.("event", "phone_click", {
+          phone: tel.getAttribute("href")?.replace("tel:", ""),
+          attribution: getAttribution(),
+        });
+        return;
+      }
+      const cta = target.closest("[data-track-cta]") as HTMLElement | null;
+      if (cta) {
+        window.gtag?.("event", "cta_click", {
+          cta_label: cta.getAttribute("data-track-cta") || undefined,
+          attribution: getAttribution(),
+        });
+      }
+    };
+    document.addEventListener("click", handler, { capture: true });
+    return () => document.removeEventListener("click", handler, { capture: true } as EventListenerOptions);
+  }, []);
   return null;
 };
 
@@ -78,6 +107,7 @@ const App = () => (
         <LanguageProvider>
           <AuthProvider>
             <ScrollToTop />
+            <ClickTracker />
             <Routes>
               <Route path="/en/*" element={<AppRoutes />} />
               <Route path="/fr/*" element={<AppRoutes />} />

@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Send, User, Mail, Phone, MapPin, FileText } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { sendLead } from "@/lib/attribution";
 
 const diensten = [
   "Septische put ledigen",
@@ -90,6 +91,18 @@ const QuoteForm = () => {
           },
         },
       }).catch((err) => console.error("Customer confirmation email failed:", err));
+
+      // Send lead to attribution endpoint (fire-and-forget)
+      sendLead({
+        type: "quote",
+        quoteId: id,
+        naam: formData.naam,
+        email: formData.email,
+        telefoon: formData.telefoon || undefined,
+        locatie: formData.locatie || undefined,
+        dienst: formData.dienst || undefined,
+        beschrijving: formData.beschrijving || undefined,
+      });
 
       setSubmitResult("success");
       setFormData({ naam: "", email: "", telefoon: "", locatie: "", dienst: "", beschrijving: "" });
