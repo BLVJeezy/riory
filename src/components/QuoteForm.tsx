@@ -92,6 +92,18 @@ const QuoteForm = () => {
         },
       }).catch((err) => console.error("Customer confirmation email failed:", err));
 
+      // Send lead to attribution endpoint (fire-and-forget)
+      sendLead({
+        type: "quote",
+        quoteId: id,
+        naam: formData.naam,
+        email: formData.email,
+        telefoon: formData.telefoon || undefined,
+        locatie: formData.locatie || undefined,
+        dienst: formData.dienst || undefined,
+        beschrijving: formData.beschrijving || undefined,
+      });
+
       setSubmitResult("success");
       setFormData({ naam: "", email: "", telefoon: "", locatie: "", dienst: "", beschrijving: "" });
     } catch (err) {
