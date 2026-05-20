@@ -7,6 +7,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { LanguageProvider } from "@/i18n/LanguageProvider";
+import { captureAttribution, getAttribution } from "@/lib/attribution";
 
 import Index from "./pages/Index.tsx";
 import Diensten from "./pages/Diensten.tsx";
