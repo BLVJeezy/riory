@@ -5,6 +5,7 @@ import SubmitResultOverlay from "@/components/SubmitResultOverlay";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { sendLead } from "@/lib/attribution";
 import {
   Check,
   ChevronRight,
