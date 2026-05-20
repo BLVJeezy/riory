@@ -107,6 +107,7 @@ const App = () => (
         <LanguageProvider>
           <AuthProvider>
             <ScrollToTop />
+            <ClickTracker />
             <Routes>
               <Route path="/en/*" element={<AppRoutes />} />
               <Route path="/fr/*" element={<AppRoutes />} />
