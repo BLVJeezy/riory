@@ -4,7 +4,7 @@
 
 const COOKIE = "riory_attr";
 const TTL_DAYS = 90;
-export const GA_MEASUREMENT_ID = "G-2XP4PSTDFS";
+export const GA_MEASUREMENT_ID = "G-E54E9FCFZQ";
 
 export type AttrData = {
   gclid?: string;
