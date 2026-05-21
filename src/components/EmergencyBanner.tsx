@@ -22,6 +22,7 @@ const EmergencyBanner = () => {
             <Link
               key={service.label}
               to={service.href}
+              data-track-cta={`emergency_banner_${service.label}`}
               className="flex items-center justify-between gap-2 bg-white/5 hover:bg-white/10 rounded-lg px-4 py-3 transition-colors group"
             >
               <span className="text-xs md:text-sm font-heading font-semibold uppercase tracking-wider text-white/80 leading-tight">

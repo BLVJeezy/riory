@@ -132,6 +132,7 @@ const LocatieDetail = () => {
                 <Button
                   variant="cta"
                   size="default"
+                  data-track-cta="locatie_top_appointment"
                   className="rounded-full text-xs md:text-base px-4 md:px-6 h-9 md:h-11"
                   onClick={handleScrollToForm}
                 >
@@ -139,6 +140,7 @@ const LocatieDetail = () => {
                 </Button>
                 <a
                   href="tel:+32472502814"
+                  data-track-cta="locatie_top_urgent_tel"
                   className="inline-flex items-center gap-1.5 px-3.5 py-2 md:px-6 md:py-3 rounded-full bg-[hsl(var(--urgent))] text-[hsl(var(--urgent-foreground))] font-heading font-bold text-[11px] md:text-sm uppercase tracking-wider shadow-[0_0_20px_hsl(var(--urgent)/0.6)] hover:shadow-[0_0_30px_hsl(var(--urgent)/0.8)] transition-shadow"
                 >
                   <Phone className="w-3.5 h-3.5 md:w-4 md:h-4" />
@@ -252,6 +254,7 @@ const LocatieDetail = () => {
             <Button
               variant="cta"
               size="lg"
+              data-track-cta="locatie_bottom_appointment"
               className="rounded-full"
               onClick={handleScrollToForm}
             >
@@ -259,6 +262,7 @@ const LocatieDetail = () => {
             </Button>
             <a
               href="tel:+32472502814"
+              data-track-cta="locatie_bottom_urgent_tel"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[hsl(var(--urgent))] text-[hsl(var(--urgent-foreground))] font-heading font-bold text-sm uppercase tracking-wider shadow-[0_0_20px_hsl(var(--urgent)/0.6)] hover:shadow-[0_0_30px_hsl(var(--urgent)/0.8)] transition-shadow"
             >
               <AlertTriangle className="w-4 h-4" />
