@@ -118,6 +118,7 @@ const ProjectsSection = () => {
                       <Link
                         key={project.title}
                         to={localizedPath(`/referenties/${cat.slug}`)}
+                        data-track-cta={`projects_tile_${cat.slug}`}
                         className="group block"
                       >
                         <div className="relative aspect-[4/3] rounded-xl overflow-hidden">
