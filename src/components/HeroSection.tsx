@@ -86,10 +86,11 @@ const HeroSection = () => {
 
           <div className="flex flex-col sm:flex-row gap-2.5 sm:gap-3 mb-3 md:mb-4">
             <Button variant="hero" size="lg" className="text-sm md:text-base px-6 md:px-8 py-5 md:py-6 rounded-full" asChild>
-              <Link to={localizedPath("/afspraak")}>{t("hero.ctaAppointment")}</Link>
+              <Link to={localizedPath("/afspraak")} data-track-cta="hero_appointment">{t("hero.ctaAppointment")}</Link>
             </Button>
             <a
               href="tel:+32472502814"
+              data-track-cta="hero_urgent_tel"
               className="inline-flex items-center justify-center gap-2 px-6 md:px-8 py-3.5 md:py-4 rounded-full bg-[hsl(var(--urgent))] text-[hsl(var(--urgent-foreground))] font-heading font-bold text-sm md:text-base uppercase tracking-wide shadow-[0_0_20px_hsl(var(--urgent)/0.6),0_0_40px_hsl(var(--urgent)/0.3)] hover:shadow-[0_0_30px_hsl(var(--urgent)/0.8),0_0_60px_hsl(var(--urgent)/0.4)] transition-shadow animate-pulse"
             >
               <AlertTriangle className="w-4 h-4 md:w-5 md:h-5" />
@@ -98,7 +99,7 @@ const HeroSection = () => {
           </div>
 
           <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-5">
-            <a href="tel:+32472502814" className="inline-flex items-center gap-2.5 group">
+            <a href="tel:+32472502814" data-track-cta="hero_phone_24_7" className="inline-flex items-center gap-2.5 group">
               <div className="relative">
                 <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-primary/20 border border-primary/40 flex items-center justify-center group-hover:bg-primary/30 transition-colors">
                   <Phone className="w-4 h-4 md:w-5 md:h-5 text-primary" />
