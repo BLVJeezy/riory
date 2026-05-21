@@ -7,7 +7,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { LanguageProvider } from "@/i18n/LanguageProvider";
-import { captureAttribution, getAttribution } from "@/lib/attribution";
+import { captureAttribution, trackPhoneClick, trackCtaClick, GA_MEASUREMENT_ID } from "@/lib/attribution";
 
 import Index from "./pages/Index.tsx";
 import Diensten from "./pages/Diensten.tsx";
@@ -40,7 +40,7 @@ const ScrollToTop = () => {
     window.scrollTo(0, 0);
     captureAttribution();
     if (typeof window.gtag === "function") {
-      window.gtag("config", "G-E54E9FCFZQ", {
+      window.gtag("config", GA_MEASUREMENT_ID, {
         page_path: pathname + search,
       });
     }
@@ -55,18 +55,16 @@ const ClickTracker = () => {
       if (!target) return;
       const tel = target.closest('a[href^="tel:"]') as HTMLAnchorElement | null;
       if (tel) {
-        window.gtag?.("event", "phone_click", {
-          phone: tel.getAttribute("href")?.replace("tel:", ""),
-          attribution: getAttribution(),
-        });
+        const phone = tel.getAttribute("href")?.replace("tel:", "") ?? "";
+        const label = tel.getAttribute("data-track-cta") || "phone_click";
+        trackPhoneClick({ phone, label });
         return;
       }
       const cta = target.closest("[data-track-cta]") as HTMLElement | null;
       if (cta) {
-        window.gtag?.("event", "cta_click", {
-          cta_label: cta.getAttribute("data-track-cta") || undefined,
-          attribution: getAttribution(),
-        });
+        const label = cta.getAttribute("data-track-cta") || "cta_click";
+        const phone = cta.getAttribute("data-track-phone") || undefined;
+        trackCtaClick({ label, phone });
       }
     };
     document.addEventListener("click", handler, { capture: true });

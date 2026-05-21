@@ -4,7 +4,7 @@
 
 const COOKIE = "riory_attr";
 const TTL_DAYS = 90;
-const GA_MEASUREMENT_ID = "G-E54E9FCFZQ";
+export const GA_MEASUREMENT_ID = "G-2XP4PSTDFS";
 
 export type AttrData = {
   gclid?: string;
@@ -89,6 +89,7 @@ export function getGa4ClientId(): Promise<string | undefined> {
 }
 
 const LEAD_ENDPOINT = "https://riory.invenix.nl/api/lead";
+const PHONE_CLICK_ENDPOINT = "https://riory.invenix.nl/api/phone_click";
 
 export async function sendLead(formFields: Record<string, unknown>) {
   try {
@@ -112,5 +113,69 @@ export async function sendLead(formFields: Record<string, unknown>) {
     });
   } catch (err) {
     console.error("Lead submit failed:", err);
+  }
+}
+
+export async function trackPhoneClick(opts: { phone: string; label?: string }) {
+  const attribution = getAttribution();
+  const ga_client_id = await getGa4ClientId();
+
+  // Fire-and-forget naar onze webhook
+  try {
+    fetch(PHONE_CLICK_ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      keepalive: true,
+      body: JSON.stringify({
+        clicked_phone: opts.phone,
+        cta_label: opts.label ?? "phone_click",
+        page_url:
+          typeof window !== "undefined" ? window.location.href : undefined,
+        attribution: { ...attribution, ga_client_id },
+      }),
+    }).catch(() => {
+      /* zwijgend */
+    });
+  } catch {
+    /* zwijgend */
+  }
+
+  if (typeof window !== "undefined") {
+    window.gtag?.("event", "phone_click", {
+      cta_label: opts.label ?? "phone_click",
+      phone: opts.phone,
+      attribution,
+    });
+  }
+}
+
+export async function trackCtaClick(opts: { label: string; phone?: string }) {
+  const attribution = getAttribution();
+  const ga_client_id = await getGa4ClientId();
+
+  try {
+    fetch(PHONE_CLICK_ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      keepalive: true,
+      body: JSON.stringify({
+        clicked_phone: opts.phone,
+        cta_label: opts.label,
+        page_url:
+          typeof window !== "undefined" ? window.location.href : undefined,
+        attribution: { ...attribution, ga_client_id },
+      }),
+    }).catch(() => {
+      /* zwijgend */
+    });
+  } catch {
+    /* zwijgend */
+  }
+
+  if (typeof window !== "undefined") {
+    window.gtag?.("event", "cta_click", {
+      cta_label: opts.label,
+      attribution,
+    });
   }
 }
