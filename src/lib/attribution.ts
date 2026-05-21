@@ -15,6 +15,7 @@ export type AttrData = {
   utm_term?: string;
   landing_page?: string;
   referrer?: string;
+  ga_client_id?: string;
   first_touch_at?: string;
 };
 
@@ -28,7 +29,7 @@ function getCookie(name: string): string | null {
   return m ? decodeURIComponent(m[2]) : null;
 }
 
-export function captureAttribution() {
+export async function captureAttribution() {
   if (typeof window === "undefined") return;
   const params = new URLSearchParams(window.location.search);
   let existing: AttrData = {};
@@ -47,14 +48,29 @@ export function captureAttribution() {
     utm_term: params.get("utm_term") ?? undefined,
   };
 
-  const hasNewSignal = Boolean(incoming.gclid || incoming.utm_source);
-  if (hasNewSignal || !existing.first_touch_at) {
+  const hasNewSignal = Boolean(
+    incoming.gclid ||
+      incoming.utm_source ||
+      incoming.utm_medium ||
+      incoming.utm_campaign ||
+      incoming.utm_content ||
+      incoming.utm_term
+  );
+
+  const ga_client_id = existing.ga_client_id || (await getGa4ClientId());
+
+  if (
+    hasNewSignal ||
+    !existing.first_touch_at ||
+    (ga_client_id && !existing.ga_client_id)
+  ) {
     const merged: AttrData = {
       ...(hasNewSignal ? incoming : existing),
       landing_page:
         existing.landing_page ||
         window.location.pathname + window.location.search,
       referrer: existing.referrer || document.referrer || undefined,
+      ga_client_id: ga_client_id || existing.ga_client_id,
       first_touch_at: existing.first_touch_at || new Date().toISOString(),
     };
     setCookie(COOKIE, JSON.stringify(merged), TTL_DAYS);
