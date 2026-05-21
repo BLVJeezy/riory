@@ -18,7 +18,7 @@ const ContactSection = () => {
               <Phone className="w-6 h-6 text-primary mt-1 shrink-0" />
               <div>
                 <h3 className="font-heading font-semibold text-foreground mb-1">{t("contact.phone")}</h3>
-                <a href="tel:+32472502814" className="text-muted-foreground font-body hover:text-primary transition-colors">
+                <a href="tel:+32472502814" data-track-cta="contact_section_tel" className="text-muted-foreground font-body hover:text-primary transition-colors">
                   +32 472 50 28 14
                 </a>
               </div>
