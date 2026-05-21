@@ -145,7 +145,7 @@ const Navbar = () => {
 
           <LanguageSwitcher />
           <Button variant="cta" size="lg" className="rounded-full" asChild>
-            <Link to={localizedPath("/afspraak")}>{t("nav.appointment")}</Link>
+            <Link to={localizedPath("/afspraak")} data-track-cta="nav_appointment">{t("nav.appointment")}</Link>
           </Button>
         </div>
 
