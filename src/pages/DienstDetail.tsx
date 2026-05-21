@@ -151,11 +151,12 @@ const DienstDetail = () => {
             )}
 
             <div className="flex flex-col sm:flex-row items-center gap-4">
-              <Button variant="cta" size="lg" className="rounded-full" onClick={handleRequestQuote}>
+              <Button variant="cta" size="lg" data-track-cta="dienst_bottom_appointment" className="rounded-full" onClick={handleRequestQuote}>
                 {t("common.appointment")}
               </Button>
               <a
                 href="tel:+32472502814"
+                data-track-cta="dienst_bottom_urgent_tel"
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[hsl(var(--urgent))] text-[hsl(var(--urgent-foreground))] font-heading font-bold text-sm uppercase tracking-wider shadow-[0_0_20px_hsl(var(--urgent)/0.6)] hover:shadow-[0_0_30px_hsl(var(--urgent)/0.8)] transition-shadow"
               >
                 <AlertTriangle className="w-4 h-4" />
