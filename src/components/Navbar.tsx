@@ -239,7 +239,7 @@ const Navbar = () => {
               </div>
               <div className="px-3 pt-2 pb-1">
                 <Button variant="cta" size="sm" className="w-full" asChild>
-                  <Link to={localizedPath("/afspraak")} onClick={() => setIsOpen(false)}>{t("nav.appointment")}</Link>
+                  <Link to={localizedPath("/afspraak")} data-track-cta="mobile_nav_appointment" onClick={() => setIsOpen(false)}>{t("nav.appointment")}</Link>
                 </Button>
               </div>
             </div>
