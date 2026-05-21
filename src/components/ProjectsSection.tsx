@@ -105,6 +105,7 @@ const ProjectsSection = () => {
                   </h3>
                   <Link
                     to={localizedPath(`/referenties/${cat.slug}`)}
+                    data-track-cta={`projects_view_all_${cat.slug}`}
                     className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/10 text-[10px] sm:text-xs text-primary font-heading uppercase tracking-wider hover:bg-primary/20 transition-colors"
                   >
                     {t("common.viewAll")} <ArrowRight className="w-3 h-3" />
@@ -117,6 +118,7 @@ const ProjectsSection = () => {
                       <Link
                         key={project.title}
                         to={localizedPath(`/referenties/${cat.slug}`)}
+                        data-track-cta={`projects_tile_${cat.slug}`}
                         className="group block"
                       >
                         <div className="relative aspect-[4/3] rounded-xl overflow-hidden">
