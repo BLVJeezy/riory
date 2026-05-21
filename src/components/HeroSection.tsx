@@ -119,7 +119,7 @@ const HeroSection = () => {
             </a>
             <div className="hidden sm:block w-px h-8 bg-white/20" />
             <Button variant="heroOutline" size="lg" className="text-sm md:text-base px-6 md:px-8 py-4 md:py-5 rounded-full border-white/60 text-white hover:bg-white hover:text-foreground" asChild>
-              <Link to={localizedPath("/prijscalculator")}>{t("hero.calculatePrice")}</Link>
+              <Link to={localizedPath("/prijscalculator")} data-track-cta="hero_calculate_price">{t("hero.calculatePrice")}</Link>
             </Button>
           </div>
         </div>
