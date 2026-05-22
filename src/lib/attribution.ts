@@ -11,7 +11,7 @@ declare global {
 
 const COOKIE = "riory_attr";
 const TTL_DAYS = 90;
-export const GA_MEASUREMENT_ID = "G-E54E9FCFZQ";
+export const GA_MEASUREMENT_ID = "G-2XP4PSTDFS";
 
 export type AttrData = {
   gclid?: string;
@@ -100,7 +100,7 @@ export function getGa4ClientId(): Promise<string | undefined> {
     }
     const timer = setTimeout(() => resolve(undefined), 500);
     try {
-      window.gtag("get", 'G-2XP4PSTDFS, "client_id", (id: string) => {
+      window.gtag("get", GA_MEASUREMENT_ID, "client_id", (id: string) => {
         clearTimeout(timer);
         resolve(id);
       });
