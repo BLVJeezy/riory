@@ -2,6 +2,13 @@
 // stores them in a first-party cookie, and exposes helpers to enrich
 // form submissions and click events.
 
+declare global {
+  interface Window {
+    gtag?: (...args: unknown[]) => void;
+  }
+}
+
+
 const COOKIE = "riory_attr";
 const TTL_DAYS = 90;
 export const GA_MEASUREMENT_ID = "G-E54E9FCFZQ";
