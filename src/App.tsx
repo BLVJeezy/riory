@@ -77,6 +77,7 @@ const ClickTracker = () => {
 const AppRoutes = () => (
   <Routes>
     <Route index element={<Index />} />
+    <Route path="index" element={<Index />} />
     <Route path="diensten" element={<Diensten />} />
     <Route path="diensten/:slug" element={<DienstDetail />} />
     <Route path="referenties/:slug" element={<ReferentieDetail />} />
