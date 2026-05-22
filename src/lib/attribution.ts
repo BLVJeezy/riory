@@ -100,7 +100,7 @@ export function getGa4ClientId(): Promise<string | undefined> {
     }
     const timer = setTimeout(() => resolve(undefined), 500);
     try {
-      window.gtag("get", GA_MEASUREMENT_ID, "client_id", (id: string) => {
+      window.gtag("get", 'G-2XP4PSTDFS, "client_id", (id: string) => {
         clearTimeout(timer);
         resolve(id);
       });
