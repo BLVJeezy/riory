@@ -1,30 +1,27 @@
-## Conclusie: geen wijzigingen nodig
+## Doel
+Witscherm fixen (syntax error in `attribution.ts`) en GA4 Measurement ID consistent zetten op `G-2XP4PSTDFS` overal.
 
-Na dubbelcheck van `src/lib/attribution.ts` tegen jouw bericht: alle drie de punten zijn al correct geïmplementeerd. De enige afwijking t.o.v. jouw snippet was de GA Measurement ID — je bevestigde dat we de bestaande `G-E54E9FCFZQ` (via `GA_MEASUREMENT_ID`) houden, wat ook de juiste keuze is omdat dat de tag is die in `index.html` geladen wordt.
+## Wijzigingen
 
-### Verificatie per punt
+### 1. `src/lib/attribution.ts`
+- Regel 15: `GA_MEASUREMENT_ID` constante updaten van `"G-E54E9FCFZQ"` → `"G-2XP4PSTDFS"`.
+- Regel 104: kapotte regel
+  ```ts
+  window.gtag("get", 'G-2XP4PSTDFS, "client_id", (id: string) => {
+  ```
+  vervangen door:
+  ```ts
+  window.gtag("get", GA_MEASUREMENT_ID, "client_id", (id: string) => {
+  ```
+  (gebruikt de constante i.p.v. hardcoded string → één plek om te wijzigen in de toekomst).
 
-**1. `getGa4ClientId()` — ✓ correct**
-- Guard op `typeof window.gtag !== 'function'` → resolve(undefined)
-- 500ms timeout → resolve(undefined)
-- `window.gtag('get', GA_MEASUREMENT_ID, 'client_id', cb)` met clearTimeout in callback
-- Extra: `try/catch` rond de gtag-call (defensiever dan jouw snippet, geen functioneel verschil)
-- Extra: gebruikt `GA_MEASUREMENT_ID` constante i.p.v. hardcoded string (consistent met `index.html` + `App.tsx`)
+### 2. `index.html`
+- Regel 175: script-src `?id=G-E54E9FCFZQ` → `?id=G-2XP4PSTDFS`.
+- Regel 180: `gtag('config', 'G-E54E9FCFZQ', …)` → `gtag('config', 'G-2XP4PSTDFS', …)`.
 
-**2. `captureAttribution()` URL-params — ✓ correct**
-- `utm_content: params.get("utm_content")` ✓
-- `utm_term: params.get("utm_term")` ✓
-- `referrer: existing.referrer || document.referrer || undefined` ✓ (first-touch behoud)
+## Verificatie
+- Witscherm weg, preview laadt homepage.
+- In console: `gtag('get','G-2XP4PSTDFS','client_id',console.log)` geeft een client id terug.
+- Bij form submit / phone click bevat de payload `attribution.ga_client_id`.
 
-**3. `sendLead()` (= submitForm) en `trackPhoneClick()` — ✓ correct**
-- Beide doen `const ga_client_id = await getGa4ClientId();`
-- Beide spreaden `attribution: { ...attribution, ga_client_id, ... }`
-- Bonus: `trackCtaClick()` doet dit ook al consistent
-
-### Geen actie
-
-Niets te bouwen. Als je wil kan ik:
-- de defensieve `try/catch` rond `gtag('get', …)` verwijderen om 1-op-1 met jouw snippet te matchen, of
-- de GA ID alsnog wijzigen (maar dan moet `index.html` mee, anders krijg je nooit een `ga_client_id` terug).
-
-Laat maar weten als één van deze nog moet — anders is dit klaar.
+Geen andere bestanden of business logic raken.
