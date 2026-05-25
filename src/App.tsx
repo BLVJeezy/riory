@@ -56,8 +56,17 @@ const ClickTracker = () => {
       const tel = target.closest('a[href^="tel:"]') as HTMLAnchorElement | null;
       if (tel) {
         const phone = tel.getAttribute("href")?.replace("tel:", "") ?? "";
-        const label = tel.getAttribute("data-track-cta") || "phone_click";
+        const label = tel.getAttribute("data-track-cta") || "click_telefoon";
         trackPhoneClick({ phone, label });
+        return;
+      }
+      const mail = target.closest('a[href^="mailto:"]') as HTMLAnchorElement | null;
+      if (mail) {
+        const href = mail.getAttribute("href") ?? "";
+        window.gtag?.("event", "click_mail", {
+          mail_to: href.replace("mailto:", ""),
+          page_url: typeof window !== "undefined" ? window.location.href : undefined,
+        });
         return;
       }
       const cta = target.closest("[data-track-cta]") as HTMLElement | null;

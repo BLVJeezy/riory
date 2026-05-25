@@ -164,8 +164,8 @@ export async function trackPhoneClick(opts: { phone: string; label?: string }) {
   }
 
   if (typeof window !== "undefined") {
-    window.gtag?.("event", "phone_click", {
-      cta_label: opts.label ?? "phone_click",
+    window.gtag?.("event", "click_telefoon", {
+      cta_label: opts.label ?? "click_telefoon",
       phone: opts.phone,
       attribution,
     });
