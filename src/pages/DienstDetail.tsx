@@ -36,9 +36,53 @@ const DienstDetail = () => {
   usePageView(`/diensten/${slug}`);
   useDocumentMeta(localMetaTitle, localMetaDesc);
 
-  // Per-service JSON-LD (Service + FAQPage) for SEO-targeted slugs
+  // Per-service meta tags + JSON-LD (Service + FAQPage) for SEO-targeted slugs
   useEffect(() => {
     if (slug !== "ontstoppingen-en-geurdetectie") return;
+
+    // --- Meta tag optimization ---
+    const KEYWORDS =
+      "ontstoppingsdienst limburg, afvoer verstopt limburg, gootsteen verstopt limburg, gootsteen ontstoppen limburg, riool ontstoppen limburg, riory, ontstopping bilzen, ontstopping hasselt, ontstopping genk, ontstopping tongeren, 24/7 ontstoppingsdienst";
+    const PAGE_URL = "https://riory.be/diensten/ontstoppingen-en-geurdetectie";
+    const IMAGE_URL = `https://riory.be${service.image}`;
+
+    const setOrCreate = (
+      tag: "meta" | "link",
+      keyAttr: string,
+      keyValue: string,
+      valueAttr: string,
+      value: string,
+    ): { el: Element; created: boolean; prev: string | null } => {
+      let el = document.head.querySelector(`${tag}[${keyAttr}="${keyValue}"]`);
+      const created = !el;
+      if (!el) {
+        el = document.createElement(tag);
+        el.setAttribute(keyAttr, keyValue);
+        document.head.appendChild(el);
+      }
+      const prev = el.getAttribute(valueAttr);
+      el.setAttribute(valueAttr, value);
+      return { el, created, prev };
+    };
+
+    const managed = [
+      setOrCreate("meta", "name", "keywords", "content", KEYWORDS),
+      setOrCreate("meta", "name", "robots", "content", "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"),
+      setOrCreate("meta", "name", "geo.region", "content", "BE-VLI"),
+      setOrCreate("meta", "name", "geo.placename", "content", "Limburg, België"),
+      setOrCreate("meta", "name", "geo.position", "content", "50.8741;5.5167"),
+      setOrCreate("meta", "name", "ICBM", "content", "50.8741, 5.5167"),
+      setOrCreate("meta", "property", "og:type", "content", "website"),
+      setOrCreate("meta", "property", "og:image", "content", IMAGE_URL),
+      setOrCreate("meta", "property", "og:image:alt", "content", "Ontstoppingsdienst Limburg — Riory"),
+      setOrCreate("meta", "property", "og:site_name", "content", "Riory — Sterk in Rioleringswerk"),
+      setOrCreate("meta", "name", "twitter:card", "content", "summary_large_image"),
+      setOrCreate("meta", "name", "twitter:image", "content", IMAGE_URL),
+      setOrCreate("meta", "name", "author", "content", "Riory BV"),
+      setOrCreate("meta", "name", "publisher", "content", "Riory BV"),
+    ];
+
+    // --- JSON-LD ---
     const blocks: object[] = [
       {
         "@context": "https://schema.org",
