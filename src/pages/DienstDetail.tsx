@@ -36,6 +36,96 @@ const DienstDetail = () => {
   usePageView(`/diensten/${slug}`);
   useDocumentMeta(localMetaTitle, localMetaDesc);
 
+  // Per-service JSON-LD (Service + FAQPage) for SEO-targeted slugs
+  useEffect(() => {
+    if (slug !== "ontstoppingen-en-geurdetectie") return;
+    const blocks: object[] = [
+      {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        name: "Ontstoppingsdienst Limburg",
+        serviceType: "Ontstoppingsdienst, gootsteen ontstoppen, afvoer verstopt",
+        provider: {
+          "@type": "LocalBusiness",
+          name: "Riory BV",
+          telephone: "+32472502814",
+          email: "info@riory.be",
+          url: "https://riory.be",
+          address: {
+            "@type": "PostalAddress",
+            streetAddress: "Tongersestraat 12",
+            postalCode: "3740",
+            addressLocality: "Bilzen",
+            addressRegion: "Limburg",
+            addressCountry: "BE",
+          },
+        },
+        areaServed: [
+          { "@type": "AdministrativeArea", name: "Limburg" },
+          { "@type": "City", name: "Bilzen" },
+          { "@type": "City", name: "Hasselt" },
+          { "@type": "City", name: "Genk" },
+          { "@type": "City", name: "Tongeren" },
+          { "@type": "City", name: "Hoeselt" },
+        ],
+        availableChannel: {
+          "@type": "ServiceChannel",
+          servicePhone: "+32472502814",
+          availableLanguage: ["nl", "fr", "en"],
+        },
+        hoursAvailable: "Mo-Su 00:00-23:59",
+        url: "https://riory.be/diensten/ontstoppingen-en-geurdetectie",
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: [
+          {
+            "@type": "Question",
+            name: "Wat kost een ontstoppingsdienst in Limburg?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Riory werkt met vaste, transparante prijzen voor ontstoppingen in Limburg. U weet vooraf wat u betaalt, zonder verrassingen achteraf. Vraag een afspraak aan voor een correcte prijsindicatie.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Mijn gootsteen is verstopt in Limburg — hoe snel zijn jullie ter plaatse?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Bij een verstopte gootsteen in Limburg is Riory doorgaans binnen 2 uur ter plaatse in Bilzen, Hasselt, Genk, Tongeren, Hoeselt en omstreken. We zijn 24/7 bereikbaar voor noodgevallen.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Hoe wordt een afvoer ontstopt?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Een verstopte afvoer wordt door Riory ontstopt met professionele hogedrukreiniging en, indien nodig, met camera-inspectie om de exacte oorzaak op te sporen — zonder breekwerk.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Is Riory 24/7 beschikbaar in heel Limburg?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Ja, Riory is dé ontstoppingsdienst van Limburg en is 24 uur op 24, 7 dagen op 7 bereikbaar voor noodontstoppingen in heel de provincie.",
+            },
+          },
+        ],
+      },
+    ];
+
+    const script = document.createElement("script");
+    script.type = "application/ld+json";
+    script.setAttribute("data-seo-service", slug);
+    script.text = JSON.stringify(blocks);
+    document.head.appendChild(script);
+    return () => {
+      script.remove();
+    };
+  }, [slug]);
+
   if (!service) {
     return <Navigate to={localizedPath("/diensten")} replace />;
   }
