@@ -1,27 +1,50 @@
-## Doel
-Witscherm fixen (syntax error in `attribution.ts`) en GA4 Measurement ID consistent zetten op `G-2XP4PSTDFS` overal.
+## Context
 
-## Wijzigingen
+`index.html` bevat al een uitgebreid `Plumber` schema (een subtype van `LocalBusiness` → `Organization`) met naam, adres, telefoon, e-mail, openingstijden en reviews. Schema.org-validators accepteren dit als business-schema, maar sommige SEO-tools (waaronder de Lovable scanner-melding die je toonde) zoeken letterlijk naar een `@type: "Organization"` blok en flaggen het anders als ontbrekend.
 
-### 1. `src/lib/attribution.ts`
-- Regel 15: `GA_MEASUREMENT_ID` constante updaten van `"G-E54E9FCFZQ"` → `"G-2XP4PSTDFS"`.
-- Regel 104: kapotte regel
-  ```ts
-  window.gtag("get", 'G-2XP4PSTDFS, "client_id", (id: string) => {
-  ```
-  vervangen door:
-  ```ts
-  window.gtag("get", GA_MEASUREMENT_ID, "client_id", (id: string) => {
-  ```
-  (gebruikt de constante i.p.v. hardcoded string → één plek om te wijzigen in de toekomst).
+## Plan
 
-### 2. `index.html`
-- Regel 175: script-src `?id=G-E54E9FCFZQ` → `?id=G-2XP4PSTDFS`.
-- Regel 180: `gtag('config', 'G-E54E9FCFZQ', …)` → `gtag('config', 'G-2XP4PSTDFS', …)`.
+Een apart `Organization` JSON-LD blok toevoegen in `index.html`, naast de bestaande `Plumber` en `FAQPage` schemas. Zo bedien je beide: brand identity voor zoekmachines/AI assistants én de specifieke LocalBusiness-data voor lokale SEO.
 
-## Verificatie
-- Witscherm weg, preview laadt homepage.
-- In console: `gtag('get','G-2XP4PSTDFS','client_id',console.log)` geeft een client id terug.
-- Bij form submit / phone click bevat de payload `attribution.ga_client_id`.
+### Wijziging in `index.html`
 
-Geen andere bestanden of business logic raken.
+Nieuw `<script type="application/ld+json">` blok toevoegen vóór het bestaande `Plumber` blok:
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Riory BV",
+  "legalName": "Riory BV",
+  "url": "https://riory.be",
+  "logo": "https://riory.be/src/assets/riory-logo-black.svg",
+  "image": "https://riory.be/src/assets/riory-logo-black.svg",
+  "description": "24/7 ontstopping-, riool- & ruimdienst in Bilzen-Hoeselt en heel Limburg.",
+  "telephone": "+32472502814",
+  "email": "info@riory.be",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Tongersestraat 12",
+    "addressLocality": "Bilzen",
+    "postalCode": "3740",
+    "addressRegion": "Limburg",
+    "addressCountry": "BE"
+  },
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+32472502814",
+    "contactType": "customer service",
+    "areaServed": "BE",
+    "availableLanguage": ["Dutch", "French", "English"]
+  },
+  "sameAs": [
+    "https://www.google.com/maps/place/Riory"
+  ]
+}
+```
+
+### Notes
+
+- Bestaande `Plumber` en `FAQPage` schemas blijven onaangewijzigd — die leveren extra lokale SEO-signalen.
+- Als je officiële social-profielen hebt (Facebook, Instagram, LinkedIn), kunnen we die in `sameAs` toevoegen — geef de URLs door.
+- Geen code-wijzigingen buiten `index.html`.
