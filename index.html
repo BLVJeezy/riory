@@ -203,15 +203,30 @@
     ]
   }
   </script>
-  <!-- Google Analytics 4 -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-E54E9FCFZQ"></script>
+  <!-- Google Consent Mode v2 — default 'denied' tot CookieYes consent ophaalt.
+       Bij denied stuurt gtag geanonimiseerde 'pings' (geen cookies) waarmee
+       Google conversion-modelling doet. Bij granted (na consent) gaan
+       normale cookies + events lopen. -->
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
+    gtag('consent', 'default', {
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+      analytics_storage: 'denied',
+      functionality_storage: 'granted',
+      security_storage: 'granted',
+      wait_for_update: 500
+    });
     gtag('js', new Date());
     gtag('config', 'G-E54E9FCFZQ', { anonymize_ip: true, send_page_view: false });
   </script>
-  <!-- Start cookieyes banner -->
+  <!-- Google Analytics 4 — geladen NA consent-defaults zodat gtag-queue
+       eerst in 'denied' staat. -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-E54E9FCFZQ"></script>
+  <!-- Start cookieyes banner — CookieYes triggert automatisch gtag('consent','update',...)
+       wanneer de gebruiker categorieën accepteert/weigert. -->
   <script id="cookieyes" type="text/javascript" src="https://cdn-cookieyes.com/client_data/421b1878904c4a74449b4c9646d51e18/script.js"></script>
   <!-- End cookieyes banner -->
   <meta property="og:title" content="Riory BV">

@@ -350,6 +350,37 @@ const AppointmentForm = () => {
       const appointmentId = crypto.randomUUID();
       // For syndicus, use syndicus email as fact_email (required field)
       const effectiveFactEmail = klantType === "syndicus" ? syndicus.email : fact.email;
+
+      // Stuur attribution-lead ALS EERSTE, vóór Supabase. Als Supabase later
+      // faalt, hebben we de lead alsnog in onze pijplijn (geen verloren leads).
+      sendLead({
+        type: "appointment",
+        appointmentId,
+        dienst,
+        urgent: urgent ?? false,
+        klantType,
+        naam: fact.naam || undefined,
+        voornaam: fact.voornaam || undefined,
+        bedrijfsnaam: fact.bedrijfsnaam || undefined,
+        email: effectiveFactEmail || undefined,
+        telefoon: cleanPhone(fact.telefoon),
+        straat: fact.straat || undefined,
+        huisnummer: fact.huisnummer || undefined,
+        postcode: fact.postcode || undefined,
+        plaats: fact.plaats || undefined,
+        werfStraat: werf.straat || undefined,
+        werfHuisnummer: werf.huisnummer || undefined,
+        werfPostcode: werf.postcode || undefined,
+        werfPlaats: werf.plaats || undefined,
+        werfTelefoon: cleanPhone(werf.telefoon),
+        syndicusKantoor: klantType === "syndicus" ? (syndicus.kantoor || undefined) : undefined,
+        syndicusEmail: klantType === "syndicus" ? (syndicus.email || undefined) : undefined,
+        syndicusTelefoon: klantType === "syndicus" ? cleanPhone(syndicus.telefoon) : undefined,
+        beschrijving: beschrijving || undefined,
+        gevondenVia: gevondenVia || undefined,
+        gevondenDetail: gevondenDetail || undefined,
+      });
+
       const { error } = await supabase.from("appointments").insert({
         id: appointmentId,
         dienst,
@@ -509,34 +540,8 @@ const AppointmentForm = () => {
         },
       }).catch((err) => console.error("Simpla send failed (queued for retry):", err));
 
-      // Send lead to attribution endpoint (fire-and-forget)
-      sendLead({
-        type: "appointment",
-        appointmentId,
-        dienst,
-        urgent: urgent ?? false,
-        klantType,
-        naam: fact.naam || undefined,
-        voornaam: fact.voornaam || undefined,
-        bedrijfsnaam: fact.bedrijfsnaam || undefined,
-        email: effectiveFactEmail || undefined,
-        telefoon: cleanPhone(fact.telefoon),
-        straat: fact.straat || undefined,
-        huisnummer: fact.huisnummer || undefined,
-        postcode: fact.postcode || undefined,
-        plaats: fact.plaats || undefined,
-        werfStraat: werf.straat || undefined,
-        werfHuisnummer: werf.huisnummer || undefined,
-        werfPostcode: werf.postcode || undefined,
-        werfPlaats: werf.plaats || undefined,
-        werfTelefoon: cleanPhone(werf.telefoon),
-        syndicusKantoor: klantType === "syndicus" ? (syndicus.kantoor || undefined) : undefined,
-        syndicusEmail: klantType === "syndicus" ? (syndicus.email || undefined) : undefined,
-        syndicusTelefoon: klantType === "syndicus" ? cleanPhone(syndicus.telefoon) : undefined,
-        beschrijving: beschrijving || undefined,
-        gevondenVia: gevondenVia || undefined,
-        gevondenDetail: gevondenDetail || undefined,
-      });
+      // sendLead is al bovenaan handleSubmit aangeroepen (vóór Supabase),
+      // zodat een mislukte DB-write geen verloren lead oplevert.
 
       setSubmitResult("success");
       // Reset
