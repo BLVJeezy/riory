@@ -167,8 +167,17 @@ const DienstDetail = () => {
     document.head.appendChild(script);
     return () => {
       script.remove();
+      managed.forEach(({ el, created, prev }) => {
+        if (created) {
+          el.remove();
+        } else if (prev !== null) {
+          // restore previous value for og:type / og:image that may exist sitewide
+          const attr = el.hasAttribute("content") ? "content" : "content";
+          el.setAttribute(attr, prev);
+        }
+      });
     };
-  }, [slug]);
+  }, [slug, service.image]);
 
   if (!service) {
     return <Navigate to={localizedPath("/diensten")} replace />;
