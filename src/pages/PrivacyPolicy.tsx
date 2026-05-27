@@ -31,162 +31,95 @@ const PrivacyPolicy = () => {
             Privacy Policy
           </h1>
           <p className="text-sm text-muted-foreground font-body mb-8">
-            Laatste update op 26/05/2026
+            Laatste update op 27/05/2026
           </p>
 
           <div className="prose prose-sm md:prose-base max-w-none text-foreground/80 font-body space-y-6">
             <p>
-              De website www.riory.be (hierna: de "Website") is eigendom van Riory bv,
-              Toekomststraat 19, 3740 Bilzen, België. Ondernemingsnummer BE 0840.931.404.
-              Telefoon: +32 472 50 28 14. E-mail: info@riory.be.
+              Riory bv, Toekomststraat 19, 3740 Bilzen — KBO BE 0840.931.404 —
+              info@riory.be — verwerkt persoonsgegevens conform de Algemene
+              Verordening Gegevensbescherming (GDPR) en de Belgische
+              privacywetgeving.
             </p>
 
-            <h2 className="text-lg font-heading font-bold text-foreground">1. Persoonsgegevens die wij verwerken</h2>
+            <h2 className="text-lg font-heading font-bold text-foreground">1. Welke gegevens</h2>
             <p>
-              Wij verwerken persoonsgegevens die u zelf aan ons verstrekt wanneer u
-              gebruik maakt van onze diensten of contact opneemt via onze Website. Dit
-              betreft onder meer:
-            </p>
-            <ul className="list-disc pl-6 space-y-1">
-              <li>Voor- en achternaam</li>
-              <li>Telefoonnummer en e-mailadres</li>
-              <li>Werf- en facturatieadres</li>
-              <li>Bedrijfsgegevens (indien van toepassing): bedrijfsnaam, btw-nummer, KBO-nummer</li>
-              <li>Beschrijving van uw vraag of opdracht</li>
-              <li>Communicatie via e-mail, formulier of telefoon</li>
-            </ul>
-            <p>
-              Daarnaast registreren wij — in het kader van het beheer en de verbetering
-              van onze diensten — technische gegevens over uw bezoek aan de Website:
-              IP-adres, browser- en apparaattype, taal-instelling, bezochte pagina's,
-              referrer, en marketing-attributie-parameters (gclid, utm_*) wanneer die in
-              de URL aanwezig zijn. Deze gegevens worden gepseudonimiseerd opgeslagen
-              (gehashte IP + browser-fingerprint) en worden uitsluitend gebruikt om te
-              kunnen achterhalen via welk kanaal een klant onze diensten heeft gevonden.
-              Zie sectie 4 voor de bewaartermijn.
-            </p>
-            <p>
-              Onze website heeft niet de intentie gegevens te verzamelen over bezoekers
-              die jonger zijn dan 16 jaar, tenzij ze toestemming hebben van ouders of voogd.
+              Wij verwerken identiteits- en contactgegevens die u zelf aan ons
+              verstrekt (bv. bij een offerte- of afspraakaanvraag) en technische
+              gegevens over uw bezoek aan deze website (waaronder gepseudonimiseerde
+              identificatoren die ons toelaten te bepalen via welk kanaal u ons
+              gevonden heeft).
             </p>
 
-            <h2 className="text-lg font-heading font-bold text-foreground">2. Verwerkingsdoelen en rechtsgrond</h2>
+            <h2 className="text-lg font-heading font-bold text-foreground">2. Doeleinden en rechtsgronden</h2>
             <ul className="list-disc pl-6 space-y-2">
               <li>
-                <strong>Uitvoering van de overeenkomst (art. 6.1.b GDPR):</strong> u te
-                kunnen bellen of e-mailen, een offerte op te stellen, een afspraak in te
-                plannen en de werken uit te voeren.
+                <strong>Uitvoering van de overeenkomst</strong> (art. 6.1.b GDPR):
+                contact opnemen, offertes opstellen, werken uitvoeren.
               </li>
               <li>
-                <strong>Wettelijke verplichtingen (art. 6.1.c GDPR):</strong> boekhoudkundige
-                verplichtingen, factureringsplicht, fiscale rapportage.
+                <strong>Wettelijke verplichtingen</strong> (art. 6.1.c GDPR):
+                boekhoudkundige en fiscale verplichtingen.
               </li>
               <li>
-                <strong>Gerechtvaardigd belang (art. 6.1.f GDPR):</strong> meten via welk
-                marketingkanaal nieuwe klanten ons vinden (zoekmachine, advertentie,
-                aanbeveling), het optimaliseren van onze advertentiebudgetten en het
-                voorkomen van fraude en misbruik. Voor dit doel houden wij
-                gepseudonimiseerde technische signalen bij (zie sectie 1). U kunt
-                bezwaar maken tegen deze verwerking via info@riory.be.
+                <strong>Gerechtvaardigd belang</strong> (art. 6.1.f GDPR): meten
+                via welk kanaal nieuwe klanten ons vinden, optimaliseren van onze
+                marketing en voorkomen van misbruik. U kunt hiertegen bezwaar maken
+                via info@riory.be.
               </li>
               <li>
-                <strong>Toestemming (art. 6.1.a GDPR):</strong> voor analytische en
-                marketingcookies — zie ons{" "}
+                <strong>Toestemming</strong> (art. 6.1.a GDPR): voor analytische
+                en marketingcookies. U kunt uw toestemming op elk moment intrekken
+                via de cookie-instellingen op de Website. Zie ons{" "}
                 <Link to="/cookie-policy" className="text-primary hover:underline">
                   cookiebeleid
                 </Link>
-                . U kunt uw toestemming op elk moment intrekken via de cookie-instellingen
-                onderaan de Website.
+                .
               </li>
             </ul>
 
-            <h2 className="text-lg font-heading font-bold text-foreground">3. Geautomatiseerde besluitvorming</h2>
+            <h2 className="text-lg font-heading font-bold text-foreground">3. Bewaartermijn</h2>
             <p>
-              Riory bv neemt geen besluiten op basis van geautomatiseerde verwerkingen
-              die (aanzienlijke) gevolgen kunnen hebben voor personen. Wij gebruiken o.a.
-              de volgende systemen: Google Workspace (e-mail), Simpla CRM, Telavox
-              telefonie, Google Analytics 4 (geanonimiseerd) en Google Ads.
+              Wij bewaren uw gegevens niet langer dan noodzakelijk voor de
+              doeleinden waarvoor ze worden verwerkt of dan wettelijk verplicht is
+              (waaronder de boekhoudkundige bewaarplicht). Technische
+              attributie-gegevens worden gepseudonimiseerd of geanonimiseerd binnen
+              maximaal 13 maanden.
             </p>
 
-            <h2 className="text-lg font-heading font-bold text-foreground">4. Bewaartermijnen</h2>
-            <ul className="list-disc pl-6 space-y-2">
-              <li>
-                <strong>Klantgegevens (naam, contact, adres, opdracht):</strong> 7 jaar na
-                het laatste contact, conform de boekhoudkundige bewaarplicht.
-              </li>
-              <li>
-                <strong>Communicatie (e-mail, formulier-inhoud):</strong> 7 jaar.
-              </li>
-              <li>
-                <strong>Technische / attributie-gegevens (IP-hash, browser-fingerprint,
-                analytics-cookies):</strong> maximaal 13 maanden. Daarna worden de
-                technische identifiers automatisch geanonimiseerd; de geaggregeerde
-                statistieken blijven bewaard maar zijn niet meer aan een persoon te
-                koppelen.
-              </li>
-              <li>
-                <strong>Sollicitaties (indien van toepassing):</strong> 1 jaar na sollicitatie.
-              </li>
-            </ul>
-
-            <h2 className="text-lg font-heading font-bold text-foreground">5. Delen met derden</h2>
+            <h2 className="text-lg font-heading font-bold text-foreground">4. Geautomatiseerde besluitvorming</h2>
             <p>
-              Wij delen uw persoonsgegevens uitsluitend met derden indien dit nodig is
-              voor de uitvoering van onze overeenkomst met u of om te voldoen aan een
-              wettelijke verplichting. Dit kan onder meer betrekking hebben op:
-            </p>
-            <ul className="list-disc pl-6 space-y-1">
-              <li>onze boekhouder (boekhoudkundige verwerking)</li>
-              <li>Simpla CRM (klantenadministratie, gevestigd in België)</li>
-              <li>Google Ireland Ltd. (Analytics 4 en Ads, voor geaggregeerde rapportage)</li>
-              <li>onze IT-dienstverlener voor het beheer van de Website</li>
-            </ul>
-            <p>
-              Met al deze partijen zijn verwerkersovereenkomsten gesloten. Wij verkopen uw
-              persoonsgegevens nooit aan derden.
+              Wij nemen geen besluiten op basis van geautomatiseerde verwerkingen
+              die voor u aanzienlijke gevolgen kunnen hebben.
             </p>
 
-            <h2 className="text-lg font-heading font-bold text-foreground">6. Cookies</h2>
+            <h2 className="text-lg font-heading font-bold text-foreground">5. Ontvangers</h2>
             <p>
-              Voor het gebruik van cookies en vergelijkbare technieken verwijzen wij naar
-              ons separate{" "}
-              <Link to="/cookie-policy" className="text-primary hover:underline">
-                cookiebeleid
-              </Link>
-              . U kunt uw cookie-voorkeuren te allen tijde aanpassen via de
-              cookie-instellingenknop onderaan de Website.
+              Persoonsgegevens kunnen — uitsluitend in het kader van bovenstaande
+              doeleinden — gedeeld worden met onze IT-, communicatie- en
+              boekhoudkundige dienstverleners. Voor websitestatistieken en
+              advertentiemeting maken wij gebruik van diensten van{" "}
+              <strong>Google Ireland Ltd.</strong>, waarbij gegevens ook in de
+              Verenigde Staten kunnen worden verwerkt op grond van het EU-VS Data
+              Privacy Framework.
             </p>
 
-            <h2 className="text-lg font-heading font-bold text-foreground">7. Uw rechten</h2>
-            <p>U heeft het recht om:</p>
-            <ul className="list-disc pl-6 space-y-1">
-              <li>uw persoonsgegevens in te zien, te corrigeren of te verwijderen</li>
-              <li>de verwerking te beperken of bezwaar te maken tegen verwerking op grond van gerechtvaardigd belang</li>
-              <li>uw gegevens in een gestructureerd formaat te ontvangen (data-portabiliteit)</li>
-              <li>uw toestemming voor analytische/marketingcookies in te trekken</li>
-              <li>een klacht in te dienen bij de Belgische Gegevensbeschermingsautoriteit (gegevensbeschermingsautoriteit.be)</li>
-            </ul>
+            <h2 className="text-lg font-heading font-bold text-foreground">6. Uw rechten</h2>
             <p>
-              Stuur uw verzoek naar{" "}
-              <a href="mailto:info@riory.be" className="text-primary hover:underline">info@riory.be</a>{" "}
-              — wij reageren binnen 30 dagen.
-            </p>
-
-            <h2 className="text-lg font-heading font-bold text-foreground">8. Beveiliging</h2>
-            <p>
-              Riory bv neemt de bescherming van uw gegevens serieus en past passende
-              technische en organisatorische maatregelen toe om misbruik, verlies,
-              onbevoegde toegang, ongewenste openbaarmaking en ongeoorloofde wijziging
-              tegen te gaan. Indien u de indruk heeft dat uw gegevens niet goed beveiligd
-              zijn, neem dan contact op via{" "}
+              U heeft het recht op inzage, rectificatie, verwijdering, beperking
+              van of bezwaar tegen de verwerking, en op data-portabiliteit. U kunt
+              uw toestemming voor cookies op elk moment intrekken. Verzoeken stuurt
+              u naar{" "}
               <a href="mailto:info@riory.be" className="text-primary hover:underline">info@riory.be</a>.
+              U heeft tevens het recht om een klacht in te dienen bij de Belgische
+              Gegevensbeschermingsautoriteit (gegevensbeschermingsautoriteit.be).
             </p>
 
-            <h2 className="text-lg font-heading font-bold text-foreground">9. Wijzigingen</h2>
+            <h2 className="text-lg font-heading font-bold text-foreground">7. Beveiliging</h2>
             <p>
-              Riory bv behoudt zich het recht voor om dit privacybeleid aan te passen.
-              Wijzigingen worden op deze pagina gepubliceerd met een aangepaste datum.
-              Wij raden u aan deze pagina periodiek te raadplegen.
+              Wij nemen passende technische en organisatorische maatregelen om uw
+              gegevens te beschermen tegen verlies, ongeoorloofde toegang en
+              ongeoorloofde wijziging.
             </p>
           </div>
         </div>
