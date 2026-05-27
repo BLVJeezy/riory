@@ -24,7 +24,11 @@ const Index = () => {
   const { t } = useTranslation();
   const { localizedPath } = useLanguage();
   usePageView("/");
-  useDocumentMeta();
+  useDocumentMeta(
+    "Ontstoppingsdienst Limburg 24/7 | Riool & Afvoer Verstopt | Riory",
+    "Ontstoppingsdienst Limburg nodig? Riory is dé ontstoppingsdienst in Limburg — 24/7 bij verstopte afvoer, gootsteen, WC of riool in Bilzen, Hasselt, Genk & Tongeren. Bel nu!",
+  );
+
 
   return (
     <>
