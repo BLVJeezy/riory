@@ -38,12 +38,49 @@ const DienstDetail = () => {
 
   // Per-service meta tags + JSON-LD (Service + FAQPage) for SEO-targeted slugs
   useEffect(() => {
-    if (slug !== "ontstoppingen-en-geurdetectie") return;
+    if (!service) return;
 
-    // --- Meta tag optimization ---
-    const KEYWORDS =
-      "ontstoppingsdienst limburg, afvoer verstopt limburg, gootsteen verstopt limburg, gootsteen ontstoppen limburg, riool ontstoppen limburg, riory, ontstopping bilzen, ontstopping hasselt, ontstopping genk, ontstopping tongeren, 24/7 ontstoppingsdienst";
-    const PAGE_URL = "https://riory.be/diensten/ontstoppingen-en-geurdetectie";
+    type SeoConfig = {
+      keywords: string;
+      serviceName: string;
+      serviceType: string;
+      imageAlt: string;
+      faqs: { q: string; a: string }[];
+    };
+
+    const seoConfigs: Record<string, SeoConfig> = {
+      "ontstoppingen-en-geurdetectie": {
+        keywords:
+          "ontstoppingsdienst limburg, afvoer verstopt limburg, gootsteen verstopt limburg, gootsteen ontstoppen limburg, riool ontstoppen limburg, riory, ontstopping bilzen, ontstopping hasselt, ontstopping genk, ontstopping tongeren, 24/7 ontstoppingsdienst",
+        serviceName: "Ontstoppingsdienst Limburg",
+        serviceType: "Ontstoppingsdienst, gootsteen ontstoppen, afvoer verstopt",
+        imageAlt: "Ontstoppingsdienst Limburg — Riory",
+        faqs: [
+          { q: "Wat kost een ontstoppingsdienst in Limburg?", a: "Riory werkt met vaste, transparante prijzen voor ontstoppingen in Limburg. U weet vooraf wat u betaalt, zonder verrassingen achteraf. Vraag een afspraak aan voor een correcte prijsindicatie." },
+          { q: "Mijn gootsteen is verstopt in Limburg — hoe snel zijn jullie ter plaatse?", a: "Bij een verstopte gootsteen in Limburg is Riory doorgaans binnen 2 uur ter plaatse in Bilzen, Hasselt, Genk, Tongeren, Hoeselt en omstreken. We zijn 24/7 bereikbaar voor noodgevallen." },
+          { q: "Hoe wordt een afvoer ontstopt?", a: "Een verstopte afvoer wordt door Riory ontstopt met professionele hogedrukreiniging en, indien nodig, met camera-inspectie om de exacte oorzaak op te sporen — zonder breekwerk." },
+          { q: "Is Riory 24/7 beschikbaar in heel Limburg?", a: "Ja, Riory is dé ontstoppingsdienst van Limburg en is 24 uur op 24, 7 dagen op 7 bereikbaar voor noodontstoppingen in heel de provincie." },
+        ],
+      },
+      "leidingen-en-septische-putten": {
+        keywords:
+          "septische put ledigen, septische put vol, septische put, septische put leegmaken, septische put limburg, septische put ruimen, septische put reinigen, beerput ledigen limburg, riory, septische put bilzen, septische put hasselt, septische put genk, septische put tongeren, 24/7 septische put service",
+        serviceName: "Septische put ledigen Limburg",
+        serviceType: "Septische put ledigen, septische put leegmaken, septische put reinigen",
+        imageAlt: "Septische put ledigen Limburg — Riory",
+        faqs: [
+          { q: "Wat kost het ledigen van een septische put in Limburg?", a: "Riory hanteert vaste, transparante prijzen voor het ledigen van een septische put in Limburg. U weet vooraf wat u betaalt — geen verrassingen achteraf. Vraag een afspraak aan voor een correcte prijsindicatie op basis van de grootte van uw put." },
+          { q: "Hoe vaak moet ik mijn septische put laten leegmaken?", a: "Een septische put moet gemiddeld om de 2 tot 5 jaar geledigd worden, afhankelijk van de grootte van de put en het aantal bewoners. Riory adviseert u graag tijdens een afspraak en plant indien gewenst periodiek onderhoud." },
+          { q: "Hoe weet ik dat mijn septische put vol is?", a: "Typische signalen van een volle septische put zijn stankoverlast, een traag wegvloeiende afvoer, gorgelende geluiden in de leidingen of terugstromend water. Wacht niet en bel Riory voor een snelle interventie in Bilzen, Hasselt, Genk, Tongeren en heel Limburg." },
+          { q: "Komt Riory ook 24/7 een septische put leegmaken in Limburg?", a: "Ja, Riory is 24 uur op 24, 7 dagen op 7 bereikbaar voor het dringend ledigen van een volle septische put in heel de provincie Limburg." },
+        ],
+      },
+    };
+
+    const config = seoConfigs[slug as string];
+    if (!config) return;
+
+    const PAGE_URL = `https://riory.be/diensten/${slug}`;
     const IMAGE_URL = `https://riory.be${service.image}`;
 
     const setOrCreate = (
@@ -66,7 +103,7 @@ const DienstDetail = () => {
     };
 
     const managed = [
-      setOrCreate("meta", "name", "keywords", "content", KEYWORDS),
+      setOrCreate("meta", "name", "keywords", "content", config.keywords),
       setOrCreate("meta", "name", "robots", "content", "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"),
       setOrCreate("meta", "name", "geo.region", "content", "BE-VLI"),
       setOrCreate("meta", "name", "geo.placename", "content", "Limburg, België"),
@@ -74,7 +111,7 @@ const DienstDetail = () => {
       setOrCreate("meta", "name", "ICBM", "content", "50.8741, 5.5167"),
       setOrCreate("meta", "property", "og:type", "content", "website"),
       setOrCreate("meta", "property", "og:image", "content", IMAGE_URL),
-      setOrCreate("meta", "property", "og:image:alt", "content", "Ontstoppingsdienst Limburg — Riory"),
+      setOrCreate("meta", "property", "og:image:alt", "content", config.imageAlt),
       setOrCreate("meta", "property", "og:site_name", "content", "Riory — Sterk in Rioleringswerk"),
       setOrCreate("meta", "name", "twitter:card", "content", "summary_large_image"),
       setOrCreate("meta", "name", "twitter:image", "content", IMAGE_URL),
@@ -82,13 +119,12 @@ const DienstDetail = () => {
       setOrCreate("meta", "name", "publisher", "content", "Riory BV"),
     ];
 
-    // --- JSON-LD ---
     const blocks: object[] = [
       {
         "@context": "https://schema.org",
         "@type": "Service",
-        name: "Ontstoppingsdienst Limburg",
-        serviceType: "Ontstoppingsdienst, gootsteen ontstoppen, afvoer verstopt",
+        name: config.serviceName,
+        serviceType: config.serviceType,
         provider: {
           "@type": "LocalBusiness",
           name: "Riory BV",
@@ -118,51 +154,22 @@ const DienstDetail = () => {
           availableLanguage: ["nl", "fr", "en"],
         },
         hoursAvailable: "Mo-Su 00:00-23:59",
-        url: "https://riory.be/diensten/ontstoppingen-en-geurdetectie",
+        url: PAGE_URL,
       },
       {
         "@context": "https://schema.org",
         "@type": "FAQPage",
-        mainEntity: [
-          {
-            "@type": "Question",
-            name: "Wat kost een ontstoppingsdienst in Limburg?",
-            acceptedAnswer: {
-              "@type": "Answer",
-              text: "Riory werkt met vaste, transparante prijzen voor ontstoppingen in Limburg. U weet vooraf wat u betaalt, zonder verrassingen achteraf. Vraag een afspraak aan voor een correcte prijsindicatie.",
-            },
-          },
-          {
-            "@type": "Question",
-            name: "Mijn gootsteen is verstopt in Limburg — hoe snel zijn jullie ter plaatse?",
-            acceptedAnswer: {
-              "@type": "Answer",
-              text: "Bij een verstopte gootsteen in Limburg is Riory doorgaans binnen 2 uur ter plaatse in Bilzen, Hasselt, Genk, Tongeren, Hoeselt en omstreken. We zijn 24/7 bereikbaar voor noodgevallen.",
-            },
-          },
-          {
-            "@type": "Question",
-            name: "Hoe wordt een afvoer ontstopt?",
-            acceptedAnswer: {
-              "@type": "Answer",
-              text: "Een verstopte afvoer wordt door Riory ontstopt met professionele hogedrukreiniging en, indien nodig, met camera-inspectie om de exacte oorzaak op te sporen — zonder breekwerk.",
-            },
-          },
-          {
-            "@type": "Question",
-            name: "Is Riory 24/7 beschikbaar in heel Limburg?",
-            acceptedAnswer: {
-              "@type": "Answer",
-              text: "Ja, Riory is dé ontstoppingsdienst van Limburg en is 24 uur op 24, 7 dagen op 7 bereikbaar voor noodontstoppingen in heel de provincie.",
-            },
-          },
-        ],
+        mainEntity: config.faqs.map((f) => ({
+          "@type": "Question",
+          name: f.q,
+          acceptedAnswer: { "@type": "Answer", text: f.a },
+        })),
       },
     ];
 
     const script = document.createElement("script");
     script.type = "application/ld+json";
-    script.setAttribute("data-seo-service", slug);
+    script.setAttribute("data-seo-service", slug as string);
     script.text = JSON.stringify(blocks);
     document.head.appendChild(script);
     return () => {
@@ -171,13 +178,12 @@ const DienstDetail = () => {
         if (created) {
           el.remove();
         } else if (prev !== null) {
-          // restore previous value for og:type / og:image that may exist sitewide
-          const attr = el.hasAttribute("content") ? "content" : "content";
-          el.setAttribute(attr, prev);
+          el.setAttribute("content", prev);
         }
       });
     };
-  }, [slug, service.image]);
+  }, [slug, service]);
+
 
   if (!service) {
     return <Navigate to={localizedPath("/diensten")} replace />;
