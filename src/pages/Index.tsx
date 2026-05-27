@@ -24,7 +24,11 @@ const Index = () => {
   const { t } = useTranslation();
   const { localizedPath } = useLanguage();
   usePageView("/");
-  useDocumentMeta();
+  useDocumentMeta(
+    "Ontstoppingsdienst Limburg 24/7 | Riool & Afvoer Verstopt | Riory",
+    "Ontstoppingsdienst Limburg nodig? Riory is dé ontstoppingsdienst in Limburg — 24/7 bij verstopte afvoer, gootsteen, WC of riool in Bilzen, Hasselt, Genk & Tongeren. Bel nu!",
+  );
+
 
   return (
     <>
@@ -64,6 +68,31 @@ const Index = () => {
       <AppointmentForm />
       <FAQSection />
       <ContactSection />
+
+      {/* SEO content — Ontstoppingsdienst Limburg */}
+      <section aria-labelledby="ontstoppingsdienst-limburg" className="py-12 md:py-16 bg-muted/30 border-t border-border/40">
+        <div className="container max-w-4xl mx-auto px-4 space-y-4">
+          <h2
+            id="ontstoppingsdienst-limburg"
+            className="font-heading text-2xl md:text-3xl font-bold text-foreground"
+          >
+            Ontstoppingsdienst Limburg — 24/7 bij verstopte afvoer of riool
+          </h2>
+          <p className="text-muted-foreground leading-relaxed">
+            Riory is dé <strong>ontstoppingsdienst in Limburg</strong> voor élke verstopping: een{" "}
+            <strong>verstopte afvoer</strong>, gootsteen die niet wegloopt, WC die overloopt of een{" "}
+            <strong>verstopt riool</strong>. Onze ontstoppers staan 24/7 paraat in Bilzen, Hoeselt,
+            Hasselt, Genk, Tongeren en heel de provincie Limburg — met professionele
+            hogedrukreiniging, vaste prijzen en gegarandeerd resultaat.
+          </p>
+          <p className="text-muted-foreground leading-relaxed">
+            Of u nu dringend een <strong>ontstoppingsdienst in Limburg</strong> nodig hebt door
+            wateroverlast, of preventief uw afvoer wil laten reinigen — bij Riory bent u aan het
+            juiste adres. Bel ons direct of plan een afspraak online.
+          </p>
+        </div>
+      </section>
+
       <Footer />
       
     </>
@@ -71,3 +100,4 @@ const Index = () => {
 };
 
 export default Index;
+
