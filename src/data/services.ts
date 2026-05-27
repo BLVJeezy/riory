@@ -71,7 +71,7 @@ export const allServices: Service[] = [
     longDescription:
       "Een septische put vol laten lopen leidt tot stankoverlast, een trage afvoer en in het ergste geval terugstromend rioolwater. Riory is dé specialist voor het ledigen van uw septische put in Limburg. Of u nu een septische put wil laten leegmaken in Hasselt, een volle septische put hebt in Genk, of dringend uw septische put wil laten ruimen in Bilzen, Hoeselt of Tongeren — wij staan 24/7 voor u klaar. Met gespecialiseerde zuigwagens ledigen wij uw septische put snel, netjes en met minimale overlast. Ook reinigen wij uw septische put grondig na het leegmaken, zodat hij weer optimaal werkt. Daarnaast leggen en herstellen wij rioolleidingen, beerputten en regenputten in heel Limburg. Vaste prijzen, ervaren team en gegarandeerd resultaat.",
     features: [
-      "Septische put ledigen in heel Limburg — 24/7 bereikbaar",
+      "Septische put ledigen in Limburg — 24/7 bereikbaar",
       "Septische put vol? Snel ter plaatse in Bilzen, Hasselt, Genk & Tongeren",
       "Septische put leegmaken met professionele zuigwagens",
       "Septische put reinigen na het ledigen voor optimale werking",
