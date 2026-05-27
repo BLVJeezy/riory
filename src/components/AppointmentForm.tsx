@@ -174,14 +174,14 @@ const AppointmentForm = () => {
     naam_vme: "", kbo_nummer: "",
   });
 
-  // Belgisch telefoonnummer: +32 gevolgd door 8 of 9 cijfers (vast/mobiel)
-  const isValidBePhone = (val: string) => /^\+32\d{9}$/.test(val.replace(/\s+/g, ""));
+  // Telefoonnummer: minstens 8 cijfers (gebruiker geeft eigen nummer in)
+  const isValidBePhone = (val: string) => {
+    const digits = val.replace(/[^\d]/g, "");
+    return digits.length >= 8 && digits.length <= 15;
+  };
   const handlePhoneChange = (setter: (fn: (p: any) => any) => void) =>
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      let v = e.target.value.replace(/\s+/g, "");
-      if (!v.startsWith("+32")) v = "+32" + v.replace(/^\+?\d*/, "").replace(/\D/g, "");
-      // strip non-digits after +32
-      v = "+32" + v.slice(3).replace(/\D/g, "").slice(0, 9);
+      const v = e.target.value.replace(/[^\d+\s()-]/g, "").slice(0, 20);
       setter((p: any) => ({ ...p, [e.target.name]: v }));
     };
 
