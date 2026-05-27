@@ -42,6 +42,27 @@ const QuoteForm = () => {
 
     try {
       const id = crypto.randomUUID();
+
+      // Stuur attribution-lead ALS EERSTE, vóór Supabase. Als Supabase later
+      // faalt, hebben we de lead alsnog in onze pijplijn. Splits `naam` in
+      // voornaam + naam zodat de backend split-velden krijgt (heeft fallback
+      // op `name`, maar split is netter voor person-stitching).
+      const nameTokens = (formData.naam || "").trim().split(/\s+/);
+      const voornaam = nameTokens[0] || undefined;
+      const achternaam = nameTokens.slice(1).join(" ") || undefined;
+      sendLead({
+        type: "quote",
+        quoteId: id,
+        name: formData.naam,
+        voornaam,
+        naam: achternaam,
+        email: formData.email,
+        telefoon: formData.telefoon || undefined,
+        locatie: formData.locatie || undefined,
+        dienst: formData.dienst || undefined,
+        beschrijving: formData.beschrijving || undefined,
+      });
+
       const { error } = await supabase.from("quote_requests").insert({
         id,
         naam: formData.naam,
@@ -91,18 +112,6 @@ const QuoteForm = () => {
           },
         },
       }).catch((err) => console.error("Customer confirmation email failed:", err));
-
-      // Send lead to attribution endpoint (fire-and-forget)
-      sendLead({
-        type: "quote",
-        quoteId: id,
-        naam: formData.naam,
-        email: formData.email,
-        telefoon: formData.telefoon || undefined,
-        locatie: formData.locatie || undefined,
-        dienst: formData.dienst || undefined,
-        beschrijving: formData.beschrijving || undefined,
-      });
 
       setSubmitResult("success");
       setFormData({ naam: "", email: "", telefoon: "", locatie: "", dienst: "", beschrijving: "" });

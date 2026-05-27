@@ -36,9 +36,16 @@ declare global {
 
 const ScrollToTop = () => {
   const { pathname, search } = useLocation();
+
+  // First-touch attributie alleen op mount — anders dreigt overschrijven bij
+  // elke SPA-navigatie en raken we de oorspronkelijke campagne-context kwijt.
+  useEffect(() => {
+    captureAttribution();
+  }, []);
+
+  // Scrollen + GA page_path wel op elke route-change.
   useEffect(() => {
     window.scrollTo(0, 0);
-    captureAttribution();
     if (typeof window.gtag === "function") {
       window.gtag("config", GA_MEASUREMENT_ID, {
         page_path: pathname + search,
