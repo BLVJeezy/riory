@@ -160,17 +160,17 @@ const AppointmentForm = () => {
   const [fact, setFact] = useState({
     naam: "", voornaam: "", bedrijfsnaam: "", btw_nummer: "", kbo_nummer: "",
     straat: "", huisnummer: "", postcode: "", plaats: "",
-    email: "", facturatie_email: "", telefoon: "+32",
+    email: "", facturatie_email: "", telefoon: "",
   });
 
   const [werf, setWerf] = useState({
     projectnaam: "", contactpersoon: "", straat: "", huisnummer: "",
-    postcode: "", plaats: "", telefoon: "+32",
+    postcode: "", plaats: "", telefoon: "",
   });
 
   const [syndicus, setSyndicus] = useState({
     naam: "", voornaam: "", kantoor: "", straat: "", huisnummer: "",
-    postcode: "", plaats: "", telefoon: "+32", email: "", facturatie_email: "",
+    postcode: "", plaats: "", telefoon: "", email: "", facturatie_email: "",
     naam_vme: "", kbo_nummer: "",
   });
 
@@ -246,7 +246,7 @@ const AppointmentForm = () => {
           req(!fact.huisnummer, `VME ${tFields.houseNumber}`);
           req(!fact.postcode, `VME ${tFields.postcode}`);
           req(!fact.plaats, `VME ${tFields.city}`);
-          req(!isValidBePhone(fact.telefoon), `VME ${tFields.phoneContact} (+32XXXXXXXXX)`);
+          req(!isValidBePhone(fact.telefoon), `VME ${tFields.phoneContact}`);
           req(!syndicus.naam, `Syndicus ${tFields.name}`);
           req(!syndicus.voornaam, `Syndicus ${tFields.firstName}`);
           req(!syndicus.kantoor, tFields.officeName);
@@ -254,7 +254,7 @@ const AppointmentForm = () => {
           req(!syndicus.huisnummer, `Syndicus ${tFields.houseNumber}`);
           req(!syndicus.postcode, `Syndicus ${tFields.postcode}`);
           req(!syndicus.plaats, `Syndicus ${tFields.city}`);
-          req(!isValidBePhone(syndicus.telefoon), `Syndicus ${tFields.phone} (+32XXXXXXXXX)`);
+          req(!isValidBePhone(syndicus.telefoon), `Syndicus ${tFields.phone}`);
           req(!syndicus.email, `Syndicus ${tFields.generalEmail}`);
           req(!syndicus.facturatie_email, tFields.billingEmailLong);
         } else if (klantType) {
@@ -263,7 +263,7 @@ const AppointmentForm = () => {
           req(!fact.naam, tFields.name);
           req(!fact.voornaam, tFields.firstName);
           req(!fact.email, tFields.email);
-          req(!isValidBePhone(fact.telefoon), `${tFields.phone} (+32XXXXXXXXX)`);
+          req(!isValidBePhone(fact.telefoon), `${tFields.phone}`);
           req(!fact.straat, tFields.street);
           req(!fact.huisnummer, tFields.houseNumber);
           req(!fact.postcode, tFields.postcode);
@@ -281,7 +281,7 @@ const AppointmentForm = () => {
             req(!werf.huisnummer, `Werf ${tFields.houseNumber}`);
             req(!werf.postcode, `Werf ${tFields.postcode}`);
             req(!werf.plaats, `Werf ${tFields.city}`);
-            req(!isValidBePhone(werf.telefoon), `Werf ${tFields.phone} (+32XXXXXXXXX)`);
+            req(!isValidBePhone(werf.telefoon), `Werf ${tFields.phone}`);
           }
         } else {
           missing.push(t("appointmentForm.step3Title"));
@@ -552,9 +552,9 @@ const AppointmentForm = () => {
       setKlantType("");
       setWoningOuder(null);
       setWerfIsFacturatie(null);
-      setFact({ naam: "", voornaam: "", bedrijfsnaam: "", btw_nummer: "", kbo_nummer: "", straat: "", huisnummer: "", postcode: "", plaats: "", email: "", facturatie_email: "", telefoon: "+32" });
-      setWerf({ projectnaam: "", contactpersoon: "", straat: "", huisnummer: "", postcode: "", plaats: "", telefoon: "+32" });
-      setSyndicus({ naam: "", voornaam: "", kantoor: "", straat: "", huisnummer: "", postcode: "", plaats: "", telefoon: "+32", email: "", facturatie_email: "", naam_vme: "", kbo_nummer: "" });
+      setFact({ naam: "", voornaam: "", bedrijfsnaam: "", btw_nummer: "", kbo_nummer: "", straat: "", huisnummer: "", postcode: "", plaats: "", email: "", facturatie_email: "", telefoon: "" });
+      setWerf({ projectnaam: "", contactpersoon: "", straat: "", huisnummer: "", postcode: "", plaats: "", telefoon: "" });
+      setSyndicus({ naam: "", voornaam: "", kantoor: "", straat: "", huisnummer: "", postcode: "", plaats: "", telefoon: "", email: "", facturatie_email: "", naam_vme: "", kbo_nummer: "" });
       setBeschrijving("");
       setGevondenVia("");
       setGevondenDetail("");
@@ -725,7 +725,7 @@ const AppointmentForm = () => {
                   {(klantType === "bedrijf" || klantType === "vrij_beroep") && (
                     <InputField label={tFields.billingEmail} required name="facturatie_email" value={fact.facturatie_email} onChange={handleFactChange} icon={<Mail className="w-4 h-4" />} placeholder={tPh.billingEmail} type="email" maxLength={255} />
                   )}
-                  <InputField label={tFields.phone} required name="telefoon" value={fact.telefoon} onChange={handlePhoneChange(setFact)} icon={<Phone className="w-4 h-4" />} placeholder="+32XXXXXXXXX" type="tel" maxLength={12} />
+                  <InputField label={tFields.phone} required name="telefoon" value={fact.telefoon} onChange={handlePhoneChange(setFact)} icon={<Phone className="w-4 h-4" />} placeholder="bv. 0472 50 28 14" type="tel" maxLength={12} />
                 </div>
               </div>
             )}
@@ -745,7 +745,7 @@ const AppointmentForm = () => {
                   <InputField label={tFields.houseNumber} required name="huisnummer" value={werf.huisnummer} onChange={handleWerfChange} placeholder={tPh.houseNumber} maxLength={10} />
                   <InputField label={tFields.postcode} required name="postcode" value={werf.postcode} onChange={handleWerfChange} placeholder={tPh.postcode} maxLength={10} />
                   <InputField label={tFields.city} required name="plaats" value={werf.plaats} onChange={handleWerfChange} placeholder={tPh.city} maxLength={100} />
-                  <InputField label={tFields.phone} required name="telefoon" value={werf.telefoon} onChange={handlePhoneChange(setWerf)} icon={<Phone className="w-4 h-4" />} placeholder="+32XXXXXXXXX" type="tel" maxLength={12} />
+                  <InputField label={tFields.phone} required name="telefoon" value={werf.telefoon} onChange={handlePhoneChange(setWerf)} icon={<Phone className="w-4 h-4" />} placeholder="bv. 0472 50 28 14" type="tel" maxLength={12} />
                 </div>
               </div>
             )}
@@ -763,7 +763,7 @@ const AppointmentForm = () => {
                   <InputField label={tFields.houseNumber} required name="huisnummer" value={fact.huisnummer} onChange={handleFactChange} placeholder={tPh.houseNumber} maxLength={10} />
                   <InputField label={tFields.postcode} required name="postcode" value={fact.postcode} onChange={handleFactChange} placeholder={tPh.postcode} maxLength={10} />
                   <InputField label={tFields.city} required name="plaats" value={fact.plaats} onChange={handleFactChange} placeholder={tPh.city} maxLength={100} />
-                  <InputField label={tFields.phoneContact} required name="telefoon" value={fact.telefoon} onChange={handlePhoneChange(setFact)} icon={<Phone className="w-4 h-4" />} placeholder="+32XXXXXXXXX" type="tel" maxLength={12} />
+                  <InputField label={tFields.phoneContact} required name="telefoon" value={fact.telefoon} onChange={handlePhoneChange(setFact)} icon={<Phone className="w-4 h-4" />} placeholder="bv. 0472 50 28 14" type="tel" maxLength={12} />
                 </div>
               </div>
             )}
@@ -782,7 +782,7 @@ const AppointmentForm = () => {
                   <InputField label={tFields.houseNumber} required name="huisnummer" value={syndicus.huisnummer} onChange={handleSyndicusChange} placeholder={tPh.houseNumber} maxLength={10} />
                   <InputField label={tFields.postcode} required name="postcode" value={syndicus.postcode} onChange={handleSyndicusChange} placeholder={tPh.postcode} maxLength={10} />
                   <InputField label={tFields.city} required name="plaats" value={syndicus.plaats} onChange={handleSyndicusChange} placeholder={tPh.city} maxLength={100} />
-                  <InputField label={tFields.phone} required name="telefoon" value={syndicus.telefoon} onChange={handlePhoneChange(setSyndicus)} icon={<Phone className="w-4 h-4" />} placeholder="+32XXXXXXXXX" type="tel" maxLength={12} />
+                  <InputField label={tFields.phone} required name="telefoon" value={syndicus.telefoon} onChange={handlePhoneChange(setSyndicus)} icon={<Phone className="w-4 h-4" />} placeholder="bv. 0472 50 28 14" type="tel" maxLength={12} />
                   <InputField label={tFields.generalEmail} required name="email" value={syndicus.email} onChange={handleSyndicusChange} icon={<Mail className="w-4 h-4" />} placeholder={tPh.syndicusEmail} type="email" maxLength={255} />
                   <InputField label={tFields.billingEmailLong} required name="facturatie_email" value={syndicus.facturatie_email} onChange={handleSyndicusChange} icon={<Mail className="w-4 h-4" />} placeholder={tPh.syndicusBillingEmail} type="email" maxLength={255} />
                 </div>
@@ -977,9 +977,9 @@ const AppointmentForm = () => {
           setKlantType("");
           setWoningOuder(null);
           setWerfIsFacturatie(null);
-          setFact({ naam: "", voornaam: "", bedrijfsnaam: "", btw_nummer: "", kbo_nummer: "", straat: "", huisnummer: "", postcode: "", plaats: "", email: "", facturatie_email: "", telefoon: "+32" });
-          setWerf({ projectnaam: "", contactpersoon: "", straat: "", huisnummer: "", postcode: "", plaats: "", telefoon: "+32" });
-          setSyndicus({ naam: "", voornaam: "", kantoor: "", straat: "", huisnummer: "", postcode: "", plaats: "", telefoon: "+32", email: "", facturatie_email: "", naam_vme: "", kbo_nummer: "" });
+          setFact({ naam: "", voornaam: "", bedrijfsnaam: "", btw_nummer: "", kbo_nummer: "", straat: "", huisnummer: "", postcode: "", plaats: "", email: "", facturatie_email: "", telefoon: "" });
+          setWerf({ projectnaam: "", contactpersoon: "", straat: "", huisnummer: "", postcode: "", plaats: "", telefoon: "" });
+          setSyndicus({ naam: "", voornaam: "", kantoor: "", straat: "", huisnummer: "", postcode: "", plaats: "", telefoon: "", email: "", facturatie_email: "", naam_vme: "", kbo_nummer: "" });
           setBeschrijving("");
           setGevondenVia("");
           setGevondenDetail("");
