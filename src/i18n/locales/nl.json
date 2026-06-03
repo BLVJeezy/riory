@@ -16,15 +16,21 @@
   },
   "hero": {
     "badge": "24/7 beschikbaar voor noodgevallen",
-    "title": "Ontstopping & rioolservice in Limburg",
-    "description": "Septische put ledigen? Problemen met de riolering? Last van verstoppingen? Riory staat 24/7 klaar in Bilzen, Hoeselt, Hasselt, Genk, Tongeren en heel Limburg!",
+    "title": "Riool verstopt in Limburg? Riory lost het op.",
+    "description": "24/7 bereikbaar — binnen 2u ter plaatse — vaste prijzen.",
     "customers": "500+ klanten",
     "insured": "Verzekerd",
     "ctaAppointment": "maak een afspraak",
-    "ctaUrgent": "URGENT? BEL NU",
+    "ctaUrgent": "BELLEN: 0472 50 28 14",
     "callUs": "Bel ons nu",
     "calculatePrice": "PRIJS BEREKENEN",
     "servesRegions": "Werkzaam in:"
+  },
+  "trust": {
+    "available": "Binnen 2u ter plaatse",
+    "fastIntervention": "Vaste prijzen",
+    "happyCustomers": "4.9★ op Google",
+    "certified": "Erkend & verzekerd"
   },
   "trust": {
     "available": "24/7 beschikbaar",
