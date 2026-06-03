@@ -25,6 +25,7 @@ import Afspraak from "./pages/Afspraak.tsx";
 import Prijscalculator from "./pages/Prijscalculator.tsx";
 import LocatieDetail from "./pages/LocatieDetail.tsx";
 import NotFound from "./pages/NotFound.tsx";
+import StickyCallBar from "./components/StickyCallBar.tsx";
 
 const queryClient = new QueryClient();
 
