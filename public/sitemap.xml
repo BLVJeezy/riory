@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://riory.be/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://riory.be/diensten</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://riory.be/diensten/camera-inspectie</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://riory.be/diensten/ontstoppingen-en-geurdetectie</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://riory.be/diensten/leidingen-en-septische-putten</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://riory.be/diensten/leegpompen-en-reinigen</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://riory.be/afspraak</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://riory.be/prijscalculator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://riory.be/regio/hasselt</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://riory.be/regio/genk</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://riory.be/regio/hoeselt</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://riory.be/regio/tongeren</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://riory.be/regio/maasmechelen</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://riory.be/regio/sint-truiden</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://riory.be/regio/luik</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://riory.be/regio/rocourt</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://riory.be/regio/juprelle</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://riory.be/regio/ans</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://riory.be/regio/milmort</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://riory.be/regio/vottem</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://riory.be/referenties/dakgootreinigingen</loc><changefreq>yearly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://riory.be/referenties/ledigen-van-septische-putten</loc><changefreq>yearly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://riory.be/referenties/leegpompen-en-reinigen</loc><changefreq>yearly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://riory.be/referenties/ontstoppingen-en-geurdetectie</loc><changefreq>yearly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://riory.be/privacy-policy</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://riory.be/cookie-policy</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://riory.be/algemene-voorwaarden</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://riory.be/gebruiksvoorwaarden</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://riory.be/data-protection</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+</urlset>
