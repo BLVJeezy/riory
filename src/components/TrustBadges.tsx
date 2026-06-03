@@ -1,19 +1,18 @@
-import { Shield, Clock, Zap, Star } from "lucide-react";
+import { Clock, BadgeEuro, Star } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 const TrustBadges = () => {
   const { t } = useTranslation();
   const badges = [
     { icon: Clock, label: t("trust.available") },
-    { icon: Zap, label: t("trust.fastIntervention") },
+    { icon: BadgeEuro, label: t("trust.fastIntervention") },
     { icon: Star, label: t("trust.happyCustomers") },
-    { icon: Shield, label: t("trust.certified") },
   ];
 
   return (
     <section className="bg-background border-t border-border">
       <div className="section-container px-4 md:px-8 py-3 md:py-4">
-        <div className="grid grid-cols-2 md:flex md:justify-between gap-2 md:gap-4">
+        <div className="flex flex-col md:flex-row md:justify-between gap-2 md:gap-4">
           {badges.map((badge) => (
             <div
               key={badge.label}
