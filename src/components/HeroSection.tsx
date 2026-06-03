@@ -118,9 +118,14 @@ const HeroSection = () => {
               </div>
             </a>
             <div className="hidden sm:block w-px h-8 bg-white/20" />
-            <Button variant="heroOutline" size="lg" className="text-sm md:text-base px-6 md:px-8 py-4 md:py-5 rounded-full border-white/60 text-white hover:bg-white hover:text-foreground" asChild>
-              <Link to={localizedPath("/prijscalculator")} data-track-cta="hero_calculate_price">{t("hero.calculatePrice")}</Link>
-            </Button>
+            <div className="flex flex-col gap-1.5">
+              <Button variant="heroOutline" size="lg" className="text-sm md:text-base px-6 md:px-8 py-4 md:py-5 rounded-full border-white/60 text-white hover:bg-white hover:text-foreground" asChild>
+                <Link to={localizedPath("/prijscalculator")} data-track-cta="hero_calculate_price">{t("hero.calculatePrice")}</Link>
+              </Button>
+              <p className="text-[10px] md:text-xs font-body text-white/60 leading-snug max-w-[260px]">
+                Urgentietarief bij volle planning (zelfde dag): <span className="font-heading font-semibold text-white/80">+50%</span> · Weekend / feestdagen: <span className="font-heading font-semibold text-white/80">+100%</span>
+              </p>
+            </div>
           </div>
         </div>
       </div>
