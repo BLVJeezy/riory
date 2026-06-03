@@ -124,6 +124,7 @@ const App = () => (
           <AuthProvider>
             <ScrollToTop />
             <ClickTracker />
+            <StickyCallBar />
             <Routes>
               <Route path="/en/*" element={<AppRoutes />} />
               <Route path="/fr/*" element={<AppRoutes />} />
