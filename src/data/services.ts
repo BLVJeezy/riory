@@ -158,49 +158,6 @@ export const allServices: Service[] = [
     ],
   },
   {
-    slug: "rioolrenovatie",
-    title: "Rioolrenovatie zonder breekwerken in Limburg",
-    shortTitle: "Rioolrenovatie",
-    description:
-      "Rioolrenovatie en leidingherstel zonder breekwerken in Limburg. Wij herstellen breuken, wortelingroei en verzakkingen van binnenuit — vloer en tuin blijven intact.",
-    image: serviceLeidingen,
-    longDescription:
-      "Breuken, wortelingroei, scheuren of verzakte rioolbuizen zorgen voor terugkerende verstoppingen, rioollucht en in het ergste geval ondergrondse waterschade. Riory renoveert uw rioleringen in Bilzen, Hasselt, Genk, Tongeren en Hoeselt zonder dat we vloeren of opritten moeten openbreken. " +
-      "Met no-dig technieken zoals relining brengen wij van binnenuit een nieuwe, naadloze buis aan in uw bestaande riolering. Het resultaat: een volledig vernieuwd rioolsysteem zonder breekwerk, zonder dagenlange werf en met decennia gemoedsrust. " +
-      CTA_PARAGRAPH,
-    features: [
-      "Rioolrenovatie zonder open te breken (relining)",
-      "Herstellen van breuken, scheuren en wortelingroei",
-      "Inspectie vooraf met camera voor exacte diagnose",
-      "Geen schade aan vloer, terras of tuin",
-      "Levensduur van 50+ jaar na renovatie",
-      "Vaste prijsofferte na inspectie",
-      "Actief in heel Limburg",
-    ],
-    metaTitle: "Rioolrenovatie Limburg | Zonder Breekwerken | Riory",
-    metaDescription:
-      "Rioolrenovatie zonder breekwerk in Limburg. ✓ Relining ✓ Geen schade aan vloer/tuin ✓ 50+ jaar levensduur. Bilzen, Hasselt, Genk & Tongeren. Bel nu!",
-    h2Title: "Rioleringen herstellen zonder breekwerk",
-    serviceType: "Rioolrenovatie",
-    faq: [
-      {
-        question: "Wat is relining van een riolering?",
-        answer:
-          "Relining is een no-dig techniek waarbij een nieuwe kunststof binnenbuis in de oude rioolbuis wordt aangebracht. Het bestaande riool wordt zo van binnenuit vernieuwd, zonder breken of graven.",
-      },
-      {
-        question: "Hoe lang duurt een rioolrenovatie?",
-        answer:
-          "De meeste renovaties zijn dezelfde dag klaar. Na uitharding is de leiding direct opnieuw bruikbaar. Geen dagenlange werf, geen overlast.",
-      },
-      {
-        question: "Werkt rioolrenovatie ook bij ernstige verzakkingen?",
-        answer:
-          "Bij lichte tot matige beschadigingen is relining ideaal. Bij volledige instortingen voeren we eerst een camera-inspectie uit en adviseren we de beste aanpak met vaste prijsofferte.",
-      },
-    ],
-  },
-  {
     slug: "leegpompen-en-reinigen",
     title: "Kelder leegpompen en regenput reinigen in Limburg",
     shortTitle: "Leegpompen & Reinigen",
