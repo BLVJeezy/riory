@@ -25,6 +25,13 @@ const LIMBURG_CITIES = [
   { slug: "tongeren", label: "Tongeren" },
   { slug: "maasmechelen", label: "Maasmechelen" },
   { slug: "sint-truiden", label: "Sint-Truiden" },
+  { slug: "diepenbeek", label: "Diepenbeek" },
+  { slug: "alken", label: "Alken" },
+  { slug: "borgloon", label: "Borgloon" },
+  { slug: "riemst", label: "Riemst" },
+  { slug: "wellen", label: "Wellen" },
+  { slug: "zutendaal", label: "Zutendaal" },
+  { slug: "kortessem", label: "Kortessem" },
 ];
 
 const LIEGE_CITIES = [
