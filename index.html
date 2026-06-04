@@ -246,6 +246,98 @@
     ]
   }
   </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "@id": "https://riory.be/#service-loodgieter",
+    "serviceType": "Loodgieter",
+    "name": "Loodgieter Limburg",
+    "description": "Professionele loodgieter in Limburg voor sanitair, lekdetectie, leidingwerk, boilers en alle loodgieterwerken. 24/7 bereikbaar in Bilzen, Hasselt, Genk, Tongeren, Sint-Truiden en omliggende gemeenten.",
+    "provider": { "@id": "https://riory.be/#business" },
+    "areaServed": [
+      {"@type": "AdministrativeArea", "name": "Limburg"},
+      {"@type": "City", "name": "Bilzen"},
+      {"@type": "City", "name": "Hasselt"},
+      {"@type": "City", "name": "Genk"},
+      {"@type": "City", "name": "Tongeren"},
+      {"@type": "City", "name": "Sint-Truiden"},
+      {"@type": "City", "name": "Hoeselt"},
+      {"@type": "City", "name": "Diepenbeek"},
+      {"@type": "City", "name": "Riemst"}
+    ],
+    "category": "Plumbing",
+    "url": "https://riory.be/diensten/loodgieter",
+    "availableChannel": {
+      "@type": "ServiceChannel",
+      "serviceUrl": "https://riory.be/afspraak",
+      "servicePhone": "+32472502814"
+    },
+    "hoursAvailable": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+      "opens": "00:00",
+      "closes": "23:59"
+    },
+    "offers": {
+      "@type": "Offer",
+      "priceCurrency": "EUR",
+      "priceSpecification": {
+        "@type": "PriceSpecification",
+        "priceCurrency": "EUR",
+        "description": "Op aanvraag — transparante prijs na inschatting"
+      },
+      "availability": "https://schema.org/InStock"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "@id": "https://riory.be/#service-ontstopping",
+    "serviceType": "Ontstoppingsdienst",
+    "name": "Ontstoppingsdienst Limburg",
+    "description": "24/7 ontstoppingsdienst in Limburg voor verstopte WC, gootsteen, douche, riolering en afvoer. Hogedrukreiniging, camera-inspectie en geurdetectie in Bilzen, Hasselt, Genk, Tongeren en heel Limburg.",
+    "provider": { "@id": "https://riory.be/#business" },
+    "areaServed": [
+      {"@type": "AdministrativeArea", "name": "Limburg"},
+      {"@type": "City", "name": "Bilzen"},
+      {"@type": "City", "name": "Hasselt"},
+      {"@type": "City", "name": "Genk"},
+      {"@type": "City", "name": "Tongeren"},
+      {"@type": "City", "name": "Sint-Truiden"},
+      {"@type": "City", "name": "Hoeselt"},
+      {"@type": "City", "name": "Diepenbeek"},
+      {"@type": "City", "name": "Riemst"}
+    ],
+    "category": "Drain Cleaning",
+    "url": "https://riory.be/diensten/ontstoppingsdienst",
+    "availableChannel": {
+      "@type": "ServiceChannel",
+      "serviceUrl": "https://riory.be/afspraak",
+      "servicePhone": "+32472502814"
+    },
+    "hoursAvailable": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+      "opens": "00:00",
+      "closes": "23:59"
+    },
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Ontstoppingsdiensten",
+      "itemListElement": [
+        {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Noodontstopping 24/7"}},
+        {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Toilet ontstoppen"}},
+        {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Keukenafvoer ontstoppen"}},
+        {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Rioolreiniging hogedruk"}},
+        {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Camera-inspectie riolering"}},
+        {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Geurdetectie riolering"}}
+      ]
+    }
+  }
+  </script>
   <!-- Google Consent Mode v2 — default 'denied' tot CookieYes consent ophaalt.
        Bij denied stuurt gtag geanonimiseerde 'pings' (geen cookies) waarmee
        Google conversion-modelling doet. Bij granted (na consent) gaan
