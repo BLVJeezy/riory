@@ -275,6 +275,27 @@ const DienstDetail = () => {
               </div>
             )}
 
+            {service.faq && service.faq.length > 0 && (
+              <div className="mb-10">
+                <h2 className="text-xl md:text-2xl font-heading font-bold text-foreground mb-4">
+                  Veelgestelde vragen
+                </h2>
+                <Accordion type="single" collapsible className="w-full">
+                  {service.faq.map((item, i) => (
+                    <AccordionItem key={i} value={`faq-${i}`}>
+                      <AccordionTrigger className="text-left font-heading font-semibold text-foreground">
+                        {item.question}
+                      </AccordionTrigger>
+                      <AccordionContent className="text-muted-foreground font-body leading-relaxed">
+                        {item.answer}
+                      </AccordionContent>
+                    </AccordionItem>
+                  ))}
+                </Accordion>
+              </div>
+            )}
+
+
             <div className="flex flex-col sm:flex-row items-center gap-4">
               <Button variant="cta" size="lg" data-track-cta="dienst_bottom_appointment" className="rounded-full" onClick={handleRequestQuote}>
                 {t("common.appointment")}
