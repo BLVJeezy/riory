@@ -64,7 +64,8 @@ const LocatieDetail = () => {
           "Riory BV is uw loodgieter en ontstoppingsdienst in Limburg. 24/7 bereikbaar voor loodgieterwerk, rioolentstoppingen, camera-inspectie en septische put ledigen.",
         address: {
           "@type": "PostalAddress",
-          addressLocality: "Bilzen",
+          streetAddress: "Natveld 47",
+          addressLocality: "Bilzen-Hoeselt",
           addressRegion: "Limburg",
           postalCode: "3740",
           addressCountry: "BE",

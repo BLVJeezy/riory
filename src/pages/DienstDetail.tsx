@@ -104,9 +104,9 @@ const DienstDetail = () => {
           url: "https://riory.be",
           address: {
             "@type": "PostalAddress",
-            streetAddress: "Tongersestraat 12",
+            streetAddress: "Natveld 47",
             postalCode: "3740",
-            addressLocality: "Bilzen",
+            addressLocality: "Bilzen-Hoeselt",
             addressRegion: "Limburg",
             addressCountry: "BE",
           },

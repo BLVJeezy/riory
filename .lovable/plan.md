@@ -1,50 +1,31 @@
-## Context
+## Plan: correct adres "Natveld 47, 3740 Bilzen-Hoeselt"
 
-`index.html` bevat al een uitgebreid `Plumber` schema (een subtype van `LocalBusiness` → `Organization`) met naam, adres, telefoon, e-mail, openingstijden en reviews. Schema.org-validators accepteren dit als business-schema, maar sommige SEO-tools (waaronder de Lovable scanner-melding die je toonde) zoeken letterlijk naar een `@type: "Organization"` blok en flaggen het anders als ontbrekend.
+Het juiste vestigingsadres staat momenteel verspreid fout in de codebase (deels "Tongersesteenweg 19", deels "Tongersestraat 12", deels "Toekomststraat 19"). Alleen `AlgemeneVoorwaarden.tsx` had al "Natveld 47". We harmoniseren alles.
 
-## Plan
+### Wijzigingen
 
-Een apart `Organization` JSON-LD blok toevoegen in `index.html`, naast de bestaande `Plumber` en `FAQPage` schemas. Zo bedien je beide: brand identity voor zoekmachines/AI assistants én de specifieke LocalBusiness-data voor lokale SEO.
+**1. Maps embed — `src/components/ContactSection.tsx`**
+- iframe `src` → `https://www.google.com/maps?q=Natveld+47,+3740+Bilzen-Hoeselt,+Belgi%C3%AB&output=embed`
+- `title` → `"Riory BV – Natveld 47, 3740 Bilzen-Hoeselt op Google Maps"`
 
-### Wijziging in `index.html`
+**2. Zichtbaar adres — i18n (`nl.json`, `fr.json`, `en.json`, regel 136-137)**
+- `addressLine1`: `"Natveld 47"`
+- `addressLine2`: `"3740 Bilzen-Hoeselt, België"` (NL) / `"Belgique"` (FR) / `"Belgium"` (EN)
 
-Nieuw `<script type="application/ld+json">` blok toevoegen vóór het bestaande `Plumber` blok:
+**3. JSON-LD schema's — `index.html`**
+- Organization-schema (regel 49): `streetAddress` → `"Natveld 47"`, `addressLocality` → `"Bilzen-Hoeselt"`
+- Plumber-schema (regel 80): idem
+- LocalBusiness-schema (regel 130-136): voeg `"streetAddress": "Natveld 47"` toe + `addressLocality` → `"Bilzen-Hoeselt"`
 
-```json
-{
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "Riory BV",
-  "legalName": "Riory BV",
-  "url": "https://riory.be",
-  "logo": "https://riory.be/src/assets/riory-logo-black.svg",
-  "image": "https://riory.be/src/assets/riory-logo-black.svg",
-  "description": "24/7 ontstopping-, riool- & ruimdienst in Bilzen-Hoeselt en heel Limburg.",
-  "telephone": "+32472502814",
-  "email": "info@riory.be",
-  "address": {
-    "@type": "PostalAddress",
-    "streetAddress": "Tongersestraat 12",
-    "addressLocality": "Bilzen",
-    "postalCode": "3740",
-    "addressRegion": "Limburg",
-    "addressCountry": "BE"
-  },
-  "contactPoint": {
-    "@type": "ContactPoint",
-    "telephone": "+32472502814",
-    "contactType": "customer service",
-    "areaServed": "BE",
-    "availableLanguage": ["Dutch", "French", "English"]
-  },
-  "sameAs": [
-    "https://www.google.com/maps/place/Riory"
-  ]
-}
-```
+**4. Andere paginaschema's**
+- `src/pages/DienstDetail.tsx` (regel 108) en `src/pages/LocatieDetail.tsx` (regel 69): `streetAddress` toevoegen + `addressLocality` harmoniseren naar `"Bilzen-Hoeselt"` als die velden bestaan; postcode 3740 blijft.
 
-### Notes
+### Niet gewijzigd (juridische teksten)
+`PrivacyPolicy.tsx`, `DataProtection.tsx`, `Gebruiksvoorwaarden.tsx`, `AlgemeneVoorwaarden.tsx` (regel 33) vermelden "Toekomststraat 19" als **maatschappelijke zetel** (KBO-adres). Dit is een juridisch ander adres dan het operationele vestigingsadres en raken we niet aan zonder bevestiging.
 
-- Bestaande `Plumber` en `FAQPage` schemas blijven onaangewijzigd — die leveren extra lokale SEO-signalen.
-- Als je officiële social-profielen hebt (Facebook, Instagram, LinkedIn), kunnen we die in `sameAs` toevoegen — geef de URLs door.
-- Geen code-wijzigingen buiten `index.html`.
+→ Vraag: moet de **maatschappelijke zetel** in de juridische pagina's óók worden bijgewerkt naar Natveld 47, of blijft Toekomststraat 19 het KBO-adres?
+
+### Validatie
+1. `/` → ContactSection: kaart toont pin op Natveld 47, adresblok toont nieuwe straat.
+2. View-source `index.html`: 3× JSON-LD bevat `"streetAddress": "Natveld 47"` en `"addressLocality": "Bilzen-Hoeselt"`.
+3. Taalwissel NL/FR/EN → adres correct in alle 3 talen.
