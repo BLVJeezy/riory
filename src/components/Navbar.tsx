@@ -215,6 +215,39 @@ const Navbar = () => {
               <div className="border-t border-white/10 mt-1 pt-2">
                 <button
                   type="button"
+                  onClick={() => setDienstenOpen((v) => !v)}
+                  className="w-full flex items-center justify-between px-5 py-2 text-[10px] font-heading font-bold uppercase tracking-wider text-primary hover:bg-white/10 transition-colors"
+                  aria-expanded={dienstenOpen}
+                >
+                  <span>{t("nav.services")}</span>
+                  <ChevronDown className={`w-3.5 h-3.5 transition-transform ${dienstenOpen ? "rotate-180" : ""}`} />
+                </button>
+                {dienstenOpen && (
+                  <>
+                    <Link
+                      to={localizedPath("/diensten")}
+                      onClick={() => setIsOpen(false)}
+                      className="block px-5 py-2 text-sm font-body font-semibold text-white hover:bg-white/10 transition-colors"
+                    >
+                      Alle diensten →
+                    </Link>
+                    {allServices.map((s) => (
+                      <Link
+                        key={s.slug}
+                        to={localizedPath(`/diensten/${s.slug}`)}
+                        onClick={() => setIsOpen(false)}
+                        className="block px-5 py-2 text-sm font-body text-white/70 hover:text-white hover:bg-white/10 transition-colors"
+                      >
+                        {s.shortTitle || s.title}
+                      </Link>
+                    ))}
+                  </>
+                )}
+              </div>
+
+              <div className="border-t border-white/10 mt-1 pt-2">
+                <button
+                  type="button"
                   onClick={() => setLimburgOpen((v) => !v)}
                   className="w-full flex items-center justify-between px-5 py-2 text-[10px] font-heading font-bold uppercase tracking-wider text-primary hover:bg-white/10 transition-colors"
                   aria-expanded={limburgOpen}
