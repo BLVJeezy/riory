@@ -11,10 +11,16 @@ import { ArrowLeft, CheckCircle, AlertTriangle, ArrowRight, Phone, Star, ShieldC
 import { allServices } from "@/data/services";
 import { referenceCategories } from "@/data/references";
 import { useLanguage } from "@/i18n/LanguageProvider";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 const serviceToReferenceSlug: Record<string, string> = {
   "ontstoppingen-en-geurdetectie": "ontstoppingen-en-geurdetectie",
-  "leidingen-en-septische-putten": "ledigen-van-septische-putten",
+  "septische-put-ledigen": "ledigen-van-septische-putten",
   "camera-inspectie": "dakgootreinigingen",
   "leegpompen-en-reinigen": "leegpompen-en-reinigen",
 };
