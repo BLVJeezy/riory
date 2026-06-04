@@ -93,6 +93,28 @@ const Navbar = () => {
 
         {/* Desktop */}
         <div className="hidden lg:flex items-center gap-6 xl:gap-8">
+          <DropdownMenu>
+            <DropdownMenuTrigger className="flex items-center gap-1 text-xs xl:text-sm font-body font-semibold uppercase tracking-wider whitespace-nowrap text-foreground hover:text-primary transition-colors outline-none">
+              {t("nav.services")}
+              <ChevronDown className="w-3.5 h-3.5" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start" className="w-64">
+              <DropdownMenuItem asChild>
+                <Link to={localizedPath("/diensten")} className="cursor-pointer font-semibold">
+                  Alle diensten →
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              {allServices.map((s) => (
+                <DropdownMenuItem key={s.slug} asChild>
+                  <Link to={localizedPath(`/diensten/${s.slug}`)} className="cursor-pointer">
+                    {s.shortTitle || s.title}
+                  </Link>
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+
           {navLinks.map((link) =>
             link.isRoute ? (
               <Link
