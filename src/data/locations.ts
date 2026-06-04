@@ -24,8 +24,8 @@ export const allLocations: LocationData[] = [
     city: "Hasselt",
     postalCode: "3500",
     h1: "Loodgieter & Ontstoppingsdienst Hasselt — 24/7 Riory",
-    metaTitle: "Loodgieter Hasselt | Ontstopping Hasselt | Riory Limburg",
-    metaDescription: "Riory BV is uw loodgieter en ontstoppingsdienst in Hasselt en omgeving. 24/7 bereikbaar voor rioolentstoppingen, loodgieterwerk en septische put ledigen. ☎ +32 472 50 28 14",
+    metaTitle: "Loodgieter Hasselt | 24/7 Ontstopping | Riory",
+    metaDescription: "Loodgieter & ontstoppingsdienst in Hasselt — 24/7 bereikbaar, binnen 2u ter plaatse. Rioolentstoppingen, sanitair, camera-inspectie. ☎ +32 472 50 28 14",
     intro: "Riory is uw betrouwbare partner voor alle riolerings- en ontstoppingsdiensten in Hasselt en omgeving. Of het nu gaat om een verstopte WC, een gootsteen die niet afloopt, rioollucht in huis of het ledigen van uw septische put — wij staan 24/7 paraat om u snel en vakkundig te helpen. Als hoofdstad van Limburg bedienen wij zowel het centrum van Hasselt als de deelgemeenten Kermt, Kuringen, Stevoort, Wimmertingen en Sint-Lambrechts-Herk. Naast ontstoppingen verzorgt Riory ook professioneel loodgieterwerk en sanitair in Hasselt: van installatie en herstelling van leidingen tot rioolwerken, lekdetectie en aansluitingen — onze loodgieters combineren ervaring met moderne technieken voor elke klus.",
     services: [
       {
@@ -70,8 +70,8 @@ export const allLocations: LocationData[] = [
     city: "Genk",
     postalCode: "3600",
     h1: "Loodgieter & Ontstoppingsdienst Genk — 24/7 Riory",
-    metaTitle: "Loodgieter Genk | Ontstopping Genk | Riory Limburg",
-    metaDescription: "Riory BV is uw loodgieter en ontstoppingsdienst in Genk en omgeving. 24/7 bereikbaar voor rioolentstoppingen, loodgieterwerk en septische put ledigen. ☎ +32 472 50 28 14",
+    metaTitle: "Loodgieter Genk | 24/7 Ontstopping | Riory",
+    metaDescription: "Loodgieter & ontstoppingsdienst in Genk — 24/7 bereikbaar, binnen 2u ter plaatse. Rioolentstoppingen, sanitair, camera-inspectie. ☎ +32 472 50 28 14",
     intro: "In Genk en omgeving kunt u rekenen op Riory voor snelle en professionele riolerings- en ontstoppingsdiensten. Van een verstopte WC of douche die niet afloopt tot het ledigen van septische putten en camera-inspecties — wij zijn 24/7 bereikbaar. Wij bedienen heel Genk, inclusief Winterslag, Waterschei, Zwartberg, Bokrijk en Gelieren. Riory is ook uw vaste loodgieter in Genk voor sanitair, loodgieterwerk en rioolwerken: leidingen plaatsen of herstellen, lekken opsporen, badkamers aansluiten en alle aansluitingen op het rioolnet — vakkundig en met vaste prijzen.",
     services: [
       {
@@ -116,8 +116,8 @@ export const allLocations: LocationData[] = [
     city: "Hoeselt",
     postalCode: "3730",
     h1: "Loodgieter & Ontstoppingsdienst Hoeselt — 24/7 Riory",
-    metaTitle: "Loodgieter Hoeselt | Ontstopping Hoeselt | Riory Limburg",
-    metaDescription: "Riory BV is uw loodgieter en ontstoppingsdienst in Hoeselt en omgeving. 24/7 bereikbaar voor rioolentstoppingen, loodgieterwerk en septische put ledigen. ☎ +32 472 50 28 14",
+    metaTitle: "Loodgieter Hoeselt | 24/7 Ontstopping | Riory",
+    metaDescription: "Loodgieter & ontstoppingsdienst in Hoeselt — 24/7 bereikbaar, binnen 2u ter plaatse. Rioolentstoppingen, sanitair, camera-inspectie. ☎ +32 472 50 28 14",
     intro: "Als lokale specialist bedient Riory Hoeselt en omgeving met snelle en professionele rioleringsdiensten. Of uw WC verstopt zit, de gootsteen niet afloopt, u rioollucht ruikt in huis of uw septische put geledigd moet worden — wij zijn dag en nacht bereikbaar. Vanuit onze thuisbasis in de regio zijn wij razendsnel ter plaatse in Hoeselt, Romershoven, Werm, Alt-Hoeselt en Schalkhoven. Naast rioolwerken bent u bij Riory ook aan het juiste adres voor loodgieterwerk en sanitair in Hoeselt: lekkages herstellen, leidingen vernieuwen, kranen en toiletten plaatsen en alle bijhorende aansluitingen.",
     services: [
       {
@@ -158,8 +158,8 @@ export const allLocations: LocationData[] = [
     city: "Tongeren",
     postalCode: "3700",
     h1: "Loodgieter & Ontstoppingsdienst Tongeren — 24/7 Riory",
-    metaTitle: "Loodgieter Tongeren | Ontstopping Tongeren | Riory Limburg",
-    metaDescription: "Riory BV is uw loodgieter en ontstoppingsdienst in Tongeren en omgeving. 24/7 bereikbaar voor rioolentstoppingen, loodgieterwerk en septische put ledigen. ☎ +32 472 50 28 14",
+    metaTitle: "Loodgieter Tongeren | 24/7 Ontstopping | Riory",
+    metaDescription: "Loodgieter & ontstoppingsdienst in Tongeren en Tongeren-Borgloon — 24/7 bereikbaar, binnen 2u ter plaatse. Rioolentstoppingen, sanitair. ☎ +32 472 50 28 14",
     intro: "In Tongeren, de oudste stad van België, kunt u rekenen op Riory voor alle riolerings- en ontstoppingsdiensten. Van een verstopte WC of gootsteen tot het ledigen van septische putten en camera-inspecties van rioleringen — wij zijn 24/7 beschikbaar. Wij bedienen het centrum van Tongeren en alle deelgemeenten: Piringen, Riksingen, Mal, Nerem, Rutten, Vreren, Widooie, Berg en Kolmont. Riory is bovendien uw loodgieter in Tongeren voor sanitair en loodgieterwerk: nieuwe leidingen, lekherstel, aansluitingen op het rioolnet en alle rioolwerken in en rond uw woning — vakwerk met vaste prijzen.",
     services: [
       {
@@ -200,8 +200,8 @@ export const allLocations: LocationData[] = [
     city: "Maasmechelen",
     postalCode: "3630",
     h1: "Loodgieter & Ontstoppingsdienst Maasmechelen — 24/7 Riory",
-    metaTitle: "Loodgieter Maasmechelen | Ontstopping Maasmechelen | Riory Limburg",
-    metaDescription: "Riory BV is uw loodgieter en ontstoppingsdienst in Maasmechelen en omgeving. 24/7 bereikbaar voor rioolentstoppingen, loodgieterwerk en septische put ledigen. ☎ +32 472 50 28 14",
+    metaTitle: "Loodgieter Maasmechelen | 24/7 Ontstopping | Riory",
+    metaDescription: "Loodgieter & ontstoppingsdienst in Maasmechelen — 24/7 bereikbaar, binnen 2u ter plaatse. Rioolentstoppingen, sanitair, camera-inspectie. ☎ +32 472 50 28 14",
     intro: "Riory biedt snelle en professionele rioleringsdiensten in Maasmechelen en omgeving. Of het gaat om een verstopte WC, een douche die niet afloopt, rioollucht in huis of het ruimen van een septische put — wij zijn 24/7 bereikbaar. Wij bedienen heel Maasmechelen, inclusief Mechelen-aan-de-Maas, Eisden, Opgrimbie, Leut, Vucht en Kotem. Daarnaast verzorgen onze loodgieters in Maasmechelen ook sanitair en loodgieterwerk: plaatsing en herstelling van leidingen, lekdetectie en alle rioolwerken — efficiënt en met heldere tarieven.",
     services: [
       {
@@ -242,8 +242,8 @@ export const allLocations: LocationData[] = [
     city: "Sint-Truiden",
     postalCode: "3800",
     h1: "Loodgieter & Ontstoppingsdienst Sint-Truiden — 24/7 Riory",
-    metaTitle: "Loodgieter Sint-Truiden | Ontstopping Sint-Truiden | Riory Limburg",
-    metaDescription: "Riory BV is uw loodgieter en ontstoppingsdienst in Sint-Truiden en omgeving. 24/7 bereikbaar voor rioolentstoppingen, loodgieterwerk en septische put ledigen. ☎ +32 472 50 28 14",
+    metaTitle: "Loodgieter Sint-Truiden | 24/7 Ontstopping | Riory",
+    metaDescription: "Loodgieter & ontstoppingsdienst in Sint-Truiden — 24/7 bereikbaar, binnen 2u ter plaatse. Rioolentstoppingen, sanitair, camera-inspectie. ☎ +32 472 50 28 14",
     intro: "In Sint-Truiden en de ruime omgeving biedt Riory professionele riolerings- en ontstoppingsdiensten. Van een verstopte WC of gootsteen die niet afloopt tot het ledigen van septische putten en camera-inspecties — wij staan dag en nacht klaar. Wij bedienen het centrum van Sint-Truiden en alle deelgemeenten: Aalst, Brustem, Engelmanshoven, Gelinden, Groot-Gelmen, Kerkom, Melveren, Ordingen, Velm en Zepperen. Riory verzorgt ook al uw loodgieterwerk en sanitair in Sint-Truiden: leidingen vernieuwen, lekken opsporen, kranen en toiletten plaatsen en alle bijhorende rioolwerken.",
     services: [
       {
@@ -284,8 +284,8 @@ export const allLocations: LocationData[] = [
     city: "Diepenbeek",
     postalCode: "3590",
     h1: "Loodgieter & Ontstoppingsdienst Diepenbeek — 24/7 Riory",
-    metaTitle: "Loodgieter Diepenbeek | Ontstopping Diepenbeek | Riory Limburg",
-    metaDescription: "Riory BV is uw loodgieter en ontstoppingsdienst in Diepenbeek en omgeving. 24/7 bereikbaar voor rioolentstoppingen, loodgieterwerk en septische put ledigen. ☎ +32 472 50 28 14",
+    metaTitle: "Loodgieter Diepenbeek | 24/7 Ontstopping | Riory",
+    metaDescription: "Loodgieter & ontstoppingsdienst in Diepenbeek — 24/7 bereikbaar, binnen 2u ter plaatse. Rioolentstoppingen, sanitair, camera-inspectie. ☎ +32 472 50 28 14",
     intro: "Riory BV is uw vaste loodgieter en ontstoppingsdienst in Diepenbeek en de omliggende gemeenten Rooierheide en Lutselus. Vanuit onze thuisbasis in Limburg staan wij dag en nacht klaar voor woningen, bedrijven en syndici in heel Diepenbeek. Wij verzorgen al uw loodgieterwerk, rioolentstoppingen, camera-inspecties, septische put ledigen en rioolreiniging met hogedruk. Riory is 24/7 bereikbaar en staat doorgaans binnen de 2 uur ter plaatse — ook in het weekend en op feestdagen. Heeft u een loodgieter of ontstoppingsdienst nodig in Diepenbeek? Bel ons nu op +32 472 50 28 14 of stuur een mail naar info@riory.be. Wij zijn 24/7 bereikbaar en staan binnen de 2 uur bij u ter plaatse.",
     services: [
       { title: "Loodgieter in Diepenbeek", description: "Sanitair, leidingen, lekherstel en rioolwerken in Diepenbeek door ervaren loodgieters. Snelle interventie en heldere prijzen.", slug: "ontstoppingen-en-geurdetectie" },
@@ -305,8 +305,8 @@ export const allLocations: LocationData[] = [
     city: "Riemst",
     postalCode: "3770",
     h1: "Loodgieter & Ontstoppingsdienst Riemst — 24/7 Riory",
-    metaTitle: "Loodgieter Riemst | Ontstopping Riemst | Riory Limburg",
-    metaDescription: "Riory BV is uw loodgieter en ontstoppingsdienst in Riemst en omgeving. 24/7 bereikbaar voor rioolentstoppingen, loodgieterwerk en septische put ledigen. ☎ +32 472 50 28 14",
+    metaTitle: "Loodgieter Riemst | 24/7 Ontstopping | Riory",
+    metaDescription: "Loodgieter & ontstoppingsdienst in Riemst — 24/7 bereikbaar, binnen 2u ter plaatse. Rioolentstoppingen, sanitair, camera-inspectie. ☎ +32 472 50 28 14",
     intro: "Riory BV is de lokale loodgieter en ontstoppingsdienst voor Riemst en de omliggende dorpen Vroenhoven, Kanne, Millen en Zichen-Zussen-Bolder. Onze techniekers bedienen heel de gemeente, van het centrum tot in de kleinste deelgemeenten. Wij verzorgen al uw loodgieterwerk, rioolentstoppingen, camera-inspecties, septische put ledigen en rioolreiniging met hogedruk. Riory is 24/7 bereikbaar en staat dankzij onze ligging snel ter plaatse in Riemst. Heeft u een loodgieter of ontstoppingsdienst nodig in Riemst? Bel ons nu op +32 472 50 28 14 of stuur een mail naar info@riory.be. Wij zijn 24/7 bereikbaar en staan binnen de 2 uur bij u ter plaatse.",
     services: [
       { title: "Loodgieter in Riemst", description: "Sanitair en loodgieterwerk in Riemst: leidingen, kranen, toiletten, lekdetectie en herstellingen.", slug: "ontstoppingen-en-geurdetectie" },
@@ -326,8 +326,8 @@ export const allLocations: LocationData[] = [
     city: "Wellen",
     postalCode: "3830",
     h1: "Loodgieter & Ontstoppingsdienst Wellen — 24/7 Riory",
-    metaTitle: "Loodgieter Wellen | Ontstopping Wellen | Riory Limburg",
-    metaDescription: "Riory BV is uw loodgieter en ontstoppingsdienst in Wellen en omgeving. 24/7 bereikbaar voor rioolentstoppingen, loodgieterwerk en septische put ledigen. ☎ +32 472 50 28 14",
+    metaTitle: "Loodgieter Wellen | 24/7 Ontstopping | Riory",
+    metaDescription: "Loodgieter & ontstoppingsdienst in Wellen — 24/7 bereikbaar, binnen 2u ter plaatse. Rioolentstoppingen, sanitair, camera-inspectie. ☎ +32 472 50 28 14",
     intro: "Riory BV is uw loodgieter en ontstoppingsdienst in Wellen en de omliggende dorpen Berlingen en Ulbeek. Onze ploeg kent de regio en is razendsnel ter plaatse voor zowel particulieren als ondernemingen. Wij staan in voor loodgieterwerk, rioolentstoppingen, camera-inspecties, het ledigen van septische putten en rioolreiniging onder hoge druk. Riory is 24/7 bereikbaar en lost uw probleem doorgaans binnen de 2 uur op. Heeft u een loodgieter of ontstoppingsdienst nodig in Wellen? Bel ons nu op +32 472 50 28 14 of stuur een mail naar info@riory.be. Wij zijn 24/7 bereikbaar en staan binnen de 2 uur bij u ter plaatse.",
     services: [
       { title: "Loodgieter in Wellen", description: "Sanitair, leidingen, kranen en lekherstel in Wellen door ervaren loodgieters.", slug: "ontstoppingen-en-geurdetectie" },
@@ -347,8 +347,8 @@ export const allLocations: LocationData[] = [
     city: "Zutendaal",
     postalCode: "3690",
     h1: "Loodgieter & Ontstoppingsdienst Zutendaal — 24/7 Riory",
-    metaTitle: "Loodgieter Zutendaal | Ontstopping Zutendaal | Riory Limburg",
-    metaDescription: "Riory BV is uw loodgieter en ontstoppingsdienst in Zutendaal en omgeving. 24/7 bereikbaar voor rioolentstoppingen, loodgieterwerk en septische put ledigen. ☎ +32 472 50 28 14",
+    metaTitle: "Loodgieter Zutendaal | 24/7 Ontstopping | Riory",
+    metaDescription: "Loodgieter & ontstoppingsdienst in Zutendaal — 24/7 bereikbaar, binnen 2u ter plaatse. Rioolentstoppingen, sanitair, camera-inspectie. ☎ +32 472 50 28 14",
     intro: "Riory BV verzorgt loodgieterwerk en ontstoppingen in Zutendaal en de omliggende kernen Wiemesmeer en Papendaal. Onze techniekers bedienen het volledige grondgebied van de gemeente, van centrum tot in het buitengebied richting As en Genk. Wij voeren al uw loodgieterwerk, rioolentstoppingen, camera-inspecties, septische put ledigen en rioolreiniging met hogedruk uit. Riory is 24/7 bereikbaar en garandeert een snelle interventie. Heeft u een loodgieter of ontstoppingsdienst nodig in Zutendaal? Bel ons nu op +32 472 50 28 14 of stuur een mail naar info@riory.be. Wij zijn 24/7 bereikbaar en staan binnen de 2 uur bij u ter plaatse.",
     services: [
       { title: "Loodgieter in Zutendaal", description: "Sanitair, leidingen plaatsen of herstellen en lekdetectie in Zutendaal.", slug: "ontstoppingen-en-geurdetectie" },
@@ -368,8 +368,8 @@ export const allLocations: LocationData[] = [
     city: "Vreren",
     postalCode: "3700",
     h1: "Loodgieter & Ontstoppingsdienst Vreren — 24/7 Riory",
-    metaTitle: "Loodgieter Vreren | Ontstopping Vreren | Riory Limburg",
-    metaDescription: "Riory BV is uw loodgieter en ontstoppingsdienst in Vreren en omgeving. 24/7 bereikbaar voor rioolentstoppingen, loodgieterwerk en septische put ledigen. ☎ +32 472 50 28 14",
+    metaTitle: "Loodgieter Vreren | 24/7 Ontstopping | Riory",
+    metaDescription: "Loodgieter & ontstoppingsdienst in Vreren (Tongeren) — 24/7 bereikbaar, binnen 2u ter plaatse. Rioolentstoppingen, sanitair. ☎ +32 472 50 28 14",
     intro: "Riory BV bedient Vreren — deelgemeente van Tongeren — en de omliggende dorpen Rutten en Nerem voor alle loodgieter- en rioolwerken. Onze ploeg is goed vertrouwd met de oudere rioleringen in deze landelijke regio en pakt elke opdracht doelgericht aan. Wij voeren loodgieterwerk, rioolentstoppingen, camera-inspecties, septische put ledigen en rioolreiniging met hogedruk uit. Riory is 24/7 bereikbaar en staat snel bij u ter plaatse in Vreren. Heeft u een loodgieter of ontstoppingsdienst nodig in Vreren? Bel ons nu op +32 472 50 28 14 of stuur een mail naar info@riory.be. Wij zijn 24/7 bereikbaar en staan binnen de 2 uur bij u ter plaatse.",
     services: [
       { title: "Loodgieter in Vreren", description: "Sanitair, leidingen en lekherstel in Vreren door ervaren loodgieters.", slug: "ontstoppingen-en-geurdetectie" },
@@ -389,8 +389,8 @@ export const allLocations: LocationData[] = [
     city: "Vliermaal",
     postalCode: "3723",
     h1: "Loodgieter & Ontstoppingsdienst Vliermaal — 24/7 Riory",
-    metaTitle: "Loodgieter Vliermaal | Ontstopping Vliermaal | Riory Limburg",
-    metaDescription: "Riory BV is uw loodgieter en ontstoppingsdienst in Vliermaal en omgeving. 24/7 bereikbaar voor rioolentstoppingen, loodgieterwerk en septische put ledigen. ☎ +32 472 50 28 14",
+    metaTitle: "Loodgieter Vliermaal | 24/7 Ontstopping | Riory",
+    metaDescription: "Loodgieter & ontstoppingsdienst in Vliermaal (Kortessem) — 24/7 bereikbaar, binnen 2u ter plaatse. Rioolentstoppingen, sanitair. ☎ +32 472 50 28 14",
     intro: "Riory BV is de lokale loodgieter en ontstoppingsdienst in Vliermaal — deelgemeente van Kortessem — en de omliggende dorpen Vliermaalroot en Guigoven. Onze techniekers staan dag en nacht klaar voor woningen, landbouwbedrijven en hoeves in de regio. Wij voeren loodgieterwerk, rioolentstoppingen, camera-inspecties, septische put ledigen en rioolreiniging met hogedruk uit. Riory is 24/7 bereikbaar en lost uw probleem snel op. Heeft u een loodgieter of ontstoppingsdienst nodig in Vliermaal? Bel ons nu op +32 472 50 28 14 of stuur een mail naar info@riory.be. Wij zijn 24/7 bereikbaar en staan binnen de 2 uur bij u ter plaatse.",
     services: [
       { title: "Loodgieter in Vliermaal", description: "Sanitair en loodgieterwerk in Vliermaal: leidingen, lekdetectie en herstellingen.", slug: "ontstoppingen-en-geurdetectie" },
@@ -410,8 +410,8 @@ export const allLocations: LocationData[] = [
     city: "Kortessem",
     postalCode: "3720",
     h1: "Loodgieter & Ontstoppingsdienst Kortessem — 24/7 Riory",
-    metaTitle: "Loodgieter Kortessem | Ontstopping Kortessem | Riory Limburg",
-    metaDescription: "Riory BV is uw loodgieter en ontstoppingsdienst in Kortessem en omgeving. 24/7 bereikbaar voor rioolentstoppingen, loodgieterwerk en septische put ledigen. ☎ +32 472 50 28 14",
+    metaTitle: "Loodgieter Kortessem | 24/7 Ontstopping | Riory",
+    metaDescription: "Loodgieter & ontstoppingsdienst in Kortessem — 24/7 bereikbaar, binnen 2u ter plaatse. Rioolentstoppingen, sanitair, camera-inspectie. ☎ +32 472 50 28 14",
     intro: "Riory BV is uw vaste loodgieter en ontstoppingsdienst in Kortessem en de deelgemeenten Vliermaal, Guigoven en Wintershoven. Onze techniekers bedienen het centrum en het ruime buitengebied. Wij verzorgen loodgieterwerk, rioolentstoppingen, camera-inspecties, septische put ledigen en rioolreiniging met hogedruk. Riory is 24/7 bereikbaar en doorgaans binnen de 2 uur ter plaatse. Heeft u een loodgieter of ontstoppingsdienst nodig in Kortessem? Bel ons nu op +32 472 50 28 14 of stuur een mail naar info@riory.be. Wij zijn 24/7 bereikbaar en staan binnen de 2 uur bij u ter plaatse.",
     services: [
       { title: "Loodgieter in Kortessem", description: "Sanitair, leidingen, kranen, toiletten en lekherstel in Kortessem.", slug: "ontstoppingen-en-geurdetectie" },
@@ -431,8 +431,8 @@ export const allLocations: LocationData[] = [
     city: "Alken",
     postalCode: "3570",
     h1: "Loodgieter & Ontstoppingsdienst Alken — 24/7 Riory",
-    metaTitle: "Loodgieter Alken | Ontstopping Alken | Riory Limburg",
-    metaDescription: "Riory BV is uw loodgieter en ontstoppingsdienst in Alken en omgeving. 24/7 bereikbaar voor rioolentstoppingen, loodgieterwerk en septische put ledigen. ☎ +32 472 50 28 14",
+    metaTitle: "Loodgieter Alken | 24/7 Ontstopping | Riory",
+    metaDescription: "Loodgieter & ontstoppingsdienst in Alken — 24/7 bereikbaar, binnen 2u ter plaatse. Rioolentstoppingen, sanitair, camera-inspectie. ☎ +32 472 50 28 14",
     intro: "Riory BV staat in Alken en de omliggende dorpen Sint-Joris en Terkoest paraat voor alle loodgieter- en rioolwerken. Onze techniekers bedienen heel de gemeente, ook in het meer landelijke buitengebied. Wij voeren loodgieterwerk, rioolentstoppingen, camera-inspecties, septische put ledigen en rioolreiniging met hogedruk uit. Riory is 24/7 bereikbaar en garandeert een snelle interventie in Alken. Heeft u een loodgieter of ontstoppingsdienst nodig in Alken? Bel ons nu op +32 472 50 28 14 of stuur een mail naar info@riory.be. Wij zijn 24/7 bereikbaar en staan binnen de 2 uur bij u ter plaatse.",
     services: [
       { title: "Loodgieter in Alken", description: "Sanitair en loodgieterwerk in Alken: leidingen, kranen, toiletten en lekherstel.", slug: "ontstoppingen-en-geurdetectie" },
@@ -452,8 +452,8 @@ export const allLocations: LocationData[] = [
     city: "Borgloon",
     postalCode: "3840",
     h1: "Loodgieter & Ontstoppingsdienst Borgloon — 24/7 Riory",
-    metaTitle: "Loodgieter Borgloon | Ontstopping Borgloon | Riory Limburg",
-    metaDescription: "Riory BV is uw loodgieter en ontstoppingsdienst in Borgloon en omgeving. 24/7 bereikbaar voor rioolentstoppingen, loodgieterwerk en septische put ledigen. ☎ +32 472 50 28 14",
+    metaTitle: "Loodgieter Borgloon | 24/7 Ontstopping | Riory",
+    metaDescription: "Loodgieter & ontstoppingsdienst in Borgloon en Tongeren-Borgloon — 24/7 bereikbaar, binnen 2u. Rioolentstoppingen, sanitair. ☎ +32 472 50 28 14",
     intro: "Riory BV is uw vaste loodgieter en ontstoppingsdienst in Borgloon — hart van Haspengouw — en de omliggende dorpen Kuttekoven, Hendrieken en Voort. Onze techniekers bedienen heel het grondgebied, ook voor de vele fruitteeltbedrijven en hoeves in de regio. Wij verzorgen loodgieterwerk, rioolentstoppingen, camera-inspecties, septische put ledigen en rioolreiniging met hogedruk. Riory is 24/7 bereikbaar en doorgaans binnen de 2 uur ter plaatse. Heeft u een loodgieter of ontstoppingsdienst nodig in Borgloon? Bel ons nu op +32 472 50 28 14 of stuur een mail naar info@riory.be. Wij zijn 24/7 bereikbaar en staan binnen de 2 uur bij u ter plaatse.",
     services: [
       { title: "Loodgieter in Borgloon", description: "Sanitair en loodgieterwerk in Borgloon: leidingen, kranen, lekdetectie en herstellingen.", slug: "ontstoppingen-en-geurdetectie" },
