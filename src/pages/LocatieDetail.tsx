@@ -75,6 +75,28 @@ const LocatieDetail = () => {
       },
       {
         "@context": "https://schema.org",
+        "@type": "Service",
+        serviceType: "Ontstoppingsdienst",
+        name: `Ontstoppingsdienst ${location.city}`,
+        areaServed: { "@type": "City", name: location.city },
+        provider: {
+          "@type": "LocalBusiness",
+          name: "Riory BV",
+          telephone: "+32472502814",
+          email: "info@riory.be",
+          url: "https://riory.be",
+          address: {
+            "@type": "PostalAddress",
+            streetAddress: "Tongersestraat 12",
+            postalCode: "3740",
+            addressLocality: "Bilzen",
+            addressRegion: "Limburg",
+            addressCountry: "BE",
+          },
+        },
+      },
+      {
+        "@context": "https://schema.org",
         "@type": "FAQPage",
         mainEntity: location.faq.map((f) => ({
           "@type": "Question",
