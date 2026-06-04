@@ -6,6 +6,7 @@ import { useTheme } from "@/components/ThemeProvider";
 import { useTranslation } from "react-i18next";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
+import { allServices } from "@/data/services";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -43,12 +44,12 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [limburgOpen, setLimburgOpen] = useState(false);
   const [liegeOpen, setLiegeOpen] = useState(false);
+  const [dienstenOpen, setDienstenOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const logo = theme === "dark" ? logoWhite : logoBlack;
 
   const navLinks = [
-    { label: t("nav.services"), href: localizedPath("/diensten"), isRoute: true },
     { label: t("nav.whyUs"), href: "#waarom-ons", isRoute: false },
     { label: t("nav.references"), href: "#projecten", isRoute: false },
   ];
@@ -92,6 +93,28 @@ const Navbar = () => {
 
         {/* Desktop */}
         <div className="hidden lg:flex items-center gap-6 xl:gap-8">
+          <DropdownMenu>
+            <DropdownMenuTrigger className="flex items-center gap-1 text-xs xl:text-sm font-body font-semibold uppercase tracking-wider whitespace-nowrap text-foreground hover:text-primary transition-colors outline-none">
+              {t("nav.services")}
+              <ChevronDown className="w-3.5 h-3.5" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start" className="w-64">
+              <DropdownMenuItem asChild>
+                <Link to={localizedPath("/diensten")} className="cursor-pointer font-semibold">
+                  Alle diensten →
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              {allServices.map((s) => (
+                <DropdownMenuItem key={s.slug} asChild>
+                  <Link to={localizedPath(`/diensten/${s.slug}`)} className="cursor-pointer">
+                    {s.shortTitle || s.title}
+                  </Link>
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+
           {navLinks.map((link) =>
             link.isRoute ? (
               <Link
@@ -188,6 +211,39 @@ const Navbar = () => {
                   </a>
                 )
               )}
+
+              <div className="border-t border-white/10 mt-1 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setDienstenOpen((v) => !v)}
+                  className="w-full flex items-center justify-between px-5 py-2 text-[10px] font-heading font-bold uppercase tracking-wider text-primary hover:bg-white/10 transition-colors"
+                  aria-expanded={dienstenOpen}
+                >
+                  <span>{t("nav.services")}</span>
+                  <ChevronDown className={`w-3.5 h-3.5 transition-transform ${dienstenOpen ? "rotate-180" : ""}`} />
+                </button>
+                {dienstenOpen && (
+                  <>
+                    <Link
+                      to={localizedPath("/diensten")}
+                      onClick={() => setIsOpen(false)}
+                      className="block px-5 py-2 text-sm font-body font-semibold text-white hover:bg-white/10 transition-colors"
+                    >
+                      Alle diensten →
+                    </Link>
+                    {allServices.map((s) => (
+                      <Link
+                        key={s.slug}
+                        to={localizedPath(`/diensten/${s.slug}`)}
+                        onClick={() => setIsOpen(false)}
+                        className="block px-5 py-2 text-sm font-body text-white/70 hover:text-white hover:bg-white/10 transition-colors"
+                      >
+                        {s.shortTitle || s.title}
+                      </Link>
+                    ))}
+                  </>
+                )}
+              </div>
 
               <div className="border-t border-white/10 mt-1 pt-2">
                 <button

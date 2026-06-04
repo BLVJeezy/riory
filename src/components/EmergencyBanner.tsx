@@ -10,7 +10,7 @@ const EmergencyBanner = () => {
   const quickServices = [
     { slug: "camera_inspection", label: t("emergency.cameraInspection"), href: localizedPath("/diensten/camera-inspectie") },
     { slug: "unblocking",       label: t("emergency.unblocking"),       href: localizedPath("/diensten/ontstoppingen-en-geurdetectie") },
-    { slug: "septic_tanks",     label: t("emergency.septicTanks"),      href: localizedPath("/diensten/leidingen-en-septische-putten") },
+    { slug: "septic_tanks",     label: t("emergency.septicTanks"),      href: localizedPath("/diensten/septische-put-ledigen") },
     { slug: "pumping_cleaning", label: t("emergency.pumpingCleaning"),  href: localizedPath("/diensten/leegpompen-en-reinigen") },
   ];
 

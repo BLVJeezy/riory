@@ -41,7 +41,7 @@ export const allLocations: LocationData[] = [
       {
         title: "Septische put ledigen in Hasselt",
         description: "Septische put of beerput vol in Hasselt? Wij ledigen, reinigen en controleren uw put met gespecialiseerde zuigwagens. Regelmatig onderhoud voorkomt overlast en dure herstellingen.",
-        slug: "leidingen-en-septische-putten",
+        slug: "septische-put-ledigen",
       },
       {
         title: "Kelder leegpompen en regenput reinigen in Hasselt",
@@ -87,7 +87,7 @@ export const allLocations: LocationData[] = [
       {
         title: "Septische put ledigen in Genk",
         description: "Septische put vol of beerput die overloopt in Genk? Wij zorgen voor een snelle en grondige ruiming met gespecialiseerde zuigwagens. Regelmatig ledigen voorkomt stankoverlast en rioolproblemen.",
-        slug: "leidingen-en-septische-putten",
+        slug: "septische-put-ledigen",
       },
       {
         title: "Kelder leegpompen in Genk",
@@ -133,7 +133,7 @@ export const allLocations: LocationData[] = [
       {
         title: "Septische put ledigen in Hoeselt",
         description: "Septische put of beerput vol in Hoeselt? Riory komt snel langs met gespecialiseerde zuigwagens voor een grondige ruiming en reiniging.",
-        slug: "leidingen-en-septische-putten",
+        slug: "septische-put-ledigen",
       },
       {
         title: "Kelder leegpompen in Hoeselt",
@@ -175,7 +175,7 @@ export const allLocations: LocationData[] = [
       {
         title: "Septische put ledigen in Tongeren",
         description: "Veel woningen in Tongeren beschikken over een septische put of beerput. Wij ledigen en reinigen deze vakkundig met gespecialiseerde zuigwagens.",
-        slug: "leidingen-en-septische-putten",
+        slug: "septische-put-ledigen",
       },
       {
         title: "Kelder leegpompen in Tongeren",
@@ -217,7 +217,7 @@ export const allLocations: LocationData[] = [
       {
         title: "Septische put ledigen in Maasmechelen",
         description: "Septische put vol in Maasmechelen? Wij ruimen en reinigen uw put met gespecialiseerde zuigwagens voor een zorgeloze werking.",
-        slug: "leidingen-en-septische-putten",
+        slug: "septische-put-ledigen",
       },
       {
         title: "Kelder leegpompen in Maasmechelen",
@@ -259,7 +259,7 @@ export const allLocations: LocationData[] = [
       {
         title: "Septische put ledigen in Sint-Truiden",
         description: "In het buitengebied van Sint-Truiden zijn veel woningen aangesloten op een septische put. Riory ledigt en reinigt uw put professioneel met gespecialiseerde zuigwagens.",
-        slug: "leidingen-en-septische-putten",
+        slug: "septische-put-ledigen",
       },
       {
         title: "Kelder leegpompen in Sint-Truiden",
@@ -301,7 +301,7 @@ export const allLocations: LocationData[] = [
       {
         title: "Vidange fosse septique à Liège",
         description: "Fosse septique pleine à Liège ? Nous vidons, nettoyons et contrôlons votre fosse avec des camions-citernes spécialisés. Un entretien régulier évite les nuisances et les réparations coûteuses.",
-        slug: "leidingen-en-septische-putten",
+        slug: "septische-put-ledigen",
       },
       {
         title: "Pompage de cave et nettoyage de citerne à Liège",
@@ -347,7 +347,7 @@ export const allLocations: LocationData[] = [
       {
         title: "Vidange fosse septique à Rocourt",
         description: "Fosse septique pleine à Rocourt ? Riory intervient rapidement avec des camions-citernes spécialisés pour une vidange et un nettoyage complets.",
-        slug: "leidingen-en-septische-putten",
+        slug: "septische-put-ledigen",
       },
       {
         title: "Pompage de cave à Rocourt",
@@ -389,7 +389,7 @@ export const allLocations: LocationData[] = [
       {
         title: "Vidange fosse septique à Juprelle",
         description: "Beaucoup d'habitations à Juprelle disposent d'une fosse septique. Nous assurons vidange et nettoyage avec nos camions-citernes spécialisés.",
-        slug: "leidingen-en-septische-putten",
+        slug: "septische-put-ledigen",
       },
       {
         title: "Pompage de cave à Juprelle",
@@ -431,7 +431,7 @@ export const allLocations: LocationData[] = [
       {
         title: "Vidange fosse septique à Ans",
         description: "Fosse septique ou puits perdu à vider à Ans ? Intervention rapide avec camion-citerne pour une vidange complète et propre.",
-        slug: "leidingen-en-septische-putten",
+        slug: "septische-put-ledigen",
       },
       {
         title: "Pompage de cave à Ans",
@@ -473,7 +473,7 @@ export const allLocations: LocationData[] = [
       {
         title: "Vidange fosse septique à Milmort",
         description: "Vidange et nettoyage professionnels de votre fosse septique à Milmort avec nos camions-citernes spécialisés.",
-        slug: "leidingen-en-septische-putten",
+        slug: "septische-put-ledigen",
       },
       {
         title: "Pompage de cave à Milmort",
@@ -515,7 +515,7 @@ export const allLocations: LocationData[] = [
       {
         title: "Vidange fosse septique à Vottem",
         description: "Vidange complète et nettoyage de votre fosse septique à Vottem avec camion-citerne spécialisé.",
-        slug: "leidingen-en-septische-putten",
+        slug: "septische-put-ledigen",
       },
       {
         title: "Pompage de cave à Vottem",

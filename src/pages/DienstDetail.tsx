@@ -11,10 +11,16 @@ import { ArrowLeft, CheckCircle, AlertTriangle, ArrowRight, Phone, Star, ShieldC
 import { allServices } from "@/data/services";
 import { referenceCategories } from "@/data/references";
 import { useLanguage } from "@/i18n/LanguageProvider";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 const serviceToReferenceSlug: Record<string, string> = {
   "ontstoppingen-en-geurdetectie": "ontstoppingen-en-geurdetectie",
-  "leidingen-en-septische-putten": "ledigen-van-septische-putten",
+  "septische-put-ledigen": "ledigen-van-septische-putten",
   "camera-inspectie": "dakgootreinigingen",
   "leegpompen-en-reinigen": "leegpompen-en-reinigen",
 };
@@ -36,52 +42,15 @@ const DienstDetail = () => {
   usePageView(`/diensten/${slug}`);
   useDocumentMeta(localMetaTitle, localMetaDesc);
 
-  // Per-service meta tags + JSON-LD (Service + FAQPage) for SEO-targeted slugs
+  // Per-service JSON-LD (Service + FAQPage) + SEO meta — dynamisch voor elke dienst met faq.
   useEffect(() => {
     if (!service) return;
 
-    type SeoConfig = {
-      keywords: string;
-      serviceName: string;
-      serviceType: string;
-      imageAlt: string;
-      faqs: { q: string; a: string }[];
-    };
-
-    const seoConfigs: Record<string, SeoConfig> = {
-      "ontstoppingen-en-geurdetectie": {
-        keywords:
-          "ontstoppingsdienst limburg, afvoer verstopt limburg, gootsteen verstopt limburg, gootsteen ontstoppen limburg, riool ontstoppen limburg, riory, ontstopping bilzen, ontstopping hasselt, ontstopping genk, ontstopping tongeren, 24/7 ontstoppingsdienst",
-        serviceName: "Ontstoppingsdienst Limburg",
-        serviceType: "Ontstoppingsdienst, gootsteen ontstoppen, afvoer verstopt",
-        imageAlt: "Ontstoppingsdienst Limburg — Riory",
-        faqs: [
-          { q: "Wat kost een ontstoppingsdienst in Limburg?", a: "Riory werkt met vaste, transparante prijzen voor ontstoppingen in Limburg. U weet vooraf wat u betaalt, zonder verrassingen achteraf. Vraag een afspraak aan voor een correcte prijsindicatie." },
-          { q: "Mijn gootsteen is verstopt in Limburg — hoe snel zijn jullie ter plaatse?", a: "Bij een verstopte gootsteen in Limburg is Riory doorgaans binnen 2 uur ter plaatse in Bilzen, Hasselt, Genk, Tongeren, Hoeselt en omstreken. We zijn 24/7 bereikbaar voor noodgevallen." },
-          { q: "Hoe wordt een afvoer ontstopt?", a: "Een verstopte afvoer wordt door Riory ontstopt met professionele hogedrukreiniging en, indien nodig, met camera-inspectie om de exacte oorzaak op te sporen — zonder breekwerk." },
-          { q: "Is Riory 24/7 beschikbaar in heel Limburg?", a: "Ja, Riory is dé ontstoppingsdienst van Limburg en is 24 uur op 24, 7 dagen op 7 bereikbaar voor noodontstoppingen in heel de provincie." },
-        ],
-      },
-      "leidingen-en-septische-putten": {
-        keywords:
-          "septische put ledigen, septische put vol, septische put, septische put leegmaken, septische put limburg, septische put ruimen, septische put reinigen, beerput ledigen limburg, riory, septische put bilzen, septische put hasselt, septische put genk, septische put tongeren, 24/7 septische put service",
-        serviceName: "Septische put ledigen Limburg",
-        serviceType: "Septische put ledigen, septische put leegmaken, septische put reinigen",
-        imageAlt: "Septische put ledigen Limburg — Riory",
-        faqs: [
-          { q: "Wat kost het ledigen van een septische put in Limburg?", a: "Riory hanteert vaste, transparante prijzen voor het ledigen van een septische put in Limburg. U weet vooraf wat u betaalt — geen verrassingen achteraf. Vraag een afspraak aan voor een correcte prijsindicatie op basis van de grootte van uw put." },
-          { q: "Hoe vaak moet ik mijn septische put laten leegmaken?", a: "Een septische put moet gemiddeld om de 2 tot 5 jaar geledigd worden, afhankelijk van de grootte van de put en het aantal bewoners. Riory adviseert u graag tijdens een afspraak en plant indien gewenst periodiek onderhoud." },
-          { q: "Hoe weet ik dat mijn septische put vol is?", a: "Typische signalen van een volle septische put zijn stankoverlast, een traag wegvloeiende afvoer, gorgelende geluiden in de leidingen of terugstromend water. Wacht niet en bel Riory voor een snelle interventie in Bilzen, Hasselt, Genk, Tongeren en heel Limburg." },
-          { q: "Komt Riory ook 24/7 een septische put leegmaken in Limburg?", a: "Ja, Riory is 24 uur op 24, 7 dagen op 7 bereikbaar voor het dringend ledigen van een volle septische put in heel de provincie Limburg." },
-        ],
-      },
-    };
-
-    const config = seoConfigs[slug as string];
-    if (!config) return;
-
-    const PAGE_URL = `https://riory.be/diensten/${slug}`;
+    const PAGE_URL = `https://riory.be/diensten/${service.slug}`;
     const IMAGE_URL = `https://riory.be${service.image}`;
+    const serviceName = service.shortTitle || service.title;
+    const serviceType = service.serviceType || serviceName;
+    const imageAlt = `${serviceName} — Riory`;
 
     const setOrCreate = (
       tag: "meta" | "link",
@@ -103,7 +72,6 @@ const DienstDetail = () => {
     };
 
     const managed = [
-      setOrCreate("meta", "name", "keywords", "content", config.keywords),
       setOrCreate("meta", "name", "robots", "content", "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"),
       setOrCreate("meta", "name", "geo.region", "content", "BE-VLI"),
       setOrCreate("meta", "name", "geo.placename", "content", "Limburg, België"),
@@ -111,20 +79,23 @@ const DienstDetail = () => {
       setOrCreate("meta", "name", "ICBM", "content", "50.8741, 5.5167"),
       setOrCreate("meta", "property", "og:type", "content", "website"),
       setOrCreate("meta", "property", "og:image", "content", IMAGE_URL),
-      setOrCreate("meta", "property", "og:image:alt", "content", config.imageAlt),
+      setOrCreate("meta", "property", "og:image:alt", "content", imageAlt),
+      setOrCreate("meta", "property", "og:url", "content", PAGE_URL),
       setOrCreate("meta", "property", "og:site_name", "content", "Riory — Sterk in Rioleringswerk"),
       setOrCreate("meta", "name", "twitter:card", "content", "summary_large_image"),
       setOrCreate("meta", "name", "twitter:image", "content", IMAGE_URL),
       setOrCreate("meta", "name", "author", "content", "Riory BV"),
       setOrCreate("meta", "name", "publisher", "content", "Riory BV"),
+      setOrCreate("link", "rel", "canonical", "href", PAGE_URL),
     ];
 
     const blocks: object[] = [
       {
         "@context": "https://schema.org",
         "@type": "Service",
-        name: config.serviceName,
-        serviceType: config.serviceType,
+        name: serviceName,
+        serviceType,
+        description: service.description,
         provider: {
           "@type": "LocalBusiness",
           name: "Riory BV",
@@ -139,6 +110,7 @@ const DienstDetail = () => {
             addressRegion: "Limburg",
             addressCountry: "BE",
           },
+          areaServed: ["Bilzen", "Hasselt", "Genk", "Tongeren", "Hoeselt"],
         },
         areaServed: [
           { "@type": "AdministrativeArea", name: "Limburg" },
@@ -156,20 +128,23 @@ const DienstDetail = () => {
         hoursAvailable: "Mo-Su 00:00-23:59",
         url: PAGE_URL,
       },
-      {
+    ];
+
+    if (service.faq && service.faq.length > 0) {
+      blocks.push({
         "@context": "https://schema.org",
         "@type": "FAQPage",
-        mainEntity: config.faqs.map((f) => ({
+        mainEntity: service.faq.map((f) => ({
           "@type": "Question",
-          name: f.q,
-          acceptedAnswer: { "@type": "Answer", text: f.a },
+          name: f.question,
+          acceptedAnswer: { "@type": "Answer", text: f.answer },
         })),
-      },
-    ];
+      });
+    }
 
     const script = document.createElement("script");
     script.type = "application/ld+json";
-    script.setAttribute("data-seo-service", slug as string);
+    script.setAttribute("data-seo-service", service.slug);
     script.text = JSON.stringify(blocks);
     document.head.appendChild(script);
     return () => {
@@ -179,10 +154,11 @@ const DienstDetail = () => {
           el.remove();
         } else if (prev !== null) {
           el.setAttribute("content", prev);
+          el.setAttribute("href", prev);
         }
       });
     };
-  }, [slug, service]);
+  }, [service]);
 
 
   if (!service) {
@@ -298,6 +274,27 @@ const DienstDetail = () => {
                 </Button>
               </div>
             )}
+
+            {service.faq && service.faq.length > 0 && (
+              <div className="mb-10">
+                <h2 className="text-xl md:text-2xl font-heading font-bold text-foreground mb-4">
+                  Veelgestelde vragen
+                </h2>
+                <Accordion type="single" collapsible className="w-full">
+                  {service.faq.map((item, i) => (
+                    <AccordionItem key={i} value={`faq-${i}`}>
+                      <AccordionTrigger className="text-left font-heading font-semibold text-foreground">
+                        {item.question}
+                      </AccordionTrigger>
+                      <AccordionContent className="text-muted-foreground font-body leading-relaxed">
+                        {item.answer}
+                      </AccordionContent>
+                    </AccordionItem>
+                  ))}
+                </Accordion>
+              </div>
+            )}
+
 
             <div className="flex flex-col sm:flex-row items-center gap-4">
               <Button variant="cta" size="lg" data-track-cta="dienst_bottom_appointment" className="rounded-full" onClick={handleRequestQuote}>
