@@ -44,12 +44,12 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [limburgOpen, setLimburgOpen] = useState(false);
   const [liegeOpen, setLiegeOpen] = useState(false);
+  const [dienstenOpen, setDienstenOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const logo = theme === "dark" ? logoWhite : logoBlack;
 
   const navLinks = [
-    { label: t("nav.services"), href: localizedPath("/diensten"), isRoute: true },
     { label: t("nav.whyUs"), href: "#waarom-ons", isRoute: false },
     { label: t("nav.references"), href: "#projecten", isRoute: false },
   ];
