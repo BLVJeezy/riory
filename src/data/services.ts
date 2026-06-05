@@ -6,6 +6,7 @@ import wcVerstoptAsset from "@/assets/wc-verstopt.jpg.asset.json";
 import doucheputjeVerstoptAsset from "@/assets/doucheputje-verstopt.webp.asset.json";
 import rioolVerstoptAsset from "@/assets/riool-verstopt.jpg.asset.json";
 import doucheputjeHarenAsset from "@/assets/doucheputje-haren.jpg.asset.json";
+import gootsteenVerstoptAsset from "@/assets/gootsteen-verstopt.jpg.asset.json";
 
 export interface ServiceFAQ {
   question: string;
