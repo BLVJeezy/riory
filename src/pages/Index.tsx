@@ -12,6 +12,7 @@ import HeroSection from "@/components/HeroSection";
 import EmergencyBanner from "@/components/EmergencyBanner";
 
 import ServicesSection from "@/components/ServicesSection";
+import CommonProblemsSection from "@/components/CommonProblemsSection";
 import WhyChooseUs from "@/components/WhyChooseUs";
 import ProjectsSection from "@/components/ProjectsSection";
 import ReviewsSection from "@/components/ReviewsSection";
