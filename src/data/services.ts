@@ -334,7 +334,7 @@ export const allServices: Service[] = [
     shortTitle: "Riool Verstopt",
     description:
       "Riool verstopt in Limburg? Meerdere afvoeren tegelijk geblokkeerd? Riory BV pakt het aan met hogedrukspuit + camera-inspectie. 24/7 in heel Limburg.",
-    image: serviceOntstoppingen,
+    image: rioolVerstoptAsset.url,
     longDescription:
       "Wanneer meerdere afvoeren tegelijk traag wegvloeien — uw WC, douche én gootsteen — dan zit het probleem dieper: er is een verstopping in de hoofdriolering, niet in een individuele sifon. Typische signalen zijn gorgelende geluiden in andere afvoeren, water dat terugkomt via de doucheput, of een sterke rioolgeur rond de inspectieputjes buiten. Een diepe rioolverstopping vereist professionele uitrusting. " +
       "Riory BV diagnosticeert elke rioolverstopping in Limburg eerst correct met camera-inspectie, en lost de blokkage vervolgens op met een krachtige hogedrukspuit ('jetting'). Zo verwijderen wij wortelingroei, vetlagen, kalkaanslag en hardnekkige verstoppingen tot diep in de hoofdriolering — zonder graafwerk. Wij werken 24/7 in Hasselt, Genk, Tongeren, Bilzen, Hoeselt en Sint-Truiden, met vaste prijzen en een rapport van de toestand van uw riolering. " +
