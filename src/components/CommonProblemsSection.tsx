@@ -1,31 +1,39 @@
-import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useLanguage } from "@/i18n/LanguageProvider";
-import { coreServices } from "@/data/services";
+import { Button } from "@/components/ui/button";
+import { commonProblems } from "@/data/services";
 
-const ServicesSection = () => {
+const CommonProblemsSection = () => {
   const { t } = useTranslation();
   const { localizedPath } = useLanguage();
 
   return (
-    <section id="diensten" className="section-padding bg-background">
+    <section id="veelvoorkomende-problemen" className="section-padding bg-muted/30">
       <div className="section-container">
         <div className="text-center mb-14">
+          <span className="inline-block text-xs md:text-sm font-heading font-bold uppercase tracking-wider text-primary mb-3">
+            {t("commonProblems.eyebrow", { defaultValue: "Zorgeloos opgelost door Riory" })}
+          </span>
           <h2 className="text-3xl md:text-4xl font-heading font-bold uppercase text-foreground mb-4">
-            {t("services.sectionTitle")}
+            {t("commonProblems.sectionTitle", { defaultValue: "Veel Voorkomende Problemen" })}
           </h2>
           <div className="w-16 h-1 bg-primary mx-auto mb-4" />
           <p className="text-muted-foreground font-body max-w-xl mx-auto">
-            {t("services.sectionDescription")}
+            {t("commonProblems.sectionDescription", {
+              defaultValue:
+                "Verstopping, lek of nare geur? Riory lost het zorgeloos voor u op — 24/7 in heel Limburg.",
+            })}
           </p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
-          {coreServices.map((service) => {
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
+          {commonProblems.map((service) => {
             const localTitle = t(`servicesData.${service.slug}.title`, { defaultValue: service.title });
-            const localShort = t(`servicesData.${service.slug}.shortTitle`, { defaultValue: service.shortTitle || service.title });
+            const localShort = t(`servicesData.${service.slug}.shortTitle`, {
+              defaultValue: service.shortTitle || service.title,
+            });
             const localDesc = t(`servicesData.${service.slug}.description`, { defaultValue: service.description });
             return (
               <Link
@@ -57,9 +65,18 @@ const ServicesSection = () => {
             );
           })}
         </div>
+
+        <div className="text-center mt-10">
+          <Button variant="cta" size="lg" asChild>
+            <Link to={localizedPath("/veelvoorkomende-problemen")} className="gap-2">
+              {t("commonProblems.viewAll", { defaultValue: "Bekijk alle veelvoorkomende problemen" })}
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </Button>
+        </div>
       </div>
     </section>
   );
 };
 
-export default ServicesSection;
+export default CommonProblemsSection;

@@ -23,6 +23,7 @@ import Admin from "./pages/Admin.tsx";
 import Unsubscribe from "./pages/Unsubscribe.tsx";
 import Afspraak from "./pages/Afspraak.tsx";
 import Prijscalculator from "./pages/Prijscalculator.tsx";
+import VeelvoorkomendeProblemen from "./pages/VeelvoorkomendeProblemen.tsx";
 import LocatieDetail from "./pages/LocatieDetail.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import StickyCallBar from "./components/StickyCallBar.tsx";
@@ -108,6 +109,7 @@ const AppRoutes = () => (
     <Route path="afspraak" element={<Afspraak />} />
     <Route path="prijscalculator" element={<Prijscalculator />} />
     <Route path="regio/:slug" element={<LocatieDetail />} />
+    <Route path="veelvoorkomende-problemen" element={<VeelvoorkomendeProblemen />} />
     <Route path="unsubscribe" element={<Unsubscribe />} />
     <Route path="*" element={<NotFound />} />
   </Routes>

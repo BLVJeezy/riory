@@ -459,3 +459,30 @@ export const allServices: Service[] = [
   },
 ];
 
+/** Echte kerndiensten (Diensten-sectie homepage + /diensten overzicht). */
+export const coreServiceSlugs = [
+  "camera-inspectie",
+  "ontstoppingen-en-geurdetectie",
+  "septische-put-ledigen",
+  "leegpompen-en-reinigen",
+] as const;
+
+/** Veelvoorkomende problemen die Riory zorgeloos oplost. */
+export const commonProblemSlugs = [
+  "wc-verstopt",
+  "keukenafvoer-verstopt",
+  "doucheputje-verstopt",
+  "riool-verstopt",
+  "gootsteen-verstopt",
+  "lekkende-kraan",
+] as const;
+
+export const coreServices = allServices.filter((s) =>
+  (coreServiceSlugs as readonly string[]).includes(s.slug)
+);
+
+export const commonProblems = allServices.filter((s) =>
+  (commonProblemSlugs as readonly string[]).includes(s.slug)
+);
+
+
