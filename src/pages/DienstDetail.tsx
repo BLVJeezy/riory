@@ -306,6 +306,31 @@ const DienstDetail = () => {
               </div>
             )}
 
+            {/* Onze werkgebieden — interne links naar regio-pagina's */}
+            <div className="mb-10 p-6 rounded-xl bg-muted/30 border border-border">
+              <h2 className="text-lg md:text-xl font-heading font-bold text-foreground mb-3">
+                Onze werkgebieden
+              </h2>
+              <p className="text-sm text-muted-foreground font-body mb-4">
+                Riory BV is actief als loodgieter en ontstoppingsdienst in:
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {allLocations
+                  .filter((l) => !["luik", "rocourt", "juprelle", "ans", "milmort", "vottem"].includes(l.slug))
+                  .map((l) => (
+                    <Link
+                      key={l.slug}
+                      to={localizedPath(`/regio/${l.slug}`)}
+                      className="inline-flex items-center px-3 py-1.5 rounded-full border border-border bg-card hover:bg-accent text-xs md:text-sm font-heading font-semibold text-foreground transition-colors"
+                    >
+                      {l.city}
+                    </Link>
+                  ))}
+              </div>
+            </div>
+
+
+
 
             <div className="flex flex-col sm:flex-row items-center gap-4">
               <Button variant="cta" size="lg" data-track-cta="dienst_bottom_appointment" className="rounded-full" onClick={handleRequestQuote}>
