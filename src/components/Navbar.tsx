@@ -44,6 +44,10 @@ const LIEGE_CITIES = [
   { slug: "vottem", label: "Vottem" },
 ];
 
+const SYMPTOM_SET = new Set<string>(SYMPTOM_SERVICE_SLUGS as readonly string[]);
+const REGULAR_SERVICES = allServices.filter((s) => !SYMPTOM_SET.has(s.slug));
+const SPOED_SERVICES = allServices.filter((s) => SYMPTOM_SET.has(s.slug));
+
 const Navbar = () => {
   const { theme } = useTheme();
   const { t } = useTranslation();
