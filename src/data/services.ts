@@ -378,7 +378,7 @@ export const allServices: Service[] = [
     shortTitle: "Gootsteen Verstopt",
     description:
       "Gootsteen verstopt in Limburg? Riory BV lost het snel op met vaste prijzen. 24/7 bereikbaar in Hasselt, Genk, Tongeren, Bilzen en omstreken.",
-    image: serviceOntstoppingen,
+    image: gootsteenVerstoptAsset.url,
     longDescription:
       "Een gootsteen die niet wegloopt, traag leegt of borrelende geluiden maakt heeft bijna altijd een verstopte sifon of leiding. Bij keukens is de oorzaak meestal vet en etensresten, bij badkamergootstenen vooral haren, tandpasta en zeep. Een verstopte gootsteen verergert snel: hoe langer u wacht, hoe harder de prop wordt. " +
       "Riory BV ontstopt elke gootsteen in Limburg snel en netjes. Wij demonteren de sifon waar nodig, verwijderen de blokkage en spoelen de leiding professioneel door. Zo loopt uw gootsteen meteen weer normaal weg. Wij werken 24/7 in Hasselt, Genk, Tongeren, Bilzen, Hoeselt en Sint-Truiden, met vaste prijzen en zonder breekwerk. " +
