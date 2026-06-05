@@ -71,6 +71,7 @@ const Index = () => {
       <EmergencyBanner />
       
       <ServicesSection />
+      <CommonProblemsSection />
       <AboutSection />
       <WhyChooseUs />
       <ProjectsSection />
