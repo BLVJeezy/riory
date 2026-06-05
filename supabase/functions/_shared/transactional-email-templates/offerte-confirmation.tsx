@@ -46,8 +46,8 @@ const OfferteConfirmation = ({ voornaam, dienst, beschrijving }: Props) => (
             <Text style={infoTitle}>Dringend hulp nodig?</Text>
             <Text style={infoText}>
               Bel onze 24/7 nooddienst:{' '}
-              <Link href="tel:+32485594555" style={phoneLink}>
-                +32 485 59 45 55
+              <Link href="tel:+32472502814" style={phoneLink}>
+                +32 472 50 28 14
               </Link>
             </Text>
           </Section>
