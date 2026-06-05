@@ -30,7 +30,7 @@ const HeroSection = () => {
           <h1 className="text-[22px] sm:text-3xl md:text-5xl lg:text-6xl font-heading font-bold uppercase leading-tight text-white mb-2 md:mb-3">
             {t("hero.title")}
           </h1>
-          <p className="text-sm md:text-lg text-white/80 font-body leading-relaxed mb-3 md:mb-4 max-w-xl">
+          <p className="hero-description text-sm md:text-lg text-white/80 font-body leading-relaxed mb-3 md:mb-4 max-w-xl">
             {t("hero.description")}
           </p>
 
