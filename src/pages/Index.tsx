@@ -31,6 +31,37 @@ const Index = () => {
     "Ontstoppingsdienst Limburg nodig? Riory is dé ontstoppingsdienst in Limburg — 24/7 bij verstopte afvoer, gootsteen, WC of riool in Bilzen, Hasselt, Genk & Tongeren. Bel nu!",
   );
 
+  // Speakable schema + AggregateRating/Review schema voor GBP ranking
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.type = "application/ld+json";
+    script.id = "jsonld-home-speakable-reviews";
+    script.textContent = JSON.stringify([
+      {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        url: "https://riory.be/",
+        speakable: {
+          "@type": "SpeakableSpecification",
+          cssSelector: ["h1", ".hero-description", ".cta-phone"],
+        },
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "@id": "https://riory.be/#business",
+        name: "Riory BV",
+        url: "https://riory.be",
+        telephone: "+32472502814",
+        ...businessRatingSchema(),
+      },
+    ]);
+    document.head.appendChild(script);
+    return () => {
+      document.getElementById("jsonld-home-speakable-reviews")?.remove();
+    };
+  }, []);
+
 
   return (
     <>
