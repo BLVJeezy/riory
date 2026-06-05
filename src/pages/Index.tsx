@@ -1,5 +1,7 @@
+import { useEffect } from "react";
 import { usePageView } from "@/hooks/usePageView";
 import { useDocumentMeta } from "@/hooks/useDocumentMeta";
+import { businessRatingSchema } from "@/data/reviews";
 import { Link } from "react-router-dom";
 import { Calculator, ArrowRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
