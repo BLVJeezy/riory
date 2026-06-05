@@ -4,6 +4,7 @@ import serviceCamera from "@/assets/service-camera-inspectie.webp";
 import serviceLeegpompen from "@/assets/service-leegpompen-reinigen.webp";
 import wcVerstoptAsset from "@/assets/wc-verstopt.jpg.asset.json";
 import doucheputjeVerstoptAsset from "@/assets/doucheputje-verstopt.webp.asset.json";
+import rioolVerstoptAsset from "@/assets/riool-verstopt.jpg.asset.json";
 
 export interface ServiceFAQ {
   question: string;
