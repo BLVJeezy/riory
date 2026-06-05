@@ -153,6 +153,11 @@ const DienstDetail = () => {
       });
     }
 
+    // Remove any pre-existing per-service JSON-LD scripts to avoid duplicates
+    // (HMR, fast navigation, or re-renders can otherwise stack multiple FAQPage blocks).
+    document.head
+      .querySelectorAll('script[type="application/ld+json"][data-seo-service]')
+      .forEach((el) => el.remove());
     const script = document.createElement("script");
     script.type = "application/ld+json";
     script.setAttribute("data-seo-service", service.slug);

@@ -34,6 +34,7 @@ const Index = () => {
 
   // Speakable schema + AggregateRating/Review schema voor GBP ranking
   useEffect(() => {
+    document.getElementById("jsonld-home-speakable-reviews")?.remove();
     const script = document.createElement("script");
     script.type = "application/ld+json";
     script.id = "jsonld-home-speakable-reviews";
