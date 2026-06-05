@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { allServices } from "@/data/services";
+import { SYMPTOM_SERVICE_SLUGS } from "@/data/reviews";
 import {
   DropdownMenu,
   DropdownMenuContent,
