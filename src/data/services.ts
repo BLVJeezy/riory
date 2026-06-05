@@ -291,7 +291,7 @@ export const allServices: Service[] = [
     shortTitle: "Doucheputje Verstopt",
     description:
       "Doucheputje verstopt in Limburg? Riory verwijdert haar- en zeepresten snel. 24/7 bereikbaar in Hasselt, Genk, Tongeren en omstreken.",
-    image: serviceOntstoppingen,
+    image: doucheputjeVerstoptAsset.url,
     longDescription:
       "Een verstopt doucheputje is vooral hinderlijk: het water blijft staan, er ontstaat een vieze laag en op den duur stinkt de badkamer naar riool. De oorzaak is bijna altijd dezelfde combinatie: haren, zeepresten, douchegel en huidvet die samen een prop vormen in de sifon of net daaronder. " +
       "Riory BV ontstopt elk doucheputje in Limburg vakkundig: wij demonteren de sifon waar nodig, verwijderen de prop volledig en spoelen de leiding professioneel door zodat het water weer snel wegloopt. Wij werken 24/7 in Hasselt, Genk, Tongeren, Bilzen, Hoeselt en Sint-Truiden, met vaste prijzen en zonder onnodig breekwerk. " +
