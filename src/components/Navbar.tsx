@@ -117,7 +117,18 @@ const Navbar = () => {
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              {allServices.map((s) => (
+              {REGULAR_SERVICES.map((s) => (
+                <DropdownMenuItem key={s.slug} asChild>
+                  <Link to={localizedPath(`/diensten/${s.slug}`)} className="cursor-pointer">
+                    {s.shortTitle || s.title}
+                  </Link>
+                </DropdownMenuItem>
+              ))}
+              <DropdownMenuSeparator />
+              <DropdownMenuLabel className="text-xs uppercase tracking-wider text-primary">
+                Spoedgevallen
+              </DropdownMenuLabel>
+              {SPOED_SERVICES.map((s) => (
                 <DropdownMenuItem key={s.slug} asChild>
                   <Link to={localizedPath(`/diensten/${s.slug}`)} className="cursor-pointer">
                     {s.shortTitle || s.title}
