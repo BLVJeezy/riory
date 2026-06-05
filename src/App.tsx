@@ -109,6 +109,7 @@ const AppRoutes = () => (
     <Route path="afspraak" element={<Afspraak />} />
     <Route path="prijscalculator" element={<Prijscalculator />} />
     <Route path="regio/:slug" element={<LocatieDetail />} />
+    <Route path="veelvoorkomende-problemen" element={<VeelvoorkomendeProblemen />} />
     <Route path="unsubscribe" element={<Unsubscribe />} />
     <Route path="*" element={<NotFound />} />
   </Routes>
