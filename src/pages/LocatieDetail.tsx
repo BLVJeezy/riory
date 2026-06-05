@@ -77,6 +77,25 @@ const LocatieDetail = () => {
           "Sint-Truiden", "Diepenbeek", "Riemst", "Wellen",
           "Zutendaal", "Alken", "Borgloon", "Kortessem", "Vliermaal", "Vreren",
         ],
+        openingHours: "Mo-Su 00:00-24:00",
+        openingHoursSpecification: [
+          {
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+            opens: "00:00",
+            closes: "23:59",
+          },
+        ],
+        geo: {
+          "@type": "GeoCoordinates",
+          latitude: "50.8681",
+          longitude: "5.5134",
+        },
+        hasMap: "https://maps.google.com/?q=Riory+BV+Bilzen",
+        priceRange: "€€",
+        paymentAccepted: "Cash, Bancontact",
+        currenciesAccepted: "EUR",
+        ...businessRatingSchema(),
         hasOfferCatalog: {
           "@type": "OfferCatalog",
           name: "Diensten Riory BV",
