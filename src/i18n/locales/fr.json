@@ -183,7 +183,9 @@
     "viewAll": "Voir tout",
     "viewAllProjects": "Voir tous les projets",
     "lastUpdated": "Mise à jour",
-    "soonAvailable": "Bientôt disponible."
+    "soonAvailable": "Bientôt disponible.",
+    "stickyCall247": "Appeler 24/7",
+    "stickyAppointment": "Rendez-vous"
   },
   "cookieBanner": {
     "title": "Nous utilisons des cookies",
