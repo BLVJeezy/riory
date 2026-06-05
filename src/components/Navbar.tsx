@@ -254,12 +254,25 @@ const Navbar = () => {
                     >
                       Alle diensten →
                     </Link>
-                    {allServices.map((s) => (
+                    {REGULAR_SERVICES.map((s) => (
                       <Link
                         key={s.slug}
                         to={localizedPath(`/diensten/${s.slug}`)}
                         onClick={() => setIsOpen(false)}
                         className="block px-5 py-2 text-sm font-body text-white/70 hover:text-white hover:bg-white/10 transition-colors"
+                      >
+                        {s.shortTitle || s.title}
+                      </Link>
+                    ))}
+                    <div className="px-5 pt-3 pb-1 text-[10px] font-heading font-bold uppercase tracking-wider text-primary">
+                      Spoedgevallen
+                    </div>
+                    {SPOED_SERVICES.map((s) => (
+                      <Link
+                        key={s.slug}
+                        to={localizedPath(`/diensten/${s.slug}`)}
+                        onClick={() => setIsOpen(false)}
+                        className="block px-5 py-2 text-sm font-body text-white/80 hover:text-white hover:bg-white/10 transition-colors"
                       >
                         {s.shortTitle || s.title}
                       </Link>
