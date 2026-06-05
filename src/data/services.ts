@@ -2,6 +2,7 @@ import serviceOntstoppingen from "@/assets/service-ontstoppingen-geurdetectie.we
 import serviceLeidingen from "@/assets/service-leidingen-septisch.webp";
 import serviceCamera from "@/assets/service-camera-inspectie.webp";
 import serviceLeegpompen from "@/assets/service-leegpompen-reinigen.webp";
+import wcVerstoptAsset from "@/assets/wc-verstopt.jpg.asset.json";
 
 export interface ServiceFAQ {
   question: string;
@@ -205,7 +206,7 @@ export const allServices: Service[] = [
     shortTitle: "WC Verstopt",
     description:
       "WC verstopt in Limburg? Riory BV is 24/7 bereikbaar en binnen 2 uur ter plaatse in Hasselt, Genk, Tongeren, Bilzen, Hoeselt en Sint-Truiden. Vaste prijzen, geen breekwerk.",
-    image: serviceOntstoppingen,
+    image: wcVerstoptAsset.url,
     longDescription:
       "Een verstopt toilet herkent u meestal direct: de WC spoelt traag door, het water blijft hoog staan, u hoort gorgelende geluiden of er stijgt een vieze rioolgeur op. In het ergste geval loopt het toilet over en richt het waterschade aan. Een verstopte WC is bijna nooit een probleem dat vanzelf overgaat — wachten maakt de blokkage doorgaans erger. " +
       "Bij Riory BV pakken wij elk verstopt toilet professioneel aan met de juiste apparatuur: ontstopveer, hogedrukreiniging en — indien nodig — camera-inspectie om de exacte oorzaak te lokaliseren. Wij werken zonder onnodig breekwerk, met netjes afgedekte werkzone en vaste, transparante prijzen. Onze ontstoppers zijn 24/7 bereikbaar in Hasselt, Genk, Tongeren, Bilzen, Hoeselt en Sint-Truiden en doorgaans binnen 2 uur bij u thuis. " +
