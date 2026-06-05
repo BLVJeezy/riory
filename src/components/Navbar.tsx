@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { allServices } from "@/data/services";
+import { SYMPTOM_SERVICE_SLUGS } from "@/data/reviews";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -42,6 +43,10 @@ const LIEGE_CITIES = [
   { slug: "milmort", label: "Milmort" },
   { slug: "vottem", label: "Vottem" },
 ];
+
+const SYMPTOM_SET = new Set<string>(SYMPTOM_SERVICE_SLUGS as readonly string[]);
+const REGULAR_SERVICES = allServices.filter((s) => !SYMPTOM_SET.has(s.slug));
+const SPOED_SERVICES = allServices.filter((s) => SYMPTOM_SET.has(s.slug));
 
 const Navbar = () => {
   const { theme } = useTheme();
@@ -112,7 +117,18 @@ const Navbar = () => {
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              {allServices.map((s) => (
+              {REGULAR_SERVICES.map((s) => (
+                <DropdownMenuItem key={s.slug} asChild>
+                  <Link to={localizedPath(`/diensten/${s.slug}`)} className="cursor-pointer">
+                    {s.shortTitle || s.title}
+                  </Link>
+                </DropdownMenuItem>
+              ))}
+              <DropdownMenuSeparator />
+              <DropdownMenuLabel className="text-xs uppercase tracking-wider text-primary">
+                Spoedgevallen
+              </DropdownMenuLabel>
+              {SPOED_SERVICES.map((s) => (
                 <DropdownMenuItem key={s.slug} asChild>
                   <Link to={localizedPath(`/diensten/${s.slug}`)} className="cursor-pointer">
                     {s.shortTitle || s.title}
@@ -238,12 +254,25 @@ const Navbar = () => {
                     >
                       Alle diensten →
                     </Link>
-                    {allServices.map((s) => (
+                    {REGULAR_SERVICES.map((s) => (
                       <Link
                         key={s.slug}
                         to={localizedPath(`/diensten/${s.slug}`)}
                         onClick={() => setIsOpen(false)}
                         className="block px-5 py-2 text-sm font-body text-white/70 hover:text-white hover:bg-white/10 transition-colors"
+                      >
+                        {s.shortTitle || s.title}
+                      </Link>
+                    ))}
+                    <div className="px-5 pt-3 pb-1 text-[10px] font-heading font-bold uppercase tracking-wider text-primary">
+                      Spoedgevallen
+                    </div>
+                    {SPOED_SERVICES.map((s) => (
+                      <Link
+                        key={s.slug}
+                        to={localizedPath(`/diensten/${s.slug}`)}
+                        onClick={() => setIsOpen(false)}
+                        className="block px-5 py-2 text-sm font-body text-white/80 hover:text-white hover:bg-white/10 transition-colors"
                       >
                         {s.shortTitle || s.title}
                       </Link>

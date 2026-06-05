@@ -19,6 +19,8 @@ import {
   MapPin,
 } from "lucide-react";
 import { allLocations } from "@/data/locations";
+import { allServices } from "@/data/services";
+import { businessRatingSchema, SYMPTOM_SERVICE_SLUGS } from "@/data/reviews";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import {
   Accordion,
@@ -75,6 +77,25 @@ const LocatieDetail = () => {
           "Sint-Truiden", "Diepenbeek", "Riemst", "Wellen",
           "Zutendaal", "Alken", "Borgloon", "Kortessem", "Vliermaal", "Vreren",
         ],
+        openingHours: "Mo-Su 00:00-24:00",
+        openingHoursSpecification: [
+          {
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+            opens: "00:00",
+            closes: "23:59",
+          },
+        ],
+        geo: {
+          "@type": "GeoCoordinates",
+          latitude: "50.8681",
+          longitude: "5.5134",
+        },
+        hasMap: "https://maps.google.com/?q=Riory+BV+Bilzen",
+        priceRange: "€€",
+        paymentAccepted: "Cash, Bancontact",
+        currenciesAccepted: "EUR",
+        ...businessRatingSchema(),
         hasOfferCatalog: {
           "@type": "OfferCatalog",
           name: "Diensten Riory BV",
@@ -246,6 +267,32 @@ const LocatieDetail = () => {
               ))}
             </Accordion>
           </div>
+
+          {/* Onze diensten in [Stad] — interne mesh naar alle dienstpagina's */}
+          <div className="max-w-3xl mx-auto mb-12 md:mb-16">
+            <h2 className="text-xl md:text-2xl font-heading font-bold text-foreground mb-4">
+              Loodgieter &amp; Ontstoppingsdienst {location.city}
+            </h2>
+            <p className="text-sm text-muted-foreground font-body mb-4">
+              Onze diensten in {location.city}:
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {allServices.map((s) => (
+                <Link
+                  key={s.slug}
+                  to={localizedPath(`/diensten/${s.slug}`)}
+                  className={`inline-flex items-center px-3 py-1.5 rounded-full border text-xs md:text-sm font-heading font-semibold transition-colors ${
+                    (SYMPTOM_SERVICE_SLUGS as readonly string[]).includes(s.slug)
+                      ? "border-primary/40 bg-primary/10 text-primary hover:bg-primary/20"
+                      : "border-border bg-card text-foreground hover:bg-accent"
+                  }`}
+                >
+                  {s.shortTitle || s.title}
+                </Link>
+              ))}
+            </div>
+          </div>
+
 
           <div className="max-w-3xl mx-auto mb-12 md:mb-16">
             <h2 className="text-xl md:text-2xl font-heading font-bold text-foreground mb-4">

@@ -9,6 +9,8 @@ import AppointmentForm from "@/components/AppointmentForm";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, CheckCircle, AlertTriangle, ArrowRight, Phone, Star, ShieldCheck, Clock } from "lucide-react";
 import { allServices } from "@/data/services";
+import { allLocations } from "@/data/locations";
+import { businessRatingSchema } from "@/data/reviews";
 import { referenceCategories } from "@/data/references";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import {
@@ -127,6 +129,15 @@ const DienstDetail = () => {
         },
         hoursAvailable: "Mo-Su 00:00-23:59",
         url: PAGE_URL,
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "@id": "https://riory.be/#business",
+        name: "Riory BV",
+        url: "https://riory.be",
+        telephone: "+32472502814",
+        ...businessRatingSchema(),
       },
     ];
 
@@ -294,6 +305,31 @@ const DienstDetail = () => {
                 </Accordion>
               </div>
             )}
+
+            {/* Onze werkgebieden — interne links naar regio-pagina's */}
+            <div className="mb-10 p-6 rounded-xl bg-muted/30 border border-border">
+              <h2 className="text-lg md:text-xl font-heading font-bold text-foreground mb-3">
+                Onze werkgebieden
+              </h2>
+              <p className="text-sm text-muted-foreground font-body mb-4">
+                Riory BV is actief als loodgieter en ontstoppingsdienst in:
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {allLocations
+                  .filter((l) => !["luik", "rocourt", "juprelle", "ans", "milmort", "vottem"].includes(l.slug))
+                  .map((l) => (
+                    <Link
+                      key={l.slug}
+                      to={localizedPath(`/regio/${l.slug}`)}
+                      className="inline-flex items-center px-3 py-1.5 rounded-full border border-border bg-card hover:bg-accent text-xs md:text-sm font-heading font-semibold text-foreground transition-colors"
+                    >
+                      {l.city}
+                    </Link>
+                  ))}
+              </div>
+            </div>
+
+
 
 
             <div className="flex flex-col sm:flex-row items-center gap-4">
