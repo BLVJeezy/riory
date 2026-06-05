@@ -23,7 +23,7 @@ const ServicesSection = () => {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
-          {allServices.map((service) => {
+          {coreServices.map((service) => {
             const localTitle = t(`servicesData.${service.slug}.title`, { defaultValue: service.title });
             const localShort = t(`servicesData.${service.slug}.shortTitle`, { defaultValue: service.shortTitle || service.title });
             const localDesc = t(`servicesData.${service.slug}.description`, { defaultValue: service.description });
