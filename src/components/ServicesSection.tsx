@@ -3,7 +3,7 @@ import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useLanguage } from "@/i18n/LanguageProvider";
-import { allServices } from "@/data/services";
+import { coreServices } from "@/data/services";
 
 const ServicesSection = () => {
   const { t } = useTranslation();
