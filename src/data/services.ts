@@ -7,6 +7,7 @@ import doucheputjeVerstoptAsset from "@/assets/doucheputje-verstopt.webp.asset.j
 import rioolVerstoptAsset from "@/assets/riool-verstopt.jpg.asset.json";
 import doucheputjeHarenAsset from "@/assets/doucheputje-haren.jpg.asset.json";
 import gootsteenVerstoptAsset from "@/assets/gootsteen-verstopt.jpg.asset.json";
+import keukenafvoerVerstoptAsset from "@/assets/keukenafvoer-verstopt.jpg.asset.json";
 
 export interface ServiceFAQ {
   question: string;
@@ -252,7 +253,7 @@ export const allServices: Service[] = [
     shortTitle: "Keukenafvoer Verstopt",
     description:
       "Keukenafvoer verstopt in Limburg? Riory BV verwijdert vetophoping snel en grondig met hogedrukreiniging. 24/7 bereikbaar in heel Limburg.",
-    image: serviceOntstoppingen,
+    image: keukenafvoerVerstoptAsset.url,
     longDescription:
       "Een verstopte keukenafvoer ontstaat bijna altijd door dezelfde oorzaak: vet, etensresten en zeep die zich na verloop van tijd ophopen tot een harde laag in de leiding. Typische signalen zijn een gootsteen die traag wegloopt, borrelende geluiden of een vieze geur uit de afvoer. Doe-het-zelf-middelen helpen meestal maar tijdelijk en kunnen leidingen aantasten. " +
       "Riory BV verwijdert vetverstoppingen vakkundig met professionele hogedrukreiniging — geen ontstopper-chemie, geen breekwerk. Wij behandelen elke keukenafvoer in Hasselt, Genk, Tongeren, Bilzen, Hoeselt en Sint-Truiden, 24/7. Onze techniekers werken netjes, dekken uw keuken correct af en geven tips om herhaling te vermijden. " +
