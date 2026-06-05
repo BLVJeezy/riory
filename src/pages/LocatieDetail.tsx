@@ -50,14 +50,9 @@ const LocatieDetail = () => {
   useEffect(() => {
     if (!location) return;
 
-    // Remove any pre-existing per-location JSON-LD to avoid duplicate FAQPage blocks
-    document.head
-      .querySelectorAll('script[type="application/ld+json"][data-seo-location]')
-      .forEach((el) => el.remove());
     const script = document.createElement("script");
     script.type = "application/ld+json";
     script.id = `jsonld-location-${slug}`;
-    script.setAttribute("data-seo-location", slug ?? "");
     script.textContent = JSON.stringify([
       {
         "@context": "https://schema.org",
