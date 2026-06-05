@@ -9,6 +9,8 @@ import AppointmentForm from "@/components/AppointmentForm";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, CheckCircle, AlertTriangle, ArrowRight, Phone, Star, ShieldCheck, Clock } from "lucide-react";
 import { allServices } from "@/data/services";
+import { allLocations } from "@/data/locations";
+import { businessRatingSchema } from "@/data/reviews";
 import { referenceCategories } from "@/data/references";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import {
