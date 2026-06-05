@@ -19,6 +19,8 @@ import {
   MapPin,
 } from "lucide-react";
 import { allLocations } from "@/data/locations";
+import { allServices } from "@/data/services";
+import { businessRatingSchema, SYMPTOM_SERVICE_SLUGS } from "@/data/reviews";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import {
   Accordion,
