@@ -1,8 +1,10 @@
 import { Phone, Calendar } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useLanguage } from "@/i18n/LanguageProvider";
 
 const StickyCallBar = () => {
+  const { t } = useTranslation();
   const { localizedPath } = useLanguage();
 
   return (
@@ -16,7 +18,7 @@ const StickyCallBar = () => {
         className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-full bg-[hsl(var(--urgent))] text-[hsl(var(--urgent-foreground))] font-heading font-bold text-xs uppercase tracking-wide py-2.5 px-3 shadow-[0_4px_20px_hsl(var(--urgent)/0.4)] active:scale-95 transition-transform"
       >
         <Phone className="w-3.5 h-3.5 fill-current" />
-        <span>Bel 24/7</span>
+        <span>{t("common.stickyCall247")}</span>
       </a>
       <Link
         to={localizedPath("/afspraak")}
@@ -24,7 +26,7 @@ const StickyCallBar = () => {
         className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-full bg-primary text-primary-foreground font-heading font-bold text-xs uppercase tracking-wide py-2.5 px-3 shadow-[0_4px_20px_hsl(var(--primary)/0.4)] active:scale-95 transition-transform"
       >
         <Calendar className="w-3.5 h-3.5" />
-        <span>Maak afspraak</span>
+        <span>{t("common.stickyAppointment")}</span>
       </Link>
     </div>
   );
