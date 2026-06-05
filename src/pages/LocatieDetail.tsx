@@ -268,6 +268,32 @@ const LocatieDetail = () => {
             </Accordion>
           </div>
 
+          {/* Onze diensten in [Stad] — interne mesh naar alle dienstpagina's */}
+          <div className="max-w-3xl mx-auto mb-12 md:mb-16">
+            <h2 className="text-xl md:text-2xl font-heading font-bold text-foreground mb-4">
+              Loodgieter &amp; Ontstoppingsdienst {location.city}
+            </h2>
+            <p className="text-sm text-muted-foreground font-body mb-4">
+              Onze diensten in {location.city}:
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {allServices.map((s) => (
+                <Link
+                  key={s.slug}
+                  to={localizedPath(`/diensten/${s.slug}`)}
+                  className={`inline-flex items-center px-3 py-1.5 rounded-full border text-xs md:text-sm font-heading font-semibold transition-colors ${
+                    (SYMPTOM_SERVICE_SLUGS as readonly string[]).includes(s.slug)
+                      ? "border-primary/40 bg-primary/10 text-primary hover:bg-primary/20"
+                      : "border-border bg-card text-foreground hover:bg-accent"
+                  }`}
+                >
+                  {s.shortTitle || s.title}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+
           <div className="max-w-3xl mx-auto mb-12 md:mb-16">
             <h2 className="text-xl md:text-2xl font-heading font-bold text-foreground mb-4">
               {t("locatieDetail.nearbyTitle", { city: location.city })}
