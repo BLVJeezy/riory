@@ -130,6 +130,15 @@ const DienstDetail = () => {
         hoursAvailable: "Mo-Su 00:00-23:59",
         url: PAGE_URL,
       },
+      {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "@id": "https://riory.be/#business",
+        name: "Riory BV",
+        url: "https://riory.be",
+        telephone: "+32472502814",
+        ...businessRatingSchema(),
+      },
     ];
 
     if (service.faq && service.faq.length > 0) {
