@@ -23,6 +23,7 @@ import Admin from "./pages/Admin.tsx";
 import Unsubscribe from "./pages/Unsubscribe.tsx";
 import Afspraak from "./pages/Afspraak.tsx";
 import Prijscalculator from "./pages/Prijscalculator.tsx";
+import VeelvoorkomendeProblemen from "./pages/VeelvoorkomendeProblemen.tsx";
 import LocatieDetail from "./pages/LocatieDetail.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import StickyCallBar from "./components/StickyCallBar.tsx";
