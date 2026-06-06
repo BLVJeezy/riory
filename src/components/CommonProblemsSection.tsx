@@ -66,11 +66,12 @@ const CommonProblemsSection = () => {
           })}
         </div>
 
-        <div className="text-center mt-10">
-          <Button variant="cta" size="lg" asChild>
+        <div className="text-center mt-10 px-4">
+          <Button variant="cta" size="lg" asChild className="w-full sm:w-auto h-auto min-h-11 py-3 px-6 whitespace-normal text-center text-sm sm:text-base leading-tight">
             <Link to={localizedPath("/veelvoorkomende-problemen")} className="gap-2">
-              {t("commonProblems.viewAll", { defaultValue: "Bekijk alle veelvoorkomende problemen" })}
-              <ArrowRight className="w-4 h-4" />
+              <span className="sm:hidden">{t("commonProblems.viewAllShort", { defaultValue: "Bekijk alle problemen" })}</span>
+              <span className="hidden sm:inline">{t("commonProblems.viewAll", { defaultValue: "Bekijk alle veelvoorkomende problemen" })}</span>
+              <ArrowRight className="w-4 h-4 shrink-0" />
             </Link>
           </Button>
         </div>
