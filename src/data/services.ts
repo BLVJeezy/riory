@@ -8,6 +8,10 @@ import rioolVerstoptAsset from "@/assets/riool-verstopt-hero.jpg.asset.json";
 import doucheputjeHarenAsset from "@/assets/doucheputje-haren.jpg.asset.json";
 import gootsteenVerstoptAsset from "@/assets/gootsteen-verstopt.jpg.asset.json";
 import keukenafvoerVerstoptAsset from "@/assets/keukenafvoer-etensresten.jpg.asset.json";
+import refDakgoot from "@/assets/refs/dakgoot-hoogte-1.webp";
+import refGeurdetectie from "@/assets/refs/geurdetectie-1.webp";
+import refSifon from "@/assets/refs/sifon-1.webp";
+import refOntstoppingAfvoer from "@/assets/refs/ontstopping-afvoerput-1.webp";
 
 export interface ServiceFAQ {
   question: string;
