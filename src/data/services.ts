@@ -592,7 +592,7 @@ export const allServices: Service[] = [
     shortTitle: "Rioolvliegjes",
     description:
       "Last van kleine vliegjes in badkamer, keuken of kelder in Limburg? Rioolvliegjes wijzen op een open rioolverbinding. Riory opspoort de bron en lost het op. 24/7 bereikbaar.",
-    image: "/src/assets/service-ontstoppingen-geurdetectie.webp",
+    image: refOntstoppingAfvoer,
     longDescription:
       "U ziet kleine, donkere vliegjes in de badkamer, rond de gootsteen of in de kelder. Ze zijn traag, komen steeds terug en chemische middelen helpen maar tijdelijk. Dit zijn bijna zeker rioolvliegjes — ook wel motmuggen of rioolmuggen genoemd. Ze leven en broeden in het organische slib dat zich ophoopt in verstopte of trage afvoeren, en ze komen naar buiten via open verbindingen of scheuren in uw riolering.\n\nIn Limburg zien we rioolvliegjes het vaakst in oudere woningen in Tongeren, Bilzen en Hasselt-centrum, waar afvoerleidingen al decennia oud zijn en kleine scheurtjes of open sifonverbindingen de plaag binnenlaten. Een chemische behandeling bestrijdt de volwassen vliegjes maar niet de broedplaats. Riory BV pakt het bij de bron aan: we opspoort de open verbinding of beschadigde leiding met camera-inspectie of rookdetectie, herstellen het defect, en reinigen de betrokken afvoeren grondig zodat de broedplaats verdwijnt.",
     features: [
