@@ -8,6 +8,10 @@ import rioolVerstoptAsset from "@/assets/riool-verstopt-hero.jpg.asset.json";
 import doucheputjeHarenAsset from "@/assets/doucheputje-haren.jpg.asset.json";
 import gootsteenVerstoptAsset from "@/assets/gootsteen-verstopt.jpg.asset.json";
 import keukenafvoerVerstoptAsset from "@/assets/keukenafvoer-etensresten.jpg.asset.json";
+import refDakgoot from "@/assets/refs/dakgoot-hoogte-1.webp";
+import refGeurdetectie from "@/assets/refs/geurdetectie-1.webp";
+import refSifon from "@/assets/refs/sifon-1.webp";
+import refOntstoppingAfvoer from "@/assets/refs/ontstopping-afvoerput-1.webp";
 
 export interface ServiceFAQ {
   question: string;
@@ -465,7 +469,7 @@ export const allServices: Service[] = [
     shortTitle: "Lekkage Opsporen",
     description:
       "Vochtplekken, schimmel of onverklaarbaar hoge waterrekening? Riory opspoort verborgen lekkages in Limburg zonder breekwerk. 24/7 bereikbaar in Hasselt, Genk, Tongeren, Bilzen en omstreken.",
-    image: "/src/assets/service-herstelling.jpg",
+    image: refGeurdetectie,
     longDescription:
       "Een verborgen lek is verraderlijk. U ziet een vochtplek op de muur, uw waterrekening is plots veel hoger dan normaal, of u hoort het geluid van stromend water terwijl alle kranen dicht zijn. Maar waar zit het lek? In Limburg zien we dit probleem veel in oudere woningen in Tongeren en Bilzen, waar leidingen uit de jaren '60-'70 stilaan verouderen, maar ook in nieuwere appartementen in Hasselt en Genk waar een verkeerde aansluiting pas na jaren problemen geeft.\n\nRiory BV opspoort elke verborgen lekkage in Limburg zonder onnodig breekwerk. We gebruiken professionele apparatuur — akoestische lekdetectie, thermografische camera en traceergas — om het lek exact te lokaliseren. Zo weet onze technicus al voor de eerste steen gebroken wordt waar het probleem zit. Na de detectie ontvangt u een duidelijk rapport en een eerlijk advies voor de herstelling.",
     features: [
@@ -506,7 +510,7 @@ export const allServices: Service[] = [
     shortTitle: "Dakgootreiniging",
     description:
       "Verstopte dakgoten in Limburg? Riory reinigt dakgoten en regenpijpen grondig — voor particulieren en syndici. 24/7 bereikbaar in Hasselt, Genk, Tongeren, Bilzen en omstreken.",
-    image: "/src/assets/service-dakgoot.jpg",
+    image: refDakgoot,
     longDescription:
       "In de herfst vullen bladeren, mos en takjes de dakgoten van woningen in heel Limburg. In Hasselt-Kermt, Tongeren en de landelijke gemeenten rond Borgloon en Wellen zien we dit elk jaar opnieuw: verstopte dakgoten die het regenwater niet meer afvoeren, waarna het over de rand loopt en schade veroorzaakt aan de gevel, de fundering of de kelder.\n\nEen verstopte dakgoot lijkt onschuldig maar de gevolgen zijn dat niet. Water dat langs de gevel loopt, dringt op termijn door in de muurisolatie. In winter zorgen bevroren dakgoten voor ijsvorming die de goot fysiek beschadigt. Riory BV reinigt dakgoten en regenpijpen grondig in heel Limburg — voor particuliere woningen, appartementsgebouwen en syndici. We werken op hoogte met de juiste veiligheidsuitrusting, verwijderen alle bladeren en slib, en controleren of de regenpijpen vrij doorstromen naar de regenput of het riool.",
     features: [
@@ -547,7 +551,7 @@ export const allServices: Service[] = [
     shortTitle: "Rioolreparatie",
     description:
       "Gebroken, verzakte of door wortels beschadigde riolering in Limburg? Riory herstelt riolen vakkundig — met of zonder graafwerk. 24/7 bereikbaar in Hasselt, Genk, Tongeren, Bilzen en omstreken.",
-    image: "/src/assets/service-riolering.jpg",
+    image: refSifon,
     longDescription:
       "Een rioolreparatie is anders dan een ontstopping. Bij een verstopping zit er iets in de buis; bij een reparatie is de buis zelf beschadigd — gebroken, verzakt, losgeraakt op een verbinding, of binnengedrongen door boomwortels. In Limburg zien we dit veel in oudere wijken van Tongeren en Bilzen, waar betonnen rioolbuizen uit de jaren '50-'60 simpelweg het einde van hun levensduur bereiken. Ook in tuinen met populieren of wilgen is wortelingroei een veelvoorkomende oorzaak.\n\nRiory BV voert rioolreparaties uit in heel Limburg — van een enkelvoudige breukherstelling tot het vervangen van een heel buissegment. We starten altijd met een camera-inspectie om de schade exact in kaart te brengen. Waar mogelijk werken we zonder graafwerk via no-dig technieken zoals relining. Wanneer graven noodzakelijk is, werken we snel, netjes en laten we de omgeving proper achter. U ontvangt altijd een rapport met voor- en nabeelden.",
     features: [
@@ -588,7 +592,7 @@ export const allServices: Service[] = [
     shortTitle: "Rioolvliegjes",
     description:
       "Last van kleine vliegjes in badkamer, keuken of kelder in Limburg? Rioolvliegjes wijzen op een open rioolverbinding. Riory opspoort de bron en lost het op. 24/7 bereikbaar.",
-    image: "/src/assets/service-ontstoppingen-geurdetectie.webp",
+    image: refOntstoppingAfvoer,
     longDescription:
       "U ziet kleine, donkere vliegjes in de badkamer, rond de gootsteen of in de kelder. Ze zijn traag, komen steeds terug en chemische middelen helpen maar tijdelijk. Dit zijn bijna zeker rioolvliegjes — ook wel motmuggen of rioolmuggen genoemd. Ze leven en broeden in het organische slib dat zich ophoopt in verstopte of trage afvoeren, en ze komen naar buiten via open verbindingen of scheuren in uw riolering.\n\nIn Limburg zien we rioolvliegjes het vaakst in oudere woningen in Tongeren, Bilzen en Hasselt-centrum, waar afvoerleidingen al decennia oud zijn en kleine scheurtjes of open sifonverbindingen de plaag binnenlaten. Een chemische behandeling bestrijdt de volwassen vliegjes maar niet de broedplaats. Riory BV pakt het bij de bron aan: we opspoort de open verbinding of beschadigde leiding met camera-inspectie of rookdetectie, herstellen het defect, en reinigen de betrokken afvoeren grondig zodat de broedplaats verdwijnt.",
     features: [
@@ -640,6 +644,10 @@ export const commonProblemSlugs = [
   "riool-verstopt",
   "gootsteen-verstopt",
   "lekkende-kraan",
+  "lekkage-opsporen",
+  "dakgootreiniging",
+  "rioolreparatie",
+  "rioolvliegjes",
 ] as const;
 
 export const coreServices = allServices.filter((s) =>
