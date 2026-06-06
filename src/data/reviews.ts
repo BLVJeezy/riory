@@ -56,4 +56,8 @@ export const SYMPTOM_SERVICE_SLUGS = [
   "riool-verstopt",
   "gootsteen-verstopt",
   "lekkende-kraan",
+  "lekkage-opsporen",
+  "dakgootreiniging",
+  "rioolreparatie",
+  "rioolvliegjes",
 ] as const;
