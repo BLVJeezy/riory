@@ -457,7 +457,6 @@ export const allServices: Service[] = [
       },
     ],
   },
-];
 
   // ===================== NIEUWE DIENST PAGINA'S =====================
   {
