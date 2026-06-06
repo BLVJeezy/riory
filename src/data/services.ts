@@ -459,6 +459,172 @@ export const allServices: Service[] = [
   },
 ];
 
+  // ===================== NIEUWE DIENST PAGINA'S =====================
+  {
+    slug: "lekkage-opsporen",
+    title: "Lekkage Opsporen in Limburg — Riory BV",
+    shortTitle: "Lekkage Opsporen",
+    description:
+      "Vochtplekken, schimmel of onverklaarbaar hoge waterrekening? Riory opspoort verborgen lekkages in Limburg zonder breekwerk. 24/7 bereikbaar in Hasselt, Genk, Tongeren, Bilzen en omstreken.",
+    image: "/src/assets/service-herstelling.jpg",
+    longDescription:
+      "Een verborgen lek is verraderlijk. U ziet een vochtplek op de muur, uw waterrekening is plots veel hoger dan normaal, of u hoort het geluid van stromend water terwijl alle kranen dicht zijn. Maar waar zit het lek? In Limburg zien we dit probleem veel in oudere woningen in Tongeren en Bilzen, waar leidingen uit de jaren '60-'70 stilaan verouderen, maar ook in nieuwere appartementen in Hasselt en Genk waar een verkeerde aansluiting pas na jaren problemen geeft.\n\nRiory BV opspoort elke verborgen lekkage in Limburg zonder onnodig breekwerk. We gebruiken professionele apparatuur — akoestische lekdetectie, thermografische camera en traceergas — om het lek exact te lokaliseren. Zo weet onze technicus al voor de eerste steen gebroken wordt waar het probleem zit. Na de detectie ontvangt u een duidelijk rapport en een eerlijk advies voor de herstelling.",
+    features: [
+      "Akoestische lekdetectie — lek horen zonder breekwerk",
+      "Thermografische camera — vochtplekken zichtbaar maken",
+      "Traceergas voor moeilijk bereikbare leidingen",
+      "Geschikt voor water-, verwarmings- en rioollekkages",
+      "Duidelijk rapport met exacte locatie van het lek",
+      "24/7 bereikbaar in Hasselt, Genk, Tongeren, Bilzen en Hoeselt",
+      "Vaste, transparante prijzen — geen verrassingen",
+    ],
+    metaTitle: "Lekkage Opsporen Limburg | Zonder Breekwerk | Riory",
+    metaDescription:
+      "Verborgen lek in Limburg? Riory opspoort lekkages zonder breekwerk — akoestisch, thermografisch of traceergas. ✓ 24/7 ✓ Rapport ✓ Vaste prijs. Bel nu!",
+    h2Title: "Verborgen lekkage detecteren in Limburg — Riory's aanpak",
+    serviceType: "Lekkage opsporen",
+    faq: [
+      {
+        question: "Hoe weet ik of ik een verborgen lek heb?",
+        answer:
+          "Typische signalen: een vochtplek die groeit op muur of plafond, schimmelvorming zonder duidelijke oorzaak, een waterrekening die plots gestegen is zonder dat u meer water gebruikt, of het geluid van stromend water terwijl alles dicht staat. Bij één of meer van deze signalen is lekdetectie aangewezen.",
+      },
+      {
+        question: "Moet er gegraven of gebroken worden om een lek op te sporen?",
+        answer:
+          "In 95% van de gevallen niet. Met akoestische detectie, thermografie of traceergas lokaliseren we het lek tot op centimeter nauwkeurig — zonder één steen te breken. Pas na de detectie weet de hersteller precies waar hij moet werken.",
+      },
+      {
+        question: "Wat kost lekdetectie in Limburg?",
+        answer:
+          "Riory werkt met vaste, transparante tarieven voor lekdetectie. De prijs hangt af van de gebruikte methode en de complexiteit. U weet vooraf wat u betaalt — vraag een afspraak aan of bel +32 472 50 28 14.",
+      },
+    ],
+  },
+  {
+    slug: "dakgootreiniging",
+    title: "Dakgootreiniging in Limburg — Riory BV",
+    shortTitle: "Dakgootreiniging",
+    description:
+      "Verstopte dakgoten in Limburg? Riory reinigt dakgoten en regenpijpen grondig — voor particulieren en syndici. 24/7 bereikbaar in Hasselt, Genk, Tongeren, Bilzen en omstreken.",
+    image: "/src/assets/service-dakgoot.jpg",
+    longDescription:
+      "In de herfst vullen bladeren, mos en takjes de dakgoten van woningen in heel Limburg. In Hasselt-Kermt, Tongeren en de landelijke gemeenten rond Borgloon en Wellen zien we dit elk jaar opnieuw: verstopte dakgoten die het regenwater niet meer afvoeren, waarna het over de rand loopt en schade veroorzaakt aan de gevel, de fundering of de kelder.\n\nEen verstopte dakgoot lijkt onschuldig maar de gevolgen zijn dat niet. Water dat langs de gevel loopt, dringt op termijn door in de muurisolatie. In winter zorgen bevroren dakgoten voor ijsvorming die de goot fysiek beschadigt. Riory BV reinigt dakgoten en regenpijpen grondig in heel Limburg — voor particuliere woningen, appartementsgebouwen en syndici. We werken op hoogte met de juiste veiligheidsuitrusting, verwijderen alle bladeren en slib, en controleren of de regenpijpen vrij doorstromen naar de regenput of het riool.",
+    features: [
+      "Grondige reiniging van dakgoten en regenpijpen",
+      "Verwijdering van bladeren, mos, takjes en slib",
+      "Controle van doorstroming naar regenput of riool",
+      "Geschikt voor alle woningtypes en appartementsgebouwen",
+      "Veilig werken op hoogte met professionele uitrusting",
+      "Preventief jaarlijks onderhoud mogelijk",
+      "24/7 bereikbaar — ook voor spoedgevallen bij wateroverlast",
+    ],
+    metaTitle: "Dakgootreiniging Limburg | Verstopte Dakgoot | Riory",
+    metaDescription:
+      "Verstopte dakgoot in Limburg? Riory reinigt dakgoten en regenpijpen grondig op hoogte. ✓ Particulier & syndici ✓ Vaste prijs ✓ 24/7. Bel nu!",
+    h2Title: "Dakgoten reinigen in Limburg — voor particulier en syndici",
+    serviceType: "Dakgootreiniging",
+    faq: [
+      {
+        question: "Hoe vaak moet een dakgoot gereinigd worden?",
+        answer:
+          "Minimaal één keer per jaar, bij voorkeur in november na het bladeren vallen. Woningen onder bomen of met een plat dak kunnen baat hebben bij twee reinigingen per jaar — voor en na het herfstseizoen.",
+      },
+      {
+        question: "Wat zijn de gevolgen van een verstopte dakgoot?",
+        answer:
+          "Regenwater dat niet kan wegvloeien loopt over de gootrand en dringt in de gevel, de isolatie of de fundering. Op termijn leidt dit tot vochtschade, schimmel en dure herstellingen. Preventieve reiniging is altijd goedkoper dan schade achteraf.",
+      },
+      {
+        question: "Werkt Riory ook voor appartementsgebouwen en syndici?",
+        answer:
+          "Ja. Riory BV heeft ervaring met meerverdiepin​gspanden en appartementsgebouwen in Hasselt, Genk en Tongeren. We maken afspraken op maat voor syndici en zorgen voor een gedetailleerd verslag na elke interventie.",
+      },
+    ],
+  },
+  {
+    slug: "rioolreparatie",
+    title: "Rioolreparatie in Limburg — Riory BV",
+    shortTitle: "Rioolreparatie",
+    description:
+      "Gebroken, verzakte of door wortels beschadigde riolering in Limburg? Riory herstelt riolen vakkundig — met of zonder graafwerk. 24/7 bereikbaar in Hasselt, Genk, Tongeren, Bilzen en omstreken.",
+    image: "/src/assets/service-riolering.jpg",
+    longDescription:
+      "Een rioolreparatie is anders dan een ontstopping. Bij een verstopping zit er iets in de buis; bij een reparatie is de buis zelf beschadigd — gebroken, verzakt, losgeraakt op een verbinding, of binnengedrongen door boomwortels. In Limburg zien we dit veel in oudere wijken van Tongeren en Bilzen, waar betonnen rioolbuizen uit de jaren '50-'60 simpelweg het einde van hun levensduur bereiken. Ook in tuinen met populieren of wilgen is wortelingroei een veelvoorkomende oorzaak.\n\nRiory BV voert rioolreparaties uit in heel Limburg — van een enkelvoudige breukherstelling tot het vervangen van een heel buissegment. We starten altijd met een camera-inspectie om de schade exact in kaart te brengen. Waar mogelijk werken we zonder graafwerk via no-dig technieken zoals relining. Wanneer graven noodzakelijk is, werken we snel, netjes en laten we de omgeving proper achter. U ontvangt altijd een rapport met voor- en nabeelden.",
+    features: [
+      "Camera-inspectie eerst — exacte schade in kaart vóór werken starten",
+      "Breuk, scheur of loskoppeling vakkundig hersteld",
+      "Wortelingroei mechanisch verwijderd en buis hersteld",
+      "No-dig relining waar mogelijk — geen graafwerk",
+      "Volledige buisvervanging indien nodig",
+      "Rapport met voor- en nabeelden",
+      "24/7 bereikbaar in heel Limburg",
+    ],
+    metaTitle: "Rioolreparatie Limburg | Breuk, Verzakking & Wortels | Riory",
+    metaDescription:
+      "Gebroken of verzakt riool in Limburg? Riory repareert vakkundig — camera-inspectie, no-dig relining of buisvervanging. ✓ 24/7 ✓ Vaste prijs. Bel nu!",
+    h2Title: "Rioolreparatie in Limburg — breuk, verzakking en wortelingroei",
+    serviceType: "Rioolreparatie",
+    faq: [
+      {
+        question: "Hoe weet ik of mijn riool gebroken is en niet gewoon verstopt?",
+        answer:
+          "Terugkerende verstoppingen op dezelfde plek, inzakkende grond in de tuin boven de rioollijn, permanente rioolgeur of water dat aan de oppervlakte komt zijn typische signalen van een breuk of verzakking. Een camera-inspectie bevestigt de diagnose.",
+      },
+      {
+        question: "Moet er altijd gegraven worden voor een rioolreparatie?",
+        answer:
+          "Niet altijd. Bij kleinere scheuren of loskoppelingen kunnen we via relining — een techniek waarbij een nieuwe binnenbuis aangebracht wordt zonder graven — de schade herstellen. Alleen bij ernstige verzakkingen of complete breuken is graven noodzakelijk.",
+      },
+      {
+        question: "Wat kost een rioolreparatie in Limburg?",
+        answer:
+          "De prijs hangt af van de aard van de schade, de diepte van de buis en de gekozen herstelmethode. Riory geeft altijd een eerlijk voorstel na de camera-inspectie. Bel +32 472 50 28 14 of vraag een afspraak aan.",
+      },
+    ],
+  },
+  {
+    slug: "rioolvliegjes",
+    title: "Rioolvliegjes in Limburg — Oorzaak Opsporen & Oplossen | Riory",
+    shortTitle: "Rioolvliegjes",
+    description:
+      "Last van kleine vliegjes in badkamer, keuken of kelder in Limburg? Rioolvliegjes wijzen op een open rioolverbinding. Riory opspoort de bron en lost het op. 24/7 bereikbaar.",
+    image: "/src/assets/service-ontstoppingen-geurdetectie.webp",
+    longDescription:
+      "U ziet kleine, donkere vliegjes in de badkamer, rond de gootsteen of in de kelder. Ze zijn traag, komen steeds terug en chemische middelen helpen maar tijdelijk. Dit zijn bijna zeker rioolvliegjes — ook wel motmuggen of rioolmuggen genoemd. Ze leven en broeden in het organische slib dat zich ophoopt in verstopte of trage afvoeren, en ze komen naar buiten via open verbindingen of scheuren in uw riolering.\n\nIn Limburg zien we rioolvliegjes het vaakst in oudere woningen in Tongeren, Bilzen en Hasselt-centrum, waar afvoerleidingen al decennia oud zijn en kleine scheurtjes of open sifonverbindingen de plaag binnenlaten. Een chemische behandeling bestrijdt de volwassen vliegjes maar niet de broedplaats. Riory BV pakt het bij de bron aan: we opspoort de open verbinding of beschadigde leiding met camera-inspectie of rookdetectie, herstellen het defect, en reinigen de betrokken afvoeren grondig zodat de broedplaats verdwijnt.",
+    features: [
+      "Oorzaak opsporen met camera-inspectie of rookdetectie",
+      "Open rioolverbinding of scheur vakkundig hersteld",
+      "Grondige reiniging van betrokken afvoeren",
+      "Broedplaats in slib volledig verwijderd",
+      "Geen tijdelijke chemische behandeling maar permanente oplossing",
+      "24/7 bereikbaar in Hasselt, Genk, Tongeren, Bilzen en Hoeselt",
+    ],
+    metaTitle: "Rioolvliegjes Limburg | Oorzaak Opsporen & Oplossen | Riory",
+    metaDescription:
+      "Rioolvliegjes in badkamer of keuken in Limburg? Riory opspoort de bron en lost het permanent op. ✓ Camera-inspectie ✓ 24/7 ✓ Vaste prijs. Bel nu!",
+    h2Title: "Rioolvliegjes aanpakken in Limburg — permanent, niet tijdelijk",
+    serviceType: "Rioolvliegjes bestrijden",
+    faq: [
+      {
+        question: "Zijn rioolvliegjes gevaarlijk?",
+        answer:
+          "Rioolvliegjes bijten niet en brengen geen ziektes over, maar ze zijn een duidelijk signaal dat er iets mis is met uw riolering — een open verbinding, een scheur of een ernstig vervuilde afvoer. Het probleem pakt u best zo snel mogelijk aan.",
+      },
+      {
+        question: "Waarom komen ze steeds terug na een chemische behandeling?",
+        answer:
+          "Chemische middelen doden de volwassen vliegjes maar niet de larven in het slib, en ze herstellen de open verbinding niet waardoor nieuwe vliegjes van buiten binnenkomen. Alleen een mechanische aanpak van de broedplaats en het dichten van de opening geeft een permanente oplossing.",
+      },
+      {
+        question: "Hoe snel kan Riory ter plaatse zijn?",
+        answer:
+          "Doorgaans binnen 1 à 2 uur in Hasselt, Genk, Tongeren, Bilzen, Hoeselt en Sint-Truiden. Rioolvliegjes zijn geen noodgeval maar wel vervelend — wij plannen snel een afspraak in op een moment dat u past.",
+      },
+    ],
+  },
+];
+
 /** Echte kerndiensten (Diensten-sectie homepage + /diensten overzicht). */
 export const coreServiceSlugs = [
   "camera-inspectie",
