@@ -644,6 +644,10 @@ export const commonProblemSlugs = [
   "riool-verstopt",
   "gootsteen-verstopt",
   "lekkende-kraan",
+  "lekkage-opsporen",
+  "dakgootreiniging",
+  "rioolreparatie",
+  "rioolvliegjes",
 ] as const;
 
 export const coreServices = allServices.filter((s) =>
