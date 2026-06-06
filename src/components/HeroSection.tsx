@@ -99,25 +99,6 @@ const HeroSection = () => {
           </div>
 
           <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-5">
-            <a href="tel:+32472502814" aria-label="Bel Riory BV 24/7" data-track-cta="hero_phone_24_7" className="cta-phone inline-flex items-center gap-2.5 group">
-              <div className="relative">
-                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-primary/20 border border-primary/40 flex items-center justify-center group-hover:bg-primary/30 transition-colors">
-                  <Phone className="w-4 h-4 md:w-5 md:h-5 text-primary" />
-                </div>
-                <span className="absolute -top-1 -right-1.5 bg-primary text-primary-foreground text-[8px] md:text-[9px] font-heading font-bold px-1 md:px-1.5 py-0.5 rounded-full">
-                  24/7
-                </span>
-              </div>
-              <div>
-                <p className="text-[10px] md:text-xs font-heading font-semibold uppercase tracking-wider text-white/50">
-                  {t("hero.callUs")}
-                </p>
-                <p className="text-lg md:text-2xl font-heading font-bold text-white group-hover:text-primary transition-colors">
-                  +32 472 50 28 14
-                </p>
-              </div>
-            </a>
-            <div className="hidden sm:block w-px h-8 bg-white/20" />
             <div className="flex flex-col gap-1.5">
               <Button variant="heroOutline" size="lg" className="text-sm md:text-base px-6 md:px-8 py-4 md:py-5 rounded-full border-white/60 text-white hover:bg-white hover:text-foreground" asChild>
                 <Link to={localizedPath("/prijscalculator")} data-track-cta="hero_calculate_price">{t("hero.calculatePrice")}</Link>
