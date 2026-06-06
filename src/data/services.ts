@@ -469,7 +469,7 @@ export const allServices: Service[] = [
     shortTitle: "Lekkage Opsporen",
     description:
       "Vochtplekken, schimmel of onverklaarbaar hoge waterrekening? Riory opspoort verborgen lekkages in Limburg zonder breekwerk. 24/7 bereikbaar in Hasselt, Genk, Tongeren, Bilzen en omstreken.",
-    image: "/src/assets/service-herstelling.jpg",
+    image: refGeurdetectie,
     longDescription:
       "Een verborgen lek is verraderlijk. U ziet een vochtplek op de muur, uw waterrekening is plots veel hoger dan normaal, of u hoort het geluid van stromend water terwijl alle kranen dicht zijn. Maar waar zit het lek? In Limburg zien we dit probleem veel in oudere woningen in Tongeren en Bilzen, waar leidingen uit de jaren '60-'70 stilaan verouderen, maar ook in nieuwere appartementen in Hasselt en Genk waar een verkeerde aansluiting pas na jaren problemen geeft.\n\nRiory BV opspoort elke verborgen lekkage in Limburg zonder onnodig breekwerk. We gebruiken professionele apparatuur — akoestische lekdetectie, thermografische camera en traceergas — om het lek exact te lokaliseren. Zo weet onze technicus al voor de eerste steen gebroken wordt waar het probleem zit. Na de detectie ontvangt u een duidelijk rapport en een eerlijk advies voor de herstelling.",
     features: [
