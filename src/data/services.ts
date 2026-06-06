@@ -551,7 +551,7 @@ export const allServices: Service[] = [
     shortTitle: "Rioolreparatie",
     description:
       "Gebroken, verzakte of door wortels beschadigde riolering in Limburg? Riory herstelt riolen vakkundig — met of zonder graafwerk. 24/7 bereikbaar in Hasselt, Genk, Tongeren, Bilzen en omstreken.",
-    image: "/src/assets/service-riolering.jpg",
+    image: refSifon,
     longDescription:
       "Een rioolreparatie is anders dan een ontstopping. Bij een verstopping zit er iets in de buis; bij een reparatie is de buis zelf beschadigd — gebroken, verzakt, losgeraakt op een verbinding, of binnengedrongen door boomwortels. In Limburg zien we dit veel in oudere wijken van Tongeren en Bilzen, waar betonnen rioolbuizen uit de jaren '50-'60 simpelweg het einde van hun levensduur bereiken. Ook in tuinen met populieren of wilgen is wortelingroei een veelvoorkomende oorzaak.\n\nRiory BV voert rioolreparaties uit in heel Limburg — van een enkelvoudige breukherstelling tot het vervangen van een heel buissegment. We starten altijd met een camera-inspectie om de schade exact in kaart te brengen. Waar mogelijk werken we zonder graafwerk via no-dig technieken zoals relining. Wanneer graven noodzakelijk is, werken we snel, netjes en laten we de omgeving proper achter. U ontvangt altijd een rapport met voor- en nabeelden.",
     features: [
