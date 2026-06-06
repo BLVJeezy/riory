@@ -29,17 +29,20 @@ const CommonProblemsSection = () => {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
-          {commonProblems.map((service) => {
+          {commonProblems.map((service, idx) => {
             const localTitle = t(`servicesData.${service.slug}.title`, { defaultValue: service.title });
             const localShort = t(`servicesData.${service.slug}.shortTitle`, {
               defaultValue: service.shortTitle || service.title,
             });
-            const localDesc = t(`servicesData.${service.slug}.description`, { defaultValue: service.description });
+            // Show first 4 on mobile, first 3 on desktop
+            const hideOnMobile = idx >= 4;
+            const hideOnDesktop = idx >= 3;
+            if (hideOnMobile && hideOnDesktop) return null;
             return (
               <Link
                 key={service.slug}
                 to={localizedPath(`/diensten/${service.slug}`)}
-                className="group block"
+                className={`group block ${hideOnDesktop ? "md:hidden" : ""} ${hideOnMobile ? "hidden md:block" : ""}`}
               >
                 <div className="relative aspect-[4/3] rounded-xl overflow-hidden">
                   <img
@@ -55,16 +58,11 @@ const CommonProblemsSection = () => {
                     </h3>
                   </div>
                 </div>
-                <p className="mt-2 text-xs sm:text-sm text-muted-foreground font-body leading-relaxed line-clamp-3">
-                  {localDesc}
-                </p>
-                <span className="inline-flex items-center gap-1 mt-2 text-xs sm:text-sm font-heading font-semibold text-primary group-hover:underline">
-                  {t("services.learnMore")} <ArrowRight className="w-3 h-3" />
-                </span>
               </Link>
             );
           })}
         </div>
+
 
         <div className="text-center mt-10 px-4">
           <Button variant="cta" size="lg" asChild className="w-full sm:w-auto h-auto min-h-11 py-3 px-6 whitespace-normal text-center text-sm sm:text-base leading-tight">
