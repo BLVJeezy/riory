@@ -1,48 +1,97 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://riory.be/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
-  <url><loc>https://riory.be/diensten</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://riory.be/diensten/camera-inspectie</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://riory.be/diensten/ontstoppingen-en-geurdetectie</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://riory.be/diensten/septische-put-ledigen</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  
-  <url><loc>https://riory.be/diensten/leegpompen-en-reinigen</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://riory.be/diensten/wc-verstopt</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://riory.be/diensten/keukenafvoer-verstopt</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://riory.be/diensten/doucheputje-verstopt</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://riory.be/diensten/riool-verstopt</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://riory.be/diensten/gootsteen-verstopt</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://riory.be/diensten/lekkende-kraan</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://riory.be/afspraak</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://riory.be/prijscalculator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://riory.be/regio/hasselt</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://riory.be/regio/genk</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://riory.be/regio/hoeselt</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://riory.be/regio/tongeren</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://riory.be/regio/maasmechelen</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://riory.be/regio/sint-truiden</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://riory.be/regio/diepenbeek</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://riory.be/regio/riemst</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://riory.be/regio/wellen</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://riory.be/regio/zutendaal</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://riory.be/regio/vreren</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://riory.be/regio/vliermaal</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://riory.be/regio/kortessem</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://riory.be/regio/alken</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://riory.be/regio/borgloon</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://riory.be/regio/luik</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://riory.be/regio/rocourt</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://riory.be/regio/juprelle</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://riory.be/regio/ans</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://riory.be/regio/milmort</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://riory.be/regio/vottem</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://riory.be/referenties/dakgootreinigingen</loc><changefreq>yearly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://riory.be/referenties/ledigen-van-septische-putten</loc><changefreq>yearly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://riory.be/referenties/leegpompen-en-reinigen</loc><changefreq>yearly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://riory.be/referenties/ontstoppingen-en-geurdetectie</loc><changefreq>yearly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://riory.be/privacy-policy</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
-  <url><loc>https://riory.be/cookie-policy</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
-  <url><loc>https://riory.be/algemene-voorwaarden</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
-  <url><loc>https://riory.be/gebruiksvoorwaarden</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
-  <url><loc>https://riory.be/data-protection</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+
+  <!-- ===== HOMEPAGE ===== -->
+  <url>
+    <loc>https://riory.be/</loc>
+    <xhtml:link rel="alternate" hreflang="nl-BE" href="https://riory.be/"/>
+    <xhtml:link rel="alternate" hreflang="fr-BE" href="https://riory.be/fr"/>
+    <xhtml:link rel="alternate" hreflang="en"    href="https://riory.be/en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://riory.be/"/>
+    <lastmod>2026-06-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url><loc>https://riory.be/fr</loc><lastmod>2026-06-06</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://riory.be/en</loc><lastmod>2026-06-06</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+
+  <!-- ===== DIENSTEN OVERZICHT ===== -->
+  <url><loc>https://riory.be/diensten</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://riory.be/fr/diensten</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://riory.be/en/diensten</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+
+  <!-- ===== KERN DIENSTEN ===== -->
+  <url><loc>https://riory.be/diensten/camera-inspectie</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://riory.be/fr/diensten/camera-inspectie</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://riory.be/en/diensten/camera-inspectie</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+
+  <url><loc>https://riory.be/diensten/ontstoppingen-en-geurdetectie</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://riory.be/fr/diensten/ontstoppingen-en-geurdetectie</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://riory.be/en/diensten/ontstoppingen-en-geurdetectie</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+
+  <url><loc>https://riory.be/diensten/septische-put-ledigen</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://riory.be/fr/diensten/septische-put-ledigen</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://riory.be/en/diensten/septische-put-ledigen</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+
+  <url><loc>https://riory.be/diensten/leegpompen-en-reinigen</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://riory.be/fr/diensten/leegpompen-en-reinigen</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://riory.be/en/diensten/leegpompen-en-reinigen</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+
+  <!-- ===== SYMPTOOM PAGINA'S ===== -->
+  <url><loc>https://riory.be/diensten/wc-verstopt</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://riory.be/diensten/keukenafvoer-verstopt</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://riory.be/diensten/doucheputje-verstopt</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://riory.be/diensten/riool-verstopt</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://riory.be/diensten/gootsteen-verstopt</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://riory.be/diensten/lekkende-kraan</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+
+  <!-- ===== TOOLS ===== -->
+  <url><loc>https://riory.be/afspraak</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://riory.be/prijscalculator</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+
+  <!-- ===== REGIO PAGINA'S (NL) ===== -->
+  <url><loc>https://riory.be/regio/hasselt</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://riory.be/regio/genk</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://riory.be/regio/tongeren</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://riory.be/regio/sint-truiden</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://riory.be/regio/hoeselt</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://riory.be/regio/maasmechelen</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://riory.be/regio/diepenbeek</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://riory.be/regio/riemst</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://riory.be/regio/wellen</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://riory.be/regio/zutendaal</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://riory.be/regio/alken</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://riory.be/regio/borgloon</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://riory.be/regio/kortessem</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://riory.be/regio/vreren</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://riory.be/regio/vliermaal</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+
+  <!-- ===== REGIO PAGINA'S (FR) ===== -->
+  <url><loc>https://riory.be/regio/luik</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://riory.be/fr/regio/luik</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://riory.be/regio/rocourt</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://riory.be/fr/regio/rocourt</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://riory.be/regio/juprelle</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://riory.be/fr/regio/juprelle</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://riory.be/regio/ans</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://riory.be/fr/regio/ans</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://riory.be/regio/milmort</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://riory.be/fr/regio/milmort</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://riory.be/regio/vottem</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://riory.be/fr/regio/vottem</loc><lastmod>2026-06-06</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+
+  <!-- ===== REFERENTIES ===== -->
+  <url><loc>https://riory.be/referenties/dakgootreinigingen</loc><lastmod>2026-06-06</lastmod><changefreq>yearly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://riory.be/referenties/ledigen-van-septische-putten</loc><lastmod>2026-06-06</lastmod><changefreq>yearly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://riory.be/referenties/leegpompen-en-reinigen</loc><lastmod>2026-06-06</lastmod><changefreq>yearly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://riory.be/referenties/ontstoppingen-en-geurdetectie</loc><lastmod>2026-06-06</lastmod><changefreq>yearly</changefreq><priority>0.5</priority></url>
+
+  <!-- ===== LEGAL (laag gewicht) ===== -->
+  <url><loc>https://riory.be/privacy-policy</loc><lastmod>2026-06-06</lastmod><changefreq>yearly</changefreq><priority>0.2</priority></url>
+  <url><loc>https://riory.be/cookie-policy</loc><lastmod>2026-06-06</lastmod><changefreq>yearly</changefreq><priority>0.2</priority></url>
+  <url><loc>https://riory.be/algemene-voorwaarden</loc><lastmod>2026-06-06</lastmod><changefreq>yearly</changefreq><priority>0.2</priority></url>
+  <url><loc>https://riory.be/gebruiksvoorwaarden</loc><lastmod>2026-06-06</lastmod><changefreq>yearly</changefreq><priority>0.2</priority></url>
+  <url><loc>https://riory.be/data-protection</loc><lastmod>2026-06-06</lastmod><changefreq>yearly</changefreq><priority>0.2</priority></url>
+
 </urlset>
