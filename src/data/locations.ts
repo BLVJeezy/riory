@@ -26,7 +26,7 @@ export const allLocations: LocationData[] = [
     h1: "Loodgieter & Ontstoppingsdienst Hasselt — 24/7 Riory",
     metaTitle: "Loodgieter Hasselt | 24/7 Ontstopping | Riory",
     metaDescription: "Riool verstopt in Hasselt? Riory is binnen 2u ter plaatse — ook in Kermt, Kuringen & Sint-Lambrechts-Herk. ✓ 24/7 ✓ Vaste prijs ✓ 4.9★. Bel nu!",
-    intro: "Riory is uw betrouwbare partner voor alle riolerings- en ontstoppingsdiensten in Hasselt en omgeving. Of het nu gaat om een verstopte WC, een gootsteen die niet afloopt, rioollucht in huis of het ledigen van uw septische put — wij staan 24/7 paraat om u snel en vakkundig te helpen. Als hoofdstad van Limburg bedienen wij zowel het centrum van Hasselt als de deelgemeenten Kermt, Kuringen, Stevoort, Wimmertingen en Sint-Lambrechts-Herk. Naast ontstoppingen verzorgt Riory ook professioneel loodgieterwerk en sanitair in Hasselt: van installatie en herstelling van leidingen tot rioolwerken, lekdetectie en aansluitingen — onze loodgieters combineren ervaring met moderne technieken voor elke klus.",
+    intro: "Hasselt is de grootste stad van Limburg — en dat betekent ook de meest uiteenlopende rioolproblemen. Een verstopte WC in een appartement op de Grote Markt is iets anders dan een volle septische put in een woning in Kermt of een ondergelopen kelder na een zware bui in Kuringen. Riory BV kent het verschil. Wij werken dagelijks in heel Hasselt en alle deelgemeenten: Kermt, Kuringen, Stevoort, Wimmertingen en Sint-Lambrechts-Herk. Of het nu gaat om een verstopte afvoer, rioollucht in huis, een camera-inspectie voor de aankoop van een woning of het ledigen van een septische put — wij staan 24/7 paraat. Naast ontstoppingen verzorgt Riory ook professioneel loodgieterwerk en sanitair in Hasselt: leidingen, lekdetectie en aansluitingen.",
     services: [
       {
         title: "WC en afvoer ontstoppen in Hasselt",
@@ -72,7 +72,7 @@ export const allLocations: LocationData[] = [
     h1: "Loodgieter & Ontstoppingsdienst Genk — 24/7 Riory",
     metaTitle: "Loodgieter Genk | 24/7 Ontstopping | Riory",
     metaDescription: "WC of riool verstopt in Genk? Riory lost het op — ook in Winterslag, Waterschei & Zwartberg. ✓ 24/7 ✓ Camera-inspectie ✓ Vaste prijs. Bel nu!",
-    intro: "In Genk en omgeving kunt u rekenen op Riory voor snelle en professionele riolerings- en ontstoppingsdiensten. Van een verstopte WC of douche die niet afloopt tot het ledigen van septische putten en camera-inspecties — wij zijn 24/7 bereikbaar. Wij bedienen heel Genk, inclusief Winterslag, Waterschei, Zwartberg, Bokrijk en Gelieren. Riory is ook uw vaste loodgieter in Genk voor sanitair, loodgieterwerk en rioolwerken: leidingen plaatsen of herstellen, lekken opsporen, badkamers aansluiten en alle aansluitingen op het rioolnet — vakkundig en met vaste prijzen.",
+    intro: "Genk is een stad van contrasten: de oude mijnwijken van Winterslag en Waterschei met rioleringen van decennia oud, en de nieuwere verkavelingen in Bokrijk en Gelieren waar andere problemen spelen. In Winterslag zien we veel vetprops in keukenafvoeren van appartementen. In Zwartberg is wortelingroei in rioolbuizen een veelvoorkomende klacht. Riory BV kent Genk en werkt er dagelijks. Van een verstopte WC of douche tot camera-inspecties, septische put ledigen en loodgieterwerk — wij zijn 24/7 bereikbaar in heel Genk, inclusief Winterslag, Waterschei, Zwartberg, Bokrijk en Gelieren. Vaste prijzen, snel ter plaatse, altijd netjes achtergelaten.",
     services: [
       {
         title: "WC en afvoer ontstoppen in Genk",
