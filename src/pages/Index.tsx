@@ -111,19 +111,20 @@ const Index = () => {
             id="ontstoppingsdienst-limburg"
             className="font-heading text-2xl md:text-3xl font-bold text-foreground"
           >
-            Ontstoppingsdienst Limburg — 24/7 bij verstopte afvoer of riool
+            Ontstoppingsdienst Limburg — als het fout loopt, zijn wij er
           </h2>
           <p className="text-muted-foreground leading-relaxed">
-            Riory is dé <strong>ontstoppingsdienst in Limburg</strong> voor élke verstopping: een{" "}
-            <strong>verstopte afvoer</strong>, gootsteen die niet wegloopt, WC die overloopt of een{" "}
-            <strong>verstopt riool</strong>. Onze ontstoppers staan 24/7 paraat in Bilzen, Hoeselt,
-            Hasselt, Genk, Tongeren en heel de provincie Limburg — met professionele
-            hogedrukreiniging, vaste prijzen en gegarandeerd resultaat.
+            Na een hevige regenbui staat de kelder blank. De WC spoelt niet meer door op een zaterdagavond.
+            De gootsteen loopt al drie dagen traag weg en nu staat het water stil. Dat zijn de momenten
+            waarop mensen in Hasselt, Genk, Tongeren, Bilzen en de rest van Limburg ons bellen — en wij
+            komen. Dag en nacht, ook in het weekend, ook op feestdagen.
           </p>
           <p className="text-muted-foreground leading-relaxed">
-            Of u nu dringend een <strong>ontstoppingsdienst in Limburg</strong> nodig hebt door
-            wateroverlast, of preventief uw afvoer wil laten reinigen — bij Riory bent u aan het
-            juiste adres. Bel ons direct of plan een afspraak online.
+            Riory is een lokaal Limburgs bedrijf. Wij werken dagelijks in de regio en kennen het verschil
+            tussen een rioolprobleem in een Tongerse stadswoning met negentiende-eeuwse leidingen en een
+            verstopte septische put op een hoeve in Borgloon. Die lokale kennis betekent dat wij sneller
+            de juiste diagnose stellen — en u minder tijd en geld kwijt bent. Vaste prijzen, geen
+            verrassingen, altijd netjes achtergelaten.
           </p>
         </div>
       </section>
