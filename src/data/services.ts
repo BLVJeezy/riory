@@ -510,7 +510,7 @@ export const allServices: Service[] = [
     shortTitle: "Dakgootreiniging",
     description:
       "Verstopte dakgoten in Limburg? Riory reinigt dakgoten en regenpijpen grondig — voor particulieren en syndici. 24/7 bereikbaar in Hasselt, Genk, Tongeren, Bilzen en omstreken.",
-    image: "/src/assets/service-dakgoot.jpg",
+    image: refDakgoot,
     longDescription:
       "In de herfst vullen bladeren, mos en takjes de dakgoten van woningen in heel Limburg. In Hasselt-Kermt, Tongeren en de landelijke gemeenten rond Borgloon en Wellen zien we dit elk jaar opnieuw: verstopte dakgoten die het regenwater niet meer afvoeren, waarna het over de rand loopt en schade veroorzaakt aan de gevel, de fundering of de kelder.\n\nEen verstopte dakgoot lijkt onschuldig maar de gevolgen zijn dat niet. Water dat langs de gevel loopt, dringt op termijn door in de muurisolatie. In winter zorgen bevroren dakgoten voor ijsvorming die de goot fysiek beschadigt. Riory BV reinigt dakgoten en regenpijpen grondig in heel Limburg — voor particuliere woningen, appartementsgebouwen en syndici. We werken op hoogte met de juiste veiligheidsuitrusting, verwijderen alle bladeren en slib, en controleren of de regenpijpen vrij doorstromen naar de regenput of het riool.",
     features: [
