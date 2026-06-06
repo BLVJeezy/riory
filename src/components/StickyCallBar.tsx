@@ -1,11 +1,15 @@
 import { Phone, Calendar } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useLanguage } from "@/i18n/LanguageProvider";
 
 const StickyCallBar = () => {
   const { t } = useTranslation();
   const { localizedPath } = useLanguage();
+  const { pathname } = useLocation();
+
+  if (pathname.startsWith("/admin")) return null;
+
 
   return (
     <div
