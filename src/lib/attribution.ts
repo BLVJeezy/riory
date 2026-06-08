@@ -20,6 +20,7 @@ declare global {
 
 const COOKIE = "riory_attr";
 const SESSION_KEY = "riory_attr_session";
+const AD_IDS_KEY = "riory_attr_ad_ids";
 const TOUCHES_KEY = "riory_attr_touches";
 const VISITOR_ID_KEY = "riory_visitor_id";
 const TTL_DAYS = 90;
@@ -29,6 +30,8 @@ export const GA_MEASUREMENT_ID = "G-E54E9FCFZQ";
 
 export type AttrData = {
   gclid?: string;
+  gbraid?: string;
+  wbraid?: string;
   utm_source?: string;
   utm_medium?: string;
   utm_campaign?: string;
@@ -87,17 +90,34 @@ function getVisitorId(): string {
 
 function readAttribution(): AttrData {
   if (typeof window === "undefined") return {};
+  let base: AttrData = {};
   try {
     if (hasAnalyticsConsent()) {
       const raw = getCookie(COOKIE);
-      if (raw) return JSON.parse(raw);
+      if (raw) base = JSON.parse(raw);
     }
-    const sess = sessionStorage.getItem(SESSION_KEY);
-    if (sess) return JSON.parse(sess);
+    if (!base.first_touch_at) {
+      const sess = sessionStorage.getItem(SESSION_KEY);
+      if (sess) base = JSON.parse(sess);
+    }
   } catch {
     /* corrupt storage → fall through */
   }
-  return {};
+  try {
+    const ls = localStorage.getItem(AD_IDS_KEY);
+    if (ls) {
+      const ids = JSON.parse(ls) as Partial<AttrData>;
+      if (!base.gclid && ids.gclid) base.gclid = ids.gclid;
+      if (!base.gbraid && ids.gbraid) base.gbraid = ids.gbraid;
+      if (!base.wbraid && ids.wbraid) base.wbraid = ids.wbraid;
+      if (!base.first_touch_at && ids.first_touch_at) {
+        base.first_touch_at = ids.first_touch_at;
+      }
+    }
+  } catch {
+    /* ignore */
+  }
+  return base;
 }
 
 function writeAttribution(data: AttrData): void {
@@ -107,6 +127,21 @@ function writeAttribution(data: AttrData): void {
     sessionStorage.setItem(SESSION_KEY, serialized);
   } catch {
     /* ignore */
+  }
+  if (data.gclid || data.gbraid || data.wbraid) {
+    try {
+      localStorage.setItem(
+        AD_IDS_KEY,
+        JSON.stringify({
+          gclid: data.gclid,
+          gbraid: data.gbraid,
+          wbraid: data.wbraid,
+          first_touch_at: data.first_touch_at,
+        }),
+      );
+    } catch {
+      /* quota or disabled */
+    }
   }
   if (hasAnalyticsConsent()) {
     setCookie(COOKIE, serialized, TTL_DAYS);
@@ -232,6 +267,8 @@ function readUrlAttribution(): Partial<AttrData> {
   const pick = (k: string) => params.get(k) || undefined;
   return {
     gclid: pick("gclid"),
+    gbraid: pick("gbraid"),
+    wbraid: pick("wbraid"),
     utm_source: pick("utm_source"),
     utm_medium: pick("utm_medium"),
     utm_campaign: pick("utm_campaign"),
@@ -255,6 +292,10 @@ export async function captureAttribution() {
   const merged: AttrData = {
     gclid:
       existing.gclid || (isFirstTouch ? incoming.gclid : undefined),
+    gbraid:
+      existing.gbraid || (isFirstTouch ? incoming.gbraid : undefined),
+    wbraid:
+      existing.wbraid || (isFirstTouch ? incoming.wbraid : undefined),
     utm_source:
       existing.utm_source || (isFirstTouch ? incoming.utm_source : undefined),
     utm_medium:
@@ -286,6 +327,8 @@ export async function captureAttribution() {
     appendTouchIfNew({
       touch_at: new Date().toISOString(),
       gclid: incoming.gclid,
+      gbraid: incoming.gbraid,
+      wbraid: incoming.wbraid,
       utm_source: incoming.utm_source,
       utm_medium: incoming.utm_medium,
       utm_campaign: incoming.utm_campaign,
@@ -329,6 +372,8 @@ export function getAttribution(): AttrData {
 
 export type LastTouchData = {
   gclid?: string;
+  gbraid?: string;
+  wbraid?: string;
   utm_source?: string;
   utm_medium?: string;
   utm_campaign?: string;
@@ -341,6 +386,8 @@ export type LastTouchData = {
 export type TouchData = {
   touch_at: string;
   gclid?: string;
+  gbraid?: string;
+  wbraid?: string;
   utm_source?: string;
   utm_medium?: string;
   utm_campaign?: string;
@@ -357,6 +404,8 @@ async function buildSubmitAttribution(): Promise<AttrData> {
 
   return {
     gclid: stored.gclid || url.gclid,
+    gbraid: stored.gbraid || url.gbraid,
+    wbraid: stored.wbraid || url.wbraid,
     utm_source: stored.utm_source || url.utm_source,
     utm_medium: stored.utm_medium || url.utm_medium,
     utm_campaign: stored.utm_campaign || url.utm_campaign,
@@ -380,6 +429,8 @@ function buildLastTouchAttribution(): LastTouchData {
   const url = readUrlAttribution();
   return {
     gclid: url.gclid,
+    gbraid: url.gbraid,
+    wbraid: url.wbraid,
     utm_source: url.utm_source,
     utm_medium: url.utm_medium,
     utm_campaign: url.utm_campaign,
@@ -419,6 +470,15 @@ export async function sendLead(formFields: Record<string, unknown>) {
       body: JSON.stringify(payload),
       keepalive: true,
     });
+
+    if (typeof window !== "undefined" && typeof window.gtag === "function") {
+      const leadType = String(formFields.type ?? "lead");
+      window.gtag("event", "generate_lead", {
+        lead_type: leadType,
+        currency: "EUR",
+        value: leadType === "appointment" ? 50 : 30,
+      });
+    }
   } catch (err) {
     if (import.meta.env.DEV) console.warn("sendLead failed:", err);
   }
