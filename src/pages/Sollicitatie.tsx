@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Upload, CheckCircle } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 const Sollicitatie = () => {
   useDocumentMeta(
@@ -47,10 +48,38 @@ const Sollicitatie = () => {
     setBezig(true);
     setFout("");
 
-    // Simuleer verzending — vervang dit door een echte API call of Supabase insert
-    await new Promise((res) => setTimeout(res, 1200));
-    setBezig(false);
-    setVerzonden(true);
+    try {
+      let cvPath: string | undefined;
+      if (cvBestand) {
+        const ext = cvBestand.name.split(".").pop() || "pdf";
+        const safeName = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+        cvPath = `sollicitaties/${safeName}`;
+        const { error: upErr } = await supabase.storage
+          .from("quote-attachments")
+          .upload(cvPath, cvBestand, { contentType: cvBestand.type });
+        if (upErr) throw upErr;
+      }
+
+      const { error } = await supabase.functions.invoke("submit-sollicitatie", {
+        body: {
+          voornaam,
+          achternaam,
+          email,
+          telefoon,
+          bericht,
+          cvPath,
+          cvNaam: cvBestand?.name,
+        },
+      });
+      if (error) throw error;
+
+      setVerzonden(true);
+    } catch (err) {
+      console.error(err);
+      setFout("Verzenden mislukt. Probeer het opnieuw of bel ons.");
+    } finally {
+      setBezig(false);
+    }
   };
 
   return (
