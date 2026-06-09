@@ -78,6 +78,7 @@ const Sollicitatie = () => {
         {/* Formulier */}
         <section className="py-10 md:py-14">
           <div className="container max-w-2xl mx-auto px-4">
+            {verzonden ? (
               <div className="rounded-xl border border-green-500/30 bg-green-500/5 p-8 text-center">
                 <CheckCircle className="w-12 h-12 text-green-500 mx-auto mb-4" />
                 <h3 className="font-heading text-xl font-bold text-foreground mb-2">
