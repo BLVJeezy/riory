@@ -32,6 +32,12 @@ Deno.serve(async (req) => {
   const text = await renderAsync(React.createElement(template.component, templateData), { plainText: true })
   const subject = typeof template.subject === 'function' ? template.subject(templateData) : template.subject
 
+  // Owner-notificaties vanaf noreply, klantbevestigingen vanaf afspraak@
+  const ownerTemplates = ['appointment-notification', 'quote-notification', 'sollicitatie-notification']
+  const isOwner = ownerTemplates.includes(templateName)
+  const from = body.from || (isOwner ? 'RIORY <noreply@riory.be>' : 'RIORY <afspraak@riory.be>')
+  const replyTo = body.replyTo || (isOwner ? to : 'info@riory.be')
+
   const res = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: {
@@ -39,8 +45,8 @@ Deno.serve(async (req) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      from: 'RIORY <noreply@riory.be>',
-      reply_to: 'info@riory.be',
+      from,
+      reply_to: replyTo,
       to: [to],
       subject,
       html,
