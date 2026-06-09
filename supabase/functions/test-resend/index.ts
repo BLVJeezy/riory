@@ -1,4 +1,7 @@
+import * as React from 'npm:react@18.3.1'
+import { renderAsync } from 'npm:@react-email/components@0.0.22'
 import { corsHeaders } from 'npm:@supabase/supabase-js@2/cors'
+import { TEMPLATES } from '../_shared/transactional-email-templates/registry.ts'
 
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: corsHeaders })
@@ -6,16 +9,28 @@ Deno.serve(async (req) => {
   const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY')
   if (!RESEND_API_KEY) {
     return new Response(JSON.stringify({ error: 'RESEND_API_KEY missing' }), {
-      status: 500,
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     })
   }
 
-  let to = 'jasonbalongo@gmail.com'
-  try {
-    const body = await req.json().catch(() => ({}))
-    if (body?.to) to = body.to
-  } catch (_) {}
+  let body: any = {}
+  try { body = await req.json() } catch (_) {}
+
+  const templateName: string = body.templateName || 'afspraak-confirmation'
+  const to: string = body.to || 'jasonbalongo@gmail.com'
+  const templateData = body.templateData || { voornaam: 'Jason', dienst: 'Camera inspectie riool', urgent: false }
+
+  const template = TEMPLATES[templateName]
+  if (!template) {
+    return new Response(JSON.stringify({
+      error: `Template '${templateName}' not found`,
+      available: Object.keys(TEMPLATES),
+    }), { status: 404, headers: { ...corsHeaders, 'Content-Type': 'application/json' } })
+  }
+
+  const html = await renderAsync(React.createElement(template.component, templateData))
+  const text = await renderAsync(React.createElement(template.component, templateData), { plainText: true })
+  const subject = typeof template.subject === 'function' ? template.subject(templateData) : template.subject
 
   const res = await fetch('https://api.resend.com/emails', {
     method: 'POST',
@@ -24,20 +39,12 @@ Deno.serve(async (req) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      from: 'RIORY <onboarding@resend.dev>',
+      from: 'RIORY <noreply@riory.be>',
+      reply_to: 'info@riory.be',
       to: [to],
-      subject: 'Testmail van RIORY via Resend',
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 560px; margin: 0 auto; padding: 24px;">
-          <h1 style="color: #0f172a;">Hallo vanuit RIORY 👋</h1>
-          <p style="color: #334155; line-height: 1.6;">
-            Dit is een test-email verzonden via <strong>Resend</strong> vanuit jouw RIORY project.
-          </p>
-          <p style="color: #334155;">Als je dit ziet, werkt de Resend integratie correct.</p>
-          <hr style="border:none;border-top:1px solid #e2e8f0;margin:24px 0;" />
-          <p style="color:#64748b;font-size:12px;">RIORY BV — Sterk in Rioleringswerk</p>
-        </div>
-      `,
+      subject,
+      html,
+      text,
     }),
   })
 
