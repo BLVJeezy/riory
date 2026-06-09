@@ -99,8 +99,8 @@ const Navbar = () => {
       }`}
     >
       <div className="section-container flex items-center justify-between h-16 md:h-20 px-6 md:px-8">
-        <Link to={localizedPath("/")}>
-          <img src={logo} alt="RIORY - Sterk in Rioleringswerk" className="h-8 md:h-9 w-auto" />
+        <Link to={localizedPath("/")} className="ml-0 md:ml-4">
+          <img src={logo} alt="RIORY - Sterk in Rioleringswerk" className="h-10 md:h-12 w-auto" />
         </Link>
 
         {/* Desktop */}
