@@ -21,6 +21,7 @@ import CookiePolicy from "./pages/CookiePolicy.tsx";
 import AdminLogin from "./pages/AdminLogin.tsx";
 import Admin from "./pages/Admin.tsx";
 import Unsubscribe from "./pages/Unsubscribe.tsx";
+import Sollicitatie from "./pages/Sollicitatie.tsx";
 import Afspraak from "./pages/Afspraak.tsx";
 import Prijscalculator from "./pages/Prijscalculator.tsx";
 import VeelvoorkomendeProblemen from "./pages/VeelvoorkomendeProblemen.tsx";
@@ -111,6 +112,7 @@ const AppRoutes = () => (
     <Route path="regio/:slug" element={<LocatieDetail />} />
     <Route path="veelvoorkomende-problemen" element={<VeelvoorkomendeProblemen />} />
     <Route path="unsubscribe" element={<Unsubscribe />} />
+    <Route path="sollicitatie" element={<Sollicitatie />} />
     <Route path="*" element={<NotFound />} />
   </Routes>
 );
