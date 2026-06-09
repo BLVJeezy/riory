@@ -3,39 +3,14 @@ import { useDocumentMeta } from "@/hooks/useDocumentMeta";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import { Upload, CheckCircle, Briefcase, Clock, MapPin } from "lucide-react";
-
-const VACATURES = [
-  {
-    titel: "Rioolentstoppingtechnicus",
-    type: "Voltijds",
-    locatie: "Bilzen / Limburg",
-    beschrijving:
-      "Je lost verstoppingen op bij particulieren en bedrijven in Limburg. Je werkt zelfstandig, bent klantvriendelijk en hebt geen schrik van vuil werk.",
-  },
-  {
-    titel: "Chauffeur zuigwagen",
-    type: "Voltijds",
-    locatie: "Bilzen / Limburg",
-    beschrijving:
-      "Je rijdt met onze zuigwagen voor het ledigen van septische putten en regenputten in heel Limburg. Rijbewijs C vereist.",
-  },
-  {
-    titel: "Spontane sollicitatie",
-    type: "Voltijds of deeltijds",
-    locatie: "Limburg",
-    beschrijving:
-      "Geen passende vacature? Stuur ons gerust een spontane sollicitatie. We zijn altijd op zoek naar gemotiveerde mensen.",
-  },
-];
+import { Upload, CheckCircle } from "lucide-react";
 
 const Sollicitatie = () => {
   useDocumentMeta(
-    "Werken bij Riory BV | Vacatures Ontstoppingsdienst Limburg",
-    "Op zoek naar een job als technieker of chauffeur in Limburg? Riory BV is altijd op zoek naar gemotiveerde mensen. Bekijk onze vacatures en solliciteer online."
+    "Werken bij Riory BV | Solliciteer online | Limburg",
+    "Wil je werken bij Riory BV in Limburg? Stuur ons een spontane sollicitatie met je CV. We zijn altijd op zoek naar gemotiveerde techniekers en chauffeurs."
   );
 
-  const [geselecteerdeVacature, setGeselecteerdeVacature] = useState("");
   const [voornaam, setVoornaam] = useState("");
   const [achternaam, setAchternaam] = useState("");
   const [email, setEmail] = useState("");
@@ -65,7 +40,7 @@ const Sollicitatie = () => {
 
   const handleVerzenden = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!voornaam || !achternaam || !email || !geselecteerdeVacature) {
+    if (!voornaam || !achternaam || !email) {
       setFout("Vul alle verplichte velden in.");
       return;
     }
@@ -93,51 +68,16 @@ const Sollicitatie = () => {
               Werken bij Riory BV in Limburg
             </h1>
             <p className="text-muted-foreground text-base leading-relaxed">
-              Riory is een groeiend Limburgs bedrijf gevestigd in Hoeselt. Wij zoeken gemotiveerde
-              techniekers en chauffeurs die graag werken voor een lokaal bedrijf met een eerlijke
-              verloning, goed materieel en een fijn team.
+              Riory is een groeiend Limburgs bedrijf gevestigd in Hoeselt. Wij zijn altijd op zoek naar
+              gemotiveerde techniekers en chauffeurs. Stuur ons gerust een spontane sollicitatie —
+              wij nemen zo snel mogelijk contact met je op.
             </p>
           </div>
         </section>
 
-        {/* Vacatures */}
+        {/* Formulier */}
         <section className="py-10 md:py-14">
-          <div className="container max-w-4xl mx-auto px-4">
-            <h2 className="font-heading text-xl md:text-2xl font-bold text-foreground mb-6">
-              Openstaande vacatures
-            </h2>
-            <div className="grid gap-4 md:grid-cols-3 mb-12">
-              {VACATURES.map((v) => (
-                <div
-                  key={v.titel}
-                  onClick={() => setGeselecteerdeVacature(v.titel)}
-                  className={`cursor-pointer rounded-xl border p-5 transition-all ${
-                    geselecteerdeVacature === v.titel
-                      ? "border-primary bg-primary/5 shadow-md"
-                      : "border-border bg-card hover:border-primary/50"
-                  }`}
-                >
-                  <div className="flex items-start gap-3">
-                    <Briefcase className="w-5 h-5 text-primary mt-0.5 shrink-0" />
-                    <div>
-                      <p className="font-heading font-semibold text-foreground text-sm">{v.titel}</p>
-                      <div className="flex flex-wrap gap-2 mt-1.5 mb-2">
-                        <span className="inline-flex items-center gap-1 text-xs text-muted-foreground">
-                          <Clock className="w-3 h-3" />{v.type}
-                        </span>
-                        <span className="inline-flex items-center gap-1 text-xs text-muted-foreground">
-                          <MapPin className="w-3 h-3" />{v.locatie}
-                        </span>
-                      </div>
-                      <p className="text-xs text-muted-foreground leading-relaxed">{v.beschrijving}</p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Formulier */}
-            {verzonden ? (
+          <div className="container max-w-2xl mx-auto px-4">
               <div className="rounded-xl border border-green-500/30 bg-green-500/5 p-8 text-center">
                 <CheckCircle className="w-12 h-12 text-green-500 mx-auto mb-4" />
                 <h3 className="font-heading text-xl font-bold text-foreground mb-2">
@@ -154,23 +94,6 @@ const Sollicitatie = () => {
                   Solliciteer online
                 </h2>
                 <div className="space-y-4">
-                  {/* Vacature selectie */}
-                  <div>
-                    <label className="block text-sm font-medium text-foreground mb-1.5">
-                      Vacature <span className="text-primary">*</span>
-                    </label>
-                    <select
-                      value={geselecteerdeVacature}
-                      onChange={(e) => setGeselecteerdeVacature(e.target.value)}
-                      className="w-full rounded-lg border border-input bg-background px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-                    >
-                      <option value="">Kies een vacature...</option>
-                      {VACATURES.map((v) => (
-                        <option key={v.titel} value={v.titel}>{v.titel}</option>
-                      ))}
-                    </select>
-                  </div>
-
                   {/* Naam */}
                   <div className="grid grid-cols-2 gap-4">
                     <div>
