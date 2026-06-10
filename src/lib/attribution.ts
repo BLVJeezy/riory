@@ -448,6 +448,7 @@ function buildLastTouchAttribution(): LastTouchData {
 
 const LEAD_ENDPOINT = "https://riory.invenix.nl/api/lead";
 const PHONE_CLICK_ENDPOINT = "https://riory.invenix.nl/api/phone_click";
+const CALCULATOR_ENDPOINT = "https://riory.invenix.nl/api/calculator";
 
 export async function sendLead(formFields: Record<string, unknown>) {
   try {
@@ -478,6 +479,30 @@ export async function sendLead(formFields: Record<string, unknown>) {
     }
   } catch (err) {
     if (import.meta.env.DEV) console.warn("sendLead failed:", err);
+  }
+}
+
+export async function sendCalculatorSnapshot(state: Record<string, unknown>) {
+  try {
+    const attribution = await buildSubmitAttribution();
+    const last_touch = buildLastTouchAttribution();
+    const payload = {
+      ...state,
+      visitor_id: getVisitorId(),
+      submitted_at: new Date().toISOString(),
+      page_url:
+        typeof window !== "undefined" ? window.location.href : undefined,
+      attribution,
+      last_touch,
+    };
+    await fetch(CALCULATOR_ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+      keepalive: true,
+    });
+  } catch (err) {
+    if (import.meta.env.DEV) console.warn("sendCalculatorSnapshot failed:", err);
   }
 }
 
