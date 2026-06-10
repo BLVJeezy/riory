@@ -472,11 +472,8 @@ export async function sendLead(formFields: Record<string, unknown>) {
     });
 
     if (typeof window !== "undefined" && typeof window.gtag === "function") {
-      const leadType = String(formFields.type ?? "lead");
       window.gtag("event", "generate_lead", {
-        lead_type: leadType,
-        currency: "EUR",
-        value: leadType === "appointment" ? 50 : 30,
+        lead_type: String(formFields.type ?? "lead"),
       });
     }
   } catch (err) {
