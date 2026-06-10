@@ -3,7 +3,7 @@
 
 export const REVIEW_STATS = {
   ratingValue: "4.9",
-  reviewCount: "47",
+  reviewCount: "101",
   bestRating: "5",
   worstRating: "1",
 } as const;
@@ -16,14 +16,14 @@ export interface FeaturedReview {
 
 export const FEATURED_REVIEWS: FeaturedReview[] = [
   {
-    author: "Jan V.",
+    author: "Jurgen Machiels",
     rating: 5,
-    body: "Riory BV is de beste loodgieter in Hasselt. Binnen het uur ter plaatse voor een verstopt toilet. Vriendelijk en correct.",
+    body: "Super service. Eerlijke prijs. Zeer snelle reactie op contactformulier. Top gasten. En het probleem volledig opgelost. Zeker en vast aanraders 100%",
   },
   {
-    author: "Marie L.",
+    author: "Arnaud Ronda",
     rating: 5,
-    body: "Snelle interventie voor een verstopte riolering in Tongeren. Professioneel team, eerlijke prijs. Zeker een aanrader!",
+    body: "Heel snel geholpen, vriendelijk en uitermate vakkundig! En gezien het geleverde werk zeker eerlijk en geen prijsverrassingen. Super tevreden! Een echte aanrader.",
   },
 ];
 
