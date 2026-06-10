@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import { Button } from "@/components/ui/button";
@@ -9,6 +9,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Card } from "@/components/ui/card";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import { sendCalculatorSnapshot } from "@/lib/attribution";
 import { Loader2 } from "lucide-react";
 import {
   Calculator,
@@ -75,6 +76,60 @@ const PriceCalculator = () => {
     duration_minutes: number;
   } | null>(null);
   const [distanceError, setDistanceError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const hasInteraction =
+      step > 0 || selectedService !== null || address.straat !== "";
+    if (!hasInteraction) return;
+    const handle = setTimeout(() => {
+      const result = getPrice();
+      const totalStr = result?.total ?? result?.price ?? "";
+      const m = totalStr.match(/€\s*([\d.,]+)/);
+      const cleaned = m
+        ? m[1].includes(",")
+          ? m[1].replace(/\./g, "").replace(",", ".")
+          : m[1]
+        : "";
+      const parsed = cleaned ? parseFloat(cleaned) : NaN;
+      const priceEur = Number.isFinite(parsed) ? parsed : undefined;
+
+      let subtype: string | undefined;
+      if (selectedService === "interventie") subtype = interventieType;
+      else if (selectedService === "pompwerken")
+        subtype = liftputOnderWater ?? undefined;
+      else if (selectedService === "regenput")
+        subtype = regenputInhoud ?? undefined;
+
+      sendCalculatorSnapshot({
+        step,
+        service: selectedService,
+        service_subtype: subtype,
+        address,
+        distance_km: distanceData?.distance_km,
+        price_eur: Number.isFinite(priceEur) ? priceEur : undefined,
+        raw_state: {
+          agreed,
+          interventieType,
+          liftputOnderWater,
+          dakgootMeters,
+          regenputInhoud,
+          distanceData,
+        },
+      });
+    }, 700);
+    return () => clearTimeout(handle);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    step,
+    agreed,
+    address,
+    selectedService,
+    interventieType,
+    liftputOnderWater,
+    dakgootMeters,
+    regenputInhoud,
+    distanceData,
+  ]);
 
   const calculateDistance = async () => {
     setDistanceLoading(true);
