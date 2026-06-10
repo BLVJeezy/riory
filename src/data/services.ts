@@ -2,12 +2,12 @@ import serviceOntstoppingen from "@/assets/service-ontstoppingen-geurdetectie.we
 import serviceLeidingen from "@/assets/service-leidingen-septisch.webp";
 import serviceCamera from "@/assets/service-camera-inspectie.webp";
 import serviceLeegpompen from "@/assets/service-leegpompen-reinigen.webp";
-import wcVerstoptAsset from "@/assets/wc-verstopt.jpg.asset.json";
-import doucheputjeVerstoptAsset from "@/assets/doucheputje-verstopt.webp.asset.json";
-import rioolVerstoptAsset from "@/assets/riool-verstopt-hero.jpg.asset.json";
-import doucheputjeHarenAsset from "@/assets/doucheputje-haren.jpg.asset.json";
-import gootsteenVerstoptAsset from "@/assets/gootsteen-verstopt.jpg.asset.json";
-import keukenafvoerVerstoptAsset from "@/assets/keukenafvoer-etensresten.jpg.asset.json";
+import wcVerstoptAsset from "@/assets/service-ontstopping.jpg";
+import doucheputjeVerstoptAsset from "@/assets/service-ontstoppingen-geurdetectie.webp";
+import rioolVerstoptAsset from "@/assets/service-riolering.jpg";
+import doucheputjeHarenAsset from "@/assets/service-ontstoppingen-geurdetectie.webp";
+import gootsteenVerstoptAsset from "@/assets/service-afwatering.jpg";
+import keukenafvoerVerstoptAsset from "@/assets/service-ontstopping.jpg";
 import refDakgoot from "@/assets/refs/dakgoot-hoogte-1.webp";
 import refGeurdetectie from "@/assets/refs/geurdetectie-1.webp";
 import refSifon from "@/assets/refs/sifon-1.webp";
@@ -214,7 +214,7 @@ export const allServices: Service[] = [
     shortTitle: "WC Verstopt",
     description:
       "WC verstopt in Limburg? Riory BV is 24/7 bereikbaar en binnen 2 uur ter plaatse in Hasselt, Genk, Tongeren, Bilzen, Hoeselt en Sint-Truiden. Vaste prijzen, geen breekwerk.",
-    image: wcVerstoptAsset.url,
+    image: wcVerstoptAsset,
     longDescription:
       "Een verstopt toilet herkent u meestal direct: de WC spoelt traag door, het water blijft hoog staan, u hoort gorgelende geluiden of er stijgt een vieze rioolgeur op. In het ergste geval loopt het toilet over en richt het waterschade aan. Een verstopte WC is bijna nooit een probleem dat vanzelf overgaat — wachten maakt de blokkage doorgaans erger. " +
       "Bij Riory BV pakken wij elk verstopt toilet professioneel aan: ontstopveer, hogedrukreiniging en — indien nodig — camera-inspectie om de exacte oorzaak te lokaliseren. We zien in Limburg veel toiletverstopping door vochtige doekjes die mensen per ongeluk doorspoelen, en door kalkaanslag in oudere leidingen in Hasselt-centrum en Tongeren. Wij werken zonder breekwerk, met afgedekte werkzone en vaste prijzen. Onze ontstoppers zijn 24/7 bereikbaar en doorgaans binnen 2 uur bij u thuis.",
@@ -255,7 +255,7 @@ export const allServices: Service[] = [
     shortTitle: "Keukenafvoer Verstopt",
     description:
       "Keukenafvoer verstopt in Limburg? Riory BV verwijdert vetophoping snel en grondig met hogedrukreiniging. 24/7 bereikbaar in heel Limburg.",
-    image: keukenafvoerVerstoptAsset.url,
+    image: keukenafvoerVerstoptAsset,
     longDescription:
       "Een verstopte keukenafvoer ontstaat bijna altijd door dezelfde oorzaak: vet, etensresten en zeep die zich na verloop van tijd ophopen tot een harde laag in de leiding. Typische signalen zijn een gootsteen die traag wegloopt, borrelende geluiden of een vieze geur uit de afvoer. Doe-het-zelf-middelen helpen maar tijdelijk en kunnen leidingen aantasten. " +
       "In appartementen in Genk-Winterslag en Hasselt-centrum zien we vetprops het vaakst — de afvoerleidingen zijn smal en oud, en kleine hoeveelheden vet per dag stapelen zich op tot een complete blokkade. Riory BV verwijdert vetverstoppingen vakkundig met professionele hogedrukreiniging — geen chemie, geen breekwerk. Onze techniekers werken netjes, dekken uw keuken correct af, en geven concrete tips om herhaling te vermijden. 24/7 bereikbaar in heel Limburg.",
@@ -296,7 +296,7 @@ export const allServices: Service[] = [
     shortTitle: "Doucheputje Verstopt",
     description:
       "Doucheputje verstopt in Limburg? Riory verwijdert haar- en zeepresten snel. 24/7 bereikbaar in Hasselt, Genk, Tongeren en omstreken.",
-    image: doucheputjeHarenAsset.url,
+    image: doucheputjeHarenAsset,
     longDescription:
       "Een verstopt doucheputje is vooral hinderlijk: het water blijft staan, er ontstaat een vieze laag en op den duur stinkt de badkamer naar riool. De oorzaak is bijna altijd dezelfde combinatie: haren, zeepresten, douchegel en huidvet die samen een prop vormen in de sifon of net daaronder. " +
       "In gezinswoningen in Hasselt, Genk en Tongeren is het doucheputje één van de meest gerapporteerde problemen — zeker in gezinnen met lang haar. Riory BV ontstopt elk doucheputje vakkundig: wij demonteren de sifon waar nodig, verwijderen de prop volledig en spoelen de leiding door. Geen chemie, geen krassen op uw douchevloer. Wij werken 24/7 in heel Limburg met vaste prijzen en zijn doorgaans binnen 2 uur ter plaatse.",
@@ -337,7 +337,7 @@ export const allServices: Service[] = [
     shortTitle: "Riool Verstopt",
     description:
       "Riool verstopt in Limburg? Meerdere afvoeren tegelijk geblokkeerd? Riory BV pakt het aan met hogedrukspuit + camera-inspectie. 24/7 in heel Limburg.",
-    image: rioolVerstoptAsset.url,
+    image: rioolVerstoptAsset,
     longDescription:
       "Wanneer meerdere afvoeren tegelijk traag wegvloeien — uw WC, douche én gootsteen — dan zit het probleem dieper: er is een verstopping in de hoofdriolering, niet in een individuele sifon. Typische signalen zijn gorgelende geluiden in andere afvoeren, water dat terugkomt via de doucheput, of een sterke rioolgeur rond de inspectieputjes buiten. Een diepe rioolverstopping vereist professionele uitrusting. " +
       "Riory BV diagnosticeert elke rioolverstopping in Limburg eerst correct met camera-inspectie. In de Maasstreek en in Tongeren zien we veel wortelingroei van populieren en wilgen die rioolbuizen binnengroeien. In stedelijke wijken van Hasselt en Genk zijn vetlagen en kalkaanslag de meest voorkomende oorzaak. Na de diagnose verwijderen wij de blokkage met een krachtige hogedrukspuit — zonder graafwerk. U krijgt een rapport met beelden en een eerlijk advies. 24/7 bereikbaar in heel Limburg.",
@@ -378,7 +378,7 @@ export const allServices: Service[] = [
     shortTitle: "Gootsteen Verstopt",
     description:
       "Gootsteen verstopt in Limburg? Riory BV lost het snel op met vaste prijzen. 24/7 bereikbaar in Hasselt, Genk, Tongeren, Bilzen en omstreken.",
-    image: gootsteenVerstoptAsset.url,
+    image: gootsteenVerstoptAsset,
     longDescription:
       "Een gootsteen die niet wegloopt, traag leegt of borrelende geluiden maakt heeft bijna altijd een verstopte sifon of leiding. Bij keukengootstenen is de oorzaak meestal vet en etensresten, bij badkamergootstenen haren, tandpasta en zeep. Een verstopte gootsteen verergert snel: hoe langer u wacht, hoe harder de prop wordt. " +
       "Riory BV ontstopt elke gootsteen in Limburg snel en netjes. In oudere woningen in Bilzen en Hoeselt zien we veel loodkruigen sifonnen die al twintig jaar meegaan en nu gewoon aan vervanging toe zijn. In appartementen in Hasselt gaat het vaker om een vetprop die pas na jaren van koken echt problematisch wordt. Wij demonteren de sifon waar nodig, verwijderen de blokkage en spoelen de leiding door. Direct resultaat, vaste prijs, zonder breekwerk.",
