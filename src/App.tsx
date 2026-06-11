@@ -135,8 +135,8 @@ const App = () => (
               <Route path="/fr/*" element={<AppRoutes />} />
               <Route path="/*" element={<AppRoutes />} />
             </Routes>
-            
-          </AuthProvider>
+            <Analytics />
+            </AuthProvider>
         </LanguageProvider>
       </BrowserRouter>
     </TooltipProvider>
