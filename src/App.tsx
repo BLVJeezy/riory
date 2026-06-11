@@ -7,6 +7,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { LanguageProvider } from "@/i18n/LanguageProvider";
+import { Analytics } from "@vercel/analytics/react";
 import { captureAttribution, trackPhoneClick, trackCtaClick, GA_MEASUREMENT_ID } from "@/lib/attribution";
 
 import Index from "./pages/Index.tsx";
@@ -134,8 +135,8 @@ const App = () => (
               <Route path="/fr/*" element={<AppRoutes />} />
               <Route path="/*" element={<AppRoutes />} />
             </Routes>
-            
-          </AuthProvider>
+            <Analytics />
+            </AuthProvider>
         </LanguageProvider>
       </BrowserRouter>
     </TooltipProvider>
