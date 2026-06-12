@@ -48,8 +48,8 @@ const DienstDetail = () => {
   useEffect(() => {
     if (!service) return;
 
-    const PAGE_URL = `https://riory.be/diensten/${service.slug}`;
-    const IMAGE_URL = `https://riory.be${service.image}`;
+    const PAGE_URL = `https://www.riory.be/diensten/${service.slug}`;
+    const IMAGE_URL = `https://www.riory.be${service.image}`;
     const serviceName = service.shortTitle || service.title;
     const serviceType = service.serviceType || serviceName;
     const imageAlt = `${serviceName} — Riory`;
@@ -103,7 +103,7 @@ const DienstDetail = () => {
           name: "Riory BV",
           telephone: "+32472502814",
           email: "info@riory.be",
-          url: "https://riory.be",
+          url: "https://www.riory.be",
           address: {
             "@type": "PostalAddress",
             streetAddress: "Natveld 47",
@@ -133,9 +133,9 @@ const DienstDetail = () => {
       {
         "@context": "https://schema.org",
         "@type": "LocalBusiness",
-        "@id": "https://riory.be/#business",
+        "@id": "https://www.riory.be/#business",
         name: "Riory BV",
-        url: "https://riory.be",
+        url: "https://www.riory.be",
         telephone: "+32472502814",
         ...businessRatingSchema(),
       },

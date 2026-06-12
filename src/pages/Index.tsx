@@ -42,7 +42,7 @@ const Index = () => {
       {
         "@context": "https://schema.org",
         "@type": "WebPage",
-        url: "https://riory.be/",
+        url: "https://www.riory.be/",
         speakable: {
           "@type": "SpeakableSpecification",
           cssSelector: ["h1", ".hero-description", ".cta-phone"],
@@ -51,9 +51,9 @@ const Index = () => {
       {
         "@context": "https://schema.org",
         "@type": "LocalBusiness",
-        "@id": "https://riory.be/#business",
+        "@id": "https://www.riory.be/#business",
         name: "Riory BV",
-        url: "https://riory.be",
+        url: "https://www.riory.be",
         telephone: "+32472502814",
         ...businessRatingSchema(),
       },

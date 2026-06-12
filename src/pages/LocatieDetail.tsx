@@ -58,8 +58,8 @@ const LocatieDetail = () => {
         "@context": "https://schema.org",
         "@type": "LocalBusiness",
         name: "Riory BV",
-        "@id": "https://riory.be/#business",
-        url: "https://riory.be",
+        "@id": "https://www.riory.be/#business",
+        url: "https://www.riory.be",
         telephone: "+32472502814",
         email: "info@riory.be",
         description:
@@ -117,7 +117,7 @@ const LocatieDetail = () => {
         provider: {
           "@type": "LocalBusiness",
           name: "Riory BV",
-          "@id": "https://riory.be/#business",
+          "@id": "https://www.riory.be/#business",
         },
       },
       {

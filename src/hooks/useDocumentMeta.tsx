@@ -14,7 +14,7 @@ const DEFAULT_DESCRIPTIONS: Record<Language, string> = {
   fr: "Égout bouché ? Riory est disponible 24/7 à Bilzen, Hoeselt, Hasselt, Genk & Tongres. ✓ Sur place en 2h ✓ Prix fixes ✓ 4.9★ Avis. Appelez !",
 };
 
-const SITE_URL = "https://riory.be";
+const SITE_URL = "https://www.riory.be";
 
 const setMeta = (selector: string, attr: string, value: string) => {
   const el = document.querySelector(selector);
