@@ -149,7 +149,9 @@ const AppointmentForm = () => {
 
   // Step 3
   const [urgent, setUrgent] = useState<boolean | null>(null);
-  const [wiltOfferte, setWiltOfferte] = useState<boolean | null>(null); // true = offerte, false = afspraak
+  const [wiltOfferte, setWiltOfferte] = useState<boolean | null>(null);
+  const [regenputGrootte, setRegenputGrootte] = useState("");
+  const [dakgootMetersForm, setDakgootMetersForm] = useState({ v1: "", v2: "", v3: "" });
 
   // Step 4
   const [klantType, setKlantType] = useState<KlantType | "">("");
@@ -233,8 +235,13 @@ const AppointmentForm = () => {
         req(!akkoord, t("appointmentForm.step1Terms"));
         break;
       case 2:
-        if (dienst === "Reinigen van regenput" || dienst === "Dakgootreiniging") {
-          req(wiltOfferte === null, "Offerte of afspraak");
+        if (dienst === "Reinigen van regenput") {
+          req(!regenputGrootte, "Grootte van de regenput");
+        } else if (dienst === "Dakgootreiniging") {
+          const m1 = parseFloat(dakgootMetersForm.v1) || 0;
+          const m2 = parseFloat(dakgootMetersForm.v2) || 0;
+          const m3 = parseFloat(dakgootMetersForm.v3) || 0;
+          req(m1 + m2 + m3 === 0, "Meters dakgoot per verdieping");
         } else {
           req(urgent === null, t("appointmentForm.step2Title"));
         }
@@ -352,6 +359,13 @@ const AppointmentForm = () => {
   const handleSubmit = async () => {
     setSubmitting(true);
     try {
+      const extraInfo = dienst === "Reinigen van regenput" && regenputGrootte
+        ? `Grootte regenput: ${regenputGrootte}\n\n`
+        : dienst === "Dakgootreiniging" && (dakgootMetersForm.v1 || dakgootMetersForm.v2 || dakgootMetersForm.v3)
+        ? `Dakgoot meters — 1 verdiep: ${dakgootMetersForm.v1 || "0"}m, 2 verdiepen: ${dakgootMetersForm.v2 || "0"}m, 3 verdiepen: ${dakgootMetersForm.v3 || "0"}m\n\n`
+        : "";
+      const fullBeschrijving = extraInfo + (beschrijving || "");
+
       const appointmentId = crypto.randomUUID();
       // For syndicus, use syndicus email as fact_email (required field)
       const effectiveFactEmail = klantType === "syndicus" ? syndicus.email : fact.email;
@@ -424,7 +438,7 @@ const AppointmentForm = () => {
         syndicus_facturatie_email: klantType === "syndicus" ? (syndicus.facturatie_email || null) : null,
         syndicus_naam_vme: klantType === "syndicus" ? (syndicus.naam_vme || null) : null,
         syndicus_kbo_nummer: klantType === "syndicus" ? (syndicus.kbo_nummer || null) : null,
-        beschrijving: beschrijving || null,
+        beschrijving: fullBeschrijving || null,
         gevonden_via: gevondenVia || null,
         gevonden_detail: gevondenDetail || null,
         wilt_offerte: (dienst === "Reinigen van regenput" || dienst === "Dakgootreiniging") ? (wiltOfferte ?? null) : null,
@@ -556,6 +570,8 @@ const AppointmentForm = () => {
       setDienst("");
       setUrgent(null);
       setWiltOfferte(null);
+      setRegenputGrootte("");
+      setDakgootMetersForm({ v1: "", v2: "", v3: "" });
       setKlantType("");
       setWoningOuder(null);
       setWerfIsFacturatie(null);
@@ -624,39 +640,83 @@ const AppointmentForm = () => {
           </div>
         );
 
-      // STEP 2: Urgentie of Offerte/Afspraak keuze
+      // STEP 2: Dienst-specifieke vragen of Urgentie
       case 2:
-        if (dienst === "Reinigen van regenput" || dienst === "Dakgootreiniging") {
+        // REGENPUT: grootte kiezen
+        if (dienst === "Reinigen van regenput") {
+          const regenputOpties = [
+            "Tot 5.000 L",
+            "7.500 L",
+            "10.000 L",
+            "15.000 L",
+            "20.000 L",
+            "Ik weet het niet",
+            "Andere maat",
+          ];
           return (
             <div className="space-y-4">
               <div className="text-center mb-2">
                 <FileText className="w-12 h-12 text-primary mx-auto mb-3" />
                 <h3 className="text-lg font-heading font-bold text-foreground">
-                  Wat wilt u?
+                  Hoe groot is uw regenput?
                 </h3>
                 <p className="text-sm text-muted-foreground mt-1">
-                  Kies of u een vrijblijvende offerte wil of direct een afspraak wil inplannen.
+                  Dit helpt ons een correcte prijs te berekenen.
                 </p>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-md mx-auto">
-                <OptionCard
-                  selected={wiltOfferte === true}
-                  onClick={() => { setWiltOfferte(true); setUrgent(false); }}
-                  icon={<FileText className="w-4 h-4" />}
-                  label="Ik wil een offerte"
-                  description="Wij bezorgen u een vrijblijvende prijsopgave"
-                />
-                <OptionCard
-                  selected={wiltOfferte === false}
-                  onClick={() => { setWiltOfferte(false); setUrgent(false); }}
-                  icon={<Check className="w-4 h-4" />}
-                  label="Ik wil een afspraak"
-                  description="Direct een afspraak inplannen"
-                />
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 max-w-lg mx-auto">
+                {regenputOpties.map((opt) => (
+                  <OptionCard
+                    key={opt}
+                    selected={regenputGrootte === opt}
+                    onClick={() => setRegenputGrootte(opt)}
+                    icon={<Check className="w-4 h-4" />}
+                    label={opt}
+                  />
+                ))}
               </div>
             </div>
           );
         }
+
+        // DAKGOOT: meters per verdieping
+        if (dienst === "Dakgootreiniging") {
+          return (
+            <div className="space-y-4">
+              <div className="text-center mb-2">
+                <FileText className="w-12 h-12 text-primary mx-auto mb-3" />
+                <h3 className="text-lg font-heading font-bold text-foreground">
+                  Geschatte meters per verdieping
+                </h3>
+                <p className="text-sm text-muted-foreground mt-1">
+                  Geldig tot 3 verdiepen of 10 meter hoogte. Minimum 10m te reinigen.
+                </p>
+              </div>
+              <div className="grid gap-3 max-w-sm mx-auto">
+                {[
+                  { key: "v1", label: "1 verdiep", prijs: "€ 8,50/m" },
+                  { key: "v2", label: "2 verdiepen", prijs: "€ 9,50/m" },
+                  { key: "v3", label: "3 verdiepen", prijs: "€ 11,00/m" },
+                ].map(({ key, label, prijs }) => (
+                  <div key={key} className="flex items-center gap-3">
+                    <label className="w-28 text-sm font-medium text-foreground">{label}</label>
+                    <input
+                      type="number"
+                      min="0"
+                      placeholder="meter"
+                      value={dakgootMetersForm[key as "v1" | "v2" | "v3"]}
+                      onChange={(e) => setDakgootMetersForm((p) => ({ ...p, [key]: e.target.value }))}
+                      className="w-24 h-10 px-3 rounded-lg border border-border bg-background text-sm focus:ring-2 focus:ring-primary outline-none"
+                    />
+                    <span className="text-xs text-muted-foreground">{prijs}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          );
+        }
+
+        // ALLE ANDERE DIENSTEN: urgentievraag
         return (
           <div className="space-y-4">
             <div className="text-center mb-2">
