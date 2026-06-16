@@ -151,6 +151,7 @@ const AppointmentForm = () => {
   const [urgent, setUrgent] = useState<boolean | null>(null);
   const [wiltOfferte, setWiltOfferte] = useState<boolean | null>(null);
   const [regenputGrootte, setRegenputGrootte] = useState("");
+  const [regenputAndereMaat, setRegenputAndereMaat] = useState("");
   const [dakgootMetersForm, setDakgootMetersForm] = useState({ v1: "", v2: "", v3: "" });
 
   // Step 4
@@ -360,7 +361,7 @@ const AppointmentForm = () => {
     setSubmitting(true);
     try {
       const extraInfo = dienst === "Reinigen van regenput" && regenputGrootte
-        ? `Grootte regenput: ${regenputGrootte}\n\n`
+        ? `Grootte regenput: ${regenputGrootte === "Andere maat" && regenputAndereMaat ? regenputAndereMaat : regenputGrootte}\n\n`
         : dienst === "Dakgootreiniging" && (dakgootMetersForm.v1 || dakgootMetersForm.v2 || dakgootMetersForm.v3)
         ? `Dakgoot meters — 1 verdiep: ${dakgootMetersForm.v1 || "0"}m, 2 verdiepen: ${dakgootMetersForm.v2 || "0"}m, 3 verdiepen: ${dakgootMetersForm.v3 || "0"}m\n\n`
         : "";
@@ -571,6 +572,7 @@ const AppointmentForm = () => {
       setUrgent(null);
       setWiltOfferte(null);
       setRegenputGrootte("");
+      setRegenputAndereMaat("");
       setDakgootMetersForm({ v1: "", v2: "", v3: "" });
       setKlantType("");
       setWoningOuder(null);
@@ -675,6 +677,17 @@ const AppointmentForm = () => {
                   />
                 ))}
               </div>
+              {regenputGrootte === "Andere maat" && (
+                <div className="max-w-lg mx-auto mt-2">
+                  <input
+                    type="text"
+                    placeholder="Vul de maat in (bv. 25.000 L)"
+                    value={regenputAndereMaat}
+                    onChange={(e) => setRegenputAndereMaat(e.target.value)}
+                    className="w-full h-12 px-4 rounded-lg border border-primary bg-background text-sm focus:ring-2 focus:ring-primary outline-none"
+                  />
+                </div>
+              )}
             </div>
           );
         }
