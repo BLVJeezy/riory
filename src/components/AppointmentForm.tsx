@@ -149,6 +149,7 @@ const AppointmentForm = () => {
 
   // Step 3
   const [urgent, setUrgent] = useState<boolean | null>(null);
+  const [wiltOfferte, setWiltOfferte] = useState<boolean | null>(null); // true = offerte, false = afspraak
 
   // Step 4
   const [klantType, setKlantType] = useState<KlantType | "">("");
@@ -232,7 +233,11 @@ const AppointmentForm = () => {
         req(!akkoord, t("appointmentForm.step1Terms"));
         break;
       case 2:
-        req(urgent === null, t("appointmentForm.step2Title"));
+        if (dienst === "Reinigen van regenput" || dienst === "Dakgootreiniging") {
+          req(wiltOfferte === null, "Offerte of afspraak");
+        } else {
+          req(urgent === null, t("appointmentForm.step2Title"));
+        }
         break;
       case 3:
         req(!klantType, t("appointmentForm.step3Title"));
@@ -422,6 +427,7 @@ const AppointmentForm = () => {
         beschrijving: beschrijving || null,
         gevonden_via: gevondenVia || null,
         gevonden_detail: gevondenDetail || null,
+        wilt_offerte: (dienst === "Reinigen van regenput" || dienst === "Dakgootreiniging") ? (wiltOfferte ?? null) : null,
       });
       if (error) throw error;
 
@@ -549,6 +555,7 @@ const AppointmentForm = () => {
       setAkkoord(false);
       setDienst("");
       setUrgent(null);
+      setWiltOfferte(null);
       setKlantType("");
       setWoningOuder(null);
       setWerfIsFacturatie(null);
@@ -617,8 +624,39 @@ const AppointmentForm = () => {
           </div>
         );
 
-      // STEP 2: Urgentie
+      // STEP 2: Urgentie of Offerte/Afspraak keuze
       case 2:
+        if (dienst === "Reinigen van regenput" || dienst === "Dakgootreiniging") {
+          return (
+            <div className="space-y-4">
+              <div className="text-center mb-2">
+                <FileText className="w-12 h-12 text-primary mx-auto mb-3" />
+                <h3 className="text-lg font-heading font-bold text-foreground">
+                  Wat wilt u?
+                </h3>
+                <p className="text-sm text-muted-foreground mt-1">
+                  Kies of u een vrijblijvende offerte wil of direct een afspraak wil inplannen.
+                </p>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-md mx-auto">
+                <OptionCard
+                  selected={wiltOfferte === true}
+                  onClick={() => { setWiltOfferte(true); setUrgent(false); }}
+                  icon={<FileText className="w-4 h-4" />}
+                  label="Ik wil een offerte"
+                  description="Wij bezorgen u een vrijblijvende prijsopgave"
+                />
+                <OptionCard
+                  selected={wiltOfferte === false}
+                  onClick={() => { setWiltOfferte(false); setUrgent(false); }}
+                  icon={<Check className="w-4 h-4" />}
+                  label="Ik wil een afspraak"
+                  description="Direct een afspraak inplannen"
+                />
+              </div>
+            </div>
+          );
+        }
         return (
           <div className="space-y-4">
             <div className="text-center mb-2">
