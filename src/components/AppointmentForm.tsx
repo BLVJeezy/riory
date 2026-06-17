@@ -707,10 +707,10 @@ const AppointmentForm = () => {
               </div>
               <div className="grid gap-3 max-w-sm mx-auto">
                 {[
-                  { key: "v1", label: "1 verdiep", prijs: "€ 8,50/m" },
-                  { key: "v2", label: "2 verdiepen", prijs: "€ 9,50/m" },
-                  { key: "v3", label: "3 verdiepen", prijs: "€ 11,00/m" },
-                ].map(({ key, label, prijs }) => (
+                  { key: "v1", label: "1 verdiep" },
+                  { key: "v2", label: "2 verdiepen" },
+                  { key: "v3", label: "3 verdiepen" },
+                ].map(({ key, label }) => (
                   <div key={key} className="flex items-center gap-3">
                     <label className="w-28 text-sm font-medium text-foreground">{label}</label>
                     <input
@@ -721,7 +721,6 @@ const AppointmentForm = () => {
                       onChange={(e) => setDakgootMetersForm((p) => ({ ...p, [key]: e.target.value }))}
                       className="w-24 h-10 px-3 rounded-lg border border-border bg-background text-sm focus:ring-2 focus:ring-primary outline-none"
                     />
-                    <span className="text-xs text-muted-foreground">{prijs}</span>
                   </div>
                 ))}
               </div>
