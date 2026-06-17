@@ -442,7 +442,6 @@ const AppointmentForm = () => {
         beschrijving: fullBeschrijving || null,
         gevonden_via: gevondenVia || null,
         gevonden_detail: gevondenDetail || null,
-        wilt_offerte: (dienst === "Reinigen van regenput" || dienst === "Dakgootreiniging") ? (wiltOfferte ?? null) : null,
       });
       if (error) throw error;
 
