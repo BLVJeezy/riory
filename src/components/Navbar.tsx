@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import logoBlack from "@/assets/riory-logo-black.svg";
 import logoWhite from "@/assets/riory-logo-white.svg";
+import HolidayNotice from "@/components/HolidayNotice";
 
 const LIMBURG_CITIES = [
   { slug: "hasselt", label: "Hasselt" },
@@ -353,6 +354,7 @@ const Navbar = () => {
           </div>
         </>
       )}
+      <HolidayNotice />
     </nav>
   );
 };

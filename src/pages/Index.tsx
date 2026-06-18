@@ -10,7 +10,6 @@ import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import EmergencyBanner from "@/components/EmergencyBanner";
-import HolidayNotice from "@/components/HolidayNotice";
 
 import ServicesSection from "@/components/ServicesSection";
 import CommonProblemsSection from "@/components/CommonProblemsSection";
@@ -70,7 +69,6 @@ const Index = () => {
       <Navbar />
       <HeroSection />
       <EmergencyBanner />
-      <HolidayNotice />
       
       <ServicesSection />
       <CommonProblemsSection />
