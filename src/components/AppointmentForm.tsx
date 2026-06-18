@@ -919,6 +919,27 @@ const AppointmentForm = () => {
               maxLength={2000}
               className="w-full px-4 py-3 rounded-lg bg-background border border-border text-foreground font-body text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none resize-none transition-shadow"
             />
+            {(dienst === "Dakgootreiniging" || dienst === "Reinigen van regenput") && (
+              <div className="pt-4 space-y-3">
+                <h4 className="text-sm font-heading font-bold uppercase tracking-wider text-foreground text-center">
+                  Wat wenst u? <span className="text-primary">*</span>
+                </h4>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-lg mx-auto">
+                  <OptionCard
+                    selected={wiltOfferte === true}
+                    onClick={() => setWiltOfferte(true)}
+                    icon={<FileText className="w-4 h-4" />}
+                    label="Ik wil eerst een offerte ontvangen"
+                  />
+                  <OptionCard
+                    selected={wiltOfferte === false}
+                    onClick={() => setWiltOfferte(false)}
+                    icon={<Check className="w-4 h-4" />}
+                    label="Afspraak maken"
+                  />
+                </div>
+              </div>
+            )}
           </div>
         );
 
