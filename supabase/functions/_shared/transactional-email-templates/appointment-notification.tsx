@@ -205,9 +205,10 @@ const buildSubject = (d: Record<string, any>) => {
     : d.klantType === 'syndicus' ? 'Syndicus'
     : 'Aanvraag'
   const urgent = d.urgent ? '[URGENT] ' : ''
+  const offertePrefix = d.wiltOfferte === 'offerte' ? '[OFFERTE] ' : ''
   const dienst = d.dienst ? ` – ${d.dienst}` : ''
   const wie = naam || klantLabel
-  return `${urgent}Afspraak ${klantLabel}: ${wie}${bedrijf}${kantoor}${dienst}`
+  return `${urgent}${offertePrefix}Afspraak ${klantLabel}: ${wie}${bedrijf}${kantoor}${dienst}`
 }
 
 export const template = {
