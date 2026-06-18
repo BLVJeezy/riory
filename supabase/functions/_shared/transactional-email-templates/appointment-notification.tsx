@@ -41,6 +41,9 @@ interface Props {
   syndicusNaamVme?: string
   syndicusKboNummer?: string
   beschrijving?: string
+  regenputGrootte?: string
+  dakgootMeters?: { v1?: string; v2?: string; v3?: string }
+  wiltOfferte?: 'offerte' | 'afspraak'
   gevondenVia?: string
   gevondenDetail?: string
 }
