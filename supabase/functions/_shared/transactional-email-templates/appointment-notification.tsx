@@ -41,6 +41,9 @@ interface Props {
   syndicusNaamVme?: string
   syndicusKboNummer?: string
   beschrijving?: string
+  regenputGrootte?: string
+  dakgootMeters?: { v1?: string; v2?: string; v3?: string }
+  wiltOfferte?: 'offerte' | 'afspraak'
   gevondenVia?: string
   gevondenDetail?: string
 }
@@ -155,6 +158,26 @@ const AppointmentNotificationEmail = (p: Props) => {
           <Text style={block}>
             {klantLabel}
             {urgentLine && <><br />{urgentLine}</>}
+            {p.wiltOfferte && (
+              <>
+                <br />
+                <strong>Voorkeur klant: </strong>
+                {p.wiltOfferte === 'offerte' ? 'Wil eerst een offerte ontvangen' : 'Wil meteen een afspraak maken'}
+              </>
+            )}
+            {p.regenputGrootte && (
+              <>
+                <br />
+                <strong>Grootte regenput: </strong>{p.regenputGrootte}
+              </>
+            )}
+            {p.dakgootMeters && (
+              <>
+                <br />
+                <strong>Dakgoot meters — </strong>
+                1 verdiep: {p.dakgootMeters.v1 || '0'}m, 2 verdiepen: {p.dakgootMeters.v2 || '0'}m, 3 verdiepen: {p.dakgootMeters.v3 || '0'}m
+              </>
+            )}
           </Text>
 
           {renderBlock('Particulier', particulierLines)}
@@ -182,9 +205,10 @@ const buildSubject = (d: Record<string, any>) => {
     : d.klantType === 'syndicus' ? 'Syndicus'
     : 'Aanvraag'
   const urgent = d.urgent ? '[URGENT] ' : ''
+  const offertePrefix = d.wiltOfferte === 'offerte' ? '[OFFERTE] ' : ''
   const dienst = d.dienst ? ` – ${d.dienst}` : ''
   const wie = naam || klantLabel
-  return `${urgent}Afspraak ${klantLabel}: ${wie}${bedrijf}${kantoor}${dienst}`
+  return `${urgent}${offertePrefix}Afspraak ${klantLabel}: ${wie}${bedrijf}${kantoor}${dienst}`
 }
 
 export const template = {

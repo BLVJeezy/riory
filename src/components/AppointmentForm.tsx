@@ -303,6 +303,9 @@ const AppointmentForm = () => {
       }
       case 5:
         req(beschrijving.trim().length === 0, t("appointmentForm.step5Title"));
+        if (dienst === "Dakgootreiniging" || dienst === "Reinigen van regenput") {
+          req(wiltOfferte === null, "Offerte of afspraak");
+        }
         break;
       case 6:
         req(!gevondenVia, t("appointmentForm.step6Title"));
@@ -490,6 +493,19 @@ const AppointmentForm = () => {
             syndicusNaamVme: syndicus.naam_vme || undefined,
             syndicusKboNummer: syndicus.kbo_nummer || undefined,
             beschrijving: beschrijving || undefined,
+            regenputGrootte: dienst === "Reinigen van regenput"
+              ? (regenputGrootte === "Andere maat" && regenputAndereMaat ? regenputAndereMaat : regenputGrootte) || undefined
+              : undefined,
+            dakgootMeters: dienst === "Dakgootreiniging"
+              ? {
+                  v1: dakgootMetersForm.v1 || "0",
+                  v2: dakgootMetersForm.v2 || "0",
+                  v3: dakgootMetersForm.v3 || "0",
+                }
+              : undefined,
+            wiltOfferte: (dienst === "Dakgootreiniging" || dienst === "Reinigen van regenput")
+              ? (wiltOfferte === true ? "offerte" : wiltOfferte === false ? "afspraak" : undefined)
+              : undefined,
             gevondenVia: gevondenVia || undefined,
             gevondenDetail: gevondenDetail || undefined,
           },
@@ -916,6 +932,27 @@ const AppointmentForm = () => {
               maxLength={2000}
               className="w-full px-4 py-3 rounded-lg bg-background border border-border text-foreground font-body text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none resize-none transition-shadow"
             />
+            {(dienst === "Dakgootreiniging" || dienst === "Reinigen van regenput") && (
+              <div className="pt-4 space-y-3">
+                <h4 className="text-sm font-heading font-bold uppercase tracking-wider text-foreground text-center">
+                  Wat wenst u? <span className="text-primary">*</span>
+                </h4>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-lg mx-auto">
+                  <OptionCard
+                    selected={wiltOfferte === true}
+                    onClick={() => setWiltOfferte(true)}
+                    icon={<FileText className="w-4 h-4" />}
+                    label="Ik wil eerst een offerte ontvangen"
+                  />
+                  <OptionCard
+                    selected={wiltOfferte === false}
+                    onClick={() => setWiltOfferte(false)}
+                    icon={<Check className="w-4 h-4" />}
+                    label="Afspraak maken"
+                  />
+                </div>
+              </div>
+            )}
           </div>
         );
 
