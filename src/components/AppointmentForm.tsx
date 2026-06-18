@@ -303,6 +303,9 @@ const AppointmentForm = () => {
       }
       case 5:
         req(beschrijving.trim().length === 0, t("appointmentForm.step5Title"));
+        if (dienst === "Dakgootreiniging" || dienst === "Reinigen van regenput") {
+          req(wiltOfferte === null, "Offerte of afspraak");
+        }
         break;
       case 6:
         req(!gevondenVia, t("appointmentForm.step6Title"));
