@@ -158,6 +158,26 @@ const AppointmentNotificationEmail = (p: Props) => {
           <Text style={block}>
             {klantLabel}
             {urgentLine && <><br />{urgentLine}</>}
+            {p.wiltOfferte && (
+              <>
+                <br />
+                <strong>Voorkeur klant: </strong>
+                {p.wiltOfferte === 'offerte' ? 'Wil eerst een offerte ontvangen' : 'Wil meteen een afspraak maken'}
+              </>
+            )}
+            {p.regenputGrootte && (
+              <>
+                <br />
+                <strong>Grootte regenput: </strong>{p.regenputGrootte}
+              </>
+            )}
+            {p.dakgootMeters && (
+              <>
+                <br />
+                <strong>Dakgoot meters — </strong>
+                1 verdiep: {p.dakgootMeters.v1 || '0'}m, 2 verdiepen: {p.dakgootMeters.v2 || '0'}m, 3 verdiepen: {p.dakgootMeters.v3 || '0'}m
+              </>
+            )}
           </Text>
 
           {renderBlock('Particulier', particulierLines)}
