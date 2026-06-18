@@ -493,6 +493,19 @@ const AppointmentForm = () => {
             syndicusNaamVme: syndicus.naam_vme || undefined,
             syndicusKboNummer: syndicus.kbo_nummer || undefined,
             beschrijving: beschrijving || undefined,
+            regenputGrootte: dienst === "Reinigen van regenput"
+              ? (regenputGrootte === "Andere maat" && regenputAndereMaat ? regenputAndereMaat : regenputGrootte) || undefined
+              : undefined,
+            dakgootMeters: dienst === "Dakgootreiniging"
+              ? {
+                  v1: dakgootMetersForm.v1 || "0",
+                  v2: dakgootMetersForm.v2 || "0",
+                  v3: dakgootMetersForm.v3 || "0",
+                }
+              : undefined,
+            wiltOfferte: (dienst === "Dakgootreiniging" || dienst === "Reinigen van regenput")
+              ? (wiltOfferte === true ? "offerte" : wiltOfferte === false ? "afspraak" : undefined)
+              : undefined,
             gevondenVia: gevondenVia || undefined,
             gevondenDetail: gevondenDetail || undefined,
           },
