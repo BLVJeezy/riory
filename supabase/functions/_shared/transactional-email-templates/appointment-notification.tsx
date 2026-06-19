@@ -129,10 +129,13 @@ const AppointmentNotificationEmail = (p: Props) => {
     // Werf
     if (p.werfStraat) {
       syndicusLines.push('')
+      syndicusLines.push('Werfadres:')
+      if (p.werfProjectnaam) syndicusLines.push(`Project: ${p.werfProjectnaam}`)
       syndicusLines.push(`${p.werfStraat} ${p.werfHuisnummer || ''}`.trim())
       if (p.werfPostcode) syndicusLines.push(p.werfPostcode)
       if (p.werfPlaats) syndicusLines.push(p.werfPlaats)
-      if (p.werfTelefoon) syndicusLines.push(p.werfTelefoon)
+      if (p.werfContactpersoon) syndicusLines.push(`Contactpersoon werf: ${p.werfContactpersoon}`)
+      if (p.werfTelefoon) syndicusLines.push(`Tel. contactpersoon werf: ${p.werfTelefoon}`)
     }
     syndicusLines.push('')
     if (p.dienst) syndicusLines.push(p.dienst)
