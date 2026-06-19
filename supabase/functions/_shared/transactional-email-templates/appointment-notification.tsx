@@ -93,10 +93,14 @@ const AppointmentNotificationEmail = (p: Props) => {
     // Werf address block with empty line separator
     if (p.werfStraat) {
       bedrijfLines.push('')
+      bedrijfLines.push('Werfadres:')
+      if (p.werfProjectnaam) bedrijfLines.push(`Project: ${p.werfProjectnaam}`)
       bedrijfLines.push(`${p.werfStraat} ${p.werfHuisnummer || ''}`.trim())
       if (p.werfPostcode) bedrijfLines.push(p.werfPostcode)
       if (p.werfPlaats) bedrijfLines.push(p.werfPlaats)
-      if (p.werfTelefoon) bedrijfLines.push(p.werfTelefoon)
+      if (p.werfContactpersoon) bedrijfLines.push(`Contactpersoon werf: ${p.werfContactpersoon}`)
+      if (p.werfTelefoon) bedrijfLines.push(`Tel. contactpersoon werf: ${p.werfTelefoon}`)
+      if (p.telefoon) bedrijfLines.push(`Tel. facturatie: ${p.telefoon}`)
     } else if (p.telefoon) {
       bedrijfLines.push(p.telefoon)
     }
