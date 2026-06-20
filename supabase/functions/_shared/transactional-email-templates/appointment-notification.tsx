@@ -87,6 +87,7 @@ const AppointmentNotificationEmail = (p: Props) => {
     if (p.btwNummer) bedrijfLines.push(p.btwNummer)
     if (p.email) bedrijfLines.push(p.email)
     if (p.facturatieEmail) bedrijfLines.push(p.facturatieEmail)
+    if (p.telefoon) bedrijfLines.push(`Tel. facturatie: ${p.telefoon}`)
     if (p.straat) bedrijfLines.push(`${p.straat} ${p.huisnummer || ''}`.trim())
     if (p.postcode) bedrijfLines.push(p.postcode)
     if (p.plaats) bedrijfLines.push(p.plaats)
@@ -100,9 +101,6 @@ const AppointmentNotificationEmail = (p: Props) => {
       if (p.werfPlaats) bedrijfLines.push(p.werfPlaats)
       if (p.werfContactpersoon) bedrijfLines.push(`Contactpersoon werf: ${p.werfContactpersoon}`)
       if (p.werfTelefoon) bedrijfLines.push(`Tel. contactpersoon werf: ${p.werfTelefoon}`)
-      if (p.telefoon) bedrijfLines.push(`Tel. facturatie: ${p.telefoon}`)
-    } else if (p.telefoon) {
-      bedrijfLines.push(p.telefoon)
     }
     bedrijfLines.push('')
     if (p.dienst) bedrijfLines.push(p.dienst)
