@@ -46,8 +46,58 @@ const Admin = () => {
   const { user, isAdmin, loading, signOut } = useAuth();
   const navigate = useNavigate();
   const [sources, setSources] = useState<SourceRow[]>([]);
-  const [monthFilter, setMonthFilter] = useState<string>("all");
+  const [apptDatePreset, setApptDatePreset] = useState<string>("today");
+  const [apptCustomFrom, setApptCustomFrom] = useState<string>("");
+  const [apptCustomTo, setApptCustomTo] = useState<string>("");
+
+  const getApptDateRange = (preset: string) => {
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const tomorrow = new Date(today); tomorrow.setDate(tomorrow.getDate() + 1);
+    switch (preset) {
+      case "today": return { from: today, to: tomorrow };
+      case "48h": { const f = new Date(now); f.setHours(f.getHours() - 48); return { from: f, to: now }; }
+      case "week": { const f = new Date(today); f.setDate(f.getDate() - 7); return { from: f, to: tomorrow }; }
+      case "month": { const f = new Date(today); f.setMonth(f.getMonth() - 1); return { from: f, to: tomorrow }; }
+      case "3months": { const f = new Date(today); f.setMonth(f.getMonth() - 3); return { from: f, to: tomorrow }; }
+      case "all": return { from: null, to: null };
+      default: return {
+        from: apptCustomFrom ? new Date(apptCustomFrom) : null,
+        to: apptCustomTo ? new Date(new Date(apptCustomTo).setDate(new Date(apptCustomTo).getDate() + 1)) : null,
+      };
+    }
+  };
+
+  const filteredAppointments = useMemo(() => {
+    const { from, to } = getApptDateRange(apptDatePreset);
+    return sources.filter((s) => {
+      const d = new Date(s.created_at);
+      if (from && d < from) return false;
+      if (to && d >= to) return false;
+      return true;
+    });
+  }, [sources, apptDatePreset, apptCustomFrom, apptCustomTo]);
+  const [showCustom, setShowCustom] = useState(false);
   const [sourceFilter, setSourceFilter] = useState<string>("all");
+
+  const getDateRange = (preset: string): { from: Date | null; to: Date | null } => {
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const tomorrow = new Date(today); tomorrow.setDate(tomorrow.getDate() + 1);
+    switch (preset) {
+      case "today": return { from: today, to: tomorrow };
+      case "48h": { const f = new Date(now); f.setHours(f.getHours() - 48); return { from: f, to: now }; }
+      case "week": { const f = new Date(today); f.setDate(f.getDate() - 7); return { from: f, to: tomorrow }; }
+      case "month": { const f = new Date(today); f.setMonth(f.getMonth() - 1); return { from: f, to: tomorrow }; }
+      case "3months": { const f = new Date(today); f.setMonth(f.getMonth() - 3); return { from: f, to: tomorrow }; }
+      case "all": return { from: null, to: null };
+      case "custom": return {
+        from: customFrom ? new Date(customFrom) : null,
+        to: customTo ? new Date(new Date(customTo).setDate(new Date(customTo).getDate() + 1)) : null,
+      };
+      default: return { from: null, to: null };
+    }
+  };
   const [loadingData, setLoadingData] = useState(true);
   const sourcesReportRef = useRef<HTMLDivElement>(null);
 
@@ -484,12 +534,68 @@ const Admin = () => {
                 </div>
 
                 <div className="bg-background rounded-xl p-4 sm:p-6 border border-border shadow-sm">
-                  <h3 className="font-heading font-semibold text-foreground mb-4">Recente afspraken</h3>
-                  {filteredSources.length ? (
+                  {/* Header + Filter */}
+                  <div className="flex flex-col gap-3 mb-4">
+                    <div className="flex items-center justify-between">
+                      <h3 className="font-heading font-semibold text-foreground">Afspraken</h3>
+                      <span className="text-xs text-muted-foreground font-body bg-muted px-2 py-1 rounded-full">
+                        {filteredAppointments.length} resultaten
+                      </span>
+                    </div>
+                    {/* Preset buttons */}
+                    <div className="flex flex-wrap gap-1.5">
+                      {[
+                        { key: "today", label: "Vandaag" },
+                        { key: "48h", label: "48u" },
+                        { key: "week", label: "1 week" },
+                        { key: "month", label: "1 maand" },
+                        { key: "3months", label: "3 maanden" },
+                        { key: "all", label: "Alles" },
+                        { key: "custom", label: "Aangepast" },
+                      ].map(({ key, label }) => (
+                        <button
+                          key={key}
+                          onClick={() => setApptDatePreset(key)}
+                          className={`px-3 py-1.5 rounded-full text-xs font-heading font-semibold transition-all border ${
+                            apptDatePreset === key
+                              ? "bg-primary text-primary-foreground border-primary"
+                              : "bg-muted text-muted-foreground border-border hover:border-primary/50 hover:text-foreground"
+                          }`}
+                        >
+                          {label}
+                        </button>
+                      ))}
+                    </div>
+                    {/* Custom date range */}
+                    {apptDatePreset === "custom" && (
+                      <div className="flex flex-col sm:flex-row gap-2 pt-1">
+                        <div className="flex items-center gap-2 flex-1">
+                          <label className="text-xs text-muted-foreground font-body whitespace-nowrap">Van</label>
+                          <input
+                            type="date"
+                            value={apptCustomFrom}
+                            onChange={(e) => setApptCustomFrom(e.target.value)}
+                            className="flex-1 h-9 rounded-lg border border-border bg-background px-3 text-sm font-body text-foreground focus:ring-2 focus:ring-primary outline-none"
+                          />
+                        </div>
+                        <div className="flex items-center gap-2 flex-1">
+                          <label className="text-xs text-muted-foreground font-body whitespace-nowrap">Tot</label>
+                          <input
+                            type="date"
+                            value={apptCustomTo}
+                            onChange={(e) => setApptCustomTo(e.target.value)}
+                            className="flex-1 h-9 rounded-lg border border-border bg-background px-3 text-sm font-body text-foreground focus:ring-2 focus:ring-primary outline-none"
+                          />
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {filteredAppointments.length ? (
                     <>
                       {/* Mobile: card list */}
                       <div className="space-y-3 sm:hidden">
-                        {filteredSources.slice(0, 50).map((s, i) => {
+                        {filteredAppointments.slice(0, 50).map((s, i) => {
                           const klant = `${s.fact_voornaam || ""} ${s.fact_naam || ""}`.trim() || s.fact_email;
                           return (
                             <div key={i} className="rounded-lg border border-border p-3 space-y-1">
@@ -525,8 +631,8 @@ const Admin = () => {
                             </tr>
                           </thead>
                           <tbody>
-                            {filteredSources.slice(0, 50).map((s, i) => (
-                              <tr key={i} className="border-b border-border last:border-0">
+                            {filteredAppointments.slice(0, 50).map((s, i) => (
+                              <tr key={i} className="border-b border-border last:border-0 hover:bg-muted/30 transition-colors">
                                 <td className="py-2 pr-3 text-foreground whitespace-nowrap">
                                   {new Date(s.created_at).toLocaleDateString("nl-BE")}
                                 </td>
@@ -543,9 +649,8 @@ const Admin = () => {
                       </div>
                     </>
                   ) : (
-                    <p className="text-sm text-muted-foreground font-body">Nog geen afspraken.</p>
+                    <p className="text-sm text-muted-foreground font-body">Geen afspraken in deze periode.</p>
                   )}
-                </div>
                 </div>
               </div>
             );
