@@ -79,6 +79,7 @@ const Admin = () => {
   }, [sources, apptDatePreset, apptCustomFrom, apptCustomTo]);
   const [showCustom, setShowCustom] = useState(false);
   const [sourceFilter, setSourceFilter] = useState<string>("all");
+  const [monthFilter, setMonthFilter] = useState<string>("all");
 
   const getDateRange = (preset: string): { from: Date | null; to: Date | null } => {
     const now = new Date();
@@ -92,8 +93,8 @@ const Admin = () => {
       case "3months": { const f = new Date(today); f.setMonth(f.getMonth() - 3); return { from: f, to: tomorrow }; }
       case "all": return { from: null, to: null };
       case "custom": return {
-        from: customFrom ? new Date(customFrom) : null,
-        to: customTo ? new Date(new Date(customTo).setDate(new Date(customTo).getDate() + 1)) : null,
+        from: apptCustomFrom ? new Date(apptCustomFrom) : null,
+        to: apptCustomTo ? new Date(new Date(apptCustomTo).setDate(new Date(apptCustomTo).getDate() + 1)) : null,
       };
       default: return { from: null, to: null };
     }
@@ -653,6 +654,7 @@ const Admin = () => {
                   )}
                 </div>
               </div>
+            </div>
             );
           })()
         )}
