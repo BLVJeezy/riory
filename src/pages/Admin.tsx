@@ -79,6 +79,7 @@ const Admin = () => {
   }, [sources, apptDatePreset, apptCustomFrom, apptCustomTo]);
   const [showCustom, setShowCustom] = useState(false);
   const [sourceFilter, setSourceFilter] = useState<string>("all");
+  const [monthFilter, setMonthFilter] = useState<string>("all");
 
   const getDateRange = (preset: string): { from: Date | null; to: Date | null } => {
     const now = new Date();
