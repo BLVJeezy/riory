@@ -460,76 +460,88 @@ const Admin = () => {
                 <div ref={sourcesReportRef} className="space-y-6 bg-background">
                 <div className="bg-background rounded-xl p-4 sm:p-6 border border-border shadow-sm">
                   <h3 className="font-heading font-semibold text-foreground mb-4">Verdeling per kanaal</h3>
-                  {ranked.length ? (
-                    <div className="grid md:grid-cols-2 gap-4 sm:gap-6 items-center">
-                      <div className="h-56 sm:h-64 w-full" data-pdf-chart>
-                        <ResponsiveContainer width="100%" height="100%">
-                          <PieChart>
-                            <Pie
-                              data={ranked}
-                              dataKey="count"
-                              nameKey="label"
-                              cx="50%"
-                              cy="50%"
-                              innerRadius="40%"
-                              outerRadius="78%"
-                              paddingAngle={2}
-                              label={(e: any) => `${Math.round((e.count / total) * 100)}%`}
-                              labelLine={false}
-                            >
-                              {ranked.map((_, i) => {
-                                const palette = [
-                                  "hsl(217 91% 60%)",   // blue
-                                  "hsl(24 95% 53%)",    // orange
-                                  "hsl(142 71% 45%)",   // green
-                                  "hsl(346 77% 49%)",   // red
-                                  "hsl(280 65% 60%)",   // purple
-                                  "hsl(48 96% 53%)",    // yellow
-                                  "hsl(189 94% 43%)",   // cyan
-                                  "hsl(330 81% 60%)",   // pink
-                                  "hsl(160 84% 39%)",   // teal
-                                  "hsl(15 79% 35%)",    // brown
-                                  "hsl(258 90% 66%)",   // violet
-                                  "hsl(75 64% 45%)",    // lime
-                                ];
-                                return <Cell key={i} fill={palette[i % palette.length]} />;
-                              })}
-                            </Pie>
-                            <Tooltip
-                              contentStyle={{
-                                background: "hsl(var(--background))",
-                                border: "1px solid hsl(var(--border))",
-                                borderRadius: "0.5rem",
-                                fontSize: "0.75rem",
-                              }}
-                              formatter={(v: number, n: string) => [`${v} (${Math.round((v / total) * 100)}%)`, n]}
-                            />
-                          </PieChart>
-                        </ResponsiveContainer>
-                      </div>
-                      <div className="space-y-2 sm:space-y-3">
-                        {ranked.map((r) => {
-                          const pct = total ? Math.round((r.count / total) * 100) : 0;
-                          return (
-                            <div key={r.label} className="flex items-center gap-2 sm:gap-3">
-                              <span className="text-xs sm:text-sm font-body text-foreground w-20 sm:w-40 shrink-0 truncate">
-                                {r.label}
-                              </span>
-                              <div className="flex-1 bg-muted rounded-full h-4 sm:h-5 overflow-hidden min-w-0">
-                                <div
-                                  className="bg-primary h-full rounded-full transition-all"
-                                  style={{ width: `${Math.max(5, (r.count / max) * 100)}%` }}
+                  {ranked.length ? (() => {
+                    const palette = [
+                      "hsl(217 91% 60%)",
+                      "hsl(24 95% 53%)",
+                      "hsl(142 71% 45%)",
+                      "hsl(346 77% 49%)",
+                      "hsl(280 65% 60%)",
+                      "hsl(48 96% 53%)",
+                      "hsl(189 94% 43%)",
+                      "hsl(330 81% 60%)",
+                      "hsl(160 84% 39%)",
+                      "hsl(15 79% 35%)",
+                      "hsl(258 90% 66%)",
+                      "hsl(75 64% 45%)",
+                    ];
+                    return (
+                      <div className="flex flex-col gap-4">
+                        {/* Pie chart — compact on mobile */}
+                        <div className="h-44 sm:h-56 w-full max-w-xs mx-auto sm:max-w-none" data-pdf-chart>
+                          <ResponsiveContainer width="100%" height="100%">
+                            <PieChart>
+                              <Pie
+                                data={ranked}
+                                dataKey="count"
+                                nameKey="label"
+                                cx="50%"
+                                cy="50%"
+                                innerRadius="35%"
+                                outerRadius="72%"
+                                paddingAngle={2}
+                                label={(e: any) => `${Math.round((e.count / total) * 100)}%`}
+                                labelLine={false}
+                              >
+                                {ranked.map((_, i) => (
+                                  <Cell key={i} fill={palette[i % palette.length]} />
+                                ))}
+                              </Pie>
+                              <Tooltip
+                                contentStyle={{
+                                  background: "hsl(var(--background))",
+                                  border: "1px solid hsl(var(--border))",
+                                  borderRadius: "0.5rem",
+                                  fontSize: "0.75rem",
+                                }}
+                                formatter={(v: number, n: string) => [`${v} (${Math.round((v / total) * 100)}%)`, n]}
+                              />
+                            </PieChart>
+                          </ResponsiveContainer>
+                        </div>
+                        {/* Bar legend — colors match pie */}
+                        <div className="space-y-2">
+                          {ranked.map((r, i) => {
+                            const pct = total ? Math.round((r.count / total) * 100) : 0;
+                            const color = palette[i % palette.length];
+                            return (
+                              <div key={r.label} className="flex items-center gap-2">
+                                <span
+                                  className="w-2.5 h-2.5 rounded-full shrink-0"
+                                  style={{ background: color }}
                                 />
+                                <span className="text-xs font-body text-foreground w-28 sm:w-40 shrink-0 truncate">
+                                  {r.label}
+                                </span>
+                                <div className="flex-1 bg-muted rounded-full h-4 overflow-hidden min-w-0">
+                                  <div
+                                    className="h-full rounded-full transition-all"
+                                    style={{
+                                      width: `${Math.max(5, (r.count / max) * 100)}%`,
+                                      background: color,
+                                    }}
+                                  />
+                                </div>
+                                <span className="text-xs font-heading font-semibold text-foreground w-16 text-right shrink-0">
+                                  {r.count} ({pct}%)
+                                </span>
                               </div>
-                              <span className="text-xs sm:text-sm font-heading font-semibold text-foreground w-14 sm:w-20 text-right shrink-0">
-                                {r.count} ({pct}%)
-                              </span>
-                            </div>
-                          );
-                        })}
+                            );
+                          })}
+                        </div>
                       </div>
-                    </div>
-                  ) : (
+                    );
+                  })() : (
                     <p className="text-sm text-muted-foreground font-body">Nog geen data beschikbaar.</p>
                   )}
                 </div>
