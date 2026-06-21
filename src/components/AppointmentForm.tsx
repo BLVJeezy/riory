@@ -136,6 +136,7 @@ const AppointmentForm = () => {
   const tDetail = t("appointmentForm.detailLabels", { returnObjects: true }) as Record<string, string>;
   const [searchParams] = useSearchParams();
   const formRef = useRef<HTMLDivElement>(null);
+  const formCardRef = useRef<HTMLDivElement>(null);
   const [step, setStep] = useState(0);
   const [submitting, setSubmitting] = useState(false);
   const [submitResult, setSubmitResult] = useState<"success" | "error" | null>(null);
@@ -321,7 +322,13 @@ const AppointmentForm = () => {
 
   const scrollToForm = useCallback(() => {
     requestAnimationFrame(() => {
-      formRef.current?.scrollIntoView({ block: "start", behavior: "instant" });
+      const target = formCardRef.current ?? formRef.current;
+      if (!target) return;
+      const rect = target.getBoundingClientRect();
+      const viewH = window.innerHeight;
+      const targetCenter = rect.top + window.scrollY + rect.height / 2;
+      const scrollTo = targetCenter - viewH / 2;
+      window.scrollTo({ top: Math.max(0, scrollTo), behavior: "smooth" });
     });
   }, []);
 
@@ -1014,6 +1021,7 @@ const AppointmentForm = () => {
           </a>
         </InViewBlock>
 
+        <div ref={formCardRef}>
         <InViewBlock delay={150} className="bg-background rounded-2xl p-4 sm:p-8 md:p-10 border-4 border-primary max-w-3xl mx-auto shadow-[0_0_60px_hsl(var(--primary)/0.45),0_25px_80px_-10px_hsl(var(--primary)/0.4)] ring-4 ring-primary/20">
           {/* Stepper - compact on mobile */}
           <div className="mb-6 sm:mb-8">
@@ -1108,6 +1116,7 @@ const AppointmentForm = () => {
             )}
           </div>
         </InViewBlock>
+        </div>
       </div>
       <SubmitResultOverlay
         status={submitResult}
