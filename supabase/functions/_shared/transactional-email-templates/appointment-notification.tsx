@@ -71,6 +71,17 @@ const AppointmentNotificationEmail = (p: Props) => {
     if (p.plaats) particulierLines.push(p.plaats)
     if (p.email) particulierLines.push(p.email)
     if (p.telefoon) particulierLines.push(p.telefoon)
+    // Werfadres block (indien anders dan facturatieadres)
+    if (p.werfStraat) {
+      particulierLines.push('')
+      particulierLines.push('Werfadres:')
+      particulierLines.push(`${p.werfStraat} ${p.werfHuisnummer || ''}`.trim())
+      if (p.werfPostcode) particulierLines.push(p.werfPostcode)
+      if (p.werfPlaats) particulierLines.push(p.werfPlaats)
+      if (p.werfContactpersoon) particulierLines.push(`Contactpersoon werf: ${p.werfContactpersoon}`)
+      if (p.werfTelefoon) particulierLines.push(`Tel. contactpersoon werf: ${p.werfTelefoon}`)
+    }
+    particulierLines.push('')
     if (p.dienst) particulierLines.push(p.dienst)
     if (p.beschrijving) particulierLines.push(p.beschrijving)
     particulierLines.push('Ik ga akkoord met de algemene voorwaarden Riory BV')
