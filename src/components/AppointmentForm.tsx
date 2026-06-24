@@ -869,8 +869,8 @@ const AppointmentForm = () => {
               </div>
             )}
 
-            {/* Werfadres indien anders (niet voor syndicus) */}
-            {klantType !== "syndicus" && werfIsFacturatie === false && (
+            {/* Werfadres indien anders (particulier/bedrijf met toggle, of altijd voor syndicus) */}
+            {((klantType !== "syndicus" && werfIsFacturatie === false) || klantType === "syndicus") && (
               <div>
                 <h4 className="text-sm font-heading font-bold uppercase tracking-wider text-foreground mb-3 flex items-center gap-2">
                   <MapPin className="w-4 h-4 text-primary" /> {t("appointmentForm.siteAddress")}
