@@ -437,6 +437,7 @@ const AppointmentForm = () => {
         werfPostcode: werfForEmail.postcode,
         werfPlaats: werfForEmail.plaats,
         werfTelefoon: werfForEmail.telefoon,
+        werfContactpersoon: werfForEmail.contactpersoon,
 
         syndicusKantoor: klantType === "syndicus" ? (syndicus.kantoor || undefined) : undefined,
         syndicusEmail: klantType === "syndicus" ? (syndicus.email || undefined) : undefined,
