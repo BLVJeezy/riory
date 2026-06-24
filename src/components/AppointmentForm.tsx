@@ -388,6 +388,33 @@ const AppointmentForm = () => {
       // For syndicus, use syndicus email as fact_email (required field)
       const effectiveFactEmail = klantType === "syndicus" ? syndicus.email : fact.email;
 
+      // Werfadres voor mails/CRM: als klant koos "werf = facturatieadres",
+      // val terug op de facturatie-velden zodat het Werfadres-blok altijd
+      // expliciet in de notificatiemail verschijnt (geen verwarring meer).
+      const werfFallbackContact = klantType === "bedrijf" || klantType === "vrij_beroep"
+        ? (fact.bedrijfsnaam || `${fact.voornaam || ""} ${fact.naam || ""}`.trim() || undefined)
+        : (`${fact.voornaam || ""} ${fact.naam || ""}`.trim() || undefined);
+      const werfForEmail = (klantType !== "syndicus" && werfIsFacturatie === true)
+        ? {
+            straat: fact.straat || undefined,
+            huisnummer: fact.huisnummer || undefined,
+            postcode: fact.postcode || undefined,
+            plaats: fact.plaats || undefined,
+            telefoon: cleanPhone(fact.telefoon),
+            contactpersoon: werfFallbackContact,
+            projectnaam: undefined as string | undefined,
+          }
+        : {
+            straat: werf.straat || undefined,
+            huisnummer: werf.huisnummer || undefined,
+            postcode: werf.postcode || undefined,
+            plaats: werf.plaats || undefined,
+            telefoon: cleanPhone(werf.telefoon),
+            contactpersoon: werf.contactpersoon || undefined,
+            projectnaam: werf.projectnaam || undefined,
+          };
+
+
       // Stuur attribution-lead ALS EERSTE, vóór Supabase. Als Supabase later
       // faalt, hebben we de lead alsnog in onze pijplijn (geen verloren leads).
       sendLead({
@@ -405,11 +432,12 @@ const AppointmentForm = () => {
         huisnummer: fact.huisnummer || undefined,
         postcode: fact.postcode || undefined,
         plaats: fact.plaats || undefined,
-        werfStraat: werf.straat || undefined,
-        werfHuisnummer: werf.huisnummer || undefined,
-        werfPostcode: werf.postcode || undefined,
-        werfPlaats: werf.plaats || undefined,
-        werfTelefoon: cleanPhone(werf.telefoon),
+        werfStraat: werfForEmail.straat,
+        werfHuisnummer: werfForEmail.huisnummer,
+        werfPostcode: werfForEmail.postcode,
+        werfPlaats: werfForEmail.plaats,
+        werfTelefoon: werfForEmail.telefoon,
+
         syndicusKantoor: klantType === "syndicus" ? (syndicus.kantoor || undefined) : undefined,
         syndicusEmail: klantType === "syndicus" ? (syndicus.email || undefined) : undefined,
         syndicusTelefoon: klantType === "syndicus" ? cleanPhone(syndicus.telefoon) : undefined,
@@ -487,13 +515,14 @@ const AppointmentForm = () => {
             huisnummer: fact.huisnummer || undefined,
             postcode: fact.postcode || undefined,
             plaats: fact.plaats || undefined,
-            werfStraat: werf.straat || undefined,
-            werfHuisnummer: werf.huisnummer || undefined,
-            werfPostcode: werf.postcode || undefined,
-            werfPlaats: werf.plaats || undefined,
-            werfTelefoon: cleanPhone(werf.telefoon),
-            werfContactpersoon: werf.contactpersoon || undefined,
-            werfProjectnaam: werf.projectnaam || undefined,
+            werfStraat: werfForEmail.straat,
+            werfHuisnummer: werfForEmail.huisnummer,
+            werfPostcode: werfForEmail.postcode,
+            werfPlaats: werfForEmail.plaats,
+            werfTelefoon: werfForEmail.telefoon,
+            werfContactpersoon: werfForEmail.contactpersoon,
+            werfProjectnaam: werfForEmail.projectnaam,
+
             syndicusNaam: syndicus.naam || undefined,
             syndicusVoornaam: syndicus.voornaam || undefined,
             syndicusKantoor: syndicus.kantoor || undefined,
@@ -564,13 +593,14 @@ const AppointmentForm = () => {
             huisnummer: fact.huisnummer || undefined,
             postcode: fact.postcode || undefined,
             plaats: fact.plaats || undefined,
-            werfStraat: werf.straat || undefined,
-            werfHuisnummer: werf.huisnummer || undefined,
-            werfPostcode: werf.postcode || undefined,
-            werfPlaats: werf.plaats || undefined,
-            werfTelefoon: cleanPhone(werf.telefoon),
-            werfContactpersoon: werf.contactpersoon || undefined,
-            werfProjectnaam: werf.projectnaam || undefined,
+            werfStraat: werfForEmail.straat,
+            werfHuisnummer: werfForEmail.huisnummer,
+            werfPostcode: werfForEmail.postcode,
+            werfPlaats: werfForEmail.plaats,
+            werfTelefoon: werfForEmail.telefoon,
+            werfContactpersoon: werfForEmail.contactpersoon,
+            werfProjectnaam: werfForEmail.projectnaam,
+
             syndicusNaam: syndicus.naam || undefined,
             syndicusVoornaam: syndicus.voornaam || undefined,
             syndicusKantoor: syndicus.kantoor || undefined,
