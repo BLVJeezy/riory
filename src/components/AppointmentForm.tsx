@@ -388,6 +388,33 @@ const AppointmentForm = () => {
       // For syndicus, use syndicus email as fact_email (required field)
       const effectiveFactEmail = klantType === "syndicus" ? syndicus.email : fact.email;
 
+      // Werfadres voor mails/CRM: als klant koos "werf = facturatieadres",
+      // val terug op de facturatie-velden zodat het Werfadres-blok altijd
+      // expliciet in de notificatiemail verschijnt (geen verwarring meer).
+      const werfFallbackContact = klantType === "bedrijf" || klantType === "vrij_beroep"
+        ? (fact.bedrijfsnaam || `${fact.voornaam || ""} ${fact.naam || ""}`.trim() || undefined)
+        : (`${fact.voornaam || ""} ${fact.naam || ""}`.trim() || undefined);
+      const werfForEmail = (klantType !== "syndicus" && werfIsFacturatie === true)
+        ? {
+            straat: fact.straat || undefined,
+            huisnummer: fact.huisnummer || undefined,
+            postcode: fact.postcode || undefined,
+            plaats: fact.plaats || undefined,
+            telefoon: cleanPhone(fact.telefoon),
+            contactpersoon: werfFallbackContact,
+            projectnaam: undefined as string | undefined,
+          }
+        : {
+            straat: werf.straat || undefined,
+            huisnummer: werf.huisnummer || undefined,
+            postcode: werf.postcode || undefined,
+            plaats: werf.plaats || undefined,
+            telefoon: cleanPhone(werf.telefoon),
+            contactpersoon: werf.contactpersoon || undefined,
+            projectnaam: werf.projectnaam || undefined,
+          };
+
+
       // Stuur attribution-lead ALS EERSTE, vóór Supabase. Als Supabase later
       // faalt, hebben we de lead alsnog in onze pijplijn (geen verloren leads).
       sendLead({
