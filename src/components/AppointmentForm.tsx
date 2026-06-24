@@ -271,6 +271,13 @@ const AppointmentForm = () => {
           req(!isValidBePhone(syndicus.telefoon), `Syndicus ${tFields.phone}`);
           req(!syndicus.email, `Syndicus ${tFields.generalEmail}`);
           req(!syndicus.facturatie_email, tFields.billingEmailLong);
+          // Werfadres is voor syndicus altijd verplicht (verschilt van syndicus-kantoor)
+          req(!werf.contactpersoon, `Werf ${tFields.contactPerson}`);
+          req(!werf.straat, `Werf ${tFields.street}`);
+          req(!werf.huisnummer, `Werf ${tFields.houseNumber}`);
+          req(!werf.postcode, `Werf ${tFields.postcode}`);
+          req(!werf.plaats, `Werf ${tFields.city}`);
+          req(!isValidBePhone(werf.telefoon), `Werf ${tFields.phone}`);
         } else if (klantType) {
           if (klantType === "particulier") req(woningOuder === null, t("appointmentForm.olderThan10"));
           req(werfIsFacturatie === null, t("appointmentForm.siteEqualsBilling"));
