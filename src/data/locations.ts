@@ -23,10 +23,10 @@ export const allLocations: LocationData[] = [
     slug: "hasselt",
     city: "Hasselt",
     postalCode: "3500",
-    h1: "Ontstoppingsdienst Hasselt — 24/7 Riool Verstopt? Bel Riory",
-    metaTitle: "Ontstoppingsdienst Hasselt | Septische Put Ledigen | Riory 24/7",
-    metaDescription: "Ontstoppingsdienst Hasselt nodig? Riory lost elk rioolprobleem op — ook septische put ledigen in Hasselt. ✓ 24/7 ✓ Kermt & Kuringen ✓ Vaste prijs. Bel nu!",
-    intro: "Riool verstopt in Hasselt? Dat hoeft u niet lang te verdragen. Riory is uw lokale ontstoppingsdienst in Hasselt — 24/7 bereikbaar, doorgaans binnen 1 à 2 uur ter plaatse. Wij werken dagelijks in heel Hasselt en alle deelgemeenten: Kermt, Kuringen, Stevoort, Wimmertingen en Sint-Lambrechts-Herk. Of het nu gaat om een verstopte WC in een appartement in het centrum, een trage gootsteen in een rijhuis in Kermt, rioollucht in een kelder in Kuringen, of het ledigen van een septische put in het buitengebied rond Stevoort — wij kennen elk type woning en elk type rioolprobleem in Hasselt. Met professionele hogedrukapparatuur, camera-inspectie en zuigwagens lossen wij élk probleem op. Vaste prijzen, geen voorrijkosten in Hasselt, altijd netjes achtergelaten.",
+    h1: "Loodgieter & Ontstoppingsdienst Hasselt — 24/7 Riool Verstopt?",
+    metaTitle: "Loodgieter Hasselt | Ontstoppingsdienst 24/7 | Septische Put | Riory",
+    metaDescription: "Loodgieter nodig in Hasselt? Riory lost elk rioolprobleem op — ontstoppingsdienst, septische put ledigen & camera-inspectie. ✓ 24/7 ✓ Kermt & Kuringen ✓ Vaste prijs. Bel nu!",
+    intro: "Loodgieter nodig in Hasselt? Of uw riool is verstopt, uw septische put loopt over, of u rioollucht heeft in huis — Riory is uw lokale loodgieter en ontstoppingsdienst in Hasselt, 24/7 bereikbaar, doorgaans binnen 1 à 2 uur ter plaatse. Wij werken dagelijks in heel Hasselt en alle deelgemeenten: Kermt, Kuringen, Stevoort, Wimmertingen en Sint-Lambrechts-Herk. Of het nu gaat om een verstopte WC in een appartement in het centrum, een trage gootsteen in een rijhuis in Kermt, rioollucht in een kelder in Kuringen, of het ledigen van een septische put in het buitengebied rond Stevoort — wij kennen elk type woning en elk type rioolprobleem in Hasselt. Met professionele hogedrukapparatuur, camera-inspectie en zuigwagens lossen wij élk probleem op. Vaste prijzen, geen voorrijkosten in Hasselt, altijd netjes achtergelaten.",
     services: [
       {
         title: "Ontstoppingsdienst Hasselt — WC, riool & afvoer",
@@ -51,6 +51,10 @@ export const allLocations: LocationData[] = [
     ],
     faq: [
       {
+        question: "Is Riory ook een loodgieter in Hasselt?",
+        answer: "Ja. Riory is zowel loodgieter als ontstoppingsdienst in Hasselt. Naast rioolentstoppingen en septische put ledigen voeren wij ook loodgieterwerk uit: afvoerleidingen herstellen, camera-inspecties en preventief onderhoud. Bel +32 472 50 28 14 voor een snelle afspraak in Hasselt.",
+      },
+      {
         question: "Hoe snel kan de ontstoppingsdienst ter plaatse zijn in Hasselt?",
         answer: "Bij spoedgevallen zoals een verstopte WC of wateroverlast streven wij ernaar om binnen 1 à 2 uur in Hasselt ter plaatse te zijn. Wij zijn 24/7 bereikbaar, ook in het weekend en op feestdagen. Geen voorrijkosten binnen Hasselt.",
       },
@@ -74,7 +78,7 @@ export const allLocations: LocationData[] = [
     city: "Genk",
     postalCode: "3600",
     h1: "Ontstoppingsdienst Genk — 24/7 Riool Verstopt? Wij Zijn er",
-    metaTitle: "Ontstoppingsdienst Genk | Riool Verstopt | 24/7 Riory",
+    metaTitle: "Riool Verstopt Genk? Ontstoppingsdienst 24/7 | Riory",
     metaDescription: "Ontstoppingsdienst Genk nodig? Riory lost het op in Winterslag, Waterschei, Zwartberg, Bokrijk & Sledderlo. ✓ 24/7 ✓ Camera-inspectie ✓ Vaste prijs. Bel nu!",
     intro: "Riool verstopt in Genk? Dat is precies waarvoor u Riory belt. Wij werken dagelijks in Genk en kennen de stad door en door — van de oude mijnwijken van Winterslag en Waterschei met hun verouderde betonriolen uit de jaren '60, tot de nieuwere verkavelingen in Bokrijk en Gelieren waar wortelingroei en verkeerde aansluitingen vaker voorkomen dan je denkt. In Zwartberg zien we veel vetprops in keukenafvoeren van oudere appartementen. In Sledderlo en Nieuw-Sledderlo zijn het vaak trage afvoeren die jarenlang verwaarloosd zijn. Wij ontstoppen WC's, keukens, douches, gootstenen en hoofdrioleringen in heel Genk — met professionele hogedrukapparatuur en vaste prijzen. Geen verrassing op de factuur, geen extra kosten voor avond- of weekendwerk als het niet dringend is. Onze techniekers zijn 24/7 bereikbaar en staan doorgaans binnen 1 à 2 uur bij u thuis in Genk, Winterslag, Waterschei, Zwartberg, Bokrijk, Gelieren, Sledderlo of Kolderbos.",
     services: [

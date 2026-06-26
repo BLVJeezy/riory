@@ -47,7 +47,7 @@ export const allServices: Service[] = [
       "Laat verborgen problemen exact lokaliseren met professioneel camera onderzoek van riool en afvoer in Bilzen, Hoeselt, Hasselt, Genk, Tongeren en heel Limburg. Ideaal bij een verstopte afvoer, terugkerende rioollucht of aankoop van een woning.",
     image: serviceCamera,
     longDescription:
-      "Met onze professionele camera-inspectie van riool en afvoer krijgt u een duidelijk beeld van de toestand van uw rioleringssysteem in Bilzen, Hoeselt, Hasselt, Genk, Tongeren en heel Limburg. We brengen breuken, wortelingroei, verzakkingen en verstoppingen nauwkeurig in kaart. WC die steeds verstopt raakt? Douche die niet afloopt? Gootsteen die traag wegloopt? Een camera-inspectie legt de exacte oorzaak bloot, zonder breekwerk. In oudere wijken van Tongeren en Bilzen stuiten we regelmatig op verzakte leidingen of verouderde betonbuizen uit de jaren '60. In nieuwbouwwijken in Hasselt-Kuringen of Genk-Waterschei gaat het vaker om wortelingroei of verkeerd aangesloten aftakkingen. Na de inspectie ontvangt u een gedetailleerd rapport met beelden en advies voor eventuele herstellingen.",
+      "WC die steeds opnieuw verstopt? Rioollucht die u maar niet kwijtraakt? Dan is een camera-inspectie van uw riool de snelste manier om de oorzaak te vinden — zonder breekwerk, zonder gokken. Riory voert camera-inspecties uit in heel Limburg: Bilzen, Hoeselt, Hasselt, Genk, Tongeren, Sint-Truiden en omgeving. We sturen een flexibele camera door uw afvoer of riolering en brengen breuken, wortelingroei, verzakkingen en vetprops nauwkeurig in kaart. In oudere wijken van Tongeren en Bilzen stuiten we regelmatig op verzakte betonbuizen uit de jaren '60. In Hasselt-Kuringen en Genk-Waterschei gaat het vaker om wortelingroei die zich in nieuwbouwleidingen vastzet. In Hoeselt en het buitengebied van Riemst zien we afvoerleidingen die al decennia geen onderhoud kregen. Na de inspectie ontvangt u een gedetailleerd rapport met beelden, exacte locatie van het probleem en een helder advies — of een herstelling nodig is en hoe dringend. Ideaal bij terugkerende verstoppingen, bij de aankoop van een woning, of als preventieve check voor u verkoopt.",
     features: [
       "Riool inspecteren met professionele camera",
       "Oorzaak van verstopte WC, douche of gootsteen opsporen",
@@ -57,9 +57,9 @@ export const allServices: Service[] = [
       "Duidelijk rapport met beelden en advies",
       "Geschikt voor preventieve controles bij aankoop woning",
     ],
-    metaTitle: "Camera Inspectie Riool Limburg | Zonder Breekwerk | Riory",
+    metaTitle: "Camera Inspectie Riool Limburg | Oorzaak Bloot Zonder Breekwerk | Riory",
     metaDescription:
-      "Camera-inspectie van uw riool — oorzaak bloot zonder breekwerk. ✓ Rapport met beelden ✓ 24/7 in Bilzen, Hasselt, Genk & Tongeren. Plan nu in!",
+      "Riool verstopt of rioollucht in huis in Limburg? Camera-inspectie legt de oorzaak bloot zonder breekwerk. ✓ Rapport met beelden ✓ 24/7 in Hasselt, Genk, Bilzen & Tongeren. Bel nu!",
     h2Title: "Riool inspecteren en afvoerproblemen opsporen",
     serviceType: "Camera-inspectie riolering",
     faq: [
@@ -88,7 +88,7 @@ export const allServices: Service[] = [
       "Afvoer verstopt in Limburg? Gootsteen verstopt of niet aan het ontstoppen? Riory is dé ontstoppingsdienst in Limburg — 24/7 in Bilzen, Hoeselt, Hasselt, Genk, Tongeren en heel de provincie.",
     image: serviceOntstoppingen,
     longDescription:
-      "Riory is dé ontstoppingsdienst in Limburg voor elke verstopping: gootsteen verstopt, afvoer verstopt, WC of douche die niet meer wegloopt, en hardnekkige rioolverstoppingen. Of u nu uw gootsteen wil ontstoppen in Hasselt, een verstopte afvoer wil laten verhelpen in Genk of een rioolontstopping nodig hebt in Bilzen, Hoeselt of Tongeren. Wij zijn 24/7 ter plaatse in heel Limburg. In de herfst verstoppen gevallen bladeren de straatkolken in oudere wijken van Hasselt-Kermt en Bilzen — en dat trekt het water terug naar de kelders. In Genk-Winterslag en Waterschei zien wij vaak vetophoping in keukenleidingen van oudere appartementen. Met professionele hogedrukapparatuur ontstoppen wij gootstenen, badkamers, WC's en hoofdrioleringen snel en duurzaam. Ook bij stankoverlast sporen wij geurhinder en rioolvliegjes op aan de bron. Vaste prijzen, ervaren team en gegarandeerd resultaat: dat is Riory, uw ontstoppingsdienst in Limburg.",
+      "Riory is dé ontstoppingsdienst én loodgieter in Limburg voor elk rioolprobleem: gootsteen verstopt, afvoer verstopt, WC of douche die niet meer wegloopt, en hardnekkige rioolverstoppingen. Riool verstopt in Limburg? Bel Riory — wij zijn 24/7 bereikbaar en staan doorgaans binnen 2 uur bij u thuis. Als loodgieter en ontstoppingsdienst in Hasselt, Genk, Bilzen, Hoeselt en Tongeren kennen wij elk type rioolprobleem in elke wijk. In de herfst verstoppen gevallen bladeren de straatkolken in oudere wijken van Hasselt-Kermt en Bilzen — en dat trekt het water terug naar de kelders. In Genk-Winterslag en Waterschei zien wij vaak vetophoping in keukenleidingen van oudere appartementen. In Tongeren en het landelijke Hoeselt gaat het vaker om boomwortels die zich in verouderde betonbuizen vastzetten. Met professionele hogedrukapparatuur ontstoppen wij gootstenen, badkamers, WC's en hoofdrioleringen snel en duurzaam. Ook bij stankoverlast sporen wij geurhinder en rioolvliegjes op aan de bron. Vaste prijzen, ervaren team en gegarandeerd resultaat: dat is Riory, uw loodgieter en ontstoppingsdienst in Limburg.",
     features: [
       "Ontstoppingsdienst Limburg — 24/7 bereikbaar in heel de provincie",
       "Gootsteen verstopt in Limburg? Snel en netjes vrijgemaakt",
