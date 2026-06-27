@@ -736,4 +736,50 @@ export const allLocations: LocationData[] = [
     ],
     nearbyAreas: ["Milmort", "Rocourt", "Luik", "Ans", "Juprelle"],
   },
+  {
+    slug: "chenee",
+    city: "Chênée",
+    postalCode: "4032",
+    h1: "Débouchage Chênée — Égout Bouché ? Riory 24/7",
+    metaTitle: "Débouchage Chênée 24/7 | Égouts, WC & Fosse Septique | Riory",
+    metaDescription: "Égout ou WC bouché à Chênée ? Riory intervient 24h/24 à Chênée, Beyne-Heusay et Fléron. ✓ Débouchage rapide ✓ Caméra ✓ Prix transparents. Appelez maintenant !",
+    intro: "Égout bouché à Chênée ? Vous n'avez pas à attendre. Riory est votre service de débouchage à Chênée et dans toute la vallée de la Vesdre — 24h/24, 7j/7, généralement sur place en 1 à 2 heures. Nous intervenons dans tous les quartiers de Chênée : Beyne-Heusay, Fléron, Romsée et les rues en cul-de-sac le long de l'Ourthe. Les habitations anciennes de Chênée ont souvent des canalisations en grès datant des années 50 — sensibles aux racines d'arbres et aux effondrements. Dans les lotissements plus récents de Beyne-Heusay, ce sont plutôt les raccordements mal posés qui causent des bouchons récurrents. Quelle que soit la cause, nous localisons le problème avec précision et le résolvons sans travaux destructifs.",
+    services: [
+      {
+        title: "Débouchage à Chênée",
+        description: "WC, douche ou évier bouché à Chênée ? Nos techniciens arrivent rapidement avec du matériel haute pression pour déboucher toute canalisation — WC, cuisine, salle de bain ou égout principal.",
+        slug: "ontstoppingen-en-geurdetectie",
+      },
+      {
+        title: "Inspection caméra à Chênée",
+        description: "Inspection caméra professionnelle de vos égouts à Chênée. Idéale en cas de bouchons récurrents, d'odeurs d'égout ou lors de l'achat d'une maison ancienne. Rapport avec images et conseils.",
+        slug: "camera-inspectie",
+      },
+      {
+        title: "Vidange fosse septique à Chênée",
+        description: "Fosse septique ou bac à graisses à vider à Chênée ? Riory intervient avec un camion-citerne spécialisé. Vidange complète, propre et conforme aux normes environnementales.",
+        slug: "septische-put-ledigen",
+      },
+      {
+        title: "Pompage de cave à Chênée",
+        description: "Cave inondée après de fortes pluies à Chênée ? Riory pompe rapidement et vous aide à identifier la cause pour éviter que ça ne se reproduise.",
+        slug: "leegpompen-en-reinigen",
+      },
+    ],
+    faq: [
+      {
+        question: "Riory intervient-il en urgence à Chênée ?",
+        answer: "Oui, nous sommes disponibles 24h/24 et 7j/7 à Chênée, y compris la nuit, le week-end et les jours fériés. Intervention typique en 1 à 2 heures.",
+      },
+      {
+        question: "Riory couvre-t-il aussi Beyne-Heusay et Fléron ?",
+        answer: "Oui. Nous intervenons dans toute la zone de Chênée et ses communes voisines : Beyne-Heusay, Fléron, Romsée et les quartiers de la vallée de l'Ourthe.",
+      },
+      {
+        question: "Quels services Riory propose-t-il à Chênée ?",
+        answer: "Débouchage WC et canalisations, inspection caméra, vidange de fosse septique, pompage de cave — tout pour vos problèmes d'égouts à Chênée. Prix fixes et transparents.",
+      },
+    ],
+    nearbyAreas: ["Luik", "Ans", "Rocourt", "Milmort", "Vottem"],
+  },
 ];
