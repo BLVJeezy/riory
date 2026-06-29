@@ -3,7 +3,7 @@
 
 export const REVIEW_STATS = {
   ratingValue: "4.9",
-  reviewCount: "101",
+  reviewCount: "109",
   bestRating: "5",
   worstRating: "1",
 } as const;
