@@ -99,13 +99,13 @@ const Navbar = () => {
         scrolled ? "bg-background/95 backdrop-blur-sm shadow-md" : "bg-background"
       }`}
     >
-      <div className="section-container flex items-center justify-between h-16 md:h-20 px-4 md:px-6">
+      <div className="max-w-[1400px] mx-auto w-full flex items-center justify-between h-16 md:h-20 px-4 md:px-6">
         <Link to={localizedPath("/")} className="ml-0 md:ml-2">
           <img src={logo} alt="RIORY - Sterk in Rioleringswerk" className="h-10 md:h-12 lg:h-14 w-auto object-contain shrink-0" />
         </Link>
 
         {/* Desktop */}
-        <div className="hidden lg:flex items-center gap-6 xl:gap-8">
+        <div className="hidden xl:flex items-center gap-6 2xl:gap-8">
           <DropdownMenu>
             <DropdownMenuTrigger className="flex items-center gap-1 text-xs xl:text-sm font-body font-semibold uppercase tracking-wider whitespace-nowrap text-foreground hover:text-primary transition-colors outline-none">
               {t("nav.services")}
@@ -203,7 +203,7 @@ const Navbar = () => {
         </div>
 
         {/* Mobile controls */}
-        <div className="lg:hidden flex items-center gap-2">
+        <div className="xl:hidden flex items-center gap-2">
           <button
             className="relative z-50 w-10 h-10 flex items-center justify-center rounded border border-border text-foreground"
             onClick={() => setIsOpen(!isOpen)}
@@ -217,8 +217,8 @@ const Navbar = () => {
       {/* Mobile dropdown menu */}
       {isOpen && (
         <>
-          <div className="fixed inset-0 z-40 bg-charcoal/50 lg:hidden" onClick={() => setIsOpen(false)} />
-          <div className="absolute right-6 top-16 z-50 w-72 max-h-[80vh] overflow-y-auto bg-charcoal rounded-lg shadow-xl lg:hidden animate-in fade-in slide-in-from-top-2 duration-200">
+          <div className="fixed inset-0 z-40 bg-charcoal/50 xl:hidden" onClick={() => setIsOpen(false)} />
+          <div className="absolute right-6 top-16 z-50 w-72 max-h-[80vh] overflow-y-auto bg-charcoal rounded-lg shadow-xl xl:hidden animate-in fade-in slide-in-from-top-2 duration-200">
             <div className="flex flex-col py-2">
               {navLinks.map((link) =>
                 link.isRoute ? (
