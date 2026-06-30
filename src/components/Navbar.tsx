@@ -101,7 +101,7 @@ const Navbar = () => {
     >
       <div className="section-container flex items-center justify-between h-16 md:h-20 px-4 md:px-6">
         <Link to={localizedPath("/")} className="ml-0 md:ml-2">
-          <img src={logo} alt="RIORY - Sterk in Rioleringswerk" className="h-10 md:h-14 w-auto" />
+          <img src={logo} alt="RIORY - Sterk in Rioleringswerk" className="h-10 md:h-12 lg:h-14 w-auto object-contain shrink-0" />
         </Link>
 
         {/* Desktop */}
