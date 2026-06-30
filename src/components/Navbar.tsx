@@ -203,7 +203,7 @@ const Navbar = () => {
         </div>
 
         {/* Mobile controls */}
-        <div className="lg:hidden flex items-center gap-2">
+        <div className="xl:hidden flex items-center gap-2">
           <button
             className="relative z-50 w-10 h-10 flex items-center justify-center rounded border border-border text-foreground"
             onClick={() => setIsOpen(!isOpen)}
@@ -217,8 +217,8 @@ const Navbar = () => {
       {/* Mobile dropdown menu */}
       {isOpen && (
         <>
-          <div className="fixed inset-0 z-40 bg-charcoal/50 lg:hidden" onClick={() => setIsOpen(false)} />
-          <div className="absolute right-6 top-16 z-50 w-72 max-h-[80vh] overflow-y-auto bg-charcoal rounded-lg shadow-xl lg:hidden animate-in fade-in slide-in-from-top-2 duration-200">
+          <div className="fixed inset-0 z-40 bg-charcoal/50 xl:hidden" onClick={() => setIsOpen(false)} />
+          <div className="absolute right-6 top-16 z-50 w-72 max-h-[80vh] overflow-y-auto bg-charcoal rounded-lg shadow-xl xl:hidden animate-in fade-in slide-in-from-top-2 duration-200">
             <div className="flex flex-col py-2">
               {navLinks.map((link) =>
                 link.isRoute ? (
