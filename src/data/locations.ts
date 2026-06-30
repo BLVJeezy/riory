@@ -79,8 +79,8 @@ export const allLocations: LocationData[] = [
     postalCode: "3600",
     h1: "Ontstoppingsdienst Genk — 24/7 Riool Verstopt? Wij Zijn er",
     metaTitle: "Riool Verstopt Genk? Ontstoppingsdienst 24/7 | Riory",
-    metaDescription: "Ontstoppingsdienst Genk nodig? Riory lost het op in Winterslag, Waterschei, Zwartberg, Bokrijk & Sledderlo. ✓ 24/7 ✓ Camera-inspectie ✓ Vaste prijs. Bel nu!",
-    intro: "Riool verstopt in Genk? Dat is precies waarvoor u Riory belt. Wij werken dagelijks in Genk en kennen de stad door en door — van de oude mijnwijken van Winterslag en Waterschei met hun verouderde betonriolen uit de jaren '60, tot de nieuwere verkavelingen in Bokrijk en Gelieren waar wortelingroei en verkeerde aansluitingen vaker voorkomen dan je denkt. In Zwartberg zien we veel vetprops in keukenafvoeren van oudere appartementen. In Sledderlo en Nieuw-Sledderlo zijn het vaak trage afvoeren die jarenlang verwaarloosd zijn. Wij ontstoppen WC's, keukens, douches, gootstenen en hoofdrioleringen in heel Genk — met professionele hogedrukapparatuur en vaste prijzen. Geen verrassing op de factuur, geen extra kosten voor avond- of weekendwerk als het niet dringend is. Onze techniekers zijn 24/7 bereikbaar en staan doorgaans binnen 1 à 2 uur bij u thuis in Genk, Winterslag, Waterschei, Zwartberg, Bokrijk, Gelieren, Sledderlo of Kolderbos.",
+    metaDescription: "Ontstoppingsdienst Genk nodig? Riory lost het op in Winterslag, Waterschei, Zwartberg, Termien & Sledderlo. ✓ 24/7 ✓ Camera-inspectie ✓ Vaste prijs. Bel nu!",
+    intro: "Riool verstopt in Genk? Dat is precies waarvoor u Riory belt. Wij werken dagelijks in Genk en kennen de stad door en door — een stad die niet uit één centrum is gegroeid, maar uit aparte mijnwijken die pas later aan elkaar vastgroeiden. De oude mijnwijken van Winterslag en Waterschei hebben nog altijd verouderde betonriolen uit de jaren '60, daterend van toen de cités rond de kolenmijnen gebouwd werden. In Termien, aangelegd in de jaren '50 als één van Genks eerste naoorlogse uitbreidingswijken, zien we vaker leidingen die simpelweg het einde van hun levensduur naderen. In Nieuw-Sledderlo — de sociale woonwijk uit de jaren '70 middenin de dennenbossen van het Kempens Plateau — gaat het vaker om verouderde appartementsgebouwen waar meerdere units op dezelfde hoofdafvoer zijn aangesloten. In Zwartberg zien we veel vetprops in keukenafvoeren van oudere appartementen. Wij ontstoppen WC's, keukens, douches, gootstenen en hoofdrioleringen in heel Genk — met professionele hogedrukapparatuur en vaste prijzen. Geen verrassing op de factuur, geen extra kosten voor avond- of weekendwerk als het niet dringend is. Onze techniekers zijn 24/7 bereikbaar en staan doorgaans binnen 1 à 2 uur bij u thuis in Genk, Winterslag, Waterschei, Zwartberg, Bokrijk, Gelieren, Termien, Sledderlo of Kolderbos.",
     services: [
       {
         title: "Riool ontstoppen Genk — WC, gootsteen & afvoer",
@@ -119,6 +119,10 @@ export const allLocations: LocationData[] = [
       {
         question: "Kan ik een camera-inspectie laten uitvoeren bij aankoop van een woning in Genk?",
         answer: "Zeker. Een riool camera-inspectie bij aankoop geeft u zekerheid over de staat van de riolering — zeker in oudere woningen in Winterslag of Waterschei. U ontvangt een rapport met beelden dat u kunt voorleggen aan de verkoper.",
+      },
+      {
+        question: "Werkt Riory ook in Termien en Nieuw-Sledderlo?",
+        answer: "Ja, Riory bedient elke wijk van Genk, ook Termien en Nieuw-Sledderlo. In Termien zien we vaak verouderde leidingen die hun levensduur naderen; in Nieuw-Sledderlo gaat het vaker om hoofdafvoeren die door meerdere wooneenheden gedeeld worden. Onze techniekers kennen het verschil en passen hun aanpak daarop aan.",
       },
     ],
     nearbyAreas: ["Hasselt", "As", "Zutendaal", "Lanaken", "Maasmechelen"],
