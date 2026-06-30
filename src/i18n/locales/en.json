@@ -29,7 +29,7 @@
   "trust": {
     "available": "24/7 available",
     "fastIntervention": "Fast response",
-    "happyCustomers": "100+ happy customers",
+    "happyCustomers": "4.9★ on Google",
     "certified": "Certified & insured"
   },
   "services": {
@@ -39,9 +39,9 @@
   },
   "about": {
     "title": "About Riory",
-    "subtitle": "Quality is our top P(Riory)ty!",
+    "subtitle": "Quality is our top priority!",
     "p1": "Riory is your reliable partner for sewer work in Bilzen, Hasselt, Genk, Tongeren and across Limburg. Your drain holds no secrets for us. We are available 24/7 for sewer camera inspection, unblocking, odour detection, septic tank emptying, pumping and cleaning of cellars, wells and rainwater tanks.",
-    "p2": "With the expertise of our specialists and professional equipment, Riory tackles the dirtiest jobs at a fair price across Limburg and beyond. One phone call solves all your problems. After every job we leave the area clean, because quality is our top P(Riory)ty!",
+    "p2": "With the expertise of our specialists and professional equipment, Riory tackles the dirtiest jobs at a fair price across Limburg and beyond. One phone call solves all your problems. After every job we leave the area clean, because quality is our top priority!",
     "reliable": "Reliable",
     "reliableSub": "Craftsmanship guaranteed",
     "available247": "24/7 available",
@@ -213,7 +213,8 @@
   },
   "dienstDetail": {
     "viewReferences": "View our references",
-    "referenceIntro": "Discover what we've done in the \"{{name}}\" category."
+    "referenceIntro": "Discover what we've done in the \"{{name}}\" category.",
+    "faqTitle": "Frequently asked questions"
   },
   "locatieDetail": {
     "ourServicesIn": "Our services in {{city}}",
@@ -540,7 +541,21 @@
       ],
       "metaTitle": "Sewer Camera Inspection Limburg | No Demolition | Riory",
       "metaDescription": "Camera inspection of your sewer — find the cause without breaking anything open. ✓ Report with footage ✓ 24/7 in Bilzen, Hasselt, Genk & Tongeren. Book now!",
-      "h2Title": "Inspect your sewer and trace drain problems"
+      "h2Title": "Inspect your sewer and trace drain problems",
+      "faq": [
+        {
+          "question": "What does a sewer camera inspection cost?",
+          "answer": "Riory works with fixed, transparent prices for camera inspections in Limburg. You know in advance what you'll pay — there are no hidden costs. Request an appointment for an accurate price indication."
+        },
+        {
+          "question": "Do I receive a report after the inspection?",
+          "answer": "Yes. After every camera inspection you receive a detailed report with footage, the exact location of the problem and clear advice for any repairs."
+        },
+        {
+          "question": "Does the ground need to be dug up for a camera inspection?",
+          "answer": "No. We insert the camera through an existing inspection point or the drain. Excavation is needed in only 1% of cases."
+        }
+      ]
     },
     "ontstoppingen-en-geurdetectie": {
       "title": "Professional unclogging and odor detection in Limburg",
@@ -560,24 +575,21 @@
       ],
       "metaTitle": "Unclogging Limburg 24/7 | Toilet, Shower & Sewer | Riory",
       "metaDescription": "Toilet or sink clogged? Riory solves it 24/7. ✓ On site within 2 hours ✓ Fixed prices ✓ Bilzen, Hasselt, Genk & Tongeren. Call now!",
-      "h2Title": "Unclog your sewer and trace the cause of sewer odor"
-    },
-    "leidingen-en-septische-putten": {
-      "title": "Septic tank emptying and pipe repairs in Limburg",
-      "shortTitle": "Pipes & Septic tanks",
-      "description": "Riory empties and cleans septic tanks in Bilzen, Hoeselt, Hasselt, Genk, Tongeren and across Limburg at fair prices and with 24/7 service.",
-      "longDescription": "From emptying septic tanks to installing or repairing sewer pipes — we offer a full package for your underground infrastructure in Bilzen, Hoeselt, Hasselt, Genk, Tongeren and across Limburg. Septic tank full? Cesspit overflowing? Sewer smell coming from the pit? With specialized vacuum trucks and excavators we work efficiently and with minimal disruption. We thoroughly clean rainwater tanks so your drainage keeps working optimally and flooding is prevented.",
-      "features": [
-        "Empty and clean septic tanks",
-        "Empty and maintain cesspits",
-        "Thoroughly clean rainwater tanks",
-        "Install new sewer pipes",
-        "Repair damaged pipes",
-        "Professional vacuum trucks and excavators"
-      ],
-      "metaTitle": "Septic Tank Emptying Limburg | Fair Price | Riory 24/7",
-      "metaDescription": "Septic tank or cesspit full? Riory empties 24/7 in Bilzen, Hasselt, Genk & Tongeren. ✓ Fixed rates ✓ No surprises ✓ 4.9★ reviews. Call now!",
-      "h2Title": "Empty septic tanks and repair sewer pipes"
+      "h2Title": "Unclog your sewer and trace the cause of sewer odor",
+      "faq": [
+        {
+          "question": "What does an unblocking service cost in Limburg?",
+          "answer": "Riory works with fixed, transparent prices for unblocking in Limburg. You know in advance what you'll pay, with no surprises afterwards. Request an appointment for an accurate price indication."
+        },
+        {
+          "question": "My sink is blocked — how quickly will you be there?",
+          "answer": "For a blocked sink or drain, Riory is usually on site within 2 hours in Bilzen, Hasselt, Genk, Tongeren, Hoeselt and surrounding areas. We are available 24/7 for emergencies."
+        },
+        {
+          "question": "How is a drain unblocked?",
+          "answer": "A blocked drain is unblocked by Riory with professional high-pressure cleaning and, if needed, a camera inspection to trace the exact cause — without demolition."
+        }
+      ]
     },
     "leegpompen-en-reinigen": {
       "title": "Cellar pumping and rainwater tank cleaning in Limburg",
@@ -595,7 +607,366 @@
       ],
       "metaTitle": "Cellar Pumping Limburg 24/7 | Quickly On Site | Riory",
       "metaDescription": "Cellar under water or rainwater tank overflowing? Riory pumps it out & traces the cause. ✓ 24/7 ✓ Bilzen, Hasselt, Genk & Tongeren. Call now!",
-      "h2Title": "Pump out cellars and clean your sewer system"
+      "h2Title": "Pump out cellars and clean your sewer system",
+      "faq": [
+        {
+          "question": "How quickly can a basement be pumped out?",
+          "answer": "In case of flooding we are often on site within the hour. The pumping time itself depends on the amount of water — usually completely dry within 1 to 3 hours."
+        },
+        {
+          "question": "Do you also trace the cause of the flooding?",
+          "answer": "Yes. After pumping out, we carry out a camera inspection or odour detection if desired to trace the source, so the problem doesn't return."
+        },
+        {
+          "question": "How often should a rainwater tank be cleaned?",
+          "answer": "Every 5 to 7 years is sufficient for an average rainwater tank. In case of overflow, dirty water or leaf fall, it may be needed sooner."
+        }
+      ]
+    },
+    "septische-put-ledigen": {
+      "title": "Septic Tank Emptying in Limburg",
+      "shortTitle": "Septic Tank Emptying",
+      "description": "Septic tank full? Riory empties, clears and cleans your septic tank in Bilzen, Hoeselt, Hasselt, Genk and Tongeren — 24/7 with fixed prices and specialised tanker trucks.",
+      "longDescription": "A full septic tank always gives signs before things really go wrong: the drain runs slower, you smell a penetrating odour in the garden, or water comes back up. In the rural areas around Sint-Truiden, Borgloon, Wellen and Kortessem, almost every home has a septic tank — and many are already 20, 30 years old without ever having been emptied. That's asking for trouble. Riory is your specialist for emptying septic tanks in Bilzen, Hasselt, Genk, Tongeren and Hoeselt. With specialised tanker trucks, our team empties and cleans your tank quickly and cleanly. Our hoses reach up to 40 metres, so we don't need to drive over your lawn or driveway. We dispose of the sludge correctly in accordance with environmental legislation and always leave the area clean. Want to know how full your tank already is? Call us for an inspection — we'll take a look together.",
+      "features": [
+        "Septic tank emptying with professional tanker trucks",
+        "Cesspit and rainwater tank clearing and maintenance",
+        "Thorough cleaning after emptying",
+        "No damage to your garden, lawn or driveway",
+        "Correct disposal in accordance with environmental legislation",
+        "Fixed, transparent prices — no surprises",
+        "Available 24/7 for a full septic tank"
+      ],
+      "metaTitle": "Septic Tank Emptying Limburg 24/7 | Fixed Price | Riory",
+      "metaDescription": "Septic tank full in Limburg? Riory empties, clears & cleans 24/7 in Bilzen, Hasselt, Genk & Tongeren. ✓ Fixed price ✓ No damage to garden. Call now!",
+      "h2Title": "Emptying and cleaning a septic tank in Limburg",
+      "faq": [
+        {
+          "question": "How often should a septic tank be emptied?",
+          "answer": "On average every 2 to 5 years, depending on the size of the tank and the number of occupants. Riory advises you during the intervention and schedules periodic maintenance if desired."
+        },
+        {
+          "question": "How do I know my septic tank is full?",
+          "answer": "Bad odours, a slow-draining outlet, gurgling sounds in the pipes or water flowing back are typical signs. Don't wait — call us directly."
+        },
+        {
+          "question": "Will you damage my garden or driveway?",
+          "answer": "No. Our tanker trucks use long hoses that allow us to reach up to 40 metres without driving over your lawn or driveway."
+        }
+      ]
+    },
+    "wc-verstopt": {
+      "title": "Blocked Toilet in Limburg — Riory BV Solves It",
+      "shortTitle": "Blocked Toilet",
+      "description": "Blocked toilet in Limburg? Riory BV is available 24/7 and on site within 2 hours in Hasselt, Genk, Tongeren, Bilzen, Hoeselt and Sint-Truiden. Fixed prices, no demolition.",
+      "longDescription": "A blocked toilet is usually easy to recognise: the toilet flushes slowly, water stays high, you hear gurgling sounds, or an unpleasant sewer smell rises. In the worst case, the toilet overflows and causes water damage. A blocked toilet is almost never a problem that resolves itself — waiting usually makes the blockage worse. At Riory BV we handle every blocked toilet professionally: drain auger, high-pressure cleaning and — if needed — camera inspection to pinpoint the exact cause. In Limburg we often see toilet blockages caused by wet wipes accidentally flushed, and by limescale build-up in older pipes in central Hasselt and Tongeren. We work without demolition, with a covered work area and fixed prices. Our technicians are available 24/7 and usually at your home within 2 hours.",
+      "features": [
+        "Blocked toilet — cleared quickly and cleanly without demolition",
+        "Toilet overflowing or flushing slowly? We solve it",
+        "24/7 emergency unblocking across Limburg",
+        "Camera inspection in case of recurring blockages",
+        "Fixed prices — no surprises afterwards",
+        "On site within 2 hours in Hasselt, Genk, Tongeren, Bilzen"
+      ],
+      "metaTitle": "Blocked Toilet Limburg | 24/7 Plumber | Riory",
+      "metaDescription": "Blocked toilet in Limburg? Riory BV solves it quickly and professionally. Available 24/7, on site within 2h. ☎ +32 472 50 28 14",
+      "h2Title": "Unblocking a toilet in Limburg — Riory's approach",
+      "faq": [
+        {
+          "question": "What does it cost to have a blocked toilet unblocked?",
+          "answer": "Riory works with fixed, transparent rates for unblocking a toilet in Limburg. You know in advance what you'll pay — no hidden costs. Request an appointment for an accurate price indication or call +32 472 50 28 14."
+        },
+        {
+          "question": "How quickly does Riory arrive in Limburg?",
+          "answer": "For a blocked toilet we are usually on site within 1 to 2 hours in Hasselt, Genk, Tongeren, Bilzen, Hoeselt and Sint-Truiden. We are available 24/7, including weekends and public holidays."
+        },
+        {
+          "question": "What should I avoid flushing to prevent blockages?",
+          "answer": "Never flush wet wipes, sanitary pads, tampons, condoms, cotton buds, cat litter or grease down the toilet. Even 'flushable' wipes don't dissolve and are a major cause of blockages."
+        }
+      ]
+    },
+    "keukenafvoer-verstopt": {
+      "title": "Blocked Kitchen Drain in Limburg — Riory BV",
+      "shortTitle": "Blocked Kitchen Drain",
+      "description": "Blocked kitchen drain in Limburg? Riory BV removes grease build-up quickly and thoroughly with high-pressure cleaning. Available 24/7 across Limburg.",
+      "longDescription": "A blocked kitchen drain almost always has the same cause: grease, food scraps and soap that build up over time into a hard layer inside the pipe. Typical signs are a slow-draining sink, gurgling sounds or an unpleasant smell from the drain. DIY remedies only help temporarily and can damage pipes. In apartments in Genk-Winterslag and central Hasselt we see grease blockages most often — the drain pipes are narrow and old, and small amounts of grease each day build up into a complete blockage. Riory BV professionally removes grease blockages with professional high-pressure cleaning — no chemicals, no demolition. Our technicians work cleanly, properly cover your kitchen, and give practical tips to prevent recurrence. Available 24/7 across Limburg.",
+      "features": [
+        "Grease build-up in kitchen drain professionally removed",
+        "High-pressure cleaning — no aggressive chemicals",
+        "Sink drains smoothly again",
+        "Fixed prices — clear in advance",
+        "Available 24/7 across Limburg",
+        "Advice to prevent new blockages"
+      ],
+      "metaTitle": "Blocked Kitchen Drain Limburg | 24/7 Plumber | Riory",
+      "metaDescription": "Blocked kitchen drain in Limburg? Riory BV removes grease build-up quickly and thoroughly. Available 24/7. ☎ +32 472 50 28 14",
+      "h2Title": "Unblocking a kitchen drain in Limburg",
+      "faq": [
+        {
+          "question": "Why does my kitchen drain keep getting blocked?",
+          "answer": "The main cause is grease that solidifies on the pipe wall as it cools and traps food scraps. A thorough high-pressure clean removes the entire layer — a chemical unblocker does not."
+        },
+        {
+          "question": "How quickly is Riory on site for a blocked sink?",
+          "answer": "For a blocked kitchen drain we are usually on site within 1 to 2 hours in Hasselt, Genk, Tongeren, Bilzen and Sint-Truiden. We are available 24/7."
+        },
+        {
+          "question": "Can grease and food scraps really block my sewer?",
+          "answer": "Yes. Grease solidifies in the pipe and traps food scraps and soap. Over time this forms a hard 'grease plug' that can only be cleared with professional high-pressure equipment."
+        }
+      ]
+    },
+    "doucheputje-verstopt": {
+      "title": "Blocked Shower Drain in Limburg — Riory BV",
+      "shortTitle": "Blocked Shower Drain",
+      "description": "Blocked shower drain in Limburg? Riory removes hair and soap residue quickly. Available 24/7 in Hasselt, Genk, Tongeren and surrounding areas.",
+      "longDescription": "A blocked shower drain is mainly a nuisance: water pools, an unpleasant layer forms and eventually the bathroom starts to smell of sewage. The cause is almost always the same combination: hair, soap residue, shower gel and skin oil that together form a plug in or just below the trap. In family homes in Hasselt, Genk and Tongeren, the shower drain is one of the most commonly reported problems — especially in households with long hair. Riory BV professionally unblocks every shower drain: we dismantle the trap where needed, fully remove the blockage and flush the pipe through. No chemicals, no scratches on your shower floor. We work 24/7 across Limburg with fixed prices and are usually on site within 2 hours.",
+      "features": [
+        "Hair and soap residue fully removed from the trap",
+        "No more bad odours in the bathroom",
+        "No demolition — your bathroom stays intact",
+        "Fixed prices — transparent in advance",
+        "Available 24/7 across Limburg",
+        "Advice to prevent recurrence"
+      ],
+      "metaTitle": "Blocked Shower Drain Limburg | 24/7 Plumber | Riory",
+      "metaDescription": "Blocked shower drain in Limburg? Riory removes hair and soap residue quickly. Available 24/7. ☎ +32 472 50 28 14",
+      "h2Title": "Unblocking a shower drain in Limburg",
+      "faq": [
+        {
+          "question": "What causes a blocked shower drain?",
+          "answer": "Almost always a combination of hair, soap residue and skin oil that together form a plug in the trap. A hair catcher can prevent many blockages, but existing plugs need to be removed professionally."
+        },
+        {
+          "question": "Can I solve this myself with a chemical unblocker?",
+          "answer": "Chemical products only help temporarily and damage your pipes and trap over time. Mechanical removal by Riory is more durable and safer for your plumbing."
+        },
+        {
+          "question": "How quickly is Riory on site?",
+          "answer": "Usually within 1 to 2 hours in Hasselt, Genk, Tongeren, Bilzen, Hoeselt and Sint-Truiden. Available 24/7 on +32 472 50 28 14."
+        }
+      ]
+    },
+    "riool-verstopt": {
+      "title": "Blocked Sewer in Limburg — Riory BV",
+      "shortTitle": "Blocked Sewer",
+      "description": "Blocked sewer in Limburg? Multiple drains blocked at once? Riory BV tackles it with a high-pressure jet + camera inspection. 24/7 across Limburg.",
+      "longDescription": "When multiple drains run slowly at the same time — your toilet, shower and sink — the problem runs deeper: there's a blockage in the main sewer, not in an individual trap. Typical signs are gurgling sounds in other drains, water coming back up through the shower drain, or a strong sewer smell around the outdoor inspection points. A deep sewer blockage requires professional equipment. Riory BV first correctly diagnoses every blocked sewer in Limburg with camera inspection. In the Meuse region and in Tongeren we often see poplar and willow root intrusion growing into sewer pipes. In urban neighbourhoods of Hasselt and Genk, grease layers and limescale are the most common cause. After diagnosis, we remove the blockage with a powerful high-pressure jet — without excavation. You receive a report with footage and honest advice. Available 24/7 across Limburg.",
+      "features": [
+        "Diagnosis with camera inspection — exact cause located",
+        "Powerful high-pressure jet removes roots, grease and limescale",
+        "Suitable for main sewer, rainwater and wastewater pipes",
+        "No excavation in 99% of cases",
+        "Report with footage and advice",
+        "24/7 emergency unblocking across Limburg"
+      ],
+      "metaTitle": "Blocked Sewer Limburg | 24/7 Emergency Unblocking | Riory",
+      "metaDescription": "Blocked sewer in Limburg? Riory BV solves it with a high-pressure jet and camera inspection. Available 24/7. ☎ +32 472 50 28 14",
+      "h2Title": "Unblocking a blocked sewer in Limburg — Riory's approach",
+      "faq": [
+        {
+          "question": "How do I know if my main sewer is blocked?",
+          "answer": "If multiple drains run slowly at the same time (toilet, shower, sink), or if water comes up through the shower drain when you flush, the blockage is in the main sewer — not in a single trap."
+        },
+        {
+          "question": "Does my sewer need to be dug up to unblock it?",
+          "answer": "Not in 99% of cases. We insert the high-pressure jet through an existing inspection point and locate the problem with our camera. Excavation is only needed for serious breaks or subsidence."
+        },
+        {
+          "question": "What does unblocking a sewer cost in Limburg?",
+          "answer": "Riory applies fixed, transparent prices for sewer unblocking. Request an appointment for an accurate indication or call directly on +32 472 50 28 14."
+        }
+      ]
+    },
+    "gootsteen-verstopt": {
+      "title": "Blocked Sink in Limburg — Riory BV",
+      "shortTitle": "Blocked Sink",
+      "description": "Blocked sink in Limburg? Riory BV solves it quickly at a fixed price. Available 24/7 in Hasselt, Genk, Tongeren, Bilzen and surrounding areas.",
+      "longDescription": "A sink that won't drain, drains slowly or makes gurgling sounds almost always has a blocked trap or pipe. For kitchen sinks the cause is usually grease and food scraps, for bathroom sinks hair, toothpaste and soap. A blocked sink gets worse quickly: the longer you wait, the harder the plug becomes. Riory BV unblocks every sink in Limburg quickly and cleanly. In older homes in Bilzen and Hoeselt we often see lead traps that have lasted twenty years and are now simply due for replacement. In apartments in Hasselt it's more often a grease plug that only becomes truly problematic after years of cooking. We dismantle the trap where needed, remove the blockage and flush the pipe. Immediate results, fixed price, without demolition.",
+      "features": [
+        "Sink draining smoothly again in 1 visit",
+        "Trap cleaned or replaced if needed",
+        "No demolition in your kitchen or bathroom",
+        "Fixed prices — transparent in advance",
+        "Available 24/7 across Limburg",
+        "On site within 1 to 2 hours"
+      ],
+      "metaTitle": "Blocked Sink Limburg | 24/7 Plumber | Riory",
+      "metaDescription": "Blocked sink in Limburg? Riory BV solves it quickly. Available 24/7 in Hasselt, Genk, Tongeren. ☎ +32 472 50 28 14",
+      "h2Title": "Unblocking a sink in Limburg — Riory's method",
+      "faq": [
+        {
+          "question": "My sink is draining slowly — should I wait?",
+          "answer": "No. A slow-draining sink is the first sign of a growing blockage. Acting early is cheaper and simpler than dealing with a completely blocked drain."
+        },
+        {
+          "question": "How quickly does Riory arrive?",
+          "answer": "Usually within 1 to 2 hours in Hasselt, Genk, Tongeren, Bilzen, Hoeselt and Sint-Truiden. Available 24/7, including weekends."
+        },
+        {
+          "question": "What does it cost to unblock a sink?",
+          "answer": "Riory applies fixed prices for sink unblocking. You know in advance what you'll pay. Request an appointment for a price indication."
+        }
+      ]
+    },
+    "lekkende-kraan": {
+      "title": "Leaking Tap in Limburg — Riory BV Repairs It",
+      "shortTitle": "Leaking Tap",
+      "description": "Leaking tap in Limburg? Riory BV repairs it quickly and professionally. Available 24/7 across Limburg — Hasselt, Genk, Tongeren, Bilzen, Sint-Truiden.",
+      "longDescription": "A leaking tap may seem harmless, but a dripping tap quickly wastes hundreds of litres of water per month — and a leaking mixer tap under a sink can cause unnoticed water damage to your cabinet, floor or ceiling. In Limburg we often see this in homes built in the 1980s-90s in Hasselt, Genk and Sint-Truiden: taps that were never replaced and are now leaking due to worn rubber seals or limescale on the cartridge. Riory BV repairs every leaking tap quickly and cleanly. We identify the problem on site — seal, cartridge or the tap itself — and honestly advise whether repair or replacement is the best choice. Fixed prices, warranty on the work, and no unnecessary replacement if a simple seal will do. Available 24/7 across Limburg.",
+      "features": [
+        "Leaking tap professionally repaired — no more wasted water",
+        "Seal, cartridge or entire tap replaced",
+        "Suitable for kitchen, bathroom and washbasin",
+        "Available 24/7 across Limburg",
+        "Fixed prices — warranty on work performed",
+        "Prevents water damage to cabinet, floor and ceiling"
+      ],
+      "metaTitle": "Leaking Tap Limburg | 24/7 Plumber | Riory",
+      "metaDescription": "Leaking tap in Limburg? Riory BV repairs it quickly and professionally. Available 24/7 across Limburg. ☎ +32 472 50 28 14",
+      "h2Title": "Repairing a leaking tap in Limburg",
+      "faq": [
+        {
+          "question": "How much water does a leaking tap waste?",
+          "answer": "A tap that drips every second quickly wastes 15 to 20 litres per day — over 5000 litres per year. A targeted repair pays for itself quickly."
+        },
+        {
+          "question": "Can every tap be repaired or does it need replacing?",
+          "answer": "In many cases replacing a seal or cartridge is enough. For older taps, limescale or damaged parts, replacement is often more durable. Riory will advise you honestly on site."
+        },
+        {
+          "question": "How quickly does Riory arrive for a leaking tap?",
+          "answer": "Usually within 1 to 2 hours in Hasselt, Genk, Tongeren, Bilzen, Hoeselt and Sint-Truiden. For non-urgent repairs we can also schedule an appointment at a time that suits you."
+        }
+      ]
+    },
+    "lekkage-opsporen": {
+      "title": "Leak Detection in Limburg — Riory BV",
+      "shortTitle": "Leak Detection",
+      "description": "Damp patches, mould or an unexplained high water bill? Riory traces hidden leaks in Limburg without demolition. Available 24/7 in Hasselt, Genk, Tongeren, Bilzen and surrounding areas.",
+      "longDescription": "A hidden leak is deceptive. You see a damp patch on the wall, your water bill is suddenly much higher than usual, or you hear running water while all taps are closed. But where is the leak? In Limburg we see this problem often in older homes in Tongeren and Bilzen, where pipes from the 1960s-70s are gradually ageing, but also in newer apartments in Hasselt and Genk where a faulty connection only causes problems after years.\n\nRiory BV traces every hidden leak in Limburg without unnecessary demolition. We use professional equipment — acoustic leak detection, thermal imaging camera and tracer gas — to pinpoint the leak exactly. This way our technician knows where the problem is before the first stone is broken. After detection you receive a clear report and honest advice for the repair.",
+      "features": [
+        "Acoustic leak detection — hear the leak without demolition",
+        "Thermal imaging camera — making damp patches visible",
+        "Tracer gas for hard-to-reach pipes",
+        "Suitable for water, heating and sewer leaks",
+        "Clear report with exact leak location",
+        "Available 24/7 in Hasselt, Genk, Tongeren, Bilzen and Hoeselt",
+        "Fixed, transparent prices — no surprises"
+      ],
+      "metaTitle": "Leak Detection Limburg | No Demolition | Riory",
+      "metaDescription": "Hidden leak in Limburg? Riory traces leaks without demolition — acoustic, thermal or tracer gas. ✓ 24/7 ✓ Report ✓ Fixed price. Call now!",
+      "h2Title": "Detecting a hidden leak in Limburg — Riory's approach",
+      "faq": [
+        {
+          "question": "How do I know if I have a hidden leak?",
+          "answer": "Typical signs: a growing damp patch on a wall or ceiling, mould forming without a clear cause, a water bill that has suddenly risen without using more water, or the sound of running water while everything is turned off. If you notice one or more of these signs, leak detection is advisable."
+        },
+        {
+          "question": "Does the floor need to be dug up or broken to detect a leak?",
+          "answer": "In 95% of cases, no. With acoustic detection, thermal imaging or tracer gas we locate the leak to within a centimetre — without breaking a single stone. Only after detection does the repairer know exactly where to work."
+        },
+        {
+          "question": "What does leak detection cost in Limburg?",
+          "answer": "Riory works with fixed, transparent rates for leak detection. The price depends on the method used and the complexity. You know in advance what you'll pay — request an appointment or call +32 472 50 28 14."
+        }
+      ]
+    },
+    "dakgootreiniging": {
+      "title": "Gutter Cleaning in Limburg — Riory BV",
+      "shortTitle": "Gutter Cleaning",
+      "description": "Blocked gutters in Limburg? Riory thoroughly cleans gutters and downpipes — for homeowners and property managers. Available 24/7 in Hasselt, Genk, Tongeren, Bilzen and surrounding areas.",
+      "longDescription": "In autumn, leaves, moss and twigs fill the gutters of homes across Limburg. In Hasselt-Kermt, Tongeren and the rural municipalities around Borgloon and Wellen, we see this every year: blocked gutters that no longer drain rainwater, which then overflows and causes damage to the facade, foundation or basement.\n\nA blocked gutter may seem harmless but the consequences are not. Water running down the facade eventually penetrates the wall insulation. In winter, frozen gutters cause ice formation that physically damages the gutter. Riory BV thoroughly cleans gutters and downpipes across Limburg — for private homes, apartment buildings and property managers. We work at height with the right safety equipment, remove all leaves and sludge, and check that the downpipes drain freely to the rainwater tank or sewer.",
+      "features": [
+        "Thorough cleaning of gutters and downpipes",
+        "Removal of leaves, moss, twigs and sludge",
+        "Checking drainage to rainwater tank or sewer",
+        "Suitable for all home types and apartment buildings",
+        "Safe working at height with professional equipment",
+        "Preventive annual maintenance possible",
+        "Available 24/7 — also for emergencies during flooding"
+      ],
+      "metaTitle": "Gutter Cleaning Limburg | Blocked Gutter | Riory",
+      "metaDescription": "Blocked gutter in Limburg? Riory thoroughly cleans gutters and downpipes at height. ✓ Homeowners & property managers ✓ Fixed price ✓ 24/7. Call now!",
+      "h2Title": "Cleaning gutters in Limburg — for homeowners and property managers",
+      "faq": [
+        {
+          "question": "How often should a gutter be cleaned?",
+          "answer": "At least once a year, preferably in November after leaf fall. Homes under trees or with a flat roof may benefit from two cleanings per year — before and after the autumn season."
+        },
+        {
+          "question": "What are the consequences of a blocked gutter?",
+          "answer": "Rainwater that cannot drain overflows the gutter edge and penetrates the facade, insulation or foundation. Over time this leads to damp damage, mould and costly repairs. Preventive cleaning is always cheaper than dealing with damage afterwards."
+        },
+        {
+          "question": "Does Riory also work for apartment buildings and property managers?",
+          "answer": "Yes. Riory BV has experience with multi-storey buildings and apartment blocks in Hasselt, Genk and Tongeren. We arrange tailored appointments for property managers and provide a detailed report after every intervention."
+        }
+      ]
+    },
+    "rioolreparatie": {
+      "title": "Sewer Repair in Limburg — Riory BV",
+      "shortTitle": "Sewer Repair",
+      "description": "Broken, sunken or root-damaged sewer pipe in Limburg? Riory repairs sewers professionally — with or without excavation. Available 24/7 in Hasselt, Genk, Tongeren, Bilzen and surrounding areas.",
+      "longDescription": "A sewer repair is different from unblocking. With a blockage, something is stuck in the pipe; with a repair, the pipe itself is damaged — broken, sunken, disconnected at a joint, or infiltrated by tree roots. In Limburg we see this often in older neighbourhoods of Tongeren and Bilzen, where concrete sewer pipes from the 1950s-60s are simply reaching the end of their lifespan. In gardens with poplars or willows, root intrusion is also a common cause.\n\nRiory BV carries out sewer repairs across Limburg — from a single break repair to replacing an entire pipe segment. We always start with a camera inspection to precisely map the damage. Where possible we work without excavation using no-dig techniques such as relining. When digging is necessary, we work quickly, cleanly and leave the area tidy. You always receive a report with before and after footage.",
+      "features": [
+        "Camera inspection first — exact damage mapped before work begins",
+        "Break, crack or disconnection professionally repaired",
+        "Root intrusion mechanically removed and pipe repaired",
+        "No-dig relining where possible — no excavation",
+        "Full pipe replacement if needed",
+        "Report with before and after footage",
+        "Available 24/7 across Limburg"
+      ],
+      "metaTitle": "Sewer Repair Limburg | Break, Subsidence & Roots | Riory",
+      "metaDescription": "Broken or sunken sewer in Limburg? Riory repairs professionally — camera inspection, no-dig relining or pipe replacement. ✓ 24/7 ✓ Fixed price. Call now!",
+      "h2Title": "Sewer repair in Limburg — break, subsidence and root intrusion",
+      "faq": [
+        {
+          "question": "How do I know if my sewer is broken and not just blocked?",
+          "answer": "Recurring blockages in the same spot, sinking ground in the garden above the sewer line, a permanent sewer smell or water rising to the surface are typical signs of a break or subsidence. A camera inspection confirms the diagnosis."
+        },
+        {
+          "question": "Does a sewer repair always require digging?",
+          "answer": "Not always. For smaller cracks or disconnections we can repair the damage via relining — a technique where a new inner pipe is installed without digging. Only severe subsidence or complete breaks require excavation."
+        },
+        {
+          "question": "What does a sewer repair cost in Limburg?",
+          "answer": "The price depends on the nature of the damage, the depth of the pipe and the chosen repair method. Riory always gives an honest proposal after the camera inspection. Call +32 472 50 28 14 or request an appointment."
+        }
+      ]
+    },
+    "rioolvliegjes": {
+      "title": "Drain Flies in Limburg — Tracing & Solving the Cause | Riory",
+      "shortTitle": "Drain Flies",
+      "description": "Bothered by small flies in the bathroom, kitchen or basement in Limburg? Drain flies indicate an open sewer connection. Riory traces the source and solves it. Available 24/7.",
+      "longDescription": "You see small, dark flies in the bathroom, around the sink or in the basement. They're slow, keep coming back and chemical products only help temporarily. These are almost certainly drain flies — also known as sewer gnats or moth flies. They live and breed in the organic sludge that builds up in blocked or slow drains, and emerge through open connections or cracks in your sewer pipe.\n\nIn Limburg we see drain flies most often in older homes in Tongeren, Bilzen and central Hasselt, where drain pipes are already decades old and small cracks or open trap connections let the infestation in. A chemical treatment fights the adult flies but not the breeding ground. Riory BV tackles it at the source: we trace the open connection or damaged pipe with camera inspection or smoke detection, repair the fault, and thoroughly clean the affected drains so the breeding ground disappears.",
+      "features": [
+        "Cause traced with camera inspection or smoke detection",
+        "Open sewer connection or crack professionally repaired",
+        "Thorough cleaning of affected drains",
+        "Breeding ground in sludge fully removed",
+        "Not a temporary chemical treatment but a permanent solution",
+        "Available 24/7 in Hasselt, Genk, Tongeren, Bilzen and Hoeselt"
+      ],
+      "metaTitle": "Drain Flies Limburg | Tracing & Solving | Riory",
+      "metaDescription": "Drain flies in your bathroom or kitchen in Limburg? Riory traces the source and solves it permanently. ✓ Camera inspection ✓ 24/7 ✓ Fixed price. Call now!",
+      "h2Title": "Tackling drain flies in Limburg — permanently, not temporarily",
+      "faq": [
+        {
+          "question": "Are drain flies dangerous?",
+          "answer": "Drain flies don't bite and don't transmit diseases, but they're a clear signal that something is wrong with your sewer pipe — an open connection, a crack or a heavily fouled drain. It's best to tackle the problem as soon as possible."
+        },
+        {
+          "question": "Why do they keep coming back after a chemical treatment?",
+          "answer": "Chemical products kill the adult flies but not the larvae in the sludge, and they don't repair the open connection through which new flies enter from outside. Only a mechanical approach to the breeding ground and sealing the opening provides a permanent solution."
+        },
+        {
+          "question": "How quickly can Riory be on site?",
+          "answer": "Usually within 1 to 2 hours in Hasselt, Genk, Tongeren, Bilzen, Hoeselt and Sint-Truiden. Drain flies aren't an emergency but they are annoying — we quickly schedule an appointment at a time that suits you."
+        }
+      ]
     }
   },
   "referencesData": {

@@ -213,7 +213,8 @@
   },
   "dienstDetail": {
     "viewReferences": "Bekijk onze referenties",
-    "referenceIntro": "Ontdek wat wij al realiseerden in de categorie \"{{name}}\"."
+    "referenceIntro": "Ontdek wat wij al realiseerden in de categorie \"{{name}}\".",
+    "faqTitle": "Veelgestelde vragen"
   },
   "locatieDetail": {
     "ourServicesIn": "Onze diensten in {{city}}",

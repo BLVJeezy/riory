@@ -40,6 +40,9 @@ const DienstDetail = () => {
   const localFeatures = service ? (t(`servicesData.${service.slug}.features`, { returnObjects: true, defaultValue: service.features }) as string[]) : [];
   const localMetaTitle = service ? t(`servicesData.${service.slug}.metaTitle`, { defaultValue: service.metaTitle }) : undefined;
   const localMetaDesc = service ? t(`servicesData.${service.slug}.metaDescription`, { defaultValue: service.metaDescription }) : undefined;
+  const localFaq = service
+    ? (t(`servicesData.${service.slug}.faq`, { returnObjects: true, defaultValue: service.faq }) as { question: string; answer: string }[])
+    : [];
 
   usePageView(`/diensten/${slug}`);
   useDocumentMeta(localMetaTitle, localMetaDesc);
@@ -141,11 +144,11 @@ const DienstDetail = () => {
       },
     ];
 
-    if (service.faq && service.faq.length > 0) {
+    if (localFaq && localFaq.length > 0) {
       blocks.push({
         "@context": "https://schema.org",
         "@type": "FAQPage",
-        mainEntity: service.faq.map((f) => ({
+        mainEntity: localFaq.map((f) => ({
           "@type": "Question",
           name: f.question,
           acceptedAnswer: { "@type": "Answer", text: f.answer },
@@ -169,7 +172,7 @@ const DienstDetail = () => {
         }
       });
     };
-  }, [service]);
+  }, [service, localFaq]);
 
 
   if (!service) {
@@ -286,13 +289,13 @@ const DienstDetail = () => {
               </div>
             )}
 
-            {service.faq && service.faq.length > 0 && (
+            {localFaq && localFaq.length > 0 && (
               <div className="mb-10">
                 <h2 className="text-xl md:text-2xl font-heading font-bold text-foreground mb-4">
-                  Veelgestelde vragen
+                  {t("dienstDetail.faqTitle")}
                 </h2>
                 <Accordion type="single" collapsible className="w-full">
-                  {service.faq.map((item, i) => (
+                  {localFaq.map((item, i) => (
                     <AccordionItem key={i} value={`faq-${i}`}>
                       <AccordionTrigger className="text-left font-heading font-semibold text-foreground">
                         {item.question}

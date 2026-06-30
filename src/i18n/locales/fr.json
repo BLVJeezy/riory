@@ -29,7 +29,7 @@
   "trust": {
     "available": "Disponible 24/7",
     "fastIntervention": "Intervention rapide",
-    "happyCustomers": "100+ clients satisfaits",
+    "happyCustomers": "4.9★ sur Google",
     "certified": "Agréé & assuré"
   },
   "services": {
@@ -213,7 +213,8 @@
   },
   "dienstDetail": {
     "viewReferences": "Voir nos références",
-    "referenceIntro": "Découvrez ce que nous avons réalisé dans la catégorie « {{name}} »."
+    "referenceIntro": "Découvrez ce que nous avons réalisé dans la catégorie « {{name}} ».",
+    "faqTitle": "Questions fréquentes"
   },
   "locatieDetail": {
     "ourServicesIn": "Nos services à {{city}}",
@@ -540,7 +541,21 @@
       ],
       "metaTitle": "Inspection Caméra Égouts Limbourg | Sans Casse | Riory",
       "metaDescription": "Inspection caméra de vos égouts — la cause révélée sans casse. ✓ Rapport avec images ✓ 24/7 à Bilzen, Hasselt, Genk & Tongres. Réservez !",
-      "h2Title": "Inspecter les égouts et identifier les problèmes d'évacuation"
+      "h2Title": "Inspecter les égouts et identifier les problèmes d'évacuation",
+      "faq": [
+        {
+          "question": "Combien coûte une inspection caméra de l'égout ?",
+          "answer": "Riory applique des prix fixes et transparents pour les inspections caméra au Limbourg. Vous savez à l'avance ce que vous payez — aucun coût caché. Demandez un rendez-vous pour une estimation correcte."
+        },
+        {
+          "question": "Est-ce que je reçois un rapport après l'inspection ?",
+          "answer": "Oui. Après chaque inspection caméra, vous recevez un rapport détaillé avec images, l'emplacement exact du problème et un conseil clair pour d'éventuelles réparations."
+        },
+        {
+          "question": "Faut-il creuser pour une inspection caméra ?",
+          "answer": "Non. Nous insérons la caméra via un regard d'inspection existant ou l'évacuation. Le terrassement n'est nécessaire que dans 1% des cas."
+        }
+      ]
     },
     "ontstoppingen-en-geurdetectie": {
       "title": "Débouchage professionnel et détection d'odeurs au Limbourg",
@@ -560,24 +575,21 @@
       ],
       "metaTitle": "Débouchage Limbourg 24/7 | WC, Douche & Égout | Riory",
       "metaDescription": "WC ou évier bouché ? Riory intervient 24/7. ✓ Sur place sous 2 h ✓ Prix fixes ✓ Bilzen, Hasselt, Genk & Tongres. Appelez !",
-      "h2Title": "Déboucher les égouts et identifier la cause des odeurs"
-    },
-    "leidingen-en-septische-putten": {
-      "title": "Vidange de fosses septiques et réparation de conduites au Limbourg",
-      "shortTitle": "Conduites & Fosses septiques",
-      "description": "Riory vide et nettoie les fosses septiques à Bilzen, Hoeselt, Hasselt, Genk, Tongres et dans tout le Limbourg à des prix justes et avec un service 24/7.",
-      "longDescription": "De la vidange de fosses septiques à la pose ou la réparation de conduites d'égout — nous offrons un service complet pour votre infrastructure souterraine à Bilzen, Hoeselt, Hasselt, Genk, Tongres et dans tout le Limbourg. Fosse septique pleine ? Fosse à purin qui déborde ? Odeur d'égout sortant de la fosse ? Avec des camions-citernes et des pelleteuses spécialisés, nous travaillons efficacement et avec un minimum de nuisances. Nous nettoyons soigneusement les citernes d'eau de pluie pour que votre évacuation continue de fonctionner de façon optimale et que les inondations soient évitées.",
-      "features": [
-        "Vider et nettoyer les fosses septiques",
-        "Vider et entretenir les fosses à purin",
-        "Nettoyer en profondeur les citernes d'eau de pluie",
-        "Pose de nouvelles conduites d'égout",
-        "Réparation de conduites endommagées",
-        "Camions-citernes et pelleteuses professionnels"
-      ],
-      "metaTitle": "Vidange Fosse Septique Limbourg | Prix Juste | Riory 24/7",
-      "metaDescription": "Fosse septique ou à purin pleine ? Riory vide 24/7 à Bilzen, Hasselt, Genk & Tongres. ✓ Tarifs fixes ✓ Sans surprise ✓ 4,9★ avis. Appelez !",
-      "h2Title": "Vider les fosses septiques et réparer les conduites d'égout"
+      "h2Title": "Déboucher les égouts et identifier la cause des odeurs",
+      "faq": [
+        {
+          "question": "Combien coûte un service de débouchage au Limbourg ?",
+          "answer": "Riory applique des prix fixes et transparents pour les débouchages au Limbourg. Vous savez à l'avance ce que vous payez, sans surprise par la suite. Demandez un rendez-vous pour une estimation correcte."
+        },
+        {
+          "question": "Mon évier est bouché — à quelle vitesse intervenez-vous ?",
+          "answer": "En cas d'évier ou d'évacuation bouchée, Riory est généralement sur place en 2 heures à Bilzen, Hasselt, Genk, Tongres, Hoeselt et environs. Nous sommes disponibles 24/7 pour les urgences."
+        },
+        {
+          "question": "Comment une évacuation est-elle débouchée ?",
+          "answer": "Une évacuation bouchée est débouchée par Riory avec un nettoyage haute pression professionnel et, si nécessaire, une inspection caméra pour localiser la cause exacte — sans casse."
+        }
+      ]
     },
     "leegpompen-en-reinigen": {
       "title": "Pompage de caves et nettoyage de citernes au Limbourg",
@@ -595,7 +607,366 @@
       ],
       "metaTitle": "Pompage Cave Limbourg 24/7 | Sur Place Vite | Riory",
       "metaDescription": "Cave inondée ou citerne qui déborde ? Riory pompe & identifie la cause. ✓ 24/7 ✓ Bilzen, Hasselt, Genk & Tongres. Appelez !",
-      "h2Title": "Pomper les caves et nettoyer le système d'égouts"
+      "h2Title": "Pomper les caves et nettoyer le système d'égouts",
+      "faq": [
+        {
+          "question": "À quelle vitesse une cave peut-elle être vidée par pompage ?",
+          "answer": "En cas d'inondation, nous sommes souvent sur place en moins d'une heure. Le temps de pompage dépend de la quantité d'eau — généralement complètement sec en 1 à 3 heures."
+        },
+        {
+          "question": "Recherchez-vous aussi la cause de l'inondation ?",
+          "answer": "Oui. Après le pompage, nous effectuons si souhaité une inspection caméra ou une détection d'odeurs pour localiser la source, afin que le problème ne revienne pas."
+        },
+        {
+          "question": "À quelle fréquence faut-il nettoyer une citerne d'eau de pluie ?",
+          "answer": "Tous les 5 à 7 ans suffisent pour une citerne standard. En cas de débordement, d'eau sale ou de chute de feuilles, cela peut être nécessaire plus tôt."
+        }
+      ]
+    },
+    "septische-put-ledigen": {
+      "title": "Vidange de fosse septique au Limbourg",
+      "shortTitle": "Vidange fosse septique",
+      "description": "Fosse septique pleine ? Riory vidange, nettoie et entretient votre fosse septique à Bilzen, Hoeselt, Hasselt, Genk et Tongres — 24/7 avec prix fixes et camions-citernes spécialisés.",
+      "longDescription": "Une fosse septique pleine donne toujours des signes avant que cela ne tourne mal : l'évacuation s'écoule plus lentement, une odeur pénétrante se dégage dans le jardin, ou l'eau remonte. Dans les zones rurales autour de Sint-Truiden, Borgloon, Wellen et Kortessem, presque chaque habitation possède une fosse septique — et beaucoup ont déjà 20, 30 ans sans jamais avoir été vidangées. C'est s'exposer à des problèmes. Riory est votre spécialiste pour la vidange de fosses septiques à Bilzen, Hasselt, Genk, Tongres et Hoeselt. Avec des camions-citernes spécialisés, notre équipe vidange et nettoie votre fosse rapidement et proprement. Nos tuyaux atteignent jusqu'à 40 mètres, afin de ne pas devoir rouler sur votre pelouse ou votre allée. Nous évacuons les boues conformément à la législation environnementale et laissons toujours les lieux propres. Vous voulez savoir à quel point votre fosse est pleine ? Appelez-nous pour une inspection — nous regarderons ensemble.",
+      "features": [
+        "Vidange de fosse septique avec camions-citernes professionnels",
+        "Vidange et entretien de fosses d'aisance et citernes d'eau de pluie",
+        "Nettoyage approfondi après la vidange",
+        "Aucun dommage à votre jardin, pelouse ou allée",
+        "Évacuation correcte conforme à la législation environnementale",
+        "Prix fixes et transparents — aucune surprise",
+        "Disponible 24/7 en cas de fosse septique pleine"
+      ],
+      "metaTitle": "Vidange Fosse Septique Limbourg 24/7 | Prix Fixe | Riory",
+      "metaDescription": "Fosse septique pleine au Limbourg ? Riory vidange, nettoie et entretient 24/7 à Bilzen, Hasselt, Genk & Tongres. ✓ Prix fixe ✓ Aucun dommage au jardin. Appelez !",
+      "h2Title": "Vidanger et nettoyer une fosse septique au Limbourg",
+      "faq": [
+        {
+          "question": "À quelle fréquence faut-il vidanger une fosse septique ?",
+          "answer": "En moyenne tous les 2 à 5 ans, selon la taille de la fosse et le nombre d'habitants. Riory vous conseille lors de l'intervention et planifie un entretien périodique si souhaité."
+        },
+        {
+          "question": "Comment savoir si ma fosse septique est pleine ?",
+          "answer": "Des odeurs désagréables, une évacuation qui s'écoule lentement, des bruits de gargouillement dans les canalisations ou de l'eau qui remonte sont des signes typiques. N'attendez pas, appelez-nous directement."
+        },
+        {
+          "question": "Allez-vous endommager mon jardin ou mon allée ?",
+          "answer": "Non. Nos camions-citernes utilisent de longs tuyaux qui nous permettent d'atteindre jusqu'à 40 mètres sans devoir rouler sur votre pelouse ou votre allée."
+        }
+      ]
+    },
+    "wc-verstopt": {
+      "title": "WC Bouché au Limbourg — Riory BV Résout le Problème",
+      "shortTitle": "WC Bouché",
+      "description": "WC bouché au Limbourg ? Riory BV est disponible 24/7 et sur place en 2 heures à Hasselt, Genk, Tongres, Bilzen, Hoeselt et Saint-Trond. Prix fixes, sans casse.",
+      "longDescription": "Un WC bouché se reconnaît généralement immédiatement : la chasse s'écoule lentement, l'eau reste haute, vous entendez des gargouillements ou une mauvaise odeur d'égout se dégage. Dans le pire des cas, les toilettes débordent et causent des dégâts des eaux. Un WC bouché n'est presque jamais un problème qui se résout de lui-même — attendre aggrave généralement le blocage. Chez Riory BV, nous traitons chaque WC bouché de manière professionnelle : furet de débouchage, nettoyage haute pression et — si nécessaire — inspection caméra pour localiser la cause exacte. Au Limbourg, nous constatons souvent des WC bouchés par des lingettes humides jetées par erreur, et par du tartre dans les anciennes canalisations du centre de Hasselt et de Tongres. Nous travaillons sans casse, avec une zone de travail protégée et des prix fixes. Nos techniciens sont disponibles 24/7 et généralement chez vous en moins de 2 heures.",
+      "features": [
+        "WC bouché — débouché rapidement et proprement sans casse",
+        "Toilettes qui débordent ou s'écoulent lentement ? Nous résolvons le problème",
+        "Débouchage d'urgence 24/7 dans tout le Limbourg",
+        "Inspection caméra en cas de bouchons récurrents",
+        "Prix fixes — aucune surprise par la suite",
+        "Sur place en 2 heures à Hasselt, Genk, Tongres, Bilzen"
+      ],
+      "metaTitle": "WC Bouché Limbourg | Plombier 24/7 | Riory",
+      "metaDescription": "WC bouché au Limbourg ? Riory BV résout le problème rapidement et professionnellement. Disponible 24/7, sur place en 2h. ☎ +32 472 50 28 14",
+      "h2Title": "Déboucher un WC au Limbourg — l'approche de Riory",
+      "faq": [
+        {
+          "question": "Combien coûte le débouchage d'un WC ?",
+          "answer": "Riory travaille avec des tarifs fixes et transparents pour le débouchage d'un WC au Limbourg. Vous savez à l'avance ce que vous payez — aucun coût caché. Demandez un rendez-vous pour une estimation correcte ou appelez le +32 472 50 28 14."
+        },
+        {
+          "question": "Quelle est la rapidité d'intervention de Riory au Limbourg ?",
+          "answer": "En cas de WC bouché, nous sommes généralement sur place en 1 à 2 heures à Hasselt, Genk, Tongres, Bilzen, Hoeselt et Saint-Trond. Nous sommes disponibles 24/7, y compris le week-end et les jours fériés."
+        },
+        {
+          "question": "Que ne dois-je pas jeter dans les toilettes pour éviter les bouchons ?",
+          "answer": "Ne jetez jamais de lingettes humides, serviettes hygiéniques, tampons, préservatifs, cotons-tiges, litière pour chat ou graisse dans les toilettes. Même les lingettes 'biodégradables' ne se dissolvent pas et sont une cause majeure de bouchons."
+        }
+      ]
+    },
+    "keukenafvoer-verstopt": {
+      "title": "Évier de Cuisine Bouché au Limbourg — Riory BV",
+      "shortTitle": "Évier de Cuisine Bouché",
+      "description": "Évier de cuisine bouché au Limbourg ? Riory BV élimine rapidement et en profondeur les dépôts de graisse par nettoyage haute pression. Disponible 24/7 dans tout le Limbourg.",
+      "longDescription": "Un évier de cuisine bouché a presque toujours la même cause : graisse, restes alimentaires et savon qui s'accumulent avec le temps en une couche dure dans la canalisation. Les signes typiques sont un évier qui s'écoule lentement, des bruits de gargouillement ou une mauvaise odeur provenant de l'évacuation. Les produits faits maison n'aident que temporairement et peuvent endommager les canalisations. Dans les appartements de Genk-Winterslag et du centre de Hasselt, nous constatons le plus souvent des bouchons de graisse — les canalisations sont étroites et anciennes, et de petites quantités de graisse par jour s'accumulent jusqu'à former un blocage complet. Riory BV élimine professionnellement les bouchons de graisse par nettoyage haute pression professionnel — sans produits chimiques, sans casse. Nos techniciens travaillent proprement, protègent correctement votre cuisine et donnent des conseils concrets pour éviter une récidive. Disponible 24/7 dans tout le Limbourg.",
+      "features": [
+        "Dépôts de graisse dans l'évier de cuisine éliminés professionnellement",
+        "Nettoyage haute pression — sans produits chimiques agressifs",
+        "Évier qui s'écoule à nouveau correctement",
+        "Prix fixes — clairs à l'avance",
+        "Disponible 24/7 dans tout le Limbourg",
+        "Conseils pour éviter un nouveau bouchon"
+      ],
+      "metaTitle": "Évier Cuisine Bouché Limbourg | Plombier 24/7 | Riory",
+      "metaDescription": "Évier de cuisine bouché au Limbourg ? Riory BV élimine les dépôts de graisse rapidement et en profondeur. Disponible 24/7. ☎ +32 472 50 28 14",
+      "h2Title": "Déboucher un évier de cuisine au Limbourg",
+      "faq": [
+        {
+          "question": "Pourquoi mon évier de cuisine se rebouche-t-il sans cesse ?",
+          "answer": "La cause principale est la graisse qui se solidifie sur la paroi de la canalisation en refroidissant et y retient des restes alimentaires. Un nettoyage haute pression approfondi élimine toute la couche — un déboucheur chimique ne le fait pas."
+        },
+        {
+          "question": "Quelle est la rapidité d'intervention de Riory pour un évier bouché ?",
+          "answer": "En cas d'évier de cuisine bouché, nous sommes généralement sur place en 1 à 2 heures à Hasselt, Genk, Tongres, Bilzen et Saint-Trond. Nous sommes disponibles 24/7."
+        },
+        {
+          "question": "La graisse et les restes alimentaires peuvent-ils vraiment bloquer mon égout ?",
+          "answer": "Oui. La graisse se solidifie dans la canalisation et y retient restes alimentaires et savon. Avec le temps se forme un 'bouchon de graisse' dur qui ne peut être éliminé que par nettoyage haute pression professionnel."
+        }
+      ]
+    },
+    "doucheputje-verstopt": {
+      "title": "Bonde de Douche Bouchée au Limbourg — Riory BV",
+      "shortTitle": "Bonde de Douche Bouchée",
+      "description": "Bonde de douche bouchée au Limbourg ? Riory élimine rapidement cheveux et résidus de savon. Disponible 24/7 à Hasselt, Genk, Tongres et environs.",
+      "longDescription": "Une bonde de douche bouchée est surtout gênante : l'eau stagne, une couche désagréable se forme et à terme la salle de bain sent l'égout. La cause est presque toujours la même combinaison : cheveux, résidus de savon, gel douche et sébum qui forment ensemble un bouchon dans le siphon ou juste en dessous. Dans les habitations familiales de Hasselt, Genk et Tongres, la bonde de douche est l'un des problèmes les plus signalés — surtout dans les familles aux cheveux longs. Riory BV débouche chaque bonde de douche de manière professionnelle : nous démontons le siphon si nécessaire, retirons complètement le bouchon et rinçons la canalisation. Sans produits chimiques, sans rayures sur votre sol de douche. Nous travaillons 24/7 dans tout le Limbourg avec des prix fixes et sommes généralement sur place en 2 heures.",
+      "features": [
+        "Cheveux et résidus de savon entièrement retirés du siphon",
+        "Plus de mauvaises odeurs dans la salle de bain",
+        "Sans casse — votre salle de bain reste intacte",
+        "Prix fixes — transparents à l'avance",
+        "Disponible 24/7 dans tout le Limbourg",
+        "Conseils pour éviter une récidive"
+      ],
+      "metaTitle": "Bonde Douche Bouchée Limbourg | Plombier 24/7 | Riory",
+      "metaDescription": "Bonde de douche bouchée au Limbourg ? Riory élimine rapidement cheveux et résidus de savon. Disponible 24/7. ☎ +32 472 50 28 14",
+      "h2Title": "Déboucher une bonde de douche au Limbourg",
+      "faq": [
+        {
+          "question": "Quelle est la cause d'une bonde de douche bouchée ?",
+          "answer": "Presque toujours une combinaison de cheveux, résidus de savon et sébum qui forment ensemble un bouchon dans le siphon. Une grille anti-cheveux peut prévenir de nombreux bouchons, mais les bouchons existants doivent être retirés professionnellement."
+        },
+        {
+          "question": "Puis-je résoudre cela moi-même avec un déboucheur chimique ?",
+          "answer": "Les produits chimiques n'aident que temporairement et endommagent à terme vos canalisations et siphon. Un retrait mécanique par Riory est plus durable et plus sûr pour votre installation."
+        },
+        {
+          "question": "Quelle est la rapidité d'intervention de Riory ?",
+          "answer": "Généralement en 1 à 2 heures à Hasselt, Genk, Tongres, Bilzen, Hoeselt et Saint-Trond. Disponible 24/7 au +32 472 50 28 14."
+        }
+      ]
+    },
+    "riool-verstopt": {
+      "title": "Égout Bouché au Limbourg — Riory BV",
+      "shortTitle": "Égout Bouché",
+      "description": "Égout bouché au Limbourg ? Plusieurs évacuations bloquées en même temps ? Riory BV s'en occupe avec jet haute pression + inspection caméra. 24/7 dans tout le Limbourg.",
+      "longDescription": "Lorsque plusieurs évacuations s'écoulent lentement en même temps — vos toilettes, douche et évier — le problème est plus profond : il y a un bouchon dans l'égout principal, pas dans un siphon individuel. Les signes typiques sont des gargouillements dans d'autres évacuations, de l'eau qui remonte par la bonde de douche, ou une forte odeur d'égout autour des regards d'inspection extérieurs. Un bouchon profond dans l'égout nécessite un équipement professionnel. Riory BV diagnostique chaque égout bouché au Limbourg d'abord correctement par inspection caméra. Dans la vallée de la Meuse et à Tongres, nous constatons souvent des racines de peupliers et de saules qui envahissent les canalisations d'égout. Dans les quartiers urbains de Hasselt et Genk, les couches de graisse et le tartre sont la cause la plus fréquente. Après le diagnostic, nous éliminons le bouchon avec un puissant jet haute pression — sans travaux de terrassement. Vous recevez un rapport avec images et un conseil honnête. Disponible 24/7 dans tout le Limbourg.",
+      "features": [
+        "Diagnostic par inspection caméra — cause exacte localisée",
+        "Jet haute pression puissant élimine racines, graisse et tartre",
+        "Adapté à l'égout principal, aux canalisations d'eau de pluie et d'eaux usées",
+        "Aucun terrassement dans 99% des cas",
+        "Rapport avec images et conseils",
+        "Débouchage d'urgence 24/7 dans tout le Limbourg"
+      ],
+      "metaTitle": "Égout Bouché Limbourg | Débouchage Urgence 24/7 | Riory",
+      "metaDescription": "Égout bouché au Limbourg ? Riory BV résout le problème avec jet haute pression et inspection caméra. Disponible 24/7. ☎ +32 472 50 28 14",
+      "h2Title": "Déboucher un égout au Limbourg — l'approche de Riory",
+      "faq": [
+        {
+          "question": "Comment savoir si mon égout principal est bouché ?",
+          "answer": "Si plusieurs évacuations s'écoulent lentement en même temps (WC, douche, évier), ou si l'eau remonte par la bonde de douche lorsque vous tirez la chasse, le bouchon se trouve dans l'égout principal — pas dans un seul siphon."
+        },
+        {
+          "question": "Faut-il creuser pour déboucher mon égout ?",
+          "answer": "Dans 99% des cas, non. Nous insérons le jet haute pression via un regard d'inspection existant et localisons le problème avec notre caméra. Le terrassement n'est nécessaire qu'en cas de ruptures graves ou d'affaissements."
+        },
+        {
+          "question": "Combien coûte un débouchage d'égout au Limbourg ?",
+          "answer": "Riory applique des prix fixes et transparents pour le débouchage d'égouts. Demandez un rendez-vous pour une estimation correcte ou appelez directement le +32 472 50 28 14."
+        }
+      ]
+    },
+    "gootsteen-verstopt": {
+      "title": "Évier Bouché au Limbourg — Riory BV",
+      "shortTitle": "Évier Bouché",
+      "description": "Évier bouché au Limbourg ? Riory BV résout rapidement le problème à prix fixe. Disponible 24/7 à Hasselt, Genk, Tongres, Bilzen et environs.",
+      "longDescription": "Un évier qui ne s'écoule pas, se vide lentement ou fait des bruits de gargouillement a presque toujours un siphon ou une canalisation bouchés. Pour les éviers de cuisine, la cause est généralement la graisse et les restes alimentaires ; pour les éviers de salle de bain, les cheveux, le dentifrice et le savon. Un évier bouché s'aggrave rapidement : plus vous attendez, plus le bouchon durcit. Riory BV débouche chaque évier au Limbourg rapidement et proprement. Dans les anciennes habitations de Bilzen et Hoeselt, nous constatons souvent des siphons en plomb vieux de vingt ans qui sont simplement à remplacer. Dans les appartements de Hasselt, il s'agit plus souvent d'un bouchon de graisse qui ne devient vraiment problématique qu'après des années de cuisine. Nous démontons le siphon si nécessaire, éliminons le bouchon et rinçons la canalisation. Résultat immédiat, prix fixe, sans casse.",
+      "features": [
+        "Évier à nouveau fluide en 1 intervention",
+        "Siphon nettoyé ou remplacé si nécessaire",
+        "Sans casse dans votre cuisine ou salle de bain",
+        "Prix fixes — transparents à l'avance",
+        "Disponible 24/7 dans tout le Limbourg",
+        "Sur place en 1 à 2 heures"
+      ],
+      "metaTitle": "Évier Bouché Limbourg | Plombier 24/7 | Riory",
+      "metaDescription": "Évier bouché au Limbourg ? Riory BV résout rapidement le problème. Disponible 24/7 à Hasselt, Genk, Tongres. ☎ +32 472 50 28 14",
+      "h2Title": "Déboucher un évier au Limbourg — la méthode de Riory",
+      "faq": [
+        {
+          "question": "Mon évier s'écoule lentement — dois-je attendre ?",
+          "answer": "Non. Un évier qui s'écoule lentement est le premier signe d'un bouchon qui se forme. Intervenir tôt est moins cher et plus simple qu'une évacuation complètement bouchée."
+        },
+        {
+          "question": "Quelle est la rapidité d'intervention de Riory ?",
+          "answer": "Généralement en 1 à 2 heures à Hasselt, Genk, Tongres, Bilzen, Hoeselt et Saint-Trond. Disponible 24/7, y compris le week-end."
+        },
+        {
+          "question": "Combien coûte le débouchage d'un évier ?",
+          "answer": "Riory applique des prix fixes pour le débouchage d'éviers. Vous savez à l'avance ce que vous payez. Demandez un rendez-vous pour une estimation."
+        }
+      ]
+    },
+    "lekkende-kraan": {
+      "title": "Robinet qui Fuit au Limbourg — Riory BV Répare",
+      "shortTitle": "Robinet qui Fuit",
+      "description": "Robinet qui fuit au Limbourg ? Riory BV répare rapidement et professionnellement. Disponible 24/7 dans tout le Limbourg — Hasselt, Genk, Tongres, Bilzen, Saint-Trond.",
+      "longDescription": "Un robinet qui fuit semble inoffensif, mais un robinet qui goutte gaspille rapidement des centaines de litres d'eau par mois — et un mitigeur qui fuit sous un évier peut causer des dégâts des eaux insidieux à votre meuble, sol ou plafond. Au Limbourg, nous constatons souvent ce problème dans les habitations construites dans les années 80-90 à Hasselt, Genk et Saint-Trond : des robinets jamais remplacés qui fuient maintenant à cause de joints en caoutchouc usés ou de tartre sur la cartouche. Riory BV répare chaque robinet qui fuit rapidement et proprement. Nous identifions sur place le problème — joint, cartouche ou le robinet lui-même — et conseillons honnêtement si une réparation ou un remplacement est le meilleur choix. Prix fixes, garantie sur les travaux, et aucun remplacement inutile si un simple joint suffit. Disponible 24/7 dans tout le Limbourg.",
+      "features": [
+        "Robinet qui fuit réparé professionnellement — plus de gaspillage d'eau",
+        "Joint, cartouche ou robinet entier remplacé",
+        "Adapté pour cuisine, salle de bain et lavabo",
+        "Disponible 24/7 dans tout le Limbourg",
+        "Prix fixes — garantie sur les travaux effectués",
+        "Évite les dégâts des eaux au meuble, sol et plafond"
+      ],
+      "metaTitle": "Robinet qui Fuit Limbourg | Plombier 24/7 | Riory",
+      "metaDescription": "Robinet qui fuit au Limbourg ? Riory BV répare rapidement et professionnellement. Disponible 24/7 dans tout le Limbourg. ☎ +32 472 50 28 14",
+      "h2Title": "Réparer un robinet qui fuit au Limbourg",
+      "faq": [
+        {
+          "question": "Combien d'eau un robinet qui fuit gaspille-t-il ?",
+          "answer": "Un robinet qui goutte chaque seconde gaspille rapidement 15 à 20 litres par jour — plus de 5000 litres par an. Une réparation ciblée se rentabilise rapidement."
+        },
+        {
+          "question": "Tout robinet peut-il être réparé ou faut-il le remplacer ?",
+          "answer": "Dans de nombreux cas, le remplacement d'un joint ou d'une cartouche suffit. Pour les robinets anciens, le tartre ou des pièces endommagées, le remplacement est souvent plus durable. Riory vous conseille honnêtement sur place."
+        },
+        {
+          "question": "Quelle est la rapidité d'intervention de Riory pour un robinet qui fuit ?",
+          "answer": "Généralement en 1 à 2 heures à Hasselt, Genk, Tongres, Bilzen, Hoeselt et Saint-Trond. Pour les réparations non urgentes, nous pouvons aussi planifier un rendez-vous au moment de votre choix."
+        }
+      ]
+    },
+    "lekkage-opsporen": {
+      "title": "Détection de Fuite au Limbourg — Riory BV",
+      "shortTitle": "Détection de Fuite",
+      "description": "Taches d'humidité, moisissure ou facture d'eau inexpliquée ? Riory détecte les fuites cachées au Limbourg sans casse. Disponible 24/7 à Hasselt, Genk, Tongres, Bilzen et environs.",
+      "longDescription": "Une fuite cachée est insidieuse. Vous voyez une tache d'humidité sur le mur, votre facture d'eau est soudainement beaucoup plus élevée que d'habitude, ou vous entendez le bruit de l'eau qui coule alors que tous les robinets sont fermés. Mais où se trouve la fuite ? Au Limbourg, nous constatons ce problème souvent dans les anciennes habitations de Tongres et Bilzen, où les canalisations des années 60-70 vieillissent progressivement, mais aussi dans des appartements plus récents à Hasselt et Genk où un mauvais raccordement ne pose problème qu'après des années.\n\nRiory BV détecte chaque fuite cachée au Limbourg sans casse inutile. Nous utilisons un équipement professionnel — détection acoustique de fuites, caméra thermographique et gaz traceur — pour localiser précisément la fuite. Ainsi, notre technicien sait déjà avant de casser la première pierre où se trouve le problème. Après la détection, vous recevez un rapport clair et un conseil honnête pour la réparation.",
+      "features": [
+        "Détection acoustique de fuites — entendre la fuite sans casse",
+        "Caméra thermographique — rendre visibles les taches d'humidité",
+        "Gaz traceur pour canalisations difficiles d'accès",
+        "Adapté aux fuites d'eau, de chauffage et d'égout",
+        "Rapport clair avec localisation exacte de la fuite",
+        "Disponible 24/7 à Hasselt, Genk, Tongres, Bilzen et Hoeselt",
+        "Prix fixes et transparents — aucune surprise"
+      ],
+      "metaTitle": "Détection Fuite Limbourg | Sans Casse | Riory",
+      "metaDescription": "Fuite cachée au Limbourg ? Riory détecte les fuites sans casse — acoustique, thermographique ou gaz traceur. ✓ 24/7 ✓ Rapport ✓ Prix fixe. Appelez !",
+      "h2Title": "Détecter une fuite cachée au Limbourg — l'approche de Riory",
+      "faq": [
+        {
+          "question": "Comment savoir si j'ai une fuite cachée ?",
+          "answer": "Signes typiques : une tache d'humidité qui s'agrandit sur un mur ou un plafond, de la moisissure sans cause apparente, une facture d'eau qui a soudainement augmenté sans que vous utilisiez plus d'eau, ou le bruit de l'eau qui coule alors que tout est fermé. En présence d'un ou plusieurs de ces signes, une détection de fuite est recommandée."
+        },
+        {
+          "question": "Faut-il creuser ou casser pour détecter une fuite ?",
+          "answer": "Dans 95% des cas, non. Avec la détection acoustique, la thermographie ou le gaz traceur, nous localisons la fuite au centimètre près — sans casser une seule pierre. Ce n'est qu'après la détection que le réparateur sait précisément où travailler."
+        },
+        {
+          "question": "Combien coûte la détection de fuite au Limbourg ?",
+          "answer": "Riory applique des tarifs fixes et transparents pour la détection de fuites. Le prix dépend de la méthode utilisée et de la complexité. Vous savez à l'avance ce que vous payez — demandez un rendez-vous ou appelez le +32 472 50 28 14."
+        }
+      ]
+    },
+    "dakgootreiniging": {
+      "title": "Nettoyage de Gouttières au Limbourg — Riory BV",
+      "shortTitle": "Nettoyage de Gouttières",
+      "description": "Gouttières bouchées au Limbourg ? Riory nettoie en profondeur gouttières et descentes d'eau pluviale — pour particuliers et syndics. Disponible 24/7 à Hasselt, Genk, Tongres, Bilzen et environs.",
+      "longDescription": "En automne, les feuilles, la mousse et les brindilles remplissent les gouttières des habitations dans tout le Limbourg. À Hasselt-Kermt, Tongres et les communes rurales autour de Borgloon et Wellen, nous constatons cela chaque année : des gouttières bouchées qui n'évacuent plus l'eau de pluie, qui déborde alors et cause des dégâts à la façade, aux fondations ou à la cave.\n\nUne gouttière bouchée semble inoffensive mais les conséquences ne le sont pas. L'eau qui coule le long de la façade pénètre à terme dans l'isolation du mur. En hiver, les gouttières gelées causent une formation de glace qui endommage physiquement la gouttière. Riory BV nettoie en profondeur gouttières et descentes d'eau pluviale dans tout le Limbourg — pour habitations particulières, immeubles à appartements et syndics. Nous travaillons en hauteur avec l'équipement de sécurité adéquat, retirons toutes les feuilles et boues, et vérifions que les descentes s'écoulent librement vers la citerne ou l'égout.",
+      "features": [
+        "Nettoyage approfondi des gouttières et descentes d'eau pluviale",
+        "Élimination des feuilles, mousse, brindilles et boues",
+        "Vérification de l'écoulement vers la citerne ou l'égout",
+        "Adapté à tous types d'habitations et immeubles à appartements",
+        "Travail sécurisé en hauteur avec équipement professionnel",
+        "Entretien annuel préventif possible",
+        "Disponible 24/7 — aussi pour les urgences en cas d'inondation"
+      ],
+      "metaTitle": "Nettoyage Gouttières Limbourg | Gouttière Bouchée | Riory",
+      "metaDescription": "Gouttière bouchée au Limbourg ? Riory nettoie gouttières et descentes en profondeur en hauteur. ✓ Particulier & syndics ✓ Prix fixe ✓ 24/7. Appelez !",
+      "h2Title": "Nettoyer les gouttières au Limbourg — pour particuliers et syndics",
+      "faq": [
+        {
+          "question": "À quelle fréquence faut-il nettoyer une gouttière ?",
+          "answer": "Au moins une fois par an, de préférence en novembre après la chute des feuilles. Les habitations sous des arbres ou avec un toit plat peuvent bénéficier de deux nettoyages par an — avant et après la saison automnale."
+        },
+        {
+          "question": "Quelles sont les conséquences d'une gouttière bouchée ?",
+          "answer": "L'eau de pluie qui ne peut pas s'écouler déborde de la gouttière et pénètre dans la façade, l'isolation ou les fondations. À terme, cela entraîne des dégâts d'humidité, de la moisissure et des réparations coûteuses. Le nettoyage préventif est toujours moins cher que les dégâts ultérieurs."
+        },
+        {
+          "question": "Riory travaille-t-il aussi pour les immeubles à appartements et les syndics ?",
+          "answer": "Oui. Riory BV a de l'expérience avec les immeubles à plusieurs étages et les immeubles à appartements à Hasselt, Genk et Tongres. Nous prenons des rendez-vous sur mesure pour les syndics et fournissons un rapport détaillé après chaque intervention."
+        }
+      ]
+    },
+    "rioolreparatie": {
+      "title": "Réparation d'Égout au Limbourg — Riory BV",
+      "shortTitle": "Réparation d'Égout",
+      "description": "Égout cassé, affaissé ou endommagé par des racines au Limbourg ? Riory répare les égouts professionnellement — avec ou sans terrassement. Disponible 24/7 à Hasselt, Genk, Tongres, Bilzen et environs.",
+      "longDescription": "Une réparation d'égout est différente d'un débouchage. En cas de bouchon, quelque chose se trouve dans la canalisation ; en cas de réparation, la canalisation elle-même est endommagée — cassée, affaissée, désolidarisée à un raccord, ou envahie par des racines d'arbres. Au Limbourg, nous constatons cela souvent dans les anciens quartiers de Tongres et Bilzen, où les canalisations d'égout en béton des années 50-60 atteignent simplement la fin de leur durée de vie. Dans les jardins avec des peupliers ou des saules, l'envahissement par les racines est aussi une cause fréquente.\n\nRiory BV effectue des réparations d'égout dans tout le Limbourg — d'une simple réparation de rupture au remplacement d'un segment entier de canalisation. Nous commençons toujours par une inspection caméra pour cartographier précisément les dégâts. Lorsque c'est possible, nous travaillons sans terrassement via des techniques sans tranchée comme le chemisage. Lorsque creuser est nécessaire, nous travaillons rapidement, proprement et laissons les lieux propres. Vous recevez toujours un rapport avec images avant et après.",
+      "features": [
+        "Inspection caméra d'abord — dégâts exacts cartographiés avant le début des travaux",
+        "Rupture, fissure ou désolidarisation réparée professionnellement",
+        "Envahissement de racines retiré mécaniquement et canalisation réparée",
+        "Chemisage sans tranchée si possible — pas de terrassement",
+        "Remplacement complet de canalisation si nécessaire",
+        "Rapport avec images avant et après",
+        "Disponible 24/7 dans tout le Limbourg"
+      ],
+      "metaTitle": "Réparation Égout Limbourg | Rupture, Affaissement & Racines | Riory",
+      "metaDescription": "Égout cassé ou affaissé au Limbourg ? Riory répare professionnellement — inspection caméra, chemisage sans tranchée ou remplacement. ✓ 24/7 ✓ Prix fixe. Appelez !",
+      "h2Title": "Réparation d'égout au Limbourg — rupture, affaissement et racines",
+      "faq": [
+        {
+          "question": "Comment savoir si mon égout est cassé et pas simplement bouché ?",
+          "answer": "Des bouchons récurrents au même endroit, un affaissement du sol dans le jardin au-dessus de la ligne d'égout, une odeur d'égout permanente ou de l'eau qui remonte à la surface sont des signes typiques d'une rupture ou d'un affaissement. Une inspection caméra confirme le diagnostic."
+        },
+        {
+          "question": "Faut-il toujours creuser pour une réparation d'égout ?",
+          "answer": "Pas toujours. Pour les petites fissures ou désolidarisations, nous pouvons réparer les dégâts via le chemisage — une technique où une nouvelle canalisation intérieure est posée sans creuser. Seuls les affaissements graves ou ruptures complètes nécessitent un terrassement."
+        },
+        {
+          "question": "Combien coûte une réparation d'égout au Limbourg ?",
+          "answer": "Le prix dépend de la nature des dégâts, de la profondeur de la canalisation et de la méthode de réparation choisie. Riory propose toujours une offre honnête après l'inspection caméra. Appelez le +32 472 50 28 14 ou demandez un rendez-vous."
+        }
+      ]
+    },
+    "rioolvliegjes": {
+      "title": "Moucherons d'Égout au Limbourg — Détecter & Résoudre la Cause | Riory",
+      "shortTitle": "Moucherons d'Égout",
+      "description": "Petits insectes dans la salle de bain, la cuisine ou la cave au Limbourg ? Les moucherons d'égout indiquent un raccord d'égout ouvert. Riory détecte la source et résout le problème. Disponible 24/7.",
+      "longDescription": "Vous voyez de petits insectes sombres dans la salle de bain, autour de l'évier ou dans la cave. Ils sont lents, reviennent sans cesse et les produits chimiques n'aident que temporairement. Ce sont presque certainement des moucherons d'égout — aussi appelés mites des égouts. Ils vivent et se reproduisent dans les boues organiques qui s'accumulent dans les évacuations bouchées ou lentes, et sortent par des raccords ouverts ou des fissures dans votre canalisation d'égout.\n\nAu Limbourg, nous constatons des moucherons d'égout le plus souvent dans les anciennes habitations de Tongres, Bilzen et du centre de Hasselt, où les canalisations d'évacuation ont déjà des décennies et où de petites fissures ou raccords de siphon ouverts laissent entrer le fléau. Un traitement chimique combat les moucherons adultes mais pas le lieu de reproduction. Riory BV s'attaque au problème à la source : nous détectons le raccord ouvert ou la canalisation endommagée par inspection caméra ou détection de fumée, réparons le défaut, et nettoyons en profondeur les évacuations concernées afin que le lieu de reproduction disparaisse.",
+      "features": [
+        "Détection de la cause par inspection caméra ou détection de fumée",
+        "Raccord d'égout ouvert ou fissure réparé professionnellement",
+        "Nettoyage approfondi des évacuations concernées",
+        "Lieu de reproduction dans les boues entièrement éliminé",
+        "Pas de traitement chimique temporaire mais une solution permanente",
+        "Disponible 24/7 à Hasselt, Genk, Tongres, Bilzen et Hoeselt"
+      ],
+      "metaTitle": "Moucherons Égout Limbourg | Détecter & Résoudre | Riory",
+      "metaDescription": "Moucherons d'égout dans la salle de bain ou cuisine au Limbourg ? Riory détecte la source et résout le problème durablement. ✓ Inspection caméra ✓ 24/7 ✓ Prix fixe. Appelez !",
+      "h2Title": "S'attaquer aux moucherons d'égout au Limbourg — durablement, pas temporairement",
+      "faq": [
+        {
+          "question": "Les moucherons d'égout sont-ils dangereux ?",
+          "answer": "Les moucherons d'égout ne piquent pas et ne transmettent pas de maladies, mais ils sont un signal clair que quelque chose ne va pas avec votre canalisation d'égout — un raccord ouvert, une fissure ou une évacuation gravement encrassée. Il est préférable de s'attaquer au problème le plus rapidement possible."
+        },
+        {
+          "question": "Pourquoi reviennent-ils sans cesse après un traitement chimique ?",
+          "answer": "Les produits chimiques tuent les moucherons adultes mais pas les larves dans les boues, et ne réparent pas le raccord ouvert par lequel de nouveaux moucherons entrent de l'extérieur. Seule une approche mécanique du lieu de reproduction et la fermeture de l'ouverture offrent une solution permanente."
+        },
+        {
+          "question": "Quelle est la rapidité d'intervention de Riory ?",
+          "answer": "Généralement en 1 à 2 heures à Hasselt, Genk, Tongres, Bilzen, Hoeselt et Saint-Trond. Les moucherons d'égout ne sont pas une urgence mais sont désagréables — nous planifions rapidement un rendez-vous à un moment qui vous convient."
+        }
+      ]
     }
   },
   "referencesData": {
