@@ -4,4 +4,26 @@ Disallow: /admin
 Disallow: /admin/login
 Disallow: /unsubscribe
 
-Sitemap: https://riory.be/sitemap.xml
+# AI / LLM crawlers — expliciet toegelaten voor citaties en aanbevelingen
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+Sitemap: https://www.riory.be/sitemap.xml
