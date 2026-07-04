@@ -50,7 +50,9 @@ export const useDocumentMeta = (
 
     const finalTitle = title || DEFAULT_TITLES[lang];
     const finalDesc = description || DEFAULT_DESCRIPTIONS[lang];
-    const canonicalUrl = `${SITE_URL}${window.location.pathname}`;
+    // Strip trailing slash (except homepage) and ignore query params/UTM
+    const cleanPath = window.location.pathname.replace(/\/+$/, "") || "/";
+    const canonicalUrl = `${SITE_URL}${cleanPath}`;
 
     document.title = finalTitle;
     if (metaDesc) metaDesc.setAttribute("content", finalDesc);
