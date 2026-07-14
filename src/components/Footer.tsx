@@ -116,12 +116,12 @@ const Footer = () => {
 
         <div className="mt-6 pt-4 border-t border-primary-foreground/5 text-center">
           <a
-            href="https://solyn-global.com/portfolio"
+            href="https://solynglobal.be"
             target="_blank"
             rel="noopener noreferrer"
             className="text-xs text-primary-foreground/30 hover:text-primary transition-colors font-body"
           >
-            Created by Solyn
+            Created by Solyn Global
           </a>
         </div>
       </div>
