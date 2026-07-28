@@ -161,7 +161,7 @@ const Admin = () => {
     setLoadingData(true);
     const { data } = await supabase
       .from("appointments")
-      .select("gevonden_via, gevonden_detail, created_at, dienst, fact_naam, fact_voornaam, fact_email")
+      .select("gevonden_via, gevonden_detail, created_at, dienst, fact_naam, fact_voornaam, fact_email, fact_plaats, werf_plaats")
       .order("created_at", { ascending: false });
     setSources((data as SourceRow[]) || []);
     setLoadingData(false);
