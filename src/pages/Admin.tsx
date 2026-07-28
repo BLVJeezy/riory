@@ -754,6 +754,7 @@ const Admin = () => {
                               <th className="py-2 pr-3">Bron</th>
                               <th className="py-2 pr-3">Detail</th>
                               <th className="py-2 pr-3">Dienst</th>
+                              <th className="py-2 pr-3">Regio</th>
                               <th className="py-2 pr-3">Klant</th>
                             </tr>
                           </thead>
