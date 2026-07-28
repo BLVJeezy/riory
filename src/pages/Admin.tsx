@@ -93,6 +93,7 @@ const Admin = () => {
   const [showCustom, setShowCustom] = useState(false);
   const [sourceFilter, setSourceFilter] = useState<string>("all");
   const [monthFilter, setMonthFilter] = useState<string>("all");
+  const [showAllRegios, setShowAllRegios] = useState(false);
 
   const getDateRange = (preset: string): { from: Date | null; to: Date | null } => {
     const now = new Date();
