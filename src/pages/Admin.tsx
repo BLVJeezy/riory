@@ -562,7 +562,15 @@ const Admin = () => {
 
                 {/* Verdeling per regio */}
                 <div className="bg-background rounded-xl p-4 sm:p-6 border border-border shadow-sm">
-                  <h3 className="font-heading font-semibold text-foreground mb-4">Verdeling per regio</h3>
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="font-heading font-semibold text-foreground">Top regio's</h3>
+                    <span className="text-xs text-muted-foreground font-body bg-muted px-2 py-1 rounded-full">
+                      {(() => {
+                        const set = new Set(filteredSources.map((s) => regioFor(s)));
+                        return `${set.size} regio's`;
+                      })()}
+                    </span>
+                  </div>
                   {(() => {
                     const regioCounts: Record<string, number> = {};
                     filteredSources.forEach((s) => {
@@ -573,89 +581,48 @@ const Admin = () => {
                       .map(([label, count]) => ({ label, count }))
                       .sort((a, b) => b.count - a.count);
                     const regioMax = regioRanked[0]?.count || 1;
-                    const palette = [
-                      "hsl(217 91% 60%)",
-                      "hsl(24 95% 53%)",
-                      "hsl(142 71% 45%)",
-                      "hsl(346 77% 49%)",
-                      "hsl(280 65% 60%)",
-                      "hsl(48 96% 53%)",
-                      "hsl(189 94% 43%)",
-                      "hsl(330 81% 60%)",
-                      "hsl(160 84% 39%)",
-                      "hsl(15 79% 35%)",
-                      "hsl(258 90% 66%)",
-                      "hsl(75 64% 45%)",
-                    ];
                     if (!regioRanked.length) {
                       return <p className="text-sm text-muted-foreground font-body">Nog geen data beschikbaar.</p>;
                     }
                     return (
-                      <div className="flex flex-col gap-4">
-                        <div className="h-44 sm:h-56 w-full max-w-xs mx-auto sm:max-w-none">
-                          <ResponsiveContainer width="100%" height="100%">
-                            <PieChart>
-                              <Pie
-                                data={regioRanked}
-                                dataKey="count"
-                                nameKey="label"
-                                cx="50%"
-                                cy="50%"
-                                innerRadius="35%"
-                                outerRadius="72%"
-                                paddingAngle={2}
-                                label={(e: any) => `${Math.round((e.count / total) * 100)}%`}
-                                labelLine={false}
-                              >
-                                {regioRanked.map((_, i) => (
-                                  <Cell key={i} fill={palette[i % palette.length]} />
-                                ))}
-                              </Pie>
-                              <Tooltip
-                                contentStyle={{
-                                  background: "hsl(var(--background))",
-                                  border: "1px solid hsl(var(--border))",
-                                  borderRadius: "0.5rem",
-                                  fontSize: "0.75rem",
-                                }}
-                                formatter={(v: number, n: string) => [`${v} (${Math.round((v / total) * 100)}%)`, n]}
-                              />
-                            </PieChart>
-                          </ResponsiveContainer>
-                        </div>
-                        <div className="space-y-2">
-                          {regioRanked.map((r, i) => {
-                            const pct = total ? Math.round((r.count / total) * 100) : 0;
-                            const color = palette[i % palette.length];
-                            return (
-                              <div key={r.label} className="flex items-center gap-2">
-                                <span
-                                  className="w-2.5 h-2.5 rounded-full shrink-0"
-                                  style={{ background: color }}
-                                />
-                                <span className="text-xs font-body text-foreground w-28 sm:w-40 shrink-0 truncate">
-                                  {r.label}
-                                </span>
-                                <div className="flex-1 bg-muted rounded-full h-4 overflow-hidden min-w-0">
-                                  <div
-                                    className="h-full rounded-full transition-all"
-                                    style={{
-                                      width: `${Math.max(5, (r.count / regioMax) * 100)}%`,
-                                      background: color,
-                                    }}
-                                  />
+                      <div className="space-y-2.5">
+                        {regioRanked.map((r, i) => {
+                          const pct = total ? Math.round((r.count / total) * 100) : 0;
+                          const barPct = Math.max(6, (r.count / regioMax) * 100);
+                          return (
+                            <div key={r.label} className="group">
+                              <div className="flex items-center justify-between mb-1 gap-2">
+                                <div className="flex items-center gap-2 min-w-0">
+                                  <span className="text-[10px] font-heading font-bold text-muted-foreground w-4 shrink-0">
+                                    #{i + 1}
+                                  </span>
+                                  <span className="text-sm font-body font-medium text-foreground truncate">
+                                    {r.label}
+                                  </span>
                                 </div>
-                                <span className="text-xs font-heading font-semibold text-foreground w-16 text-right shrink-0">
-                                  {r.count} ({pct}%)
+                                <span className="text-xs font-heading font-semibold text-foreground shrink-0 tabular-nums">
+                                  {r.count}
+                                  <span className="text-muted-foreground font-body font-normal ml-1">
+                                    ({pct}%)
+                                  </span>
                                 </span>
                               </div>
-                            );
-                          })}
-                        </div>
+                              <div className="w-full bg-muted rounded-full h-2 overflow-hidden">
+                                <div
+                                  className="h-full rounded-full bg-primary transition-all"
+                                  style={{ width: `${barPct}%` }}
+                                />
+                              </div>
+                            </div>
+                          );
+                        })}
                       </div>
                     );
                   })()}
                 </div>
+
+
+
 
 
 
