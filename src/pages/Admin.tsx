@@ -93,6 +93,7 @@ const Admin = () => {
   const [showCustom, setShowCustom] = useState(false);
   const [sourceFilter, setSourceFilter] = useState<string>("all");
   const [monthFilter, setMonthFilter] = useState<string>("all");
+  const [showAllRegios, setShowAllRegios] = useState(false);
 
   const getDateRange = (preset: string): { from: Date | null; to: Date | null } => {
     const now = new Date();
@@ -584,9 +585,11 @@ const Admin = () => {
                     if (!regioRanked.length) {
                       return <p className="text-sm text-muted-foreground font-body">Nog geen data beschikbaar.</p>;
                     }
+                    const hasMore = regioRanked.length > 5;
+                    const visible = showAllRegios ? regioRanked : regioRanked.slice(0, 5);
                     return (
                       <div className="space-y-2.5">
-                        {regioRanked.map((r, i) => {
+                        {visible.map((r, i) => {
                           const pct = total ? Math.round((r.count / total) * 100) : 0;
                           const barPct = Math.max(6, (r.count / regioMax) * 100);
                           return (
@@ -616,6 +619,15 @@ const Admin = () => {
                             </div>
                           );
                         })}
+                        {hasMore && (
+                          <button
+                            type="button"
+                            onClick={() => setShowAllRegios((v) => !v)}
+                            className="w-full mt-3 py-2 px-4 rounded-lg border border-border bg-muted/50 hover:bg-muted text-sm font-body font-medium text-foreground transition-colors"
+                          >
+                            {showAllRegios ? "Toon top 5 regio's" : `Bekijk alle ${regioRanked.length} regio's`}
+                          </button>
+                        )}
                       </div>
                     );
                   })()}
