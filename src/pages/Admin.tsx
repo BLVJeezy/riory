@@ -168,12 +168,13 @@ const Admin = () => {
   };
 
   const exportSourcesCSV = () => {
-    const headers = ["Datum", "Bron", "Detail", "Dienst", "Naam", "Email"];
+    const headers = ["Datum", "Bron", "Detail", "Dienst", "Regio", "Naam", "Email"];
     const rows = filteredSources.map((s) => [
       new Date(s.created_at).toLocaleString("nl-BE"),
       labelFor(s.gevonden_via),
       s.gevonden_detail || "",
       s.dienst || "",
+      regioFor(s),
       `${s.fact_voornaam || ""} ${s.fact_naam || ""}`.trim(),
       s.fact_email || "",
     ]);
