@@ -734,6 +734,7 @@ const Admin = () => {
                                 </span>
                               </div>
                               <p className="text-sm font-body text-foreground truncate">{klant}</p>
+                              <p className="text-xs text-primary font-body font-semibold truncate">📍 {regioFor(s)}</p>
                               <p className="text-xs text-muted-foreground font-body truncate">{s.dienst}</p>
                               {s.gevonden_detail && (
                                 <p className="text-xs text-muted-foreground font-body italic truncate">
