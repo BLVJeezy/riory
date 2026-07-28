@@ -767,6 +767,7 @@ const Admin = () => {
                                 <td className="py-2 pr-3 text-foreground">{labelFor(s.gevonden_via)}</td>
                                 <td className="py-2 pr-3 text-muted-foreground">{s.gevonden_detail || "—"}</td>
                                 <td className="py-2 pr-3 text-muted-foreground">{s.dienst}</td>
+                                <td className="py-2 pr-3 text-foreground font-medium">{regioFor(s)}</td>
                                 <td className="py-2 pr-3 text-muted-foreground">
                                   {`${s.fact_voornaam || ""} ${s.fact_naam || ""}`.trim() || s.fact_email}
                                 </td>
