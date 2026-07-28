@@ -17,7 +17,20 @@ interface SourceRow {
   fact_naam: string | null;
   fact_voornaam: string | null;
   fact_email: string;
+  fact_plaats: string | null;
+  werf_plaats: string | null;
 }
+
+const regioFor = (s: { werf_plaats: string | null; fact_plaats: string | null }) => {
+  const raw = (s.werf_plaats || s.fact_plaats || "").trim();
+  if (!raw) return "Onbekend";
+  // Normalize: capitalize first letter of each word
+  return raw
+    .toLowerCase()
+    .split(/\s+/)
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(" ");
+};
 
 const SOURCE_LABELS: Record<string, string> = {
   facebook: "Facebook",
