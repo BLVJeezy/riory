@@ -84,6 +84,8 @@ export type Database = {
           gevonden_via: string | null
           id: string
           klant_type: string
+          lead_bron: string | null
+          lead_bron_prijs: string | null
           syndicus_email: string | null
           syndicus_facturatie_email: string | null
           syndicus_huisnummer: string | null
@@ -128,6 +130,8 @@ export type Database = {
           gevonden_via?: string | null
           id?: string
           klant_type: string
+          lead_bron?: string | null
+          lead_bron_prijs?: string | null
           syndicus_email?: string | null
           syndicus_facturatie_email?: string | null
           syndicus_huisnummer?: string | null
@@ -172,6 +176,8 @@ export type Database = {
           gevonden_via?: string | null
           id?: string
           klant_type?: string
+          lead_bron?: string | null
+          lead_bron_prijs?: string | null
           syndicus_email?: string | null
           syndicus_facturatie_email?: string | null
           syndicus_huisnummer?: string | null
