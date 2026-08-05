@@ -226,6 +226,28 @@ const AppointmentForm = () => {
     if (paramVia === "calculator") {
       setLeadBron("calculator");
       if (paramPrijs) setLeadBronPrijs(paramPrijs);
+      try {
+        sessionStorage.setItem(
+          "riory_lead_bron",
+          JSON.stringify({ bron: "calculator", prijs: paramPrijs || null }),
+        );
+      } catch {
+        /* ignore */
+      }
+    } else {
+      // Bewaar calculator-herkomst ook als de bezoeker de URL-parameters kwijtraakt
+      try {
+        const saved = sessionStorage.getItem("riory_lead_bron");
+        if (saved) {
+          const parsed = JSON.parse(saved) as { bron?: string; prijs?: string | null };
+          if (parsed.bron === "calculator") {
+            setLeadBron("calculator");
+            if (parsed.prijs) setLeadBronPrijs(parsed.prijs);
+          }
+        }
+      } catch {
+        /* ignore */
+      }
     }
   }, [searchParams]);
 
