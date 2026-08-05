@@ -19,6 +19,8 @@ interface SourceRow {
   fact_email: string;
   fact_plaats: string | null;
   werf_plaats: string | null;
+  lead_bron: string | null;
+  lead_bron_prijs: string | null;
 }
 
 const regioFor = (s: { werf_plaats: string | null; fact_plaats: string | null }) => {
@@ -146,6 +148,14 @@ const Admin = () => {
     });
   }, [sources, monthFilter, sourceFilter]);
 
+  const calculatorStats = useMemo(() => {
+    const viaCalculator = filteredSources.filter((s) => s.lead_bron === "calculator").length;
+    const rechtstreeks = filteredSources.length - viaCalculator;
+    const totaal = filteredSources.length;
+    const percentage = totaal > 0 ? Math.round((viaCalculator / totaal) * 100) : 0;
+    return { viaCalculator, rechtstreeks, totaal, percentage };
+  }, [filteredSources]);
+
   useEffect(() => {
     if (!loading && (!user || !isAdmin)) {
       navigate("/admin/login");
@@ -162,7 +172,7 @@ const Admin = () => {
     setLoadingData(true);
     const { data } = await supabase
       .from("appointments")
-      .select("gevonden_via, gevonden_detail, created_at, dienst, fact_naam, fact_voornaam, fact_email, fact_plaats, werf_plaats")
+      .select("gevonden_via, gevonden_detail, created_at, dienst, fact_naam, fact_voornaam, fact_email, fact_plaats, werf_plaats, lead_bron, lead_bron_prijs")
       .order("created_at", { ascending: false });
     setSources((data as SourceRow[]) || []);
     setLoadingData(false);
@@ -472,6 +482,27 @@ const Admin = () => {
                   </div>
                 </div>
 
+                <div className="bg-background rounded-xl p-4 sm:p-6 border border-border shadow-sm">
+                  <h3 className="font-heading font-semibold text-foreground mb-4">Prijscalculator — conversie</h3>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div className="bg-muted/50 rounded-lg p-4">
+                      <p className="text-xs text-muted-foreground font-body mb-1">Via calculator</p>
+                      <p className="text-2xl font-heading font-bold text-foreground">{calculatorStats.viaCalculator}</p>
+                    </div>
+                    <div className="bg-muted/50 rounded-lg p-4">
+                      <p className="text-xs text-muted-foreground font-body mb-1">Rechtstreeks</p>
+                      <p className="text-2xl font-heading font-bold text-foreground">{calculatorStats.rechtstreeks}</p>
+                    </div>
+                    <div className="bg-primary/5 border border-primary/20 rounded-lg p-4">
+                      <p className="text-xs text-muted-foreground font-body mb-1">% via calculator</p>
+                      <p className="text-2xl font-heading font-bold text-primary">{calculatorStats.percentage}%</p>
+                    </div>
+                  </div>
+                  <p className="text-xs text-muted-foreground font-body mt-3">
+                    Van {calculatorStats.totaal} afspra{calculatorStats.totaal === 1 ? "ak" : "ken"} kwam {calculatorStats.viaCalculator} via de prijscalculator — wie eerst een prijs berekende, boekte daarna wél een afspraak.
+                  </p>
+                </div>
+
                 <div ref={sourcesReportRef} className="space-y-6 bg-background">
                 <div className="bg-background rounded-xl p-4 sm:p-6 border border-border shadow-sm">
                   <h3 className="font-heading font-semibold text-foreground mb-4">Verdeling per kanaal</h3>
@@ -715,6 +746,14 @@ const Admin = () => {
                               <p className="text-sm font-body text-foreground truncate">{klant}</p>
                               <p className="text-xs text-primary font-body font-semibold truncate">📍 {regioFor(s)}</p>
                               <p className="text-xs text-muted-foreground font-body truncate">{s.dienst}</p>
+                              <div className="flex items-center gap-1.5">
+                                <span className={`text-[10px] font-heading font-semibold px-1.5 py-0.5 rounded-full ${s.lead_bron === "calculator" ? "bg-primary/10 text-primary" : "bg-muted text-muted-foreground"}`}>
+                                  {s.lead_bron === "calculator" ? "🧮 Calculator" : "Rechtstreeks"}
+                                </span>
+                                {s.lead_bron === "calculator" && s.lead_bron_prijs && (
+                                  <span className="text-[10px] text-muted-foreground font-body">{s.lead_bron_prijs}</span>
+                                )}
+                              </div>
                               {s.gevonden_detail && (
                                 <p className="text-xs text-muted-foreground font-body italic truncate">
                                   {s.gevonden_detail}
@@ -735,6 +774,7 @@ const Admin = () => {
                               <th className="py-2 pr-3">Dienst</th>
                               <th className="py-2 pr-3">Regio</th>
                               <th className="py-2 pr-3">Klant</th>
+                              <th className="py-2 pr-3">Lead-bron</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -749,6 +789,14 @@ const Admin = () => {
                                 <td className="py-2 pr-3 text-foreground font-medium">{regioFor(s)}</td>
                                 <td className="py-2 pr-3 text-muted-foreground">
                                   {`${s.fact_voornaam || ""} ${s.fact_naam || ""}`.trim() || s.fact_email}
+                                </td>
+                                <td className="py-2 pr-3">
+                                  <span className={`text-xs font-heading font-semibold px-2 py-0.5 rounded-full whitespace-nowrap ${s.lead_bron === "calculator" ? "bg-primary/10 text-primary" : "bg-muted text-muted-foreground"}`}>
+                                    {s.lead_bron === "calculator" ? "🧮 Calculator" : "Rechtstreeks"}
+                                  </span>
+                                  {s.lead_bron === "calculator" && s.lead_bron_prijs && (
+                                    <span className="block text-[11px] text-muted-foreground mt-0.5">{s.lead_bron_prijs}</span>
+                                  )}
                                 </td>
                               </tr>
                             ))}

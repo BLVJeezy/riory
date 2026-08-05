@@ -197,6 +197,10 @@ const AppointmentForm = () => {
   const [gevondenVia, setGevondenVia] = useState("");
   const [gevondenDetail, setGevondenDetail] = useState("");
 
+  // Lead-bron: komt de bezoeker via de prijscalculator of rechtstreeks?
+  const [leadBron, setLeadBron] = useState<string>("rechtstreeks");
+  const [leadBronPrijs, setLeadBronPrijs] = useState<string | null>(null);
+
   // Prefill from URL params (from prijscalculator)
   useEffect(() => {
     const paramDienst = searchParams.get("dienst");
@@ -204,6 +208,8 @@ const AppointmentForm = () => {
     const paramHuisnummer = searchParams.get("huisnummer");
     const paramPostcode = searchParams.get("postcode");
     const paramPlaats = searchParams.get("plaats");
+    const paramVia = searchParams.get("via");
+    const paramPrijs = searchParams.get("prijs");
 
     if (paramDienst && diensten.includes(paramDienst)) {
       setDienst(paramDienst);
@@ -216,6 +222,10 @@ const AppointmentForm = () => {
         postcode: paramPostcode || p.postcode,
         plaats: paramPlaats || p.plaats,
       }));
+    }
+    if (paramVia === "calculator") {
+      setLeadBron("calculator");
+      if (paramPrijs) setLeadBronPrijs(paramPrijs);
     }
   }, [searchParams]);
 
@@ -438,6 +448,8 @@ const AppointmentForm = () => {
         werfPlaats: werfForEmail.plaats,
         werfTelefoon: werfForEmail.telefoon,
         werfContactpersoon: werfForEmail.contactpersoon,
+        leadBron,
+        leadBronPrijs: leadBronPrijs || undefined,
 
         syndicusKantoor: klantType === "syndicus" ? (syndicus.kantoor || undefined) : undefined,
         syndicusEmail: klantType === "syndicus" ? (syndicus.email || undefined) : undefined,
@@ -488,6 +500,8 @@ const AppointmentForm = () => {
         beschrijving: fullBeschrijving || null,
         gevonden_via: gevondenVia || null,
         gevonden_detail: gevondenDetail || null,
+        lead_bron: leadBron,
+        lead_bron_prijs: leadBronPrijs || null,
       });
       if (error) throw error;
 
@@ -523,6 +537,8 @@ const AppointmentForm = () => {
             werfTelefoon: werfForEmail.telefoon,
             werfContactpersoon: werfForEmail.contactpersoon,
             werfProjectnaam: werfForEmail.projectnaam,
+            leadBron,
+            leadBronPrijs: leadBronPrijs || undefined,
 
             syndicusNaam: syndicus.naam || undefined,
             syndicusVoornaam: syndicus.voornaam || undefined,
@@ -601,6 +617,8 @@ const AppointmentForm = () => {
             werfTelefoon: werfForEmail.telefoon,
             werfContactpersoon: werfForEmail.contactpersoon,
             werfProjectnaam: werfForEmail.projectnaam,
+            leadBron,
+            leadBronPrijs: leadBronPrijs || undefined,
 
             syndicusNaam: syndicus.naam || undefined,
             syndicusVoornaam: syndicus.voornaam || undefined,

@@ -28,6 +28,8 @@ interface Props {
   werfTelefoon?: string
   werfContactpersoon?: string
   werfProjectnaam?: string
+  leadBron?: string
+  leadBronPrijs?: string
   syndicusNaam?: string
   syndicusVoornaam?: string
   syndicusKantoor?: string
@@ -174,6 +176,13 @@ const AppointmentNotificationEmail = (p: Props) => {
           <Text style={block}>
             {klantLabel}
             {urgentLine && <><br />{urgentLine}</>}
+            {p.leadBron === 'calculator' && (
+              <>
+                <br />
+                <strong>Bron: </strong>
+                via prijscalculator{p.leadBronPrijs ? ` (indicatieve prijs: ${p.leadBronPrijs})` : ''}
+              </>
+            )}
             {p.wiltOfferte && (
               <>
                 <br />
