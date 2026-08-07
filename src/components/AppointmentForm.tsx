@@ -524,6 +524,7 @@ const AppointmentForm = () => {
         gevonden_detail: gevondenDetail || null,
         lead_bron: leadBron,
         lead_bron_prijs: leadBronPrijs || null,
+        calculator_session_id: getCalculatorSessionId(false),
       });
       if (error) throw error;
 
