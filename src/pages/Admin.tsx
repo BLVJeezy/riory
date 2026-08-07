@@ -10,19 +10,53 @@ import { toast } from "sonner";
 
 
 interface SourceRow {
+  id?: string;
   gevonden_via: string | null;
   gevonden_detail: string | null;
   created_at: string;
   dienst: string;
+  klant_type?: string | null;
+  urgent?: boolean | null;
+  beschrijving?: string | null;
+  woning_ouder_dan_10_jaar?: boolean | null;
+  akkoord_voorwaarden?: boolean | null;
   fact_naam: string | null;
   fact_voornaam: string | null;
   fact_email: string;
+  fact_telefoon?: string | null;
+  fact_straat?: string | null;
+  fact_huisnummer?: string | null;
+  fact_postcode?: string | null;
   fact_plaats: string | null;
+  fact_bedrijfsnaam?: string | null;
+  fact_btw_nummer?: string | null;
+  fact_kbo_nummer?: string | null;
+  fact_facturatie_email?: string | null;
+  werf_straat?: string | null;
+  werf_huisnummer?: string | null;
+  werf_postcode?: string | null;
   werf_plaats: string | null;
+  werf_contactpersoon?: string | null;
+  werf_telefoon?: string | null;
+  werf_projectnaam?: string | null;
+  werfadres_is_facturatieadres?: boolean | null;
+  syndicus_kantoor?: string | null;
+  syndicus_naam?: string | null;
+  syndicus_voornaam?: string | null;
+  syndicus_email?: string | null;
+  syndicus_telefoon?: string | null;
+  syndicus_straat?: string | null;
+  syndicus_huisnummer?: string | null;
+  syndicus_postcode?: string | null;
+  syndicus_plaats?: string | null;
+  syndicus_naam_vme?: string | null;
+  syndicus_kbo_nummer?: string | null;
+  syndicus_facturatie_email?: string | null;
   lead_bron: string | null;
   lead_bron_prijs: string | null;
   calculator_session_id: string | null;
 }
+
 
 interface CalcSessionRow {
   session_id: string;
