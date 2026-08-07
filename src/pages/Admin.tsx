@@ -10,19 +10,53 @@ import { toast } from "sonner";
 
 
 interface SourceRow {
+  id?: string;
   gevonden_via: string | null;
   gevonden_detail: string | null;
   created_at: string;
   dienst: string;
+  klant_type?: string | null;
+  urgent?: boolean | null;
+  beschrijving?: string | null;
+  woning_ouder_dan_10_jaar?: boolean | null;
+  akkoord_voorwaarden?: boolean | null;
   fact_naam: string | null;
   fact_voornaam: string | null;
   fact_email: string;
+  fact_telefoon?: string | null;
+  fact_straat?: string | null;
+  fact_huisnummer?: string | null;
+  fact_postcode?: string | null;
   fact_plaats: string | null;
+  fact_bedrijfsnaam?: string | null;
+  fact_btw_nummer?: string | null;
+  fact_kbo_nummer?: string | null;
+  fact_facturatie_email?: string | null;
+  werf_straat?: string | null;
+  werf_huisnummer?: string | null;
+  werf_postcode?: string | null;
   werf_plaats: string | null;
+  werf_contactpersoon?: string | null;
+  werf_telefoon?: string | null;
+  werf_projectnaam?: string | null;
+  werfadres_is_facturatieadres?: boolean | null;
+  syndicus_kantoor?: string | null;
+  syndicus_naam?: string | null;
+  syndicus_voornaam?: string | null;
+  syndicus_email?: string | null;
+  syndicus_telefoon?: string | null;
+  syndicus_straat?: string | null;
+  syndicus_huisnummer?: string | null;
+  syndicus_postcode?: string | null;
+  syndicus_plaats?: string | null;
+  syndicus_naam_vme?: string | null;
+  syndicus_kbo_nummer?: string | null;
+  syndicus_facturatie_email?: string | null;
   lead_bron: string | null;
   lead_bron_prijs: string | null;
   calculator_session_id: string | null;
 }
+
 
 interface CalcSessionRow {
   session_id: string;
@@ -251,7 +285,7 @@ const Admin = () => {
     const [{ data }, { data: calcData }] = await Promise.all([
       supabase
         .from("appointments")
-        .select("gevonden_via, gevonden_detail, created_at, dienst, fact_naam, fact_voornaam, fact_email, fact_plaats, werf_plaats, lead_bron, lead_bron_prijs, calculator_session_id")
+        .select("*")
         .order("created_at", { ascending: false }),
       supabase
         .from("calculator_sessions")
@@ -326,7 +360,7 @@ const Admin = () => {
         pdf.setFont("helvetica", "normal");
         pdf.setFontSize(10);
         pdf.setTextColor(120);
-        pdf.text("Bronnen rapport", margin, margin + 7);
+        pdf.text("Volledig rapport", margin, margin + 7);
         pdf.text(
           new Date().toLocaleDateString("nl-BE", { day: "numeric", month: "long", year: "numeric" }),
           pageW - margin,
@@ -423,50 +457,217 @@ const Admin = () => {
         y += Math.max(chartH, totalLegendH) + 10;
       }
 
-      // Table of recent appointments — single line per row, ellipsis on overflow
-      autoTable(pdf, {
-        startY: y,
-        head: [["Datum", "Bron", "Detail", "Dienst", "Klant", "Email"]],
-        body: filteredSources.map((s) => [
-          new Date(s.created_at).toLocaleDateString("nl-BE"),
-          labelFor(s.gevonden_via),
-          s.gevonden_detail || "—",
-          s.dienst || "",
-          `${s.fact_voornaam || ""} ${s.fact_naam || ""}`.trim() || "—",
-          s.fact_email || "",
-        ]),
+      const tableBase = {
         margin: { left: margin, right: margin, top: margin + 14, bottom: 14 },
         styles: {
           fontSize: 8,
           cellPadding: { top: 1.8, right: 2, bottom: 1.8, left: 2 },
-          overflow: "ellipsize",
+          overflow: "linebreak" as const,
           textColor: 40,
-          valign: "middle",
+          valign: "middle" as const,
         },
         headStyles: {
-          fillColor: [25, 25, 25],
+          fillColor: [25, 25, 25] as [number, number, number],
           textColor: 255,
-          fontStyle: "bold",
+          fontStyle: "bold" as const,
           fontSize: 8.5,
-          overflow: "ellipsize",
         },
-        alternateRowStyles: { fillColor: [248, 248, 248] },
-        columnStyles: {
-          0: { cellWidth: 20 },
-          1: { cellWidth: 22 },
-          2: { cellWidth: 28 },
-          3: { cellWidth: 36 },
-          4: { cellWidth: 32, overflow: "ellipsize" },
-          5: { cellWidth: "auto", overflow: "ellipsize" },
-        },
-        didDrawPage: () => {
+        alternateRowStyles: { fillColor: [248, 248, 248] as [number, number, number] },
+        didDrawPage: () => drawHeader(),
+      };
+
+      const lastY = () => (pdf as any).lastAutoTable.finalY as number;
+
+      const sectionTitle = (title: string, sub?: string) => {
+        let ty = lastY() + 12;
+        if (ty > pageH - 40) {
+          pdf.addPage();
           drawHeader();
+          ty = margin + 18;
+        }
+        pdf.setFont("helvetica", "bold");
+        pdf.setFontSize(13);
+        pdf.setTextColor(20);
+        pdf.text(title, margin, ty);
+        if (sub) {
+          pdf.setFont("helvetica", "normal");
+          pdf.setFontSize(9.5);
+          pdf.setTextColor(110);
+          pdf.text(sub, margin, ty + 5);
+          ty += 5;
+        }
+        pdf.setTextColor(0);
+        return ty + 5;
+      };
+
+      // 1. Overzichtstabel van alle afspraken
+      autoTable(pdf, {
+        ...tableBase,
+        startY: y,
+        head: [["Datum", "Type", "Dienst", "Klant", "Regio", "Bron", "Lead", "Urgent"]],
+        body: filteredSources.map((s) => [
+          new Date(s.created_at).toLocaleDateString("nl-BE"),
+          s.klant_type || "—",
+          s.dienst || "—",
+          `${s.fact_voornaam || ""} ${s.fact_naam || ""}`.trim() || "—",
+          regioFor(s),
+          labelFor(s.gevonden_via),
+          s.lead_bron === "calculator"
+            ? `Calculator${s.lead_bron_prijs ? ` (${s.lead_bron_prijs})` : ""}`
+            : "Rechtstreeks",
+          s.urgent ? "Ja" : "Nee",
+        ]),
+        columnStyles: {
+          0: { cellWidth: 19 },
+          1: { cellWidth: 20 },
+          2: { cellWidth: 32 },
+          3: { cellWidth: 30 },
+          4: { cellWidth: 24 },
+          5: { cellWidth: 22 },
+          6: { cellWidth: "auto" },
+          7: { cellWidth: 14 },
         },
       });
 
+      // 2. Verdeling per regio
+      const regioCounts: Record<string, number> = {};
+      filteredSources.forEach((s) => {
+        const k = regioFor(s);
+        regioCounts[k] = (regioCounts[k] || 0) + 1;
+      });
+      const regioRanked = Object.entries(regioCounts).sort((a, b) => b[1] - a[1]);
+      autoTable(pdf, {
+        ...tableBase,
+        startY: sectionTitle("Verdeling per regio", `${regioRanked.length} regio's`),
+        head: [["#", "Regio", "Aantal", "Aandeel"]],
+        body: regioRanked.map(([regio, count], i) => [
+          String(i + 1),
+          regio,
+          String(count),
+          `${total ? Math.round((count / total) * 100) : 0}%`,
+        ]),
+        columnStyles: { 0: { cellWidth: 12 }, 2: { cellWidth: 22 }, 3: { cellWidth: 22 } },
+      });
+
+      // 3. Diensten
+      const dienstCounts: Record<string, number> = {};
+      filteredSources.forEach((s) => {
+        const k = s.dienst || "Onbekend";
+        dienstCounts[k] = (dienstCounts[k] || 0) + 1;
+      });
+      autoTable(pdf, {
+        ...tableBase,
+        startY: sectionTitle("Verdeling per dienst"),
+        head: [["Dienst", "Aantal", "Aandeel"]],
+        body: Object.entries(dienstCounts)
+          .sort((a, b) => b[1] - a[1])
+          .map(([d, c]) => [d, String(c), `${total ? Math.round((c / total) * 100) : 0}%`]),
+        columnStyles: { 1: { cellWidth: 22 }, 2: { cellWidth: 22 } },
+      });
+
+      // 4. Prijscalculator: funnel + afhakers
+      autoTable(pdf, {
+        ...tableBase,
+        startY: sectionTitle(
+          "Prijscalculator",
+          `${calculatorStats.viaCalculator} van ${calculatorStats.totaal} afspraken via de calculator (${calculatorStats.percentage}%) · ${calcFunnel.totalSessions} sessies · ${calcFunnel.conversionPct}% conversie`,
+        ),
+        head: [["Stap", "Bereikt", "Afgehaakt hier"]],
+        body: calcFunnel.steps.map((st) => [st.label, String(st.reached), String(st.droppedHere)]),
+        columnStyles: { 1: { cellWidth: 26 }, 2: { cellWidth: 32 } },
+      });
+
+      if (calcFunnel.dropoffs.length > 0) {
+        autoTable(pdf, {
+          ...tableBase,
+          startY: sectionTitle("Afhakers na de calculator", `${calcFunnel.dropoffs.length} sessies zonder afspraak`),
+          head: [["Laatste stap", "Dienst", "Regio", "Prijs", "Moment"]],
+          body: calcFunnel.dropoffs.slice(0, 200).map((d) => [
+            CALC_STEP_LABELS[d.maxStep] || `Stap ${d.maxStep}`,
+            d.service || "—",
+            d.plaats || "—",
+            d.price != null ? `EUR ${d.price}` : "—",
+            new Date(d.last).toLocaleString("nl-BE"),
+          ]),
+          columnStyles: { 3: { cellWidth: 22 }, 4: { cellWidth: 34 } },
+        });
+      }
+
+      // 5. Detailfiches per afspraak — alle ingevulde informatie
+      pdf.addPage();
+      drawHeader();
+      pdf.setFont("helvetica", "bold");
+      pdf.setFontSize(14);
+      pdf.text("Detail per afspraak", margin, margin + 20);
+      pdf.setFont("helvetica", "normal");
+      pdf.setFontSize(9.5);
+      pdf.setTextColor(110);
+      pdf.text("Alle ingevulde gegevens per aanvraag.", margin, margin + 25);
+      pdf.setTextColor(0);
+      (pdf as any).lastAutoTable = { finalY: margin + 25 };
+
+      const addr = (straat?: string | null, nr?: string | null, pc?: string | null, plaats?: string | null) => {
+        const l1 = [straat, nr].filter(Boolean).join(" ");
+        const l2 = [pc, plaats].filter(Boolean).join(" ");
+        return [l1, l2].filter(Boolean).join(", ");
+      };
+
+      filteredSources.forEach((s) => {
+        const rows: [string, string][] = [];
+        const push = (k: string, v?: string | number | boolean | null) => {
+          if (v === null || v === undefined || v === "" || v === false) return;
+          rows.push([k, typeof v === "boolean" ? "Ja" : String(v)]);
+        };
+        push("Aangevraagd op", new Date(s.created_at).toLocaleString("nl-BE"));
+        push("Dienst", s.dienst);
+        push("Klanttype", s.klant_type);
+        push("Urgent", s.urgent ? "Ja" : null);
+        push("Woning ouder dan 10 jaar", s.woning_ouder_dan_10_jaar ? "Ja" : null);
+        push("Beschrijving", s.beschrijving);
+        push("Naam", `${s.fact_voornaam || ""} ${s.fact_naam || ""}`.trim() || null);
+        push("E-mail", s.fact_email);
+        push("Telefoon", s.fact_telefoon);
+        push("Facturatie e-mail", s.fact_facturatie_email);
+        push("Bedrijfsnaam", s.fact_bedrijfsnaam);
+        push("BTW-nummer", s.fact_btw_nummer);
+        push("KBO-nummer", s.fact_kbo_nummer);
+        push("Facturatieadres", addr(s.fact_straat, s.fact_huisnummer, s.fact_postcode, s.fact_plaats) || null);
+        push("Werfadres", addr(s.werf_straat, s.werf_huisnummer, s.werf_postcode, s.werf_plaats) || null);
+        push("Werf contactpersoon", s.werf_contactpersoon);
+        push("Werf telefoon", s.werf_telefoon);
+        push("Projectnaam", s.werf_projectnaam);
+        push("Syndicus kantoor", s.syndicus_kantoor);
+        push("Syndicus", `${s.syndicus_voornaam || ""} ${s.syndicus_naam || ""}`.trim() || null);
+        push("Syndicus e-mail", s.syndicus_email);
+        push("Syndicus telefoon", s.syndicus_telefoon);
+        push("Syndicus facturatie e-mail", s.syndicus_facturatie_email);
+        push("Syndicus adres", addr(s.syndicus_straat, s.syndicus_huisnummer, s.syndicus_postcode, s.syndicus_plaats) || null);
+        push("Naam VME", s.syndicus_naam_vme);
+        push("Syndicus KBO", s.syndicus_kbo_nummer);
+        push("Gevonden via", labelFor(s.gevonden_via));
+        push("Detail herkomst", s.gevonden_detail);
+        push("Lead bron", s.lead_bron === "calculator" ? "Prijscalculator" : "Rechtstreeks");
+        push("Indicatieve calculatorprijs", s.lead_bron_prijs);
+        push("Akkoord voorwaarden", s.akkoord_voorwaarden ? "Ja" : null);
+
+        const title = `${new Date(s.created_at).toLocaleDateString("nl-BE")} · ${
+          `${s.fact_voornaam || ""} ${s.fact_naam || ""}`.trim() || s.fact_email
+        } · ${s.dienst || ""}`;
+
+        autoTable(pdf, {
+          ...tableBase,
+          startY: sectionTitle(title),
+          head: [["Veld", "Waarde"]],
+          body: rows,
+          columnStyles: { 0: { cellWidth: 50, fontStyle: "bold" }, 1: { cellWidth: "auto" } },
+          styles: { ...tableBase.styles, fontSize: 8.5 },
+        });
+      });
+
       drawFooter();
-      pdf.save(`riory-bronnen-${new Date().toISOString().split("T")[0]}.pdf`);
+      pdf.save(`riory-rapport-${new Date().toISOString().split("T")[0]}.pdf`);
       toast.success("PDF geëxporteerd.", { id: "pdf-export" });
+
     } catch (e) {
       console.error(e);
       toast.error("PDF export mislukt.", { id: "pdf-export" });
