@@ -21,7 +21,25 @@ interface SourceRow {
   werf_plaats: string | null;
   lead_bron: string | null;
   lead_bron_prijs: string | null;
+  calculator_session_id: string | null;
 }
+
+interface CalcSessionRow {
+  session_id: string;
+  step: number;
+  service: string | null;
+  price_eur: number | null;
+  plaats: string | null;
+  created_at: string;
+}
+
+const CALC_STEP_LABELS = [
+  "Calculator geopend",
+  "Adres ingevuld",
+  "Dienst gekozen",
+  "Prijs bekeken",
+];
+
 
 const regioFor = (s: { werf_plaats: string | null; fact_plaats: string | null }) => {
   const raw = (s.werf_plaats || s.fact_plaats || "").trim();
