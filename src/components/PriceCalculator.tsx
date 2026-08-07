@@ -116,6 +116,17 @@ const PriceCalculator = () => {
           distanceData,
         },
       });
+
+      // Interne drop-off tracking (admin dashboard)
+      logCalculatorStep({
+        step,
+        service: selectedService,
+        service_subtype: subtype,
+        price_eur: Number.isFinite(priceEur) ? priceEur : undefined,
+        plaats: address.plaats || null,
+        postcode: address.postcode || null,
+        distance_km: distanceData?.distance_km ?? null,
+      });
     }, 700);
     return () => clearTimeout(handle);
     // eslint-disable-next-line react-hooks/exhaustive-deps
