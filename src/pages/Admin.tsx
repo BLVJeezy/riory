@@ -285,7 +285,7 @@ const Admin = () => {
     const [{ data }, { data: calcData }] = await Promise.all([
       supabase
         .from("appointments")
-        .select("gevonden_via, gevonden_detail, created_at, dienst, fact_naam, fact_voornaam, fact_email, fact_plaats, werf_plaats, lead_bron, lead_bron_prijs, calculator_session_id")
+        .select("*")
         .order("created_at", { ascending: false }),
       supabase
         .from("calculator_sessions")
