@@ -360,7 +360,7 @@ const Admin = () => {
         pdf.setFont("helvetica", "normal");
         pdf.setFontSize(10);
         pdf.setTextColor(120);
-        pdf.text("Bronnen rapport", margin, margin + 7);
+        pdf.text("Volledig rapport", margin, margin + 7);
         pdf.text(
           new Date().toLocaleDateString("nl-BE", { day: "numeric", month: "long", year: "numeric" }),
           pageW - margin,
