@@ -751,9 +751,101 @@ const Admin = () => {
                   })()}
                 </div>
 
+                {/* Calculator drop-off */}
+                <div className="bg-background rounded-xl p-4 sm:p-6 border border-border shadow-sm">
+                  <div className="flex items-center justify-between mb-1 gap-2">
+                    <h3 className="font-heading font-semibold text-foreground">Afhakers na de calculator</h3>
+                    <span className="text-xs text-muted-foreground font-body bg-muted px-2 py-1 rounded-full shrink-0">
+                      {calcFunnel.totalSessions} sessies
+                    </span>
+                  </div>
+                  <p className="text-xs text-muted-foreground font-body mb-4">
+                    {calcFunnel.convertedCount} van {calcFunnel.totalSessions} calculator-sessies werden een afspraak ({calcFunnel.conversionPct}%).
+                  </p>
 
+                  {calcFunnel.totalSessions === 0 ? (
+                    <p className="text-sm text-muted-foreground font-body">
+                      Nog geen calculator-sessies gemeten. Data wordt vanaf nu opgebouwd.
+                    </p>
+                  ) : (
+                    <>
+                      <div className="space-y-2.5">
+                        {calcFunnel.steps.map((s, i) => {
+                          const pct = calcFunnel.totalSessions
+                            ? Math.round((s.reached / calcFunnel.totalSessions) * 100)
+                            : 0;
+                          return (
+                            <div key={s.label}>
+                              <div className="flex items-center justify-between mb-1 gap-2">
+                                <div className="flex items-center gap-2 min-w-0">
+                                  <span className="text-[10px] font-heading font-bold text-muted-foreground w-4 shrink-0">
+                                    {i + 1}.
+                                  </span>
+                                  <span className="text-sm font-body font-medium text-foreground truncate">
+                                    {s.label}
+                                  </span>
+                                </div>
+                                <span className="text-xs font-heading font-semibold text-foreground shrink-0 tabular-nums">
+                                  {s.reached}
+                                  <span className="text-muted-foreground font-body font-normal ml-1">({pct}%)</span>
+                                </span>
+                              </div>
+                              <div className="w-full bg-muted rounded-full h-2 overflow-hidden">
+                                <div className="h-full rounded-full bg-primary transition-all" style={{ width: `${Math.max(4, pct)}%` }} />
+                              </div>
+                              {s.droppedHere > 0 && (
+                                <p className="text-[11px] text-muted-foreground font-body mt-1 ml-6">
+                                  {s.droppedHere} afgehaakt op deze stap
+                                </p>
+                              )}
+                            </div>
+                          );
+                        })}
+                      </div>
 
-
+                      {calcFunnel.dropoffs.length > 0 && (
+                        <div className="mt-5 pt-4 border-t border-border">
+                          <h4 className="text-sm font-heading font-semibold text-foreground mb-2">
+                            Recente afhakers
+                          </h4>
+                          <div className="space-y-2">
+                            {(showAllDropoffs ? calcFunnel.dropoffs : calcFunnel.dropoffs.slice(0, 5)).map((d) => (
+                              <div
+                                key={d.session_id}
+                                className="flex items-center justify-between gap-2 bg-muted/40 rounded-lg px-3 py-2"
+                              >
+                                <div className="min-w-0">
+                                  <p className="text-xs font-body font-medium text-foreground truncate">
+                                    {d.service || "Geen dienst gekozen"}
+                                    {d.plaats ? ` · ${d.plaats}` : ""}
+                                  </p>
+                                  <p className="text-[11px] text-muted-foreground font-body">
+                                    Gestopt bij: {CALC_STEP_LABELS[d.maxStep] || `Stap ${d.maxStep}`} ·{" "}
+                                    {new Date(d.last).toLocaleString("nl-BE")}
+                                  </p>
+                                </div>
+                                <span className="text-xs font-heading font-semibold text-foreground shrink-0 tabular-nums">
+                                  {d.price != null ? `€ ${d.price.toFixed(0)}` : "—"}
+                                </span>
+                              </div>
+                            ))}
+                          </div>
+                          {calcFunnel.dropoffs.length > 5 && (
+                            <button
+                              type="button"
+                              onClick={() => setShowAllDropoffs((v) => !v)}
+                              className="w-full mt-3 py-2 px-4 rounded-lg border border-border bg-muted/50 hover:bg-muted text-sm font-body font-medium text-foreground transition-colors"
+                            >
+                              {showAllDropoffs
+                                ? "Toon laatste 5 afhakers"
+                                : `Bekijk alle ${calcFunnel.dropoffs.length} afhakers`}
+                            </button>
+                          )}
+                        </div>
+                      )}
+                    </>
+                  )}
+                </div>
 
 
                 <div className="bg-background rounded-xl p-4 sm:p-6 border border-border shadow-sm">
