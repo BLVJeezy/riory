@@ -66,6 +66,7 @@ export type Database = {
         Row: {
           akkoord_voorwaarden: boolean
           beschrijving: string | null
+          calculator_session_id: string | null
           created_at: string
           dienst: string
           fact_bedrijfsnaam: string | null
@@ -112,6 +113,7 @@ export type Database = {
         Insert: {
           akkoord_voorwaarden?: boolean
           beschrijving?: string | null
+          calculator_session_id?: string | null
           created_at?: string
           dienst: string
           fact_bedrijfsnaam?: string | null
@@ -158,6 +160,7 @@ export type Database = {
         Update: {
           akkoord_voorwaarden?: boolean
           beschrijving?: string | null
+          calculator_session_id?: string | null
           created_at?: string
           dienst?: string
           fact_bedrijfsnaam?: string | null
@@ -200,6 +203,51 @@ export type Database = {
           werf_telefoon?: string | null
           werfadres_is_facturatieadres?: boolean | null
           woning_ouder_dan_10_jaar?: boolean | null
+        }
+        Relationships: []
+      }
+      calculator_sessions: {
+        Row: {
+          created_at: string
+          distance_km: number | null
+          id: string
+          page_url: string | null
+          plaats: string | null
+          postcode: string | null
+          price_eur: number | null
+          service: string | null
+          service_subtype: string | null
+          session_id: string
+          step: number
+          visitor_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          distance_km?: number | null
+          id?: string
+          page_url?: string | null
+          plaats?: string | null
+          postcode?: string | null
+          price_eur?: number | null
+          service?: string | null
+          service_subtype?: string | null
+          session_id: string
+          step?: number
+          visitor_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          distance_km?: number | null
+          id?: string
+          page_url?: string | null
+          plaats?: string | null
+          postcode?: string | null
+          price_eur?: number | null
+          service?: string | null
+          service_subtype?: string | null
+          session_id?: string
+          step?: number
+          visitor_id?: string | null
         }
         Relationships: []
       }

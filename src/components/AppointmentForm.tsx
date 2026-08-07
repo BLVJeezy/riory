@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { sendLead } from "@/lib/attribution";
+import { getCalculatorSessionId } from "@/lib/calculatorTracking";
 import {
   Check,
   ChevronRight,
@@ -524,6 +525,7 @@ const AppointmentForm = () => {
         gevonden_detail: gevondenDetail || null,
         lead_bron: leadBron,
         lead_bron_prijs: leadBronPrijs || null,
+        calculator_session_id: getCalculatorSessionId(false),
       });
       if (error) throw error;
 

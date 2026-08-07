@@ -10,6 +10,7 @@ import { Card } from "@/components/ui/card";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { sendCalculatorSnapshot } from "@/lib/attribution";
+import { logCalculatorStep } from "@/lib/calculatorTracking";
 import { Loader2 } from "lucide-react";
 import {
   Calculator,
@@ -115,6 +116,17 @@ const PriceCalculator = () => {
           regenputInhoud,
           distanceData,
         },
+      });
+
+      // Interne drop-off tracking (admin dashboard)
+      logCalculatorStep({
+        step,
+        service: selectedService,
+        service_subtype: subtype,
+        price_eur: Number.isFinite(priceEur) ? priceEur : undefined,
+        plaats: address.plaats || null,
+        postcode: address.postcode || null,
+        distance_km: distanceData?.distance_km ?? null,
       });
     }, 700);
     return () => clearTimeout(handle);
