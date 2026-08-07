@@ -500,10 +500,120 @@ const Admin = () => {
         return ty + 5;
       };
 
-      // 1. Overzichtstabel van alle afspraken
+      // ===== PAGINA 1-2: calculator-info, kanalen en diensten =====
+
+      // 1. Prijscalculator: funnel
       autoTable(pdf, {
         ...tableBase,
-        startY: y,
+        startY: (() => {
+          pdf.setFont("helvetica", "bold");
+          pdf.setFontSize(13);
+          pdf.setTextColor(20);
+          pdf.text("Prijscalculator", margin, y);
+          pdf.setFont("helvetica", "normal");
+          pdf.setFontSize(9.5);
+          pdf.setTextColor(110);
+          pdf.text(
+            `${calculatorStats.viaCalculator} van ${calculatorStats.totaal} afspraken via de calculator (${calculatorStats.percentage}%) · ${calcFunnel.totalSessions} sessies · ${calcFunnel.conversionPct}% conversie`,
+            margin,
+            y + 5,
+          );
+          pdf.setTextColor(0);
+          return y + 10;
+        })(),
+        head: [["Stap", "Bereikt", "Afgehaakt hier"]],
+        body: calcFunnel.steps.map((st) => [st.label, String(st.reached), String(st.droppedHere)]),
+        columnStyles: { 1: { cellWidth: 26 }, 2: { cellWidth: 32 } },
+      });
+
+      // 2. Afhakers na de calculator
+      if (calcFunnel.dropoffs.length > 0) {
+        autoTable(pdf, {
+          ...tableBase,
+          startY: sectionTitle("Afhakers na de calculator", `${calcFunnel.dropoffs.length} sessies zonder afspraak`),
+          head: [["Laatste stap", "Dienst", "Regio", "Prijs", "Moment"]],
+          body: calcFunnel.dropoffs.slice(0, 40).map((d) => [
+            CALC_STEP_LABELS[d.maxStep] || `Stap ${d.maxStep}`,
+            d.service || "—",
+            d.plaats || "—",
+            d.price != null ? `EUR ${d.price}` : "—",
+            new Date(d.last).toLocaleString("nl-BE"),
+          ]),
+          columnStyles: { 3: { cellWidth: 22 }, 4: { cellWidth: 34 } },
+        });
+      }
+
+      // 3. Grafiek: welke diensten worden aangevraagd (vergelijking)
+      const dienstCounts: Record<string, number> = {};
+      filteredSources.forEach((s) => {
+        const k = s.dienst || "Onbekend";
+        dienstCounts[k] = (dienstCounts[k] || 0) + 1;
+      });
+      const dienstRanked = Object.entries(dienstCounts).sort((a, b) => b[1] - a[1]);
+
+      {
+        const barH = 6;
+        const gap = 3.5;
+        const neededH = dienstRanked.length * (barH + gap) + 18;
+        let cy = lastY() + 12;
+        if (cy + neededH > pageH - 20) {
+          pdf.addPage();
+          drawHeader();
+          cy = margin + 18;
+        }
+        pdf.setFont("helvetica", "bold");
+        pdf.setFontSize(13);
+        pdf.setTextColor(20);
+        pdf.text("Welke diensten worden aangevraagd?", margin, cy);
+        pdf.setFont("helvetica", "normal");
+        pdf.setFontSize(9.5);
+        pdf.setTextColor(110);
+        pdf.text(`Vergelijking over ${total} aanvra${total === 1 ? "ag" : "gen"}.`, margin, cy + 5);
+        pdf.setTextColor(0);
+        cy += 12;
+
+        const labelW = 58;
+        const valueW = 24;
+        const barMaxW = contentW - labelW - valueW - 4;
+        const maxDienst = dienstRanked[0]?.[1] || 1;
+        const dPalette = [
+          [59, 130, 246], [249, 115, 22], [34, 197, 94], [239, 68, 68],
+          [168, 85, 247], [234, 179, 8], [6, 182, 212], [236, 72, 153],
+          [20, 184, 166], [120, 53, 15], [139, 92, 246], [132, 204, 22],
+        ];
+        dienstRanked.forEach(([dienst, count], i) => {
+          if (cy + barH + gap > pageH - 18) {
+            pdf.addPage();
+            drawHeader();
+            cy = margin + 18;
+          }
+          const [rC, gC, bC] = dPalette[i % dPalette.length];
+          pdf.setFont("helvetica", "normal");
+          pdf.setFontSize(8.5);
+          pdf.setTextColor(40);
+          const label = dienst.length > 34 ? `${dienst.slice(0, 33)}…` : dienst;
+          pdf.text(label, margin, cy + barH - 1.6);
+          pdf.setFillColor(238, 238, 238);
+          pdf.rect(margin + labelW, cy, barMaxW, barH, "F");
+          pdf.setFillColor(rC, gC, bC);
+          pdf.rect(margin + labelW, cy, Math.max(1.5, (barMaxW * count) / maxDienst), barH, "F");
+          const pct = total ? Math.round((count / total) * 100) : 0;
+          pdf.setTextColor(40);
+          pdf.text(`${count} (${pct}%)`, pageW - margin, cy + barH - 1.6, { align: "right" });
+          cy += barH + gap;
+        });
+        (pdf as any).lastAutoTable = { finalY: cy };
+      }
+
+      // ===== PAGINA 3+: klantinformatie =====
+      pdf.addPage();
+      drawHeader();
+      (pdf as any).lastAutoTable = { finalY: margin + 6 };
+
+      // 4. Overzichtstabel van alle afspraken
+      autoTable(pdf, {
+        ...tableBase,
+        startY: sectionTitle("Overzicht afspraken", `${total} aanvra${total === 1 ? "ag" : "gen"}`),
         head: [["Datum", "Type", "Dienst", "Klant", "Regio", "Bron", "Lead", "Urgent"]],
         body: filteredSources.map((s) => [
           new Date(s.created_at).toLocaleDateString("nl-BE"),
@@ -529,7 +639,7 @@ const Admin = () => {
         },
       });
 
-      // 2. Verdeling per regio
+      // 5. Verdeling per regio
       const regioCounts: Record<string, number> = {};
       filteredSources.forEach((s) => {
         const k = regioFor(s);
@@ -549,49 +659,6 @@ const Admin = () => {
         columnStyles: { 0: { cellWidth: 12 }, 2: { cellWidth: 22 }, 3: { cellWidth: 22 } },
       });
 
-      // 3. Diensten
-      const dienstCounts: Record<string, number> = {};
-      filteredSources.forEach((s) => {
-        const k = s.dienst || "Onbekend";
-        dienstCounts[k] = (dienstCounts[k] || 0) + 1;
-      });
-      autoTable(pdf, {
-        ...tableBase,
-        startY: sectionTitle("Verdeling per dienst"),
-        head: [["Dienst", "Aantal", "Aandeel"]],
-        body: Object.entries(dienstCounts)
-          .sort((a, b) => b[1] - a[1])
-          .map(([d, c]) => [d, String(c), `${total ? Math.round((c / total) * 100) : 0}%`]),
-        columnStyles: { 1: { cellWidth: 22 }, 2: { cellWidth: 22 } },
-      });
-
-      // 4. Prijscalculator: funnel + afhakers
-      autoTable(pdf, {
-        ...tableBase,
-        startY: sectionTitle(
-          "Prijscalculator",
-          `${calculatorStats.viaCalculator} van ${calculatorStats.totaal} afspraken via de calculator (${calculatorStats.percentage}%) · ${calcFunnel.totalSessions} sessies · ${calcFunnel.conversionPct}% conversie`,
-        ),
-        head: [["Stap", "Bereikt", "Afgehaakt hier"]],
-        body: calcFunnel.steps.map((st) => [st.label, String(st.reached), String(st.droppedHere)]),
-        columnStyles: { 1: { cellWidth: 26 }, 2: { cellWidth: 32 } },
-      });
-
-      if (calcFunnel.dropoffs.length > 0) {
-        autoTable(pdf, {
-          ...tableBase,
-          startY: sectionTitle("Afhakers na de calculator", `${calcFunnel.dropoffs.length} sessies zonder afspraak`),
-          head: [["Laatste stap", "Dienst", "Regio", "Prijs", "Moment"]],
-          body: calcFunnel.dropoffs.slice(0, 200).map((d) => [
-            CALC_STEP_LABELS[d.maxStep] || `Stap ${d.maxStep}`,
-            d.service || "—",
-            d.plaats || "—",
-            d.price != null ? `EUR ${d.price}` : "—",
-            new Date(d.last).toLocaleString("nl-BE"),
-          ]),
-          columnStyles: { 3: { cellWidth: 22 }, 4: { cellWidth: 34 } },
-        });
-      }
 
       // 5. Detailfiches per afspraak — alle ingevulde informatie
       pdf.addPage();
