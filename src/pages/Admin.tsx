@@ -176,6 +176,64 @@ const Admin = () => {
     return { viaCalculator, rechtstreeks, totaal, percentage };
   }, [filteredSources]);
 
+  // Drop-off analyse: per calculator-sessie de hoogst bereikte stap +
+  // of die sessie uiteindelijk een afspraak werd.
+  const calcFunnel = useMemo(() => {
+    const converted = new Set(
+      sources.map((s) => s.calculator_session_id).filter(Boolean) as string[],
+    );
+    const bySession = new Map<
+      string,
+      { maxStep: number; service: string | null; price: number | null; plaats: string | null; last: string }
+    >();
+    calcSessions.forEach((r) => {
+      const cur = bySession.get(r.session_id);
+      if (!cur) {
+        bySession.set(r.session_id, {
+          maxStep: r.step,
+          service: r.service,
+          price: r.price_eur,
+          plaats: r.plaats,
+          last: r.created_at,
+        });
+        return;
+      }
+      if (r.step >= cur.maxStep) {
+        cur.maxStep = r.step;
+        cur.service = r.service ?? cur.service;
+        cur.price = r.price_eur ?? cur.price;
+      }
+      cur.plaats = cur.plaats ?? r.plaats;
+      if (r.created_at > cur.last) cur.last = r.created_at;
+    });
+
+    const items = Array.from(bySession.entries()).map(([session_id, v]) => ({
+      session_id,
+      ...v,
+      converted: converted.has(session_id),
+    }));
+
+    const totalSessions = items.length;
+    const convertedCount = items.filter((i) => i.converted).length;
+    const steps = CALC_STEP_LABELS.map((label, idx) => {
+      const reached = items.filter((i) => i.maxStep >= idx).length;
+      const droppedHere = items.filter((i) => i.maxStep === idx && !i.converted).length;
+      return { label, reached, droppedHere };
+    });
+
+    const dropoffs = items
+      .filter((i) => !i.converted)
+      .sort((a, b) => (a.last < b.last ? 1 : -1));
+
+    return {
+      totalSessions,
+      convertedCount,
+      conversionPct: totalSessions ? Math.round((convertedCount / totalSessions) * 100) : 0,
+      steps,
+      dropoffs,
+    };
+  }, [calcSessions, sources]);
+
   useEffect(() => {
     if (!loading && (!user || !isAdmin)) {
       navigate("/admin/login");
@@ -190,13 +248,22 @@ const Admin = () => {
 
   const fetchData = async () => {
     setLoadingData(true);
-    const { data } = await supabase
-      .from("appointments")
-      .select("gevonden_via, gevonden_detail, created_at, dienst, fact_naam, fact_voornaam, fact_email, fact_plaats, werf_plaats, lead_bron, lead_bron_prijs")
-      .order("created_at", { ascending: false });
+    const [{ data }, { data: calcData }] = await Promise.all([
+      supabase
+        .from("appointments")
+        .select("gevonden_via, gevonden_detail, created_at, dienst, fact_naam, fact_voornaam, fact_email, fact_plaats, werf_plaats, lead_bron, lead_bron_prijs, calculator_session_id")
+        .order("created_at", { ascending: false }),
+      supabase
+        .from("calculator_sessions")
+        .select("session_id, step, service, price_eur, plaats, created_at")
+        .order("created_at", { ascending: false })
+        .limit(5000),
+    ]);
     setSources((data as SourceRow[]) || []);
+    setCalcSessions((calcData as CalcSessionRow[]) || []);
     setLoadingData(false);
   };
+
 
   const exportSourcesCSV = () => {
     const headers = ["Datum", "Bron", "Detail", "Dienst", "Regio", "Naam", "Email"];
