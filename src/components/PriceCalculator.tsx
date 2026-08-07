@@ -10,6 +10,7 @@ import { Card } from "@/components/ui/card";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { sendCalculatorSnapshot } from "@/lib/attribution";
+import { logCalculatorStep } from "@/lib/calculatorTracking";
 import { Loader2 } from "lucide-react";
 import {
   Calculator,
