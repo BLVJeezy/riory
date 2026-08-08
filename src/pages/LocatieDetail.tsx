@@ -17,9 +17,15 @@ import {
   Star,
   ShieldCheck,
   MapPin,
+  Check,
 } from "lucide-react";
 import { allLocations } from "@/data/locations";
 import { allServices } from "@/data/services";
+import rioryVan from "@/assets/riory-van.jpeg";
+import fotoOntstopping from "@/assets/refs/ontstopping-afvoerput-1.webp";
+import fotoCamera from "@/assets/service-camera-inspectie.webp";
+import fotoSeptisch from "@/assets/refs/septisch-1.webp";
+import fotoRegenput from "@/assets/refs/regenput-1.webp";
 import { businessRatingSchema, SYMPTOM_SERVICE_SLUGS } from "@/data/reviews";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import {
@@ -212,10 +218,54 @@ const LocatieDetail = () => {
             </div>
           </div>
 
-          <div className="max-w-3xl mx-auto mb-12 md:mb-16">
-            <p className="text-lg text-muted-foreground font-body leading-relaxed">
-              {localIntro}
-            </p>
+          <div className="max-w-5xl mx-auto mb-12 md:mb-16 grid lg:grid-cols-2 gap-8 items-start">
+            <div>
+              <p className="text-base md:text-lg text-muted-foreground font-body leading-relaxed mb-6">
+                {localIntro}
+              </p>
+              <h2 className="text-lg md:text-xl font-heading font-bold text-foreground mb-4">
+                Waarom Riory in {location.city}?
+              </h2>
+              <ul className="space-y-2.5">
+                {[
+                  `24/7 bereikbaar in ${location.city} — ook weekend en feestdagen`,
+                  `Doorgaans binnen 1 à 2 uur ter plaatse in ${location.city}`,
+                  `Geen rijkosten binnen ${location.city} (postcode ${location.postalCode})`,
+                  "Vaste, transparante prijzen — geen verrassingen op de factuur",
+                  "Professionele hogedrukapparatuur, camera-inspectie en zuigwagens",
+                  "Zonder breekwerk waar mogelijk, altijd netjes achtergelaten",
+                  "Verzekerd, gecertificeerd en met garantie op de werken",
+                ].map((item) => (
+                  <li key={item} className="flex items-start gap-2.5">
+                    <Check className="w-4 h-4 md:w-5 md:h-5 text-primary shrink-0 mt-0.5" />
+                    <span className="text-sm md:text-base text-foreground font-body">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              {[
+                { src: fotoOntstopping, alt: `Ontstoppingsdienst aan het werk in ${location.city}` },
+                { src: fotoCamera, alt: `Camera-inspectie riolering in ${location.city}` },
+                { src: fotoSeptisch, alt: `Septische put ledigen in ${location.city}` },
+                { src: fotoRegenput, alt: `Regenput reinigen en leegpompen in ${location.city}` },
+              ].map((img) => (
+                <img
+                  key={img.alt}
+                  src={img.src}
+                  alt={img.alt}
+                  loading="lazy"
+                  className="w-full h-32 md:h-44 object-cover rounded-xl border border-border"
+                />
+              ))}
+              <img
+                src={rioryVan}
+                alt={`Riory servicewagen onderweg naar een klant in ${location.city}`}
+                loading="lazy"
+                className="col-span-2 w-full h-32 md:h-44 object-cover rounded-xl border border-border"
+              />
+            </div>
           </div>
 
           <div className="max-w-4xl mx-auto mb-12 md:mb-16">
@@ -223,32 +273,46 @@ const LocatieDetail = () => {
               {t("locatieDetail.ourServicesIn", { city: location.city })}
             </h2>
             <div className="grid md:grid-cols-2 gap-4 md:gap-6">
-              {location.services.map((svc) => (
-                <div
-                  key={svc.slug}
-                  className="bg-card border border-border rounded-xl p-5 md:p-6 flex flex-col"
-                >
-                  <h3 className="text-base md:text-lg font-heading font-bold text-foreground mb-2">
-                    {svc.title}
-                  </h3>
-                  <p className="text-sm text-muted-foreground font-body leading-relaxed mb-4 flex-1">
-                    {svc.description}
-                  </p>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="rounded-full gap-2 self-start"
-                    asChild
+              {location.services.map((svc) => {
+                const svcImage = allServices.find((s) => s.slug === svc.slug)?.image;
+                return (
+                  <div
+                    key={svc.slug}
+                    className="bg-card border border-border rounded-xl overflow-hidden flex flex-col"
                   >
-                    <Link to={localizedPath(`/diensten/${svc.slug}`)}>
-                      {t("services.learnMore")}
-                      <ArrowRight className="w-4 h-4" />
-                    </Link>
-                  </Button>
-                </div>
-              ))}
+                    {svcImage && (
+                      <img
+                        src={svcImage}
+                        alt={`${svc.title} in ${location.city}`}
+                        loading="lazy"
+                        className="w-full h-40 md:h-48 object-cover"
+                      />
+                    )}
+                    <div className="p-5 md:p-6 flex flex-col flex-1">
+                      <h3 className="text-base md:text-lg font-heading font-bold text-foreground mb-2">
+                        {svc.title}
+                      </h3>
+                      <p className="text-sm text-muted-foreground font-body leading-relaxed mb-4 flex-1">
+                        {svc.description}
+                      </p>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="rounded-full gap-2 self-start"
+                        asChild
+                      >
+                        <Link to={localizedPath(`/diensten/${svc.slug}`)}>
+                          {t("services.learnMore")}
+                          <ArrowRight className="w-4 h-4" />
+                        </Link>
+                      </Button>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
+
 
           <div className="max-w-3xl mx-auto mb-12 md:mb-16">
             <h2 className="text-xl md:text-2xl font-heading font-bold text-foreground mb-6">
@@ -267,6 +331,30 @@ const LocatieDetail = () => {
               ))}
             </Accordion>
           </div>
+
+          <div className="max-w-3xl mx-auto mb-12 md:mb-16">
+            <h2 className="text-xl md:text-2xl font-heading font-bold text-foreground mb-4">
+              Veelvoorkomende problemen die wij oplossen in {location.city}
+            </h2>
+            <ul className="grid sm:grid-cols-2 gap-x-6 gap-y-2.5">
+              {[
+                "Verstopte WC die niet meer doorspoelt",
+                "Trage of verstopte gootsteen en keukenafvoer",
+                "Doucheputje verstopt door haren en zeepresten",
+                "Rioollucht in huis, kelder of garage",
+                "Volle septische put of beerput die overloopt",
+                "Kelder onder water na hevige regenval",
+                "Verstopte regenput of dakgoot",
+                "Terugkerende verstoppingen door wortels of vetprop",
+              ].map((item) => (
+                <li key={item} className="flex items-start gap-2.5">
+                  <Check className="w-4 h-4 md:w-5 md:h-5 text-primary shrink-0 mt-0.5" />
+                  <span className="text-sm md:text-base text-muted-foreground font-body">{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
 
           {/* Onze diensten in [Stad] — interne mesh naar alle dienstpagina's */}
           <div className="max-w-3xl mx-auto mb-12 md:mb-16">
