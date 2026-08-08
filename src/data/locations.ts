@@ -6,6 +6,10 @@ export interface LocationData {
   metaTitle: string;
   metaDescription: string;
   intro: string;
+  introParagraphs?: string[];
+  serviceBullets?: { title: string; description: string }[];
+  whyChooseUs?: string[];
+  cta?: { title: string; body: string };
   services: {
     title: string;
     description: string;
