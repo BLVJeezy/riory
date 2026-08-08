@@ -6,6 +6,10 @@ export interface LocationData {
   metaTitle: string;
   metaDescription: string;
   intro: string;
+  introParagraphs?: string[];
+  serviceBullets?: { title: string; description: string }[];
+  whyChooseUs?: string[];
+  cta?: { title: string; body: string };
   services: {
     title: string;
     description: string;
@@ -80,7 +84,28 @@ export const allLocations: LocationData[] = [
     h1: "Ontstoppingsdienst Genk — 24/7 Riool Verstopt? Wij Zijn er",
     metaTitle: "Riool Verstopt Genk? Ontstoppingsdienst 24/7 | Riory",
     metaDescription: "Ontstoppingsdienst Genk nodig? Riory lost het op in Winterslag, Waterschei, Zwartberg, Termien & Sledderlo. ✓ 24/7 ✓ Camera-inspectie ✓ Vaste prijs. Bel nu!",
-    intro: "Riool verstopt in Genk? Dat is precies waarvoor u Riory belt. Wij werken dagelijks in Genk en kennen de stad door en door — een stad die niet uit één centrum is gegroeid, maar uit aparte mijnwijken die pas later aan elkaar vastgroeiden. De oude mijnwijken van Winterslag en Waterschei hebben nog altijd verouderde betonriolen uit de jaren '60, daterend van toen de cités rond de kolenmijnen gebouwd werden. In Termien, aangelegd in de jaren '50 als één van Genks eerste naoorlogse uitbreidingswijken, zien we vaker leidingen die simpelweg het einde van hun levensduur naderen. In Nieuw-Sledderlo — de sociale woonwijk uit de jaren '70 middenin de dennenbossen van het Kempens Plateau — gaat het vaker om verouderde appartementsgebouwen waar meerdere units op dezelfde hoofdafvoer zijn aangesloten. In Zwartberg zien we veel vetprops in keukenafvoeren van oudere appartementen. Wij ontstoppen WC's, keukens, douches, gootstenen en hoofdrioleringen in heel Genk — met professionele hogedrukapparatuur en vaste prijzen. Geen verrassing op de factuur, geen extra kosten voor avond- of weekendwerk als het niet dringend is. Onze techniekers zijn 24/7 bereikbaar en staan doorgaans binnen 1 à 2 uur bij u thuis in Genk, Winterslag, Waterschei, Zwartberg, Bokrijk, Gelieren, Termien, Sledderlo of Kolderbos.",
+    intro: "Riory is uw lokale ontstoppingsdienst in Genk. Met professionele hogedrukapparatuur en camerainspectie sporen we de oorzaak snel op en maken we uw leidingen weer volledig vrij.",
+    introParagraphs: [
+      "Riool verstopt in Genk? Snel en vakkundig opgelost door Riory.",
+      "Een verstopte WC, een gootsteen die niet meer doorloopt of water dat omhoog komt in de douche? Niets is vervelender dan een rioolprobleem in huis. Riory is uw lokale ontstoppingsdienst in Genk. Met professionele hogedrukapparatuur en camerainspectie sporen we de oorzaak snel op en maken we uw leidingen weer volledig vrij.",
+      "Of u nu woont in een karakteristieke woning in Winterslag, Waterschei of Zwartberg, of in een appartement in Termien, Sledderlo of Bokrijk: wij kennen de lokale leidingnetwerken en weten precies hoe we de meest hardnekkige verstoppingen moeten aanpakken."
+    ],
+    serviceBullets: [
+      { title: "WC en toilet ontstoppen", description: "Snelle hulp bij hardnekkige blokkades of doorgespoelde voorwerpen." },
+      { title: "Keukenafvoer en gootsteen", description: "Veilig verwijderen van opgehoopt vet, zeepresten en etensresten." },
+      { title: "Badkamer & douche", description: "Grondige reiniging van doucheputjes, baden en wastafelafvoeren." },
+      { title: "Hoofdriolering & camera-inspectie", description: "Bij terugkerende problemen of stankoverlast bekijken we de binnenkant van uw leidingen om scheuren of verzakkingen op te sporen." }
+    ],
+    whyChooseUs: [
+      "Snelle service: Onze monteurs zijn lokaal actief en meestal binnen 1 tot 2 uur ter plaatse.",
+      "Duidelijke tarieven: Geen verborgen kosten achteraf. U weet vooraf precies waar u aan toe bent.",
+      "24/7 Bereikbaar: Ook 's avonds en in het weekend staan we voor u klaar bij spoedgevallen.",
+      "Zonder kap- of breekwerk: Met onze moderne apparatuur lossen we 95% van de verstoppingen direct op."
+    ],
+    cta: {
+      title: "Direct een vakman nodig in Genk?",
+      body: "Bel ons meteen op of vraag online een afspraak aan."
+    },
     services: [
       {
         title: "Riool ontstoppen Genk — WC, gootsteen & afvoer",
