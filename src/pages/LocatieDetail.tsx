@@ -332,6 +332,30 @@ const LocatieDetail = () => {
             </Accordion>
           </div>
 
+          <div className="max-w-3xl mx-auto mb-12 md:mb-16">
+            <h2 className="text-xl md:text-2xl font-heading font-bold text-foreground mb-4">
+              Veelvoorkomende problemen die wij oplossen in {location.city}
+            </h2>
+            <ul className="grid sm:grid-cols-2 gap-x-6 gap-y-2.5">
+              {[
+                "Verstopte WC die niet meer doorspoelt",
+                "Trage of verstopte gootsteen en keukenafvoer",
+                "Doucheputje verstopt door haren en zeepresten",
+                "Rioollucht in huis, kelder of garage",
+                "Volle septische put of beerput die overloopt",
+                "Kelder onder water na hevige regenval",
+                "Verstopte regenput of dakgoot",
+                "Terugkerende verstoppingen door wortels of vetprop",
+              ].map((item) => (
+                <li key={item} className="flex items-start gap-2.5">
+                  <Check className="w-4 h-4 md:w-5 md:h-5 text-primary shrink-0 mt-0.5" />
+                  <span className="text-sm md:text-base text-muted-foreground font-body">{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+
           {/* Onze diensten in [Stad] — interne mesh naar alle dienstpagina's */}
           <div className="max-w-3xl mx-auto mb-12 md:mb-16">
             <h2 className="text-xl md:text-2xl font-heading font-bold text-foreground mb-4">
