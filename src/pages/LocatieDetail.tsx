@@ -443,6 +443,17 @@ const LocatieDetail = () => {
             </div>
           </div>
 
+          {location.cta && (
+            <div className="max-w-3xl mx-auto mb-8 md:mb-10 text-center">
+              <h2 className="text-xl md:text-2xl font-heading font-bold text-foreground mb-3">
+                {location.cta.title}
+              </h2>
+              <p className="text-base text-muted-foreground font-body mb-6">
+                {location.cta.body}
+              </p>
+            </div>
+          )}
+
           <div className="max-w-3xl mx-auto flex flex-col sm:flex-row items-center gap-4">
             <Button
               variant="cta"
