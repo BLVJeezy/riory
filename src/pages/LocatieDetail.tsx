@@ -17,9 +17,15 @@ import {
   Star,
   ShieldCheck,
   MapPin,
+  Check,
 } from "lucide-react";
 import { allLocations } from "@/data/locations";
 import { allServices } from "@/data/services";
+import rioryVan from "@/assets/riory-van.jpeg";
+import fotoOntstopping from "@/assets/refs/ontstopping-afvoerput-1.webp";
+import fotoCamera from "@/assets/service-camera-inspectie.webp";
+import fotoSeptisch from "@/assets/refs/septisch-1.webp";
+import fotoRegenput from "@/assets/refs/regenput-1.webp";
 import { businessRatingSchema, SYMPTOM_SERVICE_SLUGS } from "@/data/reviews";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import {
