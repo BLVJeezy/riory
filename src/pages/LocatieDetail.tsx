@@ -220,14 +220,46 @@ const LocatieDetail = () => {
 
           <div className="max-w-5xl mx-auto mb-12 md:mb-16 grid lg:grid-cols-2 gap-8 items-start">
             <div>
-              <p className="text-base md:text-lg text-muted-foreground font-body leading-relaxed mb-6">
-                {localIntro}
-              </p>
+              {location.introParagraphs ? (
+                <div className="mb-6 space-y-4">
+                  <p className="text-lg md:text-xl font-heading font-bold text-foreground leading-snug">
+                    {location.introParagraphs[0]}
+                  </p>
+                  {location.introParagraphs.slice(1).map((para, i) => (
+                    <p key={i} className="text-base md:text-lg text-muted-foreground font-body leading-relaxed">
+                      {para}
+                    </p>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-base md:text-lg text-muted-foreground font-body leading-relaxed mb-6">
+                  {localIntro}
+                </p>
+              )}
+
+              {location.serviceBullets && (
+                <>
+                  <h2 className="text-lg md:text-xl font-heading font-bold text-foreground mb-4">
+                    Onze ontstoppingsdiensten in {location.city}
+                  </h2>
+                  <ul className="space-y-2.5 mb-6">
+                    {location.serviceBullets.map((item) => (
+                      <li key={item.title} className="flex items-start gap-2.5">
+                        <Check className="w-4 h-4 md:w-5 md:h-5 text-primary shrink-0 mt-0.5" />
+                        <span className="text-sm md:text-base text-foreground font-body">
+                          <strong>{item.title}:</strong> {item.description}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
+
               <h2 className="text-lg md:text-xl font-heading font-bold text-foreground mb-4">
                 Waarom Riory in {location.city}?
               </h2>
               <ul className="space-y-2.5">
-                {[
+                {(location.whyChooseUs || [
                   `24/7 bereikbaar in ${location.city} — ook weekend en feestdagen`,
                   `Doorgaans binnen 1 à 2 uur ter plaatse in ${location.city}`,
                   `Geen rijkosten binnen ${location.city} (postcode ${location.postalCode})`,
@@ -235,7 +267,7 @@ const LocatieDetail = () => {
                   "Professionele hogedrukapparatuur, camera-inspectie en zuigwagens",
                   "Zonder breekwerk waar mogelijk, altijd netjes achtergelaten",
                   "Verzekerd, gecertificeerd en met garantie op de werken",
-                ].map((item) => (
+                ]).map((item) => (
                   <li key={item} className="flex items-start gap-2.5">
                     <Check className="w-4 h-4 md:w-5 md:h-5 text-primary shrink-0 mt-0.5" />
                     <span className="text-sm md:text-base text-foreground font-body">{item}</span>
