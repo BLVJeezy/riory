@@ -1,3 +1,5 @@
+import { track as vercelTrack } from "@vercel/analytics";
+
 // Attribution tracking voor riory.be.
 //
 // Strategie (consent-conform):
@@ -533,12 +535,33 @@ export async function trackPhoneClick(opts: { phone: string; label?: string }) {
   }
 
   if (typeof window !== "undefined") {
+    const label = opts.label ?? "click_telefoon";
+
+    // Klik-event (voor gedragsanalyse)
     window.gtag?.("event", "click_telefoon", {
-      cta_label: opts.label ?? "click_telefoon",
+      cta_label: label,
       phone: opts.phone,
+    });
+
+    // Conversie-event: een telefoonklik is een lead
+    window.gtag?.("event", "generate_lead", {
+      lead_type: "phone_call",
+      lead_source: "bel_nu_button",
+      cta_label: label,
+      phone: opts.phone,
+      value: 1,
+      currency: "EUR",
+    });
+
+    // Vercel Analytics custom event
+    void vercelTrack("lead_phone_call", {
+      cta_label: label,
+      phone: opts.phone,
+      page_url: window.location.href,
     });
   }
 }
+
 
 export async function trackCtaClick(opts: { label: string; phone?: string }) {
   const attribution = await buildSubmitAttribution();
