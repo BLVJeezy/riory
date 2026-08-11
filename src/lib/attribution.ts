@@ -1,4 +1,5 @@
 import { track as vercelTrack } from "@vercel/analytics";
+import { supabase } from "@/integrations/supabase/client";
 
 // Attribution tracking voor riory.be.
 //
