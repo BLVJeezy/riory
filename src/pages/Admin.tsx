@@ -67,6 +67,19 @@ interface CalcSessionRow {
   created_at: string;
 }
 
+interface PhoneClickRow {
+  id: string;
+  created_at: string;
+  phone: string;
+  cta_label: string | null;
+  page_url: string | null;
+  visitor_id: string | null;
+  device: string | null;
+  referrer: string | null;
+}
+
+
+
 const CALC_STEP_LABELS = [
   "Calculator geopend",
   "Adres ingevuld",
@@ -150,6 +163,34 @@ const Admin = () => {
   const [showAllRegios, setShowAllRegios] = useState(false);
   const [calcSessions, setCalcSessions] = useState<CalcSessionRow[]>([]);
   const [showAllDropoffs, setShowAllDropoffs] = useState(false);
+  const [phoneClicks, setPhoneClicks] = useState<PhoneClickRow[]>([]);
+  const [showAllPhoneClicks, setShowAllPhoneClicks] = useState(false);
+  const [showAllPhoneLabels, setShowAllPhoneLabels] = useState(false);
+
+  const phoneStats = useMemo(() => {
+    const now = Date.now();
+    const inLast = (d: string, days: number) =>
+      now - new Date(d).getTime() <= days * 864e5;
+    const startToday = new Date();
+    startToday.setHours(0, 0, 0, 0);
+    const counts: Record<string, number> = {};
+    phoneClicks.forEach((c) => {
+      const k = c.cta_label || "belknop";
+      counts[k] = (counts[k] || 0) + 1;
+    });
+    const ranked = Object.entries(counts)
+      .map(([label, count]) => ({ label, count }))
+      .sort((a, b) => b.count - a.count);
+    return {
+      total: phoneClicks.length,
+      today: phoneClicks.filter((c) => new Date(c.created_at) >= startToday).length,
+      week: phoneClicks.filter((c) => inLast(c.created_at, 7)).length,
+      month: phoneClicks.filter((c) => inLast(c.created_at, 30)).length,
+      ranked,
+      maxCount: ranked[0]?.count || 1,
+    };
+  }, [phoneClicks]);
+
 
   const getDateRange = (preset: string): { from: Date | null; to: Date | null } => {
     const now = new Date();
@@ -282,7 +323,7 @@ const Admin = () => {
 
   const fetchData = async () => {
     setLoadingData(true);
-    const [{ data }, { data: calcData }] = await Promise.all([
+    const [{ data }, { data: calcData }, { data: phoneData }] = await Promise.all([
       supabase
         .from("appointments")
         .select("*")
@@ -292,9 +333,16 @@ const Admin = () => {
         .select("session_id, step, service, price_eur, plaats, created_at")
         .order("created_at", { ascending: false })
         .limit(5000),
+      supabase
+        .from("phone_clicks")
+        .select("id, created_at, phone, cta_label, page_url, visitor_id, device, referrer")
+        .order("created_at", { ascending: false })
+        .limit(2000),
     ]);
     setSources((data as SourceRow[]) || []);
     setCalcSessions((calcData as CalcSessionRow[]) || []);
+    setPhoneClicks((phoneData as PhoneClickRow[]) || []);
+
     setLoadingData(false);
   };
 
@@ -767,7 +815,102 @@ const Admin = () => {
                 </div>
 
                 <div className="bg-background rounded-xl p-4 sm:p-6 border border-border shadow-sm">
+                  <div className="flex items-center justify-between gap-3 flex-wrap mb-4">
+                    <div>
+                      <h3 className="font-heading font-semibold text-foreground">Telefoon-leads ("Bel nu")</h3>
+                      <p className="text-sm text-muted-foreground font-body">
+                        Elke klik op een belknop wordt geregistreerd als lead-event.
+                      </p>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
+                    <div className="bg-muted/50 rounded-lg p-4">
+                      <p className="text-xs text-muted-foreground font-body mb-1">Vandaag</p>
+                      <p className="text-2xl font-heading font-bold text-foreground">{phoneStats.today}</p>
+                    </div>
+                    <div className="bg-muted/50 rounded-lg p-4">
+                      <p className="text-xs text-muted-foreground font-body mb-1">Laatste 7 dagen</p>
+                      <p className="text-2xl font-heading font-bold text-foreground">{phoneStats.week}</p>
+                    </div>
+                    <div className="bg-muted/50 rounded-lg p-4">
+                      <p className="text-xs text-muted-foreground font-body mb-1">Laatste 30 dagen</p>
+                      <p className="text-2xl font-heading font-bold text-foreground">{phoneStats.month}</p>
+                    </div>
+                    <div className="bg-primary/5 border border-primary/20 rounded-lg p-4">
+                      <p className="text-xs text-muted-foreground font-body mb-1">Totaal</p>
+                      <p className="text-2xl font-heading font-bold text-primary">{phoneStats.total}</p>
+                    </div>
+                  </div>
+
+                  {phoneStats.ranked.length > 0 && (
+                    <div className="space-y-2 mb-5">
+                      <p className="text-xs font-body uppercase tracking-wide text-muted-foreground">Per knop</p>
+                      {phoneStats.ranked.slice(0, showAllPhoneLabels ? undefined : 5).map((r) => (
+                        <div key={r.label} className="space-y-1">
+                          <div className="flex items-center justify-between gap-2 text-sm font-body">
+                            <span className="text-foreground truncate">{r.label}</span>
+                            <span className="text-muted-foreground shrink-0">{r.count}</span>
+                          </div>
+                          <div className="h-2 rounded-full bg-muted overflow-hidden">
+                            <div
+                              className="h-full rounded-full bg-primary"
+                              style={{ width: `${Math.round((r.count / phoneStats.maxCount) * 100)}%` }}
+                            />
+                          </div>
+                        </div>
+                      ))}
+                      {phoneStats.ranked.length > 5 && (
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="w-full mt-2"
+                          onClick={() => setShowAllPhoneLabels((v) => !v)}
+                        >
+                          {showAllPhoneLabels ? "Toon minder" : `Bekijk alle knoppen (${phoneStats.ranked.length})`}
+                        </Button>
+                      )}
+                    </div>
+                  )}
+
+                  <div className="space-y-2">
+                    <p className="text-xs font-body uppercase tracking-wide text-muted-foreground">Recente klikken</p>
+                    {phoneClicks.length === 0 ? (
+                      <p className="text-sm text-muted-foreground font-body">Nog geen telefoonklikken geregistreerd.</p>
+                    ) : (
+                      phoneClicks.slice(0, showAllPhoneClicks ? undefined : 10).map((c) => (
+                        <div
+                          key={c.id}
+                          className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 rounded-lg border border-border p-3"
+                        >
+                          <div className="min-w-0">
+                            <p className="text-sm font-body text-foreground truncate">{c.cta_label || "belknop"}</p>
+                            <p className="text-xs text-muted-foreground font-body truncate">
+                              {c.page_url || "-"}
+                            </p>
+                          </div>
+                          <div className="text-xs text-muted-foreground font-body sm:text-right shrink-0">
+                            <p>{new Date(c.created_at).toLocaleString("nl-BE")}</p>
+                            <p>{c.device || "-"}</p>
+                          </div>
+                        </div>
+                      ))
+                    )}
+                    {phoneClicks.length > 10 && (
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="w-full"
+                        onClick={() => setShowAllPhoneClicks((v) => !v)}
+                      >
+                        {showAllPhoneClicks ? "Toon minder" : `Bekijk alle klikken (${phoneClicks.length})`}
+                      </Button>
+                    )}
+                  </div>
+                </div>
+
+                <div className="bg-background rounded-xl p-4 sm:p-6 border border-border shadow-sm">
                   <h3 className="font-heading font-semibold text-foreground mb-4">Prijscalculator — conversie</h3>
+
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div className="bg-muted/50 rounded-lg p-4">
                       <p className="text-xs text-muted-foreground font-body mb-1">Via calculator</p>

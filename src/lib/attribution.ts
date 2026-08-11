@@ -1,4 +1,5 @@
 import { track as vercelTrack } from "@vercel/analytics";
+import { supabase } from "@/integrations/supabase/client";
 
 // Attribution tracking voor riory.be.
 //
@@ -559,8 +560,24 @@ export async function trackPhoneClick(opts: { phone: string; label?: string }) {
       phone: opts.phone,
       page_url: window.location.href,
     });
+
+    // Eigen admin-dashboard: klik opslaan als lead-event
+    void supabase
+      .from("phone_clicks")
+      .insert({
+        phone: opts.phone,
+        cta_label: label,
+        page_url: window.location.href,
+        visitor_id: getVisitorId(),
+        device: /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent) ? "mobiel" : "desktop",
+        referrer: document.referrer || null,
+      })
+      .then(({ error }) => {
+        if (error && import.meta.env.DEV) console.warn("phone_clicks insert failed:", error);
+      });
   }
 }
+
 
 
 export async function trackCtaClick(opts: { label: string; phone?: string }) {
