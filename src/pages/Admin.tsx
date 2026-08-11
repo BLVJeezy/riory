@@ -150,6 +150,34 @@ const Admin = () => {
   const [showAllRegios, setShowAllRegios] = useState(false);
   const [calcSessions, setCalcSessions] = useState<CalcSessionRow[]>([]);
   const [showAllDropoffs, setShowAllDropoffs] = useState(false);
+  const [phoneClicks, setPhoneClicks] = useState<PhoneClickRow[]>([]);
+  const [showAllPhoneClicks, setShowAllPhoneClicks] = useState(false);
+  const [showAllPhoneLabels, setShowAllPhoneLabels] = useState(false);
+
+  const phoneStats = useMemo(() => {
+    const now = Date.now();
+    const inLast = (d: string, days: number) =>
+      now - new Date(d).getTime() <= days * 864e5;
+    const startToday = new Date();
+    startToday.setHours(0, 0, 0, 0);
+    const counts: Record<string, number> = {};
+    phoneClicks.forEach((c) => {
+      const k = c.cta_label || "belknop";
+      counts[k] = (counts[k] || 0) + 1;
+    });
+    const ranked = Object.entries(counts)
+      .map(([label, count]) => ({ label, count }))
+      .sort((a, b) => b.count - a.count);
+    return {
+      total: phoneClicks.length,
+      today: phoneClicks.filter((c) => new Date(c.created_at) >= startToday).length,
+      week: phoneClicks.filter((c) => inLast(c.created_at, 7)).length,
+      month: phoneClicks.filter((c) => inLast(c.created_at, 30)).length,
+      ranked,
+      maxCount: ranked[0]?.count || 1,
+    };
+  }, [phoneClicks]);
+
 
   const getDateRange = (preset: string): { from: Date | null; to: Date | null } => {
     const now = new Date();
