@@ -1,3 +1,5 @@
+import { track as vercelTrack } from "@vercel/analytics";
+
 // Attribution tracking voor riory.be.
 //
 // Strategie (consent-conform):
