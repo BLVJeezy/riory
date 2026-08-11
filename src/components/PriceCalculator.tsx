@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useLanguage } from "@/i18n/LanguageProvider";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Card } from "@/components/ui/card";
-import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { sendCalculatorSnapshot } from "@/lib/attribution";
 import { logCalculatorStep } from "@/lib/calculatorTracking";
@@ -52,7 +50,6 @@ const serviceDefs: ServiceOption[] = [
 
 const PriceCalculator = () => {
   const { t } = useTranslation();
-  const { localizedPath } = useLanguage();
   const [step, setStep] = useState(0);
   const [agreed, setAgreed] = useState(false);
   const [address, setAddress] = useState({
@@ -673,9 +670,13 @@ const PriceCalculator = () => {
                 </p>
                 <div className="pt-3 sm:pt-4">
                   <Button variant="cta" size="lg" className="w-full text-sm sm:text-base" asChild>
-                    <Link data-track-cta="calculator_appointment" to={`${localizedPath("/afspraak")}?dienst=${encodeURIComponent(getServiceMapping())}&straat=${encodeURIComponent(address.straat)}&huisnummer=${encodeURIComponent(address.huisnummer)}&postcode=${encodeURIComponent(address.postcode)}&plaats=${encodeURIComponent(address.plaats)}&via=calculator&prijs=${encodeURIComponent(result.total || result.price || "")}`}>
-                      {t("calculator.bookIntervention")} <ArrowRight className="w-4 h-4" />
-                    </Link>
+                    <a
+                      href="tel:+32472502814"
+                      data-track-cta="calculator_call_now"
+                      data-track-phone="+32472502814"
+                    >
+                      {t("calculator.callNow")}
+                    </a>
                   </Button>
                 </div>
               </div>
