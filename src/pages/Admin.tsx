@@ -323,7 +323,7 @@ const Admin = () => {
 
   const fetchData = async () => {
     setLoadingData(true);
-    const [{ data }, { data: calcData }] = await Promise.all([
+    const [{ data }, { data: calcData }, { data: phoneData }] = await Promise.all([
       supabase
         .from("appointments")
         .select("*")
@@ -333,9 +333,16 @@ const Admin = () => {
         .select("session_id, step, service, price_eur, plaats, created_at")
         .order("created_at", { ascending: false })
         .limit(5000),
+      supabase
+        .from("phone_clicks")
+        .select("id, created_at, phone, cta_label, page_url, visitor_id, device, referrer")
+        .order("created_at", { ascending: false })
+        .limit(2000),
     ]);
     setSources((data as SourceRow[]) || []);
     setCalcSessions((calcData as CalcSessionRow[]) || []);
+    setPhoneClicks((phoneData as PhoneClickRow[]) || []);
+
     setLoadingData(false);
   };
 
