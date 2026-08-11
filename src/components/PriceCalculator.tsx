@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useLanguage } from "@/i18n/LanguageProvider";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Card } from "@/components/ui/card";
-import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { sendCalculatorSnapshot } from "@/lib/attribution";
 import { logCalculatorStep } from "@/lib/calculatorTracking";
@@ -15,7 +13,6 @@ import { Loader2 } from "lucide-react";
 import {
   Calculator,
   MapPin,
-  ArrowRight,
   ArrowLeft,
   CheckCircle2,
   AlertTriangle,
