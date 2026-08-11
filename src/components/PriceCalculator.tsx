@@ -673,9 +673,13 @@ const PriceCalculator = () => {
                 </p>
                 <div className="pt-3 sm:pt-4">
                   <Button variant="cta" size="lg" className="w-full text-sm sm:text-base" asChild>
-                    <Link data-track-cta="calculator_appointment" to={`${localizedPath("/afspraak")}?dienst=${encodeURIComponent(getServiceMapping())}&straat=${encodeURIComponent(address.straat)}&huisnummer=${encodeURIComponent(address.huisnummer)}&postcode=${encodeURIComponent(address.postcode)}&plaats=${encodeURIComponent(address.plaats)}&via=calculator&prijs=${encodeURIComponent(result.total || result.price || "")}`}>
-                      {t("calculator.bookIntervention")} <ArrowRight className="w-4 h-4" />
-                    </Link>
+                    <a
+                      href="tel:+32472502814"
+                      data-track-cta="calculator_call_now"
+                      data-track-phone="+32472502814"
+                    >
+                      {t("calculator.callNow")}
+                    </a>
                   </Button>
                 </div>
               </div>
