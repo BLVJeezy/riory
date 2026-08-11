@@ -67,6 +67,19 @@ interface CalcSessionRow {
   created_at: string;
 }
 
+interface PhoneClickRow {
+  id: string;
+  created_at: string;
+  phone: string;
+  cta_label: string | null;
+  page_url: string | null;
+  visitor_id: string | null;
+  device: string | null;
+  referrer: string | null;
+}
+
+
+
 const CALC_STEP_LABELS = [
   "Calculator geopend",
   "Adres ingevuld",
