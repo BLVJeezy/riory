@@ -7,6 +7,7 @@ const StickyCallBar = () => {
   const { t } = useTranslation();
   const { localizedPath } = useLanguage();
   const { pathname } = useLocation();
+  const isCalculatorPage = pathname === "/prijscalculator" || pathname.startsWith("/nl/prijscalculator") || pathname.startsWith("/en/prijscalculator") || pathname.startsWith("/fr/prijscalculator");
 
   if (pathname.startsWith("/admin")) return null;
 
@@ -24,14 +25,16 @@ const StickyCallBar = () => {
         <Phone className="w-3.5 h-3.5 fill-current" />
         <span>{t("common.stickyCall247")}</span>
       </a>
-      <Link
-        to={localizedPath("/afspraak")}
-        data-track-cta="sticky_mobile_appointment"
-        className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-full bg-primary text-primary-foreground font-heading font-bold text-xs uppercase tracking-wide py-2.5 px-3 shadow-[0_4px_20px_hsl(var(--primary)/0.4)] active:scale-95 transition-transform"
-      >
-        <Calendar className="w-3.5 h-3.5" />
-        <span>{t("common.stickyAppointment")}</span>
-      </Link>
+      {!isCalculatorPage && (
+        <Link
+          to={localizedPath("/afspraak")}
+          data-track-cta="sticky_mobile_appointment"
+          className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-full bg-primary text-primary-foreground font-heading font-bold text-xs uppercase tracking-wide py-2.5 px-3 shadow-[0_4px_20px_hsl(var(--primary)/0.4)] active:scale-95 transition-transform"
+        >
+          <Calendar className="w-3.5 h-3.5" />
+          <span>{t("common.stickyAppointment")}</span>
+        </Link>
+      )}
     </div>
   );
 };
