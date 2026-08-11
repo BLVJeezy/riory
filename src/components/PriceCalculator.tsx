@@ -51,7 +51,6 @@ const serviceDefs: ServiceOption[] = [
 
 const PriceCalculator = () => {
   const { t } = useTranslation();
-  const { localizedPath } = useLanguage();
   const [step, setStep] = useState(0);
   const [agreed, setAgreed] = useState(false);
   const [address, setAddress] = useState({
