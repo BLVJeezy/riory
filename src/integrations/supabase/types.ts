@@ -401,6 +401,39 @@ export type Database = {
         }
         Relationships: []
       }
+      phone_clicks: {
+        Row: {
+          created_at: string
+          cta_label: string | null
+          device: string | null
+          id: string
+          page_url: string | null
+          phone: string
+          referrer: string | null
+          visitor_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          cta_label?: string | null
+          device?: string | null
+          id?: string
+          page_url?: string | null
+          phone: string
+          referrer?: string | null
+          visitor_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          cta_label?: string | null
+          device?: string | null
+          id?: string
+          page_url?: string | null
+          phone?: string
+          referrer?: string | null
+          visitor_id?: string | null
+        }
+        Relationships: []
+      }
       quote_requests: {
         Row: {
           audio_url: string | null
