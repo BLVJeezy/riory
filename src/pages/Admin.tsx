@@ -873,31 +873,8 @@ const Admin = () => {
 
                   {/* Aangepaste periode */}
                   <div className="flex flex-col gap-2">
-                    <div className="hidden">
+                    {apptDatePreset === "custom" && monthFilter === "all" && (
 
-                      {[
-                        { key: "today", label: "Vandaag" },
-                        { key: "48h", label: "48u" },
-                        { key: "week", label: "1 week" },
-                        { key: "month", label: "1 maand" },
-                        { key: "3months", label: "3 maanden" },
-                        { key: "all", label: "Alles" },
-                        { key: "custom", label: "Aangepast" },
-                      ].map(({ key, label }) => (
-                        <button
-                          key={key}
-                          onClick={() => setApptDatePreset(key)}
-                          className={`px-3 py-1.5 rounded-full text-xs font-heading font-semibold transition-all border ${
-                            apptDatePreset === key
-                              ? "bg-primary text-primary-foreground border-primary"
-                              : "bg-muted text-muted-foreground border-border hover:border-primary/50 hover:text-foreground"
-                          }`}
-                        >
-                          {label}
-                        </button>
-                      ))}
-                    </div>
-                    {apptDatePreset === "custom" && (
                       <div className="flex flex-col sm:flex-row gap-2 pt-1">
                         <div className="flex items-center gap-2 flex-1">
                           <label className="text-xs text-muted-foreground font-body whitespace-nowrap">Van</label>
