@@ -284,7 +284,7 @@ const Admin = () => {
       string,
       { maxStep: number; service: string | null; price: number | null; plaats: string | null; last: string }
     >();
-    calcSessions.forEach((r) => {
+    filteredCalcSessions.forEach((r) => {
       const cur = bySession.get(r.session_id);
       if (!cur) {
         bySession.set(r.session_id, {
@@ -330,7 +330,7 @@ const Admin = () => {
       steps,
       dropoffs,
     };
-  }, [calcSessions, sources]);
+  }, [filteredCalcSessions, sources]);
 
   useEffect(() => {
     if (!loading && (!user || !isAdmin)) {
@@ -956,10 +956,10 @@ const Admin = () => {
 
                   <div className="space-y-2">
                     <p className="text-xs font-body uppercase tracking-wide text-muted-foreground">Recente klikken</p>
-                    {phoneClicks.length === 0 ? (
+                    {filteredPhoneClicks.length === 0 ? (
                       <p className="text-sm text-muted-foreground font-body">Nog geen telefoonklikken geregistreerd.</p>
                     ) : (
-                      phoneClicks.slice(0, showAllPhoneClicks ? undefined : 10).map((c) => (
+                      filteredPhoneClicks.slice(0, showAllPhoneClicks ? undefined : 10).map((c) => (
                         <div
                           key={c.id}
                           className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 rounded-lg border border-border p-3"
@@ -977,14 +977,14 @@ const Admin = () => {
                         </div>
                       ))
                     )}
-                    {phoneClicks.length > 10 && (
+                    {filteredPhoneClicks.length > 10 && (
                       <Button
                         size="sm"
                         variant="outline"
                         className="w-full"
                         onClick={() => setShowAllPhoneClicks((v) => !v)}
                       >
-                        {showAllPhoneClicks ? "Toon minder" : `Bekijk alle klikken (${phoneClicks.length})`}
+                        {showAllPhoneClicks ? "Toon minder" : `Bekijk alle klikken (${filteredPhoneClicks.length})`}
                       </Button>
                     )}
                   </div>
