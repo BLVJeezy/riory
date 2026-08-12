@@ -161,6 +161,31 @@ const Admin = () => {
   const [showAllPhoneClicks, setShowAllPhoneClicks] = useState(false);
   const [showAllPhoneLabels, setShowAllPhoneLabels] = useState(false);
 
+  // Eén gedeelde filter (datum + maand) die op ALLE data wordt toegepast.
+  const activeRange = useMemo(() => {
+    let { from, to } = getApptDateRange(apptDatePreset);
+    if (monthFilter !== "all") {
+      const [y, m] = monthFilter.split("-").map(Number);
+      const mFrom = new Date(y, m - 1, 1);
+      const mTo = new Date(y, m, 1);
+      from = from && from > mFrom ? from : mFrom;
+      to = to && to < mTo ? to : mTo;
+    }
+    return { from, to };
+  }, [apptDatePreset, apptCustomFrom, apptCustomTo, monthFilter]);
+
+  const inActiveRange = (date: string) => {
+    const d = new Date(date);
+    if (activeRange.from && d < activeRange.from) return false;
+    if (activeRange.to && d >= activeRange.to) return false;
+    return true;
+  };
+
+  const filteredPhoneClicks = useMemo(
+    () => phoneClicks.filter((c) => inActiveRange(c.created_at)),
+    [phoneClicks, activeRange],
+  );
+
   const phoneStats = useMemo(() => {
     const now = Date.now();
     const inLast = (d: string, days: number) =>
@@ -168,7 +193,7 @@ const Admin = () => {
     const startToday = new Date();
     startToday.setHours(0, 0, 0, 0);
     const counts: Record<string, number> = {};
-    phoneClicks.forEach((c) => {
+    filteredPhoneClicks.forEach((c) => {
       const k = c.cta_label || "belknop";
       counts[k] = (counts[k] || 0) + 1;
     });
@@ -176,14 +201,14 @@ const Admin = () => {
       .map(([label, count]) => ({ label, count }))
       .sort((a, b) => b.count - a.count);
     return {
-      total: phoneClicks.length,
-      today: phoneClicks.filter((c) => new Date(c.created_at) >= startToday).length,
-      week: phoneClicks.filter((c) => inLast(c.created_at, 7)).length,
-      month: phoneClicks.filter((c) => inLast(c.created_at, 30)).length,
+      total: filteredPhoneClicks.length,
+      today: filteredPhoneClicks.filter((c) => new Date(c.created_at) >= startToday).length,
+      week: filteredPhoneClicks.filter((c) => inLast(c.created_at, 7)).length,
+      month: filteredPhoneClicks.filter((c) => inLast(c.created_at, 30)).length,
       ranked,
       maxCount: ranked[0]?.count || 1,
     };
-  }, [phoneClicks]);
+  }, [filteredPhoneClicks]);
 
 
   const getDateRange = (preset: string): { from: Date | null; to: Date | null } => {
