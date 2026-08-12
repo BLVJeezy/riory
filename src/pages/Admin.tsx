@@ -249,18 +249,22 @@ const Admin = () => {
 
   const filteredSources = useMemo(() => {
     return sources.filter((s) => {
-      if (monthFilter !== "all") {
-        const d = new Date(s.created_at);
-        const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
-        if (key !== monthFilter) return false;
-      }
+      if (!inActiveRange(s.created_at)) return false;
       if (sourceFilter !== "all") {
         const v = (s.gevonden_via || "onbekend").toLowerCase();
         if (v !== sourceFilter) return false;
       }
       return true;
     });
-  }, [sources, monthFilter, sourceFilter]);
+  }, [sources, activeRange, sourceFilter]);
+
+  // Afsprakentabel gebruikt exact dezelfde filters als de rest van het dashboard.
+  const filteredAppointments = filteredSources;
+
+  const filteredCalcSessions = useMemo(
+    () => calcSessions.filter((r) => inActiveRange(r.created_at)),
+    [calcSessions, activeRange],
+  );
 
   const calculatorStats = useMemo(() => {
     const viaCalculator = filteredSources.filter((s) => s.lead_bron === "calculator").length;
