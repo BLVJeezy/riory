@@ -148,15 +148,9 @@ const Admin = () => {
     }
   };
 
-  const filteredAppointments = useMemo(() => {
-    const { from, to } = getApptDateRange(apptDatePreset);
-    return sources.filter((s) => {
-      const d = new Date(s.created_at);
-      if (from && d < from) return false;
-      if (to && d >= to) return false;
-      return true;
-    });
-  }, [sources, apptDatePreset, apptCustomFrom, apptCustomTo]);
+  // Placeholder — echte filtering staat verder (filteredSources) zodat maand- en
+  // bronfilter samen met de datumfilter op ALLE data toegepast worden.
+
   const [showCustom, setShowCustom] = useState(false);
   const [sourceFilter, setSourceFilter] = useState<string>("all");
   const [monthFilter, setMonthFilter] = useState<string>("all");
