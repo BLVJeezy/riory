@@ -1,36 +1,23 @@
-# Werfadres gegarandeerd in elke mail
+# Historiek belklikken op de website
 
-## Huidige situatie
-- **Syndicus**: werf-velden zijn nu verplicht → werfadres komt altijd mee. ✅
-- **Particulier / Bedrijf met "werf = facturatieadres = Ja"**: `werf.*` blijft leeg → in de notificatie-mail valt het hele `Werfadres:`-blok weg. Alleen het facturatieadres staat erin, zonder duidelijk label dat dit óók de werf is. Dit zorgt voor verwarring (zoals bij Veerle/Brent).
-- **Particulier / Bedrijf met "werf = facturatieadres = Nee"**: werf-velden zijn verplicht → werfadres komt mee. ✅
+## Bevinding
 
-## Wat ik wil aanpassen
+Terugkijken in de tijd is niet mogelijk in het eigen dashboard. De tabel waarin belklikken worden bewaard, bestaat pas sinds vandaag: de eerste geregistreerde klik is van 12/08/2026 15:13 en er staan in totaal 3 klikken in. Klikken van vóór die datum zijn nooit in de database opgeslagen en kunnen dus niet achteraf gegenereerd worden.
 
-### 1. `src/components/AppointmentForm.tsx`
-Wanneer `werfIsFacturatie === true` (particulier/bedrijf/vrij beroep), het werfadres-payload vullen met de facturatie-velden vóór het versturen naar:
-- `send-transactional-email` (owner notificatie)
-- `send-to-simpla`
-- `sendLead` (attribution)
+De projectanalytics van het platform bevat voor de laatste 30 dagen 0 bezoekers en 0 pageviews (het verkeer loopt via het eigen domein), dus ook daar zit geen bruikbare historiek.
 
-Mapping bij "werf = facturatie = Ja":
-```
-werfStraat        ← fact.straat
-werfHuisnummer    ← fact.huisnummer
-werfPostcode      ← fact.postcode
-werfPlaats        ← fact.plaats
-werfTelefoon      ← fact.telefoon
-werfContactpersoon← `${fact.voornaam} ${fact.naam}` (of bedrijfsnaam bij bedrijf)
-werfProjectnaam   ← leeg laten
-```
+De enige plek waar oudere belklikken kunnen staan is Google Analytics 4 (event `click_telefoon`), maar enkel voor bezoekers die analytics-consent gaven. Dat is niet automatisch in te lezen zonder GA4-API-toegang.
 
-De `appointments` insert blijft ongewijzigd (kolommen `werf_*` blijven `null` als de klant "Ja" koos — dat reflecteert de werkelijke invoer en `werfadres_is_facturatieadres = true` legt de relatie vast).
+## Wat ik voorstel te doen
 
-### 2. `supabase/functions/_shared/transactional-email-templates/appointment-notification.tsx`
-Geen wijziging nodig — het bestaande `if (p.werfStraat)`-blok rendert het Werfadres-blok zodra de velden meegestuurd worden.
+1. In de admin-kaart "Telefoon-leads (Bel nu)" een korte meetnotitie tonen: "Meting gestart op 12/08/2026 — klikken van vóór deze datum zijn niet beschikbaar." Zo blijven de cijfers correct interpreteerbaar en lijkt het niet alsof er vroeger geen klikken waren.
+2. Verder niets aanpassen aan de meting zelf: elke klik wordt vanaf nu volledig gelogd (knoplabel, pagina, toestel, tijdstip), dus de historiek bouwt zich vanaf nu op.
 
-### 3. Deploy
-Geen edge-function-deploy nodig (alleen client-side wijziging).
+## Optioneel (alleen als je dit wil)
 
-## Resultaat
-Elke afspraak-notificatie naar `afspraak@riory.be` bevat voortaan een expliciet **Werfadres:**-blok — bij particulier, bedrijf, vrij beroep én syndicus. Geen verwarring meer over waar de ploeg naartoe moet.
+Als je de GA4-cijfers van de afgelopen maanden toch in het dashboard wil zien, kan ik een klein invoerveld toevoegen waarmee je per maand een aantal belklikken uit GA4 registreert. Die maandtotalen worden dan naast de live gemeten cijfers gezet, duidelijk gelabeld als "historisch (GA4)". Zeg gerust of je dit erbij wil.
+
+## Technisch
+
+- `src/pages/Admin.tsx`: statische meetnotitie onder de titel van de telefoon-leads-kaart, in dezelfde subtiele stijl als de bestaande beschrijving. Geen wijziging aan queries of berekeningen.
+- Geen database- of trackingwijzigingen nodig.
