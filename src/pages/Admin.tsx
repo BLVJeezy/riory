@@ -773,46 +773,101 @@ const Admin = () => {
             const max = ranked[0]?.count || 1;
             return (
               <div className="space-y-6">
-                <div className="flex items-center justify-between gap-4 flex-wrap">
-                  <div>
-                    <h2 className="font-heading font-semibold text-foreground">Hoe vinden klanten je?</h2>
-                    <p className="text-sm text-muted-foreground font-body">
-                      Op basis van {total} afspra{total === 1 ? "ak" : "ken"}.
-                    </p>
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between gap-4 flex-wrap">
+                    <div>
+                      <h2 className="font-heading font-semibold text-foreground">Hoe vinden klanten je?</h2>
+                      <p className="text-sm text-muted-foreground font-body">
+                        {sources.length} afspra{sources.length === 1 ? "ak" : "ken"} in totaal · {phoneStats.total} belklik{phoneStats.total === 1 ? "" : "ken"} in totaal
+                      </p>
+                      <p className="text-xs text-muted-foreground/80 font-body mt-1">
+                        Grafiek hieronder op basis van {total} afspra{total === 1 ? "ak" : "ken"} binnen de gekozen filters.
+                      </p>
+                    </div>
+                    <div className="flex flex-wrap gap-2 items-center">
+                      <select
+                        value={monthFilter}
+                        onChange={(e) => setMonthFilter(e.target.value)}
+                        className="h-9 rounded-md border border-border bg-background px-3 text-sm font-body text-foreground"
+                      >
+                        <option value="all">Alle maanden</option>
+                        {monthOptions.map((m) => {
+                          const [y, mo] = m.split("-");
+                          const label = new Date(Number(y), Number(mo) - 1, 1).toLocaleDateString("nl-BE", { month: "long", year: "numeric" });
+                          return <option key={m} value={m}>{label}</option>;
+                        })}
+                      </select>
+                      <select
+                        value={sourceFilter}
+                        onChange={(e) => setSourceFilter(e.target.value)}
+                        className="h-9 rounded-md border border-border bg-background px-3 text-sm font-body text-foreground"
+                      >
+                        <option value="all">Alle bronnen</option>
+                        {sourceOptions.map((v) => (
+                          <option key={v} value={v}>{labelFor(v)}</option>
+                        ))}
+                      </select>
+                      <Button size="sm" variant="outline" className="gap-2" onClick={exportSourcesCSV} disabled={total === 0}>
+                        <Download className="w-4 h-4" />
+                        CSV
+                      </Button>
+                      <Button size="sm" className="gap-2" onClick={exportSourcesPDF} disabled={total === 0}>
+                        <Download className="w-4 h-4" />
+                        PDF
+                      </Button>
+                    </div>
                   </div>
-                  <div className="flex flex-wrap gap-2 items-center">
-                    <select
-                      value={monthFilter}
-                      onChange={(e) => setMonthFilter(e.target.value)}
-                      className="h-9 rounded-md border border-border bg-background px-3 text-sm font-body text-foreground"
-                    >
-                      <option value="all">Alle maanden</option>
-                      {monthOptions.map((m) => {
-                        const [y, mo] = m.split("-");
-                        const label = new Date(Number(y), Number(mo) - 1, 1).toLocaleDateString("nl-BE", { month: "long", year: "numeric" });
-                        return <option key={m} value={m}>{label}</option>;
-                      })}
-                    </select>
-                    <select
-                      value={sourceFilter}
-                      onChange={(e) => setSourceFilter(e.target.value)}
-                      className="h-9 rounded-md border border-border bg-background px-3 text-sm font-body text-foreground"
-                    >
-                      <option value="all">Alle bronnen</option>
-                      {sourceOptions.map((v) => (
-                        <option key={v} value={v}>{labelFor(v)}</option>
+
+                  {/* Periode-filter voor de afsprakenlijst */}
+                  <div className="flex flex-col gap-2">
+                    <div className="flex flex-wrap gap-1.5">
+                      {[
+                        { key: "today", label: "Vandaag" },
+                        { key: "48h", label: "48u" },
+                        { key: "week", label: "1 week" },
+                        { key: "month", label: "1 maand" },
+                        { key: "3months", label: "3 maanden" },
+                        { key: "all", label: "Alles" },
+                        { key: "custom", label: "Aangepast" },
+                      ].map(({ key, label }) => (
+                        <button
+                          key={key}
+                          onClick={() => setApptDatePreset(key)}
+                          className={`px-3 py-1.5 rounded-full text-xs font-heading font-semibold transition-all border ${
+                            apptDatePreset === key
+                              ? "bg-primary text-primary-foreground border-primary"
+                              : "bg-muted text-muted-foreground border-border hover:border-primary/50 hover:text-foreground"
+                          }`}
+                        >
+                          {label}
+                        </button>
                       ))}
-                    </select>
-                    <Button size="sm" variant="outline" className="gap-2" onClick={exportSourcesCSV} disabled={total === 0}>
-                      <Download className="w-4 h-4" />
-                      CSV
-                    </Button>
-                    <Button size="sm" className="gap-2" onClick={exportSourcesPDF} disabled={total === 0}>
-                      <Download className="w-4 h-4" />
-                      PDF
-                    </Button>
+                    </div>
+                    {apptDatePreset === "custom" && (
+                      <div className="flex flex-col sm:flex-row gap-2 pt-1">
+                        <div className="flex items-center gap-2 flex-1">
+                          <label className="text-xs text-muted-foreground font-body whitespace-nowrap">Van</label>
+                          <input
+                            type="date"
+                            value={apptCustomFrom}
+                            onChange={(e) => setApptCustomFrom(e.target.value)}
+                            className="flex-1 h-9 rounded-lg border border-border bg-background px-3 text-sm font-body text-foreground focus:ring-2 focus:ring-primary outline-none"
+                          />
+                        </div>
+                        <div className="flex items-center gap-2 flex-1">
+                          <label className="text-xs text-muted-foreground font-body whitespace-nowrap">Tot</label>
+                          <input
+                            type="date"
+                            value={apptCustomTo}
+                            onChange={(e) => setApptCustomTo(e.target.value)}
+                            className="flex-1 h-9 rounded-lg border border-border bg-background px-3 text-sm font-body text-foreground focus:ring-2 focus:ring-primary outline-none"
+                          />
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
+
 
                 <div className="bg-background rounded-xl p-4 sm:p-6 border border-border shadow-sm">
                   <div className="flex items-center justify-between gap-3 flex-wrap mb-4">
@@ -1201,54 +1256,8 @@ const Admin = () => {
                         {filteredAppointments.length} resultaten
                       </span>
                     </div>
-                    {/* Preset buttons */}
-                    <div className="flex flex-wrap gap-1.5">
-                      {[
-                        { key: "today", label: "Vandaag" },
-                        { key: "48h", label: "48u" },
-                        { key: "week", label: "1 week" },
-                        { key: "month", label: "1 maand" },
-                        { key: "3months", label: "3 maanden" },
-                        { key: "all", label: "Alles" },
-                        { key: "custom", label: "Aangepast" },
-                      ].map(({ key, label }) => (
-                        <button
-                          key={key}
-                          onClick={() => setApptDatePreset(key)}
-                          className={`px-3 py-1.5 rounded-full text-xs font-heading font-semibold transition-all border ${
-                            apptDatePreset === key
-                              ? "bg-primary text-primary-foreground border-primary"
-                              : "bg-muted text-muted-foreground border-border hover:border-primary/50 hover:text-foreground"
-                          }`}
-                        >
-                          {label}
-                        </button>
-                      ))}
-                    </div>
-                    {/* Custom date range */}
-                    {apptDatePreset === "custom" && (
-                      <div className="flex flex-col sm:flex-row gap-2 pt-1">
-                        <div className="flex items-center gap-2 flex-1">
-                          <label className="text-xs text-muted-foreground font-body whitespace-nowrap">Van</label>
-                          <input
-                            type="date"
-                            value={apptCustomFrom}
-                            onChange={(e) => setApptCustomFrom(e.target.value)}
-                            className="flex-1 h-9 rounded-lg border border-border bg-background px-3 text-sm font-body text-foreground focus:ring-2 focus:ring-primary outline-none"
-                          />
-                        </div>
-                        <div className="flex items-center gap-2 flex-1">
-                          <label className="text-xs text-muted-foreground font-body whitespace-nowrap">Tot</label>
-                          <input
-                            type="date"
-                            value={apptCustomTo}
-                            onChange={(e) => setApptCustomTo(e.target.value)}
-                            className="flex-1 h-9 rounded-lg border border-border bg-background px-3 text-sm font-body text-foreground focus:ring-2 focus:ring-primary outline-none"
-                          />
-                        </div>
-                      </div>
-                    )}
                   </div>
+
 
                   {filteredAppointments.length ? (
                     <>
