@@ -821,6 +821,10 @@ const Admin = () => {
                       <p className="text-sm text-muted-foreground font-body">
                         Elke klik op een belknop wordt geregistreerd als lead-event.
                       </p>
+                      <p className="text-xs text-muted-foreground/80 font-body mt-1">
+                        Meting gestart op 12/08/2026 — klikken van vóór deze datum zijn niet beschikbaar.
+                      </p>
+
                     </div>
                   </div>
                   <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
