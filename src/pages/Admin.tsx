@@ -148,15 +148,9 @@ const Admin = () => {
     }
   };
 
-  const filteredAppointments = useMemo(() => {
-    const { from, to } = getApptDateRange(apptDatePreset);
-    return sources.filter((s) => {
-      const d = new Date(s.created_at);
-      if (from && d < from) return false;
-      if (to && d >= to) return false;
-      return true;
-    });
-  }, [sources, apptDatePreset, apptCustomFrom, apptCustomTo]);
+  // Placeholder — echte filtering staat verder (filteredSources) zodat maand- en
+  // bronfilter samen met de datumfilter op ALLE data toegepast worden.
+
   const [showCustom, setShowCustom] = useState(false);
   const [sourceFilter, setSourceFilter] = useState<string>("all");
   const [monthFilter, setMonthFilter] = useState<string>("all");
@@ -167,6 +161,31 @@ const Admin = () => {
   const [showAllPhoneClicks, setShowAllPhoneClicks] = useState(false);
   const [showAllPhoneLabels, setShowAllPhoneLabels] = useState(false);
 
+  // Eén gedeelde filter (datum + maand) die op ALLE data wordt toegepast.
+  const activeRange = useMemo(() => {
+    let { from, to } = getApptDateRange(apptDatePreset);
+    if (monthFilter !== "all") {
+      const [y, m] = monthFilter.split("-").map(Number);
+      const mFrom = new Date(y, m - 1, 1);
+      const mTo = new Date(y, m, 1);
+      from = from && from > mFrom ? from : mFrom;
+      to = to && to < mTo ? to : mTo;
+    }
+    return { from, to };
+  }, [apptDatePreset, apptCustomFrom, apptCustomTo, monthFilter]);
+
+  const inActiveRange = (date: string) => {
+    const d = new Date(date);
+    if (activeRange.from && d < activeRange.from) return false;
+    if (activeRange.to && d >= activeRange.to) return false;
+    return true;
+  };
+
+  const filteredPhoneClicks = useMemo(
+    () => phoneClicks.filter((c) => inActiveRange(c.created_at)),
+    [phoneClicks, activeRange],
+  );
+
   const phoneStats = useMemo(() => {
     const now = Date.now();
     const inLast = (d: string, days: number) =>
@@ -174,7 +193,7 @@ const Admin = () => {
     const startToday = new Date();
     startToday.setHours(0, 0, 0, 0);
     const counts: Record<string, number> = {};
-    phoneClicks.forEach((c) => {
+    filteredPhoneClicks.forEach((c) => {
       const k = c.cta_label || "belknop";
       counts[k] = (counts[k] || 0) + 1;
     });
@@ -182,14 +201,14 @@ const Admin = () => {
       .map(([label, count]) => ({ label, count }))
       .sort((a, b) => b.count - a.count);
     return {
-      total: phoneClicks.length,
-      today: phoneClicks.filter((c) => new Date(c.created_at) >= startToday).length,
-      week: phoneClicks.filter((c) => inLast(c.created_at, 7)).length,
-      month: phoneClicks.filter((c) => inLast(c.created_at, 30)).length,
+      total: filteredPhoneClicks.length,
+      today: filteredPhoneClicks.filter((c) => new Date(c.created_at) >= startToday).length,
+      week: filteredPhoneClicks.filter((c) => inLast(c.created_at, 7)).length,
+      month: filteredPhoneClicks.filter((c) => inLast(c.created_at, 30)).length,
       ranked,
       maxCount: ranked[0]?.count || 1,
     };
-  }, [phoneClicks]);
+  }, [filteredPhoneClicks]);
 
 
   const getDateRange = (preset: string): { from: Date | null; to: Date | null } => {
@@ -230,18 +249,22 @@ const Admin = () => {
 
   const filteredSources = useMemo(() => {
     return sources.filter((s) => {
-      if (monthFilter !== "all") {
-        const d = new Date(s.created_at);
-        const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
-        if (key !== monthFilter) return false;
-      }
+      if (!inActiveRange(s.created_at)) return false;
       if (sourceFilter !== "all") {
         const v = (s.gevonden_via || "onbekend").toLowerCase();
         if (v !== sourceFilter) return false;
       }
       return true;
     });
-  }, [sources, monthFilter, sourceFilter]);
+  }, [sources, activeRange, sourceFilter]);
+
+  // Afsprakentabel gebruikt exact dezelfde filters als de rest van het dashboard.
+  const filteredAppointments = filteredSources;
+
+  const filteredCalcSessions = useMemo(
+    () => calcSessions.filter((r) => inActiveRange(r.created_at)),
+    [calcSessions, activeRange],
+  );
 
   const calculatorStats = useMemo(() => {
     const viaCalculator = filteredSources.filter((s) => s.lead_bron === "calculator").length;
@@ -261,7 +284,7 @@ const Admin = () => {
       string,
       { maxStep: number; service: string | null; price: number | null; plaats: string | null; last: string }
     >();
-    calcSessions.forEach((r) => {
+    filteredCalcSessions.forEach((r) => {
       const cur = bySession.get(r.session_id);
       if (!cur) {
         bySession.set(r.session_id, {
@@ -307,7 +330,7 @@ const Admin = () => {
       steps,
       dropoffs,
     };
-  }, [calcSessions, sources]);
+  }, [filteredCalcSessions, sources]);
 
   useEffect(() => {
     if (!loading && (!user || !isAdmin)) {
@@ -933,10 +956,10 @@ const Admin = () => {
 
                   <div className="space-y-2">
                     <p className="text-xs font-body uppercase tracking-wide text-muted-foreground">Recente klikken</p>
-                    {phoneClicks.length === 0 ? (
+                    {filteredPhoneClicks.length === 0 ? (
                       <p className="text-sm text-muted-foreground font-body">Nog geen telefoonklikken geregistreerd.</p>
                     ) : (
-                      phoneClicks.slice(0, showAllPhoneClicks ? undefined : 10).map((c) => (
+                      filteredPhoneClicks.slice(0, showAllPhoneClicks ? undefined : 10).map((c) => (
                         <div
                           key={c.id}
                           className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 rounded-lg border border-border p-3"
@@ -954,14 +977,14 @@ const Admin = () => {
                         </div>
                       ))
                     )}
-                    {phoneClicks.length > 10 && (
+                    {filteredPhoneClicks.length > 10 && (
                       <Button
                         size="sm"
                         variant="outline"
                         className="w-full"
                         onClick={() => setShowAllPhoneClicks((v) => !v)}
                       >
-                        {showAllPhoneClicks ? "Toon minder" : `Bekijk alle klikken (${phoneClicks.length})`}
+                        {showAllPhoneClicks ? "Toon minder" : `Bekijk alle klikken (${filteredPhoneClicks.length})`}
                       </Button>
                     )}
                   </div>
