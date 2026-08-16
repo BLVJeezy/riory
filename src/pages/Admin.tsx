@@ -4,7 +4,7 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from "recha
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { LogOut, Share2, Download, BarChart3 } from "lucide-react";
+import { LogOut, Share2, Download } from "lucide-react";
 import { toast } from "sonner";
 
 
