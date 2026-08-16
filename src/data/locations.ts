@@ -28,7 +28,7 @@ export const allLocations: LocationData[] = [
     city: "Hasselt",
     postalCode: "3500",
     h1: "Loodgieter & Ontstoppingsdienst Hasselt — 24/7 Riool Verstopt?",
-    metaTitle: "Loodgieter Hasselt | Ontstoppingsdienst 24/7 | Septische Put | Riory",
+    metaTitle: "Ontstoppingsdienst Hasselt 24/7 | Riory",
     metaDescription: "Loodgieter nodig in Hasselt? Riory lost elk rioolprobleem op — ontstoppingsdienst, septische put ledigen & camera-inspectie. ✓ 24/7 ✓ Kermt & Kuringen ✓ Vaste prijs. Bel nu!",
     intro: "Loodgieter nodig in Hasselt? Of uw riool is verstopt, uw septische put loopt over, of u rioollucht heeft in huis — Riory is uw lokale loodgieter en ontstoppingsdienst in Hasselt, 24/7 bereikbaar, doorgaans binnen 1 à 2 uur ter plaatse. Wij werken dagelijks in heel Hasselt en alle deelgemeenten: Kermt, Kuringen, Stevoort, Wimmertingen en Sint-Lambrechts-Herk. Of het nu gaat om een verstopte WC in een appartement in het centrum, een trage gootsteen in een rijhuis in Kermt, rioollucht in een kelder in Kuringen, of het ledigen van een septische put in het buitengebied rond Stevoort — wij kennen elk type woning en elk type rioolprobleem in Hasselt. Met professionele hogedrukapparatuur, camera-inspectie en zuigwagens lossen wij élk probleem op. Vaste prijzen, geen voorrijkosten in Hasselt, altijd netjes achtergelaten.",
     services: [
@@ -82,7 +82,7 @@ export const allLocations: LocationData[] = [
     city: "Genk",
     postalCode: "3600",
     h1: "Ontstoppingsdienst Genk — 24/7 Riool Verstopt? Wij Zijn er",
-    metaTitle: "Riool Verstopt Genk? Ontstoppingsdienst 24/7 | Riory",
+    metaTitle: "Ontstoppingsdienst Genk  24/7 24/7 | Riory",
     metaDescription: "Ontstoppingsdienst Genk nodig? Riory lost het op in Winterslag, Waterschei, Zwartberg, Termien & Sledderlo. ✓ 24/7 ✓ Camera-inspectie ✓ Vaste prijs. Bel nu!",
     intro: "Riory is uw lokale ontstoppingsdienst in Genk. Met professionele hogedrukapparatuur en camerainspectie sporen we de oorzaak snel op en maken we uw leidingen weer volledig vrij.",
     introParagraphs: [
@@ -157,7 +157,7 @@ export const allLocations: LocationData[] = [
     city: "Hoeselt",
     postalCode: "3730",
     h1: "Loodgieter & Ontstoppingsdienst Hoeselt — 24/7 Riory",
-    metaTitle: "Loodgieter Hoeselt | 24/7 Ontstopping | Riory",
+    metaTitle: "Ontstoppingsdienst Hoeselt 24/7 | Riory",
     metaDescription: "Loodgieter & ontstoppingsdienst in Hoeselt — thuisbasis van Riory. Binnen 30 min ter plaatse. ✓ 24/7 ✓ Septische put ✓ Vaste prijs. Bel nu!",
     intro: "Als lokale specialist bedient Riory Hoeselt en omgeving met snelle en professionele rioleringsdiensten. Of uw WC verstopt zit, de gootsteen niet afloopt, u rioollucht ruikt in huis of uw septische put geledigd moet worden — wij zijn dag en nacht bereikbaar. Vanuit onze thuisbasis in de regio zijn wij razendsnel ter plaatse in Hoeselt, Romershoven, Werm, Alt-Hoeselt en Schalkhoven. Naast rioolwerken bent u bij Riory ook aan het juiste adres voor loodgieterwerk en sanitair in Hoeselt: lekkages herstellen, leidingen vernieuwen, kranen en toiletten plaatsen en alle bijhorende aansluitingen.",
     services: [
@@ -199,7 +199,7 @@ export const allLocations: LocationData[] = [
     city: "Tongeren",
     postalCode: "3700",
     h1: "Loodgieter & Ontstoppingsdienst Tongeren — 24/7 Riory",
-    metaTitle: "Loodgieter Tongeren | 24/7 Ontstopping | Riory",
+    metaTitle: "Ontstoppingsdienst Tongeren 24/7 | Riory",
     metaDescription: "Riool of WC verstopt in Tongeren? Riory is 24/7 actief in Tongeren, Vreren & Borgloon. ✓ Camera-inspectie ✓ Septische put ✓ Vaste prijs. Bel!",
     intro: "In Tongeren, de oudste stad van België, kunt u rekenen op Riory voor alle riolerings- en ontstoppingsdiensten. Van een verstopte WC of gootsteen tot het ledigen van septische putten en camera-inspecties van rioleringen — wij zijn 24/7 beschikbaar. Wij bedienen het centrum van Tongeren en alle deelgemeenten: Piringen, Riksingen, Mal, Nerem, Rutten, Vreren, Widooie, Berg en Kolmont. Riory is bovendien uw loodgieter in Tongeren voor sanitair en loodgieterwerk: nieuwe leidingen, lekherstel, aansluitingen op het rioolnet en alle rioolwerken in en rond uw woning — vakwerk met vaste prijzen.",
     services: [
@@ -241,7 +241,7 @@ export const allLocations: LocationData[] = [
     city: "Maasmechelen",
     postalCode: "3630",
     h1: "Loodgieter & Ontstoppingsdienst Maasmechelen — 24/7 Riory",
-    metaTitle: "Loodgieter Maasmechelen | 24/7 Ontstopping | Riory",
+    metaTitle: "Ontstoppingsdienst Maasmechelen 24/7 | Riory",
     metaDescription: "Verstopte afvoer in Maasmechelen? Riory lost het op — ook in Eisden, Opgrimbie & Vucht. ✓ 24/7 ✓ Hogedruk ontstopping ✓ Vaste prijs. Bel nu!",
     intro: "Riory biedt snelle en professionele rioleringsdiensten in Maasmechelen en omgeving. Of het gaat om een verstopte WC, een douche die niet afloopt, rioollucht in huis of het ruimen van een septische put — wij zijn 24/7 bereikbaar. Wij bedienen heel Maasmechelen, inclusief Mechelen-aan-de-Maas, Eisden, Opgrimbie, Leut, Vucht en Kotem. Daarnaast verzorgen onze loodgieters in Maasmechelen ook sanitair en loodgieterwerk: plaatsing en herstelling van leidingen, lekdetectie en alle rioolwerken — efficiënt en met heldere tarieven.",
     services: [
@@ -283,7 +283,7 @@ export const allLocations: LocationData[] = [
     city: "Sint-Truiden",
     postalCode: "3800",
     h1: "Loodgieter & Ontstoppingsdienst Sint-Truiden — 24/7 Riory",
-    metaTitle: "Loodgieter Sint-Truiden | 24/7 Ontstopping | Riory",
+    metaTitle: "Ontstoppingsdienst Sint-Truiden 24/7 | Riory",
     metaDescription: "Riool verstopt in Sint-Truiden? Veel woningen hier hebben septische put — Riory kent het. ✓ 24/7 ✓ Zuigwagen ✓ Vaste prijs. Bel nu!",
     intro: "In Sint-Truiden en de ruime omgeving biedt Riory professionele riolerings- en ontstoppingsdiensten. Van een verstopte WC of gootsteen die niet afloopt tot het ledigen van septische putten en camera-inspecties — wij staan dag en nacht klaar. Wij bedienen het centrum van Sint-Truiden en alle deelgemeenten: Aalst, Brustem, Engelmanshoven, Gelinden, Groot-Gelmen, Kerkom, Melveren, Ordingen, Velm en Zepperen. Riory verzorgt ook al uw loodgieterwerk en sanitair in Sint-Truiden: leidingen vernieuwen, lekken opsporen, kranen en toiletten plaatsen en alle bijhorende rioolwerken.",
     services: [
@@ -325,7 +325,7 @@ export const allLocations: LocationData[] = [
     city: "Diepenbeek",
     postalCode: "3590",
     h1: "Loodgieter & Ontstoppingsdienst Diepenbeek — 24/7 Riory",
-    metaTitle: "Loodgieter Diepenbeek | 24/7 Ontstopping | Riory",
+    metaTitle: "Ontstoppingsdienst Diepenbeek 24/7 | Riory",
     metaDescription: "Loodgieter & ontstoppingsdienst in Diepenbeek — buren van Hasselt, bediend vanuit Bilzen. ✓ 24/7 ✓ Snel ter plaatse ✓ Vaste prijs. Bel nu!",
     intro: "Riory BV is uw vaste loodgieter en ontstoppingsdienst in Diepenbeek en de omliggende gemeenten Rooierheide en Lutselus. Vanuit onze thuisbasis in Limburg staan wij dag en nacht klaar voor woningen, bedrijven en syndici in heel Diepenbeek. Diepenbeek ligt op de grens van stedelijk Hasselt en het meer landelijke Limburg — een mix van recente verkavelingen en oudere woningen met verouderde leidingen. Wij verzorgen al uw loodgieterwerk, rioolentstoppingen, camera-inspecties, septische put ledigen en rioolreiniging met hogedruk. Riory is 24/7 bereikbaar en staat doorgaans binnen de 2 uur ter plaatse, ook in het weekend.",
     services: [
@@ -346,7 +346,7 @@ export const allLocations: LocationData[] = [
     city: "Riemst",
     postalCode: "3770",
     h1: "Loodgieter & Ontstoppingsdienst Riemst — Riory Is Dichtbij",
-    metaTitle: "Loodgieter Riemst | Ontstoppingsdienst 24/7 | Riory",
+    metaTitle: "Ontstoppingsdienst Riemst 24/7 | Riory",
     metaDescription: "Riool of WC verstopt in Riemst? Riory is uw lokale loodgieter — actief in Vroenhoven, Kanne, Millen, Herderen en Zichen-Zussen-Bolder. ✓ 24/7 ✓ Vaste prijs. Bel nu!",
     intro: "Riemst is geen stad met één centrum, maar een lappendeken van elf dorpen — van Vroenhoven aan het Albertkanaal tot de mergelgrotten van Zichen-Zussen-Bolder en de boomgaarden rond Millen en Val-Meer. Wij kennen dat verschil, want we werken er al jaren. Een verstopping in een oude hoeve in Herderen vraagt een andere aanpak dan een trage afvoer in een rijwoning in Vroenhoven-centrum, en een septische put op een afgelegen erf richting Membruggen is iets anders dan een rioolprobleem vlak bij de grens in Kanne. Riory BV is uw loodgieter en ontstoppingsdienst voor heel Riemst: Vroenhoven, Kanne, Herderen, Millen, Vlijtingen, Val-Meer, Zichen-Zussen-Bolder, Genoelselderen, Membruggen, Heukelom en Riemst-centrum zelf. Door onze ligging vlakbij — Riemst grenst rechtstreeks aan Bilzen, waar wij gevestigd zijn — staan we doorgaans sneller bij u dan ontstoppingsdiensten die van verder moeten komen. Loodgieterwerk, rioolontstopping, camera-inspectie, septische putten ledigen en rioolreiniging: wij doen het allemaal, met dezelfde ploeg, dezelfde vaste prijzen en dezelfde garantie op netjes werk.",
     services: [
@@ -369,7 +369,7 @@ export const allLocations: LocationData[] = [
     city: "Wellen",
     postalCode: "3830",
     h1: "Loodgieter & Ontstoppingsdienst Wellen — 24/7 Riory",
-    metaTitle: "Loodgieter Wellen | 24/7 Ontstopping | Riory",
+    metaTitle: "Ontstoppingsdienst Wellen 24/7 | Riory",
     metaDescription: "Verstopte afvoer of septische put in Wellen? Riory helpt 24/7 — ook in Ulbeek & Wellen-centrum. ✓ Vaste prijs ✓ Snel ter plaatse. Bel nu!",
     intro: "Riory BV is uw loodgieter en ontstoppingsdienst in Wellen en de omliggende dorpen Berlingen en Ulbeek. Wellen ligt in het hart van Haspengouw — een regio met veel fruitteelt, kleigrond en oudere woningen die vaker kampen met verzakkende leidingen of volle septische putten. Onze ploeg kent de regio en is razendsnel ter plaatse voor zowel particulieren als ondernemingen. Wij staan in voor loodgieterwerk, rioolentstoppingen, camera-inspecties, het ledigen van septische putten en rioolreiniging onder hoge druk. Riory is 24/7 bereikbaar en lost uw probleem doorgaans binnen de 2 uur op.",
     services: [
@@ -390,7 +390,7 @@ export const allLocations: LocationData[] = [
     city: "Zutendaal",
     postalCode: "3690",
     h1: "Loodgieter & Ontstoppingsdienst Zutendaal — 24/7 Riory",
-    metaTitle: "Loodgieter Zutendaal | 24/7 Ontstopping | Riory",
+    metaTitle: "Ontstoppingsdienst Zutendaal 24/7 | Riory",
     metaDescription: "Loodgieter & ontstoppingsdienst in Zutendaal — landelijke gemeente, veel septische putten. Riory 24/7. ✓ Zuigwagen ✓ Vaste prijs. Bel nu!",
     intro: "Riory BV verzorgt loodgieterwerk en ontstoppingen in Zutendaal en de omliggende kernen Wiemesmeer en Papendaal. Zutendaal is een landelijke gemeente met veel vrijstaande woningen en hoeves — en dat betekent in de praktijk veel septische putten en regenputten die periodiek onderhoud nodig hebben. Onze techniekers bedienen het volledige grondgebied van de gemeente, van centrum tot in het buitengebied richting As en Genk. Wij voeren al uw loodgieterwerk, rioolentstoppingen, camera-inspecties, septische put ledigen en rioolreiniging met hogedruk uit. Riory is 24/7 bereikbaar en garandeert een snelle interventie.",
     services: [
@@ -411,7 +411,7 @@ export const allLocations: LocationData[] = [
     city: "Vreren",
     postalCode: "3700",
     h1: "Loodgieter & Ontstoppingsdienst Vreren — 24/7 Riory",
-    metaTitle: "Loodgieter Vreren | 24/7 Ontstopping | Riory",
+    metaTitle: "Ontstoppingsdienst Vreren 24/7 | Riory",
     metaDescription: "Riool verstopt in Vreren? Riory is uw lokale ontstoppingsdienst — vlakbij Tongeren. ✓ 24/7 ✓ Septische put ✓ Vaste prijs. Bel nu!",
     intro: "Riory BV bedient Vreren — deelgemeente van Tongeren — en de omliggende dorpen Rutten en Nerem voor alle loodgieter- en rioolwerken. Vreren is een landelijk dorp met oudere woningen en rioleringen die dateren uit een tijd dat septische putten de standaard waren. Onze ploeg is goed vertrouwd met die oudere infrastructuur en pakt elke opdracht doelgericht aan. Wij voeren loodgieterwerk, rioolentstoppingen, camera-inspecties, septische put ledigen en rioolreiniging met hogedruk uit. Riory is 24/7 bereikbaar en staat snel bij u ter plaatse in Vreren.",
     services: [
@@ -432,7 +432,7 @@ export const allLocations: LocationData[] = [
     city: "Vliermaal",
     postalCode: "3723",
     h1: "Loodgieter & Ontstoppingsdienst Vliermaal — 24/7 Riory",
-    metaTitle: "Loodgieter Vliermaal | 24/7 Ontstopping | Riory",
+    metaTitle: "Ontstoppingsdienst Vliermaal 24/7 | Riory",
     metaDescription: "Verstopte afvoer in Vliermaal? Riory bedient Vliermaal & Kortessem — snel ter plaatse vanuit Bilzen. ✓ 24/7 ✓ Vaste prijs. Bel nu!",
     intro: "Riory BV is de lokale loodgieter en ontstoppingsdienst in Vliermaal — deelgemeente van Kortessem — en de omliggende dorpen Vliermaalroot en Guigoven. Dit is typisch Haspengouws buitengebied: veel hoeves, fruitboomgaarden en woningen die niet zijn aangesloten op het centrale rioolnet. Septische putten zijn hier de regel. Onze techniekers staan dag en nacht klaar voor woningen, landbouwbedrijven en hoeves in de regio. Wij voeren loodgieterwerk, rioolentstoppingen, camera-inspecties, septische put ledigen en rioolreiniging met hogedruk uit. Riory is 24/7 bereikbaar en staat snel bij u ter plaatse.",
     services: [
@@ -453,7 +453,7 @@ export const allLocations: LocationData[] = [
     city: "Kortessem",
     postalCode: "3720",
     h1: "Loodgieter & Ontstoppingsdienst Kortessem — 24/7 Riory",
-    metaTitle: "Loodgieter Kortessem | 24/7 Ontstopping | Riory",
+    metaTitle: "Ontstoppingsdienst Kortessem 24/7 | Riory",
     metaDescription: "Riool of WC verstopt in Kortessem? Riory 24/7 actief in Kortessem, Vliermaal & Guigoven. ✓ Camera-inspectie ✓ Vaste prijs. Bel nu!",
     intro: "Riory BV is uw vaste loodgieter en ontstoppingsdienst in Kortessem en de deelgemeenten Vliermaal, Guigoven en Wintershoven. Kortessem is een landelijke fruitstreekgemeente in het hart van Haspengouw, met veel oudere woningen en een rioleringsstelsel dat niet overal is uitgebreid. Rioolproblemen en volle septische putten horen hier bij het dagelijkse straatbeeld. Onze techniekers bedienen het centrum en het ruime buitengebied. Wij verzorgen loodgieterwerk, rioolentstoppingen, camera-inspecties, septische put ledigen en rioolreiniging met hogedruk. Riory is 24/7 bereikbaar en doorgaans binnen de 2 uur ter plaatse.",
     services: [
@@ -474,7 +474,7 @@ export const allLocations: LocationData[] = [
     city: "Alken",
     postalCode: "3570",
     h1: "Loodgieter & Ontstoppingsdienst Alken — 24/7 Riory",
-    metaTitle: "Loodgieter Alken | 24/7 Ontstopping | Riory",
+    metaTitle: "Ontstoppingsdienst Alken 24/7 | Riory",
     metaDescription: "Verstopte gootsteen of riool in Alken? Riory is uw ontstoppingsdienst tussen Hasselt en Tongeren. ✓ 24/7 ✓ Vaste prijs. Bel nu!",
     intro: "Riory BV staat in Alken en de omliggende dorpen Sint-Joris en Terkoest paraat voor alle loodgieter- en rioolwerken. Alken ligt middenin de as tussen Hasselt en Tongeren — een regio met een mix van recent gebouwde verkavelingen en oudere dorpswoningen met leidingen die al decennia meegaan. Onze techniekers bedienen heel de gemeente, ook in het meer landelijke buitengebied. Wij voeren loodgieterwerk, rioolentstoppingen, camera-inspecties, septische put ledigen en rioolreiniging met hogedruk uit. Riory is 24/7 bereikbaar en garandeert een snelle interventie in Alken.",
     services: [
@@ -495,7 +495,7 @@ export const allLocations: LocationData[] = [
     city: "Borgloon",
     postalCode: "3840",
     h1: "Loodgieter & Ontstoppingsdienst Borgloon — 24/7 Riory",
-    metaTitle: "Loodgieter Borgloon | 24/7 Ontstopping | Riory",
+    metaTitle: "Ontstoppingsdienst Borgloon 24/7 | Riory",
     metaDescription: "Riool verstopt in Borgloon? Fruitstreek, veel septische putten — Riory kent het. ✓ 24/7 ✓ Zuigwagen ✓ Ledigen & reinigen. Bel nu!",
     intro: "Riory BV is uw vaste loodgieter en ontstoppingsdienst in Borgloon — hart van Haspengouw — en de omliggende dorpen Kuttekoven, Hendrieken en Voort. Borgloon is bekend om zijn fruitteelt en prachtig landschap, maar ook om de vele hoeves en oudere woningen met septische putten die geregeld geledigd moeten worden. De kleigrond in de regio zorgt bovendien voor meer verzakkingen in rioolbuizen dan elders in Limburg. Onze techniekers bedienen heel het grondgebied, ook voor de vele fruitteeltbedrijven en hoeves in de regio. Wij verzorgen loodgieterwerk, rioolentstoppingen, camera-inspecties, septische put ledigen en rioolreiniging met hogedruk. Riory is 24/7 bereikbaar en doorgaans binnen de 2 uur ter plaatse.",
     services: [
@@ -516,7 +516,7 @@ export const allLocations: LocationData[] = [
     city: "Luik",
     postalCode: "4000",
     h1: "Service de débouchage Liège — 24/7 Riory",
-    metaTitle: "Débouchage Liège 24/7 | Égouts, WC & Fosse Septique | Riory",
+    metaTitle: "Débouchage Liège 24/7 | Riory",
     metaDescription: "Égout bouché à Liège ? Riory intervient 24/7. ✓ Débouchage WC ✓ Inspection caméra ✓ Vidange fosse septique ✓ Sur place en 1-2h. Appelez !",
     intro: "Riory est votre partenaire de confiance pour tous les services de débouchage et d'égouts à Liège et environs. Qu'il s'agisse d'un WC bouché, d'un évier qui ne s'écoule plus, d'odeurs d'égout ou de la vidange de votre fosse septique — nous sommes disponibles 24h/24 et 7j/7. Nous desservons le centre de Liège ainsi que les quartiers de Outremeuse, Sclessin, Jupille, Wandre, Chênée et Angleur.",
     services: [
@@ -562,7 +562,7 @@ export const allLocations: LocationData[] = [
     city: "Rocourt",
     postalCode: "4000",
     h1: "Service de débouchage Rocourt — 24/7 Riory",
-    metaTitle: "Débouchage Rocourt 24/7 | Égouts, WC & Fosse Septique | Riory",
+    metaTitle: "Débouchage Rocourt 24/7 | Riory",
     metaDescription: "Égout bouché à Rocourt ? Riory 24/7. ✓ Débouchage WC ✓ Inspection caméra ✓ Vidange fosse septique ✓ Intervention rapide. Appelez maintenant !",
     intro: "À Rocourt et dans toute la périphérie nord de Liège, Riory propose des services de débouchage et d'assainissement rapides et professionnels. Que votre WC soit bouché, votre évier obstrué ou votre fosse septique pleine — nous sommes joignables 24h/24. Depuis notre base régionale, nous intervenons rapidement à Rocourt et dans les quartiers voisins.",
     services: [
@@ -604,7 +604,7 @@ export const allLocations: LocationData[] = [
     city: "Juprelle",
     postalCode: "4450",
     h1: "Service de débouchage Juprelle — 24/7 Riory",
-    metaTitle: "Débouchage Juprelle 24/7 | Égouts & Fosse Septique | Riory",
+    metaTitle: "Débouchage Juprelle 24/7 | Riory",
     metaDescription: "Problème d'égout à Juprelle ? Riory aide 24/7. ✓ Débouchage WC & canalisations ✓ Inspection caméra ✓ Vidange fosse ✓ Tarifs fixes. Appelez !",
     intro: "Riory est actif à Juprelle et dans toute la région liégeoise pour tous travaux de débouchage et d'assainissement. WC bouché, odeurs d'égout, fosse septique à vider — notre équipe est à votre service 24h/24. Nous desservons Juprelle, Paifve, Slins, Voroux-lez-Liers et Lantin.",
     services: [
@@ -646,7 +646,7 @@ export const allLocations: LocationData[] = [
     city: "Ans",
     postalCode: "4430",
     h1: "Service de débouchage Ans — 24/7 Riory",
-    metaTitle: "Débouchage Ans 24/7 | Égouts, WC & Fosse Septique | Riory",
+    metaTitle: "Débouchage Ans 24/7 | Riory",
     metaDescription: "WC ou égout bouché à Ans ? Riory 24/7. ✓ Débouchage rapide ✓ Inspection caméra ✓ Vidange fosse septique ✓ Prix transparents. Appelez maintenant !",
     intro: "À Ans, commune dynamique de la périphérie liégeoise, Riory intervient pour tous problèmes de débouchage et d'assainissement. De la simple obstruction de WC à la vidange complète d'une fosse septique, notre équipe est joignable 24h/24. Nous couvrons Ans, Alleur, Loncin et Xhendremael.",
     services: [
@@ -688,7 +688,7 @@ export const allLocations: LocationData[] = [
     city: "Milmort",
     postalCode: "4041",
     h1: "Service de débouchage Milmort — 24/7 Riory",
-    metaTitle: "Débouchage Milmort 24/7 | Égouts & Fosse Septique | Riory",
+    metaTitle: "Débouchage Milmort 24/7 | Riory",
     metaDescription: "Canalisation bouchée à Milmort ? Riory 24/7. ✓ Débouchage WC ✓ Inspection caméra ✓ Vidange fosse ✓ Intervention rapide. Appelez maintenant !",
     intro: "Riory dessert Milmort et toute la commune de Herstal pour des interventions rapides en débouchage, inspection et assainissement. Que ce soit pour un WC bouché, une fosse septique pleine ou une cave inondée, notre équipe est disponible 24h/24.",
     services: [
@@ -730,7 +730,7 @@ export const allLocations: LocationData[] = [
     city: "Vottem",
     postalCode: "4041",
     h1: "Service de débouchage Vottem — 24/7 Riory",
-    metaTitle: "Débouchage Vottem 24/7 | Égouts, WC & Fosse Septique | Riory",
+    metaTitle: "Débouchage Vottem 24/7 | Riory",
     metaDescription: "WC ou égout bouché à Vottem ? Riory intervient 24/7. ✓ Débouchage ✓ Inspection caméra ✓ Vidange fosse septique ✓ Tarifs fixes. Appelez !",
     intro: "À Vottem et dans toute la commune de Herstal, Riory propose des services complets de débouchage, inspection caméra et vidange de fosses septiques. Disponibles 24h/24, nos techniciens interviennent rapidement pour résoudre tout problème d'évacuation.",
     services: [
@@ -772,7 +772,7 @@ export const allLocations: LocationData[] = [
     city: "Chênée",
     postalCode: "4032",
     h1: "Débouchage Chênée — Égout Bouché ? Riory 24/7",
-    metaTitle: "Débouchage Chênée 24/7 | Égouts, WC & Fosse Septique | Riory",
+    metaTitle: "Débouchage Chênée 24/7 | Riory",
     metaDescription: "Égout ou WC bouché à Chênée ? Riory intervient 24h/24 à Chênée, Beyne-Heusay et Fléron. ✓ Débouchage rapide ✓ Caméra ✓ Prix transparents. Appelez maintenant !",
     intro: "Égout bouché à Chênée ? Vous n'avez pas à attendre. Riory est votre service de débouchage à Chênée et dans toute la vallée de la Vesdre — 24h/24, 7j/7, généralement sur place en 1 à 2 heures. Nous intervenons dans tous les quartiers de Chênée : Beyne-Heusay, Fléron, Romsée et les rues en cul-de-sac le long de l'Ourthe. Les habitations anciennes de Chênée ont souvent des canalisations en grès datant des années 50 — sensibles aux racines d'arbres et aux effondrements. Dans les lotissements plus récents de Beyne-Heusay, ce sont plutôt les raccordements mal posés qui causent des bouchons récurrents. Quelle que soit la cause, nous localisons le problème avec précision et le résolvons sans travaux destructifs.",
     services: [
