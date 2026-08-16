@@ -4,7 +4,7 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from "recha
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { LogOut, Share2, Download, BarChart3 } from "lucide-react";
+import { LogOut, Share2, Download } from "lucide-react";
 import { toast } from "sonner";
 
 
@@ -767,18 +767,6 @@ const Admin = () => {
       {/* Content */}
       <div className="px-4 sm:px-6 pb-8 pt-6">
         <div className="space-y-6">
-          <div className="flex justify-end">
-            <a
-              href="https://analytics.google.com/analytics/web/#/p/reports/dashboard"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Button variant="outline" size="sm" className="gap-2">
-                <BarChart3 className="w-4 h-4" />
-                Open Google Analytics
-              </Button>
-            </a>
-          </div>
         {loadingData ? (
           <p className="text-muted-foreground font-body">Laden...</p>
         ) : (
