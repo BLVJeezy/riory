@@ -82,7 +82,7 @@ export const allLocations: LocationData[] = [
     city: "Genk",
     postalCode: "3600",
     h1: "Ontstoppingsdienst Genk — 24/7 Riool Verstopt? Wij Zijn er",
-    metaTitle: "Ontstoppingsdienst Genk  24/7 24/7 | Riory",
+    metaTitle: "Ontstoppingsdienst Genk 24/7 | Riory",
     metaDescription: "Ontstoppingsdienst Genk nodig? Riory lost het op in Winterslag, Waterschei, Zwartberg, Termien & Sledderlo. ✓ 24/7 ✓ Camera-inspectie ✓ Vaste prijs. Bel nu!",
     intro: "Riory is uw lokale ontstoppingsdienst in Genk. Met professionele hogedrukapparatuur en camerainspectie sporen we de oorzaak snel op en maken we uw leidingen weer volledig vrij.",
     introParagraphs: [
