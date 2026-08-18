@@ -621,10 +621,8 @@ const AppointmentForm = () => {
             dienst,
             urgent: urgent ?? false,
             klantType,
-            klantSoort: klantType === "particulier" ? "particulier" : "professioneel",
-            land: "België",
-            landCode: "BE",
             woningOuder: woningOuder ?? false,
+
             naam: fact.naam || undefined,
             voornaam: fact.voornaam || undefined,
             bedrijfsnaam: fact.bedrijfsnaam || undefined,
