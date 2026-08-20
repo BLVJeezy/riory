@@ -618,6 +618,7 @@ const AppointmentForm = () => {
         body: {
           appointmentId,
           payload: {
+            land: "België",
             dienst,
             urgent: urgent ?? false,
             klantType,
