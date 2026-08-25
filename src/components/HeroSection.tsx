@@ -3,7 +3,7 @@ import { Phone, Clock, Star, ShieldCheck, Check } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useLanguage } from "@/i18n/LanguageProvider";
-import rioryVan from "@/assets/riory-van.jpeg";
+import rioryVanAsset from "@/assets/riory-van.png.asset.json";
 
 const HeroSection = () => {
   const { t } = useTranslation();
@@ -22,7 +22,7 @@ const HeroSection = () => {
           <div className="grid lg:grid-cols-[1.05fr_0.95fr]">
             <div className="relative min-h-[300px] sm:min-h-[390px] lg:min-h-[610px] bg-muted overflow-hidden order-1 lg:order-2">
               <img
-                src={rioryVan}
+                src={rioryVanAsset.url}
                 alt="Riory servicewagen — ontstoppingsdienst en rioleringswerken"
                 className="absolute inset-0 w-full h-full object-cover object-center"
                 loading="eager"
