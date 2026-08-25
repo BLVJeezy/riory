@@ -21,7 +21,7 @@ import {
 } from "lucide-react";
 import { allLocations } from "@/data/locations";
 import { allServices } from "@/data/services";
-import rioryVanAsset from "@/assets/riory-van.png.asset.json";
+import rioryVanAsset from "@/assets/riory-van-2.png.asset.json";
 import fotoOntstopping from "@/assets/refs/ontstopping-afvoerput-1.webp";
 import fotoCamera from "@/assets/service-camera-inspectie.webp";
 import fotoSeptisch from "@/assets/refs/septisch-1.webp";
