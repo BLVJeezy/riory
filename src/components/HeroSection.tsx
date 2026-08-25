@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Phone, Clock, Star, ShieldCheck, Check } from "lucide-react";
+import { Phone, Clock, Star, ShieldCheck } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useLanguage } from "@/i18n/LanguageProvider";
@@ -8,12 +8,6 @@ import rioryVanAsset from "@/assets/riory-van-2.png.asset.json";
 const HeroSection = () => {
   const { t } = useTranslation();
   const { localizedPath } = useLanguage();
-
-  const bullets = [
-    t("hero.bulletCoverage", { defaultValue: "Actief in Bilzen, Genk, Hasselt en Tongeren" }),
-    t("hero.bulletArrival", { defaultValue: "Doorgaans binnen 1 à 2 uur ter plaatse" }),
-    t("hero.bulletPrices", { defaultValue: "Vaste, transparante prijzen zonder verrassingen" }),
-  ];
 
   return (
     <section id="home" className="bg-background pt-16 md:pt-20">
@@ -48,15 +42,13 @@ const HeroSection = () => {
                   {t("hero.title")}
                 </h1>
 
-                <div className="space-y-3 mb-7 max-w-lg">
-                  {bullets.map((bullet) => (
-                    <div key={bullet} className="flex items-center gap-3 text-sm md:text-base text-white/82">
-                      <span className="flex items-center justify-center w-6 h-6 rounded-full bg-primary/15 shrink-0">
-                        <Check className="w-3.5 h-3.5 text-primary" />
-                      </span>
-                      <span className="font-body">{bullet}</span>
-                    </div>
-                  ))}
+                <div className="mb-7 max-w-lg">
+                  <h2 className="font-heading font-bold text-base md:text-lg text-white mb-3">
+                    Meer dan 15 jaar ervaring in rioleringswerken
+                  </h2>
+                  <p className="font-body text-sm md:text-base leading-relaxed text-white/78">
+                    Een verstopte afvoer, geurhinder of een dringend rioolprobleem? Riory helpt particulieren en bedrijven in Limburg met een snelle, duidelijke en professionele aanpak. Met meer dan 15 jaar ervaring weten we hoe belangrijk het is om problemen snel correct op te lossen zonder onnodig gedoe.
+                  </p>
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-3 mb-7">
