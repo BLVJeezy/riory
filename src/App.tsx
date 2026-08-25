@@ -29,6 +29,7 @@ import VeelvoorkomendeProblemen from "./pages/VeelvoorkomendeProblemen.tsx";
 import LocatieDetail from "./pages/LocatieDetail.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import StickyCallBar from "./components/StickyCallBar.tsx";
+import PriceCalculatorFeatureGate from "./components/PriceCalculatorFeatureGate.tsx";
 
 const queryClient = new QueryClient();
 
@@ -41,13 +42,10 @@ declare global {
 const ScrollToTop = () => {
   const { pathname, search } = useLocation();
 
-  // First-touch attributie alleen op mount — anders dreigt overschrijven bij
-  // elke SPA-navigatie en raken we de oorspronkelijke campagne-context kwijt.
   useEffect(() => {
     captureAttribution();
   }, []);
 
-  // Scrollen + GA page_path wel op elke route-change.
   useEffect(() => {
     window.scrollTo(0, 0);
     if (typeof window.gtag === "function") {
@@ -93,7 +91,6 @@ const ClickTracker = () => {
   return null;
 };
 
-// Routes are defined relatively so they can be mounted under "/", "/en/*", "/fr/*"
 const AppRoutes = () => (
   <Routes>
     <Route index element={<Index />} />
@@ -121,25 +118,27 @@ const AppRoutes = () => (
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <ThemeProvider>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <LanguageProvider>
-          <AuthProvider>
-            <ScrollToTop />
-            <ClickTracker />
-            <StickyCallBar />
-            <Routes>
-              <Route path="/en/*" element={<AppRoutes />} />
-              <Route path="/fr/*" element={<AppRoutes />} />
-              <Route path="/*" element={<AppRoutes />} />
-            </Routes>
-            <Analytics />
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <LanguageProvider>
+            <AuthProvider>
+              <PriceCalculatorFeatureGate>
+                <ScrollToTop />
+                <ClickTracker />
+                <StickyCallBar />
+                <Routes>
+                  <Route path="/en/*" element={<AppRoutes />} />
+                  <Route path="/fr/*" element={<AppRoutes />} />
+                  <Route path="/*" element={<AppRoutes />} />
+                </Routes>
+                <Analytics />
+              </PriceCalculatorFeatureGate>
             </AuthProvider>
-        </LanguageProvider>
-      </BrowserRouter>
-    </TooltipProvider>
+          </LanguageProvider>
+        </BrowserRouter>
+      </TooltipProvider>
     </ThemeProvider>
   </QueryClientProvider>
 );
