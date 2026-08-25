@@ -3,7 +3,7 @@ import { Phone, Clock, Star, ShieldCheck, Check } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useLanguage } from "@/i18n/LanguageProvider";
-import rioryVanAsset from "@/assets/riory-van.png.asset.json";
+import rioryVanAsset from "@/assets/riory-van-2.png.asset.json";
 
 const HeroSection = () => {
   const { t } = useTranslation();

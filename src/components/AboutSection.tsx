@@ -1,6 +1,6 @@
 import { Shield, Clock, Award } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import rioryVanAsset from "@/assets/riory-van.png.asset.json";
+import rioryVanAsset from "@/assets/riory-van-2.png.asset.json";
 
 const AboutSection = () => {
   const { t } = useTranslation();
