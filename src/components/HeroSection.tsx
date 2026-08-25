@@ -3,7 +3,9 @@ import { Phone, Clock, Star, ShieldCheck } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useLanguage } from "@/i18n/LanguageProvider";
-import rioryVanAsset from "@/assets/riory-van-2.png.asset.json";
+
+const HERO_IMAGE_URL =
+  "https://riory.lovable.app/__l5e/assets-v1/836de535-9eb6-42e1-854d-2ff5b5d70850/riory-van-2.png";
 
 const HeroSection = () => {
   const { t } = useTranslation();
@@ -16,7 +18,7 @@ const HeroSection = () => {
           <div className="grid lg:grid-cols-[0.62fr_1.38fr]">
             <div className="relative min-h-[280px] sm:min-h-[360px] lg:min-h-[680px] bg-muted overflow-hidden order-1 lg:order-2">
               <img
-                src={rioryVanAsset.url}
+                src={HERO_IMAGE_URL}
                 alt="Riory servicewagen — ontstoppingsdienst en rioleringswerken"
                 className="absolute inset-0 w-full h-full object-cover object-center"
                 loading="eager"
