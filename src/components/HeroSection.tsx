@@ -19,8 +19,8 @@ const HeroSection = () => {
     <section id="home" className="bg-background pt-16 md:pt-20">
       <div className="section-container px-0 md:px-8 py-0 md:py-12 lg:py-16">
         <div className="overflow-hidden md:rounded-3xl md:border md:border-border md:bg-card md:shadow-sm">
-          <div className="grid lg:grid-cols-[1.05fr_0.95fr]">
-            <div className="relative min-h-[300px] sm:min-h-[390px] lg:min-h-[610px] bg-muted overflow-hidden order-1 lg:order-2">
+          <div className="grid lg:grid-cols-[0.62fr_1.38fr]">
+            <div className="relative min-h-[280px] sm:min-h-[360px] lg:min-h-[680px] bg-muted overflow-hidden order-1 lg:order-2">
               <img
                 src={rioryVanAsset.url}
                 alt="Riory servicewagen — ontstoppingsdienst en rioleringswerken"
@@ -44,16 +44,17 @@ const HeroSection = () => {
                   Riory BV
                 </p>
 
-                <h1 className="text-[26px] sm:text-[32px] md:text-[38px] lg:text-[42px] xl:text-[46px] font-heading font-bold uppercase leading-[1.08] tracking-tight text-white mb-5 whitespace-pre-line">
+                <h1 className="text-[20px] sm:text-[24px] md:text-[28px] lg:text-[32px] font-heading font-bold uppercase leading-[1.15] tracking-tight text-white mb-5 whitespace-pre-line">
                   {t("hero.title")}
                 </h1>
 
-                <div className="space-y-2.5 mb-7 max-w-lg">
+                <div className="space-y-3 mb-7 max-w-lg">
                   {bullets.map((bullet) => (
-                    <div key={bullet} className="relative flex items-center gap-2.5 text-sm md:text-base text-white/82">
-                      <span className="absolute -inset-x-2 -inset-y-1 rounded-full bg-primary/[0.055] blur-md pointer-events-none" />
-                      <Check className="relative w-4 h-4 text-primary shrink-0" />
-                      <span className="relative font-body">{bullet}</span>
+                    <div key={bullet} className="flex items-center gap-3 text-sm md:text-base text-white/82">
+                      <span className="flex items-center justify-center w-6 h-6 rounded-full bg-primary/15 shrink-0">
+                        <Check className="w-3.5 h-3.5 text-primary" />
+                      </span>
+                      <span className="font-body">{bullet}</span>
                     </div>
                   ))}
                 </div>
@@ -75,17 +76,17 @@ const HeroSection = () => {
                   </a>
                 </div>
 
-                <div className="flex flex-wrap gap-2.5 border-t border-white/10 pt-5">
-                  <span className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/[0.07] px-3.5 py-2 text-xs md:text-sm text-white/85 shadow-[0_0_22px_rgba(255,255,255,0.05)]">
-                    <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                <div className="flex flex-nowrap gap-1.5 sm:gap-2.5 border-t border-white/10 pt-5 overflow-x-auto">
+                  <span className="inline-flex items-center gap-1 sm:gap-1.5 rounded-full border border-white/15 bg-white/[0.07] px-2.5 sm:px-3.5 py-1.5 sm:py-2 text-[11px] sm:text-xs md:text-sm text-white/85 shadow-[0_0_22px_rgba(255,255,255,0.05)] shrink-0">
+                    <Star className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-yellow-400 text-yellow-400" />
                     4.9 Google
                   </span>
-                  <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/25 bg-primary/[0.08] px-3.5 py-2 text-xs md:text-sm text-white/85 shadow-[0_0_22px_hsl(var(--primary)/0.08)]">
-                    <ShieldCheck className="w-4 h-4 text-primary" />
+                  <span className="inline-flex items-center gap-1 sm:gap-1.5 rounded-full border border-primary/25 bg-primary/[0.08] px-2.5 sm:px-3.5 py-1.5 sm:py-2 text-[11px] sm:text-xs md:text-sm text-white/85 shadow-[0_0_22px_hsl(var(--primary)/0.08)] shrink-0">
+                    <ShieldCheck className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-primary" />
                     {t("hero.insured")}
                   </span>
-                  <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/25 bg-primary/[0.08] px-3.5 py-2 text-xs md:text-sm text-white/85 shadow-[0_0_22px_hsl(var(--primary)/0.08)]">
-                    <Clock className="w-4 h-4 text-primary" />
+                  <span className="inline-flex items-center gap-1 sm:gap-1.5 rounded-full border border-primary/25 bg-primary/[0.08] px-2.5 sm:px-3.5 py-1.5 sm:py-2 text-[11px] sm:text-xs md:text-sm text-white/85 shadow-[0_0_22px_hsl(var(--primary)/0.08)] shrink-0">
+                    <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-primary" />
                     24/7 bereikbaar
                   </span>
                 </div>
