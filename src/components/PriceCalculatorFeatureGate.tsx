@@ -37,8 +37,6 @@ const PriceCalculatorFeatureGate = ({ children }: { children: React.ReactNode })
 
       if (cancelled) return;
 
-      // Fail open so the existing website keeps working if the migration has
-      // not been deployed yet. Once the table exists, the database value wins.
       if (error || !data) {
         setEnabled(true);
         return;
@@ -94,10 +92,16 @@ const PriceCalculatorFeatureGate = ({ children }: { children: React.ReactNode })
   return (
     <>
       <style>{`
+        html[data-price-calculator-enabled="off"] #prijscalculator,
+        html[data-price-calculator-enabled="loading"] #prijscalculator,
         html[data-price-calculator-enabled="off"] .price-calculator-feature,
         html[data-price-calculator-enabled="loading"] .price-calculator-feature,
         html[data-price-calculator-enabled="off"] a[href*="prijscalculator"],
-        html[data-price-calculator-enabled="loading"] a[href*="prijscalculator"] {
+        html[data-price-calculator-enabled="loading"] a[href*="prijscalculator"],
+        html[data-price-calculator-enabled="off"] div:has(> a[href*="/prijscalculator"]),
+        html[data-price-calculator-enabled="loading"] div:has(> a[href*="/prijscalculator"]),
+        html[data-price-calculator-enabled="off"] li:has(> a[href*="prijscalculator"]),
+        html[data-price-calculator-enabled="loading"] li:has(> a[href*="prijscalculator"]) {
           display: none !important;
         }
       `}</style>
