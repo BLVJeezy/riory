@@ -16,9 +16,10 @@ const langs: { code: Language; label: string; short: string }[] = [
 
 interface Props {
   variant?: "navbar" | "mobile";
+  textClassName?: string;
 }
 
-const LanguageSwitcher = ({ variant = "navbar" }: Props) => {
+const LanguageSwitcher = ({ variant = "navbar", textClassName }: Props) => {
   const { lang, setLang } = useLanguage();
   const current = langs.find((l) => l.code === lang) ?? langs[0];
 
@@ -44,7 +45,7 @@ const LanguageSwitcher = ({ variant = "navbar" }: Props) => {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="flex items-center gap-1.5 text-sm font-body font-semibold uppercase tracking-wider text-foreground hover:text-primary transition-colors">
+      <DropdownMenuTrigger className={`flex items-center gap-1.5 text-sm font-body font-semibold uppercase tracking-wider transition-colors ${textClassName || "text-foreground hover:text-primary"}`}>
         <Globe className="w-4 h-4" />
         {current.short}
       </DropdownMenuTrigger>

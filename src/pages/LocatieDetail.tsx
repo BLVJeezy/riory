@@ -21,7 +21,7 @@ import {
 } from "lucide-react";
 import { allLocations } from "@/data/locations";
 import { allServices } from "@/data/services";
-import rioryVanAsset from "@/assets/riory-van-2.png.asset.json";
+import rioryVanLocatie from "@/assets/riory-van-about.webp";
 import fotoOntstopping from "@/assets/refs/ontstopping-afvoerput-1.webp";
 import fotoCamera from "@/assets/service-camera-inspectie.webp";
 import fotoSeptisch from "@/assets/refs/septisch-1.webp";
@@ -303,7 +303,7 @@ const LocatieDetail = () => {
                 />
               ))}
               <img
-                src={rioryVanAsset.url}
+                src={rioryVanLocatie}
                 alt={`Riory servicewagen onderweg naar een klant in ${location.city}`}
                 loading="lazy"
                 className="col-span-2 w-full h-32 md:h-44 object-cover rounded-xl border border-border"

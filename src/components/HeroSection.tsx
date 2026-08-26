@@ -3,22 +3,20 @@ import { Phone, Clock, Star, ShieldCheck } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useLanguage } from "@/i18n/LanguageProvider";
-
-const HERO_IMAGE_URL =
-  "https://riory.lovable.app/__l5e/assets-v1/836de535-9eb6-42e1-854d-2ff5b5d70850/riory-van-2.png";
+import rioryVanHero from "@/assets/riory-van-about.webp";
 
 const HeroSection = () => {
   const { t } = useTranslation();
   const { localizedPath } = useLanguage();
 
   return (
-    <section id="home" className="bg-background pt-16 md:pt-20">
+    <section id="home" className="bg-charcoal pt-16 md:pt-20">
       <div className="section-container px-0 md:px-8 py-0 md:py-12 lg:py-16">
-        <div className="overflow-hidden md:rounded-3xl md:border md:border-border md:bg-card md:shadow-sm">
+        <div className="overflow-hidden md:rounded-3xl md:border md:border-white/10 md:bg-charcoal md:shadow-sm">
           <div className="grid lg:grid-cols-[0.62fr_1.38fr]">
             <div className="relative min-h-[280px] sm:min-h-[360px] lg:min-h-[680px] bg-muted overflow-hidden order-1 lg:order-2">
               <img
-                src={HERO_IMAGE_URL}
+                src={rioryVanHero}
                 alt="Riory servicewagen — ontstoppingsdienst en rioleringswerken"
                 className="absolute inset-0 w-full h-full object-cover object-center"
                 loading="eager"

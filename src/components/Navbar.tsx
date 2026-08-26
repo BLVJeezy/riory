@@ -93,21 +93,31 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const isHomepage = location.pathname === localizedPath("/");
+  const transparentHero = isHomepage && !scrolled;
+  const navLogo = transparentHero ? logoWhite : logo;
+  const navTextClass = transparentHero ? "text-white hover:text-primary" : "text-foreground hover:text-primary";
+  const navIconBorderClass = transparentHero ? "border-white/40 text-white" : "border-border text-foreground";
+
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? "bg-background/95 backdrop-blur-sm shadow-md" : "bg-background"
+        transparentHero
+          ? "bg-transparent"
+          : scrolled
+          ? "bg-background/95 backdrop-blur-sm shadow-md"
+          : "bg-background"
       }`}
     >
       <div className="max-w-[1400px] mx-auto w-full flex items-center justify-between h-16 md:h-20 px-4 md:px-6">
         <Link to={localizedPath("/")} className="ml-0 md:ml-2">
-          <img src={logo} alt="RIORY - Sterk in Rioleringswerk" className="h-10 md:h-12 lg:h-14 w-auto object-contain shrink-0" />
+          <img src={navLogo} alt="RIORY - Sterk in Rioleringswerk" className="h-10 md:h-12 lg:h-14 w-auto object-contain shrink-0" />
         </Link>
 
         {/* Desktop */}
         <div className="hidden xl:flex items-center gap-6 2xl:gap-8">
           <DropdownMenu>
-            <DropdownMenuTrigger className="flex items-center gap-1 text-xs xl:text-sm font-body font-semibold uppercase tracking-wider whitespace-nowrap text-foreground hover:text-primary transition-colors outline-none">
+            <DropdownMenuTrigger className={`flex items-center gap-1 text-xs xl:text-sm font-body font-semibold uppercase tracking-wider whitespace-nowrap transition-colors outline-none ${navTextClass}`}>
               {t("nav.services")}
               <ChevronDown className="w-3.5 h-3.5" />
             </DropdownMenuTrigger>
@@ -144,7 +154,7 @@ const Navbar = () => {
               <Link
                 key={link.href}
                 to={link.href}
-                className="text-xs xl:text-sm font-body font-semibold uppercase tracking-wider whitespace-nowrap text-foreground hover:text-primary transition-colors"
+                className={`text-xs xl:text-sm font-body font-semibold uppercase tracking-wider whitespace-nowrap transition-colors ${navTextClass}`}
               >
                 {link.label}
               </Link>
@@ -153,7 +163,7 @@ const Navbar = () => {
                 key={link.href}
                 href={link.href}
                 onClick={(e) => handleAnchorClick(e, link.href)}
-                className="text-xs xl:text-sm font-body font-semibold uppercase tracking-wider whitespace-nowrap text-foreground hover:text-primary transition-colors"
+                className={`text-xs xl:text-sm font-body font-semibold uppercase tracking-wider whitespace-nowrap transition-colors ${navTextClass}`}
               >
                 {link.label}
               </a>
@@ -161,7 +171,7 @@ const Navbar = () => {
           )}
 
           <DropdownMenu>
-            <DropdownMenuTrigger className="flex items-center gap-1 text-xs xl:text-sm font-body font-semibold uppercase tracking-wider whitespace-nowrap text-foreground hover:text-primary transition-colors outline-none">
+            <DropdownMenuTrigger className={`flex items-center gap-1 text-xs xl:text-sm font-body font-semibold uppercase tracking-wider whitespace-nowrap transition-colors outline-none ${navTextClass}`}>
               {t("nav.regions")}
               <ChevronDown className="w-3.5 h-3.5" />
             </DropdownMenuTrigger>
@@ -190,10 +200,10 @@ const Navbar = () => {
             </DropdownMenuContent>
           </DropdownMenu>
 
-          <LanguageSwitcher />
+          <LanguageSwitcher textClassName={navTextClass} />
           <Link
             to={localizedPath("/sollicitatie")}
-            className="text-xs xl:text-sm font-body font-semibold uppercase tracking-wider whitespace-nowrap text-foreground hover:text-primary transition-colors"
+            className={`text-xs xl:text-sm font-body font-semibold uppercase tracking-wider whitespace-nowrap transition-colors ${navTextClass}`}
           >
             Vacatures
           </Link>
@@ -205,7 +215,7 @@ const Navbar = () => {
         {/* Mobile controls */}
         <div className="xl:hidden flex items-center gap-2">
           <button
-            className="relative z-50 w-10 h-10 flex items-center justify-center rounded border border-border text-foreground"
+            className={`relative z-50 w-10 h-10 flex items-center justify-center rounded border transition-colors ${navIconBorderClass}`}
             onClick={() => setIsOpen(!isOpen)}
             aria-label="Menu"
           >

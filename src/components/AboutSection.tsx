@@ -1,6 +1,6 @@
 import { Shield, Clock, Award } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import rioryVanAsset from "@/assets/riory-van-2.png.asset.json";
+import rioryVanAbout from "@/assets/riory-van-about.webp";
 
 const AboutSection = () => {
   const { t } = useTranslation();
@@ -51,7 +51,7 @@ const AboutSection = () => {
 
           <div className="rounded-lg overflow-hidden border border-primary-foreground/10 relative">
             <img
-              src={rioryVanAsset.url}
+              src={rioryVanAbout}
               alt="RIORY bedrijfswagen - Sterk in Rioleringswerk"
               className="w-full h-auto object-cover"
             />
