@@ -325,7 +325,10 @@ const AppointmentForm = () => {
           if (klantType === "bedrijf" || klantType === "vrij_beroep") {
             req(!fact.bedrijfsnaam, tFields.companyName);
             req(!fact.facturatie_email, tFields.billingEmail);
-            if (klantType === "bedrijf") req(!fact.btw_nummer, tFields.vat);
+            if (klantType === "bedrijf") {
+              req(!fact.btw_nummer, tFields.vat);
+              req(!fact.kbo_nummer, tFields.kbo);
+            }
             if (klantType === "vrij_beroep") req(!fact.kbo_nummer, tFields.kbo);
           }
           if (werfIsFacturatie === false) {
