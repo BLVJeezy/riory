@@ -632,6 +632,7 @@ const AppointmentForm = () => {
             bedrijfsnaam: fact.bedrijfsnaam || undefined,
             btwNummer: fact.btw_nummer || undefined,
             kboNummer: fact.kbo_nummer || undefined,
+            ondernemingsnummer: fact.kbo_nummer || undefined,
             email: effectiveFactEmail,
             facturatieEmail: fact.facturatie_email || undefined,
             telefoon: cleanPhone(fact.telefoon),
