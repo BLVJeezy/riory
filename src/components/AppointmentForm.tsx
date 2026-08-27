@@ -325,7 +325,10 @@ const AppointmentForm = () => {
           if (klantType === "bedrijf" || klantType === "vrij_beroep") {
             req(!fact.bedrijfsnaam, tFields.companyName);
             req(!fact.facturatie_email, tFields.billingEmail);
-            if (klantType === "bedrijf") req(!fact.btw_nummer, tFields.vat);
+            if (klantType === "bedrijf") {
+              req(!fact.btw_nummer, tFields.vat);
+              req(!fact.kbo_nummer, tFields.kbo);
+            }
             if (klantType === "vrij_beroep") req(!fact.kbo_nummer, tFields.kbo);
           }
           if (werfIsFacturatie === false) {
@@ -629,6 +632,7 @@ const AppointmentForm = () => {
             bedrijfsnaam: fact.bedrijfsnaam || undefined,
             btwNummer: fact.btw_nummer || undefined,
             kboNummer: fact.kbo_nummer || undefined,
+            ondernemingsnummer: fact.kbo_nummer || syndicus.kbo_nummer || undefined,
             email: effectiveFactEmail,
             facturatieEmail: fact.facturatie_email || undefined,
             telefoon: cleanPhone(fact.telefoon),
@@ -923,7 +927,10 @@ const AppointmentForm = () => {
                     <>
                       <InputField label={tFields.companyName} required name="bedrijfsnaam" value={fact.bedrijfsnaam} onChange={handleFactChange} icon={<Building2 className="w-4 h-4" />} placeholder={tPh.companyName} maxLength={200} />
                       {klantType === "bedrijf" && (
-                        <InputField label={tFields.vat} required name="btw_nummer" value={fact.btw_nummer} onChange={handleFactChange} placeholder="BE0xxx.xxx.xxx" maxLength={20} />
+                        <>
+                          <InputField label={tFields.vat} required name="btw_nummer" value={fact.btw_nummer} onChange={handleFactChange} placeholder="BE0xxx.xxx.xxx" maxLength={20} />
+                          <InputField label={tFields.kbo} required name="kbo_nummer" value={fact.kbo_nummer} onChange={handleFactChange} placeholder="0xxx.xxx.xxx" maxLength={20} />
+                        </>
                       )}
                       {klantType === "vrij_beroep" && (
                         <InputField label={tFields.kbo} required name="kbo_nummer" value={fact.kbo_nummer} onChange={handleFactChange} placeholder="0xxx.xxx.xxx" maxLength={20} />
