@@ -926,7 +926,10 @@ const AppointmentForm = () => {
                     <>
                       <InputField label={tFields.companyName} required name="bedrijfsnaam" value={fact.bedrijfsnaam} onChange={handleFactChange} icon={<Building2 className="w-4 h-4" />} placeholder={tPh.companyName} maxLength={200} />
                       {klantType === "bedrijf" && (
-                        <InputField label={tFields.vat} required name="btw_nummer" value={fact.btw_nummer} onChange={handleFactChange} placeholder="BE0xxx.xxx.xxx" maxLength={20} />
+                        <>
+                          <InputField label={tFields.vat} required name="btw_nummer" value={fact.btw_nummer} onChange={handleFactChange} placeholder="BE0xxx.xxx.xxx" maxLength={20} />
+                          <InputField label={tFields.kbo} required name="kbo_nummer" value={fact.kbo_nummer} onChange={handleFactChange} placeholder="0xxx.xxx.xxx" maxLength={20} />
+                        </>
                       )}
                       {klantType === "vrij_beroep" && (
                         <InputField label={tFields.kbo} required name="kbo_nummer" value={fact.kbo_nummer} onChange={handleFactChange} placeholder="0xxx.xxx.xxx" maxLength={20} />
