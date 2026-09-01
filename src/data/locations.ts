@@ -30,11 +30,11 @@ export const allLocations: LocationData[] = [
     h1: "Loodgieter & Ontstoppingsdienst Hasselt — 24/7 Riool Verstopt?",
     metaTitle: "Ontstoppingsdienst Hasselt 24/7 | Riory",
     metaDescription: "Loodgieter nodig in Hasselt? Riory lost elk rioolprobleem op — ontstoppingsdienst, septische put ledigen & camera-inspectie. ✓ 24/7 ✓ Kermt & Kuringen ✓ Vaste prijs. Bel nu!",
-    intro: "Loodgieter nodig in Hasselt? Of uw riool is verstopt, uw septische put loopt over, of u rioollucht heeft in huis — Riory is uw lokale loodgieter en ontstoppingsdienst in Hasselt, 24/7 bereikbaar, doorgaans binnen 1 à 2 uur ter plaatse. Wij werken dagelijks in heel Hasselt en alle deelgemeenten: Kermt, Kuringen, Stevoort, Wimmertingen en Sint-Lambrechts-Herk. Of het nu gaat om een verstopte WC in een appartement in het centrum, een trage gootsteen in een rijhuis in Kermt, rioollucht in een kelder in Kuringen, of het ledigen van een septische put in het buitengebied rond Stevoort — wij kennen elk type woning en elk type rioolprobleem in Hasselt. Met professionele hogedrukapparatuur, camera-inspectie en zuigwagens lossen wij élk probleem op. Vaste prijzen met duidelijk gecommuniceerde rijkosten, altijd netjes achtergelaten.",
+    intro: "Loodgieter nodig in Hasselt? Of uw riool is verstopt, uw septische put loopt over, of u rioollucht heeft in huis — Riory is uw lokale loodgieter en ontstoppingsdienst in Hasselt, 24/7 bereikbaar, doorgaans binnen 1 à 2 uur ter plaatse. Wij werken dagelijks in heel Hasselt en alle deelgemeenten: Kermt, Kuringen, Stevoort, Wimmertingen en Sint-Lambrechts-Herk. Of het nu gaat om een verstopte WC in een appartement in het centrum, een trage gootsteen in een rijhuis in Kermt, rioollucht in een kelder in Kuringen, of het ledigen van een septische put in het buitengebied rond Stevoort — wij kennen elk type woning en elk type rioolprobleem in Hasselt. Met professionele hogedrukapparatuur, camera-inspectie en zuigwagens lossen wij élk probleem op. Vaste tarieven met duidelijk gecommuniceerde rijkosten, altijd netjes achtergelaten.",
     services: [
       {
         title: "Ontstoppingsdienst Hasselt — WC, riool & afvoer",
-        description: "Verstopte WC, gootsteen of douche in Hasselt? Onze ontstoppingsdienst Hasselt is 24/7 bereikbaar. Wij zijn snel ter plaatse in Hasselt-centrum, Kermt, Kuringen en alle deelgemeenten. Professionele hogedrukreiniging, vaste prijzen, geen verrassingen.",
+        description: "Verstopte WC, gootsteen of douche in Hasselt? Onze ontstoppingsdienst Hasselt is 24/7 bereikbaar. Wij zijn snel ter plaatse in Hasselt-centrum, Kermt, Kuringen en alle deelgemeenten. Professionele hogedrukreiniging, vaste tarieven, geen verrassingen.",
         slug: "ontstoppingen-en-geurdetectie",
       },
       {
@@ -64,11 +64,11 @@ export const allLocations: LocationData[] = [
       },
       {
         question: "Wat kost een septische put ledigen in Hasselt?",
-        answer: "De prijs voor het ledigen van een septische put in Hasselt hangt af van de grootte van de put en de toegankelijkheid. Riory werkt met transparante, vaste prijzen. Bel +32 472 50 28 14 voor een snelle prijsindicatie op maat.",
+        answer: "De prijs voor het ledigen van een septische put in Hasselt hangt af van de grootte van de put en de toegankelijkheid. Riory werkt met transparante, vaste tarieven. Bel +32 472 50 28 14 voor een snelle prijsindicatie op maat.",
       },
       {
         question: "Wat kost een ontstopping in Hasselt?",
-        answer: "Riory werkt met vaste, transparante prijzen — geen verrassing op de factuur. Voor een duidelijke prijsschatting kunt u onze prijscalculator raadplegen of bellen op +32 472 50 28 14.",
+        answer: "Riory werkt met vaste, transparante tarieven — geen verrassing op de factuur. Voor een duidelijke prijsschatting kunt u onze prijscalculator raadplegen of bellen op +32 472 50 28 14.",
       },
       {
         question: "Bedient Riory ook de deelgemeenten van Hasselt?",
@@ -135,7 +135,7 @@ export const allLocations: LocationData[] = [
       },
       {
         question: "Wat kost een ontstopping in Genk?",
-        answer: "Riory werkt met vaste, transparante prijzen. U weet vooraf wat u betaalt — geen verrassingen op de factuur. De prijs hangt af van het type verstopping en de benodigde apparatuur. Bel +32 472 50 28 14 voor een snelle indicatie.",
+        answer: "Riory werkt met vaste, transparante tarieven. U weet vooraf wat u betaalt — geen verrassingen op de factuur. De prijs hangt af van het type verstopping en de benodigde apparatuur. Bel +32 472 50 28 14 voor een snelle indicatie.",
       },
       {
         question: "Werkt Riory ook in alle wijken van Genk?",
@@ -201,7 +201,7 @@ export const allLocations: LocationData[] = [
     h1: "Loodgieter & Ontstoppingsdienst Tongeren — 24/7 Riory",
     metaTitle: "Ontstoppingsdienst Tongeren 24/7 | Riory",
     metaDescription: "Riool of WC verstopt in Tongeren? Riory is 24/7 actief in Tongeren, Vreren & Borgloon. ✓ Camera-inspectie ✓ Septische put ✓ Vaste prijs. Bel!",
-    intro: "In Tongeren, de oudste stad van België, kunt u rekenen op Riory voor alle riolerings- en ontstoppingsdiensten. Van een verstopte WC of gootsteen tot het ledigen van septische putten en camera-inspecties van rioleringen — wij zijn 24/7 beschikbaar. Wij bedienen het centrum van Tongeren en alle deelgemeenten: Piringen, Riksingen, Mal, Nerem, Rutten, Vreren, Widooie, Berg en Kolmont. Riory is bovendien uw loodgieter in Tongeren voor sanitair en loodgieterwerk: nieuwe leidingen, lekherstel, aansluitingen op het rioolnet en alle rioolwerken in en rond uw woning — vakwerk met vaste prijzen.",
+    intro: "In Tongeren, de oudste stad van België, kunt u rekenen op Riory voor alle riolerings- en ontstoppingsdiensten. Van een verstopte WC of gootsteen tot het ledigen van septische putten en camera-inspecties van rioleringen — wij zijn 24/7 beschikbaar. Wij bedienen het centrum van Tongeren en alle deelgemeenten: Piringen, Riksingen, Mal, Nerem, Rutten, Vreren, Widooie, Berg en Kolmont. Riory is bovendien uw loodgieter in Tongeren voor sanitair en loodgieterwerk: nieuwe leidingen, lekherstel, aansluitingen op het rioolnet en alle rioolwerken in en rond uw woning — vakwerk met vaste tarieven.",
     services: [
       {
         title: "Ontstopping in Tongeren",
@@ -329,7 +329,7 @@ export const allLocations: LocationData[] = [
     metaDescription: "Loodgieter & ontstoppingsdienst in Diepenbeek — buren van Hasselt, bediend vanuit Bilzen. ✓ 24/7 ✓ Snel ter plaatse ✓ Vaste prijs. Bel nu!",
     intro: "Riory BV is uw vaste loodgieter en ontstoppingsdienst in Diepenbeek en de omliggende gemeenten Rooierheide en Lutselus. Vanuit onze thuisbasis in Limburg staan wij dag en nacht klaar voor woningen, bedrijven en syndici in heel Diepenbeek. Diepenbeek ligt op de grens van stedelijk Hasselt en het meer landelijke Limburg — een mix van recente verkavelingen en oudere woningen met verouderde leidingen. Wij verzorgen al uw loodgieterwerk, rioolentstoppingen, camera-inspecties, septische put ledigen en rioolreiniging met hogedruk. Riory is 24/7 bereikbaar en staat doorgaans binnen de 2 uur ter plaatse, ook in het weekend.",
     services: [
-      { title: "Loodgieter in Diepenbeek", description: "Sanitair, leidingen, lekherstel en rioolwerken in Diepenbeek door ervaren loodgieters. Snelle interventie en heldere prijzen.", slug: "ontstoppingen-en-geurdetectie" },
+      { title: "Loodgieter in Diepenbeek", description: "Sanitair, leidingen, lekherstel en rioolwerken in Diepenbeek door ervaren loodgieters. Snelle interventie en heldere tarieven.", slug: "ontstoppingen-en-geurdetectie" },
       { title: "Ontstopping in Diepenbeek", description: "Verstopte WC, gootsteen of afvoer in Diepenbeek? Onze hogedrukapparatuur lost elke verstopping op.", slug: "ontstoppingen-en-geurdetectie" },
       { title: "Camera-inspectie riool in Diepenbeek", description: "Professionele camera-inspectie van uw riolering in Diepenbeek — diagnose zonder breekwerk.", slug: "camera-inspectie" },
       { title: "Septische put ledigen in Diepenbeek", description: "Riory ledigt en reinigt uw septische put in Diepenbeek met gespecialiseerde zuigwagens.", slug: "septische-put-ledigen" },
@@ -348,7 +348,7 @@ export const allLocations: LocationData[] = [
     h1: "Loodgieter & Ontstoppingsdienst Riemst — Riory Is Dichtbij",
     metaTitle: "Ontstoppingsdienst Riemst 24/7 | Riory",
     metaDescription: "Riool of WC verstopt in Riemst? Riory is uw lokale loodgieter — actief in Vroenhoven, Kanne, Millen, Herderen en Zichen-Zussen-Bolder. ✓ 24/7 ✓ Vaste prijs. Bel nu!",
-    intro: "Riemst is geen stad met één centrum, maar een lappendeken van elf dorpen — van Vroenhoven aan het Albertkanaal tot de mergelgrotten van Zichen-Zussen-Bolder en de boomgaarden rond Millen en Val-Meer. Wij kennen dat verschil, want we werken er al jaren. Een verstopping in een oude hoeve in Herderen vraagt een andere aanpak dan een trage afvoer in een rijwoning in Vroenhoven-centrum, en een septische put op een afgelegen erf richting Membruggen is iets anders dan een rioolprobleem vlak bij de grens in Kanne. Riory BV is uw loodgieter en ontstoppingsdienst voor heel Riemst: Vroenhoven, Kanne, Herderen, Millen, Vlijtingen, Val-Meer, Zichen-Zussen-Bolder, Genoelselderen, Membruggen, Heukelom en Riemst-centrum zelf. Door onze ligging vlakbij — Riemst grenst rechtstreeks aan Bilzen, waar wij gevestigd zijn — staan we doorgaans sneller bij u dan ontstoppingsdiensten die van verder moeten komen. Loodgieterwerk, rioolontstopping, camera-inspectie, septische putten ledigen en rioolreiniging: wij doen het allemaal, met dezelfde ploeg, dezelfde vaste prijzen en dezelfde garantie op netjes werk.",
+    intro: "Riemst is geen stad met één centrum, maar een lappendeken van elf dorpen — van Vroenhoven aan het Albertkanaal tot de mergelgrotten van Zichen-Zussen-Bolder en de boomgaarden rond Millen en Val-Meer. Wij kennen dat verschil, want we werken er al jaren. Een verstopping in een oude hoeve in Herderen vraagt een andere aanpak dan een trage afvoer in een rijwoning in Vroenhoven-centrum, en een septische put op een afgelegen erf richting Membruggen is iets anders dan een rioolprobleem vlak bij de grens in Kanne. Riory BV is uw loodgieter en ontstoppingsdienst voor heel Riemst: Vroenhoven, Kanne, Herderen, Millen, Vlijtingen, Val-Meer, Zichen-Zussen-Bolder, Genoelselderen, Membruggen, Heukelom en Riemst-centrum zelf. Door onze ligging vlakbij — Riemst grenst rechtstreeks aan Bilzen, waar wij gevestigd zijn — staan we doorgaans sneller bij u dan ontstoppingsdiensten die van verder moeten komen. Loodgieterwerk, rioolontstopping, camera-inspectie, septische putten ledigen en rioolreiniging: wij doen het allemaal, met dezelfde ploeg, dezelfde vaste tarieven en dezelfde garantie op netjes werk.",
     services: [
       { title: "Loodgieter in Riemst", description: "Sanitair en loodgieterwerk in elk dorp van Riemst: leidingen, kranen, toiletten, lekdetectie en herstellingen — van Vroenhoven tot Membruggen.", slug: "ontstoppingen-en-geurdetectie" },
       { title: "Ontstopping in Riemst", description: "Verstopte afvoer, WC of douche in Riemst? We staan snel voor de deur, ook in de kleinere dorpskernen zoals Heukelom of Val-Meer.", slug: "ontstoppingen-en-geurdetectie" },
@@ -465,7 +465,7 @@ export const allLocations: LocationData[] = [
     faq: [
       { question: "Hoe snel komt een loodgieter van Riory ter plaatse in Kortessem?", answer: "Riory BV is 24/7 bereikbaar en staat bij spoedgevallen in Kortessem en omgeving doorgaans binnen de 2 uur ter plaatse." },
       { question: "Bedient Riory ook Wintershoven en Guigoven?", answer: "Ja, wij bedienen heel Kortessem inclusief de deelgemeenten Vliermaal, Guigoven en Wintershoven." },
-      { question: "Wat kost een ontstopping in Kortessem?", answer: "Onze prijzen zijn vast en transparant. Vraag een offerte aan of bereken zelf via onze prijscalculator." },
+      { question: "Wat kost een ontstopping in Kortessem?", answer: "Onze tarieven zijn vast en transparant. Vraag een offerte aan of bereken zelf via onze prijscalculator." },
     ],
     nearbyAreas: ["Hoeselt", "Borgloon", "Wellen", "Alken", "Tongeren"],
   },
