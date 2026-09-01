@@ -273,7 +273,7 @@ const LocatieDetail = () => {
                 {(location.whyChooseUs || [
                   `24/7 bereikbaar in ${location.city} — ook weekend en feestdagen`,
                   `Doorgaans binnen 1 à 2 uur ter plaatse in ${location.city}`,
-                  `Geen rijkosten binnen ${location.city} (postcode ${location.postalCode})`,
+                  `Transparante rijkosten, vooraf gecommuniceerd — ook in ${location.city} (postcode ${location.postalCode})`,
                   "Vaste, transparante prijzen — geen verrassingen op de factuur",
                   "Professionele hogedrukapparatuur, camera-inspectie en zuigwagens",
                   "Zonder breekwerk waar mogelijk, altijd netjes achtergelaten",

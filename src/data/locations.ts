@@ -30,7 +30,7 @@ export const allLocations: LocationData[] = [
     h1: "Loodgieter & Ontstoppingsdienst Hasselt — 24/7 Riool Verstopt?",
     metaTitle: "Ontstoppingsdienst Hasselt 24/7 | Riory",
     metaDescription: "Loodgieter nodig in Hasselt? Riory lost elk rioolprobleem op — ontstoppingsdienst, septische put ledigen & camera-inspectie. ✓ 24/7 ✓ Kermt & Kuringen ✓ Vaste prijs. Bel nu!",
-    intro: "Loodgieter nodig in Hasselt? Of uw riool is verstopt, uw septische put loopt over, of u rioollucht heeft in huis — Riory is uw lokale loodgieter en ontstoppingsdienst in Hasselt, 24/7 bereikbaar, doorgaans binnen 1 à 2 uur ter plaatse. Wij werken dagelijks in heel Hasselt en alle deelgemeenten: Kermt, Kuringen, Stevoort, Wimmertingen en Sint-Lambrechts-Herk. Of het nu gaat om een verstopte WC in een appartement in het centrum, een trage gootsteen in een rijhuis in Kermt, rioollucht in een kelder in Kuringen, of het ledigen van een septische put in het buitengebied rond Stevoort — wij kennen elk type woning en elk type rioolprobleem in Hasselt. Met professionele hogedrukapparatuur, camera-inspectie en zuigwagens lossen wij élk probleem op. Vaste prijzen, geen voorrijkosten in Hasselt, altijd netjes achtergelaten.",
+    intro: "Loodgieter nodig in Hasselt? Of uw riool is verstopt, uw septische put loopt over, of u rioollucht heeft in huis — Riory is uw lokale loodgieter en ontstoppingsdienst in Hasselt, 24/7 bereikbaar, doorgaans binnen 1 à 2 uur ter plaatse. Wij werken dagelijks in heel Hasselt en alle deelgemeenten: Kermt, Kuringen, Stevoort, Wimmertingen en Sint-Lambrechts-Herk. Of het nu gaat om een verstopte WC in een appartement in het centrum, een trage gootsteen in een rijhuis in Kermt, rioollucht in een kelder in Kuringen, of het ledigen van een septische put in het buitengebied rond Stevoort — wij kennen elk type woning en elk type rioolprobleem in Hasselt. Met professionele hogedrukapparatuur, camera-inspectie en zuigwagens lossen wij élk probleem op. Vaste prijzen met duidelijk gecommuniceerde rijkosten, altijd netjes achtergelaten.",
     services: [
       {
         title: "Ontstoppingsdienst Hasselt — WC, riool & afvoer",
@@ -60,7 +60,7 @@ export const allLocations: LocationData[] = [
       },
       {
         question: "Hoe snel kan de ontstoppingsdienst ter plaatse zijn in Hasselt?",
-        answer: "Bij spoedgevallen zoals een verstopte WC of wateroverlast streven wij ernaar om binnen 1 à 2 uur in Hasselt ter plaatse te zijn. Wij zijn 24/7 bereikbaar, ook in het weekend en op feestdagen. Geen voorrijkosten binnen Hasselt.",
+        answer: "Bij spoedgevallen zoals een verstopte WC of wateroverlast streven wij ernaar om binnen 1 à 2 uur in Hasselt ter plaatse te zijn. Wij zijn 24/7 bereikbaar, ook in het weekend en op feestdagen. Rijkosten worden altijd vooraf duidelijk meegedeeld.",
       },
       {
         question: "Wat kost een septische put ledigen in Hasselt?",
@@ -72,7 +72,7 @@ export const allLocations: LocationData[] = [
       },
       {
         question: "Bedient Riory ook de deelgemeenten van Hasselt?",
-        answer: "Absoluut. Wij bedienen heel Hasselt inclusief Kermt, Kuringen, Stevoort, Wimmertingen, Sint-Lambrechts-Herk en alle omliggende wijken. Geen voorrijkosten binnen de gemeente.",
+        answer: "Absoluut. Wij bedienen heel Hasselt inclusief Kermt, Kuringen, Stevoort, Wimmertingen, Sint-Lambrechts-Herk en alle omliggende wijken. Rijkosten worden altijd vooraf duidelijk meegedeeld.",
       },
     ],
     nearbyAreas: ["Genk", "Zonhoven", "Diepenbeek", "Herk-de-Stad", "Lummen"],
@@ -360,7 +360,7 @@ export const allLocations: LocationData[] = [
       { question: "Werkt Riory in alle dorpen van Riemst, ook de kleinere?", answer: "Ja. Riory bedient alle elf woonkernen van de gemeente: Vroenhoven, Kanne, Herderen, Millen, Vlijtingen, Val-Meer, Zichen-Zussen-Bolder, Genoelselderen, Membruggen, Heukelom en Riemst-centrum. Een dorp is nooit te klein of te ver." },
       { question: "Veel woningen in Riemst hebben een septische put — hoe vaak moet die geledigd worden?", answer: "Gemiddeld om de 2 tot 5 jaar, afhankelijk van het gebruik en de grootte van de put. In het landelijke buitengebied van Riemst — rond Membruggen, Val-Meer en Genoelselderen — komen septische putten vaker voor dan in de stad. Twijfelt u? Bel ons voor een inspectie." },
       { question: "Is een oude hoeve in Riemst lastiger voor ontstopping dan een nieuwbouwwoning?", answer: "Vaak wel. Veel hoeves en oudere woningen rond Herderen en Genoelselderen hebben rioleringen die decennia oud zijn, met meer kans op verzakkingen of wortelingroei. We werken daarom standaard met camera-inspectie als de oorzaak niet meteen duidelijk is." },
-      { question: "Wat kost een ontstopping of loodgieterswerk in Riemst?", answer: "Riory werkt met vaste, transparante tarieven in heel Riemst — geen voorrijkosten, geen verrassingen achteraf. Gebruik onze prijscalculator voor een snelle indicatie of vraag een offerte aan." },
+      { question: "Wat kost een ontstopping of loodgieterswerk in Riemst?", answer: "Riory werkt met vaste, transparante tarieven in heel Riemst — inclusief duidelijk gecommuniceerde rijkosten, geen verrassingen achteraf. Gebruik onze prijscalculator voor een snelle indicatie of vraag een offerte aan." },
     ],
     nearbyAreas: ["Bilzen", "Tongeren", "Hoeselt", "Maasmechelen", "Lanaken"],
   },
