@@ -98,7 +98,7 @@ export const allLocations: LocationData[] = [
     ],
     whyChooseUs: [
       "Snelle service: Onze monteurs zijn lokaal actief en meestal binnen 1 tot 2 uur ter plaatse.",
-      "Duidelijke tarieven: Geen verborgen kosten achteraf. U weet vooraf precies waar u aan toe bent.",
+      "Vaste tarieven, geen verrassingen op de factuur",
       "24/7 Bereikbaar: Ook 's avonds en in het weekend staan we voor u klaar bij spoedgevallen.",
       "Zonder kap- of breekwerk: Met onze moderne apparatuur lossen we 95% van de verstoppingen direct op."
     ],
