@@ -274,7 +274,7 @@ const LocatieDetail = () => {
                   `24/7 bereikbaar in ${location.city} — ook weekend en feestdagen`,
                   `Doorgaans binnen 1 à 2 uur ter plaatse in ${location.city}`,
                   `Transparante rijkosten, vooraf gecommuniceerd — ook in ${location.city} (postcode ${location.postalCode})`,
-                  "Vaste, transparante tarieven — geen verrassingen op de factuur",
+                  "Vaste tarieven, geen verrassingen op de factuur",
                   "Professionele hogedrukapparatuur, camera-inspectie en zuigwagens",
                   "Zonder breekwerk waar mogelijk, altijd netjes achtergelaten",
                   "Verzekerd, gecertificeerd en met garantie op de werken",
