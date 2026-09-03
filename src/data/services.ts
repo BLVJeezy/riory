@@ -310,7 +310,7 @@ export const allServices: Service[] = [
     ],
     metaTitle: "Doucheputje Verstopt Limburg | Loodgieter 24/7 | Riory",
     metaDescription:
-      "Doucheputje verstopt in Limburg? Riory verwijdert haren en zeeprest snel. 24/7 bereikbaar. ☎ +32 472 50 28 14",
+      "Doucheputje verstopt in Limburg? Riory verwijdert haren en zeepresten snel. 24/7 bereikbaar. ☎ +32 472 50 28 14",
     h2Title: "Doucheputje ontstoppen in Limburg",
     serviceType: "Doucheputje ontstoppen",
     faq: [
@@ -349,7 +349,7 @@ export const allServices: Service[] = [
       "Rapport met beelden en advies",
       "24/7 spoedontstopping in heel Limburg",
     ],
-    metaTitle: "Riool Verstopt Limburg | Spoedonttopping 24/7 | Riory",
+    metaTitle: "Riool Verstopt Limburg | Spoedontstopping 24/7 | Riory",
     metaDescription:
       "Riool verstopt in Limburg? Riory BV lost het op met hogedrukspuit en camera-inspectie. 24/7 bereikbaar. ☎ +32 472 50 28 14",
     h2Title: "Verstopt riool ontstoppen in Limburg — Riory's aanpak",
@@ -476,7 +476,7 @@ export const allServices: Service[] = [
     ],
     metaTitle: "Lekkage Opsporen Limburg | Zonder Breekwerk | Riory",
     metaDescription:
-      "Verborgen lek in Limburg? Riory opspoort lekkages zonder breekwerk — akoestisch, thermografisch of traceergas. ✓ 24/7 ✓ Rapport ✓ Vaste prijs. Bel nu!",
+      "Verborgen lek in Limburg? Riory spoort lekkages op zonder breekwerk — akoestisch, thermografisch of traceergas. ✓ 24/7 ✓ Rapport ✓ Vaste prijs. Bel nu!",
     h2Title: "Verborgen lekkage detecteren in Limburg — Riory's aanpak",
     serviceType: "Lekkage opsporen",
     faq: [
@@ -584,7 +584,7 @@ export const allServices: Service[] = [
     title: "Rioolvliegjes in Limburg — Oorzaak Opsporen & Oplossen | Riory",
     shortTitle: "Rioolvliegjes",
     description:
-      "Last van kleine vliegjes in badkamer, keuken of kelder in Limburg? Rioolvliegjes wijzen op een open rioolverbinding. Riory opspoort de bron en lost het op. 24/7 bereikbaar.",
+      "Last van kleine vliegjes in badkamer, keuken of kelder in Limburg? Rioolvliegjes wijzen op een open rioolverbinding. Riory spoort de bron op en lost het op. 24/7 bereikbaar.",
     image: refOntstoppingAfvoer,
     longDescription:
       "U ziet kleine, donkere vliegjes in de badkamer, rond de gootsteen of in de kelder. Ze zijn traag, komen steeds terug en chemische middelen helpen maar tijdelijk. Dit zijn bijna zeker rioolvliegjes — ook wel motmuggen of rioolmuggen genoemd. Ze leven en broeden in het organische slib dat zich ophoopt in verstopte of trage afvoeren, en ze komen naar buiten via open verbindingen of scheuren in uw riolering.\n\nIn Limburg zien we rioolvliegjes het vaakst in oudere woningen in Tongeren, Bilzen en Hasselt-centrum, waar afvoerleidingen al decennia oud zijn en kleine scheurtjes of open sifonverbindingen de plaag binnenlaten. Een chemische behandeling bestrijdt de volwassen vliegjes maar niet de broedplaats. Riory BV pakt het bij de bron aan: we opspoort de open verbinding of beschadigde leiding met camera-inspectie of rookdetectie, herstellen het defect, en reinigen de betrokken afvoeren grondig zodat de broedplaats verdwijnt.",
@@ -598,7 +598,7 @@ export const allServices: Service[] = [
     ],
     metaTitle: "Rioolvliegjes Limburg | Oorzaak Opsporen & Oplossen | Riory",
     metaDescription:
-      "Rioolvliegjes in badkamer of keuken in Limburg? Riory opspoort de bron en lost het permanent op. ✓ Camera-inspectie ✓ 24/7 ✓ Vaste prijs. Bel nu!",
+      "Rioolvliegjes in badkamer of keuken in Limburg? Riory spoort de bron op en lost het permanent op. ✓ Camera-inspectie ✓ 24/7 ✓ Vaste prijs. Bel nu!",
     h2Title: "Rioolvliegjes aanpakken in Limburg — permanent, niet tijdelijk",
     serviceType: "Rioolvliegjes bestrijden",
     faq: [
