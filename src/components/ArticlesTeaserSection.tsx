@@ -13,34 +13,42 @@ const ArticlesTeaserSection = () => {
   const trackRef = useRef<HTMLDivElement>(null);
 
   // Infinite loop on mobile: render three copies of the cards and keep the
-  // scroll position centred on the middle copy. Swiping past the last card
-  // seamlessly wraps back to the first, and vice-versa.
+  // scroll position centred on the middle copy. When a swipe carries the
+  // viewport into the first or third copy, we reposition (on scroll end) to
+  // the identical card in the middle copy — invisible because the content is
+  // the same. This makes swiping past the last card wrap to the first, and
+  // swiping before the first wrap to the last.
   useEffect(() => {
     const el = trackRef.current;
     if (!el) return;
-    let raf = 0;
     const setWidth = () => el.scrollWidth / 3 || 0;
     const init = () => {
       const w = setWidth();
       if (w && Math.abs(el.scrollLeft - w) > 1) el.scrollLeft = w;
     };
     init();
-    const onScroll = () => {
-      cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(() => {
-        const w = setWidth();
-        if (!w) return;
-        const x = el.scrollLeft;
-        if (x >= w * 2) el.scrollLeft = x - w;
-        else if (x <= 0) el.scrollLeft = x + w;
-      });
+    const recenter = () => {
+      const w = setWidth();
+      if (!w) return;
+      const x = el.scrollLeft;
+      if (x >= w * 2) el.scrollLeft = x - w;
+      else if (x < w) el.scrollLeft = x + w;
     };
+    // Prefer the native scrollend event; fall back to a debounce for browsers
+    // that don't fire it reliably.
+    let t: ReturnType<typeof setTimeout> | undefined;
+    const onScroll = () => {
+      if (t) clearTimeout(t);
+      t = setTimeout(recenter, 140);
+    };
+    el.addEventListener("scrollend", recenter, { passive: true });
     el.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", init);
     return () => {
+      el.removeEventListener("scrollend", recenter);
       el.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", init);
-      cancelAnimationFrame(raf);
+      if (t) clearTimeout(t);
     };
   }, []);
 
