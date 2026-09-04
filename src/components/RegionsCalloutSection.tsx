@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight, MapPin } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import { Button } from "@/components/ui/button";
+import hasseltImgAsset from "@/assets/stad-hasselt.jpg.asset.json";
 
 const RegionsCalloutSection = () => {
   const { t } = useTranslation();
@@ -17,6 +18,7 @@ const RegionsCalloutSection = () => {
         defaultValue: "Verstopte afvoer, riool of septische put in Hasselt? Wij zijn 24/7 snel ter plaatse.",
       }),
       cta: t("regionsCallout.hasseltCta", { defaultValue: "Bekijk Hasselt" }),
+      image: hasseltImgAsset.url,
     },
     {
       slug: "genk",
@@ -26,6 +28,7 @@ const RegionsCalloutSection = () => {
         defaultValue: "Van verstopte WC tot rioollucht in huis: in Genk staan wij dag en nacht voor u klaar.",
       }),
       cta: t("regionsCallout.genkCta", { defaultValue: "Bekijk Genk" }),
+      image: null as string | null,
     },
   ];
 
@@ -45,15 +48,18 @@ const RegionsCalloutSection = () => {
           {regions.map((region) => (
             <div
               key={region.slug}
-              className="rounded-2xl bg-surface border border-border p-6 md:p-8 text-center flex flex-col items-center"
+              className="relative rounded-2xl overflow-hidden border border-border text-center flex flex-col items-center"
+              style={region.image ? { backgroundImage: `url(${region.image})`, backgroundSize: "cover", backgroundPosition: "center" } : undefined}
             >
+              {region.image && <div className="absolute inset-0 bg-black/60" />}
+              <div className={`relative z-10 p-6 md:p-8 flex flex-col items-center ${region.image ? "" : "bg-surface"}`}>
               <div className="w-11 h-11 rounded-full bg-primary/10 flex items-center justify-center mb-4">
                 <MapPin className="w-5 h-5 text-primary" />
               </div>
-              <h3 className="text-lg md:text-xl font-heading font-bold text-foreground mb-2">
+              <h3 className={`text-lg md:text-xl font-heading font-bold mb-2 ${region.image ? "text-white" : "text-foreground"}`}>
                 {region.question}
               </h3>
-              <p className="text-sm text-muted-foreground font-body leading-relaxed mb-6 max-w-xs">
+              <p className={`text-sm font-body leading-relaxed mb-6 max-w-xs ${region.image ? "text-white/85" : "text-muted-foreground"}`}>
                 {region.text}
               </p>
               <Button variant="cta" asChild>
@@ -65,6 +71,7 @@ const RegionsCalloutSection = () => {
                   {region.cta} <ArrowRight className="w-4 h-4" />
                 </Link>
               </Button>
+              </div>
             </div>
           ))}
         </div>
