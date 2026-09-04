@@ -47,7 +47,7 @@ export const allArticles: Article[] = [
     title: "Uit alle hoeken van het land: vrijwilligers die meehielpen opruimen na noodweer",
     excerpt:
       "Na zware wateroverlast trokken vrijwilligers van overal naartoe om buren te helpen opruimen. Mensen moesten zich naar eigen zeggen bedwingen om de helpers niet te knuffelen — een mooi voorbeeld van solidariteit na een ramp.",
-    image: imgKelder,
+    image: vrijwilligersImgAsset.url,
     category: "Wateroverlast",
     date: "2025-08-05",
     readTime: "3 min",
