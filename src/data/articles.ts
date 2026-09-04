@@ -1,6 +1,6 @@
 import malafideImgAsset from "@/assets/malafide-loodgieter-factuur.png.asset.json";
 import vrijwilligersImgAsset from "@/assets/vrijwilligers-noodweer.png.asset.json";
-import imgRegenputAlt from "@/assets/refs/regenput-2.jpg";
+import heldenImgAsset from "@/assets/helden-van-hier.png.asset.json";
 
 export interface ArticleSource {
   label: string;
