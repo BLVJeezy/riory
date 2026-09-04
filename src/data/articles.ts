@@ -1,6 +1,7 @@
 import malafideImgAsset from "@/assets/malafide-loodgieter-factuur.png.asset.json";
 import vrijwilligersImgAsset from "@/assets/vrijwilligers-noodweer.png.asset.json";
 import heldenImgAsset from "@/assets/helden-van-hier.png.asset.json";
+import { assetUrl } from "@/lib/assetUrl";
 
 export interface ArticleSource {
   label: string;
@@ -26,7 +27,7 @@ export const allArticles: Article[] = [
     title: "Zo herken je een malafide loodgieter of ontstoppingsdienst",
     excerpt:
       "1.400 euro voor het ontstoppen van een toilet? Het Belang van Limburg berichtte over Limburgers die torenhoge facturen kregen van louche ontstoppingsdiensten. Zo herkent u een malafide loodgieter voor het te laat is.",
-    image: malafideImgAsset.url,
+    image: assetUrl(malafideImgAsset.url),
     category: "Consumeninfo",
     date: "2026-02-10",
     readTime: "4 min",
@@ -47,7 +48,7 @@ export const allArticles: Article[] = [
     title: "Uit alle hoeken van het land: vrijwilligers die meehielpen opruimen na noodweer",
     excerpt:
       "Na zware wateroverlast trokken vrijwilligers van overal naartoe om buren te helpen opruimen. Mensen moesten zich naar eigen zeggen bedwingen om de helpers niet te knuffelen — een mooi voorbeeld van solidariteit na een ramp.",
-    image: vrijwilligersImgAsset.url,
+    image: assetUrl(vrijwilligersImgAsset.url),
     category: "Wateroverlast",
     date: "2025-08-05",
     readTime: "3 min",
@@ -67,7 +68,7 @@ export const allArticles: Article[] = [
     title: "Helden van Hier: Helpende Handen — hoe Vlaanderen hielp na de overstromingen",
     excerpt:
       "In de VTM-special 'Helden van Hier: Helpende Handen' trokken tal van Vlamingen naar de getroffen gebieden om te helpen opruimen na de overstromingen. Verhalen die inspireren en tonen hoe groot de nood aan snelle hulp kan zijn.",
-    image: heldenImgAsset.url,
+    image: assetUrl(heldenImgAsset.url),
     category: "Community",
     date: "2025-08-19",
     readTime: "3 min",

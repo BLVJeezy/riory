@@ -5,6 +5,7 @@ import { useLanguage } from "@/i18n/LanguageProvider";
 import { Button } from "@/components/ui/button";
 import hasseltImgAsset from "@/assets/stad-hasselt.jpg.asset.json";
 import genkImgAsset from "@/assets/stad-genk.webp.asset.json";
+import { assetUrl } from "@/lib/assetUrl";
 
 const RegionsCalloutSection = () => {
   const { t } = useTranslation();
@@ -19,7 +20,7 @@ const RegionsCalloutSection = () => {
         defaultValue: "Verstopte afvoer, riool of septische put in Hasselt? Wij zijn 24/7 snel ter plaatse.",
       }),
       cta: t("regionsCallout.hasseltCta", { defaultValue: "Bekijk Hasselt" }),
-      image: hasseltImgAsset.url,
+      image: assetUrl(hasseltImgAsset.url),
     },
     {
       slug: "genk",
@@ -29,7 +30,7 @@ const RegionsCalloutSection = () => {
         defaultValue: "Van verstopte WC tot rioollucht in huis: in Genk staan wij dag en nacht voor u klaar.",
       }),
       cta: t("regionsCallout.genkCta", { defaultValue: "Bekijk Genk" }),
-      image: genkImgAsset.url,
+      image: assetUrl(genkImgAsset.url),
     },
   ];
 
