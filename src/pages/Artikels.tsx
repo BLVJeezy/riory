@@ -54,12 +54,13 @@ const Artikels = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="flex md:grid md:grid-cols-2 lg:grid-cols-3 gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory scroll-smooth -mx-4 px-4 md:mx-0 md:px-0 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {allArticles.map((article) => (
               <div
                 key={article.slug}
-                className="group rounded-xl overflow-hidden bg-card border border-border flex flex-col"
+                className="group rounded-xl overflow-hidden bg-card border border-border flex flex-col shrink-0 basis-[88%] snap-center md:basis-auto md:shrink"
               >
+
                 <Link
                   to={localizedPath(`/artikels/${article.slug}`)}
                   data-track-cta={`article_card_${article.slug}`}
