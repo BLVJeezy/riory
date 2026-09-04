@@ -27,14 +27,15 @@ const ArticlesTeaserSection = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6 max-w-4xl mx-auto mb-8">
+        <div className="flex sm:grid sm:grid-cols-3 gap-4 md:gap-6 max-w-4xl mx-auto mb-8 overflow-x-auto sm:overflow-visible snap-x snap-mandatory scroll-smooth -mx-4 px-4 sm:mx-0 sm:px-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {featured.map((article) => (
             <Link
               key={article.slug}
               to={localizedPath(`/artikels/${article.slug}`)}
               data-track-cta={`home_article_teaser_${article.slug}`}
-              className="group block"
+              className="group block shrink-0 basis-full snap-center sm:basis-auto sm:shrink"
             >
+
               <div className="relative aspect-[4/3] rounded-xl overflow-hidden mb-3">
                 <img
                   src={article.image}
