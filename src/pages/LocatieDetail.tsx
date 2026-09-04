@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import { allLocations } from "@/data/locations";
 import { allServices } from "@/data/services";
+import hasseltHeroAsset from "@/assets/stad-hasselt.jpg.asset.json";
 import rioryVanLocatie from "@/assets/riory-van-about.webp";
 import fotoOntstopping from "@/assets/refs/ontstopping-afvoerput-1.webp";
 import fotoCamera from "@/assets/service-camera-inspectie.webp";
