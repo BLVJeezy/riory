@@ -67,7 +67,7 @@ export const allArticles: Article[] = [
     title: "Helden van Hier: Helpende Handen — hoe Vlaanderen hielp na de overstromingen",
     excerpt:
       "In de VTM-special 'Helden van Hier: Helpende Handen' trokken tal van Vlamingen naar de getroffen gebieden om te helpen opruimen na de overstromingen. Verhalen die inspireren en tonen hoe groot de nood aan snelle hulp kan zijn.",
-    image: imgRegenputAlt,
+    image: heldenImgAsset.url,
     category: "Community",
     date: "2025-08-19",
     readTime: "3 min",
