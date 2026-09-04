@@ -1,4 +1,4 @@
-import imgOntstoppingAlt from "@/assets/service-ontstopping.jpg";
+import malafideImgAsset from "@/assets/malafide-loodgieter-factuur.png.asset.json";
 import imgKelder from "@/assets/refs/kelder-1.jpg";
 import imgRegenputAlt from "@/assets/refs/regenput-2.jpg";
 
@@ -26,7 +26,7 @@ export const allArticles: Article[] = [
     title: "Zo herken je een malafide loodgieter of ontstoppingsdienst",
     excerpt:
       "1.400 euro voor het ontstoppen van een toilet? Het Belang van Limburg berichtte over Limburgers die torenhoge facturen kregen van louche ontstoppingsdiensten. Zo herkent u een malafide loodgieter voor het te laat is.",
-    image: imgOntstoppingAlt,
+    image: malafideImgAsset.url,
     category: "Consumeninfo",
     date: "2026-02-10",
     readTime: "4 min",
