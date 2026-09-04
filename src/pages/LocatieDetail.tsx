@@ -22,6 +22,7 @@ import {
 import { allLocations } from "@/data/locations";
 import { allServices } from "@/data/services";
 import hasseltHeroAsset from "@/assets/stad-hasselt.jpg.asset.json";
+import genkHeroAsset from "@/assets/stad-genk.webp.asset.json";
 import rioryVanLocatie from "@/assets/riory-van-about.webp";
 import fotoOntstopping from "@/assets/refs/ontstopping-afvoerput-1.webp";
 import fotoCamera from "@/assets/service-camera-inspectie.webp";
@@ -182,9 +183,9 @@ const LocatieDetail = () => {
 
           <div
             className="relative rounded-xl overflow-hidden bg-charcoal p-6 md:p-12 mb-8 md:mb-12"
-            style={slug === "hasselt" ? { backgroundImage: `url(${hasseltHeroAsset.url})`, backgroundSize: "cover", backgroundPosition: "center" } : undefined}
+            style={slug === "hasselt" || slug === "genk" ? { backgroundImage: `url(${slug === "hasselt" ? hasseltHeroAsset.url : genkHeroAsset.url})`, backgroundSize: "cover", backgroundPosition: "center" } : undefined}
           >
-            <div className={`absolute inset-0 ${slug === "hasselt" ? "bg-black/70" : "bg-gradient-to-br from-primary/20 via-transparent to-transparent"}`} />
+            <div className={`absolute inset-0 ${slug === "hasselt" || slug === "genk" ? "bg-black/70" : "bg-gradient-to-br from-primary/20 via-transparent to-transparent"}`} />
             <div className="relative z-10">
               <div className="flex items-center gap-2 text-primary mb-3">
                 <MapPin className="w-5 h-5" />
