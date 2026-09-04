@@ -56,10 +56,10 @@ const RegionsCalloutSection = () => {
               <div className="w-11 h-11 rounded-full bg-primary/10 flex items-center justify-center mb-4">
                 <MapPin className="w-5 h-5 text-primary" />
               </div>
-              <h3 className="text-lg md:text-xl font-heading font-bold text-foreground mb-2">
+              <h3 className={`text-lg md:text-xl font-heading font-bold mb-2 ${region.image ? "text-white" : "text-foreground"}`}>
                 {region.question}
               </h3>
-              <p className="text-sm text-muted-foreground font-body leading-relaxed mb-6 max-w-xs">
+              <p className={`text-sm font-body leading-relaxed mb-6 max-w-xs ${region.image ? "text-white/85" : "text-muted-foreground"}`}>
                 {region.text}
               </p>
               <Button variant="cta" asChild>
@@ -71,6 +71,7 @@ const RegionsCalloutSection = () => {
                   {region.cta} <ArrowRight className="w-4 h-4" />
                 </Link>
               </Button>
+              </div>
             </div>
           ))}
         </div>
