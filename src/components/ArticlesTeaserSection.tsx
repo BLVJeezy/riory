@@ -67,7 +67,7 @@ const ArticlesTeaserSection = () => {
       key={key}
       to={localizedPath(`/artikels/${article.slug}`)}
       data-track-cta={`home_article_teaser_${article.slug}`}
-      className="group block shrink-0 basis-full snap-center sm:basis-auto sm:shrink"
+      className="group block shrink-0 basis-[88%] snap-center sm:basis-auto sm:shrink"
     >
       <div className="relative aspect-[4/3] rounded-xl overflow-hidden mb-3">
         <img
@@ -107,7 +107,7 @@ const ArticlesTeaserSection = () => {
         {/* Mobile: infinite horizontal loop */}
         <div
           ref={trackRef}
-          className="sm:hidden flex gap-4 mb-8 overflow-x-auto snap-x snap-mandatory -mx-4 px-4 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          className="sm:hidden flex gap-4 mb-8 overflow-x-auto overscroll-x-contain touch-pan-x snap-x snap-mandatory -mx-4 px-4 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden [-webkit-overflow-scrolling:touch]"
         >
           {loop.map((article, i) => renderCard(article, `m-${i}`))}
         </div>
