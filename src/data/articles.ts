@@ -1,5 +1,5 @@
 import malafideImgAsset from "@/assets/malafide-loodgieter-factuur.png.asset.json";
-import imgKelder from "@/assets/refs/kelder-1.jpg";
+import vrijwilligersImgAsset from "@/assets/vrijwilligers-noodweer.png.asset.json";
 import imgRegenputAlt from "@/assets/refs/regenput-2.jpg";
 
 export interface ArticleSource {
