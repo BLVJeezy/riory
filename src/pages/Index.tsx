@@ -13,7 +13,9 @@ import EmergencyBanner from "@/components/EmergencyBanner";
 
 import ServicesSection from "@/components/ServicesSection";
 import CommonProblemsSection from "@/components/CommonProblemsSection";
+import ArticlesTeaserSection from "@/components/ArticlesTeaserSection";
 import WhyChooseUs from "@/components/WhyChooseUs";
+import RegionsCalloutSection from "@/components/RegionsCalloutSection";
 import ProjectsSection from "@/components/ProjectsSection";
 import ReviewsSection from "@/components/ReviewsSection";
 import AppointmentForm from "@/components/AppointmentForm";
@@ -73,7 +75,9 @@ const Index = () => {
       <ServicesSection />
       <CommonProblemsSection />
       <AboutSection />
+      <ArticlesTeaserSection />
       <WhyChooseUs />
+      <RegionsCalloutSection />
       <ProjectsSection />
       <ReviewsSection />
 
