@@ -27,7 +27,7 @@ const ArticlesTeaserSection = () => {
           </p>
         </div>
 
-        <div className="flex sm:grid sm:grid-cols-3 gap-4 md:gap-6 max-w-4xl mx-auto mb-8 overflow-x-auto sm:overflow-visible snap-x snap-mandatory scroll-smooth -mx-4 px-4 sm:mx-0 sm:px-0 [scrollbar-width:none] [&::-webkit-scrollbar]{display:none}">
+        <div className="flex sm:grid sm:grid-cols-3 gap-4 md:gap-6 max-w-4xl mx-auto mb-8 overflow-x-auto sm:overflow-visible snap-x snap-mandatory scroll-smooth -mx-4 px-4 sm:mx-0 sm:px-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {featured.map((article) => (
             <Link
               key={article.slug}
