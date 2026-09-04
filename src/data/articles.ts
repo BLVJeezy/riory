@@ -1,4 +1,4 @@
-import imgOntstoppingAlt from "@/assets/service-ontstopping.jpg";
+import malafideImgAsset from "@/assets/malafide-loodgieter-factuur.png.asset.json";
 import imgKelder from "@/assets/refs/kelder-1.jpg";
 import imgRegenputAlt from "@/assets/refs/regenput-2.jpg";
 
