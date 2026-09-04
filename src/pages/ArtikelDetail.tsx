@@ -79,6 +79,20 @@ const ArtikelDetail = () => {
               ))}
             </div>
 
+            {article.source && (
+              <p className="mt-6 text-xs text-muted-foreground font-body">
+                {t("articlesPage.sourceLabel", { defaultValue: "Bron" })}:{" "}
+                <a
+                  href={article.source.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline hover:text-primary transition-colors"
+                >
+                  {article.source.label}
+                </a>
+              </p>
+            )}
+
             <div className="mt-12 rounded-2xl bg-gradient-to-br from-primary/15 via-primary/5 to-transparent border border-primary/20 p-6 md:p-8 text-center">
               <h2 className="text-xl md:text-2xl font-heading font-bold text-foreground mb-3">
                 {t("articlesPage.ctaTitle", { defaultValue: "Probleem waar u zelf niet uitraakt?" })}
