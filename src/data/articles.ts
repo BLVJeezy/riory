@@ -1,5 +1,5 @@
 import malafideImgAsset from "@/assets/malafide-loodgieter-factuur.png.asset.json";
-import imgKelder from "@/assets/refs/kelder-1.jpg";
+import vrijwilligersImgAsset from "@/assets/vrijwilligers-noodweer.png.asset.json";
 import imgRegenputAlt from "@/assets/refs/regenput-2.jpg";
 
 export interface ArticleSource {
@@ -47,7 +47,7 @@ export const allArticles: Article[] = [
     title: "Uit alle hoeken van het land: vrijwilligers die meehielpen opruimen na noodweer",
     excerpt:
       "Na zware wateroverlast trokken vrijwilligers van overal naartoe om buren te helpen opruimen. Mensen moesten zich naar eigen zeggen bedwingen om de helpers niet te knuffelen — een mooi voorbeeld van solidariteit na een ramp.",
-    image: imgKelder,
+    image: vrijwilligersImgAsset.url,
     category: "Wateroverlast",
     date: "2025-08-05",
     readTime: "3 min",
