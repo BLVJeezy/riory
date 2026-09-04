@@ -180,8 +180,11 @@ const LocatieDetail = () => {
             </Button>
           </div>
 
-          <div className="relative rounded-xl overflow-hidden bg-charcoal p-6 md:p-12 mb-8 md:mb-12">
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-transparent" />
+          <div
+            className="relative rounded-xl overflow-hidden bg-charcoal p-6 md:p-12 mb-8 md:mb-12"
+            style={slug === "hasselt" ? { backgroundImage: `url(${hasseltHeroAsset.url})`, backgroundSize: "cover", backgroundPosition: "center" } : undefined}
+          >
+            <div className={`absolute inset-0 ${slug === "hasselt" ? "bg-black/70" : "bg-gradient-to-br from-primary/20 via-transparent to-transparent"}`} />
             <div className="relative z-10">
               <div className="flex items-center gap-2 text-primary mb-3">
                 <MapPin className="w-5 h-5" />
