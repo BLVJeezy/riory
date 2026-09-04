@@ -13,6 +13,8 @@ import { captureAttribution, trackPhoneClick, trackCtaClick, GA_MEASUREMENT_ID }
 import Index from "./pages/Index.tsx";
 import Diensten from "./pages/Diensten.tsx";
 import DienstDetail from "./pages/DienstDetail.tsx";
+import Artikels from "./pages/Artikels.tsx";
+import ArtikelDetail from "./pages/ArtikelDetail.tsx";
 import ReferentieDetail from "./pages/ReferentieDetail.tsx";
 import DataProtection from "./pages/DataProtection.tsx";
 import PrivacyPolicy from "./pages/PrivacyPolicy.tsx";
@@ -97,6 +99,8 @@ const AppRoutes = () => (
     <Route path="index" element={<Index />} />
     <Route path="diensten" element={<Diensten />} />
     <Route path="diensten/:slug" element={<DienstDetail />} />
+    <Route path="artikels" element={<Artikels />} />
+    <Route path="artikels/:slug" element={<ArtikelDetail />} />
     <Route path="referenties/:slug" element={<ReferentieDetail />} />
     <Route path="data-protection" element={<DataProtection />} />
     <Route path="privacy-policy" element={<PrivacyPolicy />} />

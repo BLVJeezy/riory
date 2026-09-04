@@ -65,6 +65,7 @@ const Navbar = () => {
   const navLinks = [
     { label: t("nav.whyUs"), href: "#waarom-ons", isRoute: false },
     { label: t("nav.references"), href: "#projecten", isRoute: false },
+    { label: t("nav.articles", { defaultValue: "Artikels" }), href: localizedPath("/artikels"), isRoute: true },
   ];
 
   const handleAnchorClick = (e: React.MouseEvent, href: string) => {
