@@ -4,6 +4,7 @@ import { ArrowRight, MapPin } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import { Button } from "@/components/ui/button";
 import hasseltImgAsset from "@/assets/stad-hasselt.jpg.asset.json";
+import genkImgAsset from "@/assets/stad-genk.webp.asset.json";
 
 const RegionsCalloutSection = () => {
   const { t } = useTranslation();
@@ -28,7 +29,7 @@ const RegionsCalloutSection = () => {
         defaultValue: "Van verstopte WC tot rioollucht in huis: in Genk staan wij dag en nacht voor u klaar.",
       }),
       cta: t("regionsCallout.genkCta", { defaultValue: "Bekijk Genk" }),
-      image: null as string | null,
+      image: genkImgAsset.url,
     },
   ];
 
