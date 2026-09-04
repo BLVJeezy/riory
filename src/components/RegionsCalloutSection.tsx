@@ -48,8 +48,11 @@ const RegionsCalloutSection = () => {
           {regions.map((region) => (
             <div
               key={region.slug}
-              className="rounded-2xl bg-surface border border-border p-6 md:p-8 text-center flex flex-col items-center"
+              className="relative rounded-2xl overflow-hidden border border-border text-center flex flex-col items-center"
+              style={region.image ? { backgroundImage: `url(${region.image})`, backgroundSize: "cover", backgroundPosition: "center" } : undefined}
             >
+              {region.image && <div className="absolute inset-0 bg-black/60" />}
+              <div className={`relative z-10 p-6 md:p-8 flex flex-col items-center ${region.image ? "" : "bg-surface"}`}>
               <div className="w-11 h-11 rounded-full bg-primary/10 flex items-center justify-center mb-4">
                 <MapPin className="w-5 h-5 text-primary" />
               </div>
