@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import { ArrowLeft, ArrowRight, CalendarDays, Clock } from "lucide-react";
+import { ArrowLeft, ArrowRight, CalendarDays, Clock, ExternalLink } from "lucide-react";
 import { usePageView } from "@/hooks/usePageView";
 import { useDocumentMeta } from "@/hooks/useDocumentMeta";
 import { useLanguage } from "@/i18n/LanguageProvider";
@@ -56,46 +56,62 @@ const Artikels = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {allArticles.map((article) => (
-              <Link
+              <div
                 key={article.slug}
-                to={localizedPath(`/artikels/${article.slug}`)}
-                data-track-cta={`article_card_${article.slug}`}
                 className="group rounded-xl overflow-hidden bg-card border border-border flex flex-col"
               >
-                <div className="relative h-48 overflow-hidden">
-                  <img
-                    src={article.image}
-                    alt={article.title}
-                    loading="lazy"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <span className="absolute top-3 left-3 px-3 py-1 rounded-full bg-primary text-primary-foreground text-[10px] font-heading font-bold uppercase tracking-wider">
-                    {article.category}
-                  </span>
-                </div>
-                <div className="p-5 flex flex-col flex-1">
-                  <div className="flex items-center gap-3 text-[11px] text-muted-foreground font-body mb-2">
-                    <span className="inline-flex items-center gap-1">
-                      <CalendarDays className="w-3.5 h-3.5" />
-                      {formatDate(article.date)}
-                    </span>
-                    <span className="inline-flex items-center gap-1">
-                      <Clock className="w-3.5 h-3.5" />
-                      {article.readTime}
+                <Link
+                  to={localizedPath(`/artikels/${article.slug}`)}
+                  data-track-cta={`article_card_${article.slug}`}
+                  className="flex flex-col flex-1"
+                >
+                  <div className="relative h-48 overflow-hidden">
+                    <img
+                      src={article.image}
+                      alt={article.title}
+                      loading="lazy"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                    <span className="absolute top-3 left-3 px-3 py-1 rounded-full bg-primary text-primary-foreground text-[10px] font-heading font-bold uppercase tracking-wider">
+                      {article.category}
                     </span>
                   </div>
-                  <h2 className="text-base md:text-lg font-heading font-bold text-foreground mb-2 leading-snug group-hover:text-primary transition-colors">
-                    {article.title}
-                  </h2>
-                  <p className="text-sm text-muted-foreground font-body leading-relaxed mb-4 flex-1 line-clamp-3">
-                    {article.excerpt}
-                  </p>
-                  <span className="inline-flex items-center gap-1.5 text-xs font-heading font-semibold uppercase tracking-wider text-primary w-fit">
-                    {t("articlesPage.readMore", { defaultValue: "Lees meer" })}
-                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                  <div className="p-5 flex flex-col flex-1">
+                    <div className="flex items-center gap-3 text-[11px] text-muted-foreground font-body mb-2">
+                      <span className="inline-flex items-center gap-1">
+                        <CalendarDays className="w-3.5 h-3.5" />
+                        {formatDate(article.date)}
+                      </span>
+                      <span className="inline-flex items-center gap-1">
+                        <Clock className="w-3.5 h-3.5" />
+                        {article.readTime}
+                      </span>
+                    </div>
+                    <h2 className="text-base md:text-lg font-heading font-bold text-foreground mb-2 leading-snug group-hover:text-primary transition-colors">
+                      {article.title}
+                    </h2>
+                    <p className="text-sm text-muted-foreground font-body leading-relaxed mb-4 flex-1 line-clamp-3">
+                      {article.excerpt}
+                    </p>
+                    <span className="inline-flex items-center gap-1.5 text-xs font-heading font-semibold uppercase tracking-wider text-primary w-fit">
+                      {t("articlesPage.readMore", { defaultValue: "Lees meer" })}
+                      <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                    </span>
+                  </div>
+                </Link>
+                <a
+                  href={article.source.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-track-cta={`article_source_${article.slug}`}
+                  className="inline-flex items-center gap-1.5 px-5 py-3 border-t border-border text-[11px] text-muted-foreground font-body hover:text-primary transition-colors"
+                >
+                  <ExternalLink className="w-3 h-3 shrink-0" />
+                  <span className="truncate">
+                    {t("articlesPage.sourceLabel", { defaultValue: "Bron" })}: {article.source.label}
                   </span>
-                </div>
-              </Link>
+                </a>
+              </div>
             ))}
           </div>
 
