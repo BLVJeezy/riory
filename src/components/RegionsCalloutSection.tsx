@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight, MapPin } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import { Button } from "@/components/ui/button";
+import hasseltImgAsset from "@/assets/stad-hasselt.jpg.asset.json";
 
 const RegionsCalloutSection = () => {
   const { t } = useTranslation();
