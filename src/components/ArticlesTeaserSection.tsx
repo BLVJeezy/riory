@@ -107,7 +107,7 @@ const ArticlesTeaserSection = () => {
         {/* Mobile: infinite horizontal loop */}
         <div
           ref={trackRef}
-          className="sm:hidden flex gap-4 mb-8 overflow-x-auto snap-x snap-mandatory scroll-smooth -mx-4 px-4 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          className="sm:hidden flex gap-4 mb-8 overflow-x-auto snap-x snap-mandatory -mx-4 px-4 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
           {loop.map((article, i) => renderCard(article, `m-${i}`))}
         </div>
