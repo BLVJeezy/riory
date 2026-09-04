@@ -18,6 +18,7 @@ const RegionsCalloutSection = () => {
         defaultValue: "Verstopte afvoer, riool of septische put in Hasselt? Wij zijn 24/7 snel ter plaatse.",
       }),
       cta: t("regionsCallout.hasseltCta", { defaultValue: "Bekijk Hasselt" }),
+      image: hasseltImgAsset.url,
     },
     {
       slug: "genk",
@@ -27,6 +28,7 @@ const RegionsCalloutSection = () => {
         defaultValue: "Van verstopte WC tot rioollucht in huis: in Genk staan wij dag en nacht voor u klaar.",
       }),
       cta: t("regionsCallout.genkCta", { defaultValue: "Bekijk Genk" }),
+      image: null as string | null,
     },
   ];
 
