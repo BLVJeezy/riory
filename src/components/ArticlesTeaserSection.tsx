@@ -14,14 +14,22 @@ const ArticlesTeaserSection = () => {
 
   // Infinite loop on mobile: render three copies of the cards and keep the
   // scroll position centred on the middle copy. When a swipe carries the
-  // viewport into the first or third copy, we reposition (on scroll end) to
-  // the identical card in the middle copy — invisible because the content is
-  // the same. This makes swiping past the last card wrap to the first, and
-  // swiping before the first wrap to the last.
+  // viewport into the first or third copy, we reposition (once scrolling has
+  // fully stopped) to the identical card in the middle copy — invisible
+  // because the content is the same. This makes swiping past the last card
+  // wrap to the first, and swiping before the first wrap to the last.
   useEffect(() => {
     const el = trackRef.current;
     if (!el) return;
-    const setWidth = () => el.scrollWidth / 3 || 0;
+    // Width of one full set, measured from the actual card positions so it
+    // aligns exactly with the snap points (independent of flex gaps).
+    const setWidth = () => {
+      const cards = el.querySelectorAll("a");
+      if (cards.length >= 6) {
+        return (cards[3] as HTMLElement).offsetLeft - (cards[0] as HTMLElement).offsetLeft;
+      }
+      return el.scrollWidth / 3 || 0;
+    };
     const init = () => {
       const w = setWidth();
       if (w && Math.abs(el.scrollLeft - w) > 1) el.scrollLeft = w;
@@ -34,12 +42,12 @@ const ArticlesTeaserSection = () => {
       if (x >= w * 2) el.scrollLeft = x - w;
       else if (x < w) el.scrollLeft = x + w;
     };
-    // Prefer the native scrollend event; fall back to a debounce for browsers
-    // that don't fire it reliably.
+    // scrollend fires when scrolling (incl. momentum/snap) fully stops.
+    // A 500ms fallback covers browsers that don't emit scrollend reliably.
     let t: ReturnType<typeof setTimeout> | undefined;
     const onScroll = () => {
       if (t) clearTimeout(t);
-      t = setTimeout(recenter, 140);
+      t = setTimeout(recenter, 500);
     };
     el.addEventListener("scrollend", recenter, { passive: true });
     el.addEventListener("scroll", onScroll, { passive: true });
