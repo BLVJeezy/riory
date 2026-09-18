@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { Send, User, Mail, Phone, MapPin, FileText } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { sendLead } from "@/lib/attribution";
+import { withTimeout, writeWithRetry } from "@/lib/submitResilience";
 
 const diensten = [
   "Septische put ledigen",
@@ -50,7 +51,7 @@ const QuoteForm = () => {
       const nameTokens = (formData.naam || "").trim().split(/\s+/);
       const voornaam = nameTokens[0] || undefined;
       const achternaam = nameTokens.slice(1).join(" ") || undefined;
-      sendLead({
+      const leadPromise = sendLead({
         type: "quote",
         quoteId: id,
         name: formData.naam,
@@ -63,7 +64,8 @@ const QuoteForm = () => {
         beschrijving: formData.beschrijving || undefined,
       });
 
-      const { error } = await supabase.from("quote_requests").insert({
+      const dbOk = await writeWithRetry("quote_requests insert", () =>
+        supabase.from("quote_requests").insert({
         id,
         naam: formData.naam,
         email: formData.email,
@@ -79,11 +81,12 @@ const QuoteForm = () => {
         schatting_max: null,
         audio_url: null,
         photo_urls: null,
-      });
+        })
+      );
 
-      if (error) throw error;
-
-      await supabase.functions.invoke('send-transactional-email', {
+      // Notificatiemail gaat ALTIJD door — ook als de database-insert mislukte,
+      // zodat de aanvraag het kantoor hoe dan ook bereikt.
+      const notifyOk = supabase.functions.invoke('send-transactional-email', {
         body: {
           templateName: 'quote-notification',
           recipientEmail: formData.email,
@@ -97,7 +100,15 @@ const QuoteForm = () => {
             beschrijving: formData.beschrijving || undefined,
           },
         },
-      });
+      })
+        .then(({ error }) => {
+          if (error) console.error("Quote notification email failed:", error);
+          return !error;
+        })
+        .catch((err) => {
+          console.error("Quote notification email failed:", err);
+          return false;
+        });
 
       // Confirmation email to customer
       supabase.functions.invoke('send-transactional-email', {
@@ -112,6 +123,16 @@ const QuoteForm = () => {
           },
         },
       }).catch((err) => console.error("Customer confirmation email failed:", err));
+
+      // Geslaagd zodra de aanvraag via minstens één kanaal is aangekomen.
+      const delivered =
+        dbOk || (await withTimeout(leadPromise, 8000, false)) || (await notifyOk);
+      if (!delivered) {
+        throw new Error("Offerteaanvraag kon via geen enkel kanaal worden verstuurd");
+      }
+      if (!dbOk) {
+        console.warn(`Offerte ${id} niet in database opgeslagen; wel doorgestuurd via lead/e-mail.`);
+      }
 
       setSubmitResult("success");
       setFormData({ naam: "", email: "", telefoon: "", locatie: "", dienst: "", beschrijving: "" });
