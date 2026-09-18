@@ -5,14 +5,16 @@ import {
 
 const LOGO_URL = 'https://bqcxvvpawbwupornueww.supabase.co/storage/v1/object/public/email-assets/riory-logo.png'
 import type { TemplateEntry } from './registry.ts'
+import { FormSummary } from './form-summary.tsx'
 
 interface Props {
   voornaam?: string
   dienst?: string
   urgent?: boolean
+  [key: string]: any
 }
 
-const AfspraakConfirmation = ({ voornaam, dienst, urgent }: Props) => (
+const AfspraakConfirmation = ({ voornaam, dienst, urgent, ...rest }: Props) => (
   <Html lang="nl" dir="ltr">
     <Head />
     <Preview>Je afspraak-aanvraag bij Riory is goed ontvangen</Preview>
