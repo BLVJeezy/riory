@@ -539,13 +539,7 @@ const AppointmentForm = () => {
       // Notificatiemail wordt ALTIJD verstuurd — ook als de database-insert
       // mislukte. Zo bereikt de aanvraag hoe dan ook het kantoor.
       const klantReplyTo = klantType === "syndicus" ? syndicus.email : fact.email;
-      const notifyOk = supabase.functions.invoke("send-transactional-email", {
-        body: {
-          templateName: "appointment-notification",
-          recipientEmail: "afspraak@riory.be",
-          replyToEmail: klantReplyTo || undefined,
-          idempotencyKey: `appointment-${appointmentId}`,
-          templateData: {
+      const formEmailData = {
             dienst,
             urgent: urgent ?? false,
             klantType,
@@ -600,7 +594,15 @@ const AppointmentForm = () => {
               : undefined,
             gevondenVia: gevondenVia || undefined,
             gevondenDetail: gevondenDetail || undefined,
-          },
+      };
+
+      const notifyOk = supabase.functions.invoke("send-transactional-email", {
+        body: {
+          templateName: "appointment-notification",
+          recipientEmail: "afspraak@riory.be",
+          replyToEmail: klantReplyTo || undefined,
+          idempotencyKey: `appointment-${appointmentId}`,
+          templateData: formEmailData,
         },
       })
         .then(({ error }) => {
@@ -621,9 +623,8 @@ const AppointmentForm = () => {
             recipientEmail: effectiveFactEmail,
             idempotencyKey: `afspraak-confirm-${appointmentId}`,
             templateData: {
+              ...formEmailData,
               voornaam: customerVoornaam || undefined,
-              dienst,
-              urgent: urgent ?? false,
             },
           },
         }).catch((err) => console.error("Customer confirmation email failed:", err));

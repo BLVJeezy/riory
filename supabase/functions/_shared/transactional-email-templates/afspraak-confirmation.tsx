@@ -5,14 +5,16 @@ import {
 
 const LOGO_URL = 'https://bqcxvvpawbwupornueww.supabase.co/storage/v1/object/public/email-assets/riory-logo.png'
 import type { TemplateEntry } from './registry.ts'
+import { FormSummary } from './form-summary.tsx'
 
 interface Props {
   voornaam?: string
   dienst?: string
   urgent?: boolean
+  [key: string]: any
 }
 
-const AfspraakConfirmation = ({ voornaam, dienst, urgent }: Props) => (
+const AfspraakConfirmation = ({ voornaam, dienst, urgent, ...rest }: Props) => (
   <Html lang="nl" dir="ltr">
     <Head />
     <Preview>Je afspraak-aanvraag bij Riory is goed ontvangen</Preview>
@@ -35,6 +37,8 @@ const AfspraakConfirmation = ({ voornaam, dienst, urgent }: Props) => (
               ? 'Omdat je aanvraag urgent is, nemen we zo snel mogelijk contact met je op via telefoon. Voor noodgevallen kan je ons 24/7 bereiken op het nummer hieronder.'
               : 'Een van onze medewerkers neemt binnen 24 uur (op werkdagen) contact met je op om de afspraak te bevestigen.'}
           </Text>
+
+          <FormSummary {...rest} voornaam={voornaam} dienst={dienst} urgent={urgent} />
 
           <Section style={infoBox}>
             <Text style={infoTitle}>Heb je dringend hulp nodig?</Text>
@@ -67,7 +71,12 @@ export const template = {
   component: AfspraakConfirmation,
   subject: 'Je afspraak-aanvraag bij Riory is goed ontvangen',
   displayName: 'Afspraak bevestiging (klant)',
-  previewData: { voornaam: 'Jason', dienst: 'Camera inspectie riool', urgent: false },
+  previewData: {
+    voornaam: 'Jason', naam: 'Balongo', dienst: 'Camera inspectie riool', urgent: false,
+    klantType: 'particulier', email: 'jasonbalongo@gmail.com', telefoon: '0472502814',
+    straat: 'Dorpsstraat', huisnummer: '12', postcode: '3600', plaats: 'Genk',
+    beschrijving: 'Riool loopt traag leeg.',
+  },
 } satisfies TemplateEntry
 
 const main = { backgroundColor: '#ffffff', fontFamily: 'Arial, Helvetica, sans-serif', margin: 0, padding: 0 }

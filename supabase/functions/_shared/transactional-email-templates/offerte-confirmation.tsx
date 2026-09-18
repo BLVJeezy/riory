@@ -5,14 +5,16 @@ import {
 
 const LOGO_URL = 'https://bqcxvvpawbwupornueww.supabase.co/storage/v1/object/public/email-assets/riory-logo.png'
 import type { TemplateEntry } from './registry.ts'
+import { FormSummary } from './form-summary.tsx'
 
 interface Props {
   voornaam?: string
   dienst?: string
   beschrijving?: string
+  [key: string]: any
 }
 
-const OfferteConfirmation = ({ voornaam, dienst, beschrijving }: Props) => (
+const OfferteConfirmation = ({ voornaam, dienst, beschrijving, ...rest }: Props) => (
   <Html lang="nl" dir="ltr">
     <Head />
     <Preview>Je offerte-aanvraag bij Riory is goed ontvangen</Preview>
@@ -35,12 +37,7 @@ const OfferteConfirmation = ({ voornaam, dienst, beschrijving }: Props) => (
             Onze offerte-medewerker bekijkt je aanvraag en stuurt je binnen 1 à 2 werkdagen een vrijblijvende offerte op maat. Heb je in tussentijd vragen? Antwoord gerust op deze e-mail.
           </Text>
 
-          {beschrijving ? (
-            <Section style={summaryBox}>
-              <Text style={summaryTitle}>Samenvatting van je aanvraag</Text>
-              <Text style={summaryText}>{beschrijving}</Text>
-            </Section>
-          ) : null}
+          <FormSummary {...rest} voornaam={voornaam} dienst={dienst} beschrijving={beschrijving} />
 
           <Section style={infoBox}>
             <Text style={infoTitle}>Dringend hulp nodig?</Text>
