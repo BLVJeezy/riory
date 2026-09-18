@@ -69,7 +69,6 @@ export const buildSummary = (p: Any): Array<{ label: string; value: string }> =>
     const d = p.dakgootMeters
     add('Dakgoot meters', `1 verdiep: ${d.v1 || '0'}m · 2 verdiepen: ${d.v2 || '0'}m · 3 verdiepen: ${d.v3 || '0'}m`)
   }
-  add('Indicatieve prijs (calculator)', p.leadBronPrijs)
   add('Hoe gevonden', p.gevondenVia)
   add('Toelichting vindplaats', p.gevondenDetail)
   add('Omschrijving', p.beschrijving)
