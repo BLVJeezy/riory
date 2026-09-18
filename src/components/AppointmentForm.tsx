@@ -623,9 +623,8 @@ const AppointmentForm = () => {
             recipientEmail: effectiveFactEmail,
             idempotencyKey: `afspraak-confirm-${appointmentId}`,
             templateData: {
+              ...formEmailData,
               voornaam: customerVoornaam || undefined,
-              dienst,
-              urgent: urgent ?? false,
             },
           },
         }).catch((err) => console.error("Customer confirmation email failed:", err));

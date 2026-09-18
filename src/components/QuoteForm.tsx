@@ -118,6 +118,10 @@ const QuoteForm = () => {
           idempotencyKey: `offerte-confirm-${id}`,
           templateData: {
             voornaam: formData.naam?.split(' ')[0] || undefined,
+            naam: formData.naam?.split(' ').slice(1).join(' ') || undefined,
+            email: formData.email || undefined,
+            telefoon: formData.telefoon || undefined,
+            locatie: formData.locatie || undefined,
             dienst: formData.dienst || undefined,
             beschrijving: formData.beschrijving || undefined,
           },
