@@ -38,6 +38,8 @@ const AfspraakConfirmation = ({ voornaam, dienst, urgent, ...rest }: Props) => (
               : 'Een van onze medewerkers neemt binnen 24 uur (op werkdagen) contact met je op om de afspraak te bevestigen.'}
           </Text>
 
+          <FormSummary {...rest} voornaam={voornaam} dienst={dienst} urgent={urgent} />
+
           <Section style={infoBox}>
             <Text style={infoTitle}>Heb je dringend hulp nodig?</Text>
             <Text style={infoText}>
@@ -69,7 +71,12 @@ export const template = {
   component: AfspraakConfirmation,
   subject: 'Je afspraak-aanvraag bij Riory is goed ontvangen',
   displayName: 'Afspraak bevestiging (klant)',
-  previewData: { voornaam: 'Jason', dienst: 'Camera inspectie riool', urgent: false },
+  previewData: {
+    voornaam: 'Jason', naam: 'Balongo', dienst: 'Camera inspectie riool', urgent: false,
+    klantType: 'particulier', email: 'jasonbalongo@gmail.com', telefoon: '0472502814',
+    straat: 'Dorpsstraat', huisnummer: '12', postcode: '3600', plaats: 'Genk',
+    beschrijving: 'Riool loopt traag leeg.',
+  },
 } satisfies TemplateEntry
 
 const main = { backgroundColor: '#ffffff', fontFamily: 'Arial, Helvetica, sans-serif', margin: 0, padding: 0 }
