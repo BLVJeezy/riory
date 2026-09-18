@@ -594,7 +594,15 @@ const AppointmentForm = () => {
               : undefined,
             gevondenVia: gevondenVia || undefined,
             gevondenDetail: gevondenDetail || undefined,
-          },
+      };
+
+      const notifyOk = supabase.functions.invoke("send-transactional-email", {
+        body: {
+          templateName: "appointment-notification",
+          recipientEmail: "afspraak@riory.be",
+          replyToEmail: klantReplyTo || undefined,
+          idempotencyKey: `appointment-${appointmentId}`,
+          templateData: formEmailData,
         },
       })
         .then(({ error }) => {
