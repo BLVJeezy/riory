@@ -37,12 +37,7 @@ const OfferteConfirmation = ({ voornaam, dienst, beschrijving, ...rest }: Props)
             Onze offerte-medewerker bekijkt je aanvraag en stuurt je binnen 1 à 2 werkdagen een vrijblijvende offerte op maat. Heb je in tussentijd vragen? Antwoord gerust op deze e-mail.
           </Text>
 
-          {beschrijving ? (
-            <Section style={summaryBox}>
-              <Text style={summaryTitle}>Samenvatting van je aanvraag</Text>
-              <Text style={summaryText}>{beschrijving}</Text>
-            </Section>
-          ) : null}
+          <FormSummary {...rest} voornaam={voornaam} dienst={dienst} beschrijving={beschrijving} />
 
           <Section style={infoBox}>
             <Text style={infoTitle}>Dringend hulp nodig?</Text>
