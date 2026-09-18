@@ -10,6 +10,8 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Send, User, Mail, Phone, MapPin, FileText } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { sendLead } from "@/lib/attribution";
+import { withTimeout, writeWithRetry } from "@/lib/submitResilience";
 
 const diensten = [
   "Septische put ledigen",
@@ -53,21 +55,39 @@ const QuoteFormDialog = ({ open, onOpenChange, preselectedDienst }: QuoteFormDia
 
     try {
       const id = crypto.randomUUID();
-      const { error } = await supabase.from("quote_requests").insert({
-        id,
-        naam: formData.naam,
+
+      // Lead ALS EERSTE naar onze eigen pijplijn, vóór Supabase: faalt de
+      // database, dan is de aanvraag alsnog binnen.
+      const nameTokens = (formData.naam || "").trim().split(/\s+/);
+      const leadPromise = sendLead({
+        type: "quote",
+        quoteId: id,
+        name: formData.naam,
+        voornaam: nameTokens[0] || undefined,
+        naam: nameTokens.slice(1).join(" ") || undefined,
         email: formData.email,
-        telefoon: formData.telefoon || null,
-        locatie: formData.locatie || null,
-        dienst: formData.dienst || null,
-        beschrijving: formData.beschrijving || null,
-        audio_url: null,
-        photo_urls: null,
+        telefoon: formData.telefoon || undefined,
+        locatie: formData.locatie || undefined,
+        dienst: formData.dienst || undefined,
+        beschrijving: formData.beschrijving || undefined,
       });
 
-      if (error) throw error;
+      const dbOk = await writeWithRetry("quote_requests insert", () =>
+        supabase.from("quote_requests").insert({
+          id,
+          naam: formData.naam,
+          email: formData.email,
+          telefoon: formData.telefoon || null,
+          locatie: formData.locatie || null,
+          dienst: formData.dienst || null,
+          beschrijving: formData.beschrijving || null,
+          audio_url: null,
+          photo_urls: null,
+        })
+      );
 
-      await supabase.functions.invoke('send-transactional-email', {
+      // Notificatiemail gaat ALTIJD door — ook als de database-insert mislukte.
+      const notifyOk = supabase.functions.invoke('send-transactional-email', {
         body: {
           templateName: 'quote-notification',
           recipientEmail: formData.email,
@@ -81,7 +101,15 @@ const QuoteFormDialog = ({ open, onOpenChange, preselectedDienst }: QuoteFormDia
             beschrijving: formData.beschrijving || undefined,
           },
         },
-      });
+      })
+        .then(({ error }) => {
+          if (error) console.error("Quote notification email failed:", error);
+          return !error;
+        })
+        .catch((err) => {
+          console.error("Quote notification email failed:", err);
+          return false;
+        });
 
       // Confirmation email to customer
       supabase.functions.invoke('send-transactional-email', {
@@ -96,6 +124,16 @@ const QuoteFormDialog = ({ open, onOpenChange, preselectedDienst }: QuoteFormDia
           },
         },
       }).catch((err) => console.error("Customer confirmation email failed:", err));
+
+      // Geslaagd zodra de aanvraag via minstens één kanaal is aangekomen.
+      const delivered =
+        dbOk || (await withTimeout(leadPromise, 8000, false)) || (await notifyOk);
+      if (!delivered) {
+        throw new Error("Offerteaanvraag kon via geen enkel kanaal worden verstuurd");
+      }
+      if (!dbOk) {
+        console.warn(`Offerte ${id} niet in database opgeslagen; wel doorgestuurd via lead/e-mail.`);
+      }
 
       setSubmitResult("success");
       setFormData({ naam: "", email: "", telefoon: "", locatie: "", dienst: "", beschrijving: "" });

@@ -453,7 +453,10 @@ const LEAD_ENDPOINT = "https://riory.invenix.nl/api/lead";
 const PHONE_CLICK_ENDPOINT = "https://riory.invenix.nl/api/phone_click";
 const CALCULATOR_ENDPOINT = "https://riory.invenix.nl/api/calculator";
 
-export async function sendLead(formFields: Record<string, unknown>) {
+// Stuurt de lead naar onze eigen lead-pijplijn. Gooit NOOIT — geeft `true`
+// terug als de lead daadwerkelijk aanvaard is, zodat de formulieren kunnen
+// beslissen of een aanvraag ergens is aangekomen wanneer de database faalt.
+export async function sendLead(formFields: Record<string, unknown>): Promise<boolean> {
   try {
     const attribution = await buildSubmitAttribution();
     const last_touch = buildLastTouchAttribution();
@@ -468,7 +471,7 @@ export async function sendLead(formFields: Record<string, unknown>) {
       last_touch,
       touches,
     };
-    await fetch(LEAD_ENDPOINT, {
+    const res = await fetch(LEAD_ENDPOINT, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
@@ -480,8 +483,11 @@ export async function sendLead(formFields: Record<string, unknown>) {
         lead_type: String(formFields.type ?? "lead"),
       });
     }
+
+    return res.ok;
   } catch (err) {
-    if (import.meta.env.DEV) console.warn("sendLead failed:", err);
+    console.warn("sendLead failed:", err);
+    return false;
   }
 }
 

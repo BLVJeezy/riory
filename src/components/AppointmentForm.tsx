@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { sendLead } from "@/lib/attribution";
 import { getCalculatorSessionId } from "@/lib/calculatorTracking";
+import { withTimeout, writeWithRetry } from "@/lib/submitResilience";
 import {
   Check,
   ChevronRight,
@@ -453,7 +454,9 @@ const AppointmentForm = () => {
 
       // Stuur attribution-lead ALS EERSTE, vóór Supabase. Als Supabase later
       // faalt, hebben we de lead alsnog in onze pijplijn (geen verloren leads).
-      sendLead({
+      // We houden de belofte bij: onderaan vertelt ze of de aanvraag minstens
+      // via dit kanaal is aangekomen.
+      const leadPromise = sendLead({
         type: "appointment",
         appointmentId,
         dienst,
@@ -485,7 +488,8 @@ const AppointmentForm = () => {
         gevondenDetail: gevondenDetail || undefined,
       });
 
-      const { error } = await supabase.from("appointments").insert({
+      const dbOk = await writeWithRetry("appointments insert", () =>
+        supabase.from("appointments").insert({
         id: appointmentId,
         dienst,
         urgent: urgent ?? false,
@@ -529,12 +533,13 @@ const AppointmentForm = () => {
         lead_bron: leadBron,
         lead_bron_prijs: leadBronPrijs || null,
         calculator_session_id: getCalculatorSessionId(false),
-      });
-      if (error) throw error;
+        })
+      );
 
-      // Send notification email
+      // Notificatiemail wordt ALTIJD verstuurd — ook als de database-insert
+      // mislukte. Zo bereikt de aanvraag hoe dan ook het kantoor.
       const klantReplyTo = klantType === "syndicus" ? syndicus.email : fact.email;
-      supabase.functions.invoke("send-transactional-email", {
+      const notifyOk = supabase.functions.invoke("send-transactional-email", {
         body: {
           templateName: "appointment-notification",
           recipientEmail: "afspraak@riory.be",
@@ -597,7 +602,15 @@ const AppointmentForm = () => {
             gevondenDetail: gevondenDetail || undefined,
           },
         },
-      }).catch((err) => console.error("Email notification failed:", err));
+      })
+        .then(({ error }) => {
+          if (error) console.error("Email notification failed:", error);
+          return !error;
+        })
+        .catch((err) => {
+          console.error("Email notification failed:", err);
+          return false;
+        });
 
       // Send confirmation email to customer
       if (effectiveFactEmail) {
@@ -671,6 +684,20 @@ const AppointmentForm = () => {
 
       // sendLead is al bovenaan handleSubmit aangeroepen (vóór Supabase),
       // zodat een mislukte DB-write geen verloren lead oplevert.
+      //
+      // De aanvraag is geslaagd zodra ze via minstens één kanaal is
+      // aangekomen: database, lead-pijplijn of notificatiemail. Enkel als
+      // álles faalt tonen we de foutmelding.
+      const delivered =
+        dbOk || (await withTimeout(leadPromise, 8000, false)) || (await notifyOk);
+      if (!delivered) {
+        throw new Error("Aanvraag kon via geen enkel kanaal worden verstuurd");
+      }
+      if (!dbOk) {
+        console.warn(
+          `Afspraak ${appointmentId} niet in database opgeslagen; wel doorgestuurd via lead/e-mail.`,
+        );
+      }
 
       setSubmitResult("success");
       // Reset
