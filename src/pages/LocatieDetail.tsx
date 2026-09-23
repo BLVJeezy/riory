@@ -29,7 +29,7 @@ import fotoOntstopping from "@/assets/refs/ontstopping-afvoerput-1.webp";
 import fotoCamera from "@/assets/service-camera-inspectie.webp";
 import fotoSeptisch from "@/assets/refs/septisch-1.webp";
 import fotoRegenput from "@/assets/refs/regenput-1.webp";
-import { businessRatingSchema, SYMPTOM_SERVICE_SLUGS } from "@/data/reviews";
+import { SYMPTOM_SERVICE_SLUGS } from "@/data/reviews";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import {
   Accordion,
@@ -60,85 +60,28 @@ const LocatieDetail = () => {
   const localIntro = location ? t(`locationsData.${location.slug}.intro`, { defaultValue: location.intro }) : "";
   const localMetaTitle = location ? t(`locationsData.${location.slug}.metaTitle`, { defaultValue: location.metaTitle }) : undefined;
   const localMetaDesc = location ? t(`locationsData.${location.slug}.metaDescription`, { defaultValue: location.metaDescription }) : undefined;
-
-  const FR_REGION_SLUGS = new Set(["luik", "rocourt", "juprelle", "ans", "milmort", "vottem", "chenee"]);
-  const xDefaultLang = slug && FR_REGION_SLUGS.has(slug) ? "fr" : "nl";
+  const localRegion = location?.contentLanguage === "fr" ? "Province de Liège" : "Limburg";
 
   usePageView(`/regio/${slug}`);
-  useDocumentMeta(localMetaTitle, localMetaDesc, { xDefaultLang });
+  useDocumentMeta(localMetaTitle, localMetaDesc);
 
   useEffect(() => {
     if (!location) return;
 
+    const pagePath = window.location.pathname.replace(/\/+$/, "") || "/";
+    const pageUrl = `https://www.riory.be${pagePath}`;
     const script = document.createElement("script");
     script.type = "application/ld+json";
     script.id = `jsonld-location-${slug}`;
     script.textContent = JSON.stringify([
       {
         "@context": "https://schema.org",
-        "@type": "LocalBusiness",
-        name: "Riory BV",
-        "@id": "https://www.riory.be/#business",
-        url: "https://www.riory.be",
-        telephone: "+32472502814",
-        email: "info@riory.be",
-        description:
-          "Riory BV is uw loodgieter en ontstoppingsdienst in Limburg. 24/7 bereikbaar voor loodgieterwerk, rioolentstoppingen, camera-inspectie en septische put ledigen.",
-        address: {
-          "@type": "PostalAddress",
-          streetAddress: "Natveld 47",
-          addressLocality: "Bilzen-Hoeselt",
-          addressRegion: "Limburg",
-          postalCode: "3740",
-          addressCountry: "BE",
-        },
-        areaServed: [
-          "Bilzen", "Hasselt", "Genk", "Tongeren", "Hoeselt",
-          "Sint-Truiden", "Diepenbeek", "Riemst", "Wellen",
-          "Zutendaal", "Alken", "Borgloon", "Kortessem", "Vliermaal", "Vreren",
-        ],
-        openingHours: "Mo-Su 00:00-24:00",
-        openingHoursSpecification: [
-          {
-            "@type": "OpeningHoursSpecification",
-            dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-            opens: "00:00",
-            closes: "23:59",
-          },
-        ],
-        geo: {
-          "@type": "GeoCoordinates",
-          latitude: "50.8681",
-          longitude: "5.5134",
-        },
-        hasMap: "https://maps.google.com/?q=Riory+BV+Bilzen",
-        priceRange: "€€",
-        paymentAccepted: "Cash, Bancontact",
-        currenciesAccepted: "EUR",
-        ...businessRatingSchema(),
-        hasOfferCatalog: {
-          "@type": "OfferCatalog",
-          name: "Diensten Riory BV",
-          itemListElement: [
-            { "@type": "Offer", itemOffered: { "@type": "Service", name: "Loodgieter" } },
-            { "@type": "Offer", itemOffered: { "@type": "Service", name: "Ontstoppingsdienst" } },
-            { "@type": "Offer", itemOffered: { "@type": "Service", name: "Camera-inspectie riolering" } },
-            { "@type": "Offer", itemOffered: { "@type": "Service", name: "Septische put ledigen" } },
-            { "@type": "Offer", itemOffered: { "@type": "Service", name: "Rioolreiniging hogedruk" } },
-            { "@type": "Offer", itemOffered: { "@type": "Service", name: "Geurdetectie riolering" } },
-          ],
-        },
-      },
-      {
-        "@context": "https://schema.org",
         "@type": "Service",
+        "@id": `${pageUrl}#service`,
+        url: pageUrl,
         serviceType: ["Loodgieter", "Ontstoppingsdienst"],
         areaServed: { "@type": "City", name: location.city },
-        provider: {
-          "@type": "LocalBusiness",
-          name: "Riory BV",
-          "@id": "https://www.riory.be/#business",
-        },
+        provider: { "@id": "https://www.riory.be/#business" },
       },
       {
         "@context": "https://schema.org",
@@ -191,7 +134,7 @@ const LocatieDetail = () => {
               <div className="flex items-center gap-2 text-primary mb-3">
                 <MapPin className="w-5 h-5" />
                 <span className="font-heading font-semibold text-sm uppercase tracking-wider">
-                  {location.city}, Limburg
+                  {location.city}, {localRegion}
                 </span>
               </div>
               <h1 className="text-2xl md:text-4xl font-heading font-bold text-white uppercase leading-tight mb-4 md:mb-6">

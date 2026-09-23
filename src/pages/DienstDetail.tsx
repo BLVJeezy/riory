@@ -10,7 +10,6 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, CheckCircle, AlertTriangle, ArrowRight, Phone, Star, ShieldCheck, Clock } from "lucide-react";
 import { allServices } from "@/data/services";
 import { allLocations } from "@/data/locations";
-import { businessRatingSchema } from "@/data/reviews";
 import { referenceCategories } from "@/data/references";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import {
@@ -36,6 +35,7 @@ const DienstDetail = () => {
 
   const localTitle = service ? t(`servicesData.${service.slug}.title`, { defaultValue: service.title }) : "";
   const localLong = service ? t(`servicesData.${service.slug}.longDescription`, { defaultValue: service.longDescription }) : "";
+  const localDescription = service ? t(`servicesData.${service.slug}.description`, { defaultValue: service.description }) : "";
   const localH2 = service ? t(`servicesData.${service.slug}.h2Title`, { defaultValue: service.h2Title }) : "";
   const localFeatures = service ? (t(`servicesData.${service.slug}.features`, { returnObjects: true, defaultValue: service.features }) as string[]) : [];
   const localMetaTitle = service ? t(`servicesData.${service.slug}.metaTitle`, { defaultValue: service.metaTitle }) : undefined;
@@ -51,9 +51,10 @@ const DienstDetail = () => {
   useEffect(() => {
     if (!service) return;
 
-    const PAGE_URL = `https://www.riory.be/diensten/${service.slug}`;
+    const pagePath = window.location.pathname.replace(/\/+$/, "") || "/";
+    const PAGE_URL = `https://www.riory.be${pagePath}`;
     const IMAGE_URL = `https://www.riory.be${service.image}`;
-    const serviceName = service.shortTitle || service.title;
+    const serviceName = localTitle;
     const serviceType = service.serviceType || serviceName;
     const imageAlt = `${serviceName} — Riory`;
 
@@ -98,25 +99,11 @@ const DienstDetail = () => {
       {
         "@context": "https://schema.org",
         "@type": "Service",
+        "@id": `${PAGE_URL}#service`,
         name: serviceName,
         serviceType,
-        description: service.description,
-        provider: {
-          "@type": "LocalBusiness",
-          name: "Riory BV",
-          telephone: "+32472502814",
-          email: "info@riory.be",
-          url: "https://www.riory.be",
-          address: {
-            "@type": "PostalAddress",
-            streetAddress: "Natveld 47",
-            postalCode: "3740",
-            addressLocality: "Bilzen-Hoeselt",
-            addressRegion: "Limburg",
-            addressCountry: "BE",
-          },
-          areaServed: ["Bilzen", "Hasselt", "Genk", "Tongeren", "Hoeselt"],
-        },
+        description: localDescription,
+        provider: { "@id": "https://www.riory.be/#business" },
         areaServed: [
           { "@type": "AdministrativeArea", name: "Limburg" },
           { "@type": "City", name: "Bilzen" },
@@ -127,20 +114,17 @@ const DienstDetail = () => {
         ],
         availableChannel: {
           "@type": "ServiceChannel",
+          serviceUrl: "https://www.riory.be/afspraak",
           servicePhone: "+32472502814",
           availableLanguage: ["nl", "fr", "en"],
         },
-        hoursAvailable: "Mo-Su 00:00-23:59",
+        hoursAvailable: {
+          "@type": "OpeningHoursSpecification",
+          dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+          opens: "00:00",
+          closes: "23:59",
+        },
         url: PAGE_URL,
-      },
-      {
-        "@context": "https://schema.org",
-        "@type": "LocalBusiness",
-        "@id": "https://www.riory.be/#business",
-        name: "Riory BV",
-        url: "https://www.riory.be",
-        telephone: "+32472502814",
-        ...businessRatingSchema(),
       },
     ];
 
@@ -172,7 +156,7 @@ const DienstDetail = () => {
         }
       });
     };
-  }, [service, localFaq]);
+  }, [service, localDescription, localFaq, localTitle]);
 
 
   if (!service) {

@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { usePageView } from "@/hooks/usePageView";
 import { useDocumentMeta } from "@/hooks/useDocumentMeta";
-import { businessRatingSchema } from "@/data/reviews";
 import { Link } from "react-router-dom";
 import { Calculator, ArrowRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
@@ -27,43 +26,37 @@ import Footer from "@/components/Footer";
 
 const Index = () => {
   const { t } = useTranslation();
-  const { localizedPath } = useLanguage();
+  const { lang, localizedPath } = useLanguage();
   usePageView("/");
   useDocumentMeta(
-    "Ontstoppingsdienst Limburg 24/7 | Riool & Afvoer Verstopt | Riory",
-    "Ontstoppingsdienst Limburg nodig? Riory is dé ontstoppingsdienst in Limburg — 24/7 bij verstopte afvoer, gootsteen, WC of riool in Bilzen, Hasselt, Genk & Tongeren. Bel nu!",
+    t("homeSeo.metaTitle"),
+    t("homeSeo.metaDescription"),
   );
 
-  // Speakable schema + AggregateRating/Review schema voor GBP ranking
+  // Speakable markup voor de belangrijkste samenvatting op de homepage.
   useEffect(() => {
+    const pagePath = lang === "nl" ? "/" : `/${lang}`;
+    const pageUrl = `https://www.riory.be${pagePath}`;
     const script = document.createElement("script");
     script.type = "application/ld+json";
-    script.id = "jsonld-home-speakable-reviews";
-    script.textContent = JSON.stringify([
-      {
-        "@context": "https://schema.org",
-        "@type": "WebPage",
-        url: "https://www.riory.be/",
-        speakable: {
-          "@type": "SpeakableSpecification",
-          cssSelector: ["h1", ".hero-description", ".cta-phone"],
-        },
+    script.id = "jsonld-home-speakable";
+    script.textContent = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "@id": `${pageUrl}#webpage`,
+      url: pageUrl,
+      inLanguage: lang === "nl" ? "nl-BE" : lang === "fr" ? "fr-BE" : "en",
+      isPartOf: { "@id": "https://www.riory.be/#website" },
+      speakable: {
+        "@type": "SpeakableSpecification",
+        cssSelector: ["h1", ".hero-description", ".cta-phone"],
       },
-      {
-        "@context": "https://schema.org",
-        "@type": "LocalBusiness",
-        "@id": "https://www.riory.be/#business",
-        name: "Riory BV",
-        url: "https://www.riory.be",
-        telephone: "+32472502814",
-        ...businessRatingSchema(),
-      },
-    ]);
+    });
     document.head.appendChild(script);
     return () => {
-      document.getElementById("jsonld-home-speakable-reviews")?.remove();
+      document.getElementById("jsonld-home-speakable")?.remove();
     };
-  }, []);
+  }, [lang]);
 
 
   return (
@@ -115,20 +108,13 @@ const Index = () => {
             id="ontstoppingsdienst-limburg"
             className="font-heading text-2xl md:text-3xl font-bold text-foreground"
           >
-            Ontstoppingsdienst Limburg — als het fout loopt, zijn wij er
+            {t("homeSeo.heading")}
           </h2>
           <p className="text-muted-foreground leading-relaxed">
-            Na een hevige regenbui staat de kelder blank. De WC spoelt niet meer door op een zaterdagavond.
-            De gootsteen loopt al drie dagen traag weg en nu staat het water stil. Dat zijn de momenten
-            waarop mensen in Hasselt, Genk, Tongeren, Bilzen en de rest van Limburg ons bellen — en wij
-            komen. Dag en nacht, ook in het weekend, ook op feestdagen.
+            {t("homeSeo.paragraph1")}
           </p>
           <p className="text-muted-foreground leading-relaxed">
-            Riory is een lokaal Limburgs bedrijf. Wij werken dagelijks in de regio en kennen het verschil
-            tussen een rioolprobleem in een Tongerse stadswoning met negentiende-eeuwse leidingen en een
-            verstopte septische put op een hoeve in Borgloon. Die lokale kennis betekent dat wij sneller
-            de juiste diagnose stellen — en u minder tijd en geld kwijt bent. Vaste prijzen, geen
-            verrassingen, altijd netjes achtergelaten.
+            {t("homeSeo.paragraph2")}
           </p>
         </div>
       </section>
@@ -140,4 +126,3 @@ const Index = () => {
 };
 
 export default Index;
-

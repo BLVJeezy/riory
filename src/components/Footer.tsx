@@ -102,9 +102,10 @@ const Footer = () => {
         </div>
 
         <div className="border-t border-primary-foreground/10 mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <p className="text-xs text-primary-foreground/30 font-body">
-            © {new Date().getFullYear()} RIORY. {t("footer.rights")}
-          </p>
+          <div className="text-xs text-primary-foreground/30 font-body text-center sm:text-left">
+            <p>© {new Date().getFullYear()} RIORY. {t("footer.rights")}</p>
+            <p>Riory BV · BE 0840.931.404 · Natveld 47, 3740 Bilzen-Hoeselt</p>
+          </div>
           <div className="flex flex-wrap gap-x-4 gap-y-1">
             <Link to={localizedPath("/data-protection")} className="text-xs text-primary-foreground/30 hover:text-primary transition-colors font-body">{t("footer.dataProtection")}</Link>
             <Link to={localizedPath("/privacy-policy")} className="text-xs text-primary-foreground/30 hover:text-primary transition-colors font-body">{t("footer.privacy")}</Link>

@@ -20,13 +20,18 @@ interface Props {
 }
 
 const LanguageSwitcher = ({ variant = "navbar", textClassName }: Props) => {
-  const { lang, setLang } = useLanguage();
-  const current = langs.find((l) => l.code === lang) ?? langs[0];
+  const { lang, setLang, availableLanguages } = useLanguage();
+  const availableLangs = langs.filter(({ code }) => availableLanguages.includes(code));
+  const current = availableLangs.find((l) => l.code === lang) ?? availableLangs[0] ?? langs[0];
+
+  // Hide a self-only selector. On a legacy prefixed URL, keep the sole
+  // canonical language visible so the visitor can leave the non-equivalent URL.
+  if (availableLangs.length === 1 && availableLangs[0].code === lang) return null;
 
   if (variant === "mobile") {
     return (
       <div className="flex items-center gap-2 px-5 py-3">
-        {langs.map((l) => (
+        {availableLangs.map((l) => (
           <button
             key={l.code}
             onClick={() => setLang(l.code)}
@@ -50,7 +55,7 @@ const LanguageSwitcher = ({ variant = "navbar", textClassName }: Props) => {
         {current.short}
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="min-w-[140px]">
-        {langs.map((l) => (
+        {availableLangs.map((l) => (
           <DropdownMenuItem
             key={l.code}
             onClick={() => setLang(l.code)}

@@ -29,7 +29,7 @@ const Gebruiksvoorwaarden = () => {
           </h1>
 
           <div className="prose prose-sm md:prose-base max-w-none text-foreground/80 font-body space-y-6">
-            <p>Het gebruik van de website van www.riory.be (de "Website") is onderworpen aan de hierna opgenomen gebruiksvoorwaarden. Het gebruik van de website geldt als aanvaarding van deze voorwaarden. De Website behoort toe aan Riory bv, met maatschappelijke zetel te Toekomststraat 19 3740 Bilzen en met ondernemingsnummer BE 0840.931.404.</p>
+            <p>Het gebruik van de website van www.riory.be (de "Website") is onderworpen aan de hierna opgenomen gebruiksvoorwaarden. Het gebruik van de website geldt als aanvaarding van deze voorwaarden. De Website behoort toe aan Riory bv, met maatschappelijke zetel te Natveld 47, 3740 Bilzen-Hoeselt en met ondernemingsnummer BE 0840.931.404.</p>
 
             <h2 className="text-lg font-heading font-bold text-foreground">Gebruik van de Website</h2>
             <p>Wij besteden veel aandacht aan onze Website. Ondanks deze inspanningen kunnen wij niet garanderen dat de informatie op de Website volledig juist, nauwkeurig en actueel is. Deze gegevens kunnen dus enkel worden gebruikt als algemene informatie. Evenmin kunnen wij aansprakelijk gesteld worden voor (on)rechtstreekse schade die ontstaat uit het gebruik van de Website. De Website kan bestanden van derden of hyperlinks naar websites van derden bevatten. Onze Onderneming is hiervoor in geen enkel geval aansprakelijk.</p>

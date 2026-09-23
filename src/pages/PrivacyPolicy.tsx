@@ -31,12 +31,12 @@ const PrivacyPolicy = () => {
             Privacy Policy
           </h1>
           <p className="text-sm text-muted-foreground font-body mb-8">
-            Laatste update op 27/05/2026
+            Laatste update op 23/09/2026
           </p>
 
           <div className="prose prose-sm md:prose-base max-w-none text-foreground/80 font-body space-y-6">
             <p>
-              Riory bv, Toekomststraat 19, 3740 Bilzen — KBO BE 0840.931.404 —
+              Riory bv, Natveld 47, 3740 Bilzen-Hoeselt — KBO BE 0840.931.404 —
               info@riory.be — verwerkt persoonsgegevens conform de Algemene
               Verordening Gegevensbescherming (GDPR) en de Belgische
               privacywetgeving.

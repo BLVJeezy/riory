@@ -1,6 +1,10 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { getLangFromPath, stripLangPrefix, type Language } from "@/i18n/config";
+import { getLangFromPath, type Language } from "@/i18n/config";
+import {
+  getCanonicalLocalizedPath,
+  getLocalizedRoutes,
+} from "@/i18n/routeLocalization";
 
 const DEFAULT_TITLES: Record<Language, string> = {
   nl: "Ontstopping & Rioolservice Limburg 24/7 | Riory Bilzen",
@@ -30,19 +34,24 @@ const setOrCreateLink = (rel: string, href: string, hreflang?: string) => {
     if (hreflang) link.setAttribute("hreflang", hreflang);
     document.head.appendChild(link);
   }
+  link.dataset.rioryManaged = "true";
   link.setAttribute("href", href);
+};
+
+const removeHreflangLinks = () => {
+  document
+    .querySelectorAll('link[rel="alternate"][hreflang]')
+    .forEach((link) => link.remove());
 };
 
 export const useDocumentMeta = (
   title?: string,
   description?: string,
-  options?: { xDefaultLang?: Language },
 ) => {
   const location = useLocation();
 
   useEffect(() => {
     const lang = getLangFromPath(location.pathname);
-    const basePath = stripLangPrefix(location.pathname);
 
     const prevTitle = document.title;
     const metaDesc = document.querySelector('meta[name="description"]');
@@ -52,7 +61,8 @@ export const useDocumentMeta = (
     const finalDesc = description || DEFAULT_DESCRIPTIONS[lang];
     // Strip trailing slash (except homepage) and ignore query params/UTM
     const cleanPath = window.location.pathname.replace(/\/+$/, "") || "/";
-    const canonicalUrl = `${SITE_URL}${cleanPath}`;
+    const canonicalPath = getCanonicalLocalizedPath(cleanPath) ?? cleanPath;
+    const canonicalUrl = `${SITE_URL}${canonicalPath}`;
 
     document.title = finalTitle;
     if (metaDesc) metaDesc.setAttribute("content", finalDesc);
@@ -66,24 +76,23 @@ export const useDocumentMeta = (
 
     setOrCreateLink("canonical", canonicalUrl);
 
-    // hreflang alternates — region-targeted for BE markets
-    const nlUrl = `${SITE_URL}${basePath}`;
-    const enUrl = `${SITE_URL}${basePath === "/" ? "/en" : `/en${basePath}`}`;
-    const frUrl = `${SITE_URL}${basePath === "/" ? "/fr" : `/fr${basePath}`}`;
-    setOrCreateLink("alternate", nlUrl, "nl-BE");
-    setOrCreateLink("alternate", nlUrl, "nl");
-    setOrCreateLink("alternate", frUrl, "fr-BE");
-    setOrCreateLink("alternate", frUrl, "fr");
-    setOrCreateLink("alternate", enUrl, "en");
+    // Only advertise complete equivalent pages. Single-language pages do not
+    // need a self-only hreflang annotation.
+    removeHreflangLinks();
+    const localizedRoutes = getLocalizedRoutes(cleanPath);
+    if (localizedRoutes.length > 1) {
+      localizedRoutes.forEach(({ language, path }) => {
+        const hreflang = language === "nl" ? "nl-BE" : language === "fr" ? "fr-BE" : "en";
+        setOrCreateLink("alternate", `${SITE_URL}${path}`, hreflang);
+      });
 
-    // x-default: NL by default; pages can override (e.g. Liège-region → FR)
-    const xDefault =
-      options?.xDefaultLang === "fr" ? frUrl : options?.xDefaultLang === "en" ? enUrl : nlUrl;
-    setOrCreateLink("alternate", xDefault, "x-default");
+      const defaultRoute = localizedRoutes.find(({ language }) => language === "nl") ?? localizedRoutes[0];
+      setOrCreateLink("alternate", `${SITE_URL}${defaultRoute.path}`, "x-default");
+    }
 
     return () => {
       document.title = prevTitle;
       if (metaDesc) metaDesc.setAttribute("content", prevDesc);
     };
-  }, [title, description, location.pathname, options?.xDefaultLang]);
+  }, [title, description, location.pathname]);
 };
