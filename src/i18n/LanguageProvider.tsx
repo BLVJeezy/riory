@@ -1,12 +1,14 @@
 import { createContext, useContext, useEffect, useMemo } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { getLangFromPath, stripLangPrefix, withLangPrefix, type Language } from "./config";
+import { getLangFromPath, withLangPrefix, type Language } from "./config";
+import { getLocalizedPath, getLocalizedRoutes } from "./routeLocalization";
 
 interface LanguageContextValue {
   lang: Language;
   setLang: (lang: Language) => void;
   localizedPath: (path: string) => string;
+  availableLanguages: Language[];
 }
 
 const LanguageContext = createContext<LanguageContextValue | undefined>(undefined);
@@ -17,6 +19,10 @@ export const LanguageProvider = ({ children }: { children: React.ReactNode }) =>
   const navigate = useNavigate();
 
   const lang = useMemo(() => getLangFromPath(location.pathname), [location.pathname]);
+  const availableLanguages = useMemo(() => {
+    const routes = getLocalizedRoutes(location.pathname);
+    return routes.length > 0 ? routes.map(({ language }) => language) : [lang];
+  }, [lang, location.pathname]);
 
   useEffect(() => {
     if (i18n.language !== lang) {
@@ -26,15 +32,23 @@ export const LanguageProvider = ({ children }: { children: React.ReactNode }) =>
   }, [lang, i18n]);
 
   const setLang = (newLang: Language) => {
-    const basePath = stripLangPrefix(location.pathname);
-    const newPath = withLangPrefix(basePath, newLang) + location.search + location.hash;
+    const localizedRoute = getLocalizedPath(location.pathname, newLang);
+    if (!localizedRoute) return;
+    const newPath = localizedRoute + location.search + location.hash;
     navigate(newPath);
   };
 
-  const localizedPath = (path: string) => withLangPrefix(path, lang);
+  const localizedPath = (path: string) => {
+    const sameLanguagePath = getLocalizedPath(path, lang);
+    if (sameLanguagePath) return sameLanguagePath;
+
+    // A single-language destination should always point to its canonical path.
+    const canonicalPath = getLocalizedRoutes(path)[0]?.path;
+    return canonicalPath ?? withLangPrefix(path, lang);
+  };
 
   return (
-    <LanguageContext.Provider value={{ lang, setLang, localizedPath }}>
+    <LanguageContext.Provider value={{ lang, setLang, localizedPath, availableLanguages }}>
       {children}
     </LanguageContext.Provider>
   );

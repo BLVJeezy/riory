@@ -30,13 +30,13 @@ const DataProtection = () => {
 
           <div className="prose prose-sm md:prose-base max-w-none text-foreground/80 font-body space-y-6">
             <h2 className="text-lg font-heading font-bold text-foreground">1. Inleiding</h2>
-            <p>Riory bv met maatschappelijke zetel te Toekomststraat 19 3740 te Bilzen en ingeschreven in de Kruispuntbank van Ondernemingen met ondernemingsnummer BE 0840.931.404 hecht veel belang aan een veilige, transparante en vertrouwelijke verzameling en verwerking van uw persoonsgegevens. In het bijzonder willen wij de gegevens van o.a. onze klanten, onderaannemers en leveranciers beschermen tegen onder meer verlies, lekken, fouten, onterechte toegangen of onrechtmatige verwerkingen. Wij willen u door middel van deze Data Protection Notice informeren over de verzameling en verwerking van uw persoonsgegevens.</p>
+            <p>Riory bv, met maatschappelijke zetel te Natveld 47, 3740 Bilzen-Hoeselt en ingeschreven in de Kruispuntbank van Ondernemingen met ondernemingsnummer BE 0840.931.404, hecht veel belang aan een veilige, transparante en vertrouwelijke verzameling en verwerking van uw persoonsgegevens. In het bijzonder willen wij de gegevens van o.a. onze klanten, onderaannemers en leveranciers beschermen tegen onder meer verlies, lekken, fouten, onterechte toegangen of onrechtmatige verwerkingen. Wij willen u door middel van deze Data Protection Notice informeren over de verzameling en verwerking van uw persoonsgegevens.</p>
 
             <h2 className="text-lg font-heading font-bold text-foreground">2. Toepassingsgebied</h2>
             <p>Deze Data Protection Notice heeft betrekking op alle diensten die door ons worden verstrekt en in het algemeen op alle activiteiten die wij uitvoeren.</p>
 
             <h2 className="text-lg font-heading font-bold text-foreground">3. Verwerkingsverantwoordelijke</h2>
-            <p>Riory bv, met maatschappelijke zetel te Toekomststraat 19 3740 te Bilzen en met ondernemingsnummer BE0774.844.116 is de verwerkingsverantwoordelijke van uw persoonsgegevens. Bij de verzameling en verwerking van uw persoonsgegevens respecteren wij de Belgische regelgeving inzake bescherming van persoonsgegevens, evenals de Algemene Verordening Gegevensbescherming ("GDPR") vanaf haar inwerkingtreding op 25 mei 2018.</p>
+            <p>Riory bv, met maatschappelijke zetel te Natveld 47, 3740 Bilzen-Hoeselt en met ondernemingsnummer BE 0840.931.404, is de verwerkingsverantwoordelijke van uw persoonsgegevens. Bij de verzameling en verwerking van uw persoonsgegevens respecteren wij de Belgische regelgeving inzake bescherming van persoonsgegevens, evenals de Algemene Verordening Gegevensbescherming ("GDPR") vanaf haar inwerkingtreding op 25 mei 2018.</p>
 
             <h2 className="text-lg font-heading font-bold text-foreground">4. Persoonsgegevens</h2>
             <p>Naargelang uw activiteiten en uw relatie tot onze onderneming, deelt u ons de volgende persoonsgegevens mee: uw identiteits- en contactgegevens (naam, aanspreektitel, adres, e-mail-adres, telefoon- en gsm-nummer). U bent niet verplicht om uw persoonsgegevens mee te delen, maar u begrijpt dat het verlenen van bepaalde diensten of het samenwerken onmogelijk wordt wanneer u niet instemt met de verzameling en verwerking eraan.</p>
@@ -75,7 +75,7 @@ const DataProtection = () => {
             <p>Met het oog op de verwerking van uw persoonsgegevens, verlenen wij toegang tot uw persoonsgegevens aan onze werknemers, medewerkers en aangestelden. Wij garanderen een gelijkaardig niveau van bescherming.</p>
 
             <h2 className="text-lg font-heading font-bold text-foreground">11. Nog vragen?</h2>
-            <p>Indien u verdere vragen of opmerkingen heeft, kan u contact opnemen met Riory bv per post naar Toekomststraat 19 3740 te Bilzen of per e-mail aan <a href="mailto:info@riory.be" className="text-primary hover:underline">info@riory.be</a>.</p>
+            <p>Indien u verdere vragen of opmerkingen heeft, kan u contact opnemen met Riory bv per post naar Natveld 47, 3740 Bilzen-Hoeselt of per e-mail aan <a href="mailto:info@riory.be" className="text-primary hover:underline">info@riory.be</a>.</p>
           </div>
         </div>
       </section>

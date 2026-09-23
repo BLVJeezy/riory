@@ -1,5 +1,7 @@
 export interface LocationData {
   slug: string;
+  /** The language in which this location page has original, complete content. */
+  contentLanguage: "nl" | "fr";
   city: string;
   postalCode: string;
   h1: string;
@@ -25,6 +27,7 @@ export interface LocationData {
 export const allLocations: LocationData[] = [
   {
     slug: "hasselt",
+    contentLanguage: "nl",
     city: "Hasselt",
     postalCode: "3500",
     h1: "Loodgieter & Ontstoppingsdienst Hasselt — 24/7 Riool Verstopt?",
@@ -79,6 +82,7 @@ export const allLocations: LocationData[] = [
   },
   {
     slug: "genk",
+    contentLanguage: "nl",
     city: "Genk",
     postalCode: "3600",
     h1: "Ontstoppingsdienst Genk — 24/7 Riool Verstopt? Wij Zijn er",
@@ -154,6 +158,7 @@ export const allLocations: LocationData[] = [
   },
   {
     slug: "hoeselt",
+    contentLanguage: "nl",
     city: "Hoeselt",
     postalCode: "3730",
     h1: "Loodgieter & Ontstoppingsdienst Hoeselt — 24/7 Riory",
@@ -196,6 +201,7 @@ export const allLocations: LocationData[] = [
   },
   {
     slug: "tongeren",
+    contentLanguage: "nl",
     city: "Tongeren",
     postalCode: "3700",
     h1: "Loodgieter & Ontstoppingsdienst Tongeren — 24/7 Riory",
@@ -238,6 +244,7 @@ export const allLocations: LocationData[] = [
   },
   {
     slug: "maasmechelen",
+    contentLanguage: "nl",
     city: "Maasmechelen",
     postalCode: "3630",
     h1: "Loodgieter & Ontstoppingsdienst Maasmechelen — 24/7 Riory",
@@ -280,6 +287,7 @@ export const allLocations: LocationData[] = [
   },
   {
     slug: "sint-truiden",
+    contentLanguage: "nl",
     city: "Sint-Truiden",
     postalCode: "3800",
     h1: "Loodgieter & Ontstoppingsdienst Sint-Truiden — 24/7 Riory",
@@ -322,6 +330,7 @@ export const allLocations: LocationData[] = [
   },
   {
     slug: "diepenbeek",
+    contentLanguage: "nl",
     city: "Diepenbeek",
     postalCode: "3590",
     h1: "Loodgieter & Ontstoppingsdienst Diepenbeek — 24/7 Riory",
@@ -343,6 +352,7 @@ export const allLocations: LocationData[] = [
   },
   {
     slug: "riemst",
+    contentLanguage: "nl",
     city: "Riemst",
     postalCode: "3770",
     h1: "Loodgieter & Ontstoppingsdienst Riemst — Riory Is Dichtbij",
@@ -366,6 +376,7 @@ export const allLocations: LocationData[] = [
   },
   {
     slug: "wellen",
+    contentLanguage: "nl",
     city: "Wellen",
     postalCode: "3830",
     h1: "Loodgieter & Ontstoppingsdienst Wellen — 24/7 Riory",
@@ -387,6 +398,7 @@ export const allLocations: LocationData[] = [
   },
   {
     slug: "zutendaal",
+    contentLanguage: "nl",
     city: "Zutendaal",
     postalCode: "3690",
     h1: "Loodgieter & Ontstoppingsdienst Zutendaal — 24/7 Riory",
@@ -408,6 +420,7 @@ export const allLocations: LocationData[] = [
   },
   {
     slug: "vreren",
+    contentLanguage: "nl",
     city: "Vreren",
     postalCode: "3700",
     h1: "Loodgieter & Ontstoppingsdienst Vreren — 24/7 Riory",
@@ -429,6 +442,7 @@ export const allLocations: LocationData[] = [
   },
   {
     slug: "vliermaal",
+    contentLanguage: "nl",
     city: "Vliermaal",
     postalCode: "3723",
     h1: "Loodgieter & Ontstoppingsdienst Vliermaal — 24/7 Riory",
@@ -450,6 +464,7 @@ export const allLocations: LocationData[] = [
   },
   {
     slug: "kortessem",
+    contentLanguage: "nl",
     city: "Kortessem",
     postalCode: "3720",
     h1: "Loodgieter & Ontstoppingsdienst Kortessem — 24/7 Riory",
@@ -471,6 +486,7 @@ export const allLocations: LocationData[] = [
   },
   {
     slug: "alken",
+    contentLanguage: "nl",
     city: "Alken",
     postalCode: "3570",
     h1: "Loodgieter & Ontstoppingsdienst Alken — 24/7 Riory",
@@ -492,6 +508,7 @@ export const allLocations: LocationData[] = [
   },
   {
     slug: "borgloon",
+    contentLanguage: "nl",
     city: "Borgloon",
     postalCode: "3840",
     h1: "Loodgieter & Ontstoppingsdienst Borgloon — 24/7 Riory",
@@ -513,6 +530,7 @@ export const allLocations: LocationData[] = [
   },
   {
     slug: "luik",
+    contentLanguage: "fr",
     city: "Luik",
     postalCode: "4000",
     h1: "Service de débouchage Liège — 24/7 Riory",
@@ -559,6 +577,7 @@ export const allLocations: LocationData[] = [
   },
   {
     slug: "rocourt",
+    contentLanguage: "fr",
     city: "Rocourt",
     postalCode: "4000",
     h1: "Service de débouchage Rocourt — 24/7 Riory",
@@ -601,6 +620,7 @@ export const allLocations: LocationData[] = [
   },
   {
     slug: "juprelle",
+    contentLanguage: "fr",
     city: "Juprelle",
     postalCode: "4450",
     h1: "Service de débouchage Juprelle — 24/7 Riory",
@@ -643,6 +663,7 @@ export const allLocations: LocationData[] = [
   },
   {
     slug: "ans",
+    contentLanguage: "fr",
     city: "Ans",
     postalCode: "4430",
     h1: "Service de débouchage Ans — 24/7 Riory",
@@ -685,6 +706,7 @@ export const allLocations: LocationData[] = [
   },
   {
     slug: "milmort",
+    contentLanguage: "fr",
     city: "Milmort",
     postalCode: "4041",
     h1: "Service de débouchage Milmort — 24/7 Riory",
@@ -727,6 +749,7 @@ export const allLocations: LocationData[] = [
   },
   {
     slug: "vottem",
+    contentLanguage: "fr",
     city: "Vottem",
     postalCode: "4041",
     h1: "Service de débouchage Vottem — 24/7 Riory",
@@ -769,6 +792,7 @@ export const allLocations: LocationData[] = [
   },
   {
     slug: "chenee",
+    contentLanguage: "fr",
     city: "Chênée",
     postalCode: "4032",
     h1: "Débouchage Chênée — Égout Bouché ? Riory 24/7",
