@@ -11,6 +11,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { captureAttribution, trackPhoneClick, trackCtaClick, GA_MEASUREMENT_ID } from "@/lib/attribution";
 
 import Index from "./pages/Index.tsx";
+import Test from "./pages/Test.tsx";
 import Diensten from "./pages/Diensten.tsx";
 import DienstDetail from "./pages/DienstDetail.tsx";
 import Artikels from "./pages/Artikels.tsx";
@@ -97,6 +98,7 @@ const AppRoutes = () => (
   <Routes>
     <Route index element={<Index />} />
     <Route path="index" element={<Index />} />
+    <Route path="test" element={<Test />} />
     <Route path="diensten" element={<Diensten />} />
     <Route path="diensten/:slug" element={<DienstDetail />} />
     <Route path="artikels" element={<Artikels />} />
