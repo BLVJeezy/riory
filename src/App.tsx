@@ -12,6 +12,7 @@ import { captureAttribution, trackPhoneClick, trackCtaClick, GA_MEASUREMENT_ID }
 
 import Index from "./pages/Index.tsx";
 import Test from "./pages/Test.tsx";
+import GenkTest from "./pages/GenkTest.tsx";
 import Diensten from "./pages/Diensten.tsx";
 import DienstDetail from "./pages/DienstDetail.tsx";
 import Artikels from "./pages/Artikels.tsx";
@@ -113,6 +114,7 @@ const AppRoutes = () => (
     <Route path="admin" element={<Admin />} />
     <Route path="afspraak" element={<Afspraak />} />
     <Route path="prijscalculator" element={<Prijscalculator />} />
+    <Route path="regio/genk/test" element={<GenkTest />} />
     <Route path="regio/:slug" element={<LocatieDetail />} />
     <Route path="veelvoorkomende-problemen" element={<VeelvoorkomendeProblemen />} />
     <Route path="unsubscribe" element={<Unsubscribe />} />
