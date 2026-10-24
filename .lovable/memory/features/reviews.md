@@ -3,7 +3,7 @@ name: Reviews Section
 description: Google Reviews automatisering via Places API + database, dagelijks cron-job, hybride aanpak
 type: feature
 ---
-De reviewssectie leest nu uit de `google_reviews` database-tabel in plaats van hardcoded data.
+De reviewssectie leest uit de statische lijst src/data/reviewsList.ts (Google-export, enkel reviews met tekst, zonder vertaling/antwoord). JotForm-widget verwijderd — niet terugzetten.
 
 **Hybride aanpak:**
 - Bestaande reviews zijn handmatig in de DB opgeslagen (source: 'manual')
