@@ -346,6 +346,7 @@
     "sending": "Envoi...",
     "successTitle": "Rendez-vous envoyé !",
     "successMessage": "Nous vous contacterons dans les plus brefs délais pour confirmer votre rendez-vous.",
+    "billingNotice": "Nous sommes pleinement opérationnels et nos services continuent normalement. En raison d'un problème technique, la facturation peut toutefois prendre du retard. Nous travaillons à une solution.",
     "errorTitle": "Une erreur est survenue",
     "errorMessage": "Votre rendez-vous n'a pas pu être envoyé. Veuillez réessayer.",
     "intro": "Réservez rapidement un rendez-vous pour un débouchage, une inspection caméra ou la vidange d'une fosse. Riory répond immédiatement et offre un service rapide et professionnel.",

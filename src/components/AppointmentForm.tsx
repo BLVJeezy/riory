@@ -84,6 +84,10 @@ type KlantType = "particulier" | "bedrijf" | "vrij_beroep" | "syndicus";
 
 const TOTAL_STEPS = 7;
 
+// Tijdelijke melding op het bevestigingsscherm: facturatie kan vertraging hebben.
+// Zet op false zodra de facturatie weer normaal loopt.
+const SHOW_BILLING_NOTICE = true;
+
 const INPUT_CLASS =
   "w-full h-12 px-4 rounded-lg bg-background border border-border text-foreground font-body text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-shadow";
 const ICON_INPUT_CLASS =
@@ -1258,6 +1262,7 @@ const AppointmentForm = () => {
         }}
         successTitle={t("appointmentForm.successTitle")}
         successMessage={t("appointmentForm.successMessage")}
+        successNotice={SHOW_BILLING_NOTICE ? t("appointmentForm.billingNotice") : undefined}
         errorTitle={t("appointmentForm.errorTitle")}
         errorMessage={t("appointmentForm.errorMessage")}
       />
