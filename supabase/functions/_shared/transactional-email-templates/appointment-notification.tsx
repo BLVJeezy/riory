@@ -87,9 +87,6 @@ const AppointmentNotificationEmail = (p: Props) => {
     if (p.dienst) particulierLines.push(p.dienst)
     if (p.beschrijving) particulierLines.push(p.beschrijving)
     particulierLines.push('Ik ga akkoord met de algemene voorwaarden Riory BV')
-  } else {
-    particulierLines.push('Van: ')
-    particulierLines.push('Septische put ledigen')
   }
 
   // Build bedrijf block
@@ -119,9 +116,6 @@ const AppointmentNotificationEmail = (p: Props) => {
     if (p.dienst) bedrijfLines.push(p.dienst)
     if (p.beschrijving) bedrijfLines.push(p.beschrijving)
     bedrijfLines.push('Ik ga akkoord met de algemene voorwaarden Riory BV')
-  } else {
-    bedrijfLines.push('Van: ')
-    bedrijfLines.push('Septische put ledigen')
   }
 
   // Build syndicus block
@@ -152,9 +146,6 @@ const AppointmentNotificationEmail = (p: Props) => {
     if (p.dienst) syndicusLines.push(p.dienst)
     if (p.beschrijving) syndicusLines.push(p.beschrijving)
     syndicusLines.push('Ik ga akkoord met de algemene voorwaarden Riory BV')
-  } else {
-    syndicusLines.push('Van: ')
-    syndicusLines.push('Septische put ledigen')
   }
 
   const renderBlock = (label: string, lines: string[]) => (
@@ -205,9 +196,10 @@ const AppointmentNotificationEmail = (p: Props) => {
             )}
           </Text>
 
-          {renderBlock('Particulier', particulierLines)}
-          {renderBlock('Bedrijf', bedrijfLines)}
-          {renderBlock('Syndicus', syndicusLines)}
+          {/* Alleen het blok van het gekozen klanttype tonen */}
+          {isParticulier && renderBlock('Particulier', particulierLines)}
+          {isBedrijf && renderBlock(klantLabel, bedrijfLines)}
+          {isSyndicus && renderBlock('Syndicus', syndicusLines)}
 
           <Text style={footer}>-- Deze e-mail is verzonden vanuit het contactformulier op Riory https://riory.be</Text>
         </Container>
