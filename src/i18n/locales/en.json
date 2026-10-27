@@ -346,6 +346,7 @@
     "sending": "Sending...",
     "successTitle": "Appointment sent!",
     "successMessage": "We will contact you as soon as possible to confirm your appointment.",
+    "billingNotice": "We are fully operational and our services continue as normal. Due to a technical issue, invoicing may be delayed. We are working on a solution.",
     "errorTitle": "Something went wrong",
     "errorMessage": "Your appointment could not be sent. Please try again.",
     "intro": "Quickly book an appointment for unclogging, camera inspection or pit emptying. Riory responds immediately and delivers fast, professional service.",
