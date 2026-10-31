@@ -101,6 +101,9 @@ const regioFor = (s: { werf_plaats: string | null; fact_plaats: string | null })
 
 const SOURCE_LABELS: Record<string, string> = {
   facebook: "Facebook",
+  chatgpt: "ChatGPT",
+  claude: "Claude",
+  ai_chat: "AI-chat",
   instagram: "Instagram",
   google: "Google",
   tiktok: "TikTok",

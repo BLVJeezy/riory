@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Riory — afspraak boeken</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --r-primary: #ff6a00;
+    --r-primary-ink: #ffffff;
+    --r-primary-soft: rgba(255, 106, 0, 0.1);
+    --r-bg: #ffffff;
+    --r-surface: #f7f7f8;
+    --r-text: #1a1a1a;
+    --r-muted: #6b6b70;
+    --r-border: #e3e3e6;
+    --r-danger: #d92d20;
+    --r-ok: #12805c;
+    --r-radius: 12px;
+    --r-head: "Rubik", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    --r-body: "Source Sans 3", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    color-scheme: light;
+  }
+  [data-theme="dark"] {
+    --r-bg: #161618;
+    --r-surface: #1f1f22;
+    --r-text: #ededed;
+    --r-muted: #a1a1a8;
+    --r-border: #34343a;
+    --r-primary-soft: rgba(255, 106, 0, 0.16);
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: transparent; }
+  body { font-family: var(--r-body); color: var(--r-text); font-size: 15px; line-height: 1.45; }
+  .card { background: var(--r-bg); border-radius: var(--r-radius); padding: 18px; max-width: 640px; margin: 0 auto; }
+  header { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+  .logo { height: 26px; display: block; padding: 4px 8px; background: #fff; border-radius: 8px; }
+  .logo svg { height: 18px; width: auto; display: block; }
+  .langs { display: flex; gap: 4px; }
+  .langs button { border: 1px solid var(--r-border); background: transparent; color: var(--r-muted); font: 600 12px var(--r-head); border-radius: 999px; padding: 3px 9px; cursor: pointer; }
+  .langs button[aria-pressed="true"] { background: var(--r-text); color: var(--r-bg); border-color: var(--r-text); }
+  .progress { display: flex; gap: 6px; margin-bottom: 14px; }
+  .progress span { flex: 1; height: 4px; border-radius: 4px; background: var(--r-border); }
+  .progress span.on { background: var(--r-primary); }
+  h2 { font: 700 18px/1.25 var(--r-head); margin: 0 0 4px; }
+  .sub { color: var(--r-muted); margin: 0 0 14px; font-size: 14px; }
+  .section-label { font: 600 12px var(--r-head); text-transform: uppercase; letter-spacing: .04em; color: var(--r-muted); margin: 16px 0 8px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip { border: 1.5px solid var(--r-border); background: var(--r-bg); color: var(--r-text); border-radius: 999px; padding: 7px 12px; font: 500 14px var(--r-body); cursor: pointer; text-align: left; }
+  .chip:hover { border-color: var(--r-primary); }
+  .chip[aria-pressed="true"] { border-color: var(--r-primary); background: var(--r-primary-soft); font-weight: 600; }
+  .seg { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 8px; }
+  .opt { border: 1.5px solid var(--r-border); background: var(--r-bg); color: var(--r-text); border-radius: 10px; padding: 10px 12px; cursor: pointer; text-align: left; font: 600 14px var(--r-head); }
+  .opt small { display: block; font: 400 12.5px var(--r-body); color: var(--r-muted); margin-top: 2px; }
+  .opt[aria-pressed="true"] { border-color: var(--r-primary); background: var(--r-primary-soft); }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .grid .full { grid-column: 1 / -1; }
+  .grid-addr { display: grid; grid-template-columns: 3fr 1fr; gap: 10px; }
+  @media (max-width: 420px) { .grid { grid-template-columns: 1fr; } }
+  label.f { display: block; font: 600 12.5px var(--r-head); color: var(--r-text); }
+  label.f .req { color: var(--r-primary); }
+  input[type=text], input[type=email], input[type=tel], input[type=number], textarea, select {
+    width: 100%; margin-top: 4px; padding: 10px 12px; border-radius: 9px; border: 1.5px solid var(--r-border);
+    background: var(--r-bg); color: var(--r-text); font: 400 15px var(--r-body); outline: none;
+  }
+  textarea { min-height: 84px; resize: vertical; }
+  input:focus, textarea:focus, select:focus { border-color: var(--r-primary); box-shadow: 0 0 0 3px var(--r-primary-soft); }
+  .invalid { border-color: var(--r-danger) !important; }
+  .check { display: flex; gap: 10px; align-items: flex-start; padding: 12px; border-radius: 10px; background: var(--r-surface); cursor: pointer; margin-top: 10px; }
+  .check input { margin-top: 3px; width: 18px; height: 18px; accent-color: var(--r-primary); flex: none; }
+  .link { color: var(--r-primary); text-decoration: underline; cursor: pointer; background: none; border: 0; padding: 0; font: inherit; }
+  .summary { background: var(--r-surface); border-radius: 10px; padding: 12px 14px; font-size: 14px; }
+  .summary dt { color: var(--r-muted); font-size: 12px; margin-top: 8px; }
+  .summary dt:first-child { margin-top: 0; }
+  .summary dd { margin: 1px 0 0; font-weight: 600; white-space: pre-wrap; word-break: break-word; }
+  .note { font-size: 13px; color: var(--r-muted); margin-top: 10px; }
+  .error { color: var(--r-danger); font-size: 13.5px; margin-top: 10px; }
+  .actions { display: flex; gap: 10px; justify-content: space-between; align-items: center; margin-top: 18px; }
+  .btn { border: 0; border-radius: 10px; padding: 11px 18px; font: 600 15px var(--r-head); cursor: pointer; }
+  .btn.primary { background: var(--r-primary); color: var(--r-primary-ink); }
+  .btn.primary:disabled { opacity: .55; cursor: wait; }
+  .btn.ghost { background: transparent; color: var(--r-muted); padding-left: 4px; }
+  .call { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--r-muted); }
+  .done { text-align: center; padding: 10px 4px 4px; }
+  .done .tick { width: 54px; height: 54px; border-radius: 50%; background: var(--r-primary-soft); color: var(--r-primary); display: grid; place-items: center; margin: 0 auto 10px; font-size: 28px; }
+  .ref { display: inline-block; font: 700 15px var(--r-head); letter-spacing: .06em; background: var(--r-surface); padding: 6px 12px; border-radius: 8px; margin: 8px 0; }
+  .test { display: inline-block; font: 600 11px var(--r-head); color: #fff; background: #7a5af8; border-radius: 6px; padding: 2px 7px; margin-left: 6px; vertical-align: middle; }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+  <div class="card" id="root">
+    <header>
+      <span class="logo" aria-label="Riory"><!--RIORY_LOGO--></span>
+      <div class="langs" id="langs"></div>
+    </header>
+    <div id="view"></div>
+  </div>
+  <script><!--APP_SCRIPT--></script>
+</body>
+</html>
