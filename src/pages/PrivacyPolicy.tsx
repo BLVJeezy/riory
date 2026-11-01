@@ -31,7 +31,7 @@ const PrivacyPolicy = () => {
             Privacy Policy
           </h1>
           <p className="text-sm text-muted-foreground font-body mb-8">
-            Laatste update op 27/05/2026
+            Laatste update op 01/11/2026
           </p>
 
           <div className="prose prose-sm md:prose-base max-w-none text-foreground/80 font-body space-y-6">
@@ -120,6 +120,26 @@ const PrivacyPolicy = () => {
               Wij nemen passende technische en organisatorische maatregelen om uw
               gegevens te beschermen tegen verlies, ongeoorloofde toegang en
               ongeoorloofde wijziging.
+            </p>
+
+            <h2 className="text-lg font-heading font-bold text-foreground">8. Afspraken via AI-assistenten</h2>
+            <p>
+              Via de Riory-app in AI-assistenten zoals ChatGPT (OpenAI) en Claude
+              (Anthropic) kunt u een afspraak aanvragen zonder de chat te verlaten.
+              Wij ontvangen dan enkel de gegevens die u in het afspraakformulier
+              invult of bevestigt (de gevraagde dienst, de omschrijving van het
+              probleem, uw naam, contactgegevens en adres, en voor bedrijven de
+              bedrijfsgegevens) en de naam van de gebruikte chat-app. Het volledige
+              gesprek met de AI-assistent ontvangen of bewaren wij niet. Deze
+              gegevens verwerken wij op dezelfde manier, voor dezelfde doeleinden en
+              met dezelfde bewaartermijn als een afspraakaanvraag via onze website
+              (uitvoering van de overeenkomst, art. 6.1.b GDPR). Uw gesprek met de
+              AI-assistent zelf valt onder het privacybeleid van de aanbieder van die
+              assistent. Meer uitleg vindt u op{" "}
+              <Link to="/boeken-in-chat" className="text-primary hover:underline">
+                Afspraak boeken in ChatGPT of Claude
+              </Link>
+              .
             </p>
           </div>
         </div>
