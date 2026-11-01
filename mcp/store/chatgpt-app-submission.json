@@ -1,0 +1,116 @@
+{
+  "$schema": "https://developers.openai.com/apps-sdk/schemas/chatgpt-app-submission.v1.json",
+  "schema_version": 1,
+  "app_info": {
+    "display_name": "Riory",
+    "subtitle": "Book drain & sewer services",
+    "description": "Riory BV is a 24/7 drain-unblocking and sewer company based in Bilzen, Belgium, serving Belgian Limburg and the Liège region. With the Riory app you request an intervention without leaving the chat.\n\nWhat you can do:\n• Ask about Riory's services, service area and contact details.\n• Open Riory's official booking form right in the conversation, already filled in with what you told the assistant (service, town, urgency, a short description).\n• Check and complete your details (contact, address, company details for businesses), accept Riory's terms and send the request yourself.\n• Get a reference number and a confirmation e-mail straight away. Riory then contacts you to confirm the time.\n\nServices: blocked toilet, sink, shower or sewer; septic tank emptying; CCTV sewer inspection; locating drains; sewer odours and drain flies; periodic drain cleaning; flooding and pumping; rainwater tank cleaning; gutter cleaning; drain repairs.\n\nGood to know:\n• Nothing is sent until you press \"Request appointment\".\n• Riory confirms the exact time after your request; the app does not show a calendar.\n• Help within 24 hours is possible; extra charges may apply. In an emergency, call +32 472 50 28 14 (24/7).\n• Requests cannot be changed or cancelled in the chat; contact Riory by phone or e-mail.\n• The form is available in Dutch, French and English.",
+    "category": "LIFESTYLE"
+  },
+  "tools": {
+    "riory_info": {
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Only returns Riory's services, service area and contact details from static data.",
+        "open_world_justification": "Does not send, publish or change anything in external systems.",
+        "destructive_justification": "Does not delete, overwrite or perform any irreversible action."
+      }
+    },
+    "riory_open_booking_form": {
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Only returns the booking form and prefill values for display; nothing is stored or sent.",
+        "open_world_justification": "Does not contact external systems; the user must submit the form separately.",
+        "destructive_justification": "Does not delete, overwrite or perform any irreversible action."
+      }
+    },
+    "riory_submit_booking": {
+      "annotations": {
+        "readOnlyHint": false,
+        "openWorldHint": true,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Creates a new appointment request in Riory's booking system and sends notification and confirmation e-mails.",
+        "open_world_justification": "Sends the request to Riory's external systems (database, CRM) and e-mails Riory's office and the customer.",
+        "destructive_justification": "Only creates a new request; it cannot delete, overwrite or cancel existing data, and Riory confirms the time afterwards."
+      }
+    }
+  },
+  "test_cases": [
+    {
+      "description": "A booking request in Dutch opens the Riory form right away, prefilled from the conversation (prompt: 'My toilet is blocked in Hasselt, I want an appointment with Riory').",
+      "user_prompt": "Mijn wc is verstopt in Hasselt, ik wil een afspraak bij Riory.",
+      "file_attachment_urls": null,
+      "tools_triggered": "riory_open_booking_form",
+      "expected_output": "The Riory booking form appears in the chat without the assistant asking questions first. Service 'Ontstopping' and town 'Hasselt' are prefilled. Nothing is booked until the user submits.",
+      "expected_output_url": null
+    },
+    {
+      "description": "End-to-end test booking. Use an @example.com e-mail address: such test bookings never reach Riory's real systems and the confirmation shows a TEST label.",
+      "user_prompt": "I need Riory to unblock my kitchen sink in Tongeren tomorrow.",
+      "file_attachment_urls": null,
+      "tools_triggered": "riory_open_booking_form, riory_submit_booking",
+      "expected_output": "The form opens prefilled (unblocking, Tongeren). After filling in contact and address details with an @example.com e-mail, accepting the terms and pressing 'Request appointment', the form shows 'Request received' with a reference number and a TEST label.",
+      "expected_output_url": null
+    },
+    {
+      "description": "Questions about services and service area use the info tool (prompt: 'Which services does Riory offer and in which towns do they work?').",
+      "user_prompt": "Welke diensten biedt Riory aan en in welke gemeenten werken ze?",
+      "file_attachment_urls": null,
+      "tools_triggered": "riory_info",
+      "expected_output": "Lists Riory's services (e.g. unblocking, septic tank emptying, CCTV inspection, gutter cleaning), the towns in the service area and the 24/7 phone number. No booking is created.",
+      "expected_output_url": null
+    },
+    {
+      "description": "A non-urgent septic tank request in English opens the form with the matching service selected.",
+      "user_prompt": "Book Riory to empty my septic tank in Bilzen next week.",
+      "file_attachment_urls": null,
+      "tools_triggered": "riory_open_booking_form",
+      "expected_output": "The form opens with 'Septische put ledigen' (septic tank emptying) selected and Bilzen prefilled. Riory confirms the time after the request; no date picker is shown.",
+      "expected_output_url": null
+    },
+    {
+      "description": "A request in French opens the same form; it follows the ChatGPT interface language and can be switched to French with the FR button (prompt: 'My toilet is blocked in Tongeren, I would like an appointment').",
+      "user_prompt": "Mon WC est bouché à Tongres, je voudrais un rendez-vous avec Riory.",
+      "file_attachment_urls": null,
+      "tools_triggered": "riory_open_booking_form",
+      "expected_output": "The Riory form appears with unblocking selected and the town prefilled; pressing FR shows all labels in French.",
+      "expected_output_url": null
+    }
+  ],
+  "negative_test_cases": [
+    {
+      "description": "Unrelated appointment outside Riory's services; the app should not be used (prompt: 'Book a dentist appointment for tomorrow').",
+      "user_prompt": "Boek een afspraak bij de tandarts voor morgen.",
+      "file_attachment_urls": null,
+      "tools_triggered": null,
+      "expected_output": "The Riory app is not invoked; Riory only handles drain and sewer services.",
+      "expected_output_url": null
+    },
+    {
+      "description": "Changing or cancelling an existing appointment is not supported in the chat (prompt: 'Cancel my Riory appointment of tomorrow').",
+      "user_prompt": "Annuleer mijn afspraak bij Riory van morgen.",
+      "file_attachment_urls": null,
+      "tools_triggered": null,
+      "expected_output": "No booking tool is called. The assistant explains that requests cannot be changed or cancelled in the chat and gives Riory's phone number and e-mail address.",
+      "expected_output_url": null
+    },
+    {
+      "description": "A request without accepting Riory's terms must not be sent (prompt: 'Book Riory for my blocked shower, but I do not accept the terms and conditions').",
+      "user_prompt": "Boek Riory voor mijn verstopte douche, maar ik ga niet akkoord met de algemene voorwaarden.",
+      "file_attachment_urls": null,
+      "tools_triggered": null,
+      "expected_output": "No request is sent. The form requires accepting the terms; if riory_submit_booking is called without acceptance it returns an error, and the assistant asks the user to accept the terms or to call Riory.",
+      "expected_output_url": null
+    }
+  ]
+}

@@ -12,7 +12,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "build:mcp": "node scripts/build-mcp.mjs",
-    "mcp:dev": "node scripts/build-mcp.mjs && node scripts/mcp-dev-server.mjs"
+    "mcp:dev": "node scripts/build-mcp.mjs && node scripts/mcp-dev-server.mjs",
+    "build:store": "node scripts/build-store.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
