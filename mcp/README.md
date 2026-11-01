@@ -5,7 +5,12 @@ Vraagt iemand in ChatGPT of Claude "mijn riool is verstopt in Tongeren, wat nu?"
 gekoppeld, dan toont de assistent het Riory-afspraakformulier rechtstreeks in het gesprek, al
 ingevuld met wat de klant al vertelde.
 
-Endpoint (productie): **`https://riory.be/api/mcp`** (MCP Streamable HTTP, stateless, geen login).
+Endpoint (productie): **`https://www.riory.be/api/mcp`** (MCP Streamable HTTP, stateless, geen login).
+Gebruik altijd de www-versie: `riory.be` stuurt door naar `www.riory.be` (308) en niet elke chat-app volgt die doorverwijzing.
+
+> **Let op:** zolang de app niet gekoppeld is (developer mode) of niet goedgekeurd in de app-directory van
+> ChatGPT/Claude, gebruikt de assistent deze server niet. Hij zoekt Riory dan op het web en verzint soms een
+> eigen formulier (bv. met datum en tijdstip). Zo'n aanvraag komt nergens bij Riory binnen.
 
 ## Hoe het werkt
 
@@ -45,11 +50,11 @@ Omgevingsvariabelen (optioneel): `RIORY_MCP_DRY_RUN=1` zet testmodus aan (bevest
 
 ## Live zetten in de chat-apps
 
-**Claude** (meteen bruikbaar): Instellingen → Connectors → *Add custom connector* → URL `https://riory.be/api/mcp`.
+**Claude** (meteen bruikbaar): Instellingen → Connectors → *Add custom connector* → URL `https://www.riory.be/api/mcp`.
 Voor een vermelding in de Claude-connectordirectory: aanmelden via het formulier van Anthropic.
 
 **ChatGPT**:
-1. Testen: Settings → Apps → *Advanced settings* → Developer mode aan → *Create app* → URL `https://riory.be/api/mcp`, authenticatie "None".
+1. Testen: Settings → Apps → *Advanced settings* → Developer mode aan → *Create app* → URL `https://www.riory.be/api/mcp`, authenticatie "None".
 2. Publiek maken: platform.openai.com → Apps → *Submit app*. Nodig: naam, logo, korte beschrijving, privacybeleid
    (https://riory.be/privacy-policy), testvoorbeelden ("Mijn wc is verstopt in Hasselt, kan iemand vandaag komen?") en een geverifieerde organisatie.
    Na goedkeuring staat Riory in de ChatGPT app-directory en kan ChatGPT de app zelf voorstellen.
