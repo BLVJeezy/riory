@@ -48,6 +48,19 @@ Testen met de officiële inspector: `npx @modelcontextprotocol/inspector` → St
 Omgevingsvariabelen (optioneel): `RIORY_MCP_DRY_RUN=1` zet testmodus aan (bevestigingsscherm toont dan "TEST").
 `SUPABASE_URL` / `SUPABASE_ANON_KEY` overschrijven de publieke sleutels.
 
+**Testboekingen in productie:** een boeking met een e-mailadres op `@example.com` (of `.org`/`.net`) gaat nooit naar
+de echte pijplijn — geen databank, geen mails, geen Simpla. Het bevestigingsscherm toont dan "TEST". Gebruik dit
+voor eigen tests en geef het mee aan de reviewers van OpenAI en Anthropic.
+
+## Publicatie in de app-winkels
+
+- Support- en uitlegpagina: https://www.riory.be/boeken-in-chat — privacybeleid sectie 8 gaat over boekingen via AI-chat.
+- Alle drie de tools hebben `readOnlyHint`, `destructiveHint` en `openWorldHint` expliciet (verplicht voor ChatGPT én Claude).
+- **Domeinverificatie OpenAI:** zet het token uit het OpenAI-dashboard als enige inhoud in
+  `public/.well-known/openai-apps-challenge` (geen extensie, geen JSON). Vercel serveert het als `text/plain`.
+  Controle: https://www.riory.be/.well-known/openai-apps-challenge
+- Indienmateriaal (teksten, testcases, logo's, screenshots): `mcp/store/`.
+
 ## Live zetten in de chat-apps
 
 **Claude** (meteen bruikbaar): Instellingen → Connectors → *Add custom connector* → URL `https://www.riory.be/api/mcp`.

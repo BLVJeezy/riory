@@ -19,6 +19,7 @@ import {
 } from "./config";
 import {
   bookingInputShape,
+  isTestEmail,
   sourceFromClient,
   submitBooking,
   validateBooking,
@@ -99,7 +100,7 @@ export function createRioryMcpServer(ctx: ServerContext = {}): McpServer {
         "de regio Luik, en contactgegevens. Gebruik dit voor vragen over diensten, werkgebied of contact. " +
         "Wil iemand een afspraak of hulp bij een verstopping, gebruik dan meteen riory_open_booking_form.",
       inputSchema: {},
-      annotations: { readOnlyHint: true, openWorldHint: false, idempotentHint: true },
+      annotations: { readOnlyHint: true, destructiveHint: false, openWorldHint: false, idempotentHint: true },
     },
     async () => {
       const info = {
@@ -135,7 +136,7 @@ export function createRioryMcpServer(ctx: ServerContext = {}): McpServer {
         "die je al kent uit het gesprek; de gebruiker controleert en verstuurt zelf. Er wordt niets geboekt tot " +
         "de gebruiker op Versturen klikt.",
       inputSchema: prefillShape,
-      annotations: { readOnlyHint: true, openWorldHint: false, idempotentHint: true },
+      annotations: { readOnlyHint: true, destructiveHint: false, openWorldHint: false, idempotentHint: true },
       // ui.resourceUri = MCP Apps-standaard; openai/outputTemplate = ChatGPT-alias (zelfde formulier).
       _meta: { ui: { resourceUri: WIDGET_URI }, "openai/outputTemplate": WIDGET_URI },
     },
@@ -198,7 +199,10 @@ export function createRioryMcpServer(ctx: ServerContext = {}): McpServer {
       }
 
       const source = sourceFromClient(bron_app || clientName());
-      const result = await submitBooking(booking, source, { dryRun: ctx.dryRun });
+      // Testboekingen (bv. door reviewers van OpenAI/Anthropic) met een @example.com-adres gaan
+      // nooit naar de echte pijplijn: geen DB-rij, geen mails, geen Simpla. Antwoord toont "TEST".
+      const testBooking = isTestEmail(booking.email);
+      const result = await submitBooking(booking, source, { dryRun: ctx.dryRun || testBooking });
 
       if (!result.ok) {
         return {

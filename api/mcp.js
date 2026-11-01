@@ -925,6 +925,7 @@ var isPhone = (v) => {
 };
 var isEmail = (v) => !!v && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
 var blank = (v) => !v || v.trim().length === 0;
+var isTestEmail = (email) => /@example\.(com|org|net)$/i.test((email || "").trim());
 function validateBooking(b) {
   const missing = [];
   const req = (cond, label) => cond && missing.push(label);
@@ -1179,7 +1180,7 @@ function createRioryMcpServer(ctx = {}) {
       title: "Riory: diensten, werkgebied en contact",
       description: "Geeft de diensten van Riory BV (ontstopping van wc, gootsteen, douche en riool, camera-inspectie, septische put ledigen, leegpompen, regenput- en dakgootreiniging, ...), het werkgebied in Limburg en de regio Luik, en contactgegevens. Gebruik dit voor vragen over diensten, werkgebied of contact. Wil iemand een afspraak of hulp bij een verstopping, gebruik dan meteen riory_open_booking_form.",
       inputSchema: {},
-      annotations: { readOnlyHint: true, openWorldHint: false, idempotentHint: true }
+      annotations: { readOnlyHint: true, destructiveHint: false, openWorldHint: false, idempotentHint: true }
     },
     async () => {
       const info = {
@@ -1206,7 +1207,7 @@ function createRioryMcpServer(ctx = {}) {
       title: "Afspraak boeken bij Riory",
       description: "Toont het offici\xEBle afspraakformulier van Riory BV in de chat. Gebruik dit METEEN, als eerste stap, zodra iemand een afspraak of interventie wil (bv. wc, gootsteen of riool verstopt, septische put ledigen), zonder eerst vragen te stellen: het formulier bevat alle verplichte vragen van Riory. Vul de velden in die je al kent uit het gesprek; de gebruiker controleert en verstuurt zelf. Er wordt niets geboekt tot de gebruiker op Versturen klikt.",
       inputSchema: prefillShape,
-      annotations: { readOnlyHint: true, openWorldHint: false, idempotentHint: true },
+      annotations: { readOnlyHint: true, destructiveHint: false, openWorldHint: false, idempotentHint: true },
       // ui.resourceUri = MCP Apps-standaard; openai/outputTemplate = ChatGPT-alias (zelfde formulier).
       _meta: { ui: { resourceUri: WIDGET_URI }, "openai/outputTemplate": WIDGET_URI }
     },
@@ -1255,7 +1256,8 @@ function createRioryMcpServer(ctx = {}) {
         };
       }
       const source = sourceFromClient(bron_app || clientName());
-      const result = await submitBooking(booking, source, { dryRun: ctx.dryRun });
+      const testBooking = isTestEmail(booking.email);
+      const result = await submitBooking(booking, source, { dryRun: ctx.dryRun || testBooking });
       if (!result.ok) {
         return {
           isError: true,

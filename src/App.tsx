@@ -23,6 +23,7 @@ import PrivacyPolicy from "./pages/PrivacyPolicy.tsx";
 import Gebruiksvoorwaarden from "./pages/Gebruiksvoorwaarden.tsx";
 import AlgemeneVoorwaarden from "./pages/AlgemeneVoorwaarden.tsx";
 import CookiePolicy from "./pages/CookiePolicy.tsx";
+import BoekenInChat from "./pages/BoekenInChat.tsx";
 import AdminLogin from "./pages/AdminLogin.tsx";
 import Admin from "./pages/Admin.tsx";
 import Unsubscribe from "./pages/Unsubscribe.tsx";
@@ -110,6 +111,7 @@ const AppRoutes = () => (
     <Route path="gebruiksvoorwaarden" element={<Gebruiksvoorwaarden />} />
     <Route path="algemene-voorwaarden" element={<AlgemeneVoorwaarden />} />
     <Route path="cookie-policy" element={<CookiePolicy />} />
+    <Route path="boeken-in-chat" element={<BoekenInChat />} />
     <Route path="admin/login" element={<AdminLogin />} />
     <Route path="admin" element={<Admin />} />
     <Route path="afspraak" element={<Afspraak />} />

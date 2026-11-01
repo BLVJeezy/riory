@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "riory": {
+      "type": "streamable-http",
+      "url": "https://www.riory.be/api/mcp"
+    }
+  }
+}

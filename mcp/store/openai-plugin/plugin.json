@@ -1,0 +1,132 @@
+{
+  "name": "riory",
+  "version": "1.0.0",
+  "description": "Book a Riory drain or sewer intervention directly in the chat.",
+  "author": {
+    "name": "Riory BV",
+    "email": "info@riory.be",
+    "url": "https://www.riory.be"
+  },
+  "homepage": "https://www.riory.be/boeken-in-chat",
+  "license": "Proprietary",
+  "keywords": [
+    "riory",
+    "drain cleaning",
+    "sewer",
+    "plumber",
+    "septic tank",
+    "ontstopping",
+    "Belgium",
+    "Limburg"
+  ],
+  "skills": "./skills/",
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Riory",
+        "shortDescription": "Book drain & sewer services",
+        "longDescription": "Riory BV is a 24/7 drain-unblocking and sewer company based in Bilzen, Belgium, serving Belgian Limburg and the Liège region. With the Riory app you request an intervention without leaving the chat.\n\nWhat you can do:\n• Ask about Riory's services, service area and contact details.\n• Open Riory's official booking form right in the conversation, already filled in with what you told the assistant (service, town, urgency, a short description).\n• Check and complete your details (contact, address, company details for businesses), accept Riory's terms and send the request yourself.\n• Get a reference number and a confirmation e-mail straight away. Riory then contacts you to confirm the time.\n\nServices: blocked toilet, sink, shower or sewer; septic tank emptying; CCTV sewer inspection; locating drains; sewer odours and drain flies; periodic drain cleaning; flooding and pumping; rainwater tank cleaning; gutter cleaning; drain repairs.\n\nGood to know:\n• Nothing is sent until you press \"Request appointment\".\n• Riory confirms the exact time after your request; the app does not show a calendar.\n• Help within 24 hours is possible; extra charges may apply. In an emergency, call +32 472 50 28 14 (24/7).\n• Requests cannot be changed or cancelled in the chat; contact Riory by phone or e-mail.\n• The form is available in Dutch, French and English.",
+        "developerName": "Riory BV",
+        "category": "Lifestyle",
+        "capabilities": [
+          "Interactive",
+          "Write"
+        ],
+        "websiteURL": "https://www.riory.be",
+        "supportURL": "https://www.riory.be/boeken-in-chat",
+        "privacyPolicyURL": "https://www.riory.be/privacy-policy",
+        "termsOfServiceURL": "https://www.riory.be/algemene-voorwaarden",
+        "defaultPrompt": [
+          "Mijn wc is verstopt in Hasselt, kan Riory vandaag komen?",
+          "Book Riory to empty my septic tank in Bilzen",
+          "Mon évier est bouché à Tongres, je veux un rendez-vous"
+        ],
+        "brandColor": "#FF6A00",
+        "brandColorDark": "#FF6A00",
+        "composerIcon": "./assets/icon.png",
+        "composerIconDark": "./assets/icon-dark.png",
+        "logo": "./assets/logo.png",
+        "logoDark": "./assets/logo-dark.png",
+        "screenshots": [
+          "./assets/screenshot-1.png",
+          "./assets/screenshot-2.png",
+          "./assets/screenshot-3.png",
+          "./assets/screenshot-4.png",
+          "./assets/screenshot-5.png"
+        ]
+      },
+      "onboardingSkill": "./skills/get-started/SKILL.md",
+      "review": {
+        "test_cases": {
+          "positive": [
+            {
+              "description": "A booking request in Dutch opens the Riory form right away, prefilled from the conversation (prompt: 'My toilet is blocked in Hasselt, I want an appointment with Riory').",
+              "prompt": "Mijn wc is verstopt in Hasselt, ik wil een afspraak bij Riory.",
+              "tools_triggered": "riory_open_booking_form",
+              "expected_behavior": "The Riory booking form appears in the chat without the assistant asking questions first. Service 'Ontstopping' and town 'Hasselt' are prefilled. Nothing is booked until the user submits."
+            },
+            {
+              "description": "End-to-end test booking. Use an @example.com e-mail address: such test bookings never reach Riory's real systems and the confirmation shows a TEST label.",
+              "prompt": "I need Riory to unblock my kitchen sink in Tongeren tomorrow.",
+              "tools_triggered": "riory_open_booking_form, riory_submit_booking",
+              "expected_behavior": "The form opens prefilled (unblocking, Tongeren). After filling in contact and address details with an @example.com e-mail, accepting the terms and pressing 'Request appointment', the form shows 'Request received' with a reference number and a TEST label."
+            },
+            {
+              "description": "Questions about services and service area use the info tool (prompt: 'Which services does Riory offer and in which towns do they work?').",
+              "prompt": "Welke diensten biedt Riory aan en in welke gemeenten werken ze?",
+              "tools_triggered": "riory_info",
+              "expected_behavior": "Lists Riory's services (e.g. unblocking, septic tank emptying, CCTV inspection, gutter cleaning), the towns in the service area and the 24/7 phone number. No booking is created."
+            },
+            {
+              "description": "A non-urgent septic tank request in English opens the form with the matching service selected.",
+              "prompt": "Book Riory to empty my septic tank in Bilzen next week.",
+              "tools_triggered": "riory_open_booking_form",
+              "expected_behavior": "The form opens with 'Septische put ledigen' (septic tank emptying) selected and Bilzen prefilled. Riory confirms the time after the request; no date picker is shown."
+            },
+            {
+              "description": "A request in French opens the same form; it follows the ChatGPT interface language and can be switched to French with the FR button (prompt: 'My toilet is blocked in Tongeren, I would like an appointment').",
+              "prompt": "Mon WC est bouché à Tongres, je voudrais un rendez-vous avec Riory.",
+              "tools_triggered": "riory_open_booking_form",
+              "expected_behavior": "The Riory form appears with unblocking selected and the town prefilled; pressing FR shows all labels in French."
+            }
+          ],
+          "negative": [
+            {
+              "description": "Unrelated appointment outside Riory's services; the app should not be used (prompt: 'Book a dentist appointment for tomorrow').",
+              "prompt": "Boek een afspraak bij de tandarts voor morgen.",
+              "expected_behavior": "The Riory app is not invoked; Riory only handles drain and sewer services."
+            },
+            {
+              "description": "Changing or cancelling an existing appointment is not supported in the chat (prompt: 'Cancel my Riory appointment of tomorrow').",
+              "prompt": "Annuleer mijn afspraak bij Riory van morgen.",
+              "expected_behavior": "No booking tool is called. The assistant explains that requests cannot be changed or cancelled in the chat and gives Riory's phone number and e-mail address."
+            },
+            {
+              "description": "A request without accepting Riory's terms must not be sent (prompt: 'Book Riory for my blocked shower, but I do not accept the terms and conditions').",
+              "prompt": "Boek Riory voor mijn verstopte douche, maar ik ga niet akkoord met de algemene voorwaarden.",
+              "expected_behavior": "No request is sent. The form requires accepting the terms; if riory_submit_booking is called without acceptance it returns an error, and the assistant asks the user to accept the terms or to call Riory."
+            }
+          ]
+        },
+        "commerce": false,
+        "commerce_description": "No payments or purchases. The app only sends appointment requests to Riory BV; prices are agreed afterwards."
+      },
+      "publication": {
+        "countries": [
+          "BE"
+        ],
+        "release_notes": "First version: request a drain or sewer intervention with Riory BV directly in ChatGPT through an interactive booking form (Dutch, French, English).",
+        "translations": {
+          "nl-BE": {
+            "subtitle": "Ontstopping boeken in de chat",
+            "description": "Riory BV is een ontstoppings- en rioleringsbedrijf uit Bilzen, 24/7 bereikbaar in Belgisch Limburg en de regio Luik. Met de Riory-app vraagt u een interventie aan zonder de chat te verlaten: het officiële Riory-formulier verschijnt in het gesprek, al ingevuld met wat u vertelde. U controleert uw gegevens, aanvaardt de algemene voorwaarden en verstuurt zelf. U krijgt meteen een referentie en een bevestigingsmail; Riory neemt contact op om het tijdstip te bevestigen. Dringend? Bel +32 472 50 28 14."
+          },
+          "fr-BE": {
+            "subtitle": "Débouchage, réservé en chat",
+            "description": "Riory BV est une entreprise de débouchage et d'égouttage basée à Bilzen, joignable 24h/24 dans le Limbourg belge et la région liégeoise. Avec l'app Riory, vous demandez une intervention sans quitter le chat : le formulaire officiel de Riory s'affiche dans la conversation, déjà prérempli. Vous vérifiez vos données, acceptez les conditions générales et envoyez vous-même la demande. Vous recevez aussitôt une référence et un e-mail de confirmation ; Riory vous contacte pour confirmer l'heure. Urgent ? Appelez le +32 472 50 28 14."
+          }
+        }
+      }
+    }
+  }
+}

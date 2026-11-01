@@ -116,6 +116,9 @@ const isPhone = (v?: string) => {
 const isEmail = (v?: string) => !!v && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
 const blank = (v?: string) => !v || v.trim().length === 0;
 
+/** Gereserveerde testdomeinen (RFC 2606): boekingen met zo'n adres worden nooit echt verstuurd. */
+export const isTestEmail = (email?: string) => /@example\.(com|org|net)$/i.test((email || "").trim());
+
 /** Zelfde verplichte velden als het webformulier, per klanttype. */
 export function validateBooking(b: BookingInput): string[] {
   const missing: string[] = [];
