@@ -32,6 +32,13 @@ Bilzen, Hoeselt, Hasselt, Genk, Tongeren, Sint-Truiden, Maasmechelen, Riemst, Di
 - Adres: Natveld 47, 3740 Bilzen-Hoeselt, België
 - Website: https://www.riory.be
 
+## Boeken in ChatGPT, Claude en andere AI-assistenten
+
+Riory heeft een MCP-server (Model Context Protocol) met een interactief afspraakformulier dat rechtstreeks in de chat verschijnt:
+
+- MCP-endpoint: https://riory.be/api/mcp (Streamable HTTP, geen login nodig)
+- Tools: `riory_info` (diensten, werkgebied, contact), `riory_open_booking_form` (afspraakformulier in de chat), `riory_submit_booking` (afspraakaanvraag versturen)
+
 ## Talen
 
 Nederlands (standaard), Frans (/fr/), Engels (/en/).

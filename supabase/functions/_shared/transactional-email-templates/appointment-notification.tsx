@@ -174,6 +174,13 @@ const AppointmentNotificationEmail = (p: Props) => {
                 via prijscalculator{p.leadBronPrijs ? ` (indicatieve prijs: ${p.leadBronPrijs})` : ''}
               </>
             )}
+            {p.leadBron === 'ai_chat' && (
+              <>
+                <br />
+                <strong>Bron: </strong>
+                geboekt in AI-chat{p.gevondenDetail ? ` (${p.gevondenDetail.replace(/^Geboekt in /, '')})` : ''}
+              </>
+            )}
             {p.wiltOfferte && (
               <>
                 <br />
