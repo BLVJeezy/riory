@@ -36,7 +36,7 @@ Bilzen, Hoeselt, Hasselt, Genk, Tongeren, Sint-Truiden, Maasmechelen, Riemst, Di
 
 Riory heeft een MCP-server (Model Context Protocol) met een interactief afspraakformulier dat rechtstreeks in de chat verschijnt:
 
-- MCP-endpoint: https://riory.be/api/mcp (Streamable HTTP, geen login nodig)
+- MCP-endpoint: https://www.riory.be/api/mcp (Streamable HTTP, geen login nodig)
 - Tools: `riory_info` (diensten, werkgebied, contact), `riory_open_booking_form` (afspraakformulier in de chat), `riory_submit_booking` (afspraakaanvraag versturen)
 
 ## Talen

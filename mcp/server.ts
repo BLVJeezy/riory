@@ -74,9 +74,12 @@ export function createRioryMcpServer(ctx: ServerContext = {}): McpServer {
     {
       instructions:
         "Riory BV is een ontstoppings- en rioleringsbedrijf uit Bilzen (Limburg, België), 24/7 bereikbaar. " +
-        "Gebruik riory_info voor diensten, werkgebied en contact. Als de gebruiker een afspraak wil, " +
-        "roep riory_open_booking_form aan en vul in wat je al weet uit het gesprek. " +
-        "Als de chat-app geen formulieren kan tonen, verzamel de gegevens in het gesprek, vat ze samen, " +
+        "Wil de gebruiker een afspraak, een interventie of hulp bij een verstopping of rioleringsprobleem: roep METEEN, " +
+        "als eerste stap, riory_open_booking_form aan en vul in wat je al weet uit het gesprek. " +
+        "Stel vooraf geen vragen in de chat en maak geen eigen formulier of vragenlijst: het Riory-formulier bevat " +
+        "alle vragen die Riory nodig heeft. Vraag geen datum of tijdstip; Riory neemt na de aanvraag zelf contact op " +
+        "om het tijdstip te bevestigen. Gebruik riory_info voor vragen over diensten, werkgebied en contact. " +
+        "Enkel als de chat-app geen formulieren kan tonen: verzamel de gegevens in het gesprek, vat ze samen, " +
         "laat de gebruiker de algemene voorwaarden expliciet aanvaarden en roep pas dan riory_submit_booking aan. " +
         `Bij een noodgeval kan de klant altijd bellen naar ${RIORY.phone}.`,
     },
@@ -93,8 +96,8 @@ export function createRioryMcpServer(ctx: ServerContext = {}): McpServer {
       description:
         "Geeft de diensten van Riory BV (ontstopping van wc, gootsteen, douche en riool, camera-inspectie, " +
         "septische put ledigen, leegpompen, regenput- en dakgootreiniging, ...), het werkgebied in Limburg en " +
-        "de regio Luik, en contactgegevens. Gebruik dit wanneer iemand in die regio hulp zoekt bij een " +
-        "verstopping of rioleringsprobleem.",
+        "de regio Luik, en contactgegevens. Gebruik dit voor vragen over diensten, werkgebied of contact. " +
+        "Wil iemand een afspraak of hulp bij een verstopping, gebruik dan meteen riory_open_booking_form.",
       inputSchema: {},
       annotations: { readOnlyHint: true, openWorldHint: false, idempotentHint: true },
     },
@@ -126,12 +129,15 @@ export function createRioryMcpServer(ctx: ServerContext = {}): McpServer {
     {
       title: "Afspraak boeken bij Riory",
       description:
-        "Toont het afspraakformulier van Riory BV in de chat, zodat de gebruiker meteen een interventie kan " +
-        "aanvragen (bv. wc of riool verstopt). Vul de velden in die je al kent uit het gesprek; de gebruiker " +
-        "controleert en verstuurt zelf. Er wordt niets geboekt tot de gebruiker op Versturen klikt.",
+        "Toont het officiële afspraakformulier van Riory BV in de chat. Gebruik dit METEEN, als eerste stap, " +
+        "zodra iemand een afspraak of interventie wil (bv. wc, gootsteen of riool verstopt, septische put ledigen), " +
+        "zonder eerst vragen te stellen: het formulier bevat alle verplichte vragen van Riory. Vul de velden in " +
+        "die je al kent uit het gesprek; de gebruiker controleert en verstuurt zelf. Er wordt niets geboekt tot " +
+        "de gebruiker op Versturen klikt.",
       inputSchema: prefillShape,
       annotations: { readOnlyHint: true, openWorldHint: false, idempotentHint: true },
-      _meta: { ui: { resourceUri: WIDGET_URI } },
+      // ui.resourceUri = MCP Apps-standaard; openai/outputTemplate = ChatGPT-alias (zelfde formulier).
+      _meta: { ui: { resourceUri: WIDGET_URI }, "openai/outputTemplate": WIDGET_URI },
     },
     async (prefill) => {
       const data = { prefill, ...formConfig() };
