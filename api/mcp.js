@@ -267,7 +267,7 @@ var allLocations = [
         answer: "Ja, wij bedienen heel Maasmechelen inclusief Mechelen-aan-de-Maas, Eisden, Opgrimbie, Leut, Vucht en Kotem."
       }
     ],
-    nearbyAreas: ["Genk", "Lanaken", "Dilsen-Stokkem", "As", "Zutendaal"]
+    nearbyAreas: ["Genk", "Lanaken", "Maastricht", "Dilsen-Stokkem", "As", "Zutendaal"]
   },
   {
     slug: "sint-truiden",
@@ -353,7 +353,99 @@ var allLocations = [
       { question: "Is een oude hoeve in Riemst lastiger voor ontstopping dan een nieuwbouwwoning?", answer: "Vaak wel. Veel hoeves en oudere woningen rond Herderen en Genoelselderen hebben rioleringen die decennia oud zijn, met meer kans op verzakkingen of wortelingroei. We werken daarom standaard met camera-inspectie als de oorzaak niet meteen duidelijk is." },
       { question: "Wat kost een ontstopping of loodgieterswerk in Riemst?", answer: "Riory werkt met vaste, transparante tarieven in heel Riemst \u2014 inclusief duidelijk gecommuniceerde rijkosten, geen verrassingen achteraf. Gebruik onze prijscalculator voor een snelle indicatie of vraag een offerte aan." }
     ],
-    nearbyAreas: ["Bilzen", "Tongeren", "Hoeselt", "Maasmechelen", "Lanaken"]
+    nearbyAreas: ["Bilzen", "Tongeren", "Hoeselt", "Maasmechelen", "Lanaken", "Maastricht"]
+  },
+  {
+    slug: "maastricht",
+    city: "Maastricht",
+    postalCode: "6211",
+    regionLabel: "Nederlands Limburg",
+    geo: { lat: 50.8514, lng: 5.691 },
+    h1: "Ontstoppingsdienst & Loodgieter Maastricht \u2014 24/7 Riool of WC Verstopt?",
+    metaTitle: "Ontstoppingsdienst Maastricht 24/7 | Riory",
+    metaDescription: "Riool of WC verstopt in Maastricht? Riory ontstopt 24/7 in Centrum, Wyck, Heer, Amby en alle wijken. \u2713 Camera-inspectie \u2713 Vaste prijs \u2713 Snel ter plaatse. Bel nu!",
+    intro: "Riool of WC verstopt in Maastricht? Riory is uw ontstoppingsdienst en loodgieter in Maastricht, 24/7 bereikbaar. Vanuit Bilzen rijden we via Riemst en Kanne in ongeveer 20 minuten naar Maastricht \u2014 vaak sneller dan een dienst die van de andere kant van Nederlands Limburg moet komen.",
+    introParagraphs: [
+      "Riool of WC verstopt in Maastricht? Riory is uw ontstoppingsdienst en loodgieter in Maastricht \u2014 24/7 bereikbaar, ook 's nachts, in het weekend en op feestdagen.",
+      "Maastricht ligt net over de grens, maar voor ons is het om de hoek. Vanuit Bilzen rijden we via Riemst en Kanne in ongeveer 20 minuten naar de stad. Daardoor staan we in Maastricht vaak sneller voor de deur dan een ontstoppingsdienst die van de andere kant van Nederlands Limburg moet komen.",
+      "Elke wijk in Maastricht heeft zijn eigen rioolproblemen. In de oude binnenstad \u2014 het Centrum, het Jekerkwartier en Wyck \u2014 liggen nog veel oude gresbuizen en gemetselde kelders onder smalle straatjes. Die buizen verzakken of scheuren, en boomwortels groeien erin. In naoorlogse wijken als Malberg, Daalhof, Caberg en Wittevrouwenveld zien we vooral vetproppen in de keukenafvoer en verstoppingen in de gezamenlijke afvoer van appartementsgebouwen. In Heer, Amby en Borgharen gaat het vaker om regenputten, kelders die vollopen bij hevige regen en afvoeren die terugslaan.",
+      "Wij werken met professionele hogedrukreiniging, camera-inspectie en zuigwagens. Zo pakken we niet alleen de verstopping aan, maar ook de oorzaak. Vaste tarieven, rijkosten vooraf meegedeeld, en we laten alles netjes achter."
+    ],
+    serviceBullets: [
+      { title: "WC verstopt Maastricht", description: "verstopte toiletten in woningen, studentenkamers en appartementen \u2014 snel en zonder breekwerk ontstopt." },
+      { title: "Riool verstopt Maastricht", description: "hoofdriool of huisaansluiting verstopt? We reinigen met hogedruk en zoeken de oorzaak met de camera." },
+      { title: "Gootsteen en keukenafvoer", description: "vetproppen en etensresten verwijderd, ook in de gezamenlijke afvoer van appartementsgebouwen." },
+      { title: "Douche en badkamerafvoer", description: "haren, zeepresten en kalk verwijderd uit afvoer en sifon." },
+      { title: "Rioollucht in huis", description: "geurdetectie om lekken, droge sifons of kapotte leidingen op te sporen." },
+      { title: "Kelder of regenput", description: "leegpompen na wateroverlast en reinigen van regenputten en kolken." }
+    ],
+    whyChooseUs: [
+      "24/7 bereikbaar in heel Maastricht \u2014 ook 's nachts, in het weekend en op feestdagen",
+      "Ongeveer 20 minuten rijden vanuit Bilzen, via Riemst en Kanne",
+      "Actief in alle wijken: Centrum, Wyck, C\xE9ramique, Jekerkwartier, Sint Pieter, Heer, Amby, Malberg, Caberg en meer",
+      "Ervaring met oude binnenstadsriolering: gresbuizen, gemetselde kelders en smalle straten",
+      "Rijkosten en tarief altijd vooraf duidelijk meegedeeld",
+      "Hogedrukreiniging, camera-inspectie en zuigwagens in \xE9\xE9n bezoek",
+      "Zonder breekwerk waar mogelijk, altijd netjes achtergelaten"
+    ],
+    cta: {
+      title: "Riool of WC verstopt in Maastricht?",
+      body: "Bel Riory op +32 472 50 28 14 of plan meteen een afspraak. We zijn 24/7 bereikbaar en zeggen u vooraf wat het kost."
+    },
+    services: [
+      {
+        title: "Ontstoppingsdienst Maastricht \u2014 WC, riool & afvoer",
+        description: "Verstopte WC, gootsteen, douche of riool in Maastricht? Onze ontstoppingsdienst is 24/7 bereikbaar en lost elke verstopping op met professionele hogedrukreiniging \u2014 van een studentenkamer in Wyck tot een rijwoning in Malberg. Ook bij rioolvliegjes, borrelende afvoeren en rioollucht.",
+        slug: "ontstoppingen-en-geurdetectie"
+      },
+      {
+        title: "Camera-inspectie riool Maastricht",
+        description: "Terugkerende verstoppingen in een oud pand in het Centrum of Jekerkwartier? Met camera-inspectie zien we scheuren, verzakkingen en wortelingroei in de gresbuizen zonder breekwerk. Ook handig bij de aankoop van een woning in Maastricht. U krijgt beelden en een duidelijk advies.",
+        slug: "camera-inspectie"
+      },
+      {
+        title: "Septische put ledigen Maastricht",
+        description: "Woont u in het buitengebied van Maastricht, rond Sint Pieter, Borgharen of Itteren, met een septische put of beerput? Riory ledigt en reinigt uw put met gespecialiseerde zuigwagens en controleert meteen of alles goed werkt.",
+        slug: "septische-put-ledigen"
+      },
+      {
+        title: "Kelder leegpompen en regenput reinigen Maastricht",
+        description: "Kelder onder water na hevige regen in Heer, Amby of Borgharen? Wij pompen snel leeg, reinigen regenputten en kolken en zoeken waarom het water binnenkomt \u2014 zodat het niet opnieuw gebeurt.",
+        slug: "leegpompen-en-reinigen"
+      }
+    ],
+    faq: [
+      {
+        question: "Komt Riory als Belgisch bedrijf ook in Maastricht?",
+        answer: "Ja. Riory is gevestigd in Bilzen, op ongeveer 20 minuten rijden van Maastricht via Riemst en Kanne. We werken in heel Maastricht: Centrum, Wyck, C\xE9ramique, Jekerkwartier, Sint Pieter, Heer, Amby, Limmel, Borgharen, Malberg, Daalhof, Caberg en Wittevrouwenveld."
+      },
+      {
+        question: "Hoe snel is de ontstoppingsdienst ter plaatse in Maastricht?",
+        answer: "Bij spoed streven we ernaar om binnen 1 \xE0 2 uur in Maastricht te zijn. We zijn 24/7 bereikbaar, ook in het weekend en op feestdagen. Bel +32 472 50 28 14 en we zeggen u meteen wanneer we er kunnen zijn."
+      },
+      {
+        question: "Wat kost een ontstopping in Maastricht?",
+        answer: "Riory werkt met vaste, transparante tarieven. De rijkosten naar Maastricht zeggen we u vooraf, dus geen verrassingen op de factuur. Gebruik onze prijscalculator voor een snelle indicatie of bel ons voor een prijs op maat."
+      },
+      {
+        question: "Waarom raakt het riool in de Maastrichtse binnenstad zo vaak verstopt?",
+        answer: "In het Centrum, het Jekerkwartier en Wyck liggen nog veel oude gresbuizen. Die verzakken of scheuren na tientallen jaren, en boomwortels groeien erin. Daardoor blijft vuil sneller hangen. Met een camera-inspectie zien we precies waar het probleem zit, zodat we gericht kunnen herstellen."
+      },
+      {
+        question: "Kan Riory ook helpen bij een verstopte afvoer in een appartementsgebouw?",
+        answer: "Ja. In wijken als C\xE9ramique, Malberg en Daalhof delen veel appartementen \xE9\xE9n afvoer. Een verstopping bij de buren kan dan bij u naar boven komen. We ontstoppen de gezamenlijke leiding met hogedruk en zoeken waar de verstopping vandaan komt."
+      }
+    ],
+    nearbyAreas: ["Riemst", "Lanaken", "Maasmechelen", "Bilzen", "Tongeren"],
+    photos: [
+      { src: "/images/regio/maastricht/ontstoppingsdienst-maastricht-centrum.jpg", alt: "Ontstoppingsdienst Riory ontstopt een afvoerput in Maastricht-centrum", caption: "Afvoerput ontstoppen \u2014 Centrum", lat: 50.8487, lng: 5.6886 },
+      { src: "/images/regio/maastricht/camera-inspectie-riool-maastricht-wyck.jpg", alt: "Camera-inspectie van de riolering in Maastricht-Wyck", caption: "Camera-inspectie \u2014 Wyck", lat: 50.8484, lng: 5.699 },
+      { src: "/images/regio/maastricht/wc-verstopt-maastricht-jekerkwartier.jpg", alt: "Verstopte wc en afvoer verholpen in het Jekerkwartier in Maastricht", caption: "WC verstopt \u2014 Jekerkwartier", lat: 50.8455, lng: 5.687 },
+      { src: "/images/regio/maastricht/riool-verstopt-maastricht-heer.jpg", alt: "Hogedrukreiniging van een verstopt riool in Maastricht-Heer", caption: "Riool verstopt \u2014 Heer", lat: 50.8385, lng: 5.7225 },
+      { src: "/images/regio/maastricht/regenput-leegpompen-maastricht-amby.jpg", alt: "Regenput leegpompen en reinigen in Maastricht-Amby", caption: "Regenput leegpompen \u2014 Amby", lat: 50.8555, lng: 5.733 },
+      { src: "/images/regio/maastricht/septische-put-ledigen-maastricht.jpg", alt: "Septische put ledigen in Maastricht, Sint Pieter", caption: "Septische put \u2014 Sint Pieter", lat: 50.8325, lng: 5.683 },
+      { src: "/images/regio/maastricht/riory-bus-maastricht.jpg", alt: "Riory servicewagen onderweg naar een klant in Maastricht", caption: "Riory onderweg \u2014 Caberg", lat: 50.8572, lng: 5.6612 }
+    ]
   },
   {
     slug: "wellen",
