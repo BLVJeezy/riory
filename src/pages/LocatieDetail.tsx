@@ -96,6 +96,7 @@ const LocatieDetail = () => {
           "Bilzen", "Hasselt", "Genk", "Tongeren", "Hoeselt",
           "Sint-Truiden", "Diepenbeek", "Riemst", "Wellen",
           "Zutendaal", "Alken", "Borgloon", "Kortessem", "Vliermaal", "Vreren",
+          "Maastricht",
         ],
         openingHours: "Mo-Su 00:00-24:00",
         openingHoursSpecification: [
@@ -133,13 +134,33 @@ const LocatieDetail = () => {
         "@context": "https://schema.org",
         "@type": "Service",
         serviceType: ["Loodgieter", "Ontstoppingsdienst"],
-        areaServed: { "@type": "City", name: location.city },
+        areaServed: location.geo
+          ? {
+              "@type": "City",
+              name: location.city,
+              geo: { "@type": "GeoCoordinates", latitude: location.geo.lat, longitude: location.geo.lng },
+            }
+          : { "@type": "City", name: location.city },
         provider: {
           "@type": "LocalBusiness",
           name: "Riory BV",
           "@id": "https://www.riory.be/#business",
         },
       },
+      ...(location.photos || []).map((photo) => ({
+        "@context": "https://schema.org",
+        "@type": "ImageObject",
+        contentUrl: `https://www.riory.be${photo.src}`,
+        name: photo.alt,
+        caption: photo.caption,
+        creditText: "Riory BV",
+        copyrightHolder: { "@id": "https://www.riory.be/#business" },
+        contentLocation: {
+          "@type": "Place",
+          name: `${photo.caption.split("— ")[1] || location.city}, ${location.city}`,
+          geo: { "@type": "GeoCoordinates", latitude: photo.lat, longitude: photo.lng },
+        },
+      })),
       {
         "@context": "https://schema.org",
         "@type": "FAQPage",
@@ -152,8 +173,28 @@ const LocatieDetail = () => {
     ]);
 
     document.head.appendChild(script);
+
+    const geoMetas: HTMLMetaElement[] = [];
+    if (location.geo) {
+      const { lat, lng } = location.geo;
+      [
+        ["geo.region", location.regionLabel === "Nederlands Limburg" ? "NL-LI" : "BE-VLI"],
+        ["geo.placename", location.city],
+        ["geo.position", `${lat};${lng}`],
+        ["ICBM", `${lat}, ${lng}`],
+      ].forEach(([name, content]) => {
+        const meta = document.createElement("meta");
+        meta.name = name;
+        meta.content = content;
+        meta.dataset.locationGeo = "true";
+        document.head.appendChild(meta);
+        geoMetas.push(meta);
+      });
+    }
+
     return () => {
       document.getElementById(`jsonld-location-${slug}`)?.remove();
+      geoMetas.forEach((m) => m.remove());
     };
   }, [location, slug]);
 
@@ -191,7 +232,7 @@ const LocatieDetail = () => {
               <div className="flex items-center gap-2 text-primary mb-3">
                 <MapPin className="w-5 h-5" />
                 <span className="font-heading font-semibold text-sm uppercase tracking-wider">
-                  {location.city}, Limburg
+                  {location.city}, {location.regionLabel || "Limburg"}
                 </span>
               </div>
               <h1 className="text-2xl md:text-4xl font-heading font-bold text-white uppercase leading-tight mb-4 md:mb-6">
@@ -293,6 +334,28 @@ const LocatieDetail = () => {
               </ul>
             </div>
 
+            {location.photos ? (
+              <div className="grid grid-cols-2 gap-3">
+                {location.photos.map((photo, i) => (
+                  <figure
+                    key={photo.src}
+                    className={`relative ${i === location.photos!.length - 1 && location.photos!.length % 2 === 1 ? "col-span-2" : ""}`}
+                  >
+                    <img
+                      src={photo.src}
+                      alt={photo.alt}
+                      title={photo.alt}
+                      loading="lazy"
+                      className="w-full h-32 md:h-44 object-cover rounded-xl border border-border"
+                    />
+                    <figcaption className="absolute bottom-2 left-2 inline-flex items-center gap-1 rounded-md bg-black/60 px-2 py-0.5 text-[10px] md:text-xs font-heading font-semibold text-white">
+                      <MapPin className="w-3 h-3" />
+                      {photo.caption}
+                    </figcaption>
+                  </figure>
+                ))}
+              </div>
+            ) : (
             <div className="grid grid-cols-2 gap-3">
               {[
                 { src: fotoOntstopping, alt: `Ontstoppingsdienst aan het werk in ${location.city}` },
@@ -315,6 +378,7 @@ const LocatieDetail = () => {
                 className="col-span-2 w-full h-32 md:h-44 object-cover rounded-xl border border-border"
               />
             </div>
+            )}
           </div>
 
           {/* Uitgebreide lokale diensten: elke dienst krijgt een eigen semantische SEO-sectie. */}

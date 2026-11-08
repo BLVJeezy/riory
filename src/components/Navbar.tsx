@@ -34,6 +34,7 @@ const LIMBURG_CITIES = [
   { slug: "wellen", label: "Wellen" },
   { slug: "zutendaal", label: "Zutendaal" },
   { slug: "kortessem", label: "Kortessem" },
+  { slug: "maastricht", label: "Maastricht (NL)" },
 ];
 
 const LIEGE_CITIES = [
