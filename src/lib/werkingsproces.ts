@@ -941,3 +941,83 @@ export const fases: Fase[] = [
     ],
   },
 ];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Eenvoudige versie — voor wie snel wil begrijpen hoe Riory werkt.
+// Korte zinnen, geen vaktermen. `teller` toont (indien beschikbaar) hoeveel klanten.
+// ─────────────────────────────────────────────────────────────────────────────
+
+export type EenvoudigeStap = {
+  nr: number;
+  titel: string;
+  zin: string;
+  wie: string;
+  keuzes?: string[];
+  teller?: string;
+};
+
+export const eenvoudig: EenvoudigeStap[] = [
+  {
+    nr: 1,
+    titel: "De klant vindt ons",
+    zin: "Via Google, een AI-chat, sociale media of iemand die ons aanraadt.",
+    wie: "Klant",
+    keuzes: ["Google", "AI-chat", "Mond-aan-mond / andere"],
+    teller: "bezoekers",
+  },
+  {
+    nr: 2,
+    titel: "De klant vraagt hulp",
+    zin: "Hij belt ons, of vult op de website een formulier in: welke dienst, hoe dringend en waar.",
+    wie: "Klant",
+    keuzes: ["Bellen", "Formulier op de website", "Prijs berekenen"],
+    teller: "site:formulier",
+  },
+  {
+    nr: 3,
+    titel: "Wij krijgen de aanvraag",
+    zin: "De aanvraag komt automatisch binnen per mail en de klant krijgt een bevestiging.",
+    wie: "Automatisch",
+    teller: "verwerking:aanvragen",
+  },
+  {
+    nr: 4,
+    titel: "Er wordt een taak gemaakt",
+    zin: "De werkbonnen-app maakt van elke aanvraag een taak en zoekt de juiste klant erbij.",
+    wie: "Automatisch",
+    teller: "app:taken",
+  },
+  {
+    nr: 5,
+    titel: "Eerst een prijs, of meteen langskomen?",
+    zin: "Bij grotere werken sturen we eerst een offerte. Tekent de klant, dan gaan we verder.",
+    wie: "Kantoor",
+    keuzes: ["Meteen inplannen", "Eerst offerte", "Vast contract"],
+    teller: "pad:offerte",
+  },
+  {
+    nr: 6,
+    titel: "We plannen het in",
+    zin: "De taak krijgt een dag en een ploeg. De ploeg ziet ze op de gsm.",
+    wie: "Kantoor",
+    teller: "plannen:ingepland",
+  },
+  {
+    nr: 7,
+    titel: "De ploeg doet het werk",
+    zin: "Ter plaatse: tijd starten, werk doen, foto's nemen. De klant tekent of betaalt meteen.",
+    wie: "Ploeg",
+    keuzes: ["Klant tekent", "Klant betaalt ter plaatse"],
+    teller: "uitvoer:afgesloten",
+  },
+  {
+    nr: 8,
+    titel: "Factuur en betaling",
+    zin: "De klant krijgt de factuur. Betaalt hij niet op tijd, dan volgt een herinnering.",
+    wie: "Kantoor",
+    keuzes: ["Betaald", "Herinnering sturen"],
+    teller: "factuur:betaald",
+  },
+];
+
+export const EENVOUDIG_EINDE = "Klaar! De klant is geholpen en betaald. Daarna vragen we een review en houden we contact via de nieuwsbrief.";
