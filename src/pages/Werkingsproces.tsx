@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowLeft, ChevronDown, GitBranch, Printer, Search } from "lucide-react";
+import { ArrowLeft, ChevronDown, Clock, GitBranch, Printer, Search, Target, User } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { fases, PROCES_VERSIE, type Fase, type Stap, type Status, type Systeem } from "@/lib/werkingsproces";
@@ -19,7 +19,7 @@ const STATUS: Record<Exclude<Status, "actief">, { label: string; cls: string }> 
 
 const matches = (s: Stap, q: string): boolean => {
   if (!q) return true;
-  const hay = `${s.titel} ${s.uitleg ?? ""}`.toLowerCase();
+  const hay = `${s.titel} ${s.uitleg ?? ""} ${s.wie ?? ""} ${(s.details ?? []).join(" ")}`.toLowerCase();
   if (hay.includes(q)) return true;
   if (s.stappen?.some((c) => matches(c, q))) return true;
   return !!s.takken?.some((t) => t.label.toLowerCase().includes(q) || t.stappen.some((c) => matches(c, q)));
@@ -35,8 +35,8 @@ const Badge = ({ sys }: { sys?: Systeem }) =>
     </span>
   ) : null;
 
-const StapKaart = ({ stap, q }: { stap: Stap; q: string }) => {
-  const hit = !!q && `${stap.titel} ${stap.uitleg ?? ""}`.toLowerCase().includes(q);
+const StapKaart = ({ stap, q, details }: { stap: Stap; q: string; details: boolean }) => {
+  const hit = !!q && `${stap.titel} ${stap.uitleg ?? ""} ${(stap.details ?? []).join(" ")}`.toLowerCase().includes(q);
   return (
     <div className="relative pl-5">
       {/* verbindingslijn + bolletje */}
@@ -63,9 +63,33 @@ const StapKaart = ({ stap, q }: { stap: Stap; q: string }) => {
           )}
         </div>
         {stap.uitleg && <p className="text-xs text-muted-foreground mt-1 leading-relaxed">{stap.uitleg}</p>}
+        {(stap.wie || stap.wanneer) && (
+          <div className="flex flex-wrap gap-x-3 gap-y-1 mt-1.5 text-[11px] text-foreground/80">
+            {stap.wie && (
+              <span className="inline-flex items-center gap-1">
+                <User className="w-3 h-3 text-muted-foreground" /> {stap.wie}
+              </span>
+            )}
+            {stap.wanneer && (
+              <span className="inline-flex items-center gap-1">
+                <Clock className="w-3 h-3 text-muted-foreground" /> {stap.wanneer}
+              </span>
+            )}
+          </div>
+        )}
+        {details && stap.details && stap.details.length > 0 && (
+          <ul className="mt-2 space-y-0.5 border-t border-border/60 pt-1.5">
+            {stap.details.map((d) => (
+              <li key={d} className="text-xs text-muted-foreground leading-relaxed flex gap-1.5">
+                <span className="text-primary shrink-0" aria-hidden>•</span>
+                <span>{d}</span>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
 
-      {stap.stappen && <StappenLijst stappen={stap.stappen} q={q} />}
+      {stap.stappen && <StappenLijst stappen={stap.stappen} q={q} details={details} />}
 
       {stap.takken && (
         <div className="grid gap-2 mb-3 sm:grid-cols-2 xl:grid-cols-[repeat(auto-fit,minmax(200px,1fr))]">
@@ -74,7 +98,7 @@ const StapKaart = ({ stap, q }: { stap: Stap; q: string }) => {
               <p className="text-[11px] font-bold uppercase tracking-wider text-primary mb-2 flex items-center gap-1">
                 <span aria-hidden>↳</span> {tak.label}
               </p>
-              <StappenLijst stappen={tak.stappen} q={q} />
+              <StappenLijst stappen={tak.stappen} q={q} details={details} />
             </div>
           ))}
         </div>
@@ -83,15 +107,15 @@ const StapKaart = ({ stap, q }: { stap: Stap; q: string }) => {
   );
 };
 
-const StappenLijst = ({ stappen, q }: { stappen: Stap[]; q: string }) => (
+const StappenLijst = ({ stappen, q, details }: { stappen: Stap[]; q: string; details: boolean }) => (
   <div>
     {stappen.filter((s) => matches(s, q)).map((s, i) => (
-      <StapKaart key={`${s.titel}-${i}`} stap={s} q={q} />
+      <StapKaart key={`${s.titel}-${i}`} stap={s} q={q} details={details} />
     ))}
   </div>
 );
 
-const FaseKaart = ({ fase, open, onToggle, q }: { fase: Fase; open: boolean; onToggle: () => void; q: string }) => (
+const FaseKaart = ({ fase, open, onToggle, q, details }: { fase: Fase; open: boolean; onToggle: () => void; q: string; details: boolean }) => (
   <section className="relative">
     <div className="rounded-xl border border-border bg-background shadow-sm overflow-hidden">
       <button
@@ -113,8 +137,17 @@ const FaseKaart = ({ fase, open, onToggle, q }: { fase: Fase; open: boolean; onT
       {open && (
         <div className="px-3 sm:px-4 pb-3 pt-1 border-t border-border">
           <div className="pt-3">
-            <StappenLijst stappen={fase.stappen} q={q} />
+            <StappenLijst stappen={fase.stappen} q={q} details={details} />
           </div>
+          {fase.resultaat && (
+            <div className="mt-1 flex items-start gap-2 rounded-lg bg-emerald-500/10 border border-emerald-500/30 px-3 py-2">
+              <Target className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
+              <p className="text-xs text-foreground">
+                <span className="font-semibold">Resultaat: </span>
+                {fase.resultaat}
+              </p>
+            </div>
+          )}
         </div>
       )}
     </div>
@@ -126,6 +159,7 @@ const Werkingsproces = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState<Record<string, boolean>>(() => Object.fromEntries(fases.map((f) => [f.id, true])));
   const [zoek, setZoek] = useState("");
+  const [details, setDetails] = useState(true);
   const q = zoek.trim().toLowerCase();
 
   useEffect(() => {
@@ -201,6 +235,9 @@ const Werkingsproces = () => {
                 className="w-full h-9 rounded-md border border-input bg-background pl-9 pr-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
               />
             </div>
+            <Button variant={details ? "default" : "outline"} size="sm" onClick={() => setDetails((d) => !d)}>
+              {details ? "Details verbergen" : "Details tonen"}
+            </Button>
             <Button variant="outline" size="sm" onClick={toggleAlles}>
               {allesOpen ? "Alles inklappen" : "Alles uitklappen"}
             </Button>
@@ -211,7 +248,7 @@ const Werkingsproces = () => {
         <div className="space-y-3">
           {zichtbaar.map((f, i) => (
             <div key={f.id}>
-              <FaseKaart fase={f} q={q} open={!!q || !!open[f.id]} onToggle={() => setOpen((o) => ({ ...o, [f.id]: !o[f.id] }))} />
+              <FaseKaart fase={f} q={q} details={details} open={!!q || !!open[f.id]} onToggle={() => setOpen((o) => ({ ...o, [f.id]: !o[f.id] }))} />
               {i < zichtbaar.length - 1 && (
                 <div className="flex justify-center py-1" aria-hidden>
                   <span className="text-primary text-lg leading-none">↓</span>
