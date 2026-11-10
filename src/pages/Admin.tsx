@@ -4,7 +4,7 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from "recha
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { LogOut, Share2, Download } from "lucide-react";
+import { LogOut, Share2, Download, ClipboardList } from "lucide-react";
 import { toast } from "sonner";
 
 
@@ -760,10 +760,19 @@ const Admin = () => {
         <h1 className="text-lg sm:text-xl font-heading font-bold text-foreground">
           Riory Admin
         </h1>
-        <Button variant="outline" size="sm" className="gap-2" onClick={signOut}>
-          <LogOut className="w-4 h-4" />
-          Uitloggen
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button asChild size="sm" className="gap-2">
+            <a href="https://werkbonnenriory.lovable.app" target="_blank" rel="noopener noreferrer">
+              <ClipboardList className="w-4 h-4" />
+              <span className="hidden sm:inline">Werkbonnen-app</span>
+              <span className="sm:hidden">Werkbonnen</span>
+            </a>
+          </Button>
+          <Button variant="outline" size="sm" className="gap-2" onClick={signOut}>
+            <LogOut className="w-4 h-4" />
+            <span className="hidden sm:inline">Uitloggen</span>
+          </Button>
+        </div>
       </header>
 
 
