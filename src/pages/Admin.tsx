@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef, useMemo } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from "recharts";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { LogOut, Share2, Download, ClipboardList } from "lucide-react";
+import { LogOut, Share2, Download, ClipboardList, Workflow } from "lucide-react";
 import { toast } from "sonner";
 
 
@@ -761,6 +761,12 @@ const Admin = () => {
           Riory Admin
         </h1>
         <div className="flex items-center gap-2">
+          <Button asChild variant="outline" size="sm" className="gap-2">
+            <Link to="/admin/werkingsproces" aria-label="Werkingsproces">
+              <Workflow className="w-4 h-4" />
+              <span className="hidden sm:inline">Werkingsproces</span>
+            </Link>
+          </Button>
           <Button asChild size="sm" className="gap-2">
             <a href="https://werkbonnenriory.lovable.app" target="_blank" rel="noopener noreferrer">
               <ClipboardList className="w-4 h-4" />
