@@ -40,13 +40,28 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       }
     };
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, next) => apply(next));
+    // Vangnet: komt er na 6 s nog geen sessie-antwoord (vastgelopen sessie op gsm),
+    // dan stoppen met laden; zonder gebruiker volgt de doorverwijzing naar login.
+    let resolved = false;
+    const safety = setTimeout(() => {
+      if (!resolved) setLoading(false);
+    }, 6000);
+    const applyOnce = (next: Session | null) => {
+      resolved = true;
+      clearTimeout(safety);
+      apply(next);
+    };
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, next) => applyOnce(next));
     supabase.auth.getSession().then(
-      ({ data: { session: next } }) => apply(next),
-      () => apply(null),
+      ({ data: { session: next } }) => applyOnce(next),
+      () => applyOnce(null),
     );
 
-    return () => subscription.unsubscribe();
+    return () => {
+      clearTimeout(safety);
+      subscription.unsubscribe();
+    };
   }, []);
 
   useEffect(() => {
