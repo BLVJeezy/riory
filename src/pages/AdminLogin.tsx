@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Lock, Mail } from "lucide-react";
@@ -10,6 +11,12 @@ const AdminLogin = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { user, isAdmin, loading: authLoading } = useAuth();
+
+  // Al ingelogd als admin? Meteen door naar het dashboard.
+  useEffect(() => {
+    if (!authLoading && user && isAdmin) navigate("/admin", { replace: true });
+  }, [authLoading, user, isAdmin, navigate]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -43,17 +50,26 @@ const AdminLogin = () => {
         </div>
 
         <form
+          method="post"
+          action="/admin/login"
+          autoComplete="on"
           onSubmit={handleLogin}
           className="bg-background rounded-xl p-6 border border-border shadow-sm space-y-4"
         >
           <div>
-            <label className="block text-xs font-heading font-semibold uppercase tracking-wider text-foreground mb-1.5">
+            <label htmlFor="admin-email" className="block text-xs font-heading font-semibold uppercase tracking-wider text-foreground mb-1.5">
               Email
             </label>
             <div className="relative">
               <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               <input
+                id="admin-email"
+                name="email"
                 type="email"
+                autoComplete="username"
+                inputMode="email"
+                autoCapitalize="none"
+                autoCorrect="off"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -64,13 +80,16 @@ const AdminLogin = () => {
           </div>
 
           <div>
-            <label className="block text-xs font-heading font-semibold uppercase tracking-wider text-foreground mb-1.5">
+            <label htmlFor="admin-password" className="block text-xs font-heading font-semibold uppercase tracking-wider text-foreground mb-1.5">
               Wachtwoord
             </label>
             <div className="relative">
               <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               <input
+                id="admin-password"
+                name="password"
                 type="password"
+                autoComplete="current-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
