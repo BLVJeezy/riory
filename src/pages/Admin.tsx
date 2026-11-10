@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from "recharts";
 import { useAuth } from "@/hooks/useAuth";
+import AdminLoading from "@/components/AdminLoading";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { LogOut, Share2, Download, ClipboardList, Workflow } from "lucide-react";
@@ -746,11 +747,7 @@ const Admin = () => {
 
 
   if (loading || !user || !isAdmin) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-muted">
-        <p className="text-muted-foreground font-body">Laden...</p>
-      </div>
-    );
+    return <AdminLoading />;
   }
 
   return (

@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ArrowLeft, ChevronDown, Clock, GitBranch, Printer, Search, Target, User } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
+import AdminLoading from "@/components/AdminLoading";
 import { Button } from "@/components/ui/button";
 import { fases, PROCES_VERSIE, type Fase, type Stap, type Status, type Systeem } from "@/lib/werkingsproces";
 
@@ -187,11 +188,7 @@ const Werkingsproces = () => {
   const toggleAlles = () => setOpen(Object.fromEntries(fases.map((f) => [f.id, !allesOpen])));
 
   if (loading || !user || !isAdmin) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-muted">
-        <p className="text-muted-foreground font-body">Laden...</p>
-      </div>
-    );
+    return <AdminLoading />;
   }
 
   return (
