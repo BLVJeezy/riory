@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowLeft, ChevronDown, Clock, GitBranch, Printer, Search, Target, User } from "lucide-react";
+import { ArrowLeft, ChevronDown, Clock, GitBranch, Loader2, Printer, Search, Target, User, Users } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { fases, PROCES_VERSIE, type Fase, type Stap, type Status, type Systeem } from "@/lib/werkingsproces";
+import { groepeer, laadJourney, type JourneyResultaat, type Tellers } from "@/lib/journey";
 
 const SYS: Record<Systeem, { label: string; cls: string }> = {
   site: { label: "Website", cls: "bg-blue-500/10 text-blue-700 dark:text-blue-300 border-blue-500/30" },
@@ -35,7 +36,23 @@ const Badge = ({ sys }: { sys?: Systeem }) =>
     </span>
   ) : null;
 
-const StapKaart = ({ stap, q, details }: { stap: Stap; q: string; details: boolean }) => {
+const Teller = ({ k, tellers }: { k?: string; tellers: Tellers | null }) => {
+  if (!k || !tellers) return null;
+  const n = tellers[k] ?? 0;
+  return (
+    <span
+      title="Aantal klanten in de gekozen periode"
+      className={`inline-flex items-center gap-0.5 text-[11px] font-bold px-1.5 py-0.5 rounded-full ${
+        n > 0 ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
+      }`}
+    >
+      <Users className="w-3 h-3" />
+      {n.toLocaleString("nl-BE")}
+    </span>
+  );
+};
+
+const StapKaart = ({ stap, q, details, tellers }: { stap: Stap; q: string; details: boolean; tellers: Tellers | null }) => {
   const hit = !!q && `${stap.titel} ${stap.uitleg ?? ""} ${(stap.details ?? []).join(" ")}`.toLowerCase().includes(q);
   return (
     <div className="relative pl-5">
@@ -56,6 +73,7 @@ const StapKaart = ({ stap, q, details }: { stap: Stap; q: string; details: boole
           {stap.takken && <GitBranch className="w-3.5 h-3.5 text-primary shrink-0" />}
           <p className="font-heading font-semibold text-sm text-foreground">{stap.titel}</p>
           <Badge sys={stap.sys} />
+          <Teller k={stap.teller} tellers={tellers} />
           {stap.status && stap.status !== "actief" && (
             <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded ${STATUS[stap.status].cls}`}>
               {STATUS[stap.status].label}
@@ -89,7 +107,7 @@ const StapKaart = ({ stap, q, details }: { stap: Stap; q: string; details: boole
         )}
       </div>
 
-      {stap.stappen && <StappenLijst stappen={stap.stappen} q={q} details={details} />}
+      {stap.stappen && <StappenLijst stappen={stap.stappen} q={q} details={details} tellers={tellers} />}
 
       {stap.takken && (
         <div className="grid gap-2 mb-3 sm:grid-cols-2 xl:grid-cols-[repeat(auto-fit,minmax(200px,1fr))]">
@@ -97,8 +115,11 @@ const StapKaart = ({ stap, q, details }: { stap: Stap; q: string; details: boole
             <div key={tak.label} className="rounded-lg border border-primary/25 bg-primary/[0.03] p-2">
               <p className="text-[11px] font-bold uppercase tracking-wider text-primary mb-2 flex items-center gap-1">
                 <span aria-hidden>↳</span> {tak.label}
+                <span className="ml-auto normal-case tracking-normal">
+                  <Teller k={tak.teller} tellers={tellers} />
+                </span>
               </p>
-              <StappenLijst stappen={tak.stappen} q={q} details={details} />
+              <StappenLijst stappen={tak.stappen} q={q} details={details} tellers={tellers} />
             </div>
           ))}
         </div>
@@ -107,15 +128,15 @@ const StapKaart = ({ stap, q, details }: { stap: Stap; q: string; details: boole
   );
 };
 
-const StappenLijst = ({ stappen, q, details }: { stappen: Stap[]; q: string; details: boolean }) => (
+const StappenLijst = ({ stappen, q, details, tellers }: { stappen: Stap[]; q: string; details: boolean; tellers: Tellers | null }) => (
   <div>
     {stappen.filter((s) => matches(s, q)).map((s, i) => (
-      <StapKaart key={`${s.titel}-${i}`} stap={s} q={q} details={details} />
+      <StapKaart key={`${s.titel}-${i}`} stap={s} q={q} details={details} tellers={tellers} />
     ))}
   </div>
 );
 
-const FaseKaart = ({ fase, open, onToggle, q, details }: { fase: Fase; open: boolean; onToggle: () => void; q: string; details: boolean }) => (
+const FaseKaart = ({ fase, open, onToggle, q, details, tellers }: { fase: Fase; open: boolean; onToggle: () => void; q: string; details: boolean; tellers: Tellers | null }) => (
   <section className="relative">
     <div className="rounded-xl border border-border bg-background shadow-sm overflow-hidden">
       <button
@@ -137,7 +158,7 @@ const FaseKaart = ({ fase, open, onToggle, q, details }: { fase: Fase; open: boo
       {open && (
         <div className="px-3 sm:px-4 pb-3 pt-1 border-t border-border">
           <div className="pt-3">
-            <StappenLijst stappen={fase.stappen} q={q} details={details} />
+            <StappenLijst stappen={fase.stappen} q={q} details={details} tellers={tellers} />
           </div>
           {fase.resultaat && (
             <div className="mt-1 flex items-start gap-2 rounded-lg bg-emerald-500/10 border border-emerald-500/30 px-3 py-2">
@@ -154,17 +175,203 @@ const FaseKaart = ({ fase, open, onToggle, q, details }: { fase: Fase; open: boo
   </section>
 );
 
+const PERIODES: { d: number; label: string }[] = [
+  { d: 7, label: "7 dagen" },
+  { d: 30, label: "30 dagen" },
+  { d: 90, label: "90 dagen" },
+  { d: 365, label: "Jaar" },
+  { d: 0, label: "Alles" },
+];
+
+const GROEPEN = [
+  { k: "dienst", label: "Per dienst" },
+  { k: "klantType", label: "Per klanttype" },
+  { k: "kanaal", label: "Per kanaal" },
+  { k: "dringend", label: "Dringend" },
+] as const;
+
+const pct = (a: number, b: number) => (b ? `${Math.round((a / b) * 100)}%` : "–");
+
+const JourneyPaneel = ({
+  journey, laden, fout, periode, setPeriode, groep, setGroep,
+}: {
+  journey: JourneyResultaat | null; laden: boolean; fout: string | null; periode: number; setPeriode: (d: number) => void;
+  groep: (typeof GROEPEN)[number]["k"]; setGroep: (g: (typeof GROEPEN)[number]["k"]) => void;
+}) => {
+  const t = journey?.tellers ?? {};
+  const appOk = journey?.app === "ok";
+  const trechter = [
+    { label: "Bezoekers", n: t["bezoekers"] ?? 0 },
+    { label: "Aanvragen", n: t["site:formulier"] ?? 0 },
+    ...(appOk
+      ? [
+          { label: "Taken in app", n: t["app:taken"] ?? 0 },
+          { label: "Uitgevoerd", n: t["uitvoer:afgesloten"] ?? 0 },
+          { label: "Gefactureerd", n: t["factuur:gemaakt"] ?? 0 },
+          { label: "Volledig (betaald)", n: t["volledig"] ?? 0 },
+        ]
+      : []),
+  ];
+  const max = Math.max(1, ...trechter.map((x) => x.n));
+  const rijen = journey ? groepeer(journey.trajecten, groep) : [];
+
+  return (
+    <div className="rounded-xl border border-border bg-background p-4 space-y-4">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <div>
+          <h2 className="font-heading font-bold text-foreground flex items-center gap-2">
+            Customer journey {laden && <Loader2 className="w-4 h-4 animate-spin text-muted-foreground" />}
+          </h2>
+          <p className="text-xs text-muted-foreground">Hoeveel klanten elke stap en vertakking doorliepen.</p>
+        </div>
+        <div className="flex flex-wrap gap-1 print:hidden">
+          {PERIODES.map((p) => (
+            <button
+              key={p.d}
+              type="button"
+              onClick={() => setPeriode(p.d)}
+              className={`text-xs px-2.5 py-1 rounded-full border ${
+                periode === p.d ? "bg-primary text-primary-foreground border-primary" : "border-border text-foreground hover:bg-muted"
+              }`}
+            >
+              {p.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {fout && <p className="text-sm text-red-600">Laden mislukt: {fout}</p>}
+      {journey?.app === "niet_ingesteld" && (
+        <p className="text-xs rounded-md bg-amber-500/10 border border-amber-500/30 text-foreground px-3 py-2">
+          Website-cijfers zijn live. De koppeling met de werkbonnen-app (taken, offertes, werkbonnen, facturen) is nog niet ingesteld.
+        </p>
+      )}
+      {journey?.app === "fout" && (
+        <p className="text-xs rounded-md bg-red-500/10 border border-red-500/30 text-foreground px-3 py-2">
+          Werkbonnen-app: {journey.appFout ?? "fout bij ophalen"}. Website-cijfers zijn wel live.
+        </p>
+      )}
+
+      {/* Trechter */}
+      <div className="space-y-1.5">
+        {trechter.map((x, i) => (
+          <div key={x.label} className="flex items-center gap-2">
+            <span className="w-32 sm:w-40 shrink-0 text-xs text-foreground">{x.label}</span>
+            <div className="flex-1 h-6 rounded bg-muted overflow-hidden">
+              <div className="h-full bg-primary/80 rounded" style={{ width: `${Math.max(2, (x.n / max) * 100)}%` }} />
+            </div>
+            <span className="w-24 shrink-0 text-right text-xs tabular-nums">
+              <span className="font-bold text-foreground">{x.n.toLocaleString("nl-BE")}</span>
+              {i > 0 && <span className="text-muted-foreground"> · {pct(x.n, trechter[i - 1].n)}</span>}
+            </span>
+          </div>
+        ))}
+      </div>
+
+      {/* Resultaat per vertakking */}
+      {journey && (
+        <div>
+          <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
+            <h3 className="font-heading font-semibold text-sm text-foreground">Resultaat per vertakking (website-aanvragen)</h3>
+            <div className="flex flex-wrap gap-1 print:hidden">
+              {GROEPEN.map((g) => (
+                <button
+                  key={g.k}
+                  type="button"
+                  onClick={() => setGroep(g.k)}
+                  className={`text-xs px-2 py-0.5 rounded border ${groep === g.k ? "bg-foreground text-background border-foreground" : "border-border"}`}
+                >
+                  {g.label}
+                </button>
+              ))}
+            </div>
+          </div>
+          {rijen.length === 0 ? (
+            <p className="text-xs text-muted-foreground">Nog geen aanvragen in deze periode.</p>
+          ) : (
+            <div className="overflow-x-auto -mx-1">
+              <table className="w-full text-xs min-w-[520px]">
+                <thead>
+                  <tr className="text-muted-foreground text-left">
+                    <th className="font-semibold py-1 px-1">Vertakking</th>
+                    <th className="font-semibold py-1 px-1 text-right">Aanvraag</th>
+                    {appOk && (
+                      <>
+                        <th className="font-semibold py-1 px-1 text-right">Taak</th>
+                        <th className="font-semibold py-1 px-1 text-right">Offerte</th>
+                        <th className="font-semibold py-1 px-1 text-right">Uitgevoerd</th>
+                        <th className="font-semibold py-1 px-1 text-right">Gefactureerd</th>
+                        <th className="font-semibold py-1 px-1 text-right">Volledig</th>
+                      </>
+                    )}
+                  </tr>
+                </thead>
+                <tbody>
+                  {rijen.map((r) => (
+                    <tr key={r.label} className="border-t border-border">
+                      <td className="py-1.5 px-1 text-foreground">{r.label}</td>
+                      <td className="py-1.5 px-1 text-right font-bold tabular-nums">{r.aanvraag}</td>
+                      {appOk && (
+                        <>
+                          <td className="py-1.5 px-1 text-right tabular-nums">{r.taak}</td>
+                          <td className="py-1.5 px-1 text-right tabular-nums">{r.offerte}</td>
+                          <td className="py-1.5 px-1 text-right tabular-nums">{r.uitgevoerd}</td>
+                          <td className="py-1.5 px-1 text-right tabular-nums">{r.gefactureerd}</td>
+                          <td className="py-1.5 px-1 text-right tabular-nums">
+                            <span className="font-bold text-emerald-700 dark:text-emerald-400">{r.volledig}</span>
+                            <span className="text-muted-foreground"> · {pct(r.volledig, r.aanvraag)}</span>
+                          </td>
+                        </>
+                      )}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+          {appOk && (
+            <p className="text-[11px] text-muted-foreground mt-2">
+              {journey.gekoppeld} van {journey.trajecten.length} website-aanvragen gekoppeld aan een taak (zelfde e-mail of telefoon).
+              Volledig = factuur betaald of ter plaatse afgerekend.{journey.afgekapt ? " Periode afgekapt op 5.000 taken." : ""}
+            </p>
+          )}
+        </div>
+      )}
+    </div>
+  );
+};
+
 const Werkingsproces = () => {
   const { user, isAdmin, loading } = useAuth();
   const navigate = useNavigate();
   const [open, setOpen] = useState<Record<string, boolean>>(() => Object.fromEntries(fases.map((f) => [f.id, true])));
   const [zoek, setZoek] = useState("");
   const [details, setDetails] = useState(true);
+  const [periode, setPeriode] = useState<number>(30);
+  const [journey, setJourney] = useState<JourneyResultaat | null>(null);
+  const [journeyLaden, setJourneyLaden] = useState(false);
+  const [journeyFout, setJourneyFout] = useState<string | null>(null);
+  const [groep, setGroep] = useState<"dienst" | "klantType" | "kanaal" | "dringend">("dienst");
   const q = zoek.trim().toLowerCase();
 
   useEffect(() => {
     if (!loading && (!user || !isAdmin)) navigate("/admin/login");
   }, [user, isAdmin, loading, navigate]);
+
+  useEffect(() => {
+    if (!user || !isAdmin) return;
+    let stop = false;
+    setJourneyLaden(true);
+    setJourneyFout(null);
+    const from = periode === 0 ? new Date("2026-01-01T00:00:00Z") : new Date(Date.now() - periode * 864e5);
+    laadJourney(from)
+      .then((r) => !stop && setJourney(r))
+      .catch((e) => !stop && setJourneyFout(e instanceof Error ? e.message : "Laden mislukt"))
+      .finally(() => !stop && setJourneyLaden(false));
+    return () => {
+      stop = true;
+    };
+  }, [user, isAdmin, periode]);
 
   useEffect(() => {
     document.title = "Werkingsproces — Riory Admin";
@@ -244,11 +451,22 @@ const Werkingsproces = () => {
           </div>
         </div>
 
+        {/* Customer journey */}
+        <JourneyPaneel
+          journey={journey}
+          laden={journeyLaden}
+          fout={journeyFout}
+          periode={periode}
+          setPeriode={setPeriode}
+          groep={groep}
+          setGroep={setGroep}
+        />
+
         {/* Flow */}
         <div className="space-y-3">
           {zichtbaar.map((f, i) => (
             <div key={f.id}>
-              <FaseKaart fase={f} q={q} details={details} open={!!q || !!open[f.id]} onToggle={() => setOpen((o) => ({ ...o, [f.id]: !o[f.id] }))} />
+              <FaseKaart fase={f} q={q} details={details} tellers={journey?.tellers ?? null} open={!!q || !!open[f.id]} onToggle={() => setOpen((o) => ({ ...o, [f.id]: !o[f.id] }))} />
               {i < zichtbaar.length - 1 && (
                 <div className="flex justify-center py-1" aria-hidden>
                   <span className="text-primary text-lg leading-none">↓</span>
