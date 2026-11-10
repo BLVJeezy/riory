@@ -7,6 +7,7 @@
 // - `wie`      = wie de stap uitvoert (klant, admin, ploeg, systeem …)
 // - `wanneer`  = timing / frequentie
 // - `details`  = extra regels, prijzen, uitzonderingen (opsomming)
+// - `teller`   = sleutel van de journey-teller (aantal klanten dat hier passeerde)
 // - `status`   = "actief" (standaard), "deels" (werkt maar nog niet volledig), "open" (nog te doen / idee)
 
 export type Systeem = "site" | "app" | "extern" | "mens";
@@ -20,8 +21,10 @@ export type Stap = {
   wanneer?: string;
   details?: string[];
   status?: Status;
+  /** Sleutel voor de customer-journey-teller (zie src/lib/journey.ts). */
+  teller?: string;
   stappen?: Stap[];
-  takken?: { label: string; stappen: Stap[] }[];
+  takken?: { label: string; teller?: string; stappen: Stap[] }[];
 };
 
 export type Fase = {
@@ -54,10 +57,10 @@ export const fases: Fase[] = [
         titel: "Via welk kanaal?",
         takken: [
           {
-            label: "Google zoeken (SEO)",
+            label: "Google zoeken (SEO)", teller: "kanaal:google",
             stappen: [
               {
-                titel: "Dienstpagina's",
+                titel: "Dienstpagina's", teller: "landing:dienst",
                 uitleg: "/diensten/… per dienst",
                 sys: "site",
                 details: [
@@ -67,7 +70,7 @@ export const fases: Fase[] = [
                 ],
               },
               {
-                titel: "Regiopagina's",
+                titel: "Regiopagina's", teller: "landing:regio",
                 uitleg: "/regio/… per gemeente",
                 sys: "site",
                 details: [
@@ -76,8 +79,8 @@ export const fases: Fase[] = [
                   "Bilzen en Tongeren scoren sterk (#1–2); Genk en Hasselt nog zwak.",
                 ],
               },
-              { titel: "Artikels & veelvoorkomende problemen", uitleg: "Informatieve blogposts die naar een dienst leiden", sys: "site" },
-              { titel: "Referentiepagina's", uitleg: "/referenties/… uitgevoerde projecten", sys: "site" },
+              { titel: "Artikels & veelvoorkomende problemen", teller: "landing:artikel", uitleg: "Informatieve blogposts die naar een dienst leiden", sys: "site" },
+              { titel: "Referentiepagina's", teller: "landing:referentie", uitleg: "/referenties/… uitgevoerde projecten", sys: "site" },
             ],
           },
           {
@@ -88,7 +91,7 @@ export const fases: Fase[] = [
             ],
           },
           {
-            label: "AI-chat",
+            label: "AI-chat", teller: "kanaal:ai",
             stappen: [
               {
                 titel: "ChatGPT / Claude / Copilot",
@@ -104,7 +107,7 @@ export const fases: Fase[] = [
             ],
           },
           {
-            label: "Andere kanalen",
+            label: "Andere kanalen", teller: "kanaal:andere",
             stappen: [
               {
                 titel: "Offline & social",
@@ -122,7 +125,7 @@ export const fases: Fase[] = [
         ],
       },
       {
-        titel: "Bezoek wordt getagd",
+        titel: "Bezoek wordt getagd", teller: "bezoekers",
         uitleg: "Bron van het eerste bezoek wordt onthouden",
         sys: "site",
         wie: "Systeem",
@@ -137,7 +140,7 @@ export const fases: Fase[] = [
         sys: "site",
         takken: [
           {
-            label: "Bellen",
+            label: "Bellen", teller: "site:bellen",
             stappen: [
               {
                 titel: "Sticky belbalk / spoedbanner",
@@ -148,12 +151,12 @@ export const fases: Fase[] = [
             ],
           },
           {
-            label: "Prijscalculator",
+            label: "Prijscalculator", teller: "site:calculator",
             stappen: [
-              { titel: "Akkoord: prijzen indicatief", uitleg: "Niet bindend, exacte prijs ter plaatse", wie: "Klant" },
-              { titel: "Werkadres invullen", uitleg: "Afstand + reiskosten berekend (max. 30 min rijden)", details: ["Reiskosten: heen en terug × € 1,45/km."] },
+              { titel: "Akkoord: prijzen indicatief", teller: "calc:akkoord", uitleg: "Niet bindend, exacte prijs ter plaatse", wie: "Klant" },
+              { titel: "Werkadres invullen", teller: "calc:adres", uitleg: "Afstand + reiskosten berekend (max. 30 min rijden)", details: ["Reiskosten: heen en terug × € 1,45/km."] },
               {
-                titel: "Dienst kiezen → richtprijs (excl. btw)",
+                titel: "Dienst kiezen → richtprijs (excl. btw)", teller: "calc:prijs",
                 details: [
                   "Interventie standaard € 165 (1e uur) · met camera € 275",
                   "Camera-inspectie € 275",
@@ -163,11 +166,11 @@ export const fases: Fase[] = [
                   "Regenput: 5.000 L € 329,45 · 7.500 L € 349,77 · 10.000 L € 369,45 · 15.000 L € 406,29 · 20.000 L+ op aanvraag",
                 ],
               },
-              { titel: "Door naar formulier", uitleg: "Gegevens worden meegenomen", details: ["Afhakers na de calculator zichtbaar in admin.", "Calculator kan aan/uit gezet worden (instelling)."] },
+              { titel: "Door naar formulier", teller: "calc:door", uitleg: "Gegevens worden meegenomen", details: ["Afhakers na de calculator zichtbaar in admin.", "Calculator kan aan/uit gezet worden (instelling)."] },
             ],
           },
           {
-            label: "Formulier",
+            label: "Formulier", teller: "site:formulier",
             stappen: [{ titel: "Afspraak- of offerteformulier", uitleg: "Zie fase 2" }],
           },
           {
@@ -191,10 +194,10 @@ export const fases: Fase[] = [
         titel: "Welk formulier?",
         takken: [
           {
-            label: "Afspraakformulier (7 stappen)",
+            label: "Afspraakformulier (7 stappen)", teller: "form:afspraak",
             stappen: [
               {
-                titel: "1. Dienst kiezen",
+                titel: "1. Dienst kiezen", teller: "form:dienst",
                 sys: "site",
                 wie: "Klant",
                 details: [
@@ -215,13 +218,13 @@ export const fases: Fase[] = [
                 titel: "3. Urgentie / type aanvraag",
                 sys: "site",
                 takken: [
-                  { label: "Meeste diensten", stappen: [{ titel: "Dringend: ja / nee", uitleg: "Ja → label Dringend in de app" }] },
+                  { label: "Meeste diensten", teller: "urgent:overig", stappen: [{ titel: "Dringend: ja / nee", teller: "urgent:ja", uitleg: "Ja → label Dringend in de app" }] },
                   {
-                    label: "Dakgoot",
+                    label: "Dakgoot", teller: "urgent:dakgoot",
                     stappen: [{ titel: "Offerte of afspraak?", uitleg: "+ meters per verdieping (1, 2, 3)" }],
                   },
                   {
-                    label: "Regenput",
+                    label: "Regenput", teller: "urgent:regenput",
                     stappen: [{ titel: "Offerte of afspraak?", uitleg: "+ inhoud (5.000 – 20.000 L of andere maat)" }],
                   },
                 ],
@@ -231,21 +234,21 @@ export const fases: Fase[] = [
                 sys: "site",
                 takken: [
                   {
-                    label: "Particulier",
+                    label: "Particulier", teller: "klant:particulier",
                     stappen: [
                       {
-                        titel: "Woning ouder dan 10 jaar?",
+                        titel: "Woning ouder dan 10 jaar?", teller: "woning:oud",
                         details: ["Ja → 6% btw (Belgische woning)", "Nee → 21% btw", "Nederlandse particulier → altijd 21%"],
                       },
                     ],
                   },
                   {
-                    label: "Bedrijf",
+                    label: "Bedrijf", teller: "klant:bedrijf",
                     stappen: [{ titel: "Btw-nummer + bedrijfsnaam", details: ["BE/NL-btw-nummer → 0% btw verlegd", "Naam en adres later automatisch via VIES"] }],
                   },
-                  { label: "Vrij beroep", stappen: [{ titel: "Altijd 21% btw", uitleg: "Geen verlegging" }] },
+                  { label: "Vrij beroep", teller: "klant:vrij_beroep", stappen: [{ titel: "Altijd 21% btw", uitleg: "Geen verlegging" }] },
                   {
-                    label: "Syndicus",
+                    label: "Syndicus", teller: "klant:syndicus",
                     stappen: [
                       {
                         titel: "VME-gegevens",
@@ -275,14 +278,14 @@ export const fases: Fase[] = [
             ],
           },
           {
-            label: "Offerteformulier",
+            label: "Offerteformulier", teller: "form:offerte",
             stappen: [
               { titel: "Korte offerteaanvraag", uitleg: "Naam, telefoon, e-mail, adres, omschrijving", sys: "site", wie: "Klant" },
               { titel: "Bewaard in quote_requests", sys: "site" },
             ],
           },
           {
-            label: "AI-chat boeking",
+            label: "AI-chat boeking", teller: "form:ai",
             stappen: [
               {
                 titel: "Formulier in de chat",
@@ -294,7 +297,7 @@ export const fases: Fase[] = [
             ],
           },
           {
-            label: "Telefoon / mail / WhatsApp",
+            label: "Telefoon / mail / WhatsApp", teller: "app:bron:manueel",
             stappen: [
               { titel: "Admin noteert", wie: "Admin", sys: "mens" },
               {
@@ -319,17 +322,17 @@ export const fases: Fase[] = [
     resultaat: "Aanvraag staat veilig in de database, Riory en de klant zijn verwittigd, Simpla is bijgewerkt.",
     stappen: [
       { titel: "1. Lead-pijplijn", uitleg: "Eerst opgeslagen zodat niets verloren gaat", sys: "site", wie: "Systeem", wanneer: "Direct" },
-      { titel: "2. Database", uitleg: "Rij in appointments (of quote_requests)", sys: "site", wie: "Systeem", wanneer: "Direct" },
+      { titel: "2. Database", teller: "verwerking:aanvragen", uitleg: "Rij in appointments (of quote_requests)", sys: "site", wie: "Systeem", wanneer: "Direct" },
       {
         titel: "3. Tegelijk verzonden",
         wanneer: "Binnen enkele seconden",
         takken: [
           {
-            label: "Riory",
+            label: "Riory", teller: "verwerking:afspraken",
             stappen: [{ titel: "Melding naar afspraak@riory.be", uitleg: "Alle formuliervelden in één mail", sys: "site", details: ["Deze mailbox is de bron voor de werkbonnen-app (fase 4)."] }],
           },
           {
-            label: "Klant",
+            label: "Klant", teller: "verwerking:afspraken",
             stappen: [
               {
                 titel: "Bevestigingsmail",
@@ -340,7 +343,7 @@ export const fases: Fase[] = [
             ],
           },
           {
-            label: "Simpla CRM",
+            label: "Simpla CRM", teller: "verwerking:afspraken",
             stappen: [
               {
                 titel: "Doorsturen naar Simpla",
@@ -383,7 +386,7 @@ export const fases: Fase[] = [
     resultaat: "Taak met status 'Nog in te plannen', gekoppeld aan de juiste klantfiche.",
     stappen: [
       {
-        titel: "Mailbox afspraak@riory.be lezen",
+        titel: "Mailbox afspraak@riory.be lezen", teller: "app:bron:mail",
         sys: "app",
         wie: "Systeem",
         wanneer: "Dagelijks 06:00 + elke 5 min zolang Kalender openstaat",
@@ -405,14 +408,14 @@ export const fases: Fase[] = [
         sys: "app",
         takken: [
           {
-            label: "Syndicus",
+            label: "Syndicus", teller: "app:syndicus",
             stappen: [
               { titel: "VME wordt de klant", uitleg: "Werfadres = facturatieadres" },
               { titel: "Syndicus als extra info", uitleg: "Naam, e-mails, telefoon op de fiche; btw-nummer syndicus nooit bij de VME" },
             ],
           },
           {
-            label: "Particulier / bedrijf",
+            label: "Particulier / bedrijf", teller: "app:gewoon",
             stappen: [{ titel: "Gewone klant", uitleg: "Btw-nummer → naam en adres via VIES (alleen lege velden)" }],
           },
           { label: "Vrij beroep", stappen: [{ titel: "Altijd 21%", uitleg: "Ook met btw-nummer" }] },
@@ -424,14 +427,14 @@ export const fases: Fase[] = [
         details: ["BE/NL-btw-nummer → 0% verlegd", "Nederlandse particulier → 21%", "Belgische woning > 10 jaar → 6%", "Anders → 21%"],
       },
       {
-        titel: "Klant gekoppeld",
+        titel: "Klant gekoppeld", teller: "app:taken",
         sys: "app",
         takken: [
           { label: "Bestaat al", stappen: [{ titel: "Herkend op naam + volledig adres", uitleg: "Klantcode blijft behouden" }] },
           { label: "Nieuw", stappen: [{ titel: "Nieuwe klantfiche", uitleg: "Standaard ingeschreven op nieuwsbrief" }] },
         ],
       },
-      { titel: "Status: Nog in te plannen", uitleg: "Kaart bovenaan de Kalender, nog zonder ploeg", sys: "app" },
+      { titel: "Status: Nog in te plannen", teller: "app:nog", uitleg: "Kaart bovenaan de Kalender, nog zonder ploeg", sys: "app" },
       { titel: "Mail naar 'Uitgevoerd'", uitleg: "In Outlook verplaatst zodat de inbox leeg blijft", sys: "app", wie: "Systeem" },
     ],
   },
@@ -450,11 +453,11 @@ export const fases: Fase[] = [
         wie: "Admin",
         takken: [
           {
-            label: "Direct uitvoeren",
+            label: "Direct uitvoeren", teller: "pad:direct",
             stappen: [{ titel: "Naar inplannen", uitleg: "Standaard voor dringende interventies en kleine werken (fase 6)" }],
           },
           {
-            label: "Eerst offerte",
+            label: "Eerst offerte", teller: "pad:offerte",
             stappen: [
               { titel: "Taak → offerte", uitleg: "Knop in de Kalender; nummer OFF-…", sys: "app", wie: "Admin", details: ["Klant, adres, werfadres en ploeg gaan mee", "Taak verdwijnt uit de planning tot akkoord"] },
               {
@@ -470,23 +473,23 @@ export const fases: Fase[] = [
                 ],
               },
               { titel: "Voorbeeld bekijken", sys: "app", wie: "Admin" },
-              { titel: "Verzenden via info@riory.be", uitleg: "Mail met publieke tekenlink", sys: "app", details: ["Je ziet wanneer mail en link geopend werden (geopend ≠ gelezen)"] },
+              { titel: "Verzenden via info@riory.be", teller: "offerte:verzonden", uitleg: "Mail met publieke tekenlink", sys: "app", details: ["Je ziet wanneer mail en link geopend werden (geopend ≠ gelezen)"] },
               { titel: "Klant kiest opties en tekent online", sys: "app", wie: "Klant" },
               {
                 titel: "Klant tekent?",
                 takken: [
                   {
-                    label: "Ja",
+                    label: "Ja", teller: "offerte:getekend",
                     stappen: [
                       { titel: "Precies één taak terug", uitleg: "Label 'Offerte goedgekeurd'", sys: "app", wie: "Systeem" },
                       { titel: "Enkel gekozen opties uitvoeren", uitleg: "Taak toont UIT TE VOEREN / NIET GEKOZEN — NIET UITVOEREN", sys: "app" },
                     ],
                   },
                   {
-                    label: "Nog niet",
+                    label: "Nog niet", teller: "offerte:open",
                     stappen: [
-                      { titel: "Herinnering dag 7", sys: "app", wie: "Systeem" },
-                      { titel: "Herinnering dag 10", sys: "app", wie: "Systeem" },
+                      { titel: "Herinnering dag 7", teller: "offerte:herinnering1", sys: "app", wie: "Systeem" },
+                      { titel: "Herinnering dag 10", teller: "offerte:herinnering2", sys: "app", wie: "Systeem" },
                       { titel: "Daarna bellen", sys: "mens", wie: "Admin" },
                     ],
                   },
@@ -495,7 +498,7 @@ export const fases: Fase[] = [
             ],
           },
           {
-            label: "Contract (periodiek)",
+            label: "Contract (periodiek)", teller: "pad:contract",
             stappen: [
               { titel: "Contract aanmaken", uitleg: "Klant, frequentie, lijnen", sys: "app", wie: "Admin" },
               { titel: "Bewust activeren", sys: "app", wie: "Admin" },
@@ -539,9 +542,9 @@ export const fases: Fase[] = [
               {
                 titel: "Extra label?",
                 takken: [
-                  { label: "Dringend", stappen: [{ titel: "Rood label, bovenaan" }] },
-                  { label: "Eerste klant", stappen: [{ titel: "Eerste afspraak 08:00–09:00" }] },
-                  { label: "Garantie", stappen: [{ titel: "1e uur + km gratis", uitleg: "Materialen wel aangerekend" }] },
+                  { label: "Dringend", teller: "label:dringend", stappen: [{ titel: "Rood label, bovenaan" }] },
+                  { label: "Eerste klant", teller: "label:eerste", stappen: [{ titel: "Eerste afspraak 08:00–09:00" }] },
+                  { label: "Garantie", teller: "label:garantie", stappen: [{ titel: "1e uur + km gratis", uitleg: "Materialen wel aangerekend" }] },
                   { label: "Contactpersoon", stappen: [{ titel: "Juiste persoon om te bellen", uitleg: "Bv. bij een VME" }] },
                 ],
               },
@@ -559,7 +562,7 @@ export const fases: Fase[] = [
         ],
       },
       {
-        titel: "Ploeg ziet de taak",
+        titel: "Ploeg ziet de taak", teller: "plannen:ingepland",
         uitleg: "Vandaag, morgen en nog in te plannen — enkel eigen taken",
         sys: "app",
         wie: "Ploeg",
@@ -583,13 +586,13 @@ export const fases: Fase[] = [
       { titel: "Foto's / filmpjes nemen", uitleg: "Komen als bijlage op de werkbon", sys: "app", wie: "Ploeg" },
       { titel: "Vertrek → Stop", sys: "app", wie: "Ploeg" },
       {
-        titel: "Hoe afsluiten?",
+        titel: "Hoe afsluiten?", teller: "uitvoer:afgesloten",
         sys: "app",
         wie: "Ploeg + klant",
         takken: [
-          { label: "Aftekenen", stappen: [{ titel: "Klant tekent op de gsm + naam", uitleg: "Factuur volgt later" }] },
+          { label: "Aftekenen", teller: "uitvoer:afgetekend", stappen: [{ titel: "Klant tekent op de gsm + naam", uitleg: "Factuur volgt later" }] },
           {
-            label: "Afrekenen",
+            label: "Afrekenen", teller: "uitvoer:afgerekend",
             stappen: [
               {
                 titel: "Ter plaatse betalen",
@@ -600,7 +603,7 @@ export const fases: Fase[] = [
         ],
       },
       {
-        titel: "Werkbon naar klant",
+        titel: "Werkbon naar klant", teller: "uitvoer:afgesloten",
         uitleg: "Automatisch gemaild als PDF",
         sys: "app",
         wie: "Systeem",
@@ -623,10 +626,10 @@ export const fases: Fase[] = [
         sys: "app",
         wie: "Admin",
         takken: [
-          { label: "Factureren", stappen: [{ titel: "Naar 'Te factureren'", uitleg: "Fase 9" }] },
-          { label: "Niet factureren", stappen: [{ titel: "Apart lijstje", uitleg: "Bv. garantie of informatief; terugzetbaar" }] },
+          { label: "Factureren", teller: "na:factureren", stappen: [{ titel: "Naar 'Te factureren'", uitleg: "Fase 9" }] },
+          { label: "Niet factureren", teller: "na:niet", stappen: [{ titel: "Apart lijstje", uitleg: "Bv. garantie of informatief; terugzetbaar" }] },
           {
-            label: "Verzekering",
+            label: "Verzekering", teller: "na:verzekering",
             stappen: [
               { titel: "Bestek maken", uitleg: "Werkbon blijft bestaan" },
               { titel: "Foto's kiezen", uitleg: "Als bijlage vóór de voorwaarden" },
@@ -657,7 +660,7 @@ export const fases: Fase[] = [
     resultaat: "Factuur betaald en afgeletterd, of in de herinneringsreeks.",
     stappen: [
       {
-        titel: "Werkbonnen selecteren → factureren",
+        titel: "Werkbonnen selecteren → factureren", teller: "factuur:gemaakt",
         sys: "app",
         wie: "Admin",
         details: [
@@ -682,9 +685,9 @@ export const fases: Fase[] = [
         titel: "Verzenden",
         sys: "app",
         takken: [
-          { label: "Belgisch btw-nummer", stappen: [{ titel: "Peppol (Peppyrus) + mail" }] },
-          { label: "Geen btw-nummer", stappen: [{ titel: "Mail vanuit boekhouding@riory.be", uitleg: "PDF + UBL, leesbevestiging gevraagd" }] },
-          { label: "Per post", stappen: [{ titel: "Knop bpost" }] },
+          { label: "Belgisch btw-nummer", teller: "factuur:via:peppol", stappen: [{ titel: "Peppol (Peppyrus) + mail" }] },
+          { label: "Geen btw-nummer", teller: "factuur:via:mail", stappen: [{ titel: "Mail vanuit boekhouding@riory.be", uitleg: "PDF + UBL, leesbevestiging gevraagd" }] },
+          { label: "Per post", teller: "factuur:via:post", stappen: [{ titel: "Knop bpost" }] },
           { label: "Al betaald", stappen: [{ titel: "Gaat automatisch weg", uitleg: "Open facturen verstuur je zelf" }] },
         ],
       },
@@ -698,7 +701,7 @@ export const fases: Fase[] = [
         titel: "Betaald?",
         takken: [
           {
-            label: "Ja",
+            label: "Ja", teller: "factuur:betaald",
             stappen: [
               { titel: "Bankverrichtingen binnen", uitleg: "Ponto, CODA of CSV/Excel", sys: "app", wie: "Systeem" },
               {
@@ -717,17 +720,17 @@ export const fases: Fase[] = [
             ],
           },
           {
-            label: "Nee (vervallen)",
+            label: "Nee (vervallen)", teller: "factuur:vervallen",
             stappen: [
               { titel: "Rood in de facturenlijst", sys: "app" },
-              { titel: "Herinnering 1 — kosteloos", uitleg: "Min. 14 kalenderdagen betaaltermijn", sys: "app", wie: "Systeem" },
-              { titel: "Herinnering 2 — met forfaitaire vergoeding", uitleg: "Enkel als voorwaarden vooraf aanvaard; verschilt voor particulier en bedrijf", sys: "app", wie: "Systeem" },
-              { titel: "Herinnering 3 / ingebrekestelling", uitleg: "Kosten stapelen niet", sys: "app", wie: "Systeem" },
+              { titel: "Herinnering 1 — kosteloos", teller: "factuur:herinnering1", uitleg: "Min. 14 kalenderdagen betaaltermijn", sys: "app", wie: "Systeem" },
+              { titel: "Herinnering 2 — met forfaitaire vergoeding", teller: "factuur:herinnering2", uitleg: "Enkel als voorwaarden vooraf aanvaard; verschilt voor particulier en bedrijf", sys: "app", wie: "Systeem" },
+              { titel: "Herinnering 3 / ingebrekestelling", teller: "factuur:herinnering3", uitleg: "Kosten stapelen niet", sys: "app", wie: "Systeem" },
               { titel: "Uitkomst onzeker? Handmatig nakijken", sys: "mens", wie: "Admin" },
             ],
           },
           {
-            label: "Fout in factuur",
+            label: "Fout in factuur", teller: "factuur:creditnota",
             stappen: [
               { titel: "Creditnota", uitleg: "Zelfde nummering, altijd negatief", sys: "app", wie: "Admin" },
               { titel: "Verzenden en verrekenen", uitleg: "Daarna vergrendeld", sys: "app" },
@@ -938,3 +941,83 @@ export const fases: Fase[] = [
     ],
   },
 ];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Eenvoudige versie — voor wie snel wil begrijpen hoe Riory werkt.
+// Korte zinnen, geen vaktermen. `teller` toont (indien beschikbaar) hoeveel klanten.
+// ─────────────────────────────────────────────────────────────────────────────
+
+export type EenvoudigeStap = {
+  nr: number;
+  titel: string;
+  zin: string;
+  wie: string;
+  keuzes?: string[];
+  teller?: string;
+};
+
+export const eenvoudig: EenvoudigeStap[] = [
+  {
+    nr: 1,
+    titel: "De klant vindt ons",
+    zin: "Via Google, een AI-chat, sociale media of iemand die ons aanraadt.",
+    wie: "Klant",
+    keuzes: ["Google", "AI-chat", "Mond-aan-mond / andere"],
+    teller: "bezoekers",
+  },
+  {
+    nr: 2,
+    titel: "De klant vraagt hulp",
+    zin: "Hij belt ons, of vult op de website een formulier in: welke dienst, hoe dringend en waar.",
+    wie: "Klant",
+    keuzes: ["Bellen", "Formulier op de website", "Prijs berekenen"],
+    teller: "site:formulier",
+  },
+  {
+    nr: 3,
+    titel: "Wij krijgen de aanvraag",
+    zin: "De aanvraag komt automatisch binnen per mail en de klant krijgt een bevestiging.",
+    wie: "Automatisch",
+    teller: "verwerking:aanvragen",
+  },
+  {
+    nr: 4,
+    titel: "Er wordt een taak gemaakt",
+    zin: "De werkbonnen-app maakt van elke aanvraag een taak en zoekt de juiste klant erbij.",
+    wie: "Automatisch",
+    teller: "app:taken",
+  },
+  {
+    nr: 5,
+    titel: "Eerst een prijs, of meteen langskomen?",
+    zin: "Bij grotere werken sturen we eerst een offerte. Tekent de klant, dan gaan we verder.",
+    wie: "Kantoor",
+    keuzes: ["Meteen inplannen", "Eerst offerte", "Vast contract"],
+    teller: "pad:offerte",
+  },
+  {
+    nr: 6,
+    titel: "We plannen het in",
+    zin: "De taak krijgt een dag en een ploeg. De ploeg ziet ze op de gsm.",
+    wie: "Kantoor",
+    teller: "plannen:ingepland",
+  },
+  {
+    nr: 7,
+    titel: "De ploeg doet het werk",
+    zin: "Ter plaatse: tijd starten, werk doen, foto's nemen. De klant tekent of betaalt meteen.",
+    wie: "Ploeg",
+    keuzes: ["Klant tekent", "Klant betaalt ter plaatse"],
+    teller: "uitvoer:afgesloten",
+  },
+  {
+    nr: 8,
+    titel: "Factuur en betaling",
+    zin: "De klant krijgt de factuur. Betaalt hij niet op tijd, dan volgt een herinnering.",
+    wie: "Kantoor",
+    keuzes: ["Betaald", "Herinnering sturen"],
+    teller: "factuur:betaald",
+  },
+];
+
+export const EENVOUDIG_EINDE = "Klaar! De klant is geholpen en betaald. Daarna vragen we een review en houden we contact via de nieuwsbrief.";
