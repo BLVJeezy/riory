@@ -61,14 +61,25 @@ async function sha256(text: string) {
   return Array.from(new Uint8Array(buf), (b) => b.toString(16).padStart(2, "0")).join("");
 }
 
+// Waarden van appointments.gevonden_via (formulier) + AI-boeking (lead_bron = ai_chat).
+const KANALEN = ["google", "facebook", "instagram", "tiktok", "mond_aan_mond", "installateur", "reclame", "andere"] as const;
 const KANAAL = (v?: string | null, bron?: string | null) => {
-  const s = `${v ?? ""} ${bron ?? ""}`.toLowerCase();
-  if (/chatgpt|claude|ai_chat|copilot|gemini|perplexity/.test(s)) return "ai";
-  if (/google/.test(s)) return "google";
-  return "andere";
+  const g = (v ?? "").toLowerCase();
+  if (/chatgpt|claude|ai_chat|copilot|gemini|perplexity/.test(g) || bron === "ai_chat") return "ai";
+  return (KANALEN as readonly string[]).includes(g) ? g : "andere";
 };
 
-const KANAAL_LABEL: Record<string, string> = { google: "Google", ai: "AI-chat", andere: "Andere" };
+const KANAAL_LABEL: Record<string, string> = {
+  google: "Google",
+  ai: "ChatGPT / AI-chat",
+  facebook: "Facebook",
+  instagram: "Instagram",
+  tiktok: "TikTok",
+  mond_aan_mond: "Mond-aan-mond",
+  installateur: "Installateur",
+  reclame: "Reclame / voertuigen",
+  andere: "Andere",
+};
 const KLANT_LABEL: Record<string, string> = { particulier: "Particulier", bedrijf: "Bedrijf", vrij_beroep: "Vrij beroep", syndicus: "Syndicus" };
 export const labelKanaal = (k: string) => KANAAL_LABEL[k] ?? k;
 export const labelKlant = (k: string) => KLANT_LABEL[k] ?? (k || "Onbekend");
@@ -164,8 +175,9 @@ export async function laadJourney(from: Date): Promise<JourneyResultaat> {
   for (const a of afspraken) {
     const kanaal = KANAAL(a.gevonden_via, a.lead_bron);
     plus(`kanaal:${kanaal}`);
-    plus(kanaal === "ai" && /ai_chat/.test(String(a.lead_bron ?? "")) ? "form:ai" : "form:afspraak");
+    plus(a.lead_bron === "ai_chat" ? "form:ai" : "form:afspraak");
     plus("form:dienst");
+    plus(`dienst:${a.dienst || "Onbekend"}`);
     if (a.dienst === "Dakgootreiniging") plus("urgent:dakgoot");
     else if (a.dienst === "Reinigen van regenput") plus("urgent:regenput");
     else plus(a.urgent ? "urgent:ja" : "urgent:nee"), plus("urgent:overig");

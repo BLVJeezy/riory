@@ -55,12 +55,15 @@ export const fases: Fase[] = [
       },
       {
         titel: "Via welk kanaal?",
+        uitleg: "Keuzes uit 'Hoe heeft u ons gevonden?' in het formulier, aangevuld met de herkomst van bezoekers",
         takken: [
           {
-            label: "Google zoeken (SEO)", teller: "kanaal:google",
+            label: "Google zoeken (SEO)",
+            teller: "kanaal:google",
             stappen: [
               {
-                titel: "Dienstpagina's", teller: "landing:dienst",
+                titel: "Dienstpagina's",
+                teller: "landing:dienst",
                 uitleg: "/diensten/… per dienst",
                 sys: "site",
                 details: [
@@ -70,7 +73,8 @@ export const fases: Fase[] = [
                 ],
               },
               {
-                titel: "Regiopagina's", teller: "landing:regio",
+                titel: "Regiopagina's",
+                teller: "landing:regio",
                 uitleg: "/regio/… per gemeente",
                 sys: "site",
                 details: [
@@ -86,16 +90,21 @@ export const fases: Fase[] = [
           {
             label: "Google Business Profiel",
             stappen: [
-              { titel: "Profiel Bilzen / Tongeren", uitleg: "Reviews, foto's, bellen, route of website", sys: "extern", wie: "Solyn beheert" },
+              { titel: "Profiel Bilzen / Tongeren", uitleg: "Reviews, foto's, bellen, route of website; telt in het formulier als 'Google'", sys: "extern", wie: "Solyn beheert" },
               { titel: "Profielen Genk en Hasselt", uitleg: "Nog aan te maken (nov. 2026)", sys: "extern", status: "open" },
             ],
           },
           {
-            label: "AI-chat", teller: "kanaal:ai",
+            label: "Andere zoekmachines",
+            stappen: [{ titel: "Bing, DuckDuckGo, Ecosia, Yahoo", uitleg: "Zelfde SEO-pagina's; telt in het formulier meestal als 'Andere'", sys: "extern" }],
+          },
+          {
+            label: "ChatGPT / AI-chat",
+            teller: "kanaal:ai",
             stappen: [
               {
-                titel: "ChatGPT / Claude / Copilot",
-                uitleg: "Riory-app toont het afspraakformulier in de chat",
+                titel: "ChatGPT, Claude, Gemini, Copilot",
+                uitleg: "Riory-app toont het afspraakformulier in de chat, of de AI verwijst naar riory.be",
                 sys: "site",
                 status: "deels",
                 details: [
@@ -107,18 +116,44 @@ export const fases: Fase[] = [
             ],
           },
           {
-            label: "Andere kanalen", teller: "kanaal:andere",
+            label: "Facebook",
+            teller: "kanaal:facebook",
+            stappen: [{ titel: "Pagina, berichten en gedeelde links", sys: "extern" }],
+          },
+          {
+            label: "Instagram",
+            teller: "kanaal:instagram",
+            stappen: [{ titel: "Profiel, reels en link in bio", sys: "extern" }],
+          },
+          {
+            label: "TikTok",
+            teller: "kanaal:tiktok",
+            stappen: [{ titel: "Filmpjes van interventies", sys: "extern" }],
+          },
+          {
+            label: "Mond-aan-mondreclame",
+            teller: "kanaal:mond_aan_mond",
+            stappen: [{ titel: "Familie, vrienden, buren", uitleg: "Formulier vraagt verplicht: wie?", sys: "mens" }],
+          },
+          {
+            label: "Doorverwezen door installateur",
+            teller: "kanaal:installateur",
+            stappen: [{ titel: "Installateurs en partners (bv. Rioclean)", uitleg: "Formulier vraagt verplicht: welke installateur?", sys: "mens" }],
+          },
+          {
+            label: "Reclameborden / voertuigen",
+            teller: "kanaal:reclame",
+            stappen: [{ titel: "Bestickerde bestelwagens en borden", sys: "extern" }],
+          },
+          {
+            label: "Andere",
+            teller: "kanaal:andere",
             stappen: [
               {
-                titel: "Offline & social",
-                sys: "extern",
-                details: [
-                  "Facebook, Instagram, TikTok",
-                  "Mond-aan-mondreclame",
-                  "Doorverwezen door een installateur",
-                  "Reclameborden en bestickerde voertuigen",
-                  "Syndici die voor meerdere VME's bestellen",
-                ],
+                titel: "Zelf ingevuld door de klant",
+                uitleg: "Verplicht toe te lichten",
+                sys: "mens",
+                details: ["Al eerder klant geweest", "Via de verzekeringsagent", "Syndicus die voor meerdere VME's bestelt", "WhatsApp-links, andere zoekmachines …"],
               },
             ],
           },
@@ -197,20 +232,22 @@ export const fases: Fase[] = [
             label: "Afspraakformulier (7 stappen)", teller: "form:afspraak",
             stappen: [
               {
-                titel: "1. Dienst kiezen", teller: "form:dienst",
+                titel: "1. Dienst kiezen",
+                teller: "form:dienst",
+                uitleg: "10 diensten, hier gesorteerd van meest naar minst aangevraagd",
                 sys: "site",
                 wie: "Klant",
-                details: [
-                  "Ontstopping",
-                  "Septische put ledigen",
-                  "Camera-inspectie riool",
-                  "Plaatsbepaling afvoeren",
-                  "Geurhinder / rioolvliegjes",
-                  "Periodieke reiniging van afvoeren",
-                  "Wateroverlast / pompwerken",
-                  "Reinigen van regenput",
-                  "Dakgootreiniging",
-                  "Herstellingswerken aan afvoeren",
+                takken: [
+                  { label: "Ontstopping", teller: "dienst:Ontstopping", stappen: [{ titel: "Wc, afvoer, riool verstopt", uitleg: "Veruit de meest gevraagde dienst" }] },
+                  { label: "Reinigen van regenput", teller: "dienst:Reinigen van regenput", stappen: [{ titel: "Regenput leegmaken en reinigen", uitleg: "Prijs volgens inhoud" }] },
+                  { label: "Septische put ledigen", teller: "dienst:Septische put ledigen", stappen: [{ titel: "Put leegpompen", uitleg: "Richtprijs € 225" }] },
+                  { label: "Camera inspectie riool", teller: "dienst:Camera inspectie riool", stappen: [{ titel: "Camera in de leiding", uitleg: "Oorzaak zoeken, verslag met beelden" }] },
+                  { label: "Herstellingswerken aan afvoeren", teller: "dienst:Herstellingswerken aan afvoeren", stappen: [{ titel: "Leiding of put herstellen", uitleg: "Meestal eerst offerte" }] },
+                  { label: "Geurhinder / rioolvliegjes", teller: "dienst:Geurhinder/rioolvliegjes", stappen: [{ titel: "Bron van geur of vliegjes zoeken" }] },
+                  { label: "Dakgootreiniging", teller: "dienst:Dakgootreiniging", stappen: [{ titel: "Prijs per meter en verdieping", uitleg: "Min. 10 m" }] },
+                  { label: "Wateroverlast / pompwerken", teller: "dienst:Wateroverlast/pompwerken", stappen: [{ titel: "Water wegpompen, liftput", uitleg: "Vaak dringend" }] },
+                  { label: "Periodieke reiniging van afvoeren", teller: "dienst:Periodieke reiniging van afvoeren", stappen: [{ titel: "Vast onderhoud", uitleg: "Kan een contract worden (fase 5)" }] },
+                  { label: "Plaatsbepaling afvoeren", teller: "dienst:Plaatsbepaling afvoeren", stappen: [{ titel: "Leidingen lokaliseren", uitleg: "Met camera en zender" }] },
                 ],
               },
               { titel: "2. Voorwaarden aanvaarden", uitleg: "Verplicht vinkje, nodig voor latere herinneringskosten", sys: "site", wie: "Klant" },
@@ -218,7 +255,7 @@ export const fases: Fase[] = [
                 titel: "3. Urgentie / type aanvraag",
                 sys: "site",
                 takken: [
-                  { label: "Meeste diensten", teller: "urgent:overig", stappen: [{ titel: "Dringend: ja / nee", teller: "urgent:ja", uitleg: "Ja → label Dringend in de app" }] },
+                  { label: "Alle andere diensten", teller: "urgent:overig", stappen: [{ titel: "Dringend: ja / nee", teller: "urgent:ja", uitleg: "Ja → label Dringend in de app" }] },
                   {
                     label: "Dakgoot", teller: "urgent:dakgoot",
                     stappen: [{ titel: "Offerte of afspraak?", uitleg: "+ meters per verdieping (1, 2, 3)" }],
@@ -272,7 +309,7 @@ export const fases: Fase[] = [
               {
                 titel: "7. Hoe heeft u ons gevonden?",
                 sys: "site",
-                details: ["Google, Facebook, Instagram, TikTok, ChatGPT, mond-aan-mond, installateur, reclame, andere", "Voedt de grafiek 'Hoe vinden klanten je?' in admin"],
+                details: ["Google · Facebook · Instagram · TikTok · ChatGPT · Mond-aan-mondreclame · Doorverwezen door installateur · Reclameborden / voertuigen · Andere", "Bij mond-aan-mond, installateur en andere: verplicht toelichten wie/wat", "Voedt de grafiek 'Hoe vinden klanten je?' in admin"],
               },
               { titel: "Versturen", uitleg: "Resultaatscherm: gelukt of opnieuw proberen", sys: "site", details: ["Bij een fout kan de klant opnieuw proberen; er gaat niets verloren."] },
             ],
