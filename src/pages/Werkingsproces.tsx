@@ -382,69 +382,37 @@ const VersieKiezer = ({
 );
 
 const Eenvoudig = ({ tellers }: { tellers: Tellers | null }) => (
-  <div className="space-y-0">
-    <div className="rounded-xl border border-border bg-background p-4 mb-3">
-      <h2 className="font-heading font-bold text-lg text-foreground">
-        Zo werkt Riory
-      </h2>
-      <p className="text-sm text-muted-foreground mt-1">
-        Van het eerste telefoontje tot de betaling, in 8 stappen.
-      </p>
-    </div>
-    {eenvoudig.map((st, i) => (
-      <div key={st.nr}>
-        <div className="rounded-2xl border border-border bg-background p-4 sm:p-5 flex gap-4">
-          <span className="flex items-center justify-center w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-primary text-primary-foreground font-heading font-bold text-lg shrink-0">
-            {st.nr}
-          </span>
-          <div className="min-w-0 flex-1">
-            <div className="flex flex-wrap items-center gap-2">
-              <h3 className="font-heading font-bold text-base sm:text-lg text-foreground">
-                {st.titel}
-              </h3>
-              <Teller k={st.teller} tellers={tellers} />
+  <div>
+    <h2 className="font-heading font-bold text-2xl text-foreground text-center mb-1">Zo werkt Riory</h2>
+    <p className="text-center text-muted-foreground mb-6">6 stappen</p>
+    <ol className="space-y-2">
+      {eenvoudig.map((st, i) => (
+        <li key={st.nr}>
+          <div className="flex items-center gap-4 rounded-2xl bg-background border border-border px-4 py-4">
+            <span className="flex items-center justify-center w-12 h-12 rounded-full bg-primary text-primary-foreground font-heading font-bold text-xl shrink-0">
+              {st.nr}
+            </span>
+            <div className="min-w-0 flex-1">
+              <p className="font-heading font-bold text-lg text-foreground leading-tight">{st.titel}</p>
+              <p className="text-base text-muted-foreground mt-0.5">{st.zin}</p>
             </div>
-            <p className="text-[15px] text-foreground/90 mt-1 leading-relaxed">
-              {st.zin}
-            </p>
-            <p className="text-xs text-muted-foreground mt-2 inline-flex items-center gap-1">
-              <User className="w-3.5 h-3.5" /> {st.wie}
-            </p>
-            {st.keuzes && (
-              <div className="flex flex-wrap gap-1.5 mt-3">
-                {st.keuzes.map((k, j) => (
-                  <span
-                    key={k}
-                    className="inline-flex items-center gap-1 text-xs font-medium rounded-full border border-primary/30 bg-primary/5 text-foreground px-2.5 py-1"
-                  >
-                    {j > 0 && <span className="text-muted-foreground">of</span>}{" "}
-                    {k}
-                  </span>
-                ))}
-              </div>
+            {tellers && st.teller && (
+              <span className="text-xl font-heading font-bold text-primary tabular-nums shrink-0" title="Aantal klanten">
+                {(tellers[st.teller] ?? 0).toLocaleString("nl-BE")}
+              </span>
             )}
           </div>
-        </div>
-        {i < eenvoudig.length - 1 && (
-          <div className="flex justify-center py-1.5" aria-hidden>
-            <ArrowDown className="w-5 h-5 text-primary" />
-          </div>
-        )}
-      </div>
-    ))}
-    <div className="mt-3 rounded-2xl border border-emerald-500/40 bg-emerald-500/10 p-4 flex gap-3 items-start">
-      <CheckCircle2 className="w-6 h-6 text-emerald-600 dark:text-emerald-400 shrink-0" />
-      <div>
-        <p className="text-[15px] text-foreground">{EENVOUDIG_EINDE}</p>
-        {tellers && (
-          <p className="text-xs text-muted-foreground mt-1">
-            Volledig afgerond in deze periode:{" "}
-            <span className="font-bold text-foreground">
-              {(tellers["volledig"] ?? 0).toLocaleString("nl-BE")}
-            </span>
-          </p>
-        )}
-      </div>
+          {i < eenvoudig.length - 1 && (
+            <div className="flex justify-center py-1" aria-hidden>
+              <ArrowDown className="w-5 h-5 text-primary" />
+            </div>
+          )}
+        </li>
+      ))}
+    </ol>
+    <div className="mt-3 flex items-center justify-center gap-2 rounded-2xl bg-emerald-500/10 border border-emerald-500/40 px-4 py-4">
+      <CheckCircle2 className="w-7 h-7 text-emerald-600 dark:text-emerald-400" />
+      <p className="font-heading font-bold text-lg text-foreground">{EENVOUDIG_EINDE}</p>
     </div>
   </div>
 );
@@ -454,11 +422,7 @@ const keuzesVan = (fase: Fase): Keuze[] => {
   const out: Keuze[] = [];
   const walk = (lijst: Stap[], diepte: number) =>
     lijst.forEach((s) => {
-      if (s.takken && diepte <= 1)
-        out.push({
-          vraag: s.titel,
-          opties: s.takken.map((t) => ({ label: t.label, teller: t.teller })),
-        });
+      if (s.takken && diepte <= 1) out.push({ vraag: s.titel, opties: s.takken.map((t) => ({ label: t.label, teller: t.teller })) });
       if (diepte < 1) {
         walk(s.stappen ?? [], diepte + 1);
         s.takken?.forEach((t) => walk(t.stappen, diepte + 1));
@@ -468,81 +432,172 @@ const keuzesVan = (fase: Fase): Keuze[] => {
   return out;
 };
 
-const Overzicht = ({ tellers }: { tellers: Tellers | null }) => (
-  <div className="space-y-3">
-    <div className="rounded-xl border border-border bg-background p-4">
-      <h2 className="font-heading font-bold text-foreground">
-        Overzichtskaart
-      </h2>
-      <p className="text-sm text-muted-foreground mt-1">
-        Alle {fases.length} fases met hun belangrijkste keuzes. Volg de nummers;
-        een getal in een bolletje is het aantal klanten.
-      </p>
-    </div>
-    <ol className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
-      {fases.map((f) => {
-        const keuzes = keuzesVan(f);
+const KLEUREN = ["#f97316", "#2563eb", "#7c3aed", "#059669", "#db2777", "#0891b2", "#ca8a04", "#dc2626", "#4f46e5", "#16a34a", "#9333ea", "#0d9488"];
+/** Breekt een titel in max. 3 regels van ±n tekens. */
+const regels = (t: string, n: number) => {
+  const out: string[] = [];
+  for (const w of t.replace(/\?$/, "").split(" ")) {
+    const last = out[out.length - 1];
+    if (last && (last + " " + w).length <= n) out[out.length - 1] = last + " " + w;
+    else out.push(w);
+  }
+  return out.length > 3 ? [...out.slice(0, 2), out.slice(2).join(" ").slice(0, n - 1) + "…"] : out;
+};
+const kortVraag = (v: string) => v.replace(/^\d+\.\s*/, "").replace(/\?$/, "");
+
+/** Spinnenweb: Riory in het midden → fases → vragen → keuzes. */
+const Spinnenweb = ({ tellers }: { tellers: Tellers | null }) => {
+  const W = 1900;
+  const C = W / 2;
+  const R1 = 270; // fases
+  const R2 = 480; // vragen
+  const R3 = 650; // keuzes (start tekst)
+  type Blad = { fase: number; vraag: number; label: string; teller?: string };
+  const data = fases.map((f) => {
+    const k = keuzesVan(f);
+    return { f, keuzes: k.length ? k : [{ vraag: f.doel, opties: [] as Keuze["opties"] }] };
+  });
+  const bladeren: Blad[] = [];
+  data.forEach((d, fi) =>
+    d.keuzes.forEach((k, ki) => {
+      if (k.opties.length === 0) bladeren.push({ fase: fi, vraag: ki, label: "" });
+      k.opties.forEach((o) => bladeren.push({ fase: fi, vraag: ki, label: o.label, teller: o.teller }));
+    }),
+  );
+  // Elke fase krijgt minstens MIN plaatsen, zodat kleine fases niet op elkaar vallen.
+  const MIN = 6;
+  const perFase = data.map((_, fi) => bladeren.filter((b) => b.fase === fi));
+  const ruimte = perFase.map((l) => Math.max(MIN, l.length) + 1);
+  const N = ruimte.reduce((a, b) => a + b, 0);
+  const stap = (2 * Math.PI) / N;
+  const hoekVan = new Map<Blad, number>();
+  let start = 0;
+  perFase.forEach((lijst, fi) => {
+    const vrij = ruimte[fi] - 1 - lijst.length;
+    lijst.forEach((bl, i) => hoekVan.set(bl, -Math.PI / 2 + (start + vrij / 2 + i + 0.5) * stap));
+    start += ruimte[fi];
+  });
+  const gem = (lijst: number[]) => lijst.reduce((a, b) => a + b, 0) / lijst.length;
+  const pt = (r: number, a: number) => [C + r * Math.cos(a), C + r * Math.sin(a)] as const;
+  const curve = (r0: number, a0: number, r1: number, a1: number) => {
+    const [x0, y0] = pt(r0, a0);
+    const [x1, y1] = pt(r1, a1);
+    const [cx, cy] = pt((r0 + r1) / 2, a1);
+    return `M${x0},${y0} Q${cx},${cy} ${x1},${y1}`;
+  };
+  const deg = (a: number) => (a * 180) / Math.PI;
+
+  return (
+    <svg viewBox={`0 0 ${W} ${W}`} className="w-full h-auto" role="img" aria-label="Spinnenweb van het werkingsproces" style={{ fontFamily: "inherit" }}>
+      {/* ringen */}
+      {[R1, R2].map((r) => (
+        <circle key={r} cx={C} cy={C} r={r} fill="none" stroke="currentColor" strokeOpacity={0.08} strokeDasharray="4 6" />
+      ))}
+      {data.map((d, fi) => {
+        const kleur = KLEUREN[fi % KLEUREN.length];
+        const eigen = bladeren.filter((b) => b.fase === fi);
+        const aFase = gem(eigen.map((b) => hoekVan.get(b)!));
+        const [fx, fy] = pt(R1, aFase);
         return (
-          <li
-            key={f.id}
-            className="relative rounded-xl border border-border bg-background p-3 flex flex-col"
-          >
-            <div className="flex items-start gap-2.5">
-              <span className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-primary-foreground font-heading font-bold text-sm shrink-0">
-                {f.nr}
-              </span>
-              <div className="min-w-0">
-                <h3 className="font-heading font-bold text-sm text-foreground leading-tight">
-                  {f.titel}
-                </h3>
-                <p className="text-[11px] text-muted-foreground mt-0.5">
-                  {f.doel}
-                </p>
-              </div>
-              {f.nr < fases.length && (
-                <span
-                  className="ml-auto text-primary text-sm font-bold shrink-0"
-                  aria-hidden
-                >
-                  → {f.nr + 1}
-                </span>
-              )}
-            </div>
-            {keuzes.length > 0 && (
-              <div className="mt-3 space-y-2">
-                {keuzes.map((k) => (
-                  <div key={k.vraag}>
-                    <p className="text-[11px] font-semibold text-foreground flex items-center gap-1">
-                      <GitBranch className="w-3 h-3 text-primary" /> {k.vraag}
-                    </p>
-                    <div className="flex flex-wrap gap-1 mt-1">
-                      {k.opties.map((o) => (
-                        <span
-                          key={o.label}
-                          className="inline-flex items-center gap-1 text-[11px] rounded-md border border-primary/25 bg-primary/5 px-1.5 py-0.5 text-foreground"
+          <g key={d.f.id}>
+            <path d={curve(70, aFase, R1, aFase)} stroke={kleur} strokeWidth={4} fill="none" strokeOpacity={0.7} />
+            {d.keuzes.map((k, ki) => {
+              const bl = eigen.filter((b) => b.vraag === ki);
+              const aV = gem(bl.map((b) => hoekVan.get(b)!));
+              const [vx, vy] = pt(R2, aV);
+              return (
+                <g key={ki}>
+                  <path d={curve(R1, aFase, R2, aV)} stroke={kleur} strokeWidth={2.5} fill="none" strokeOpacity={0.55} />
+                  {bl.map((b, bi) => {
+                    if (!b.label) return null;
+                    const a = hoekVan.get(b)!;
+                    const [lx, ly] = pt(R3, a);
+                    const r = Math.cos(a) >= 0;
+                    const n = tellers && b.teller ? tellers[b.teller] ?? 0 : null;
+                    return (
+                      <g key={bi}>
+                        <path d={curve(R2, aV, R3 - 12, a)} stroke={kleur} strokeWidth={1.5} fill="none" strokeOpacity={0.45} />
+                        <circle cx={pt(R3 - 8, a)[0]} cy={pt(R3 - 8, a)[1]} r={4} fill={kleur} />
+                        <text
+                          x={lx}
+                          y={ly}
+                          fontSize={17}
+                          dominantBaseline="middle"
+                          textAnchor={r ? "start" : "end"}
+                          transform={`rotate(${r ? deg(a) : deg(a) + 180} ${lx} ${ly})`}
+                          fill="currentColor"
                         >
-                          {o.label}
-                          {tellers && o.teller && (
-                            <span className="font-bold text-primary">
-                              {(tellers[o.teller] ?? 0).toLocaleString("nl-BE")}
-                            </span>
+                          {b.label.length > 30 ? b.label.slice(0, 29) + "…" : b.label}
+                          {n !== null && (
+                            <tspan fontWeight={700} fill={kleur}>
+                              {"  "}
+                              {n}
+                            </tspan>
                           )}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-            {f.resultaat && (
-              <p className="mt-auto pt-3 text-[11px] text-emerald-700 dark:text-emerald-400 flex gap-1">
-                <Target className="w-3.5 h-3.5 shrink-0 mt-px" /> {f.resultaat}
-              </p>
-            )}
-          </li>
+                        </text>
+                      </g>
+                    );
+                  })}
+                  <g transform={`translate(${vx} ${vy})`}>
+                    <text
+                      y={0}
+                      fontSize={15}
+                      fontWeight={600}
+                      textAnchor="middle"
+                      dominantBaseline="middle"
+                      fill={kleur}
+                      stroke="hsl(var(--background))"
+                      strokeWidth={5}
+                      paintOrder="stroke"
+                    >
+                      {kortVraag(k.vraag).slice(0, 26)}
+                    </text>
+                  </g>
+                </g>
+              );
+            })}
+            <g transform={`translate(${fx} ${fy})`}>
+              <circle r={62} fill={kleur} />
+              <text y={-24} textAnchor="middle" fontSize={26} fontWeight={800} fill="#fff">
+                {d.f.nr}
+              </text>
+              {regels(d.f.titel, 13).map((r, i, arr) => (
+                <text key={i} y={2 + i * 16 - (arr.length > 2 ? 4 : 0)} textAnchor="middle" fontSize={13.5} fontWeight={700} fill="#fff">
+                  {r}
+                </text>
+              ))}
+            </g>
+          </g>
         );
       })}
-    </ol>
+      <circle cx={C} cy={C} r={74} fill="hsl(var(--primary))" />
+      <text x={C} y={C - 6} textAnchor="middle" fontSize={34} fontWeight={800} fill="#fff">
+        Riory
+      </text>
+      <text x={C} y={C + 24} textAnchor="middle" fontSize={15} fill="#fff" fillOpacity={0.9}>
+        werkingsproces
+      </text>
+    </svg>
+  );
+};
+
+const Overzicht = ({ tellers }: { tellers: Tellers | null }) => (
+  <div className="space-y-3">
+    <div className="rounded-xl border border-border bg-background p-4 flex flex-wrap items-center justify-between gap-3 print:hidden">
+      <div>
+        <h2 className="font-heading font-bold text-foreground">Overzicht als spinnenweb</h2>
+        <p className="text-sm text-muted-foreground">Midden = Riory · ring 1 = fases (volg de nummers) · ring 2 = vragen · buitenaan = keuzes.</p>
+      </div>
+      <Button size="sm" className="gap-2" onClick={() => window.print()}>
+        <Printer className="w-4 h-4" /> Download als PDF
+      </Button>
+    </div>
+    <div className="rounded-xl border border-border bg-background p-2 overflow-auto print:border-0 print:p-0 print:overflow-visible">
+      <div className="min-w-[900px] print:min-w-0 text-foreground">
+        <Spinnenweb tellers={tellers} />
+      </div>
+    </div>
+    <p className="text-xs text-muted-foreground print:hidden">Op gsm: schuif en zoom in met twee vingers.</p>
   </div>
 );
 
@@ -1014,7 +1069,7 @@ const Werkingsproces = () => {
             )}
           </>
         ) : versie === "eenvoudig" ? (
-          <div className="max-w-2xl mx-auto">
+          <div className="max-w-xl mx-auto">
             <Eenvoudig tellers={journey?.tellers ?? null} />
           </div>
         ) : (
