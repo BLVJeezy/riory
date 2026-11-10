@@ -43,7 +43,7 @@ export default async function handler(req, res) {
     return send(res, 502, { error: "Login kon niet gecontroleerd worden." });
   }
 
-  const secret = process.env.JOURNEY_API_TOKEN;
+  const secret = process.env.JOURNEY_API_TOKEN || process.env.journey_api_key || process.env.JOURNEY_API_KEY;
   if (!secret) return send(res, 503, { error: "Koppeling met de werkbonnen-app is nog niet ingesteld.", code: "not_configured" });
 
   const url = new URL(req.url, "http://x");
