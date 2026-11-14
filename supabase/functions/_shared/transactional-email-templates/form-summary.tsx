@@ -29,7 +29,7 @@ export const buildSummary = (p: Any): Array<{ label: string; value: string }> =>
 
   add('Type klant', klantLabel(p.klantType))
   add('Dienst', p.dienst)
-  if (p.urgent) add('Urgentie', 'Hoge urgentie (indien mogelijk vandaag)')
+  if (p.urgent) add('Urgentie', 'Prioritaire behandeling – binnen 24u ter plaatse, toeslag 50%')
   if (p.wiltOfferte) add('Voorkeur', p.wiltOfferte === 'offerte' ? 'Eerst een offerte ontvangen' : 'Meteen een afspraak maken')
   if (p.woningOuder) add('Woning ouder dan 10 jaar', true)
 

@@ -699,7 +699,7 @@ const Admin = () => {
           s.lead_bron === "calculator"
             ? `Calculator${s.lead_bron_prijs ? ` (${s.lead_bron_prijs})` : ""}`
             : "Rechtstreeks",
-          s.urgent ? "Ja" : "Nee",
+          s.urgent ? "Ja (prioritair, +50%)" : "Nee",
         ]),
         columnStyles: {
           0: { cellWidth: 19 },

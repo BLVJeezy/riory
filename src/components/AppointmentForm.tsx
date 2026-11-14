@@ -23,6 +23,7 @@ import {
   Briefcase,
   Home,
   Users,
+  Zap,
 } from "lucide-react";
 
 const InViewBlock = ({ children, className = "", delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) => {
@@ -112,6 +113,34 @@ const OptionCard = ({ selected, onClick, icon, label, description }: {
       <div>
         <p className="font-heading font-semibold text-foreground text-sm">{label}</p>
         {description && <p className="text-xs text-muted-foreground mt-0.5">{description}</p>}
+      </div>
+      {selected && <Check className="w-5 h-5 text-primary ml-auto" />}
+    </div>
+  </button>
+);
+
+const PriorityCard = ({ selected, onClick, badge, label, description }: {
+  selected: boolean; onClick: () => void; badge: string; label: string; description: string;
+}) => (
+  <button
+    type="button"
+    onClick={onClick}
+    className={`relative w-full text-left p-4 pt-5 rounded-lg border-2 transition-all ${
+      selected
+        ? "border-primary bg-primary/10 shadow-[0_0_18px_hsl(var(--primary)/0.35)]"
+        : "border-primary/50 bg-primary/5 hover:border-primary hover:shadow-[0_0_14px_hsl(var(--primary)/0.25)]"
+    }`}
+  >
+    <span className="absolute -top-2.5 left-4 inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-primary text-primary-foreground text-[10px] font-heading font-bold uppercase tracking-wider">
+      <Zap className="w-3 h-3" /> {badge}
+    </span>
+    <div className="flex items-center gap-3">
+      <div className={`p-2 rounded-lg ${selected ? "bg-primary text-primary-foreground" : "bg-primary/15 text-primary"}`}>
+        <Zap className="w-4 h-4" />
+      </div>
+      <div>
+        <p className="font-heading font-semibold text-foreground text-sm">{label}</p>
+        <p className="text-xs text-muted-foreground mt-0.5">{description}</p>
       </div>
       {selected && <Check className="w-5 h-5 text-primary ml-auto" />}
     </div>
@@ -877,10 +906,10 @@ const AppointmentForm = () => {
               <p className="text-sm text-muted-foreground mt-1">{t("appointmentForm.step2Sub")}</p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-md mx-auto">
-              <OptionCard
+              <PriorityCard
                 selected={urgent === true}
                 onClick={() => setUrgent(true)}
-                icon={<AlertTriangle className="w-4 h-4" />}
+                badge={t("appointmentForm.priorityBadge")}
                 label={t("appointmentForm.yesUrgent")}
                 description={t("appointmentForm.yesUrgentSub")}
               />
@@ -889,8 +918,21 @@ const AppointmentForm = () => {
                 onClick={() => setUrgent(false)}
                 icon={<Check className="w-4 h-4" />}
                 label={t("appointmentForm.no")}
+                description={t("appointmentForm.noSub")}
               />
             </div>
+            {urgent === true && (
+              <div className="max-w-md mx-auto rounded-lg border border-primary/40 bg-primary/5 p-4 text-sm">
+                <p className="font-heading font-bold text-foreground flex items-center gap-2">
+                  <Zap className="w-4 h-4 text-primary" /> {t("appointmentForm.priorityTitle")}
+                </p>
+                <ul className="mt-2 space-y-1 text-muted-foreground">
+                  <li className="flex gap-2"><Check className="w-4 h-4 text-primary shrink-0 mt-0.5" />{t("appointmentForm.priorityPoint1")}</li>
+                  <li className="flex gap-2"><Check className="w-4 h-4 text-primary shrink-0 mt-0.5" />{t("appointmentForm.priorityPoint2")}</li>
+                  <li className="flex gap-2"><Check className="w-4 h-4 text-primary shrink-0 mt-0.5" />{t("appointmentForm.priorityPoint3")}</li>
+                </ul>
+              </div>
+            )}
           </div>
         );
 

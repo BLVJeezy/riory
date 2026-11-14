@@ -61,7 +61,7 @@ const AppointmentNotificationEmail = (p: Props) => {
     : p.klantType === 'syndicus' ? 'Syndicus'
     : p.klantType || ''
 
-  const urgentLine = p.urgent ? 'Hoge urgentie, indien mogelijk vandaag geholpen*.' : ''
+  const urgentLine = p.urgent ? 'PRIORITAIR: klant koos voorrang – binnen 24u ter plaatse, toeslag 50%.' : ''
 
   // Build particulier block
   const particulierLines: string[] = []

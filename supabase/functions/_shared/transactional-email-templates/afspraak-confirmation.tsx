@@ -34,7 +34,7 @@ const AfspraakConfirmation = ({ voornaam, dienst, urgent, ...rest }: Props) => (
           </Text>
           <Text style={text}>
             {urgent
-              ? 'Omdat je aanvraag urgent is, nemen we zo snel mogelijk contact met je op via telefoon. Voor noodgevallen kan je ons 24/7 bereiken op het nummer hieronder.'
+              ? 'Je koos voor prioritaire behandeling: je aanvraag gaat voor op de rest en we zijn binnen 24 uur bij je ter plaatse. Hiervoor geldt een urgentietoeslag van 50%. We bellen je zo snel mogelijk. Voor noodgevallen kan je ons 24/7 bereiken op het nummer hieronder.'
               : 'Een van onze medewerkers neemt binnen 24 uur (op werkdagen) contact met je op om de afspraak te bevestigen.'}
           </Text>
 

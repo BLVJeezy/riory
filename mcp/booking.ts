@@ -25,7 +25,7 @@ export const bookingInputShape = {
   dienst: z.enum(DIENSTEN).describe("Gevraagde dienst (exacte waarde uit de lijst)."),
   urgent: z
     .boolean()
-    .describe("true = interventie binnen 24 uur nodig (extra kosten mogelijk)."),
+    .describe("true = prioritaire behandeling: binnen 24 uur ter plaatse, met een urgentietoeslag van 50%."),
   klant_type: z
     .enum(KLANT_TYPES)
     .describe("particulier, bedrijf of vrij_beroep. Syndici boeken via riory.be/afspraak."),

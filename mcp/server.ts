@@ -113,7 +113,7 @@ export function createRioryMcpServer(ctx: ServerContext = {}): McpServer {
         afspraak:
           "Boek direct in deze chat met riory_open_booking_form, via " +
           `${RIORY.bookingPage}, of bel ${RIORY.phone}.`,
-        urgent: "Interventie binnen 24 uur is mogelijk; daarvoor kunnen extra kosten aangerekend worden.",
+        urgent: "Prioritaire behandeling is mogelijk: de aanvraag gaat voor op de rest en Riory is binnen 24 uur ter plaatse. Hiervoor geldt een urgentietoeslag van 50%.",
       };
       return {
         content: [{ type: "text", text: JSON.stringify(info, null, 2) }],

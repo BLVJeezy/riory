@@ -33,8 +33,8 @@ const T = {
   nl: {
     diensten: DIENSTEN,
     s1: "Wat is het probleem?", s1sub: "Kies de dienst en beschrijf kort wat er aan de hand is.",
-    dienst: "Dienst", urgentQ: "Binnen 24 uur geholpen worden?", urgentYes: "Ja, urgent", urgentYesSub: "Extra kosten mogelijk",
-    urgentNo: "Nee", urgentNoSub: "Riory plant een moment in", beschrijving: "Omschrijving",
+    dienst: "Dienst", urgentQ: "Voorrang nodig?", urgentYes: "Ja, met voorrang", urgentYesSub: "Binnen 24u ter plaatse · toeslag van 50%",
+    urgentNo: "Nee", urgentNoSub: "Gewone planning, zonder toeslag", beschrijving: "Omschrijving",
     beschrijvingPh: "Bv. wc op het gelijkvloers loopt niet meer door sinds gisteren…",
     regenput: "Grootte van de regenput", andereMaat: "Welke maat?", dakgoot: "Meters dakgoot per hoogte",
     v1: "1 verdiep", v2: "2 verdiepen", v3: "3 verdiepen", offerteQ: "Wat wenst u?", offerte: "Eerst een offerte", afspraak: "Meteen een afspraak",
@@ -57,8 +57,8 @@ const T = {
   fr: {
     diensten: ["Débouchage", "Vidange de fosse septique", "Inspection caméra d'égout", "Localisation de canalisations", "Odeurs/moucherons d'égout", "Nettoyage périodique des canalisations", "Inondation/pompage", "Nettoyage de citerne d'eau de pluie", "Nettoyage de gouttière", "Travaux de réparation"],
     s1: "Quel est le problème ?", s1sub: "Choisissez le service et décrivez brièvement la situation.",
-    dienst: "Service", urgentQ: "Intervention dans les 24 h ?", urgentYes: "Oui, urgent", urgentYesSub: "Frais supplémentaires possibles",
-    urgentNo: "Non", urgentNoSub: "Riory planifie un moment", beschrijving: "Description",
+    dienst: "Service", urgentQ: "Besoin d'une priorité ?", urgentYes: "Oui, en priorité", urgentYesSub: "Sur place sous 24 h · supplément de 50 %",
+    urgentNo: "Non", urgentNoSub: "Planning normal, sans supplément", beschrijving: "Description",
     beschrijvingPh: "Ex. le WC du rez-de-chaussée est bouché depuis hier…",
     regenput: "Taille de la citerne", andereMaat: "Quelle taille ?", dakgoot: "Mètres de gouttière par hauteur",
     v1: "1 étage", v2: "2 étages", v3: "3 étages", offerteQ: "Que souhaitez-vous ?", offerte: "D'abord un devis", afspraak: "Directement un rendez-vous",
@@ -81,8 +81,8 @@ const T = {
   en: {
     diensten: ["Unblocking", "Septic tank emptying", "Sewer camera inspection", "Pipe location", "Odour/drain flies", "Periodic drain cleaning", "Flooding/pumping", "Rainwater tank cleaning", "Gutter cleaning", "Drain repair work"],
     s1: "What's the problem?", s1sub: "Pick the service and briefly describe what's going on.",
-    dienst: "Service", urgentQ: "Need help within 24 hours?", urgentYes: "Yes, urgent", urgentYesSub: "Extra charges may apply",
-    urgentNo: "No", urgentNoSub: "Riory schedules a time", beschrijving: "Description",
+    dienst: "Service", urgentQ: "Need priority?", urgentYes: "Yes, priority", urgentYesSub: "On site within 24h · 50% surcharge",
+    urgentNo: "No", urgentNoSub: "Regular planning, no surcharge", beschrijving: "Description",
     beschrijvingPh: "E.g. the ground-floor toilet hasn't drained since yesterday…",
     regenput: "Rainwater tank size", andereMaat: "Which size?", dakgoot: "Metres of gutter per height",
     v1: "1 storey", v2: "2 storeys", v3: "3 storeys", offerteQ: "What would you like?", offerte: "A quote first", afspraak: "An appointment right away",
