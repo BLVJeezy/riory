@@ -36,7 +36,7 @@
       } else {
         var parts = String(c.f).trim().split(/[\s,]+/).filter(Boolean).map(esc);
         if (!parts.length) return;
-        REPL.push({ re: new RegExp(parts.join('[\\s,]+'), c.t === 'email' ? 'gi' : 'g'), v: c.v, enc: new RegExp(parts.map(function (x) { return x; }).join('(?:\\+|%20|%2C|,|\\s)+'), 'gi'), venc: encodeURIComponent(c.v) });
+        REPL.push({ re: new RegExp('(?<![0-9A-Za-z])' + parts.join('[\\s,]*') + '(?![0-9A-Za-z])', c.t === 'email' ? 'gi' : 'g'), v: c.v, enc: new RegExp(parts.map(function (x) { return x; }).join('(?:\\+|%20|%2C|,|\\s)+'), 'gi'), venc: encodeURIComponent(c.v) });
       }
     });
   }
