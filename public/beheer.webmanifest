@@ -1,0 +1,21 @@
+{
+  "id": "riory-beheer",
+  "name": "Riory Beheer",
+  "short_name": "Riory Beheer",
+  "description": "Pas de teksten en foto's van de website van Riory aan.",
+  "start_url": "/beheer.html",
+  "scope": "/beheer",
+  "display": "standalone",
+  "orientation": "any",
+  "lang": "nl",
+  "background_color": "#172429",
+  "theme_color": "#1E2E34",
+  "icons": [
+    {
+      "src": "/riory-logo-email.png",
+      "sizes": "any",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
