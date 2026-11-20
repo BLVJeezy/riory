@@ -7,7 +7,7 @@
 <meta name="theme-color" content="#1E2E34">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Riory Beheer">
 <title>Riory — Beheer</title>
 <link rel="manifest" href="/beheer.webmanifest">
@@ -66,7 +66,7 @@ h1,h2,h3{font-weight:600;margin:0;letter-spacing:-.01em}
 .ver:first-child{border-top:0}
 .ver span{flex:1}
 .ver b{font-weight:600;color:var(--ivory)}
-.app{display:grid;grid-template-rows:auto 1fr;position:fixed;top:0;right:0;left:0;height:100vh;height:100lvh;height:max(100lvh,var(--app-h,0px));overflow:hidden}
+.app{display:grid;grid-template-rows:auto 1fr;position:fixed;inset:0;overflow:hidden}
 .stage{overscroll-behavior:none}
 .bar{display:flex;align-items:center;gap:12px;padding:10px 16px;padding-top:max(10px,env(safe-area-inset-top));border-bottom:1px solid var(--line);background:var(--dk)}
 .brand{display:flex;align-items:center;gap:10px;margin-right:auto;min-width:0}
@@ -121,8 +121,14 @@ h1,h2,h3{font-weight:600;margin:0;letter-spacing:-.01em}
   .note-btn span{display:none}
   .seg.mode button{padding:0 11px}
   .pagesel{max-width:none;flex:1 1 0;width:0;min-width:70px}
-  html,body{overflow-x:hidden;background:#fff}
-  .stage{background:#fff}.bar{overflow:hidden}.bar .brand{display:none}
+  html{background:var(--dk)}
+  html,body{overflow-x:hidden}
+  body{background:#fff;min-height:100lvh}
+  /* iPhone (Safari): de balk staat zelf vast bovenaan met een effen kleur, de website loopt door tot onder de knoppenbalk van Safari */
+  .app{position:absolute;top:0;left:0;right:0;bottom:auto;height:100lvh;display:block;overflow:visible}
+  .bar{position:fixed;top:0;left:0;right:0;z-index:20;background:var(--dk)}
+  .work{position:absolute;top:var(--bar-h,56px);left:0;right:0;bottom:0;display:block}
+  .stage{position:absolute;inset:0;background:#fff}.bar{overflow:hidden}.bar .brand{display:none}
   .bar{min-height:56px}.seg.mode{flex:none}.seg.mode button{min-height:38px}
   .note-btn{flex:none;width:44px;height:44px;min-height:44px;padding:0;border-radius:50%}.note-btn svg{width:20px;height:20px}
   .field textarea,.field input{font-size:16px}
@@ -319,9 +325,8 @@ h1,h2,h3{font-weight:600;margin:0;letter-spacing:-.01em}
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
   var frame = $('#site'), draft;
   var phone = window.matchMedia('(max-width: 900px)');
-  /* iPhone: altijd de volle hoogte, zodat er onderaan geen lege balk blijft */
-  function fitHeight() { document.documentElement.style.setProperty('--app-h', Math.max(window.innerHeight, document.documentElement.clientHeight) + 'px'); }
-  fitHeight(); window.addEventListener('resize', fitHeight); window.addEventListener('orientationchange', function () { setTimeout(fitHeight, 300); });
+  function barH() { var b = document.querySelector('.bar'); if (b) document.documentElement.style.setProperty('--bar-h', b.offsetHeight + 'px'); }
+  window.addEventListener('resize', barH); window.addEventListener('orientationchange', function () { setTimeout(barH, 300); });
   var TITLES = { teksten: 'Teksten', fotos: "Foto's", klaar: 'Publiceren' };
 
   function norm(d) { d = d && typeof d === 'object' ? d : {}; d.text = d.text || {}; d.img = d.img || {}; return d; }
@@ -343,7 +348,7 @@ h1,h2,h3{font-weight:600;margin:0;letter-spacing:-.01em}
 
   /* ---------- toegang (houdt alleen toevallige bezoekers weg, geen echte beveiliging) ---------- */
   function open() {
-    $('#gate').hidden = true; $('#app').hidden = false; draft = load();
+    $('#gate').hidden = true; $('#app').hidden = false; barH(); draft = load();
     pages(); counts(); texts();
     try { if (!localStorage.getItem(COACH)) $('#coach').hidden = false; } catch (e) {}
   }
