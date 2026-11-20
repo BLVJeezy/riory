@@ -56,6 +56,16 @@ h1,h2,h3{font-weight:600;margin:0;letter-spacing:-.01em}
 .shot img{width:100%;height:100%;object-fit:cover;cursor:pointer}
 .shot button{position:absolute;top:4px;right:4px;width:24px;height:24px;border-radius:50%;border:0;background:rgba(0,0,0,.65);color:#fff;cursor:pointer;font-size:14px;line-height:1}
 .field textarea{width:100%;border:0;border-radius:14px;background:var(--ivory);color:#1b1b1b;padding:13px 14px;outline:none;font-size:16px;min-height:130px;resize:vertical;line-height:1.5;font:inherit}
+.seo-bar{position:absolute;left:12px;right:12px;top:12px;z-index:4;display:flex;align-items:center;gap:12px;padding:12px 12px 12px 16px;border-radius:16px;background:var(--ivory);color:#1b1b1b;box-shadow:0 16px 36px -14px rgba(0,0,0,.55);font-size:14px;line-height:1.4}
+.seo-bar div{flex:1;min-width:0}.seo-bar b{display:block;font-size:13px;letter-spacing:.02em}
+.seo-bar.warn{background:#FFE7C2}.seo-bar.warn b{color:#9A4A00}
+.tour{position:fixed;inset:0;z-index:80}
+.tour-ring{position:fixed;border-radius:18px;box-shadow:0 0 0 9999px rgba(0,0,0,.62),0 0 0 3px var(--acc);transition:all 380ms cubic-bezier(.2,.8,.2,1);pointer-events:none}
+.tour-card{position:fixed;left:50%;bottom:calc(120px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);width:min(92vw,380px);background:var(--ivory);color:#1b1b1b;border-radius:22px;padding:20px;box-shadow:0 24px 50px -16px rgba(0,0,0,.7);display:flex;flex-direction:column;gap:8px}
+.tour-card h3{font-size:19px}.tour-card p{margin:0 0 6px;color:#3b3b3b;font-size:15px;line-height:1.5}
+.tour-dots{display:flex;gap:6px}.tour-dots i{width:7px;height:7px;border-radius:50%;background:#cfc8bf}.tour-dots i.on{background:var(--acc);width:20px;border-radius:99px}
+.tour-skip{border:0;background:none;color:#6b6b6b;font:inherit;font-size:14px;cursor:pointer;padding:8px 0}
+@media (min-width:901px){.tour-card{bottom:32px}}
 .modal-head{display:flex;align-items:center;gap:12px}.modal-head h2{flex:1}
 .x-btn{flex:none;display:grid;place-items:center;width:40px;height:40px;border-radius:50%;border:0;background:var(--dk2);color:var(--ivory);box-shadow:inset 0 0 0 1px var(--line);cursor:pointer}
 .x-btn svg{width:20px;height:20px}
@@ -83,8 +93,6 @@ h1,h2,h3{font-weight:600;margin:0;letter-spacing:-.01em}
 .stage{grid-column:2;grid-row:1 / 3;position:relative;min-height:0;display:flex;justify-content:center;background:repeating-linear-gradient(45deg,rgba(0,0,0,.25) 0 12px,rgba(0,0,0,.18) 12px 24px),var(--dk2)}
 .stage iframe{border:0;width:100%;height:100%;background:#fff;transition:width 320ms cubic-bezier(.2,.8,.2,1)}
 .stage.phone iframe{width:390px;box-shadow:0 0 0 1px var(--line),0 30px 60px -30px rgba(0,0,0,.7)}
-.coach{position:absolute;left:50%;top:14px;transform:translateX(-50%);z-index:3;display:flex;align-items:center;gap:12px;background:var(--ivory);color:var(--dk);padding:8px 8px 8px 16px;border-radius:999px;box-shadow:0 12px 30px -12px rgba(0,0,0,.5);font-size:14px;font-weight:500;white-space:nowrap}
-.coach button{border:0;background:var(--dk);color:var(--ivory);border-radius:999px;min-height:32px;padding:0 14px;cursor:pointer}
 .nav{grid-column:1;grid-row:1;display:flex;gap:4px;padding:10px;background:var(--dk);border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
 .nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;border:0;background:transparent;color:var(--mut);padding:8px 4px;border-radius:12px;cursor:pointer;font-size:12.5px;font-weight:500;position:relative}
 .nav button svg{width:22px;height:22px}
@@ -166,7 +174,7 @@ h1,h2,h3{font-weight:600;margin:0;letter-spacing:-.01em}
   .sheet-head b{font-size:17px}
   .pane h2{display:none}
   .only-phone{display:inline-flex}
-  .coach{top:12px;bottom:auto}
+  .seo-bar{top:10px;left:10px;right:10px}
 }
 .gate img,.brand img{background:#ffffff;border-radius:10px;padding:5px 9px}
 </style>
@@ -202,7 +210,7 @@ h1,h2,h3{font-weight:600;margin:0;letter-spacing:-.01em}
   </header>
   <div class="work">
     <div class="stage" id="stage">
-      <div class="coach" id="coach" hidden><span>Tik op een tekst om te typen</span><button type="button" id="coachOk">Oké</button></div>
+      <div class="seo-bar" id="seoBar" hidden role="status"><div><b id="seoHead">Belangrijk voor Google</b><span id="seoText"></span></div><button class="btn light small" type="button" id="seoUndo" hidden>Zet terug</button></div>
       <iframe id="site" title="Voorbeeld van de website"></iframe>
     </div>
     <nav class="nav" id="nav" role="tablist" aria-label="Beheer">
@@ -272,6 +280,7 @@ h1,h2,h3{font-weight:600;margin:0;letter-spacing:-.01em}
           <button class="btn ghost small" type="button" id="share">Wijzigingen doorsturen naar Solyn</button>
           <button class="btn ghost small" type="button" id="dl">Download als bestand</button>
           <label class="btn ghost small" style="cursor:pointer">Bestand met wijzigingen openen<input type="file" id="imp" accept=".js,.json,.txt,text/plain,application/json,text/javascript" hidden></label>
+          <button class="btn ghost small" type="button" id="tourAgain">Toon de uitleg opnieuw</button>
           <button class="btn ghost small" type="button" id="reset">Niet-gepubliceerde wijzigingen wissen</button>
           <a class="btn ghost small only-phone" href="/" target="_blank" rel="noopener">Bekijk de site</a>
         </div>
@@ -318,15 +327,24 @@ h1,h2,h3{font-weight:600;margin:0;letter-spacing:-.01em}
 </div>
 <div class="area-bar" id="areaBar" hidden><span>Tik op het stuk van de pagina waar het over gaat</span><button class="btn light small" type="button" id="areaCancel">Annuleren</button></div>
 <div class="toast" id="toast" role="status"></div>
+<div class="tour" id="tour" hidden>
+  <div class="tour-ring" id="tourRing"></div>
+  <div class="tour-card" role="dialog" aria-modal="true" aria-labelledby="tourTitle">
+    <div class="tour-dots" id="tourDots"></div>
+    <h3 id="tourTitle"></h3>
+    <p id="tourText"></p>
+    <div class="acts" style="justify-content:space-between;align-items:center"><button class="tour-skip" type="button" id="tourSkip">Overslaan</button><button class="btn small" type="button" id="tourNext">Volgende</button></div>
+  </div>
+</div>
 
 <script>
 (function () {
   'use strict';
   /* ---------- instellingen per klant ---------- */
-  var CFG = {"name": "Riory", "slug": "riory", "hash": "783babcd9c9e98bc2f44d328c8620639fccdfe065f3d48940f2190f01bcc8b2d", "api": "https://solyn22.lovable.app/api/public/beheer", "hubToken": "879eb4da1ea1c0df0e655ab160279cb9f178", "contact": [{"k": "phone", "label": "Telefoon", "type": "phone", "value": "0472 50 28 14"}, {"k": "email", "label": "E-mail", "type": "email", "value": "info@riory.be"}, {"k": "email2", "label": "E-mail voor afspraken", "type": "email", "value": "afspraak@riory.be"}, {"k": "address", "label": "Adres", "type": "text", "value": "Natveld 47, 3740 Bilzen-Hoeselt"}], "pages": [{"group": "Algemeen"}, {"path": "/", "name": "Home"}, {"path": "/diensten", "name": "Diensten"}, {"path": "/afspraak", "name": "Afspraak"}, {"path": "/sollicitatie", "name": "Sollicitatie"}, {"path": "/prijscalculator", "name": "Prijscalculator"}, {"group": "Diensten"}, {"path": "/diensten/camera-inspectie", "name": "Camera inspectie"}, {"path": "/diensten/ontstoppingen-en-geurdetectie", "name": "Ontstoppingen en geurdetectie"}, {"path": "/diensten/septische-put-ledigen", "name": "Septische put ledigen"}, {"path": "/diensten/leegpompen-en-reinigen", "name": "Leegpompen en reinigen"}, {"path": "/diensten/wc-verstopt", "name": "Wc verstopt"}, {"path": "/diensten/keukenafvoer-verstopt", "name": "Keukenafvoer verstopt"}, {"path": "/diensten/doucheputje-verstopt", "name": "Doucheputje verstopt"}, {"path": "/diensten/riool-verstopt", "name": "Riool verstopt"}, {"path": "/diensten/gootsteen-verstopt", "name": "Gootsteen verstopt"}, {"path": "/diensten/lekkende-kraan", "name": "Lekkende kraan"}, {"path": "/diensten/lekkage-opsporen", "name": "Lekkage opsporen"}, {"path": "/diensten/dakgootreiniging", "name": "Dakgootreiniging"}, {"path": "/diensten/rioolreparatie", "name": "Rioolreparatie"}, {"path": "/diensten/rioolvliegjes", "name": "Rioolvliegjes"}, {"group": "Regio"}, {"path": "/regio/hasselt", "name": "Hasselt"}, {"path": "/regio/genk", "name": "Genk"}, {"path": "/regio/tongeren", "name": "Tongeren"}, {"path": "/regio/sint-truiden", "name": "Sint truiden"}, {"path": "/regio/hoeselt", "name": "Hoeselt"}, {"path": "/regio/maasmechelen", "name": "Maasmechelen"}, {"path": "/regio/diepenbeek", "name": "Diepenbeek"}, {"path": "/regio/riemst", "name": "Riemst"}, {"path": "/regio/maastricht", "name": "Maastricht"}, {"path": "/regio/wellen", "name": "Wellen"}, {"path": "/regio/zutendaal", "name": "Zutendaal"}, {"path": "/regio/alken", "name": "Alken"}, {"path": "/regio/borgloon", "name": "Borgloon"}, {"path": "/regio/kortessem", "name": "Kortessem"}, {"path": "/regio/vreren", "name": "Vreren"}, {"path": "/regio/vliermaal", "name": "Vliermaal"}, {"path": "/regio/luik", "name": "Luik"}, {"path": "/regio/rocourt", "name": "Rocourt"}, {"path": "/regio/juprelle", "name": "Juprelle"}, {"path": "/regio/ans", "name": "Ans"}, {"path": "/regio/milmort", "name": "Milmort"}, {"path": "/regio/vottem", "name": "Vottem"}, {"path": "/regio/chenee", "name": "Chenee"}, {"group": "Referenties"}, {"path": "/referenties/dakgootreinigingen", "name": "Dakgootreinigingen"}, {"path": "/referenties/ledigen-van-septische-putten", "name": "Ledigen van septische putten"}, {"path": "/referenties/leegpompen-en-reinigen", "name": "Leegpompen en reinigen"}, {"path": "/referenties/ontstoppingen-en-geurdetectie", "name": "Ontstoppingen en geurdetectie"}, {"group": "Andere talen"}, {"path": "/fr", "name": "Français (home)"}, {"path": "/en", "name": "English (home)"}, {"group": "Juridisch"}, {"path": "/privacy-policy", "name": "Privacy policy"}, {"path": "/cookie-policy", "name": "Cookie policy"}, {"path": "/algemene-voorwaarden", "name": "Algemene voorwaarden"}, {"path": "/gebruiksvoorwaarden", "name": "Gebruiksvoorwaarden"}, {"path": "/data-protection", "name": "Data protection"}]};
+  var CFG = {"name": "Riory", "slug": "riory", "hash": "783babcd9c9e98bc2f44d328c8620639fccdfe065f3d48940f2190f01bcc8b2d", "api": "https://solyn22.lovable.app/api/public/beheer", "hubToken": "879eb4da1ea1c0df0e655ab160279cb9f178", "contact": [{"k": "phone", "label": "Telefoon", "type": "phone", "value": "0472 50 28 14"}, {"k": "email", "label": "E-mail", "type": "email", "value": "info@riory.be"}, {"k": "email2", "label": "E-mail voor afspraken", "type": "email", "value": "afspraak@riory.be"}, {"k": "address", "label": "Adres", "type": "text", "value": "Natveld 47, 3740 Bilzen-Hoeselt"}, {"k": "facebook", "label": "Facebook", "type": "url", "value": "https://www.facebook.com/share/1Ad153BttY/"}, {"k": "instagram", "label": "Instagram", "type": "url", "value": "https://www.instagram.com/riorybv/"}, {"k": "linkedin", "label": "LinkedIn", "type": "url", "value": "https://www.linkedin.com/company/riory/"}], "seo": ["bilzen", "hoeselt", "hasselt", "genk", "tongeren", "sint-truiden", "maasmechelen", "lanaken", "limburg", "luik", "ontstopping", "riool", "camera", "inspectie", "septische", "put", "lekkage", "dakgoot", "afvoer", "ruimdienst", "geurdetectie", "24/7"], "pages": [{"group": "Algemeen"}, {"path": "/", "name": "Home"}, {"path": "/diensten", "name": "Diensten"}, {"path": "/afspraak", "name": "Afspraak"}, {"path": "/sollicitatie", "name": "Sollicitatie"}, {"path": "/prijscalculator", "name": "Prijscalculator"}, {"group": "Diensten"}, {"path": "/diensten/camera-inspectie", "name": "Camera inspectie"}, {"path": "/diensten/ontstoppingen-en-geurdetectie", "name": "Ontstoppingen en geurdetectie"}, {"path": "/diensten/septische-put-ledigen", "name": "Septische put ledigen"}, {"path": "/diensten/leegpompen-en-reinigen", "name": "Leegpompen en reinigen"}, {"path": "/diensten/wc-verstopt", "name": "Wc verstopt"}, {"path": "/diensten/keukenafvoer-verstopt", "name": "Keukenafvoer verstopt"}, {"path": "/diensten/doucheputje-verstopt", "name": "Doucheputje verstopt"}, {"path": "/diensten/riool-verstopt", "name": "Riool verstopt"}, {"path": "/diensten/gootsteen-verstopt", "name": "Gootsteen verstopt"}, {"path": "/diensten/lekkende-kraan", "name": "Lekkende kraan"}, {"path": "/diensten/lekkage-opsporen", "name": "Lekkage opsporen"}, {"path": "/diensten/dakgootreiniging", "name": "Dakgootreiniging"}, {"path": "/diensten/rioolreparatie", "name": "Rioolreparatie"}, {"path": "/diensten/rioolvliegjes", "name": "Rioolvliegjes"}, {"group": "Regio"}, {"path": "/regio/hasselt", "name": "Hasselt"}, {"path": "/regio/genk", "name": "Genk"}, {"path": "/regio/tongeren", "name": "Tongeren"}, {"path": "/regio/sint-truiden", "name": "Sint truiden"}, {"path": "/regio/hoeselt", "name": "Hoeselt"}, {"path": "/regio/maasmechelen", "name": "Maasmechelen"}, {"path": "/regio/diepenbeek", "name": "Diepenbeek"}, {"path": "/regio/riemst", "name": "Riemst"}, {"path": "/regio/maastricht", "name": "Maastricht"}, {"path": "/regio/wellen", "name": "Wellen"}, {"path": "/regio/zutendaal", "name": "Zutendaal"}, {"path": "/regio/alken", "name": "Alken"}, {"path": "/regio/borgloon", "name": "Borgloon"}, {"path": "/regio/kortessem", "name": "Kortessem"}, {"path": "/regio/vreren", "name": "Vreren"}, {"path": "/regio/vliermaal", "name": "Vliermaal"}, {"path": "/regio/luik", "name": "Luik"}, {"path": "/regio/rocourt", "name": "Rocourt"}, {"path": "/regio/juprelle", "name": "Juprelle"}, {"path": "/regio/ans", "name": "Ans"}, {"path": "/regio/milmort", "name": "Milmort"}, {"path": "/regio/vottem", "name": "Vottem"}, {"path": "/regio/chenee", "name": "Chenee"}, {"group": "Referenties"}, {"path": "/referenties/dakgootreinigingen", "name": "Dakgootreinigingen"}, {"path": "/referenties/ledigen-van-septische-putten", "name": "Ledigen van septische putten"}, {"path": "/referenties/leegpompen-en-reinigen", "name": "Leegpompen en reinigen"}, {"path": "/referenties/ontstoppingen-en-geurdetectie", "name": "Ontstoppingen en geurdetectie"}, {"group": "Andere talen"}, {"path": "/fr", "name": "Français (home)"}, {"path": "/en", "name": "English (home)"}, {"group": "Juridisch"}, {"path": "/privacy-policy", "name": "Privacy policy"}, {"path": "/cookie-policy", "name": "Cookie policy"}, {"path": "/algemene-voorwaarden", "name": "Algemene voorwaarden"}, {"path": "/gebruiksvoorwaarden", "name": "Gebruiksvoorwaarden"}, {"path": "/data-protection", "name": "Data protection"}]};
   window.__isBeheer = true;
   var mode = 'edit';
-  var KEY = 'site-beheer-draft', CODEKEY = 'site-beheer-code', COACH = 'site-beheer-coach';
+  var KEY = 'site-beheer-draft', CODEKEY = 'site-beheer-code', COACH = 'site-beheer-tour1';
   var API = CFG.api, code = null, store = false, published = norm(JSON.parse(JSON.stringify(window.SITE_CONTENT || {})));
   try { localStorage.removeItem('site-beheer-ok'); } catch (e) {}
 
@@ -359,7 +377,7 @@ h1,h2,h3{font-weight:600;margin:0;letter-spacing:-.01em}
   function open() {
     $('#gate').hidden = true; $('#app').hidden = false; barH(); draft = load();
     pages(); counts(); texts();
-    try { if (!localStorage.getItem(COACH)) $('#coach').hidden = false; } catch (e) {}
+    try { if (!localStorage.getItem(COACH)) setTimeout(function () { tour(0); }, 700); } catch (e) {}
   }
   function tryCode(c, quiet) {
     return sha(c.trim().toLowerCase()).then(function (h) {
@@ -373,7 +391,53 @@ h1,h2,h3{font-weight:600;margin:0;letter-spacing:-.01em}
       .then(function (j) { store = !!j.store; pubState(); }).catch(function () { store = false; pubState(); });
   }
   $('#gateForm').addEventListener('submit', function (e) { e.preventDefault(); tryCode($('#code').value, false); });
-  $('#coachOk').addEventListener('click', function () { $('#coach').hidden = true; try { localStorage.setItem(COACH, '1'); } catch (e) {} });
+  /* ---------- uitleg in drie stappen (eerste keer, of via Toon de uitleg opnieuw) ---------- */
+  var STEPS = [
+    { t: 'Tik op een tekst en typ', p: 'Tik in de website op een tekst om hem aan te passen. Een gestippelde lijn toont wat je kan wijzigen. Alles wordt meteen bewaard op dit toestel.', el: function () { return $('#stage'); } },
+    { t: 'Foto’s, contact en publiceren', p: 'Hier vind je Foto’s, Contactgegevens en Publiceren. Klaar met aanpassen? Bij Publiceren zet je alles online, of bewaar je eerst een versie.', el: function () { return phone.matches ? $('#fab') : $('#nav'); } },
+    { t: 'Werkt er iets niet?', p: 'Meld het met deze knop. Je kan een screenshot toevoegen en aanduiden waar het probleem zit. Solyn krijgt het meteen.', el: function () { return $('#noteBtn'); } }
+  ], tourStep = 0;
+  function tourPlace() {
+    var el = STEPS[tourStep].el(), r = el.getBoundingClientRect(), pad = el.id === 'stage' ? -8 : 8, ring = $('#tourRing');
+    ring.style.left = (r.left - pad) + 'px'; ring.style.top = (r.top - pad) + 'px'; ring.style.width = (r.width + pad * 2) + 'px'; ring.style.height = (r.height + pad * 2) + 'px';
+    ring.style.borderRadius = el.id === 'fab' || el.classList.contains('note-btn') && phone.matches ? '999px' : '18px';
+  }
+  function tour(i) {
+    sheet(false); menu(false); tourStep = i;
+    $('#tour').hidden = false; $('#tourTitle').textContent = STEPS[i].t; $('#tourText').textContent = STEPS[i].p;
+    $('#tourDots').innerHTML = STEPS.map(function (x, j) { return '<i' + (j === i ? ' class="on"' : '') + '></i>'; }).join('');
+    $('#tourNext').textContent = i === STEPS.length - 1 ? 'Aan de slag' : 'Volgende';
+    tourPlace(); setTimeout(function () { $('#tourNext').focus(); }, 50);
+  }
+  function tourEnd() { $('#tour').hidden = true; try { localStorage.setItem(COACH, '1'); } catch (e) {} }
+  $('#tourNext').addEventListener('click', function () { if (tourStep < STEPS.length - 1) tour(tourStep + 1); else tourEnd(); });
+  $('#tourSkip').addEventListener('click', tourEnd);
+  $('#tourAgain').addEventListener('click', function () { tour(0); });
+  window.addEventListener('resize', function () { if (!$('#tour').hidden) tourPlace(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !$('#tour').hidden) tourEnd(); });
+
+  /* ---------- SEO: waarschuw als een woord verdwijnt waarmee Google de zaak vindt ---------- */
+  var SEO = (CFG.seo || []).map(function (w) { return String(w).toLowerCase(); });
+  function seoWords(t) { t = ' ' + String(t || '').toLowerCase() + ' '; return SEO.filter(function (w) { return t.indexOf(w) >= 0; }); }
+  function seoCheck(info) {
+    var bar = $('#seoBar');
+    if (!info) { bar.hidden = true; return; }
+    var heading = /^H[1-3]$/.test(info.tag), had = seoWords(info.orig);
+    if (!heading && !had.length) { bar.hidden = true; return; }
+    var now = seoWords(info.now), gone = had.filter(function (w) { return now.indexOf(w) < 0; });
+    function cap(w) { return w.charAt(0).toUpperCase() + w.slice(1); }
+    bar.hidden = false;
+    if (gone.length) {
+      bar.classList.add('warn'); $('#seoHead').textContent = 'Let op: dit kan je vindbaarheid in Google kosten';
+      $('#seoText').textContent = 'Je haalde ' + gone.map(function (w) { return '“' + cap(w) + '”'; }).join(', ') + ' weg. Google gebruikt ' + (gone.length > 1 ? 'die woorden' : 'dat woord') + ' om je te tonen aan mensen die zoeken.';
+      $('#seoUndo').hidden = false;
+    } else {
+      bar.classList.remove('warn'); $('#seoHead').textContent = heading ? 'Deze titel is belangrijk voor Google' : 'Belangrijk voor Google';
+      $('#seoText').textContent = had.length ? 'Laat ' + had.map(function (w) { return '“' + cap(w) + '”'; }).join(', ') + ' erin staan, dan blijf je goed gevonden.' : 'Hou de titel kort en zeg wat je doet en waar.';
+      $('#seoUndo').hidden = true;
+    }
+  }
+  $('#seoUndo').addEventListener('click', function () { var a = api(); if (a && a.revertActive) a.revertActive(); toast('Teruggezet'); });
 
   /* ---------- pagina's ---------- */
   function pages() {
@@ -408,7 +472,8 @@ h1,h2,h3{font-weight:600;margin:0;letter-spacing:-.01em}
       var hit = CFG.pages.filter(function (p) { return p.path && (p.path === here || p.path + '.html' === here || p.path + '/' === here); })[0];
       if (hit) { sel.value = hit.path; } $('#siteLink').href = here; } catch (e) {}
     a.attach(draft);
-    a.onChange = function () { save(); };
+    a.onChange = function (info) { save(); seoCheck(info); };
+    a.onActive = seoCheck;
     a.onRender = function () { if ($('[data-pane="fotos"]').classList.contains('on')) photosSoon(); };
     if ($('[data-pane="fotos"]').classList.contains('on')) photosSoon();
   });
@@ -543,13 +608,14 @@ h1,h2,h3{font-weight:600;margin:0;letter-spacing:-.01em}
       var f = document.createElement('label'); f.className = 'field';
       f.innerHTML = '<span></span><input autocomplete="off"><small class="hint" style="font-size:12.5px;color:var(--mut)"></small>';
       $('span', f).textContent = c.label;
-      var inp = $('input', f); inp.value = cur; inp.type = c.type === 'email' ? 'email' : c.type === 'phone' ? 'tel' : 'text';
+      var inp = $('input', f); inp.value = cur; inp.type = c.type === 'email' ? 'email' : c.type === 'phone' ? 'tel' : c.type === 'url' ? 'url' : 'text';
       inp.inputMode = c.type === 'phone' ? 'tel' : c.type === 'email' ? 'email' : 'text';
       var note = $('small', f);
       function upd() { note.textContent = inp.value.trim() && inp.value.trim() !== c.value ? 'Was: ' + c.value : ''; }
       upd();
       inp.addEventListener('input', function () {
         var v = inp.value.trim();
+        if (c.type === 'url' && v && !/^https:\/\//i.test(v)) v = 'https://' + v.replace(/^https?:\/\//i, '');
         if (!v || v === c.value) delete draft.contact[c.k]; else draft.contact[c.k] = { t: c.type, f: c.value, v: v };
         upd(); clearTimeout(contacts._t); contacts._t = setTimeout(function () { save(); push(); }, 250);
       });

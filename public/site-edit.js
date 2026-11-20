@@ -31,6 +31,8 @@
         var oc = core(c.f), nc = core(c.v); if (oc.length < 6 || nc.length < 6) return;
         var digits = oc.split('').map(esc).join('[\\s./-]?');
         REPL.push({ phone: true, re: new RegExp('(\\+\\s?32\\s?(?:\\(0\\)\\s?)?|0032\\s?|\\b32|\\b0)' + digits + '(?!\\d)', 'g'), v: c.v, nc: nc });
+      } else if (c.t === 'url') {
+        REPL.push({ url: true, f: String(c.f).replace(/\/+$/, ''), v: c.v });
       } else {
         var parts = String(c.f).trim().split(/[\s,]+/).filter(Boolean).map(esc);
         if (!parts.length) return;
@@ -41,6 +43,7 @@
   function contactText(t) {
     if (!REPL.length || !t) return t;
     REPL.forEach(function (r) {
+      if (r.url) return;
       t = t.replace(r.re, r.phone ? function (m, pre) { return /^(\+|00|32)/.test(pre.replace(/\s/g, '')) ? '+32 ' + r.v.replace(/^\s*(\+32|0032|0)\s?/, '') : r.v; } : function () { return r.v; });
     });
     return t;
@@ -48,6 +51,7 @@
   function contactHref(h) {
     if (!REPL.length || !h) return h;
     REPL.forEach(function (r) {
+      if (r.url) { if (h.replace(/\/+$/, '') === r.f) h = r.v; return; }
       if (r.phone) h = h.replace(r.re, function (m, pre) { var p = pre.replace(/\s/g, ''); return (/^\+/.test(p) ? '+32' : /^(00|32)/.test(p) ? '32' : '0') + r.nc; });
       else { h = h.replace(r.re, r.v); h = h.replace(r.enc, r.venc); }
     });
@@ -67,13 +71,14 @@
   function linkNode(el) {
     var cur = el.getAttribute('href') || '', rec = A.get(el);
     var orig = rec && cur === rec.applied ? rec.orig : cur;
-    if (!/^(tel:|mailto:|sms:|https?:\/\/(wa\.me|api\.whatsapp|(www\.)?google\.[a-z.]+\/maps|maps\.))/i.test(orig) && !(rec && rec.orig !== rec.applied)) return;
+    if (!/^(tel:|mailto:|sms:|https?:\/\/(wa\.me|api\.whatsapp|(www\.)?google\.[a-z.]+\/maps|maps\.|(www\.)?(facebook|instagram|linkedin|tiktok|youtube|twitter|x)\.com))/i.test(orig) && !(rec && rec.orig !== rec.applied)) return;
     var want = contactHref(orig);
     if (cur !== want) el.setAttribute('href', want);
     A.set(el, { orig: orig, applied: want });
   }
   if (EDIT) { try { var s = JSON.parse(localStorage.getItem(DRAFT_KEY) || 'null'); if (s) draft = norm(s); } catch (e) {} }
 
+  var snapHTML = '';
   var T = new WeakMap(); // tekstknoop -> { orig, applied }
   var I = new WeakMap(); // img -> { orig, applied }
   var key = function (s) { return String(s || '').replace(/\s+/g, ' ').trim(); };
@@ -169,17 +174,21 @@
     if (active === el) return;
     deactivate();
     active = el;
+    snapHTML = el.innerHTML;
     snap = texts(el).map(function (n) { var r = T.get(n); return { node: n, orig: r && n.nodeValue === r.applied ? r.orig : n.nodeValue }; });
     el.setAttribute('data-se-active', '');
     try { el.contentEditable = 'plaintext-only'; } catch (e) {}
     if (el.contentEditable !== 'plaintext-only') el.contentEditable = 'true';
     el.spellcheck = true;
+    if (typeof api.onActive === 'function') { try { api.onActive(info()); } catch (e) {} }
   }
+  function info() { return active ? { tag: active.tagName, orig: snap.map(function (s) { return s.orig; }).join(''), now: active.textContent || '' } : null; }
   function deactivate() {
     if (!active) return;
     active.removeAttribute('contenteditable'); active.removeAttribute('data-se-active');
     snap.forEach(function (s) { if (s.node.isConnected) T.set(s.node, { orig: s.orig, applied: s.node.nodeValue }); });
     active = null; snap = [];
+    if (typeof api.onActive === 'function') { try { api.onActive(null); } catch (e) {} }
   }
   function record() {
     if (!active) return;
@@ -193,7 +202,7 @@
     } else {
       snap.forEach(function (s) { if (s.node.isConnected) setText(s.orig, s.node.nodeValue); });
     }
-    if (typeof api.onChange === 'function') api.onChange();
+    if (typeof api.onChange === 'function') api.onChange(info());
   }
   function setText(orig, val) {
     var k = key(orig), v = key(val); if (!k) return;
@@ -232,6 +241,14 @@
     edit: EDIT,
     get draft() { return draft; },
     attach: function (d) { draft = norm(d); apply(document.body); },
+    revertActive: function () {
+      if (!active) return;
+      var origs = snap.map(function (s) { return s.orig; });
+      active.innerHTML = snapHTML;
+      origs.forEach(function (o) { setText(o, o); });
+      snap = texts(active).map(function (n, i) { return { node: n, orig: n.nodeValue }; });
+      if (typeof api.onChange === 'function') api.onChange(info());
+    },
     apply: function () { apply(document.body); },
     images: function () {
       var seen = {}, out = [];
