@@ -84,7 +84,8 @@ h1,h2,h3{font-weight:600;margin:0;letter-spacing:-.01em}
 .only-phone{display:none}
 @media (max-width:900px){
   .bar{gap:8px;padding-left:12px;padding-right:12px}
-  .brand b,.seg,.status,.site-link{display:none}
+  .brand b,.seg.view,.status,.site-link{display:none}
+  .seg.mode button{padding:0 11px}
   .pagesel{max-width:none;flex:1;min-width:0}
   .work{grid-template-columns:1fr;grid-template-rows:1fr auto}
   .stage{grid-row:1}
@@ -119,7 +120,11 @@ h1,h2,h3{font-weight:600;margin:0;letter-spacing:-.01em}
   <header class="bar">
     <div class="brand"><img src="/riory-logo.svg" alt=""><b>Riory · Beheer</b></div>
     <select class="pagesel" id="pageSel" aria-label="Pagina"></select>
-    <div class="seg" role="group" aria-label="Weergave">
+    <div class="seg mode" role="group" aria-label="Modus">
+      <button type="button" data-mode="edit" aria-pressed="true" title="Tik op een tekst om te typen">Tekst</button>
+      <button type="button" data-mode="browse" aria-pressed="false" title="Gewoon klikken: taal wisselen, menu openen, naar een andere pagina">Klikken</button>
+    </div>
+    <div class="seg view" role="group" aria-label="Weergave">
       <button type="button" data-view="desk" aria-pressed="true">Computer</button>
       <button type="button" data-view="phone" aria-pressed="false">Telefoon</button>
     </div>
@@ -148,7 +153,7 @@ h1,h2,h3{font-weight:600;margin:0;letter-spacing:-.01em}
           <ul class="steps">
             <li>Enter of ergens anders tikken = klaar met die tekst.</li>
             <li>Een tekst die op meerdere plaatsen staat (bv. in het menu of de footer), verandert overal mee.</li>
-            <li>Knoppen en links doen in het beheer niets, zodat je hun tekst rustig kan aanpassen.</li>
+            <li>In <b>Tekst</b> doen knoppen en links niets, zodat je hun tekst rustig kan aanpassen. Wil je de taal wisselen, een menu openen of doorklikken? Zet bovenaan op <b>Klikken</b>.</li>
           </ul>
         </div>
         <div class="card"><div class="meta">Aangepaste teksten</div><div id="textList"></div></div>
@@ -188,6 +193,8 @@ h1,h2,h3{font-weight:600;margin:0;letter-spacing:-.01em}
   'use strict';
   /* ---------- instellingen per klant ---------- */
   var CFG = {"name": "Riory", "slug": "riory", "code": "riory", "pages": [{"group": "Algemeen"}, {"path": "/", "name": "Home"}, {"path": "/diensten", "name": "Diensten"}, {"path": "/afspraak", "name": "Afspraak"}, {"path": "/sollicitatie", "name": "Sollicitatie"}, {"path": "/prijscalculator", "name": "Prijscalculator"}, {"group": "Diensten"}, {"path": "/diensten/camera-inspectie", "name": "Camera inspectie"}, {"path": "/diensten/ontstoppingen-en-geurdetectie", "name": "Ontstoppingen en geurdetectie"}, {"path": "/diensten/septische-put-ledigen", "name": "Septische put ledigen"}, {"path": "/diensten/leegpompen-en-reinigen", "name": "Leegpompen en reinigen"}, {"path": "/diensten/wc-verstopt", "name": "Wc verstopt"}, {"path": "/diensten/keukenafvoer-verstopt", "name": "Keukenafvoer verstopt"}, {"path": "/diensten/doucheputje-verstopt", "name": "Doucheputje verstopt"}, {"path": "/diensten/riool-verstopt", "name": "Riool verstopt"}, {"path": "/diensten/gootsteen-verstopt", "name": "Gootsteen verstopt"}, {"path": "/diensten/lekkende-kraan", "name": "Lekkende kraan"}, {"path": "/diensten/lekkage-opsporen", "name": "Lekkage opsporen"}, {"path": "/diensten/dakgootreiniging", "name": "Dakgootreiniging"}, {"path": "/diensten/rioolreparatie", "name": "Rioolreparatie"}, {"path": "/diensten/rioolvliegjes", "name": "Rioolvliegjes"}, {"group": "Regio"}, {"path": "/regio/hasselt", "name": "Hasselt"}, {"path": "/regio/genk", "name": "Genk"}, {"path": "/regio/tongeren", "name": "Tongeren"}, {"path": "/regio/sint-truiden", "name": "Sint truiden"}, {"path": "/regio/hoeselt", "name": "Hoeselt"}, {"path": "/regio/maasmechelen", "name": "Maasmechelen"}, {"path": "/regio/diepenbeek", "name": "Diepenbeek"}, {"path": "/regio/riemst", "name": "Riemst"}, {"path": "/regio/maastricht", "name": "Maastricht"}, {"path": "/regio/wellen", "name": "Wellen"}, {"path": "/regio/zutendaal", "name": "Zutendaal"}, {"path": "/regio/alken", "name": "Alken"}, {"path": "/regio/borgloon", "name": "Borgloon"}, {"path": "/regio/kortessem", "name": "Kortessem"}, {"path": "/regio/vreren", "name": "Vreren"}, {"path": "/regio/vliermaal", "name": "Vliermaal"}, {"path": "/regio/luik", "name": "Luik"}, {"path": "/regio/rocourt", "name": "Rocourt"}, {"path": "/regio/juprelle", "name": "Juprelle"}, {"path": "/regio/ans", "name": "Ans"}, {"path": "/regio/milmort", "name": "Milmort"}, {"path": "/regio/vottem", "name": "Vottem"}, {"path": "/regio/chenee", "name": "Chenee"}, {"group": "Referenties"}, {"path": "/referenties/dakgootreinigingen", "name": "Dakgootreinigingen"}, {"path": "/referenties/ledigen-van-septische-putten", "name": "Ledigen van septische putten"}, {"path": "/referenties/leegpompen-en-reinigen", "name": "Leegpompen en reinigen"}, {"path": "/referenties/ontstoppingen-en-geurdetectie", "name": "Ontstoppingen en geurdetectie"}, {"group": "Andere talen"}, {"path": "/fr", "name": "Français (home)"}, {"path": "/en", "name": "English (home)"}, {"group": "Juridisch"}, {"path": "/privacy-policy", "name": "Privacy policy"}, {"path": "/cookie-policy", "name": "Cookie policy"}, {"path": "/algemene-voorwaarden", "name": "Algemene voorwaarden"}, {"path": "/gebruiksvoorwaarden", "name": "Gebruiksvoorwaarden"}, {"path": "/data-protection", "name": "Data protection"}]};
+  window.__isBeheer = true;
+  var mode = 'edit';
   var KEY = 'site-beheer-draft', OK = 'site-beheer-ok', COACH = 'site-beheer-coach';
 
   var $ = function (s, r) { return (r || document).querySelector(s); };
@@ -238,8 +245,20 @@ h1,h2,h3{font-weight:600;margin:0;letter-spacing:-.01em}
     try { localStorage.setItem('site-beheer-page', path); } catch (e) {}
   }
   $('#pageSel').addEventListener('change', function () { go(this.value); });
+  $$('[data-mode]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      mode = b.getAttribute('data-mode');
+      $$('[data-mode]').forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+      var a = api(); if (a && a.setMode) a.setMode(mode);
+      toast(mode === 'edit' ? 'Tik op een tekst om te typen' : 'Klik gewoon rond: taal, menu of een andere pagina. Daarna terug naar Tekst.');
+    });
+  });
   frame.addEventListener('load', function () {
     var a = api(); if (!a) return;
+    if (a.setMode) a.setMode(mode);
+    try { var here = frame.contentWindow.location.pathname, sel = $('#pageSel');
+      var hit = CFG.pages.filter(function (p) { return p.path && (p.path === here || p.path + '.html' === here || p.path + '/' === here); })[0];
+      if (hit) { sel.value = hit.path; } $('#siteLink').href = here; } catch (e) {}
     a.attach(draft);
     a.onChange = function () { save(); };
     a.onRender = function () { if ($('[data-pane="fotos"]').classList.contains('on')) photosSoon(); };
