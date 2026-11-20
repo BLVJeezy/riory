@@ -41,9 +41,19 @@ h1,h2,h3{font-weight:600;margin:0;letter-spacing:-.01em}
 .err:empty{display:none}
 .note-btn svg{width:16px;height:16px}
 .seg.kind{display:flex}.seg.kind button{flex:1;min-height:40px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips button{border:0;border-radius:999px;padding:0 14px;min-height:38px;font:500 14px/1 inherit;background:var(--dk2);color:var(--ivory);box-shadow:inset 0 0 0 1px var(--line);cursor:pointer}
+.chips button[aria-pressed="true"]{background:var(--acc);color:var(--acc-ink);box-shadow:none;font-weight:600}
+.draw{position:fixed;inset:0;z-index:70;background:rgba(0,0,0,.88);display:flex;flex-direction:column}
+.draw-bar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:12px;padding-top:max(12px,env(safe-area-inset-top));background:var(--dk)}
+.draw-bar .seg{margin-right:auto}
+.draw-stage{flex:1;min-height:0;display:grid;place-items:center;padding:12px}
+#drawCanvas{max-width:100%;max-height:100%;touch-action:none;border-radius:8px;background:#fff;cursor:crosshair}
+.area-bar{position:fixed;left:12px;right:12px;top:max(10px,env(safe-area-inset-top));z-index:65;display:flex;align-items:center;gap:12px;padding:10px 10px 10px 16px;border-radius:16px;background:var(--acc);color:var(--acc-ink);font-weight:600;box-shadow:0 14px 30px -12px rgba(0,0,0,.6)}
+.area-bar span{flex:1}
 .shots{display:flex;gap:10px;flex-wrap:wrap}.shots:empty{display:none}
 .shot{position:relative;width:96px;height:72px;border-radius:10px;overflow:hidden;background:rgba(255,255,255,.08)}
-.shot img{width:100%;height:100%;object-fit:cover}
+.shot img{width:100%;height:100%;object-fit:cover;cursor:pointer}
 .shot button{position:absolute;top:4px;right:4px;width:24px;height:24px;border-radius:50%;border:0;background:rgba(0,0,0,.65);color:#fff;cursor:pointer;font-size:14px;line-height:1}
 .field textarea{width:100%;border:0;border-radius:14px;background:var(--ivory);color:#1b1b1b;padding:13px 14px;outline:none;font-size:16px;min-height:130px;resize:vertical;line-height:1.5;font:inherit}
 .modal{position:fixed;inset:0;z-index:60;display:grid;place-items:center;padding:16px;background:rgba(0,0,0,.55)}
@@ -103,7 +113,8 @@ h1,h2,h3{font-weight:600;margin:0;letter-spacing:-.01em}
   .brand b,.seg.view,.status,.site-link{display:none}
   .note-btn{padding:0 12px}.note-btn span{display:none}
   .seg.mode button{padding:0 11px}
-  .pagesel{max-width:none;flex:1;min-width:0}
+  .pagesel{max-width:none;flex:1 1 0;width:0;min-width:70px}
+  html,body{overflow-x:hidden}.bar{overflow:hidden}.bar .brand{flex:none;margin-right:0}
   .work{grid-template-columns:1fr;grid-template-rows:1fr auto}
   .stage{grid-row:1}
   .nav{grid-column:1;grid-row:2;border-left:0;border-bottom:0;border-top:1px solid var(--line);padding-bottom:calc(10px + env(safe-area-inset-bottom,0px))}
@@ -219,15 +230,18 @@ h1,h2,h3{font-weight:600;margin:0;letter-spacing:-.01em}
       <button type="button" data-kind="probleem" aria-pressed="true">Er werkt iets niet</button>
       <button type="button" data-kind="andere" aria-pressed="false">Vraag of opmerking</button>
     </div>
+    <div class="field"><span id="chipsLabel">Waar gaat het over?</span><div class="chips" id="chips"></div></div>
     <p class="hint" id="noteIntro">Beschrijf kort wat er mis is. Jason van Solyn krijgt het meteen en een probleem krijgt altijd voorrang.</p>
     <label class="field"><span>Je naam (mag leeg)</span><input id="noteName" type="text" autocomplete="name"></label>
     <label class="field"><span id="noteMsgLabel">Wat werkt er niet?</span><textarea id="noteMsg" required maxlength="3800" placeholder="Bv. de knop Boeken op de homepage doet niets op mijn gsm."></textarea></label>
     <div class="field"><span>Screenshot (mag, helpt wel)</span>
       <div class="acts">
         <button class="btn ghost small" type="button" id="shotBtn">Screenshot van deze pagina</button>
+        <button class="btn ghost small" type="button" id="pickArea">Duid een stuk van de pagina aan</button>
         <label class="btn ghost small" style="cursor:pointer">Foto of screenshot toevoegen<input type="file" id="shotFile" accept="image/jpeg,image/png,image/webp,image/heic,image/heif" multiple hidden></label>
       </div>
       <div class="shots" id="shots"></div>
+      <p class="hint" id="shotHint" style="font-size:13px;color:var(--mut)" hidden>Tik op een afbeelding om erop te tekenen of iets te omcirkelen.</p>
     </div>
     <div class="hint" id="notePage" style="font-size:13px;color:var(--mut)"></div>
     <div class="err" id="noteErr" role="alert"></div>
@@ -235,6 +249,19 @@ h1,h2,h3{font-weight:600;margin:0;letter-spacing:-.01em}
     <div class="acts" style="justify-content:flex-end"><button class="btn ghost small" type="button" id="noteCancel">Annuleren</button><button class="btn small" type="submit" id="noteSend">Verstuur naar Solyn</button></div>
   </form>
 </div>
+<div class="draw" id="draw" hidden>
+  <div class="draw-bar">
+    <div class="seg" role="group" aria-label="Tekenen">
+      <button type="button" data-tool="circle" aria-pressed="true">Omcirkelen</button>
+      <button type="button" data-tool="pen" aria-pressed="false">Pen</button>
+      <button type="button" data-tool="arrow" aria-pressed="false">Pijl</button>
+    </div>
+    <button class="btn ghost small" type="button" id="drawUndo">Ongedaan</button>
+    <button class="btn small" type="button" id="drawDone">Klaar</button>
+  </div>
+  <div class="draw-stage"><canvas id="drawCanvas"></canvas></div>
+</div>
+<div class="area-bar" id="areaBar" hidden><span>Tik op het stuk van de pagina waar het over gaat</span><button class="btn light small" type="button" id="areaCancel">Annuleren</button></div>
 <div class="toast" id="toast" role="status"></div>
 
 <script>
@@ -503,12 +530,27 @@ h1,h2,h3{font-weight:600;margin:0;letter-spacing:-.01em}
 
   /* ---------- probleem of opmerking melden: gaat als aanvraag en taak naar het Solyn Operations Center ---------- */
   var WA = '32485594555', MAIL = 'jason@solynglobal.be', HUB = 'https://solyn22.lovable.app/api/public/request';
-  var kind = 'probleem', shots = [];
+  var kind = 'probleem', shots = [], chip = null, areas = [];
+  var CHIPS = {
+    probleem: [['Knop of link werkt niet', 'probleem'], ['Formulier of afspraak komt niet aan', 'probleem'], ['Pagina laadt niet of traag', 'probleem'], ['Ziet er raar uit op gsm', 'probleem'], ['Foto of tekst is weg', 'probleem'], ['Iets anders werkt niet', 'probleem']],
+    andere: [['Tekst laten aanpassen', 'wijziging'], ['Foto’s laten vervangen', 'wijziging'], ['Nieuwe pagina', 'nieuwe-pagina'], ['Google / gevonden worden', 'seo'], ['Social media', 'social'], ['Iets anders', 'andere']]
+  };
+  function drawChips() {
+    var box = $('#chips'); box.innerHTML = '';
+    CHIPS[kind].forEach(function (c) {
+      var b = document.createElement('button'); b.type = 'button'; b.textContent = c[0];
+      b.setAttribute('aria-pressed', String(!!chip && chip[0] === c[0]));
+      b.addEventListener('click', function () { chip = chip && chip[0] === c[0] ? null : c; drawChips(); });
+      box.appendChild(b);
+    });
+  }
   function curPage() { var o = $('#pageSel').selectedOptions && $('#pageSel').selectedOptions[0]; var here = ''; try { here = frame.contentWindow.location.pathname; } catch (e) {} return (o ? o.textContent : '') + ' (' + (here || (o && o.value) || '/') + ')'; }
   function setKind(k) {
     kind = k; $$('[data-kind]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-kind') === k)); });
     $('#noteIntro').textContent = k === 'probleem' ? 'Beschrijf kort wat er mis is. Jason van Solyn krijgt het meteen en een probleem krijgt altijd voorrang.' : 'Een vraag of iets dat je anders wil? Schrijf het hier, Jason van Solyn krijgt het meteen.';
-    $('#noteMsgLabel').textContent = k === 'probleem' ? 'Wat werkt er niet?' : 'Je vraag of opmerking';
+    $('#noteMsgLabel').textContent = k === 'probleem' ? 'Wat werkt er niet? (kort)' : 'Je vraag of opmerking';
+    $('#chipsLabel').textContent = k === 'probleem' ? 'Wat is het probleem?' : 'Waar gaat het over?';
+    chip = null; drawChips();
   }
   $$('[data-kind]').forEach(function (b) { b.addEventListener('click', function () { setKind(b.getAttribute('data-kind')); }); });
   function drawShots() {
@@ -517,9 +559,11 @@ h1,h2,h3{font-weight:600;margin:0;letter-spacing:-.01em}
       var d = document.createElement('div'); d.className = 'shot';
       d.innerHTML = '<img alt=""><button type="button" aria-label="Verwijder">×</button>';
       var u = URL.createObjectURL(s); $('img', d).src = u;
+      $('img', d).addEventListener('click', function () { annotate(i); });
       $('button', d).addEventListener('click', function () { URL.revokeObjectURL(u); shots.splice(i, 1); drawShots(); });
       box.appendChild(d);
     });
+    $('#shotHint').hidden = !shots.length;
   }
   function addShot(file) {
     if (shots.length >= 5) { toast('Maximaal 5 afbeeldingen.'); return; }
@@ -542,10 +586,99 @@ h1,h2,h3{font-weight:600;margin:0;letter-spacing:-.01em}
     sc.onload = take; sc.onerror = function () { toast('Screenshot lukte niet. Voeg zelf een screenshot toe.'); done(); };
     doc.head.appendChild(sc);
   });
+  /* --- tekenen op een screenshot: omcirkelen, pen, pijl --- */
+  var dv = $('#drawCanvas'), dctx = dv.getContext('2d'), dImg = null, dIdx = -1, strokes = [], tool = 'circle', cur = null;
+  function dRedraw() {
+    dctx.drawImage(dImg, 0, 0, dv.width, dv.height);
+    strokes.concat(cur ? [cur] : []).forEach(function (st) {
+      dctx.strokeStyle = '#ff3b30'; dctx.lineWidth = Math.max(4, dv.width / 160); dctx.lineCap = dctx.lineJoin = 'round';
+      dctx.beginPath();
+      if (st.t === 'pen') { st.p.forEach(function (q, i) { i ? dctx.lineTo(q[0], q[1]) : dctx.moveTo(q[0], q[1]); }); }
+      else {
+        var a = st.p[0], b = st.p[st.p.length - 1];
+        if (st.t === 'circle') { dctx.ellipse((a[0] + b[0]) / 2, (a[1] + b[1]) / 2, Math.max(4, Math.abs(b[0] - a[0]) / 2), Math.max(4, Math.abs(b[1] - a[1]) / 2), 0, 0, Math.PI * 2); }
+        else { var ang = Math.atan2(b[1] - a[1], b[0] - a[0]), hl = dctx.lineWidth * 4; dctx.moveTo(a[0], a[1]); dctx.lineTo(b[0], b[1]); dctx.moveTo(b[0], b[1]); dctx.lineTo(b[0] - hl * Math.cos(ang - 0.5), b[1] - hl * Math.sin(ang - 0.5)); dctx.moveTo(b[0], b[1]); dctx.lineTo(b[0] - hl * Math.cos(ang + 0.5), b[1] - hl * Math.sin(ang + 0.5)); }
+      }
+      dctx.stroke();
+    });
+  }
+  function annotate(i) {
+    var url = URL.createObjectURL(shots[i]), im = new Image();
+    im.onload = function () {
+      var sc = Math.min(1, 1600 / Math.max(im.naturalWidth, im.naturalHeight));
+      dv.width = Math.round(im.naturalWidth * sc); dv.height = Math.round(im.naturalHeight * sc);
+      dImg = im; dIdx = i; strokes = []; cur = null; dRedraw(); $('#draw').hidden = false;
+    };
+    im.src = url;
+  }
+  function dPos(e) { var r = dv.getBoundingClientRect(); return [(e.clientX - r.left) * dv.width / r.width, (e.clientY - r.top) * dv.height / r.height]; }
+  dv.addEventListener('pointerdown', function (e) { dv.setPointerCapture(e.pointerId); cur = { t: tool, p: [dPos(e)] }; dRedraw(); });
+  dv.addEventListener('pointermove', function (e) { if (!cur) return; var q = dPos(e); if (cur.t === 'pen') cur.p.push(q); else cur.p[1] = q; dRedraw(); });
+  dv.addEventListener('pointerup', function () { if (cur && cur.p.length > 1) strokes.push(cur); cur = null; dRedraw(); });
+  $$('[data-tool]').forEach(function (b) { b.addEventListener('click', function () { tool = b.getAttribute('data-tool'); $$('[data-tool]').forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); }); }); });
+  $('#drawUndo').addEventListener('click', function () { strokes.pop(); dRedraw(); });
+  $('#drawDone').addEventListener('click', function () {
+    if (!strokes.length) { $('#draw').hidden = true; return; }
+    dv.toBlob(function (b) { if (b) { shots[dIdx] = new File([b], 'aangeduid-' + Date.now() + '.jpg', { type: 'image/jpeg' }); drawShots(); toast('Aanduiding bewaard'); } $('#draw').hidden = true; }, 'image/jpeg', 0.85);
+  });
+  /* --- een stuk van de pagina aanduiden --- */
+  var picking = null;
+  function loadShot(w, doc, cb) {
+    if (w.html2canvas) return cb();
+    var sc = doc.createElement('script'); sc.src = '/beheer-shot.js'; sc.onload = function () { cb(); }; sc.onerror = function () { cb(new Error('x')); }; doc.head.appendChild(sc);
+  }
+  function blockOf(el, w) {
+    var vw = w.innerWidth;
+    for (var e = el; e && e !== e.ownerDocument.body; e = e.parentElement) {
+      if (e.matches && e.matches('section,header,footer,form,article,aside,nav,li,figure,[class*="card"]')) return e;
+      var r = e.getBoundingClientRect(); if (r.height >= 60 && r.width >= vw * 0.5) return e;
+    }
+    return el;
+  }
+  function describe(el) {
+    var h = el.querySelector && el.querySelector('h1,h2,h3,h4'); var t = ((h && h.textContent) || el.textContent || '').replace(/\s+/g, ' ').trim();
+    return (t.length > 90 ? t.slice(0, 87) + '…' : t) || ('<' + el.tagName.toLowerCase() + '>');
+  }
+  function stopPick() {
+    if (!picking) return; var p = picking; picking = null;
+    p.doc.removeEventListener('pointermove', p.move, true); p.doc.removeEventListener('click', p.click, true); p.doc.removeEventListener('pointerdown', p.down, true);
+    p.box.remove(); $('#areaBar').hidden = true; $('#noteModal').hidden = false;
+    var a = api(); if (a && a.setMode) a.setMode(mode);
+  }
+  $('#pickArea').addEventListener('click', function () {
+    var w = frame.contentWindow, doc = frame.contentDocument; if (!w || !doc) return;
+    var a = api(); if (a && a.setMode) a.setMode('browse');
+    $('#noteModal').hidden = true; $('#areaBar').hidden = false;
+    var box = doc.createElement('div'); box.setAttribute('data-se-skip', '');
+    box.style.cssText = 'position:fixed;z-index:2147483646;pointer-events:none;border:3px solid #ff3b30;border-radius:10px;background:rgba(255,59,48,.12);box-shadow:0 0 0 9999px rgba(0,0,0,.25);transition:all .12s ease;display:none';
+    doc.body.appendChild(box);
+    var target = null;
+    function show(el) { target = el; var r = el.getBoundingClientRect(); Object.assign(box.style, { display: 'block', left: r.left - 3 + 'px', top: r.top - 3 + 'px', width: r.width + 6 + 'px', height: r.height + 6 + 'px' }); }
+    picking = { doc: doc, box: box,
+      move: function (e) { show(blockOf(e.target, w)); },
+      down: function (e) { show(blockOf(e.target, w)); },
+      click: function (e) {
+        e.preventDefault(); e.stopPropagation();
+        var el = target || blockOf(e.target, w); var desc = describe(el);
+        stopPick(); toast('Stuk wordt vastgelegd…');
+        loadShot(w, doc, function (err) {
+          if (err || !w.html2canvas) { areas.push(desc); toast('Aangeduid. Voeg eventueel zelf een screenshot toe.'); return; }
+          var r = el.getBoundingClientRect(), tall = r.height > w.innerHeight * 1.5, bg = '#ffffff';
+          for (var e2 = el; e2; e2 = e2.parentElement) { var c2 = w.getComputedStyle(e2).backgroundColor; if (c2 && !/rgba\(0, 0, 0, 0\)|transparent/.test(c2)) { bg = c2; break; } }
+          w.html2canvas(tall ? doc.body : el, tall ? { useCORS: true, logging: false, scale: Math.min(2, w.devicePixelRatio || 1), x: w.scrollX, y: w.scrollY, width: w.innerWidth, height: w.innerHeight } : { useCORS: true, logging: false, backgroundColor: bg, scale: Math.min(2, w.devicePixelRatio || 1) })
+            .then(function (c) { c.toBlob(function (b) { areas.push(desc); if (b) addShot(new File([b], 'stuk-' + Date.now() + '.jpg', { type: 'image/jpeg' })); toast('Stuk van de pagina toegevoegd'); }, 'image/jpeg', 0.85); })
+            .catch(function (er) { try { console.warn('[beheer] stuk vastleggen', er); } catch (x) {} areas.push(desc); toast('Aangeduid. Voeg eventueel zelf een screenshot toe.'); });
+        });
+      } };
+    doc.addEventListener('pointermove', picking.move, true); doc.addEventListener('pointerdown', picking.down, true); doc.addEventListener('click', picking.click, true);
+  });
+  $('#areaCancel').addEventListener('click', stopPick);
+
   function noteOpen() {
     $('#noteErr').textContent = ''; $('#noteFallback').hidden = true; $('#noteFallback').innerHTML = '';
     $('#notePage').textContent = 'Pagina: ' + curPage();
     try { $('#noteName').value = localStorage.getItem('site-beheer-name') || ''; } catch (e) {}
+    if (!$('#chips').children.length) drawChips();
     $('#noteModal').hidden = false; sheet(false); setTimeout(function () { $('#noteMsg').focus(); }, 50);
   }
   function noteClose() { $('#noteModal').hidden = true; }
@@ -563,21 +696,23 @@ h1,h2,h3{font-weight:600;margin:0;letter-spacing:-.01em}
   $('#noteForm').addEventListener('submit', function (e) {
     e.preventDefault();
     var msg = $('#noteMsg').value.trim(), name = $('#noteName').value.trim(), btn = $('#noteSend');
-    if (msg.length < 3) { $('#noteErr').textContent = 'Schrijf eerst wat er is.'; return; }
+    if (msg.length < 3 && !chip) { $('#noteErr').textContent = 'Kies wat er is, of schrijf het kort.'; return; }
     try { localStorage.setItem('site-beheer-name', name); } catch (x) {}
     $('#noteErr').textContent = ''; $('#noteFallback').hidden = true;
     if (!CFG.hubToken) { $('#noteErr').textContent = 'Stuur je bericht via WhatsApp of mail:'; fallback(msg, name); return; }
-    var first = msg.split(/\n/)[0].replace(/\s+/g, ' ').trim(), title = first.length > 90 ? first.slice(0, 87) + '…' : first;
+    var first = msg.split(/\n/)[0].replace(/\s+/g, ' ').trim(); if (first.length > 90) first = first.slice(0, 87) + '…';
+    var title = chip ? (chip[0] + (first ? ': ' + first : '')) : first; if (title.length > 138) title = title.slice(0, 137) + '…';
     if (title.length < 3) title = kind === 'probleem' ? 'Probleem op de website' : 'Opmerking over de website';
+    var hubKind = chip ? chip[1] : (kind === 'probleem' ? 'probleem' : 'andere');
     var fd = new FormData();
-    fd.append('token', CFG.hubToken); fd.append('source', 'beheer'); fd.append('kind', kind); fd.append('title', title);
-    fd.append('details', msg + '\n\nPagina: ' + curPage() + '\nVerstuurd vanuit de beheerpagina (' + location.host + ').');
+    fd.append('token', CFG.hubToken); fd.append('source', 'beheer'); fd.append('kind', hubKind); if (hubKind === 'nieuwe-pagina') fd.append('pages', '1'); fd.append('title', title);
+    fd.append('details', (chip ? 'Soort: ' + chip[0] + '\n\n' : '') + (msg || '(geen extra uitleg)') + (areas.length ? '\n\nAangeduid stuk van de pagina: ' + areas.map(function (x) { return '«' + x + '»'; }).join(', ') : '') + '\n\nPagina: ' + curPage() + '\nVerstuurd vanuit de beheerpagina (' + location.host + ').');
     if (name) fd.append('contact_name', name);
     shots.forEach(function (f) { fd.append('files', f, f.name); });
     btn.disabled = true; btn.textContent = 'Versturen…';
     fetch(HUB, { method: 'POST', body: fd })
       .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { if (!r.ok) throw new Error(j.error || 'Versturen lukte niet.'); return j; }); })
-      .then(function () { $('#noteMsg').value = ''; shots = []; drawShots(); noteClose(); toast(kind === 'probleem' ? 'Verstuurd! Solyn bekijkt het probleem zo snel mogelijk.' : 'Bedankt! Je bericht is doorgestuurd naar Solyn.'); })
+      .then(function () { $('#noteMsg').value = ''; shots = []; areas = []; chip = null; drawChips(); drawShots(); noteClose(); toast(kind === 'probleem' ? 'Verstuurd! Solyn bekijkt het probleem zo snel mogelijk.' : 'Bedankt! Je bericht is doorgestuurd naar Solyn.'); })
       .catch(function (err) { $('#noteErr').textContent = (err && err.message ? err.message + ' ' : '') + 'Stuur je bericht anders via WhatsApp of mail:'; fallback(msg, name); })
       .then(function () { btn.disabled = false; btn.textContent = 'Verstuur naar Solyn'; });
   });
