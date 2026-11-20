@@ -7,7 +7,7 @@
 <meta name="theme-color" content="#1E2E34">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="apple-mobile-web-app-title" content="Riory Beheer">
 <title>Riory — Beheer</title>
 <link rel="manifest" href="/beheer.webmanifest">
@@ -66,7 +66,7 @@ h1,h2,h3{font-weight:600;margin:0;letter-spacing:-.01em}
 .ver:first-child{border-top:0}
 .ver span{flex:1}
 .ver b{font-weight:600;color:var(--ivory)}
-.app{display:grid;grid-template-rows:auto 1fr;position:fixed;top:0;right:0;bottom:0;left:0;overflow:hidden}
+.app{display:grid;grid-template-rows:auto 1fr;position:fixed;top:0;right:0;left:0;height:100vh;height:100lvh;height:max(100lvh,var(--app-h,0px));overflow:hidden}
 .stage{overscroll-behavior:none}
 .bar{display:flex;align-items:center;gap:12px;padding:10px 16px;padding-top:max(10px,env(safe-area-inset-top));border-bottom:1px solid var(--line);background:var(--dk)}
 .brand{display:flex;align-items:center;gap:10px;margin-right:auto;min-width:0}
@@ -121,7 +121,8 @@ h1,h2,h3{font-weight:600;margin:0;letter-spacing:-.01em}
   .note-btn span{display:none}
   .seg.mode button{padding:0 11px}
   .pagesel{max-width:none;flex:1 1 0;width:0;min-width:70px}
-  html,body{overflow-x:hidden}.bar{overflow:hidden}.bar .brand{display:none}
+  html,body{overflow-x:hidden;background:#fff}
+  .stage{background:#fff}.bar{overflow:hidden}.bar .brand{display:none}
   .bar{min-height:56px}.seg.mode{flex:none}.seg.mode button{min-height:38px}
   .note-btn{flex:none;width:44px;height:44px;min-height:44px;padding:0;border-radius:50%}.note-btn svg{width:20px;height:20px}
   .field textarea,.field input{font-size:16px}
@@ -318,6 +319,9 @@ h1,h2,h3{font-weight:600;margin:0;letter-spacing:-.01em}
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
   var frame = $('#site'), draft;
   var phone = window.matchMedia('(max-width: 900px)');
+  /* iPhone: altijd de volle hoogte, zodat er onderaan geen lege balk blijft */
+  function fitHeight() { document.documentElement.style.setProperty('--app-h', Math.max(window.innerHeight, document.documentElement.clientHeight) + 'px'); }
+  fitHeight(); window.addEventListener('resize', fitHeight); window.addEventListener('orientationchange', function () { setTimeout(fitHeight, 300); });
   var TITLES = { teksten: 'Teksten', fotos: "Foto's", klaar: 'Publiceren' };
 
   function norm(d) { d = d && typeof d === 'object' ? d : {}; d.text = d.text || {}; d.img = d.img || {}; return d; }

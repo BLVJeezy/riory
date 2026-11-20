@@ -1,5 +1,5 @@
 /* Service worker voor de beheer-app (alleen /beheer…): haalt altijd eerst de nieuwste versie op en valt alleen zonder internet terug op de laatst bewaarde kopie. */
-var CACHE = 'riory-beheer-v1';
+var CACHE = 'riory-beheer-v2';
 self.addEventListener('install', function () { self.skipWaiting(); });
 self.addEventListener('activate', function (e) { e.waitUntil(self.clients.claim()); });
 self.addEventListener('fetch', function (e) {
