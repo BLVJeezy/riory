@@ -59,29 +59,6 @@ h1,h2,h3{font-weight:600;margin:0;letter-spacing:-.01em}
 .modal-head{display:flex;align-items:center;gap:12px}.modal-head h2{flex:1}
 .x-btn{flex:none;display:grid;place-items:center;width:40px;height:40px;border-radius:50%;border:0;background:var(--dk2);color:var(--ivory);box-shadow:inset 0 0 0 1px var(--line);cursor:pointer}
 .x-btn svg{width:20px;height:20px}
-.pane[data-pane="chat"]{padding:0;gap:0;height:100%}
-.chat-list{padding:18px;display:flex;flex-direction:column;gap:14px}
-.threads{display:flex;flex-direction:column;gap:8px}
-.thread{display:flex;gap:10px;align-items:flex-start;text-align:left;width:100%;border:0;border-radius:16px;background:var(--panel);color:var(--ivory);padding:14px;cursor:pointer}
-.thread b{display:block;font-weight:600;font-size:15px;line-height:1.35;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
-.thread small{display:block;color:var(--mut);font-size:12.5px;margin-top:3px}
-.thread .dot{width:9px;height:9px;border-radius:50%;background:var(--acc);flex:none;margin-top:6px}
-.thread .dot.off{background:transparent}
-.chat-view{display:flex;flex-direction:column;height:100%;min-height:0}
-.chat-top{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--dk);z-index:1}
-.chat-top div{min-width:0}.chat-top b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.chat-top small{display:block;color:var(--mut);font-size:12.5px}
-.msgs{flex:1;min-height:0;overflow:auto;padding:14px;display:flex;flex-direction:column;gap:10px}
-.msg{max-width:86%;padding:10px 13px;border-radius:18px;font-size:15px;line-height:1.45;white-space:pre-wrap;word-wrap:break-word}
-.msg.me{align-self:flex-end;background:var(--acc);color:var(--acc-ink);border-bottom-right-radius:6px}
-.msg.them{align-self:flex-start;background:var(--panel);border-bottom-left-radius:6px}
-.msg img{display:block;max-width:100%;max-height:220px;border-radius:12px;margin-top:6px;cursor:pointer}
-.msg small{display:block;font-size:11px;opacity:.65;margin-top:4px}
-.msgs .empty{margin:auto;text-align:center;color:var(--mut);font-size:14px;max-width:260px}
-.composer{padding:10px 12px;padding-bottom:calc(10px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line);background:var(--dk);display:flex;flex-direction:column;gap:8px;position:sticky;bottom:0}
-.composer-row{display:flex;align-items:flex-end;gap:8px}
-.composer textarea{flex:1;min-width:0;border:0;border-radius:20px;background:var(--ivory);color:#1b1b1b;padding:10px 14px;font:inherit;font-size:16px;line-height:1.4;resize:none;max-height:140px;outline:none}
-.send-btn{flex:none;width:44px;height:44px;border-radius:50%;border:0;background:var(--acc);color:var(--acc-ink);display:grid;place-items:center;cursor:pointer}
-.send-btn svg{width:20px;height:20px}.send-btn:disabled{opacity:.45}
 .modal{position:fixed;inset:0;z-index:60;display:grid;place-items:center;padding:16px;background:rgba(0,0,0,.55)}
 .modal-box{width:100%;max-width:460px;max-height:calc(100dvh - 32px);overflow:auto;display:flex;flex-direction:column;gap:14px;background:var(--panel);color:var(--ivory);padding:24px;border-radius:22px;box-shadow:0 30px 60px -20px rgba(0,0,0,.7)}
 @media (max-width:900px){.modal{place-items:end center;padding:0}.modal-box{max-width:none;border-radius:22px 22px 0 0;padding-bottom:calc(24px + env(safe-area-inset-bottom,0px))}}
@@ -157,10 +134,9 @@ h1,h2,h3{font-weight:600;margin:0;letter-spacing:-.01em}
   .nav button[aria-selected="true"] svg{background:var(--ivory);color:var(--dk)}
   .nav button .badge{top:-2px;right:6px}
   .nav.open button{transform:translate(var(--x),var(--y)) scale(1);opacity:1;pointer-events:auto}
-  .nav button:nth-child(1){--x:-122px;--y:-30px;--d:0ms}
-  .nav button:nth-child(2){--x:-52px;--y:-112px;--d:35ms}
-  .nav button:nth-child(3){--x:52px;--y:-112px;--d:70ms}
-  .nav button:nth-child(4){--x:122px;--y:-30px;--d:105ms}
+  .nav button:nth-child(1){--x:-108px;--y:-52px;--d:0ms}
+  .nav button:nth-child(2){--x:0px;--y:-120px;--d:40ms}
+  .nav button:nth-child(3){--x:108px;--y:-52px;--d:80ms}
   .nav:not(.open) button{transition-delay:0ms;transition-duration:220ms,160ms;transition-timing-function:cubic-bezier(.4,0,.2,1),ease}
   .fab{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:13;width:64px;height:64px;margin-left:-32px;border-radius:50%;border:0;background:var(--acc);color:var(--acc-ink);display:grid;place-items:center;cursor:pointer;box-shadow:0 16px 32px -10px rgba(0,0,0,.65),0 0 0 4px rgba(0,0,0,.12);transition:transform 260ms cubic-bezier(.2,.8,.2,1),opacity 200ms ease}
   .fab:active{transform:scale(.93)}
@@ -177,7 +153,6 @@ h1,h2,h3{font-weight:600;margin:0;letter-spacing:-.01em}
   .scrim.on{opacity:1;pointer-events:auto}
   .side{position:fixed;left:0;right:0;bottom:0;max-height:78vh;border-left:0;border-right:0;border-radius:22px 22px 0 0;z-index:10;transform:translateY(105%);transition:transform 300ms cubic-bezier(.2,.8,.2,1);padding-bottom:env(safe-area-inset-bottom,0px);box-shadow:0 -20px 50px -20px rgba(0,0,0,.6)}
   .side.open{transform:none}
-  .side.chat{height:88vh;max-height:88vh;display:flex;flex-direction:column}.side.chat .sheet-head{display:none}.side.chat .pane.on{flex:1;min-height:0}
   .sheet-head{display:flex;align-items:center;justify-content:space-between;padding:14px 18px 0;position:sticky;top:0;background:var(--dk);z-index:1}
   .sheet-head b{font-size:17px}
   .pane h2{display:none}
@@ -225,7 +200,6 @@ h1,h2,h3{font-weight:600;margin:0;letter-spacing:-.01em}
       <button role="tab" aria-selected="true" data-tab="teksten"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg>Teksten</button>
       <button role="tab" aria-selected="false" data-tab="fotos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><circle cx="9" cy="10" r="1.8"/><path d="M21 16l-5-5-8 8"/></svg>Foto's</button>
       <button role="tab" aria-selected="false" data-tab="klaar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3"/><path d="M7 8l5-5 5 5"/><path d="M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>Publiceren<span class="badge" id="count" data-n="0">0</span></button>
-      <button role="tab" aria-selected="false" data-tab="chat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg>Chat<span class="badge" id="chatBadge" data-n="0">0</span></button>
     </nav>
     <div class="menu-scrim" id="menuScrim"></div>
     <button class="fab" type="button" id="fab" aria-label="Menu" aria-expanded="false" aria-controls="nav">
@@ -276,33 +250,12 @@ h1,h2,h3{font-weight:600;margin:0;letter-spacing:-.01em}
         <div class="card">
           <div class="meta">Andere acties</div>
           <button class="btn ghost small" type="button" id="noteBtn2">Probleem melden</button>
+          <a class="btn ghost small" id="waLink2" target="_blank" rel="noopener">Kort iets vragen via WhatsApp</a>
           <button class="btn ghost small" type="button" id="share">Wijzigingen doorsturen naar Solyn</button>
           <button class="btn ghost small" type="button" id="dl">Download als bestand</button>
           <label class="btn ghost small" style="cursor:pointer">Bestand met wijzigingen openen<input type="file" id="imp" accept=".js,.json,.txt,text/plain,application/json,text/javascript" hidden></label>
           <button class="btn ghost small" type="button" id="reset">Niet-gepubliceerde wijzigingen wissen</button>
           <a class="btn ghost small only-phone" href="/" target="_blank" rel="noopener">Bekijk de site</a>
-        </div>
-      </section>
-
-      <section class="pane" data-pane="chat">
-        <div id="chatList" class="chat-list">
-          <div class="modal-head"><h2 style="display:block">Chat met Solyn</h2><button class="x-btn only-phone" type="button" id="chatClose" aria-label="Sluiten"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
-          <p class="hint">Vraag iets of meld een probleem. Jason van Solyn antwoordt hier, en je krijgt een mail als er een antwoord is.</p>
-          <button class="btn wide" type="button" id="chatNew"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Nieuw gesprek</button>
-          <div id="threads" class="threads"><p class="hint">Laden…</p></div>
-        </div>
-        <div id="chatView" class="chat-view" hidden>
-          <div class="chat-top"><button class="x-btn" type="button" id="chatBack" aria-label="Terug"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button><div><b id="chatTitle">Nieuw gesprek</b><small id="chatSub"></small></div></div>
-          <div class="msgs" id="msgs"></div>
-          <form class="composer" id="chatForm">
-            <div class="shots" id="chatShots"></div>
-            <div class="composer-row">
-              <label class="x-btn" title="Foto toevoegen" style="cursor:pointer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><circle cx="9" cy="10" r="1.8"/><path d="M21 16l-5-5-8 8"/></svg><input type="file" id="chatFile" accept="image/*" multiple hidden></label>
-              <textarea id="chatMsg" rows="1" maxlength="4000" placeholder="Typ je bericht…"></textarea>
-              <button class="send-btn" type="submit" id="chatSend" aria-label="Verstuur"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
-            </div>
-            <div class="err" id="chatErr" role="alert"></div>
-          </form>
         </div>
       </section>
     </aside>
@@ -316,7 +269,7 @@ h1,h2,h3{font-weight:600;margin:0;letter-spacing:-.01em}
       <button type="button" data-kind="andere" aria-pressed="false">Vraag of opmerking</button>
     </div>
     <div class="field"><span id="chipsLabel">Waar gaat het over?</span><div class="chips" id="chips"></div></div>
-    <p class="hint" id="noteIntro">Beschrijf kort wat er mis is. Jason van Solyn krijgt het meteen en een probleem krijgt altijd voorrang. Je melding komt ook in je <b>Chat</b>, zodat jullie daar verder kunnen praten.</p>
+    <p class="hint" id="noteIntro">Beschrijf kort wat er mis is. Jason van Solyn krijgt het meteen en een probleem krijgt altijd voorrang.</p>
     <label class="field"><span id="noteMsgLabel">Wat werkt er niet?</span><textarea id="noteMsg" required maxlength="3800" placeholder="Bv. de knop Boeken op de homepage doet niets op mijn gsm."></textarea></label>
     <div class="field"><span>Screenshot (mag, helpt wel)</span>
       <div class="acts">
@@ -363,7 +316,7 @@ h1,h2,h3{font-weight:600;margin:0;letter-spacing:-.01em}
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
   var frame = $('#site'), draft;
   var phone = window.matchMedia('(max-width: 900px)');
-  var TITLES = { teksten: 'Teksten', fotos: "Foto's", klaar: 'Publiceren', chat: 'Chat' };
+  var TITLES = { teksten: 'Teksten', fotos: "Foto's", klaar: 'Publiceren' };
 
   function norm(d) { d = d && typeof d === 'object' ? d : {}; d.text = d.text || {}; d.img = d.img || {}; return d; }
   function clone(o) { return JSON.parse(JSON.stringify(o)); }
@@ -392,7 +345,7 @@ h1,h2,h3{font-weight:600;margin:0;letter-spacing:-.01em}
     return sha(c.trim().toLowerCase()).then(function (h) {
       if (h !== CFG.hash) { if (!quiet) { $('#gateErr').textContent = 'Die code klopt niet.'; $('#code').select(); } return false; }
       code = c.trim().toLowerCase(); try { localStorage.setItem(CODEKEY, code); } catch (x) {}
-      open(); checkStore(); unreadPoll(); if (location.hash === '#chat') setTimeout(openChat, 300); return true;
+      open(); checkStore(); return true;
     });
   }
   function checkStore() {
@@ -453,7 +406,7 @@ h1,h2,h3{font-weight:600;margin:0;letter-spacing:-.01em}
     $('#fab').setAttribute('aria-expanded', String(o));
     if (o && navigator.vibrate) try { navigator.vibrate(8); } catch (e) {}
   }
-  function fabDot() { var n = (+$('#chatBadge').getAttribute('data-n') || 0) + (+$('#count').getAttribute('data-n') || 0); if ($('#fabDot').getAttribute('data-n') === String(n)) return; $('#fabDot').textContent = n; $('#fabDot').setAttribute('data-n', String(n)); }
+  function fabDot() { var n = +$('#count').getAttribute('data-n') || 0; if ($('#fabDot').getAttribute('data-n') === String(n)) return; $('#fabDot').textContent = n; $('#fabDot').setAttribute('data-n', String(n)); }
   $('#fab').addEventListener('click', function () { menu(!$('#nav').classList.contains('open')); });
   $('#menuScrim').addEventListener('click', function () { menu(false); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') menu(false); });
@@ -464,8 +417,6 @@ h1,h2,h3{font-weight:600;margin:0;letter-spacing:-.01em}
     $('#sheetTitle').textContent = TITLES[tab];
     if (tab === 'fotos') photos();
     if (tab === 'klaar') { counts(); history(); }
-    $('#side').classList.toggle('chat', tab === 'chat');
-    if (tab === 'chat') chatShow(); else chatStop();
     $('#side').scrollTop = 0;
   }
   $$('[data-tab]').forEach(function (b) {
@@ -776,6 +727,7 @@ h1,h2,h3{font-weight:600;margin:0;letter-spacing:-.01em}
     if (!$('#chips').children.length) drawChips();
     $('#noteModal').hidden = false; sheet(false); setTimeout(function () { $('#noteMsg').focus(); }, 50);
   }
+  ['#waLink2'].forEach(function (id) { $(id).href = 'https://wa.me/' + WA + '?text=' + encodeURIComponent('Hallo Jason, ik heb een vraag over de website van ' + CFG.name + ': '); });
   function noteClose() { $('#noteModal').hidden = true; }
   $('#noteBtn').addEventListener('click', noteOpen); $('#noteBtn2').addEventListener('click', noteOpen);
   $('#noteCancel').addEventListener('click', noteClose); $('#noteX').addEventListener('click', noteClose);
@@ -800,20 +752,15 @@ h1,h2,h3{font-weight:600;margin:0;letter-spacing:-.01em}
     var details = (chip ? 'Soort: ' + chip[0] + '\n\n' : '') + (msg || '(geen extra uitleg)') + (areas.length ? '\n\nAangeduid stuk van de pagina: ' + areas.map(function (x) { return '«' + x + '»'; }).join(', ') : '') + '\n\nPagina: ' + curPage();
     function done(thread) {
       $('#noteMsg').value = ''; shots = []; areas = []; chip = null; drawChips(); drawShots(); noteClose();
-      toast(kind === 'probleem' ? 'Verstuurd! Je vindt je melding in de Chat.' : 'Bedankt! Je bericht staat in de Chat.');
-      if (thread) { chatThread = thread; openChat(); } else unreadPoll();
+      toast(kind === 'probleem' ? 'Verstuurd! Solyn bekijkt het probleem zo snel mogelijk.' : 'Bedankt! Je bericht is doorgestuurd naar Solyn.');
     }
     function failed(err) { $('#noteErr').textContent = (err && err.message ? err.message + ' ' : '') + 'Stuur je bericht anders via WhatsApp of mail:'; fallback(msg, ''); }
     btn.disabled = true; btn.textContent = 'Versturen…';
     var job;
-    if (!CFG.hubToken) {
-      // geen klant in het Operations Center: de melding gaat rechtstreeks als chatgesprek
-      job = Promise.all(shots.slice(0, 3).map(toDataUrl)).then(function (imgs) {
-        return chatCall('send', { title: title, body: details, images: imgs.filter(Boolean) });
-      }).then(function (j) { done(j.thread); });
-    } else {
+    if (!CFG.hubToken) { btn.disabled = false; btn.textContent = 'Verstuur naar Solyn'; $('#noteErr').textContent = 'Stuur je bericht via WhatsApp of mail:'; fallback(msg, ''); return; }
+    {
       var fd = new FormData();
-      fd.append('token', CFG.hubToken); fd.append('source', 'beheer'); fd.append('site', CFG.slug); fd.append('kind', hubKind); if (hubKind === 'nieuwe-pagina') fd.append('pages', '1'); fd.append('title', title);
+      fd.append('token', CFG.hubToken); fd.append('source', 'beheer'); fd.append('kind', hubKind); if (hubKind === 'nieuwe-pagina') fd.append('pages', '1'); fd.append('title', title);
       fd.append('details', details + '\nVerstuurd vanuit de beheerpagina (' + location.host + ').');
       shots.forEach(function (f) { fd.append('files', f, f.name); });
       job = fetch(HUB, { method: 'POST', body: fd })
@@ -823,99 +770,6 @@ h1,h2,h3{font-weight:600;margin:0;letter-spacing:-.01em}
     job.catch(failed).then(function () { btn.disabled = false; btn.textContent = 'Verstuur naar Solyn'; });
   });
 
-  /* ---------- chat met Solyn: gesprekken staan in het Operations Center (/support) ---------- */
-  var SUPPORT = API.replace(/beheer$/, 'support'), chatThread = null, chatImgs = [], chatTimer = null, chatCount = -1;
-  function chatCall(action, data) {
-    return fetch(SUPPORT + '?a=' + action + '&site=' + encodeURIComponent(CFG.slug), { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(Object.assign({ site: CFG.slug, code: code }, data || {})) })
-      .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { if (!r.ok) throw new Error(j.error || 'Dat lukte niet.'); return j; }); });
-  }
-  function toDataUrl(file) {
-    return new Promise(function (res) {
-      var img = new Image(), u = URL.createObjectURL(file);
-      img.onload = function () {
-        var k = Math.min(1, 1600 / Math.max(img.width, img.height)), c = document.createElement('canvas');
-        c.width = Math.round(img.width * k); c.height = Math.round(img.height * k);
-        var g = c.getContext('2d'); g.fillStyle = '#fff'; g.fillRect(0, 0, c.width, c.height); g.drawImage(img, 0, 0, c.width, c.height);
-        URL.revokeObjectURL(u); res(c.toDataURL('image/jpeg', 0.85));
-      };
-      img.onerror = function () { URL.revokeObjectURL(u); res(null); };
-      img.src = u;
-    });
-  }
-  function esc(t) { return String(t).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
-  function when(iso) { var d = new Date(iso), n = new Date(); return d.toDateString() === n.toDateString() ? d.toLocaleTimeString('nl-BE', { hour: '2-digit', minute: '2-digit' }) : d.toLocaleDateString('nl-BE', { day: 'numeric', month: 'short' }) + ' ' + d.toLocaleTimeString('nl-BE', { hour: '2-digit', minute: '2-digit' }); }
-  function badge(n) { var b = $('#chatBadge'); b.textContent = n; b.setAttribute('data-n', String(n)); }
-  function unreadPoll() {
-    if (!code) return;
-    chatCall('threads').then(function (j) { badge(j.threads.filter(function (t) { return t.unread; }).length); if (!$('#chatList').hidden && $('[data-pane="chat"]').classList.contains('on')) drawThreads(j.threads); }).catch(function () {});
-  }
-  function drawThreads(list) {
-    var box = $('#threads');
-    if (!list.length) { box.innerHTML = '<p class="hint">Nog geen gesprekken. Start er een, of meld een probleem met de knop bovenaan.</p>'; return; }
-    box.innerHTML = '';
-    list.forEach(function (t) {
-      var b = document.createElement('button'); b.type = 'button'; b.className = 'thread';
-      b.innerHTML = '<span class="dot' + (t.unread ? '' : ' off') + '"></span><span style="min-width:0;flex:1"><b>' + esc(t.title) + '</b><small>' + (t.status === 'opgelost' ? 'Opgelost · ' : t.unread ? 'Nieuw antwoord · ' : t.last_author === 'client' ? 'Solyn bekijkt het · ' : '') + when(t.updated_at) + '</small></span>';
-      b.addEventListener('click', function () { chatThread = t.id; chatOpenView(); });
-      box.appendChild(b);
-    });
-  }
-  function chatShow() { if (chatThread) chatOpenView(); else { $('#chatView').hidden = true; $('#chatList').hidden = false; unreadPoll(); } }
-  function chatStop() { clearInterval(chatTimer); chatTimer = null; }
-  function chatOpenView() {
-    $('#chatList').hidden = true; $('#chatView').hidden = false; $('#chatErr').textContent = '';
-    chatCount = -1;
-    if (!chatThread) { $('#chatTitle').textContent = 'Nieuw gesprek'; $('#chatSub').textContent = 'Met Jason van Solyn'; $('#msgs').innerHTML = '<p class="empty">Schrijf wat je wil vragen of wat er niet werkt. Je mag ook een foto of screenshot toevoegen.</p>'; setTimeout(function () { $('#chatMsg').focus(); }, 60); chatStop(); return; }
-    $('#msgs').innerHTML = '<p class="empty">Laden…</p>';
-    loadMsgs(); chatStop(); chatTimer = setInterval(loadMsgs, 6000);
-  }
-  function loadMsgs() {
-    var id = chatThread; if (!id) return;
-    chatCall('messages', { thread: id }).then(function (j) {
-      if (id !== chatThread) return;
-      $('#chatTitle').textContent = j.thread.title;
-      $('#chatSub').textContent = j.thread.status === 'opgelost' ? 'Opgelost · je kan nog altijd antwoorden' : 'Met Jason van Solyn';
-      if (j.messages.length === chatCount) return; chatCount = j.messages.length;
-      var box = $('#msgs'); box.innerHTML = '';
-      j.messages.forEach(function (m) {
-        var d = document.createElement('div'); d.className = 'msg ' + (m.author === 'client' ? 'me' : 'them');
-        d.innerHTML = (m.body ? esc(m.body) : '') + (m.attachments || []).map(function (a) { return '<img src="' + esc(a.url) + '" alt="" loading="lazy">'; }).join('') + '<small>' + (m.author === 'client' ? 'Jij' : 'Solyn') + ' · ' + when(m.created_at) + '</small>';
-        $$('img', d).forEach(function (im) { im.addEventListener('click', function () { window.open(im.src, '_blank', 'noopener'); }); });
-        box.appendChild(d);
-      });
-      box.scrollTop = box.scrollHeight; unreadPoll();
-    }).catch(function (er) { $('#chatErr').textContent = er.message; });
-  }
-  function openChat() { show('chat'); if (phone.matches) sheet(true); }
-  function drawChatShots() {
-    var box = $('#chatShots'); box.innerHTML = '';
-    chatImgs.forEach(function (src, i) {
-      var d = document.createElement('div'); d.className = 'shot'; d.innerHTML = '<img alt=""><button type="button" aria-label="Weg">×</button>';
-      d.querySelector('img').src = src; d.querySelector('button').addEventListener('click', function () { chatImgs.splice(i, 1); drawChatShots(); });
-      box.appendChild(d);
-    });
-  }
-  $('#chatClose').addEventListener('click', function () { sheet(false); });
-  $('#chatNew').addEventListener('click', function () { chatThread = null; chatOpenView(); });
-  $('#chatBack').addEventListener('click', function () { chatThread = null; chatStop(); $('#chatView').hidden = true; $('#chatList').hidden = false; unreadPoll(); });
-  $('#chatFile').addEventListener('change', function (e) {
-    var files = Array.prototype.slice.call(e.target.files || [], 0, 3 - chatImgs.length); e.target.value = '';
-    Promise.all(files.map(toDataUrl)).then(function (out) { chatImgs = chatImgs.concat(out.filter(Boolean)).slice(0, 3); drawChatShots(); });
-  });
-  var cm = $('#chatMsg');
-  cm.addEventListener('input', function () { cm.style.height = 'auto'; cm.style.height = Math.min(140, cm.scrollHeight) + 'px'; });
-  cm.addEventListener('keydown', function (e) { if (e.key === 'Enter' && !e.shiftKey && !phone.matches) { e.preventDefault(); $('#chatForm').requestSubmit(); } });
-  $('#chatForm').addEventListener('submit', function (e) {
-    e.preventDefault();
-    var text = cm.value.trim(), btn = $('#chatSend');
-    if ((!text && !chatImgs.length) || btn.disabled) return;
-    btn.disabled = true; $('#chatErr').textContent = '';
-    chatCall('send', { thread: chatThread || undefined, body: text, images: chatImgs })
-      .then(function (j) { cm.value = ''; cm.style.height = 'auto'; chatImgs = []; drawChatShots(); var isNew = !chatThread; chatThread = j.thread; if (isNew) chatOpenView(); else loadMsgs(); })
-      .catch(function (er) { $('#chatErr').textContent = er.message; })
-      .then(function () { btn.disabled = false; });
-  });
-  setInterval(unreadPoll, 30000);
 
   /* ---------- installeren als app ---------- */
   var deferred = null;
