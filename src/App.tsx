@@ -25,6 +25,7 @@ import AlgemeneVoorwaarden from "./pages/AlgemeneVoorwaarden.tsx";
 import CookiePolicy from "./pages/CookiePolicy.tsx";
 import AdminLogin from "./pages/AdminLogin.tsx";
 import Admin from "./pages/Admin.tsx";
+import AdminHome from "./pages/AdminHome.tsx";
 import Werkingsproces from "./pages/Werkingsproces.tsx";
 import Unsubscribe from "./pages/Unsubscribe.tsx";
 import Sollicitatie from "./pages/Sollicitatie.tsx";
@@ -112,7 +113,8 @@ const AppRoutes = () => (
     <Route path="algemene-voorwaarden" element={<AlgemeneVoorwaarden />} />
     <Route path="cookie-policy" element={<CookiePolicy />} />
     <Route path="admin/login" element={<AdminLogin />} />
-    <Route path="admin" element={<Admin />} />
+    <Route path="admin" element={<AdminHome />} />
+    <Route path="admin/statistieken" element={<Admin />} />
     <Route path="admin/werkingsproces" element={<Werkingsproces />} />
     <Route path="afspraak" element={<Afspraak />} />
     <Route path="prijscalculator" element={<Prijscalculator />} />

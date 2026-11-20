@@ -139,7 +139,7 @@ const PriceCalculatorFeatureGate = ({ children }: { children: React.ReactNode })
   }
 
   const showAdminToggle =
-    isAdmin && (pathname === "/admin" || pathname === "/en/admin" || pathname === "/fr/admin");
+    isAdmin && /^\/(en\/|fr\/)?admin\/statistieken$/.test(pathname);
 
   return (
     <>

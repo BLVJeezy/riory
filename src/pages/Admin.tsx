@@ -4,7 +4,7 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from "recha
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { LogOut, Share2, Download, ClipboardList, Workflow } from "lucide-react";
+import { LogOut, Share2, Download, ClipboardList, Workflow, ArrowLeft } from "lucide-react";
 import { toast } from "sonner";
 
 
@@ -757,9 +757,16 @@ const Admin = () => {
     <div className="min-h-screen bg-muted">
       {/* Header */}
       <header className="bg-background border-b border-border px-4 sm:px-6 py-4 flex items-center justify-between">
-        <h1 className="text-lg sm:text-xl font-heading font-bold text-foreground">
-          Riory Admin
-        </h1>
+        <div className="flex items-center gap-2 min-w-0">
+          <Button asChild variant="ghost" size="icon" className="shrink-0">
+            <Link to="/admin" aria-label="Terug naar admin">
+              <ArrowLeft className="w-4 h-4" />
+            </Link>
+          </Button>
+          <h1 className="text-lg sm:text-xl font-heading font-bold text-foreground truncate">
+            Statistieken
+          </h1>
+        </div>
         <div className="flex items-center gap-2">
           <Button asChild variant="outline" size="sm" className="gap-2">
             <Link to="/admin/werkingsproces" aria-label="Werkingsproces">
