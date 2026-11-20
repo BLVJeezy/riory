@@ -1,7 +1,7 @@
 {
   "id": "riory-beheer",
   "name": "Riory Beheer",
-  "short_name": "Riory Beheer",
+  "short_name": "Riory",
   "description": "Pas de teksten en foto's van de website van Riory aan.",
   "start_url": "/beheer.html",
   "scope": "/beheer",
@@ -12,10 +12,22 @@
   "theme_color": "#1E2E34",
   "icons": [
     {
-      "src": "/riory-logo-email.png",
-      "sizes": "any",
+      "src": "/beheer-icon-512.png",
+      "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
+    },
+    {
+      "src": "/beheer-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/beheer-icon-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }
