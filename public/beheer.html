@@ -236,10 +236,11 @@ h1,h2,h3{font-weight:600;margin:0;letter-spacing:-.01em}
         <p class="hint" id="pubHint">Je wijzigingen worden op dit toestel bewaard. Met <b>Publiceer op de website</b> zet je ze online; na ongeveer een halve minuut ziet iedereen ze.</p>
         <div class="card"><div class="meta">Status</div><div id="summary" class="hint"></div><div class="hint" id="liveAt" style="font-size:13px;color:var(--mut)"></div></div>
         <button class="btn wide" type="button" id="publish"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg>Publiceer op de website</button>
+        <button class="btn ghost wide" type="button" id="saveVer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h11l3 3v13H5z"/><path d="M8 4v5h7V4"/><path d="M8 20v-6h8v6"/></svg>Bewaar versie, nog niet publiceren</button>
         <div class="err" id="pubErr" role="alert"></div>
         <div class="card" id="histCard">
           <div class="meta">Eerdere versies</div>
-          <p class="hint" style="font-size:13.5px">Iets misgegaan? Zet een vorige versie terug.</p>
+          <p class="hint" style="font-size:13.5px">Open een bewaarde versie om verder te werken, of zet een vorige online versie terug.</p>
           <div id="hist"><p class="hint">Laden…</p></div>
         </div>
         <div class="card" id="installCard">
@@ -506,9 +507,9 @@ h1,h2,h3{font-weight:600;margin:0;letter-spacing:-.01em}
   function pubState() {
     if (!store) {
       $('#pubHint').innerHTML = 'Publiceren is voor deze website nog niet ingeschakeld. Stuur je wijzigingen voorlopig door naar Solyn met de knop onderaan.';
-      $('#publish').hidden = true; $('#histCard').hidden = true; return;
+      $('#publish').hidden = true; $('#saveVer').hidden = true; $('#histCard').hidden = true; return;
     }
-    $('#publish').hidden = false; $('#histCard').hidden = false;
+    $('#publish').hidden = false; $('#saveVer').hidden = false; $('#histCard').hidden = false;
   }
   function history() {
     if (!store || !code) return;
@@ -516,11 +517,19 @@ h1,h2,h3{font-weight:600;margin:0;letter-spacing:-.01em}
       var box = $('#hist'); box.innerHTML = '';
       $('#liveAt').textContent = j.liveAt ? 'Laatst gepubliceerd: ' + when(j.liveAt) : 'Nog niets gepubliceerd via het beheer.';
       if (!j.versions.length) { box.innerHTML = '<p class="hint">Nog geen eerdere versies.</p>'; return; }
-      j.versions.forEach(function (v, i) {
+      var liveSeen = false;
+      j.versions.forEach(function (v) {
         var row = document.createElement('div'); row.className = 'ver';
-        row.innerHTML = '<span></span>' + (i === 0 ? '<b>online</b>' : '<button class="btn ghost small" type="button">Zet terug</button>');
-        $('span', row).textContent = when(v.at);
-        if (i) $('button', row).addEventListener('click', function () {
+        var saved = v.kind === 'saved', isLive = !saved && !liveSeen; if (isLive) liveSeen = true;
+        row.innerHTML = '<span></span>' + (isLive ? '<b>online</b>' : '<button class="btn ghost small" type="button">' + (saved ? 'Openen' : 'Zet terug') + '</button>');
+        $('span', row).innerHTML = when(v.at) + (saved ? '<br><small style="color:var(--mut)">Bewaard, niet online</small>' : '');
+        if (saved) $('button', row).addEventListener('click', function () {
+          if (JSON.stringify(draft) !== JSON.stringify(published) && !confirm('Deze bewaarde versie openen? Wat je nu hebt en nog niet bewaard of gepubliceerd is, wordt vervangen.')) return;
+          call('load', { pathname: v.pathname }).then(function (r) {
+            draft = norm(r.content); save(); push(); toast('Versie geopend. Publiceer wanneer je klaar bent.');
+          }).catch(function (e) { toast(e.message); });
+        });
+        else if (!isLive) $('button', row).addEventListener('click', function () {
           if (!confirm('Deze versie van ' + when(v.at) + ' terug online zetten? Wat nu online staat, blijft bewaard bij de eerdere versies.')) return;
           call('restore', { pathname: v.pathname }).then(function (r) {
             published = norm(r.content); draft = norm(clone(published)); save(); push(); history(); toast('Versie teruggezet. Binnen een halve minuut staat ze online.');
@@ -530,6 +539,20 @@ h1,h2,h3{font-weight:600;margin:0;letter-spacing:-.01em}
       });
     }).catch(function (e) { $('#hist').innerHTML = ''; var p = document.createElement('p'); p.className = 'hint'; p.textContent = e.message; $('#hist').appendChild(p); });
   }
+  function uploadPending() {
+    var keys = Object.keys(draft.img).filter(function (k) { return /^data:/.test(draft.img[k]); });
+    var chain = Promise.resolve();
+    keys.forEach(function (k) { chain = chain.then(function () { return call('upload', { dataUrl: draft.img[k] }).then(function (j) { draft.img[k] = j.url; }); }); });
+    return chain;
+  }
+  $('#saveVer').addEventListener('click', function () {
+    var btn = this; if (btn.disabled) return; $('#pubErr').textContent = '';
+    btn.disabled = true; var label = btn.lastChild.textContent; btn.lastChild.textContent = 'Bezig met bewaren…';
+    uploadPending().then(function () { save(); push(); return call('save', { content: { text: draft.text, img: draft.img } }); })
+      .then(function () { history(); toast('Versie bewaard. Ze staat nog niet online.'); })
+      .catch(function (e) { $('#pubErr').textContent = e.message; })
+      .then(function () { btn.disabled = false; btn.lastChild.textContent = label; });
+  });
   $('#publish').addEventListener('click', function () {
     var btn = this; if (btn.disabled) return; $('#pubErr').textContent = '';
     btn.disabled = true; var label = btn.lastChild.textContent; btn.lastChild.textContent = 'Bezig met publiceren…';
