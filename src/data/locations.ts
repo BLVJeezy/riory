@@ -84,6 +84,60 @@ export const allLocations: LocationData[] = [
     nearbyAreas: ["Genk", "Zonhoven", "Diepenbeek", "Herk-de-Stad", "Lummen"],
   },
   {
+    slug: "bilzen",
+    city: "Bilzen",
+    postalCode: "3740",
+    h1: "Loodgieter & Ontstoppingsdienst Bilzen — 24/7 Riool Verstopt?",
+    metaTitle: "Ontstoppingsdienst Bilzen 24/7 | Riory",
+    metaDescription: "Riool of afvoer verstopt in Bilzen? Riory komt 24/7 ter plaatse in Bilzen en alle deelgemeenten. Camera-inspectie, ontstopping en septische putten.",
+    intro: "Riool verstopt in Bilzen, een WC die niet meer doortrekt of rioollucht in huis? Dan hoeft u niet ver te zoeken: Riory is gevestigd in Bilzen. Bilzen is onze thuisgemeente, en dat merkt u aan onze reactietijd. Wij zijn 24/7 bereikbaar en staan doorgaans binnen 1 à 2 uur bij u ter plaatse, ook 's nachts, in het weekend en op feestdagen. Als lokale loodgieter en ontstoppingsdienst kennen wij de straten, de woningen en de riolering in heel Bilzen. Wij werken dagelijks in Bilzen-centrum en in alle deelgemeenten: Beverst, Eigenbilzen, Grote-Spouwen, Kleine-Spouwen, Hees, Hoelbeek, Martenslinde, Mopertingen, Munsterbilzen, Rijkhoven, Rosmeer, Schoonbeek en Waltwilder. Ook in Hoeselt, dat samen met Bilzen één gemeente vormt, zijn wij snel bij u. Elke woning vraagt een eigen aanpak. Een trage gootsteen in een rijwoning in het centrum van Bilzen is iets anders dan een verstopte afvoer in een oudere hoeve in Rijkhoven of Martenslinde, en een septische put op een landelijk erf in Grote-Spouwen of Waltwilder vraagt ander materiaal dan een verstopte WC in een appartement in Munsterbilzen. Wij hebben de juiste apparatuur bij ons: professionele hogedrukreiniging voor elke verstopping, camera-inspectie om de oorzaak van terugkerende problemen of rioollucht op te sporen zonder breekwerk, en zuigwagens om septische putten en beerputten te ledigen en te reinigen. Na hevige regenval pompen wij ook kelders leeg en reinigen wij regenputten. Naast ontstoppingen voeren wij loodgieterwerk uit: afvoerleidingen herstellen, lekken opsporen en preventief onderhoud aan uw riolering. U krijgt bij Riory altijd vaste, transparante tarieven, rijkosten die vooraf duidelijk worden meegedeeld en een werkplek die netjes wordt achtergelaten. Heeft u een rioolprobleem in Bilzen of een van de deelgemeenten? Bel ons dag en nacht, dan helpen wij u snel verder.",
+    services: [
+      {
+        title: "Ontstoppingsdienst Bilzen — WC, riool & afvoer",
+        description: "Verstopte WC, gootsteen of douche in Bilzen? Onze ontstoppingsdienst is 24/7 bereikbaar en snel ter plaatse in Bilzen-centrum, Munsterbilzen, Beverst, Eigenbilzen en alle deelgemeenten. Professionele hogedrukreiniging, vaste tarieven, geen verrassingen.",
+        slug: "ontstoppingen-en-geurdetectie",
+      },
+      {
+        title: "Septische put ledigen Bilzen & ruimdienst",
+        description: "Septische put of beerput vol in Bilzen? Riory ledigt, reinigt en controleert uw put met gespecialiseerde zuigwagens — ook in het landelijke buitengebied rond Grote-Spouwen, Rijkhoven en Waltwilder. Regelmatig onderhoud voorkomt stankoverlast en dure herstellingen.",
+        slug: "septische-put-ledigen",
+      },
+      {
+        title: "Camera-inspectie riool Bilzen",
+        description: "Met een professionele camera-inspectie brengen wij de toestand van uw riool in Bilzen nauwkeurig in kaart, zonder breekwerk. Ideaal bij terugkerende verstoppingen, rioollucht in huis of bij de aankoop van een woning. U ontvangt een rapport met beelden en advies.",
+        slug: "camera-inspectie",
+      },
+      {
+        title: "Kelder leegpompen en regenput reinigen Bilzen",
+        description: "Kelder onder water of regenput die overloopt in Bilzen? Wij pompen snel leeg na hevige regenval, sporen de oorzaak op en bieden preventief onderhoud. Bereikbaar in heel Bilzen en Hoeselt.",
+        slug: "leegpompen-en-reinigen",
+      },
+    ],
+    faq: [
+      {
+        question: "Is Riory ook een loodgieter in Bilzen?",
+        answer: "Ja. Riory is gevestigd in Bilzen en is zowel loodgieter als ontstoppingsdienst. Naast rioolontstoppingen en septische put ledigen voeren wij ook loodgieterwerk uit: afvoerleidingen herstellen, camera-inspecties en preventief onderhoud. Bel +32 472 50 28 14 voor een snelle afspraak in Bilzen.",
+      },
+      {
+        question: "Hoe snel kan de ontstoppingsdienst ter plaatse zijn in Bilzen?",
+        answer: "Bij spoedgevallen zoals een verstopte WC of wateroverlast streven wij ernaar om binnen 1 à 2 uur in Bilzen ter plaatse te zijn. Wij zijn 24/7 bereikbaar, ook in het weekend en op feestdagen. Rijkosten worden altijd vooraf duidelijk meegedeeld.",
+      },
+      {
+        question: "Wat kost een septische put ledigen in Bilzen?",
+        answer: "De prijs voor het ledigen van een septische put in Bilzen hangt af van de grootte van de put en de toegankelijkheid. Riory werkt met transparante, vaste tarieven. Bel +32 472 50 28 14 voor een snelle prijsindicatie op maat.",
+      },
+      {
+        question: "Wat kost een ontstopping in Bilzen?",
+        answer: "Riory werkt met vaste, transparante tarieven — geen verrassing op de factuur. Voor een duidelijke prijsschatting kunt u onze prijscalculator raadplegen of bellen op +32 472 50 28 14.",
+      },
+      {
+        question: "Bedient Riory ook de deelgemeenten van Bilzen?",
+        answer: "Absoluut. Wij bedienen heel Bilzen inclusief Beverst, Eigenbilzen, Grote-Spouwen, Kleine-Spouwen, Hees, Hoelbeek, Martenslinde, Mopertingen, Munsterbilzen, Rijkhoven, Rosmeer, Schoonbeek en Waltwilder, en ook Hoeselt. Rijkosten worden altijd vooraf duidelijk meegedeeld.",
+      },
+    ],
+    nearbyAreas: ["Hoeselt", "Tongeren", "Riemst", "Genk", "Hasselt", "Zutendaal", "Maastricht"],
+  },
+  {
     slug: "genk",
     city: "Genk",
     postalCode: "3600",

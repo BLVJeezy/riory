@@ -11,7 +11,16 @@ const RegionsCalloutSection = () => {
   const { t } = useTranslation();
   const { localizedPath } = useLanguage();
 
-  const regions = [
+  const regions: { slug: string; city: string; question: string; text: string; cta: string; image?: string }[] = [
+    {
+      slug: "bilzen",
+      city: "Bilzen",
+      question: t("regionsCallout.bilzenQuestion", { defaultValue: "Heb je problemen in Bilzen?" }),
+      text: t("regionsCallout.bilzenText", {
+        defaultValue: "Riory is gevestigd in Bilzen: verstopte afvoer, riool of septische put? Wij zijn 24/7 snel bij u.",
+      }),
+      cta: t("regionsCallout.bilzenCta", { defaultValue: "Bekijk Bilzen" }),
+    },
     {
       slug: "hasselt",
       city: "Hasselt",
@@ -42,11 +51,11 @@ const RegionsCalloutSection = () => {
             {t("regionsCallout.eyebrow", { defaultValue: "Werkzaam in uw regio" })}
           </span>
           <h2 className="text-2xl md:text-3xl font-heading font-bold uppercase text-foreground">
-            {t("regionsCallout.title", { defaultValue: "Riory in Hasselt & Genk" })}
+            {t("regionsCallout.title", { defaultValue: "Riory in Bilzen, Hasselt & Genk" })}
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
           {regions.map((region) => (
             <div
               key={region.slug}
