@@ -5,6 +5,7 @@ import { useLanguage } from "@/i18n/LanguageProvider";
 import logo from "@/assets/riory-logo-footer.svg";
 
 const LIMBURG_CITIES = [
+  { slug: "bilzen", label: "Bilzen" },
   { slug: "hasselt", label: "Hasselt" },
   { slug: "genk", label: "Genk" },
   { slug: "hoeselt", label: "Hoeselt" },
