@@ -6,6 +6,7 @@ import {
 const LOGO_URL = 'https://bqcxvvpawbwupornueww.supabase.co/storage/v1/object/public/email-assets/riory-logo.png'
 import type { TemplateEntry } from './registry.ts'
 import { FormSummary } from './form-summary.tsx'
+import { RiorySignature } from './signature.tsx'
 
 interface Props {
   voornaam?: string
@@ -56,11 +57,10 @@ const AfspraakConfirmation = ({ voornaam, dienst, urgent, ...rest }: Props) => (
             Met vriendelijke groet,<br />
             Het Riory team
           </Text>
-          <Text style={footerSmall}>
-            <Link href="https://riory.be" style={footerLink}>riory.be</Link>
-            {' · '}
-            <Link href="mailto:afspraak@riory.be" style={footerLink}>afspraak@riory.be</Link>
-          </Text>
+        </Section>
+
+        <Section style={signatureWrap}>
+          <RiorySignature />
         </Section>
       </Container>
     </Body>
@@ -93,5 +93,4 @@ const infoText = { fontSize: '15px', color: '#333333', margin: 0 }
 const phoneLink = { color: '#FF6B00', fontWeight: 'bold' as const, textDecoration: 'none' }
 const hr = { borderColor: '#eaeaea', margin: '28px 0 20px' }
 const footerText = { fontSize: '14px', color: '#333333', margin: '0 0 12px' }
-const footerSmall = { fontSize: '12px', color: '#888888', margin: 0 }
-const footerLink = { color: '#FF6B00', textDecoration: 'none' }
+const signatureWrap = { padding: '0 0 24px' }
