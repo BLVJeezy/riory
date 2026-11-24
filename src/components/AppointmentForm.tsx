@@ -85,9 +85,9 @@ type KlantType = "particulier" | "bedrijf" | "vrij_beroep" | "syndicus";
 
 const TOTAL_STEPS = 7;
 
-// Tijdelijke melding op het bevestigingsscherm: facturatie kan vertraging hebben.
-// Zet op false zodra de facturatie weer normaal loopt.
-const SHOW_BILLING_NOTICE = true;
+// Melding op het bevestigingsscherm dat de facturatie vertraging kan hebben.
+// Uitgeschakeld op 24/11/2026: facturatie loopt weer normaal. Op true zetten om ze terug te tonen.
+const SHOW_BILLING_NOTICE = false;
 
 const INPUT_CLASS =
   "w-full h-12 px-4 rounded-lg bg-background border border-border text-foreground font-body text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-shadow";
