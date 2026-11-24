@@ -5,7 +5,7 @@ import { useLanguage } from "@/i18n/LanguageProvider";
 import { Button } from "@/components/ui/button";
 import hasseltImgAsset from "@/assets/stad-hasselt.jpg.asset.json";
 import genkImgAsset from "@/assets/stad-genk.webp.asset.json";
-import bilzenImg from "@/assets/riory-van-about.webp"; // Riory-bus: Bilzen is de thuisbasis
+import bilzenImg from "@/assets/stad-bilzen.webp";
 import { assetUrl } from "@/lib/assetUrl";
 
 const RegionsCalloutSection = () => {
