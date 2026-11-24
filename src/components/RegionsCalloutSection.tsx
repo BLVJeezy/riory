@@ -5,6 +5,7 @@ import { useLanguage } from "@/i18n/LanguageProvider";
 import { Button } from "@/components/ui/button";
 import hasseltImgAsset from "@/assets/stad-hasselt.jpg.asset.json";
 import genkImgAsset from "@/assets/stad-genk.webp.asset.json";
+import bilzenImg from "@/assets/stad-bilzen.webp";
 import { assetUrl } from "@/lib/assetUrl";
 
 const RegionsCalloutSection = () => {
@@ -20,6 +21,7 @@ const RegionsCalloutSection = () => {
         defaultValue: "Riory is gevestigd in Bilzen: verstopte afvoer, riool of septische put? Wij zijn 24/7 snel bij u.",
       }),
       cta: t("regionsCallout.bilzenCta", { defaultValue: "Bekijk Bilzen" }),
+      image: bilzenImg,
     },
     {
       slug: "hasselt",
