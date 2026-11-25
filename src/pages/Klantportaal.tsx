@@ -10,6 +10,7 @@ import {
   LoaderCircle,
   LogOut,
   Mail,
+  MapPin,
   Pencil,
   UserRound,
   Receipt,
@@ -781,23 +782,32 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
                   </h2>
                   <p className="mt-0.5 text-sm text-white/85">Riory neemt contact op om een moment te plannen.</p>
                 </div>
-                {addressOptions.length > 1 && (
-                  <div className="space-y-1.5">
-                    <Label htmlFor="pa-customer">Adres</Label>
-                    <select
-                      id="pa-customer"
-                      className="h-11 w-full rounded-md border border-input bg-background px-3 text-sm"
-                      value={customerId}
-                      onChange={(e) => setCustomerId(e.target.value)}
-                    >
-                      {addressOptions.map((o) => (
-                        <option key={o.id} value={o.id}>
-                          {o.label}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                )}
+                {!worksiteDifferent &&
+                  (addressOptions.length > 1 ? (
+                    <div className="flex items-center gap-2 rounded-lg bg-white/15 px-3 py-2">
+                      <MapPin className="h-4 w-4 shrink-0" aria-hidden="true" />
+                      <label htmlFor="pa-customer" className="sr-only">
+                        Adres
+                      </label>
+                      <select
+                        id="pa-customer"
+                        className="h-8 min-w-0 flex-1 rounded-md border-0 px-2 text-sm"
+                        value={customerId}
+                        onChange={(e) => setCustomerId(e.target.value)}
+                      >
+                        {addressOptions.map((o) => (
+                          <option key={o.id} value={o.id}>
+                            {o.label}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  ) : addressOptions[0] ? (
+                    <p className="flex items-center gap-2 rounded-lg bg-white/15 px-3 py-2 text-sm font-medium">
+                      <MapPin className="h-4 w-4 shrink-0" aria-hidden="true" />
+                      <span className="truncate">{addressOptions[0].label}</span>
+                    </p>
+                  ) : null)}
                 <div className="space-y-1.5">
                   <Label htmlFor="pa-service">Dienst</Label>
                   <select
