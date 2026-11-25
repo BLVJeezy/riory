@@ -26,6 +26,7 @@ import CookiePolicy from "./pages/CookiePolicy.tsx";
 import AdminLogin from "./pages/AdminLogin.tsx";
 import Admin from "./pages/Admin.tsx";
 import AdminHome from "./pages/AdminHome.tsx";
+import Klantportaal from "./pages/Klantportaal.tsx";
 import Werkingsproces from "./pages/Werkingsproces.tsx";
 import Unsubscribe from "./pages/Unsubscribe.tsx";
 import Sollicitatie from "./pages/Sollicitatie.tsx";
@@ -117,6 +118,8 @@ const AppRoutes = () => (
     <Route path="admin/statistieken" element={<Admin />} />
     <Route path="admin/werkingsproces" element={<Werkingsproces />} />
     <Route path="afspraak" element={<Afspraak />} />
+    <Route path="klantportaal" element={<Klantportaal />} />
+    <Route path="klantenportaal" element={<Klantportaal />} />
     <Route path="prijscalculator" element={<Prijscalculator />} />
     <Route path="regio/genk/test" element={<GenkTest />} />
     <Route path="regio/:slug" element={<LocatieDetail />} />
