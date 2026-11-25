@@ -409,6 +409,12 @@ function ProfilePanel({
           <Field label="Inloggen met" value={loginEmail} />
           {customer.vat_number && <Field label="Btw-nummer" value={customer.vat_number} />}
           {customer.customer_number && <Field label="Klantnummer" value={customer.customer_number} />}
+          {customer.profile_updated_at && (
+            <p className="text-xs text-gray-500">
+              Laatst aangepast op{" "}
+              {new Date(customer.profile_updated_at).toLocaleString("nl-BE", { dateStyle: "long", timeStyle: "short" })}
+            </p>
+          )}
         </dl>
       )}
     </Panel>

@@ -67,6 +67,7 @@ export type PortalCustomer = {
   billing_email: string | null;
   vat_number: string | null;
   customer_number: string | null;
+  profile_updated_at?: string | null;
 };
 
 export type PortalOverview = {
