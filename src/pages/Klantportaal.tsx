@@ -14,6 +14,7 @@ import {
   Mail,
   MapPin,
   Pencil,
+  Phone,
   UserRound,
   Receipt,
   Star,
@@ -943,23 +944,53 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
               />
             )}
 
-            <Panel className="space-y-1 p-4 text-sm sm:p-5">
-              <p className="font-semibold text-gray-900">Dringend? Bel ons</p>
-              <a href="tel:+32472502814" className="block text-lg font-semibold text-primary">
-                +32 472 50 28 14
+            <section className="overflow-hidden rounded-2xl bg-[#1e2e34] p-5 text-white shadow-[0_8px_24px_-12px_rgba(30,46,52,0.6)]">
+              <div className="flex items-center gap-3">
+                <span className="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-red-600">
+                  <span className="absolute inset-0 animate-ping rounded-full bg-red-600/40 motion-reduce:hidden" />
+                  <Phone className="relative h-5 w-5" />
+                </span>
+                <div>
+                  <p className="text-lg font-bold leading-tight">Dringend? Bel ons</p>
+                  <p className="text-sm text-white/70">24/7 bereikbaar, ook in het weekend</p>
+                </div>
+              </div>
+              <a
+                href="tel:+32472502814"
+                className="mt-4 flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-red-600 text-base font-bold tracking-wide transition-colors hover:bg-red-700"
+              >
+                <Phone className="h-5 w-5" /> +32 472 50 28 14
               </a>
-              <p className="text-gray-500">
+              <p className="mt-3 text-center text-sm text-white/70">
                 of mail naar{" "}
-                <a href="mailto:info@riory.be" className="underline underline-offset-2">
+                <a href="mailto:info@riory.be" className="font-medium text-white underline underline-offset-2">
                   info@riory.be
                 </a>
               </p>
-              {hasDone && (
-                <a href={REVIEW_URL} target="_blank" rel="noopener noreferrer" className="mt-2 inline-flex items-center gap-1.5 font-medium text-primary">
-                  <Star className="h-4 w-4" /> Laat een Google-review achter
+            </section>
+
+            {hasDone && (
+              <section className="rounded-2xl border border-amber-200 bg-gradient-to-br from-amber-50 to-white p-5 shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
+                <div className="flex items-center gap-1" aria-hidden="true">
+                  {[0, 1, 2, 3, 4].map((n) => (
+                    <Star key={n} className="h-5 w-5 fill-amber-400 text-amber-400" />
+                  ))}
+                </div>
+                <p className="mt-2 text-lg font-bold leading-tight text-gray-900">Tevreden over Riory?</p>
+                <p className="mt-1 text-sm text-gray-600">
+                  Een korte Google-review helpt andere mensen in Limburg om snel een betrouwbare loodgieter te vinden.
+                </p>
+                <a
+                  href={REVIEW_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-4 flex h-12 w-full items-center justify-center gap-2.5 rounded-xl border border-gray-300 bg-white text-[15px] font-semibold text-gray-900 shadow-sm transition-colors hover:bg-gray-50"
+                >
+                  <GoogleIcon />
+                  Laat een Google-review achter
                 </a>
-              )}
-            </Panel>
+              </section>
+            )}
           </aside>
         </div>
       </main>
