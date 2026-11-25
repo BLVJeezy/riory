@@ -773,13 +773,13 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
           </div>
 
           <aside className="space-y-5">
-            <Panel className="scroll-mt-20 p-4 sm:p-5" >
+            <Panel className="scroll-mt-20 border-transparent bg-primary p-4 text-white sm:p-5 [&_label]:text-white [&_input]:bg-white [&_input]:text-gray-900 [&_select]:bg-white [&_select]:text-gray-900 [&_textarea]:bg-white [&_textarea]:text-gray-900">
               <form id="afspraak" onSubmit={handleSubmit} className="scroll-mt-24 space-y-4">
                 <div>
-                  <h2 className="flex items-center gap-2 font-semibold text-gray-900">
-                    <CalendarPlus className="h-4 w-4 text-primary" /> Nieuwe afspraak
+                  <h2 className="flex items-center gap-2 text-lg font-semibold text-white">
+                    <CalendarPlus className="h-5 w-5" /> Nieuwe afspraak
                   </h2>
-                  <p className="mt-0.5 text-sm text-gray-500">Riory neemt contact op om een moment te plannen.</p>
+                  <p className="mt-0.5 text-sm text-white/85">Riory neemt contact op om een moment te plannen.</p>
                 </div>
                 {addressOptions.length > 1 && (
                   <div className="space-y-1.5">
@@ -841,10 +841,10 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
                 </div>
                 <div className="flex flex-col gap-2.5 text-sm">
                   <label className="flex items-center gap-2">
-                    <Checkbox checked={urgent} onCheckedChange={(v) => setUrgent(v === true)} /> Dringend
+                    <Checkbox className="border-white data-[state=checked]:bg-white data-[state=checked]:text-primary" checked={urgent} onCheckedChange={(v) => setUrgent(v === true)} /> Dringend
                   </label>
                   <label className="flex items-center gap-2">
-                    <Checkbox checked={worksiteDifferent} onCheckedChange={(v) => setWorksiteDifferent(v === true)} /> Ander werkadres
+                    <Checkbox className="border-white data-[state=checked]:bg-white data-[state=checked]:text-primary" checked={worksiteDifferent} onCheckedChange={(v) => setWorksiteDifferent(v === true)} /> Ander werkadres
                   </label>
                 </div>
                 {worksiteDifferent && (
@@ -855,7 +855,7 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
                     <Input className="h-11" placeholder="Postcode" value={worksitePostalCode} onChange={(e) => setWorksitePostalCode(e.target.value)} />
                   </div>
                 )}
-                <Button className="h-11 w-full gap-2 font-semibold" disabled={submitting || readOnly}>
+                <Button className="h-11 w-full gap-2 bg-[#1e2e34] font-semibold text-white hover:bg-[#1e2e34]/90" disabled={submitting || readOnly}>
                   {submitting ? <LoaderCircle className="h-4 w-4 animate-spin" /> : null}
                   Aanvraag versturen
                 </Button>
