@@ -55,10 +55,26 @@ export function clearPortalSession() {
 export type PortalStage = "aangevraagd" | "offerte" | "gepland" | "afgewerkt";
 export type PortalInvoiceState = "betaald" | "open" | "vervallen" | "creditnota";
 
+export type PortalCustomer = {
+  id: string;
+  name: string;
+  phone: string | null;
+  street: string | null;
+  house_number: string | null;
+  postal_code: string | null;
+  city: string | null;
+  email: string | null;
+  billing_email: string | null;
+  vat_number: string | null;
+  customer_number: string | null;
+};
+
 export type PortalOverview = {
   accountEmail: string;
-  customer: { id: string; name: string; phone: string | null } | null;
-  customers: { id: string; name: string; phone: string | null; street: string | null; house_number: string | null; city: string | null }[];
+  preview: { name: string } | null;
+  services: { key: string; label: string }[];
+  customer: PortalCustomer | null;
+  customers: PortalCustomer[];
   workOrders: {
     id: string;
     number: number | null;
@@ -109,6 +125,18 @@ export type PortalAppointmentInput = {
   worksiteCity?: string;
   projectName?: string;
   customerId?: string;
+  service?: string;
+};
+
+export type PortalProfileInput = {
+  customerId: string;
+  name: string;
+  phone?: string;
+  street?: string;
+  house_number?: string;
+  postal_code?: string;
+  city?: string;
+  billing_email?: string;
 };
 
 export class PortalAuthError extends Error {}
@@ -147,6 +175,14 @@ export async function loadOverview(): Promise<PortalOverview> {
 
 export async function requestAppointment(input: PortalAppointmentInput): Promise<void> {
   await call("appointment", input);
+}
+
+export async function updateProfile(input: PortalProfileInput): Promise<void> {
+  await call("profile", input);
+}
+
+export async function requestInvoiceCopy(message: string): Promise<void> {
+  await call("invoice-request", { message });
 }
 
 export async function downloadDocument(type: "factuur" | "werkbon", id: string): Promise<void> {

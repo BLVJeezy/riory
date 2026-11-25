@@ -10,6 +10,8 @@ import {
   LoaderCircle,
   LogOut,
   Mail,
+  Pencil,
+  UserRound,
   Receipt,
   Star,
 } from "lucide-react";
@@ -31,8 +33,11 @@ import {
   loginTokenFromHash,
   hasPortalSession,
   requestAppointment,
+  requestInvoiceCopy,
+  updateProfile,
   requestLoginLink,
   verifyLoginToken,
+  type PortalCustomer,
   type PortalInvoiceState,
   type PortalOverview,
   type PortalStage,
@@ -269,6 +274,196 @@ function ShowMore({ total, shown, onClick }: { total: number; shown: number; onC
   );
 }
 
+function Field({ label, value }: { label: string; value: string | null | undefined }) {
+  return (
+    <div className="min-w-0">
+      <dt className="text-xs text-gray-500">{label}</dt>
+      <dd className="truncate text-sm text-gray-900">{value?.trim() ? value : "—"}</dd>
+    </div>
+  );
+}
+
+function ProfilePanel({
+  customer,
+  loginEmail,
+  readOnly,
+  onSaved,
+  onAuthError,
+}: {
+  customer: PortalCustomer;
+  loginEmail: string;
+  readOnly: boolean;
+  onSaved: () => Promise<void>;
+  onAuthError: () => void;
+}) {
+  const [editing, setEditing] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [form, setForm] = useState(() => ({
+    name: customer.name ?? "",
+    phone: customer.phone ?? "",
+    street: customer.street ?? "",
+    house_number: customer.house_number ?? "",
+    postal_code: customer.postal_code ?? "",
+    city: customer.city ?? "",
+    billing_email: customer.billing_email ?? "",
+  }));
+  const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement>) => setForm((f) => ({ ...f, [k]: e.target.value }));
+
+  async function save(e: React.FormEvent) {
+    e.preventDefault();
+    setSaving(true);
+    try {
+      await updateProfile({ customerId: customer.id, ...form });
+      toast.success("Uw gegevens zijn bijgewerkt.");
+      setEditing(false);
+      await onSaved();
+    } catch (err) {
+      if (err instanceof PortalAuthError || err instanceof PortalAccessError) return onAuthError();
+      toast.error(err instanceof Error ? err.message : "Opslaan mislukt.");
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  const address = [
+    [customer.street, customer.house_number].filter(Boolean).join(" "),
+    [customer.postal_code, customer.city].filter(Boolean).join(" "),
+  ]
+    .filter(Boolean)
+    .join(", ");
+
+  return (
+    <Panel className="p-4 sm:p-5">
+      <div className="mb-3 flex items-center justify-between gap-2">
+        <h2 className="flex items-center gap-2 font-semibold text-gray-900">
+          <UserRound className="h-4 w-4 text-primary" /> Mijn gegevens
+        </h2>
+        {!editing && !readOnly && (
+          <Button variant="ghost" size="sm" className="h-8 gap-1.5 px-2 text-primary" onClick={() => setEditing(true)}>
+            <Pencil className="h-3.5 w-3.5" /> Aanpassen
+          </Button>
+        )}
+      </div>
+      {editing ? (
+        <form onSubmit={save} className="space-y-3">
+          <div className="space-y-1.5">
+            <Label htmlFor="pf-name">Naam</Label>
+            <Input id="pf-name" className="h-11" required minLength={2} value={form.name} onChange={set("name")} />
+          </div>
+          <div className="grid grid-cols-[1fr_80px] gap-2">
+            <div className="space-y-1.5">
+              <Label htmlFor="pf-street">Straat</Label>
+              <Input id="pf-street" className="h-11" value={form.street} onChange={set("street")} />
+            </div>
+            <div className="space-y-1.5">
+              <Label htmlFor="pf-nr">Nr.</Label>
+              <Input id="pf-nr" className="h-11" value={form.house_number} onChange={set("house_number")} />
+            </div>
+          </div>
+          <div className="grid grid-cols-[100px_1fr] gap-2">
+            <div className="space-y-1.5">
+              <Label htmlFor="pf-pc">Postcode</Label>
+              <Input id="pf-pc" className="h-11" inputMode="numeric" value={form.postal_code} onChange={set("postal_code")} />
+            </div>
+            <div className="space-y-1.5">
+              <Label htmlFor="pf-city">Gemeente</Label>
+              <Input id="pf-city" className="h-11" value={form.city} onChange={set("city")} />
+            </div>
+          </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="pf-phone">Telefoon</Label>
+            <Input id="pf-phone" className="h-11" type="tel" value={form.phone} onChange={set("phone")} />
+          </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="pf-bill">Facturen sturen naar</Label>
+            <Input id="pf-bill" className="h-11" type="email" placeholder={loginEmail} value={form.billing_email} onChange={set("billing_email")} />
+          </div>
+          <div className="flex gap-2 pt-1">
+            <Button className="h-11 flex-1 font-semibold" disabled={saving}>
+              {saving ? <LoaderCircle className="h-4 w-4 animate-spin" /> : "Opslaan"}
+            </Button>
+            <Button type="button" variant="outline" className="h-11" onClick={() => setEditing(false)}>
+              Annuleren
+            </Button>
+          </div>
+        </form>
+      ) : (
+        <dl className="grid gap-3">
+          <Field label="Naam" value={customer.name} />
+          <Field label="Adres" value={address} />
+          <Field label="Telefoon" value={customer.phone} />
+          <Field label="Facturen naar" value={customer.billing_email || customer.email} />
+          <Field label="Inloggen met" value={loginEmail} />
+          {customer.vat_number && <Field label="Btw-nummer" value={customer.vat_number} />}
+          {customer.customer_number && <Field label="Klantnummer" value={customer.customer_number} />}
+        </dl>
+      )}
+    </Panel>
+  );
+}
+
+function OlderInvoiceRequest({ readOnly, onAuthError }: { readOnly: boolean; onAuthError: () => void }) {
+  const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState("");
+  const [sending, setSending] = useState(false);
+  const [sent, setSent] = useState(false);
+
+  async function send(e: React.FormEvent) {
+    e.preventDefault();
+    setSending(true);
+    try {
+      await requestInvoiceCopy(message);
+      setSent(true);
+      setMessage("");
+    } catch (err) {
+      if (err instanceof PortalAuthError || err instanceof PortalAccessError) return onAuthError();
+      toast.error(err instanceof Error ? err.message : "Versturen mislukt.");
+    } finally {
+      setSending(false);
+    }
+  }
+
+  if (sent)
+    return (
+      <p className="border-t px-4 py-3 text-sm text-emerald-700 sm:px-5">
+        Aanvraag verstuurd. Riory mailt u de factuur zo snel mogelijk.
+      </p>
+    );
+  if (!open)
+    return (
+      <button
+        type="button"
+        disabled={readOnly}
+        onClick={() => setOpen(true)}
+        className="w-full border-t px-4 py-3 text-left text-sm text-gray-600 hover:bg-black/[0.02] disabled:opacity-60 sm:px-5"
+      >
+        Oudere factuur nodig? <span className="font-medium text-primary">Vraag ze op</span>
+      </button>
+    );
+  return (
+    <form onSubmit={send} className="space-y-2 border-t px-4 py-3 sm:px-5">
+      <Label htmlFor="old-inv">Welke factuur zoekt u?</Label>
+      <Input
+        id="old-inv"
+        className="h-11"
+        required
+        minLength={3}
+        placeholder="Bv. factuur van maart 2026, wc ontstopt"
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
+      />
+      <div className="flex gap-2">
+        <Button className="h-10 font-semibold" disabled={sending}>
+          {sending ? <LoaderCircle className="h-4 w-4 animate-spin" /> : "Opvragen"}
+        </Button>
+        <Button type="button" variant="ghost" className="h-10" onClick={() => setOpen(false)}>
+          Annuleren
+        </Button>
+      </div>
+    </form>
+  );
+}
+
 function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onReload: () => Promise<void>; onLogout: () => void }) {
   const [downloading, setDownloading] = useState<string | null>(null);
   const [allWorkOrders, setAllWorkOrders] = useState(false);
@@ -285,6 +480,8 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
   const [worksitePostalCode, setWorksitePostalCode] = useState("");
   const [worksiteCity, setWorksiteCity] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [service, setService] = useState("");
+  const readOnly = !!data.preview;
 
   useEffect(() => {
     if (new URLSearchParams(window.location.search).get("tab") === "afspraak") {
@@ -318,6 +515,7 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
         preferredWindow: preferredWindow || undefined,
         contactPhone: contactPhone || undefined,
         customerId: customerId || undefined,
+        service: service || undefined,
         urgent,
         worksiteDifferent,
         worksiteStreet: worksiteDifferent ? worksiteStreet : undefined,
@@ -327,6 +525,7 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
       });
       toast.success("Uw aanvraag is ontvangen. Riory neemt snel contact op.");
       setDescription("");
+      setService("");
       setPreferredWindow("");
       setUrgent(false);
       setWorksiteDifferent(false);
@@ -451,6 +650,12 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
       </header>
 
       <main className="mx-auto w-full max-w-6xl px-4 pb-16 pt-6 sm:pt-8">
+        {data.preview && (
+          <div className="mb-5 rounded-xl border border-violet-200 bg-violet-50 px-4 py-3 text-sm text-violet-900">
+            <span className="font-semibold">Voorbeeldweergave</span> — u bekijkt het portaal zoals klant{" "}
+            <span className="font-semibold">{data.preview.name}</span> het ziet. Aanpassen en aanvragen zijn uitgeschakeld.
+          </div>
+        )}
         <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
@@ -529,6 +734,7 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
               ) : (
                 <p className="px-5 py-6 text-sm text-gray-500">Nog geen facturen.</p>
               )}
+              <OlderInvoiceRequest readOnly={readOnly} onAuthError={onLogout} />
             </Section>
 
             {data.quotes.length > 0 && (
@@ -566,7 +772,7 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
             )}
           </div>
 
-          <aside className="space-y-5 lg:sticky lg:top-20">
+          <aside className="space-y-5">
             <Panel className="scroll-mt-20 p-4 sm:p-5" >
               <form id="afspraak" onSubmit={handleSubmit} className="scroll-mt-24 space-y-4">
                 <div>
@@ -593,13 +799,32 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
                   </div>
                 )}
                 <div className="space-y-1.5">
-                  <Label htmlFor="pa-desc">Wat is het probleem?</Label>
+                  <Label htmlFor="pa-service">Dienst</Label>
+                  <select
+                    id="pa-service"
+                    required
+                    className="h-11 w-full rounded-md border border-input bg-background px-3 text-sm"
+                    value={service}
+                    onChange={(e) => setService(e.target.value)}
+                  >
+                    <option value="" disabled>
+                      Kies een dienst…
+                    </option>
+                    {data.services.map((sv) => (
+                      <option key={sv.key} value={sv.key}>
+                        {sv.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="pa-desc">Omschrijving</Label>
                   <Textarea
                     id="pa-desc"
                     required
                     minLength={5}
                     rows={3}
-                    placeholder="Bv. wc verstopt, afvoer keuken loopt traag…"
+                    placeholder="Wat is er aan de hand? Bv. water loopt niet weg in de keuken…"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                   />
@@ -630,12 +855,23 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
                     <Input className="h-11" placeholder="Postcode" value={worksitePostalCode} onChange={(e) => setWorksitePostalCode(e.target.value)} />
                   </div>
                 )}
-                <Button className="h-11 w-full gap-2 font-semibold" disabled={submitting}>
+                <Button className="h-11 w-full gap-2 font-semibold" disabled={submitting || readOnly}>
                   {submitting ? <LoaderCircle className="h-4 w-4 animate-spin" /> : null}
                   Aanvraag versturen
                 </Button>
               </form>
             </Panel>
+
+            {data.customer && (
+              <ProfilePanel
+                key={data.customer.id}
+                customer={data.customer}
+                loginEmail={data.accountEmail}
+                readOnly={readOnly}
+                onSaved={onReload}
+                onAuthError={onLogout}
+              />
+            )}
 
             <Panel className="space-y-1 p-4 text-sm sm:p-5">
               <p className="font-semibold text-gray-900">Dringend? Bel ons</p>
