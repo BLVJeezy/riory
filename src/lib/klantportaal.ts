@@ -68,6 +68,10 @@ export type PortalCustomer = {
   vat_number: string | null;
   customer_number: string | null;
   profile_updated_at?: string | null;
+  profile_history?: {
+    created_at: string;
+    changes: { field: string; before: string | null; after: string | null }[];
+  }[];
 };
 
 export type PortalOverview = {

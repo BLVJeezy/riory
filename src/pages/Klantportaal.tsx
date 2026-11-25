@@ -11,6 +11,7 @@ import {
   FileSignature,
   LoaderCircle,
   LogOut,
+  Menu,
   Mail,
   MapPin,
   Pencil,
@@ -25,6 +26,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import { useDocumentMeta } from "@/hooks/useDocumentMeta";
@@ -94,8 +96,8 @@ function Pill({ className, children }: { className: string; children: React.Reac
   return <span className={cn("inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold", className)}>{children}</span>;
 }
 
-function Panel({ className, children }: { className?: string; children: React.ReactNode }) {
-  return <section className={cn("rounded-2xl border border-black/5 bg-white shadow-[0_1px_2px_rgba(0,0,0,0.04)]", className)}>{children}</section>;
+function Panel({ id, className, children }: { id?: string; className?: string; children: React.ReactNode }) {
+  return <section id={id} className={cn("rounded-2xl border border-black/5 bg-white shadow-[0_1px_2px_rgba(0,0,0,0.04)]", className)}>{children}</section>;
 }
 
 
@@ -251,18 +253,20 @@ function LoginView({ initialError }: { initialError: string }) {
 // ---------------------------------------------------------------------------
 
 function Section({
+  id,
   title,
   count,
   children,
   action,
 }: {
+  id?: string;
   title: string;
   count?: number;
   children: React.ReactNode;
   action?: React.ReactNode;
 }) {
   return (
-    <Panel>
+    <Panel id={id} className="scroll-mt-20">
       <div className="flex items-center justify-between gap-3 border-b px-4 py-3.5 sm:px-5">
         <h2 className="flex items-center gap-2 font-semibold text-gray-900">
           {title}
@@ -347,7 +351,7 @@ function ProfilePanel({
     .join(", ");
 
   return (
-    <Panel className="border-gray-200 bg-gray-100 p-4 sm:p-5">
+    <Panel id="gegevens" className="scroll-mt-20 border-gray-200 bg-gray-100 p-4 sm:p-5">
       <div className="mb-3 flex items-center justify-between gap-2">
         <h2 className="flex items-center gap-2 font-semibold text-gray-900">
           <UserRound className="h-4 w-4 text-primary" /> Mijn gegevens
@@ -416,9 +420,51 @@ function ProfilePanel({
               {new Date(customer.profile_updated_at).toLocaleString("nl-BE", { dateStyle: "long", timeStyle: "short" })}
             </p>
           )}
+          <ProfileHistory history={customer.profile_history ?? []} />
         </dl>
       )}
     </Panel>
+  );
+}
+
+const HISTORY_LABELS: Record<string, string> = {
+  name: "Naam",
+  phone: "Telefoon",
+  street: "Straat",
+  house_number: "Huisnummer",
+  postal_code: "Postcode",
+  city: "Gemeente",
+  billing_email: "Facturen naar",
+};
+
+function ProfileHistory({ history }: { history: NonNullable<PortalCustomer["profile_history"]> }) {
+  if (!history.length) return null;
+  return (
+    <details className="group rounded-lg border border-gray-200 bg-white/70 text-sm">
+      <summary className="cursor-pointer list-none px-3 py-2 text-xs font-medium text-gray-600 marker:hidden">
+        <span className="group-open:hidden">Vorige gegevens bekijken ({history.length})</span>
+        <span className="hidden group-open:inline">Vorige gegevens verbergen</span>
+      </summary>
+      <ol className="space-y-3 border-t px-3 py-3">
+        {history.map((h) => (
+          <li key={h.created_at}>
+            <p className="text-xs font-medium text-gray-500">
+              {new Date(h.created_at).toLocaleString("nl-BE", { dateStyle: "medium", timeStyle: "short" })}
+            </p>
+            <ul className="mt-1 space-y-0.5">
+              {h.changes.map((c) => (
+                <li key={c.field} className="text-[13px] text-gray-700">
+                  <span className="text-gray-500">{HISTORY_LABELS[c.field] ?? c.field}:</span>{" "}
+                  <span className="line-through decoration-gray-400">{c.before || "(leeg)"}</span>{" "}
+                  → <span className="font-medium text-gray-900">{c.after || "(leeg)"}</span>
+                </li>
+              ))}
+            </ul>
+          </li>
+        ))}
+      </ol>
+      <p className="border-t px-3 py-2 text-[11px] text-gray-500">Oude gegevens worden altijd bewaard.</p>
+    </details>
   );
 }
 
@@ -621,6 +667,22 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
     .filter((w) => w.stage === "gepland" && w.scheduledDate && w.scheduledDate >= today)
     .sort((a, b) => (a.scheduledDate ?? "").localeCompare(b.scheduledDate ?? ""))[0];
   const hasDone = data.workOrders.some((w) => w.stage === "afgewerkt");
+  const [menuOpen, setMenuOpen] = useState(false);
+  const goTo = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    setMenuOpen(false);
+    // Wait for the mobile sheet to close before scrolling.
+    window.setTimeout(() => {
+      document.getElementById(href.slice(1))?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 60);
+  };
+  const navItems = [
+    { href: "#werkbonnen", label: "Werkbonnen" },
+    { href: "#facturen", label: "Facturen" },
+    ...(data.quotes.length ? [{ href: "#offertes", label: "Offertes" }] : []),
+    { href: "#afspraak", label: "Nieuwe afspraak" },
+    ...(data.customer ? [{ href: "#gegevens", label: "Mijn gegevens" }] : []),
+  ];
   const firstName = (data.customer?.name ?? "").trim();
   const workOrders = allWorkOrders ? data.workOrders : data.workOrders.slice(0, 5);
   const invoices = allInvoices ? data.invoices : data.invoices.slice(0, 5);
@@ -698,15 +760,66 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
     <>
       <header className="sticky top-0 z-20 border-b border-black/5 bg-white/90 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3">
-          <a href="/" aria-label="riory.be">
+          <a href="/" aria-label="riory.be" className="shrink-0">
             <img src={logo} alt="Riory" className="h-6 w-auto sm:h-7" />
           </a>
-          <div className="flex items-center gap-1 sm:gap-3">
-            <span className="hidden max-w-[240px] truncate text-sm text-gray-500 md:inline">{data.accountEmail}</span>
-            <Button variant="ghost" size="sm" className="gap-2" onClick={onLogout} aria-label="Uitloggen">
+          <nav aria-label="Klantportaal" className="hidden items-center gap-1 lg:flex">
+            {navItems.map((n) => (
+              <a
+                key={n.href}
+                href={n.href}
+                onClick={(e) => goTo(e, n.href)}
+                className="rounded-lg px-3 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-black/5 hover:text-gray-900"
+              >
+                {n.label}
+              </a>
+            ))}
+          </nav>
+          <div className="flex items-center gap-1 sm:gap-2">
+            <a
+              href="tel:+32472502814"
+              className="hidden items-center gap-1.5 rounded-lg bg-red-600 px-3 py-2 text-sm font-semibold text-white hover:bg-red-700 lg:inline-flex"
+            >
+              <Phone className="h-4 w-4" /> Dringend
+            </a>
+            <Button variant="ghost" size="sm" className="hidden gap-2 lg:inline-flex" onClick={onLogout} aria-label="Uitloggen">
               <LogOut className="h-4 w-4" />
-              <span className="hidden sm:inline">Uitloggen</span>
+              Uitloggen
             </Button>
+            <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon" className="h-10 w-10 lg:hidden" aria-label="Menu openen">
+                  <Menu className="h-6 w-6" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="flex w-[85vw] max-w-xs flex-col gap-0 p-0">
+                <SheetTitle className="border-b px-5 py-4 text-base">Menu</SheetTitle>
+                <p className="truncate px-5 pt-3 text-xs text-gray-500">{data.accountEmail}</p>
+                <nav aria-label="Klantportaal" className="flex flex-col p-3">
+                  {navItems.map((n) => (
+                    <a
+                      key={n.href}
+                      href={n.href}
+                      onClick={(e) => goTo(e, n.href)}
+                      className="rounded-lg px-3 py-3 text-base font-medium text-gray-800 hover:bg-black/5"
+                    >
+                      {n.label}
+                    </a>
+                  ))}
+                </nav>
+                <div className="mt-auto space-y-2 border-t p-4">
+                  <a
+                    href="tel:+32472502814"
+                    className="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-red-600 font-semibold text-white"
+                  >
+                    <Phone className="h-5 w-5" /> Dringend: bel ons
+                  </a>
+                  <Button variant="outline" className="h-11 w-full gap-2" onClick={() => { setMenuOpen(false); onLogout(); }}>
+                    <LogOut className="h-4 w-4" /> Uitloggen
+                  </Button>
+                </div>
+              </SheetContent>
+            </Sheet>
           </div>
         </div>
       </header>
@@ -776,7 +889,7 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
               </div>
             )}
 
-            <Section title="Werkbonnen" count={data.workOrders.length}>
+            <Section id="werkbonnen" title="Werkbonnen" count={data.workOrders.length}>
               {data.workOrders.length ? (
                 <>
                   <div className="divide-y">{workOrders.map((w) => <WorkOrderRow key={w.id} w={w} />)}</div>
@@ -787,7 +900,7 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
               )}
             </Section>
 
-            <Section title="Facturen" count={data.invoices.length}>
+            <Section id="facturen" title="Facturen" count={data.invoices.length}>
               {data.invoices.length ? (
                 <>
                   <div className="divide-y">{invoices.map((i) => <InvoiceRow key={i.id} i={i} />)}</div>
@@ -799,8 +912,47 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
               <OlderInvoiceRequest readOnly={readOnly} onAuthError={onLogout} />
             </Section>
 
+            <div className={`hidden gap-3 lg:grid ${hasDone ? "lg:grid-cols-2" : ""}`}>
+              <div className="flex items-center gap-3 rounded-xl bg-[#1e2e34] px-3.5 py-2.5 text-white">
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-red-600">
+                  <Phone className="h-4 w-4" />
+                </span>
+                <div className="min-w-0 flex-1 leading-tight">
+                  <p className="whitespace-nowrap text-sm font-semibold">Dringend? Bel ons</p>
+                  <p className="text-xs text-white/60">24/7 bereikbaar</p>
+                </div>
+                <a
+                  href="tel:+32472502814"
+                  className="shrink-0 whitespace-nowrap rounded-lg bg-red-600 px-2.5 py-1.5 text-[13px] font-semibold tabular-nums transition-colors hover:bg-red-700"
+                >
+                  +32 472 50 28 14
+                </a>
+              </div>
+              {hasDone && (
+                <div className="flex items-center gap-3 rounded-xl border border-amber-200 bg-amber-50 px-3.5 py-2.5">
+                  <div className="min-w-0 flex-1 leading-tight">
+                    <div className="flex gap-0.5" aria-hidden="true">
+                      {[0, 1, 2, 3, 4].map((n) => (
+                        <Star key={n} className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
+                      ))}
+                    </div>
+                    <p className="mt-1 whitespace-nowrap text-sm font-semibold text-gray-900">Tevreden over ons?</p>
+                  </div>
+                  <a
+                    href={REVIEW_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-lg border border-gray-300 bg-white px-2.5 py-1.5 text-[13px] font-semibold text-gray-900 shadow-sm transition-colors hover:bg-gray-50"
+                  >
+                    <GoogleIcon />
+                    Review schrijven
+                  </a>
+                </div>
+              )}
+            </div>
+
             {data.quotes.length > 0 && (
-              <Section title="Offertes" count={data.quotes.length}>
+              <Section id="offertes" title="Offertes" count={data.quotes.length}>
                 <div className="divide-y">
                   {data.quotes.map((q) => (
                     <div key={q.id} className="flex items-center justify-between gap-3 px-4 py-3.5 sm:px-5">
@@ -944,7 +1096,7 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
               />
             )}
 
-            <section className="overflow-hidden rounded-2xl bg-[#1e2e34] p-5 text-white shadow-[0_8px_24px_-12px_rgba(30,46,52,0.6)]">
+            <section className="overflow-hidden rounded-2xl bg-[#1e2e34] p-5 lg:hidden text-white shadow-[0_8px_24px_-12px_rgba(30,46,52,0.6)]">
               <div className="flex items-center gap-3">
                 <span className="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-red-600">
                   <span className="absolute inset-0 animate-ping rounded-full bg-red-600/40 motion-reduce:hidden" />
@@ -970,7 +1122,7 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
             </section>
 
             {hasDone && (
-              <section className="rounded-2xl border border-amber-200 bg-gradient-to-br from-amber-50 to-white p-5 shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
+              <section className="rounded-2xl border border-amber-200 bg-gradient-to-br from-amber-50 to-white p-5 lg:hidden shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
                 <div className="flex items-center gap-1" aria-hidden="true">
                   {[0, 1, 2, 3, 4].map((n) => (
                     <Star key={n} className="h-5 w-5 fill-amber-400 text-amber-400" />
