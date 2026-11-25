@@ -2,19 +2,14 @@ import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 import {
   ArrowLeft,
-  ArrowRight,
   CalendarClock,
   CalendarPlus,
   CheckCircle2,
   Download,
   FileSignature,
-  FileText,
-  FolderOpen,
-  LayoutGrid,
   LoaderCircle,
   LogOut,
   Mail,
-  MapPin,
   Receipt,
   Star,
 } from "lucide-react";
@@ -30,7 +25,6 @@ import {
   PortalAuthError,
   STAGE_LABEL,
   downloadDocument,
-  groupProjects,
   loadOverview,
   loginTokenFromHash,
   portalAuth,
@@ -42,7 +36,6 @@ import {
   type PortalStage,
 } from "@/lib/klantportaal";
 
-type Tab = "overzicht" | "projecten" | "facturen" | "offertes" | "afspraak";
 type WorkOrder = PortalOverview["workOrders"][number];
 type Invoice = PortalOverview["invoices"][number];
 
@@ -84,14 +77,6 @@ function Panel({ className, children }: { className?: string; children: React.Re
   return <section className={cn("rounded-2xl border border-black/5 bg-white shadow-[0_1px_2px_rgba(0,0,0,0.04)]", className)}>{children}</section>;
 }
 
-function Empty({ icon: Icon, text }: { icon: typeof FileText; text: string }) {
-  return (
-    <div className="flex flex-col items-center gap-2 px-6 py-10 text-center text-sm text-gray-500">
-      <Icon className="h-6 w-6 text-gray-400" />
-      {text}
-    </div>
-  );
-}
 
 function useNoIndex() {
   useEffect(() => {
@@ -244,17 +229,52 @@ function LoginView({ initialError }: { initialError: string }) {
 // Portaal
 // ---------------------------------------------------------------------------
 
+function Section({
+  title,
+  count,
+  children,
+  action,
+}: {
+  title: string;
+  count?: number;
+  children: React.ReactNode;
+  action?: React.ReactNode;
+}) {
+  return (
+    <Panel>
+      <div className="flex items-center justify-between gap-3 border-b px-4 py-3.5 sm:px-5">
+        <h2 className="flex items-center gap-2 font-semibold text-gray-900">
+          {title}
+          {count ? <span className="rounded-full bg-black/5 px-2 text-xs font-medium text-gray-600">{count}</span> : null}
+        </h2>
+        {action}
+      </div>
+      {children}
+    </Panel>
+  );
+}
+
+function ShowMore({ total, shown, onClick }: { total: number; shown: number; onClick: () => void }) {
+  if (total <= shown) return null;
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="w-full border-t px-5 py-3 text-sm font-medium text-primary hover:bg-black/[0.02]"
+    >
+      Toon alle {total}
+    </button>
+  );
+}
+
 function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onReload: () => Promise<void>; onLogout: () => void }) {
-  const [tab, setTab] = useState<Tab>(() => {
-    const t = new URLSearchParams(window.location.search).get("tab");
-    return t === "afspraak" || t === "facturen" || t === "projecten" || t === "offertes" ? t : "overzicht";
-  });
   const [downloading, setDownloading] = useState<string | null>(null);
+  const [allWorkOrders, setAllWorkOrders] = useState(false);
+  const [allInvoices, setAllInvoices] = useState(false);
 
   const [description, setDescription] = useState("");
   const [preferredWindow, setPreferredWindow] = useState("");
   const [contactPhone, setContactPhone] = useState(data.customer?.phone ?? "");
-  const [projectName, setProjectName] = useState("");
   const [customerId, setCustomerId] = useState(data.customer?.id ?? "");
   const [urgent, setUrgent] = useState(false);
   const [worksiteDifferent, setWorksiteDifferent] = useState(false);
@@ -263,6 +283,17 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
   const [worksitePostalCode, setWorksitePostalCode] = useState("");
   const [worksiteCity, setWorksiteCity] = useState("");
   const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get("tab") === "afspraak") {
+      setTimeout(() => document.getElementById("afspraak")?.scrollIntoView({ behavior: "smooth" }), 100);
+    }
+  }, []);
+
+  const scrollToForm = () => {
+    document.getElementById("afspraak")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    setTimeout(() => document.getElementById("pa-desc")?.focus({ preventScroll: true }), 450);
+  };
 
   async function handleDownload(type: "factuur" | "werkbon", id: string) {
     setDownloading(id);
@@ -284,7 +315,6 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
         description,
         preferredWindow: preferredWindow || undefined,
         contactPhone: contactPhone || undefined,
-        projectName: projectName || undefined,
         customerId: customerId || undefined,
         urgent,
         worksiteDifferent,
@@ -293,18 +323,17 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
         worksitePostalCode: worksiteDifferent ? worksitePostalCode : undefined,
         worksiteCity: worksiteDifferent ? worksiteCity : undefined,
       });
-      toast.success("Uw aanvraag is ontvangen. Riory plant deze zo snel mogelijk in.");
+      toast.success("Uw aanvraag is ontvangen. Riory neemt snel contact op.");
       setDescription("");
       setPreferredWindow("");
-      setProjectName("");
       setUrgent(false);
       setWorksiteDifferent(false);
       setWorksiteStreet("");
       setWorksiteHouseNumber("");
       setWorksitePostalCode("");
       setWorksiteCity("");
-      setTab("projecten");
       await onReload();
+      window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (err) {
       if (err instanceof PortalAuthError) return onLogout();
       toast.error(err instanceof Error ? err.message : "Aanvraag verzenden mislukt.");
@@ -313,54 +342,46 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
     }
   }
 
-  const stats = useMemo(() => {
-    const today = localToday();
-    const openInvoices = data.invoices.filter((i) => i.state === "open" || i.state === "vervallen");
-    return {
-      running: data.workOrders.filter((w) => w.stage !== "afgewerkt").length,
-      openAmount: openInvoices.reduce((s, i) => s + i.openAmount, 0),
-      openCount: openInvoices.length,
-      toSign: data.quotes.filter((q) => q.signUrl).length,
-      next: [...data.workOrders]
-        .filter((w) => w.stage === "gepland" && w.scheduledDate && w.scheduledDate >= today)
-        .sort((a, b) => (a.scheduledDate ?? "").localeCompare(b.scheduledDate ?? ""))[0],
-      lastDone: data.workOrders.find((w) => w.stage === "afgewerkt"),
-    };
-  }, [data]);
-
-  const projects = useMemo(() => groupProjects(data.workOrders), [data]);
-  const displayName = (data.customer?.name ?? "").trim();
-  const tabs: { key: Tab; label: string; icon: typeof FileText; count?: number }[] = [
-    { key: "overzicht", label: "Overzicht", icon: LayoutGrid },
-    { key: "projecten", label: "Werkbonnen", icon: FolderOpen, count: data.workOrders.length },
-    { key: "facturen", label: "Facturen", icon: Receipt, count: data.invoices.length },
-    { key: "offertes", label: "Offertes", icon: FileSignature, count: data.quotes.length },
-    { key: "afspraak", label: "Afspraak aanvragen", icon: CalendarPlus },
-  ];
+  const today = localToday();
+  const openInvoices = data.invoices.filter((i) => i.state === "open" || i.state === "vervallen");
+  const openAmount = openInvoices.reduce((s, i) => s + i.openAmount, 0);
+  const toSign = data.quotes.filter((q) => q.signUrl);
+  const next = [...data.workOrders]
+    .filter((w) => w.stage === "gepland" && w.scheduledDate && w.scheduledDate >= today)
+    .sort((a, b) => (a.scheduledDate ?? "").localeCompare(b.scheduledDate ?? ""))[0];
+  const hasDone = data.workOrders.some((w) => w.stage === "afgewerkt");
+  const firstName = (data.customer?.name ?? "").trim();
+  const workOrders = allWorkOrders ? data.workOrders : data.workOrders.slice(0, 5);
+  const invoices = allInvoices ? data.invoices : data.invoices.slice(0, 5);
 
   const WorkOrderRow = ({ w }: { w: WorkOrder }) => (
-    <div className="flex flex-col gap-3 px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
+    <div className="flex items-start justify-between gap-3 px-4 py-3.5 sm:px-5">
       <div className="min-w-0 space-y-1">
         <div className="flex flex-wrap items-center gap-2">
-          <span className="font-semibold text-gray-900">Werkbon {werkbonNr(w.number)}</span>
+          <span className="font-medium text-gray-900">Werkbon {werkbonNr(w.number)}</span>
           <Pill className={STAGE_STYLE[w.stage]}>{STAGE_LABEL[w.stage]}</Pill>
-          {w.urgent && w.stage !== "afgewerkt" && <Pill className="bg-red-50 text-red-700">Dringend</Pill>}
         </div>
-        {w.description && <p className="line-clamp-2 text-sm text-gray-500">{w.description}</p>}
+        {w.description && <p className="line-clamp-2 text-sm text-gray-600">{w.description}</p>}
         <p className="text-xs text-gray-500">
           {w.stage === "afgewerkt"
-            ? `Afgewerkt op ${formatDate(w.signedAt ?? w.scheduledDate)}`
+            ? formatDate(w.signedAt ?? w.scheduledDate)
             : w.scheduledDate
-              ? `Gepland op ${formatDate(w.scheduledDate, { weekday: "long", day: "numeric", month: "long" })}${
-                  w.scheduledFrom ? ` · ${w.scheduledFrom}${w.scheduledUntil ? `–${w.scheduledUntil}` : ""}` : ""
-                }`
-              : `Aangevraagd op ${formatDate(w.createdAt)}`}
+              ? `${formatDate(w.scheduledDate, { weekday: "short", day: "numeric", month: "short" })}${w.scheduledFrom ? ` · ${w.scheduledFrom}` : ""}`
+              : `Aangevraagd ${formatDate(w.createdAt)}`}
+          {w.address ? ` · ${w.address}` : ""}
         </p>
       </div>
       {w.hasPdf && (
-        <Button variant="outline" size="sm" className="shrink-0 gap-2" disabled={downloading === w.id} onClick={() => handleDownload("werkbon", w.id)}>
+        <Button
+          variant="outline"
+          size="sm"
+          className="h-9 shrink-0 gap-1.5 px-3"
+          disabled={downloading === w.id}
+          onClick={() => handleDownload("werkbon", w.id)}
+          aria-label={`Werkbon ${werkbonNr(w.number)} downloaden`}
+        >
           {downloading === w.id ? <LoaderCircle className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4" />}
-          Werkbon (PDF)
+          <span className="hidden sm:inline">PDF</span>
         </Button>
       )}
     </div>
@@ -369,30 +390,31 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
   const InvoiceRow = ({ i }: { i: Invoice }) => {
     const st = INVOICE_STYLE[i.state];
     return (
-      <div className="flex flex-col gap-3 px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex items-center justify-between gap-3 px-4 py-3.5 sm:px-5">
         <div className="min-w-0 space-y-1">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="font-semibold text-gray-900">
+            <span className="font-medium text-gray-900">
               {i.kind === "creditnota" ? "Creditnota" : "Factuur"} {i.number}
             </span>
             <Pill className={st.cls}>{st.label}</Pill>
           </div>
           <p className="text-xs text-gray-500">
             {formatDate(i.issueDate)}
-            {i.state !== "betaald" && i.state !== "creditnota" && i.dueDate ? ` · vervalt ${formatDate(i.dueDate)}` : ""}
-            {i.workOrderNumber ? ` · werkbon #${i.workOrderNumber}` : ""}
+            {(i.state === "open" || i.state === "vervallen") && i.dueDate ? ` · te betalen voor ${formatDate(i.dueDate)}` : ""}
           </p>
         </div>
-        <div className="flex items-center justify-between gap-4 sm:justify-end">
-          <div className="text-right">
-            <p className="font-semibold tabular-nums text-gray-900">{euro(i.total)}</p>
-            {(i.state === "open" || i.state === "vervallen") && i.openAmount !== i.total && (
-              <p className="text-xs tabular-nums text-gray-500">nog {euro(i.openAmount)} open</p>
-            )}
-          </div>
-          <Button variant="outline" size="sm" className="gap-2" disabled={downloading === i.id} onClick={() => handleDownload("factuur", i.id)}>
+        <div className="flex shrink-0 items-center gap-3">
+          <span className="font-semibold tabular-nums text-gray-900">{euro(i.total)}</span>
+          <Button
+            variant="outline"
+            size="sm"
+            className="h-9 gap-1.5 px-3"
+            disabled={downloading === i.id}
+            onClick={() => handleDownload("factuur", i.id)}
+            aria-label={`Factuur ${i.number} downloaden`}
+          >
             {downloading === i.id ? <LoaderCircle className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4" />}
-            PDF
+            <span className="hidden sm:inline">PDF</span>
           </Button>
         </div>
       </div>
@@ -401,15 +423,14 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
 
   return (
     <>
-      <header className="border-b border-black/5 bg-white">
-        <div className="mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 py-3">
-          <a href="/" className="flex items-center gap-3">
-            <img src={logo} alt="Riory" className="h-6 w-auto" />
-            <span className="hidden border-l pl-3 text-sm font-medium text-gray-500 sm:inline">Klantenportaal</span>
+      <header className="sticky top-0 z-20 border-b border-black/5 bg-white/90 backdrop-blur">
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3">
+          <a href="/" aria-label="riory.be">
+            <img src={logo} alt="Riory" className="h-6 w-auto sm:h-7" />
           </a>
-          <div className="flex items-center gap-3">
-            <span className="hidden max-w-[220px] truncate text-sm text-gray-500 md:inline">{data.accountEmail}</span>
-            <Button variant="ghost" size="sm" className="gap-2" onClick={onLogout}>
+          <div className="flex items-center gap-1 sm:gap-3">
+            <span className="hidden max-w-[240px] truncate text-sm text-gray-500 md:inline">{data.accountEmail}</span>
+            <Button variant="ghost" size="sm" className="gap-2" onClick={onLogout} aria-label="Uitloggen">
               <LogOut className="h-4 w-4" />
               <span className="hidden sm:inline">Uitloggen</span>
             </Button>
@@ -417,285 +438,213 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
         </div>
       </header>
 
-      <main className="mx-auto w-full max-w-5xl space-y-6 px-4 py-6 sm:py-8">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+      <main className="mx-auto w-full max-w-6xl px-4 pb-16 pt-6 sm:pt-8">
+        <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">{displayName ? `Welkom, ${displayName}` : "Welkom"}</h1>
-            <p className="mt-1 text-sm text-gray-500">
-              {data.customers.length > 1
-                ? `${data.customers.length} adressen gekoppeld aan ${data.accountEmail}`
-                : "Al uw werkbonnen, facturen en offertes bij Riory op één plek."}
-            </p>
+            <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
+              {firstName ? `Welkom, ${firstName}` : "Welkom"}
+            </h1>
+            <p className="mt-1 text-sm text-gray-500">Uw werkbonnen, facturen en afspraken bij Riory.</p>
           </div>
-          <Button className="h-10 gap-2 font-semibold" onClick={() => setTab("afspraak")}>
+          <Button className="h-11 gap-2 font-semibold lg:hidden" onClick={scrollToForm}>
             <CalendarPlus className="h-4 w-4" /> Nieuwe afspraak
           </Button>
         </div>
 
-        <nav aria-label="Klantenportaal" className="-mx-4 overflow-x-auto px-4">
-          <div className="inline-flex min-w-full gap-1 rounded-xl border border-black/5 bg-white p-1 sm:min-w-0">
-            {tabs.map((t) => (
-              <button
-                key={t.key}
-                type="button"
-                aria-current={tab === t.key ? "page" : undefined}
-                onClick={() => setTab(t.key)}
-                className={cn(
-                  "inline-flex shrink-0 items-center gap-2 rounded-lg px-3.5 py-2 text-sm font-medium transition-colors",
-                  tab === t.key ? "bg-[#1e2e34] text-white" : "text-gray-500 hover:bg-black/[0.03] hover:text-gray-900",
-                )}
-              >
-                <t.icon className="h-4 w-4" />
-                {t.label}
-                {t.count ? (
-                  <span className={cn("rounded-full px-1.5 text-xs", tab === t.key ? "bg-white/15" : "bg-black/5")}>{t.count}</span>
-                ) : null}
-              </button>
-            ))}
-          </div>
-        </nav>
-
-        {tab === "overzicht" && (
-          <div className="space-y-6">
-            <div className="grid grid-cols-3 gap-2 sm:gap-3">
-              <Panel className="p-3.5 sm:p-5">
-                <p className="text-[10px] font-medium uppercase leading-tight tracking-wide text-gray-500 sm:text-xs">Lopende opdrachten</p>
-                <p className="mt-1.5 text-lg font-bold tabular-nums text-gray-900 sm:mt-2 sm:text-3xl">{stats.running}</p>
-              </Panel>
-              <Panel className="p-3.5 sm:p-5">
-                <p className="text-[10px] font-medium uppercase leading-tight tracking-wide text-gray-500 sm:text-xs">Openstaand</p>
-                <p className={cn("mt-1.5 text-lg font-bold tabular-nums sm:mt-2 sm:text-3xl", stats.openAmount > 0 ? "text-amber-700" : "text-gray-900")}>
-                  {euro(stats.openAmount)}
-                </p>
-                <p className="text-xs text-gray-500">{stats.openCount === 1 ? "1 factuur" : `${stats.openCount} facturen`}</p>
-              </Panel>
-              <Panel className="p-3.5 sm:p-5">
-                <p className="text-[10px] font-medium uppercase leading-tight tracking-wide text-gray-500 sm:text-xs">Offertes te tekenen</p>
-                <p className="mt-1.5 text-lg font-bold tabular-nums text-gray-900 sm:mt-2 sm:text-3xl">{stats.toSign}</p>
-              </Panel>
-            </div>
-
-            {stats.next && (
-              <Panel className="flex items-start gap-4 border-sky-100 bg-sky-50/60 p-5">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white">
-                  <CalendarClock className="h-5 w-5 text-sky-700" />
-                </div>
-                <div className="space-y-0.5">
-                  <p className="text-sm font-medium text-sky-900">Volgende afspraak</p>
-                  <p className="text-lg font-semibold text-gray-900">
-                    {formatDate(stats.next.scheduledDate, { weekday: "long", day: "numeric", month: "long" })}
-                    {stats.next.scheduledFrom ? ` · ${stats.next.scheduledFrom}${stats.next.scheduledUntil ? `–${stats.next.scheduledUntil}` : ""}` : ""}
-                  </p>
-                  {stats.next.address && (
-                    <p className="flex items-center gap-1 text-sm text-gray-500">
-                      <MapPin className="h-3.5 w-3.5" />
-                      {stats.next.address}
-                    </p>
-                  )}
-                </div>
-              </Panel>
-            )}
-
-            <div className="grid gap-6 lg:grid-cols-2">
-              <Panel>
-                <div className="flex items-center justify-between border-b px-5 py-4">
-                  <h2 className="font-semibold text-gray-900">Recente werkbonnen</h2>
-                  <button className="inline-flex items-center gap-1 text-sm text-primary" onClick={() => setTab("projecten")}>
-                    Alles <ArrowRight className="h-3.5 w-3.5" />
-                  </button>
-                </div>
-                {data.workOrders.length ? (
-                  <div className="divide-y">{data.workOrders.slice(0, 4).map((w) => <WorkOrderRow key={w.id} w={w} />)}</div>
-                ) : (
-                  <Empty icon={FolderOpen} text="Nog geen werkbonnen." />
-                )}
-              </Panel>
-              <Panel>
-                <div className="flex items-center justify-between border-b px-5 py-4">
-                  <h2 className="font-semibold text-gray-900">Recente facturen</h2>
-                  <button className="inline-flex items-center gap-1 text-sm text-primary" onClick={() => setTab("facturen")}>
-                    Alles <ArrowRight className="h-3.5 w-3.5" />
-                  </button>
-                </div>
-                {data.invoices.length ? (
-                  <div className="divide-y">{data.invoices.slice(0, 4).map((i) => <InvoiceRow key={i.id} i={i} />)}</div>
-                ) : (
-                  <Empty icon={Receipt} text="Nog geen facturen." />
-                )}
-              </Panel>
-            </div>
-
-            {stats.lastDone && (
-              <Panel className="flex flex-col items-start justify-between gap-3 p-5 sm:flex-row sm:items-center">
-                <div className="flex items-center gap-3">
-                  <Star className="h-5 w-5 text-primary" />
-                  <p className="text-sm text-gray-700">
-                    <span className="font-semibold text-gray-900">Tevreden over onze service?</span> Een Google-review helpt ons enorm.
-                  </p>
-                </div>
-                <Button asChild variant="outline" size="sm">
-                  <a href={REVIEW_URL} target="_blank" rel="noopener noreferrer">
-                    Review schrijven
-                  </a>
-                </Button>
-              </Panel>
-            )}
-          </div>
-        )}
-
-        {tab === "projecten" && (
-          <div className="space-y-4">
-            {projects.length ? (
-              projects.map((p) => (
-                <Panel key={p.key}>
-                  <div className="flex items-center gap-3 border-b px-5 py-4">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10">
-                      <MapPin className="h-4 w-4 text-primary" />
-                    </div>
+        <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_380px] lg:items-start">
+          <div className="space-y-5">
+            {(next || openInvoices.length > 0 || toSign.length > 0) && (
+              <div className="grid gap-3 sm:grid-cols-2">
+                {next && (
+                  <Panel className="flex items-start gap-3 border-sky-100 bg-sky-50/70 p-4">
+                    <CalendarClock className="mt-0.5 h-5 w-5 shrink-0 text-sky-700" />
                     <div className="min-w-0">
-                      <h2 className="truncate font-semibold text-gray-900">{p.title}</h2>
-                      <p className="text-xs text-gray-500">
-                        {p.subtitle ? `${p.subtitle} · ` : ""}
-                        {p.items.length === 1 ? "1 werkbon" : `${p.items.length} werkbonnen`}
+                      <p className="text-xs font-semibold uppercase tracking-wide text-sky-800">Volgende afspraak</p>
+                      <p className="mt-0.5 font-semibold text-gray-900">
+                        {formatDate(next.scheduledDate, { weekday: "long", day: "numeric", month: "long" })}
+                        {next.scheduledFrom ? ` · ${next.scheduledFrom}${next.scheduledUntil ? `–${next.scheduledUntil}` : ""}` : ""}
+                      </p>
+                      {next.address && <p className="truncate text-sm text-gray-600">{next.address}</p>}
+                    </div>
+                  </Panel>
+                )}
+                {openInvoices.length > 0 && (
+                  <Panel className="flex items-start gap-3 border-amber-100 bg-amber-50/70 p-4">
+                    <Receipt className="mt-0.5 h-5 w-5 shrink-0 text-amber-700" />
+                    <div>
+                      <p className="text-xs font-semibold uppercase tracking-wide text-amber-800">Te betalen</p>
+                      <p className="mt-0.5 font-semibold text-gray-900">{euro(openAmount)}</p>
+                      <p className="text-sm text-gray-600">
+                        {openInvoices.length === 1 ? "1 open factuur" : `${openInvoices.length} open facturen`} — zie hieronder
                       </p>
                     </div>
-                  </div>
-                  <div className="divide-y">{p.items.map((w) => <WorkOrderRow key={w.id} w={w} />)}</div>
-                </Panel>
-              ))
-            ) : (
-              <Panel>
-                <Empty icon={FolderOpen} text="Nog geen werkbonnen. Vraag hierboven een afspraak aan." />
-              </Panel>
+                  </Panel>
+                )}
+                {toSign.length > 0 && (
+                  <Panel className="flex items-start gap-3 border-violet-100 bg-violet-50/70 p-4">
+                    <FileSignature className="mt-0.5 h-5 w-5 shrink-0 text-violet-700" />
+                    <div>
+                      <p className="text-xs font-semibold uppercase tracking-wide text-violet-800">Te tekenen</p>
+                      <p className="mt-0.5 font-semibold text-gray-900">
+                        {toSign.length === 1 ? "1 offerte" : `${toSign.length} offertes`}
+                      </p>
+                      <a href={toSign[0]!.signUrl!} target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-primary">
+                        Bekijken &amp; tekenen →
+                      </a>
+                    </div>
+                  </Panel>
+                )}
+              </div>
             )}
-          </div>
-        )}
 
-        {tab === "facturen" && (
-          <Panel>
-            {data.invoices.length ? (
-              <div className="divide-y">{data.invoices.map((i) => <InvoiceRow key={i.id} i={i} />)}</div>
-            ) : (
-              <Empty icon={Receipt} text="Nog geen facturen." />
-            )}
-          </Panel>
-        )}
+            <Section title="Werkbonnen" count={data.workOrders.length}>
+              {data.workOrders.length ? (
+                <>
+                  <div className="divide-y">{workOrders.map((w) => <WorkOrderRow key={w.id} w={w} />)}</div>
+                  {!allWorkOrders && <ShowMore total={data.workOrders.length} shown={5} onClick={() => setAllWorkOrders(true)} />}
+                </>
+              ) : (
+                <p className="px-5 py-6 text-sm text-gray-500">Nog geen werkbonnen. Vraag hiernaast een afspraak aan.</p>
+              )}
+            </Section>
 
-        {tab === "offertes" && (
-          <Panel>
-            {data.quotes.length ? (
-              <div className="divide-y">
-                {data.quotes.map((q) => (
-                  <div key={q.id} className="flex flex-col gap-3 px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
-                    <div className="space-y-1">
-                      <div className="flex flex-wrap items-center gap-2">
-                        <span className="font-semibold text-gray-900">
-                          {q.kind === "verzekering" ? "Bestek" : "Offerte"} {q.number}
-                        </span>
-                        {q.signUrl ? (
-                          <Pill className="bg-amber-50 text-amber-700">Wacht op handtekening</Pill>
-                        ) : (
-                          <Pill className="bg-emerald-50 text-emerald-700">Goedgekeurd</Pill>
+            <Section title="Facturen" count={data.invoices.length}>
+              {data.invoices.length ? (
+                <>
+                  <div className="divide-y">{invoices.map((i) => <InvoiceRow key={i.id} i={i} />)}</div>
+                  {!allInvoices && <ShowMore total={data.invoices.length} shown={5} onClick={() => setAllInvoices(true)} />}
+                </>
+              ) : (
+                <p className="px-5 py-6 text-sm text-gray-500">Nog geen facturen.</p>
+              )}
+            </Section>
+
+            {data.quotes.length > 0 && (
+              <Section title="Offertes" count={data.quotes.length}>
+                <div className="divide-y">
+                  {data.quotes.map((q) => (
+                    <div key={q.id} className="flex items-center justify-between gap-3 px-4 py-3.5 sm:px-5">
+                      <div className="min-w-0 space-y-1">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <span className="font-medium text-gray-900">
+                            {q.kind === "verzekering" ? "Bestek" : "Offerte"} {q.number}
+                          </span>
+                          {q.signUrl ? (
+                            <Pill className="bg-violet-50 text-violet-700">Te tekenen</Pill>
+                          ) : (
+                            <Pill className="bg-emerald-50 text-emerald-700">Goedgekeurd</Pill>
+                          )}
+                        </div>
+                        <p className="text-xs text-gray-500">{formatDate(q.date)}</p>
+                      </div>
+                      <div className="flex shrink-0 items-center gap-3">
+                        <span className="font-semibold tabular-nums text-gray-900">{euro(q.total)}</span>
+                        {q.signUrl && (
+                          <Button asChild size="sm" className="h-9">
+                            <a href={q.signUrl} target="_blank" rel="noopener noreferrer">
+                              Tekenen
+                            </a>
+                          </Button>
                         )}
                       </div>
-                      <p className="text-xs text-gray-500">
-                        {formatDate(q.date)}
-                        {q.signedAt ? ` · getekend ${formatDate(q.signedAt)}` : ""}
-                      </p>
                     </div>
-                    <div className="flex items-center justify-between gap-4 sm:justify-end">
-                      <p className="font-semibold tabular-nums text-gray-900">{euro(q.total)}</p>
-                      {q.signUrl && (
-                        <Button asChild size="sm">
-                          <a href={q.signUrl} target="_blank" rel="noopener noreferrer">
-                            Bekijken &amp; tekenen
-                          </a>
-                        </Button>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <Empty icon={FileSignature} text="Geen offertes." />
+                  ))}
+                </div>
+              </Section>
             )}
-          </Panel>
-        )}
+          </div>
 
-        {tab === "afspraak" && (
-          <Panel className="p-5 sm:p-7">
-            <form onSubmit={handleSubmit} className="mx-auto max-w-2xl space-y-5">
-              <div className="space-y-1">
-                <h2 className="text-lg font-semibold text-gray-900">Nieuwe afspraak aanvragen</h2>
-                <p className="text-sm text-gray-500">Beschrijf kort het probleem. Riory neemt contact op om een moment in te plannen.</p>
-              </div>
-              {data.customers.length > 1 && (
-                <div className="space-y-1.5">
-                  <Label htmlFor="pa-customer">Adres</Label>
-                  <select
-                    id="pa-customer"
-                    className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
-                    value={customerId}
-                    onChange={(e) => setCustomerId(e.target.value)}
-                  >
-                    {data.customers.map((c) => (
-                      <option key={c.id} value={c.id}>
-                        {c.name} — {[c.street, c.house_number].filter(Boolean).join(" ")}
-                        {c.city ? `, ${c.city}` : ""}
-                      </option>
-                    ))}
-                  </select>
+          <aside className="space-y-5 lg:sticky lg:top-20">
+            <Panel className="scroll-mt-20 p-4 sm:p-5" >
+              <form id="afspraak" onSubmit={handleSubmit} className="scroll-mt-24 space-y-4">
+                <div>
+                  <h2 className="flex items-center gap-2 font-semibold text-gray-900">
+                    <CalendarPlus className="h-4 w-4 text-primary" /> Nieuwe afspraak
+                  </h2>
+                  <p className="mt-0.5 text-sm text-gray-500">Riory neemt contact op om een moment te plannen.</p>
                 </div>
-              )}
-              <div className="space-y-1.5">
-                <Label htmlFor="pa-desc">Wat is het probleem?</Label>
-                <Textarea
-                  id="pa-desc"
-                  required
-                  minLength={5}
-                  rows={4}
-                  placeholder="Bv. wc loopt niet meer door, afvoer keuken verstopt…"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                />
-              </div>
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div className="space-y-1.5">
-                  <Label htmlFor="pa-window">Voorkeur moment (optioneel)</Label>
-                  <Input id="pa-window" placeholder="Bv. dinsdag voormiddag" value={preferredWindow} onChange={(e) => setPreferredWindow(e.target.value)} />
-                </div>
-                <div className="space-y-1.5">
-                  <Label htmlFor="pa-phone">Telefoon</Label>
-                  <Input id="pa-phone" type="tel" value={contactPhone} onChange={(e) => setContactPhone(e.target.value)} />
-                </div>
-              </div>
-              <div className="space-y-1.5">
-                <Label htmlFor="pa-project">Project of referentie (optioneel)</Label>
-                <Input id="pa-project" value={projectName} onChange={(e) => setProjectName(e.target.value)} />
-              </div>
-              <div className="space-y-3 rounded-xl bg-[#f6f5f2] p-4">
-                <label className="flex items-center gap-2 text-sm">
-                  <Checkbox checked={urgent} onCheckedChange={(v) => setUrgent(v === true)} /> Dringend
-                </label>
-                <label className="flex items-center gap-2 text-sm">
-                  <Checkbox checked={worksiteDifferent} onCheckedChange={(v) => setWorksiteDifferent(v === true)} /> Werken op een ander adres
-                </label>
-                {worksiteDifferent && (
-                  <div className="grid gap-3 pt-1 sm:grid-cols-[1fr_100px]">
-                    <Input placeholder="Straat" value={worksiteStreet} onChange={(e) => setWorksiteStreet(e.target.value)} required />
-                    <Input placeholder="Nr." value={worksiteHouseNumber} onChange={(e) => setWorksiteHouseNumber(e.target.value)} />
-                    <Input placeholder="Postcode" value={worksitePostalCode} onChange={(e) => setWorksitePostalCode(e.target.value)} />
-                    <Input placeholder="Gemeente" value={worksiteCity} onChange={(e) => setWorksiteCity(e.target.value)} required />
+                {data.customers.length > 1 && (
+                  <div className="space-y-1.5">
+                    <Label htmlFor="pa-customer">Adres</Label>
+                    <select
+                      id="pa-customer"
+                      className="h-11 w-full rounded-md border border-input bg-background px-3 text-sm"
+                      value={customerId}
+                      onChange={(e) => setCustomerId(e.target.value)}
+                    >
+                      {data.customers.map((c) => (
+                        <option key={c.id} value={c.id}>
+                          {[c.street, c.house_number].filter(Boolean).join(" ") || c.name}
+                          {c.city ? `, ${c.city}` : ""}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                 )}
-              </div>
-              <Button className="h-11 w-full gap-2 font-semibold sm:w-auto" disabled={submitting}>
-                {submitting ? <LoaderCircle className="h-4 w-4 animate-spin" /> : <CalendarPlus className="h-4 w-4" />}
-                Aanvraag versturen
-              </Button>
-            </form>
-          </Panel>
-        )}
+                <div className="space-y-1.5">
+                  <Label htmlFor="pa-desc">Wat is het probleem?</Label>
+                  <Textarea
+                    id="pa-desc"
+                    required
+                    minLength={5}
+                    rows={3}
+                    placeholder="Bv. wc verstopt, afvoer keuken loopt traag…"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="space-y-1.5">
+                    <Label htmlFor="pa-window">Voorkeur</Label>
+                    <Input id="pa-window" className="h-11" placeholder="Bv. di voormiddag" value={preferredWindow} onChange={(e) => setPreferredWindow(e.target.value)} />
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label htmlFor="pa-phone">Telefoon</Label>
+                    <Input id="pa-phone" className="h-11" type="tel" value={contactPhone} onChange={(e) => setContactPhone(e.target.value)} />
+                  </div>
+                </div>
+                <div className="flex flex-col gap-2.5 text-sm">
+                  <label className="flex items-center gap-2">
+                    <Checkbox checked={urgent} onCheckedChange={(v) => setUrgent(v === true)} /> Dringend
+                  </label>
+                  <label className="flex items-center gap-2">
+                    <Checkbox checked={worksiteDifferent} onCheckedChange={(v) => setWorksiteDifferent(v === true)} /> Ander werkadres
+                  </label>
+                </div>
+                {worksiteDifferent && (
+                  <div className="grid grid-cols-[1fr_80px] gap-2">
+                    <Input className="h-11" placeholder="Straat" value={worksiteStreet} onChange={(e) => setWorksiteStreet(e.target.value)} required />
+                    <Input className="h-11" placeholder="Nr." value={worksiteHouseNumber} onChange={(e) => setWorksiteHouseNumber(e.target.value)} />
+                    <Input className="h-11" placeholder="Gemeente" value={worksiteCity} onChange={(e) => setWorksiteCity(e.target.value)} required />
+                    <Input className="h-11" placeholder="Postcode" value={worksitePostalCode} onChange={(e) => setWorksitePostalCode(e.target.value)} />
+                  </div>
+                )}
+                <Button className="h-11 w-full gap-2 font-semibold" disabled={submitting}>
+                  {submitting ? <LoaderCircle className="h-4 w-4 animate-spin" /> : null}
+                  Aanvraag versturen
+                </Button>
+              </form>
+            </Panel>
+
+            <Panel className="space-y-1 p-4 text-sm sm:p-5">
+              <p className="font-semibold text-gray-900">Dringend? Bel ons</p>
+              <a href="tel:+32472502814" className="block text-lg font-semibold text-primary">
+                +32 472 50 28 14
+              </a>
+              <p className="text-gray-500">
+                of mail naar{" "}
+                <a href="mailto:info@riory.be" className="underline underline-offset-2">
+                  info@riory.be
+                </a>
+              </p>
+              {hasDone && (
+                <a href={REVIEW_URL} target="_blank" rel="noopener noreferrer" className="mt-2 inline-flex items-center gap-1.5 font-medium text-primary">
+                  <Star className="h-4 w-4" /> Laat een Google-review achter
+                </a>
+              )}
+            </Panel>
+          </aside>
+        </div>
       </main>
     </>
   );
