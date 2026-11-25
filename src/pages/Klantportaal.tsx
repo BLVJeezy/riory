@@ -693,6 +693,7 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
         <div className="flex flex-wrap items-center gap-2">
           <span className="font-medium text-gray-900">{w.number ? `Werkbon #${w.number}` : "Nieuwe aanvraag"}</span>
           <Pill className={STAGE_STYLE[w.stage]}>{STAGE_LABEL[w.stage]}</Pill>
+          {w.urgent && w.stage !== "afgewerkt" && <Pill className="bg-red-600 text-white">Dringend</Pill>}
         </div>
         {w.description && <p className="line-clamp-2 text-sm text-gray-600">{w.description}</p>}
         <p className="text-xs text-gray-500">
@@ -730,6 +731,9 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
               {i.kind === "creditnota" ? "Creditnota" : "Factuur"} {i.number}
             </span>
             <Pill className={st.cls}>{st.label}</Pill>
+            {(i.state === "open" || i.state === "vervallen") && i.openAmount > 0 && i.openAmount < i.total - 0.005 && (
+              <Pill className="bg-sky-100 text-sky-800">Deels betaald · nog {euro(i.openAmount)}</Pill>
+            )}
           </div>
           <p className="text-xs text-gray-500">
             {formatDate(i.issueDate)}
