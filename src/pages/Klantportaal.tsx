@@ -718,7 +718,7 @@ export default function Klantportaal() {
       setState("portal");
     } catch (e) {
       if (!(e instanceof PortalAuthError)) setLoginError(e instanceof Error ? e.message : "Inloggen mislukt.");
-      await portalAuth.auth.signOut().catch(() => undefined);
+      await portalAuth.auth.signOut({ scope: "local" }).catch(() => undefined);
       setState("login");
     }
   }
@@ -749,7 +749,7 @@ export default function Klantportaal() {
   }, []);
 
   async function logout() {
-    await portalAuth.auth.signOut().catch(() => undefined);
+    await portalAuth.auth.signOut({ scope: "local" }).catch(() => undefined);
     setData(null);
     setLoginError("");
     setState("login");
