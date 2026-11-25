@@ -6,6 +6,8 @@ import {
   CalendarPlus,
   CheckCircle2,
   Download,
+  Eye,
+  ExternalLink,
   FileSignature,
   LoaderCircle,
   LogOut,
@@ -22,6 +24,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import { useDocumentMeta } from "@/hooks/useDocumentMeta";
 import {
@@ -29,7 +32,9 @@ import {
   PortalAuthError,
   STAGE_LABEL,
   clearPortalSession,
-  downloadDocument,
+  fetchDocument,
+  saveDocument,
+  type PortalDocument,
   loadOverview,
   loginTokenFromHash,
   hasPortalSession,
@@ -465,8 +470,44 @@ function OlderInvoiceRequest({ readOnly, onAuthError }: { readOnly: boolean; onA
   );
 }
 
+function PdfViewer({ doc, title, onClose }: { doc: PortalDocument | null; title: string; onClose: () => void }) {
+  return (
+    <Dialog open={!!doc} onOpenChange={(open) => !open && onClose()}>
+      <DialogContent className="flex h-[92dvh] w-[96vw] max-w-4xl flex-col gap-0 overflow-hidden p-0 sm:rounded-2xl">
+        <div className="flex items-center justify-between gap-3 border-b px-4 py-3 pr-12">
+          <div className="min-w-0">
+            <DialogTitle className="truncate text-base font-semibold text-gray-900">{title}</DialogTitle>
+            <DialogDescription className="sr-only">PDF-voorbeeld van {title}</DialogDescription>
+          </div>
+        </div>
+        <div className="min-h-0 flex-1 bg-gray-100">
+          {doc && <iframe title={title} src={`${doc.url}#view=FitH`} className="h-full w-full border-0" />}
+        </div>
+        <div className="flex flex-wrap items-center justify-end gap-2 border-t bg-white px-4 py-3">
+          {doc && (
+            <Button asChild variant="ghost" className="h-10 gap-2">
+              <a href={doc.url} target="_blank" rel="noopener noreferrer">
+                <ExternalLink className="h-4 w-4" /> Volledig scherm
+              </a>
+            </Button>
+          )}
+          <Button className="h-10 gap-2 font-semibold" onClick={() => doc && saveDocument(doc)}>
+            <Download className="h-4 w-4" /> Downloaden
+          </Button>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
 function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onReload: () => Promise<void>; onLogout: () => void }) {
   const [downloading, setDownloading] = useState<string | null>(null);
+  const [viewer, setViewer] = useState<{ doc: PortalDocument; title: string } | null>(null);
+  const closeViewer = () =>
+    setViewer((prev) => {
+      if (prev) setTimeout(() => URL.revokeObjectURL(prev.doc.url), 1000);
+      return null;
+    });
   const [allWorkOrders, setAllWorkOrders] = useState(false);
   const [allInvoices, setAllInvoices] = useState(false);
 
@@ -495,10 +536,14 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
     setTimeout(() => document.getElementById("pa-desc")?.focus({ preventScroll: true }), 450);
   };
 
-  async function handleDownload(type: "factuur" | "werkbon", id: string) {
+  async function handleDownload(type: "factuur" | "werkbon", id: string, title: string) {
     setDownloading(id);
     try {
-      await downloadDocument(type, id);
+      const doc = await fetchDocument(type, id);
+      setViewer((prev) => {
+        if (prev) URL.revokeObjectURL(prev.doc.url);
+        return { doc, title };
+      });
     } catch (e) {
       if (e instanceof PortalAuthError || e instanceof PortalAccessError) return onLogout();
       toast.error(e instanceof Error ? e.message : "Downloaden mislukt.");
@@ -589,11 +634,11 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
           size="sm"
           className="h-9 shrink-0 gap-1.5 px-3"
           disabled={downloading === w.id}
-          onClick={() => handleDownload("werkbon", w.id)}
-          aria-label={`Werkbon ${werkbonNr(w.number)} downloaden`}
+          onClick={() => handleDownload("werkbon", w.id, `Werkbon ${werkbonNr(w.number)}`)}
+          aria-label={`Werkbon ${werkbonNr(w.number)} bekijken`}
         >
-          {downloading === w.id ? <LoaderCircle className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4" />}
-          <span className="hidden sm:inline">PDF</span>
+          {downloading === w.id ? <LoaderCircle className="h-4 w-4 animate-spin" /> : <Eye className="h-4 w-4" />}
+          Bekijken
         </Button>
       )}
     </div>
@@ -622,11 +667,13 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
             size="sm"
             className="h-9 gap-1.5 px-3"
             disabled={downloading === i.id}
-            onClick={() => handleDownload("factuur", i.id)}
-            aria-label={`Factuur ${i.number} downloaden`}
+            onClick={() =>
+              handleDownload("factuur", i.id, `${i.kind === "creditnota" ? "Creditnota" : "Factuur"} ${i.number}`)
+            }
+            aria-label={`Factuur ${i.number} bekijken`}
           >
-            {downloading === i.id ? <LoaderCircle className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4" />}
-            <span className="hidden sm:inline">PDF</span>
+            {downloading === i.id ? <LoaderCircle className="h-4 w-4 animate-spin" /> : <Eye className="h-4 w-4" />}
+            Bekijken
           </Button>
         </div>
       </div>
@@ -903,6 +950,7 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
           </aside>
         </div>
       </main>
+      <PdfViewer doc={viewer?.doc ?? null} title={viewer?.title ?? ""} onClose={closeViewer} />
     </>
   );
 }

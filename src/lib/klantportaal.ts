@@ -185,18 +185,23 @@ export async function requestInvoiceCopy(message: string): Promise<void> {
   await call("invoice-request", { message });
 }
 
-export async function downloadDocument(type: "factuur" | "werkbon", id: string): Promise<void> {
+export type PortalDocument = { url: string; filename: string; blob: Blob };
+
+/** Fetch a PDF and keep it as an object URL, so it can be shown in a pop-up and downloaded from there. */
+export async function fetchDocument(type: "factuur" | "werkbon", id: string): Promise<PortalDocument> {
   const res = await call("document", { type, id });
-  const blob = await res.blob();
-  const name = /filename="([^"]+)"/.exec(res.headers.get("Content-Disposition") ?? "")?.[1] ?? `Riory-${type}.pdf`;
-  const url = URL.createObjectURL(blob);
+  const blob = new Blob([await res.blob()], { type: "application/pdf" });
+  const filename = /filename="([^"]+)"/.exec(res.headers.get("Content-Disposition") ?? "")?.[1] ?? `Riory-${type}.pdf`;
+  return { url: URL.createObjectURL(blob), filename, blob };
+}
+
+export function saveDocument(doc: PortalDocument) {
   const a = document.createElement("a");
-  a.href = url;
-  a.download = name;
+  a.href = doc.url;
+  a.download = doc.filename;
   document.body.appendChild(a);
   a.click();
   a.remove();
-  setTimeout(() => URL.revokeObjectURL(url), 30_000);
 }
 
 /** One-time token from the login mail: https://www.riory.be/klantportaal#login=<hashed token>. */
