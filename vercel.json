@@ -1,6 +1,21 @@
 {
   "redirects": [
     {
+      "source": "/klantportaal",
+      "destination": "https://werkbonnen.riory.be/portaal/inloggen",
+      "permanent": false
+    },
+    {
+      "source": "/klantportaal/:path*",
+      "destination": "https://werkbonnen.riory.be/portaal/inloggen",
+      "permanent": false
+    },
+    {
+      "source": "/klantenportaal",
+      "destination": "https://werkbonnen.riory.be/portaal/inloggen",
+      "permanent": false
+    },
+    {
       "source": "/:path+/",
       "destination": "/:path+",
       "permanent": true

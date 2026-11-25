@@ -209,6 +209,13 @@ const Navbar = () => {
           >
             Vacatures
           </Link>
+          <a
+            href="/klantportaal"
+            data-track-cta="nav_customer_portal"
+            className={`text-xs xl:text-sm font-body font-semibold uppercase tracking-wider whitespace-nowrap transition-colors ${navTextClass}`}
+          >
+            Klantportaal
+          </a>
           <Button variant="cta" size="lg" className="rounded-full" asChild>
             <Link to={localizedPath("/afspraak")} data-track-cta="nav_appointment">{t("nav.appointment")}</Link>
           </Button>
@@ -356,6 +363,14 @@ const Navbar = () => {
                 >
                   Vacatures
                 </Link>
+                <a
+                  href="/klantportaal"
+                  data-track-cta="mobile_nav_customer_portal"
+                  onClick={() => setIsOpen(false)}
+                  className="block px-2 py-2 text-sm font-body font-medium text-white/80 hover:text-white hover:bg-white/10 transition-colors rounded"
+                >
+                  Klantportaal
+                </a>
               </div>
               <div className="px-3 pt-2 pb-1">
                 <Button variant="cta" size="sm" className="w-full" asChild>

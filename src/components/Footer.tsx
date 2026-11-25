@@ -51,6 +51,7 @@ const Footer = () => {
               <li><Link to={`${localizedPath("/")}#prijscalculator`} className="text-sm text-primary-foreground/50 hover:text-primary transition-colors font-body">{t("footer.calculator")}</Link></li>
               <li><Link to={localizedPath("/afspraak")} data-track-cta="footer_appointment" className="text-sm text-primary-foreground/50 hover:text-primary transition-colors font-body">{t("footer.appointment")}</Link></li>
               <li><Link to={localizedPath("/sollicitatie")} className="text-sm text-primary-foreground/50 hover:text-primary transition-colors font-body">Vacatures</Link></li>
+              <li><a href="/klantportaal" className="text-sm text-primary-foreground/50 hover:text-primary transition-colors font-body">Klantportaal</a></li>
             </ul>
           </div>
 
