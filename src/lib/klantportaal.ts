@@ -1,23 +1,56 @@
-import { createClient } from "@supabase/supabase-js";
-
 /**
  * Klantenportaal op www.riory.be/klantportaal.
- * De gegevens (werkbonnen, facturen, offertes) komen uit het Riory-werkbonnensysteem;
- * de klant logt in bij dat systeem met een eenmalige inloglink per mail.
- * De URL en publishable key zijn publieke waarden; toegang wordt server-side afgedwongen.
+ * De gegevens (werkbonnen, facturen, offertes) komen uit het Riory-werkbonnensysteem.
+ * De klant logt in met een eenmalige inloglink (mail of Google); die wordt omgeruild voor
+ * een kortlevend portaaltoken dat enkel de portaal-API aanvaardt. Er staat dus nooit een
+ * volledige inlogsessie van het werkbonnensysteem in deze browser.
  */
-const PORTAL_SUPABASE_URL = "https://kruypcaqelxqqdjcbvsf.supabase.co";
-const PORTAL_SUPABASE_KEY = "sb_publishable_cG-RjkpV4cHvG_ppVQEgLQ_TtR-mpWC";
 const PORTAL_API = "https://werkbonnen.riory.be/api/public/portal";
+const TOKEN_KEY = "riory-klantportaal-token";
+const LEGACY_SESSION_KEY = "riory-klantportaal-auth";
 
-export const portalAuth = createClient(PORTAL_SUPABASE_URL, PORTAL_SUPABASE_KEY, {
-  auth: {
-    storageKey: "riory-klantportaal-auth",
-    persistSession: true,
-    autoRefreshToken: true,
-    detectSessionInUrl: false,
-  },
-});
+type StoredToken = { token: string; expiresAt: number };
+
+function readToken(): string | null {
+  try {
+    localStorage.removeItem(LEGACY_SESSION_KEY); // oude Supabase-sessie van vóór de portaaltokens
+    const raw = localStorage.getItem(TOKEN_KEY);
+    if (!raw) return null;
+    const t = JSON.parse(raw) as StoredToken;
+    if (!t?.token || !t.expiresAt || t.expiresAt <= Date.now() + 30_000) {
+      localStorage.removeItem(TOKEN_KEY);
+      return null;
+    }
+    return t.token;
+  } catch {
+    return null;
+  }
+}
+
+function storeToken(t: StoredToken) {
+  try {
+    localStorage.setItem(TOKEN_KEY, JSON.stringify(t));
+  } catch {
+    /* privémodus: token blijft enkel voor deze pagina geldig */
+    memoryToken = t;
+  }
+}
+
+let memoryToken: StoredToken | null = null;
+
+export function hasPortalSession(): boolean {
+  return !!(readToken() ?? (memoryToken && memoryToken.expiresAt > Date.now() ? memoryToken.token : null));
+}
+
+export function clearPortalSession() {
+  memoryToken = null;
+  try {
+    localStorage.removeItem(TOKEN_KEY);
+    localStorage.removeItem(LEGACY_SESSION_KEY);
+  } catch {
+    /* ignore */
+  }
+}
 
 export type PortalStage = "aangevraagd" | "offerte" | "gepland" | "afgewerkt";
 export type PortalInvoiceState = "betaald" | "open" | "vervallen" | "creditnota";
@@ -85,12 +118,16 @@ export class PortalAccessError extends Error {}
 async function call(action: string, body: unknown, auth = true): Promise<Response> {
   const headers: Record<string, string> = { "Content-Type": "application/json" };
   if (auth) {
-    const { data } = await portalAuth.auth.getSession();
-    if (!data.session) throw new PortalAuthError("Niet ingelogd.");
-    headers.Authorization = `Bearer ${data.session.access_token}`;
+    const token = readToken() ?? (memoryToken && memoryToken.expiresAt > Date.now() ? memoryToken.token : null);
+    if (!token) throw new PortalAuthError("Niet ingelogd.");
+    headers.Authorization = `Bearer ${token}`;
   }
   const res = await fetch(`${PORTAL_API}/${action}`, { method: "POST", headers, body: JSON.stringify(body ?? {}) });
-  if (res.status === 401) throw new PortalAuthError("Uw sessie is verlopen. Log opnieuw in.");
+  if (res.status === 401) {
+    if (auth) clearPortalSession();
+    const err = (await res.json().catch(() => null)) as { error?: string } | null;
+    throw new PortalAuthError(err?.error ?? "Uw sessie is verlopen. Log opnieuw in.");
+  }
   if (!res.ok) {
     const err = (await res.json().catch(() => null)) as { error?: string } | null;
     const message = err?.error ?? "Er ging iets mis. Probeer opnieuw.";
@@ -132,10 +169,11 @@ export function loginTokenFromHash(hash: string): string | null {
   return token && /^[a-zA-Z0-9_-]{32,512}$/.test(token) ? token : null;
 }
 
-export async function verifyLoginToken(token: string): Promise<boolean> {
-  let res = await portalAuth.auth.verifyOtp({ token_hash: token, type: "magiclink" });
-  if (res.error) res = await portalAuth.auth.verifyOtp({ token_hash: token, type: "email" });
-  return !res.error && !!res.data.session;
+/** Trade the one-time login link for a portal token. Throws with a readable message on failure. */
+export async function verifyLoginToken(token: string): Promise<void> {
+  const res = await call("exchange", { token }, false);
+  const t = (await res.json()) as StoredToken;
+  storeToken(t);
 }
 
 export const STAGE_LABEL: Record<PortalStage, string> = {

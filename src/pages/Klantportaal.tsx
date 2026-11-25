@@ -25,10 +25,11 @@ import {
   PortalAccessError,
   PortalAuthError,
   STAGE_LABEL,
+  clearPortalSession,
   downloadDocument,
   loadOverview,
   loginTokenFromHash,
-  portalAuth,
+  hasPortalSession,
   requestAppointment,
   requestLoginLink,
   verifyLoginToken,
@@ -672,7 +673,7 @@ export default function Klantportaal() {
       // Only an expired session or refused access ends the session; a hiccup keeps the customer logged in.
       if (e instanceof PortalAuthError || e instanceof PortalAccessError) {
         if (!(e instanceof PortalAuthError)) setLoginError(message);
-        await portalAuth.auth.signOut({ scope: "local" }).catch(() => undefined);
+        clearPortalSession();
         setData(null);
         setState("login");
       } else if (data) {
@@ -694,14 +695,19 @@ export default function Klantportaal() {
       const token = loginTokenFromHash(window.location.hash);
       if (token) {
         window.history.replaceState(null, "", window.location.pathname + window.location.search);
-        if (!(await verifyLoginToken(token))) {
-          setLoginError("Deze inloglink is verlopen of al gebruikt. Vraag hieronder een nieuwe aan.");
+        try {
+          await verifyLoginToken(token);
+        } catch (e) {
+          setLoginError(
+            e instanceof PortalAccessError
+              ? e.message
+              : "Deze inloglink is verlopen of al gebruikt. Vraag hieronder een nieuwe aan.",
+          );
           setState("login");
           return;
         }
       }
-      const { data: s } = await portalAuth.auth.getSession();
-      if (!s.session) {
+      if (!hasPortalSession()) {
         setState("login");
         return;
       }
@@ -710,7 +716,7 @@ export default function Klantportaal() {
   }, []);
 
   async function logout() {
-    await portalAuth.auth.signOut({ scope: "local" }).catch(() => undefined);
+    clearPortalSession();
     setData(null);
     setLoginError("");
     setState("login");
