@@ -68,18 +68,25 @@ function localToday() {
 
 const werkbonNr = (n: number | null) => (n ? `#${n}` : "Nieuw");
 
+/** Solid status colours plus a matching bar on the left of each row, readable at a glance. */
 const STAGE_STYLE: Record<PortalStage, string> = {
-  aangevraagd: "bg-slate-100 text-slate-700",
-  offerte: "bg-violet-50 text-violet-700",
-  gepland: "bg-sky-50 text-sky-700",
-  afgewerkt: "bg-emerald-50 text-emerald-700",
+  aangevraagd: "bg-slate-500 text-white",
+  offerte: "bg-violet-600 text-white",
+  gepland: "bg-blue-600 text-white",
+  afgewerkt: "bg-emerald-600 text-white",
+};
+const STAGE_BAR: Record<PortalStage, string> = {
+  aangevraagd: "border-l-slate-400",
+  offerte: "border-l-violet-500",
+  gepland: "border-l-blue-500",
+  afgewerkt: "border-l-emerald-500",
 };
 
-const INVOICE_STYLE: Record<PortalInvoiceState, { label: string; cls: string }> = {
-  betaald: { label: "Betaald", cls: "bg-emerald-50 text-emerald-700" },
-  open: { label: "Open", cls: "bg-amber-50 text-amber-700" },
-  vervallen: { label: "Vervallen", cls: "bg-red-50 text-red-700" },
-  creditnota: { label: "Creditnota", cls: "bg-slate-100 text-slate-700" },
+const INVOICE_STYLE: Record<PortalInvoiceState, { label: string; cls: string; bar: string }> = {
+  betaald: { label: "Betaald", cls: "bg-emerald-600 text-white", bar: "border-l-emerald-500" },
+  open: { label: "Open", cls: "bg-amber-500 text-white", bar: "border-l-amber-400" },
+  vervallen: { label: "Vervallen", cls: "bg-red-600 text-white", bar: "border-l-red-500 bg-red-50/60" },
+  creditnota: { label: "Creditnota", cls: "bg-slate-500 text-white", bar: "border-l-slate-400" },
 };
 
 function Pill({ className, children }: { className: string; children: React.ReactNode }) {
@@ -339,7 +346,7 @@ function ProfilePanel({
     .join(", ");
 
   return (
-    <Panel className="p-4 sm:p-5">
+    <Panel className="border-gray-200 bg-gray-100 p-4 sm:p-5">
       <div className="mb-3 flex items-center justify-between gap-2">
         <h2 className="flex items-center gap-2 font-semibold text-gray-900">
           <UserRound className="h-4 w-4 text-primary" /> Mijn gegevens
@@ -612,10 +619,10 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
   const invoices = allInvoices ? data.invoices : data.invoices.slice(0, 5);
 
   const WorkOrderRow = ({ w }: { w: WorkOrder }) => (
-    <div className="flex items-start justify-between gap-3 px-4 py-3.5 sm:px-5">
+    <div className={cn("flex items-start justify-between gap-3 border-l-4 px-4 py-3.5 sm:px-5", STAGE_BAR[w.stage])}>
       <div className="min-w-0 space-y-1">
         <div className="flex flex-wrap items-center gap-2">
-          <span className="font-medium text-gray-900">Werkbon {werkbonNr(w.number)}</span>
+          <span className="font-medium text-gray-900">{w.number ? `Werkbon #${w.number}` : "Nieuwe aanvraag"}</span>
           <Pill className={STAGE_STYLE[w.stage]}>{STAGE_LABEL[w.stage]}</Pill>
         </div>
         {w.description && <p className="line-clamp-2 text-sm text-gray-600">{w.description}</p>}
@@ -647,7 +654,7 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
   const InvoiceRow = ({ i }: { i: Invoice }) => {
     const st = INVOICE_STYLE[i.state];
     return (
-      <div className="flex items-center justify-between gap-3 px-4 py-3.5 sm:px-5">
+      <div className={cn("flex items-center justify-between gap-3 border-l-4 px-4 py-3.5 sm:px-5", st.bar)}>
         <div className="min-w-0 space-y-1">
           <div className="flex flex-wrap items-center gap-2">
             <span className="font-medium text-gray-900">
@@ -796,9 +803,9 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
                             {q.kind === "verzekering" ? "Bestek" : "Offerte"} {q.number}
                           </span>
                           {q.signUrl ? (
-                            <Pill className="bg-violet-50 text-violet-700">Te tekenen</Pill>
+                            <Pill className="bg-violet-600 text-white">Te tekenen</Pill>
                           ) : (
-                            <Pill className="bg-emerald-50 text-emerald-700">Goedgekeurd</Pill>
+                            <Pill className="bg-emerald-600 text-white">Goedgekeurd</Pill>
                           )}
                         </div>
                         <p className="text-xs text-gray-500">{formatDate(q.date)}</p>
