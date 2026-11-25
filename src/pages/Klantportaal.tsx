@@ -18,7 +18,7 @@ import {
   Receipt,
   Star,
 } from "lucide-react";
-import logo from "@/assets/riory-logo.png";
+import logo from "@/assets/riory-logo-black.svg";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -132,7 +132,7 @@ function LoginView({ initialError }: { initialError: string }) {
       <div className="w-full max-w-[420px] space-y-6">
         <div className="flex items-center justify-between">
           <a href="/" aria-label="Riory home">
-            <img src={logo} alt="Riory" className="h-9 w-auto" />
+            <img src={logo} alt="Riory" className="h-7 w-auto" />
           </a>
           <a href="/" className="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-gray-900">
             <ArrowLeft className="h-4 w-4" /> riory.be
@@ -374,7 +374,7 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
       <header className="border-b border-black/5 bg-white">
         <div className="mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 py-3">
           <a href="/" className="flex items-center gap-3">
-            <img src={logo} alt="Riory" className="h-8 w-auto" />
+            <img src={logo} alt="Riory" className="h-6 w-auto" />
             <span className="hidden border-l pl-3 text-sm font-medium text-gray-500 sm:inline">Klantenportaal</span>
           </a>
           <div className="flex items-center gap-3">
