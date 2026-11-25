@@ -79,6 +79,8 @@ export type PortalAppointmentInput = {
 };
 
 export class PortalAuthError extends Error {}
+/** The account is logged in but has no (or no longer) access to the portal. */
+export class PortalAccessError extends Error {}
 
 async function call(action: string, body: unknown, auth = true): Promise<Response> {
   const headers: Record<string, string> = { "Content-Type": "application/json" };
@@ -91,7 +93,9 @@ async function call(action: string, body: unknown, auth = true): Promise<Respons
   if (res.status === 401) throw new PortalAuthError("Uw sessie is verlopen. Log opnieuw in.");
   if (!res.ok) {
     const err = (await res.json().catch(() => null)) as { error?: string } | null;
-    throw new Error(err?.error ?? "Er ging iets mis. Probeer opnieuw.");
+    const message = err?.error ?? "Er ging iets mis. Probeer opnieuw.";
+    if (res.status === 403) throw new PortalAccessError(message);
+    throw new Error(message);
   }
   return res;
 }

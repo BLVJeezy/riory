@@ -22,6 +22,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
 import { useDocumentMeta } from "@/hooks/useDocumentMeta";
 import {
+  PortalAccessError,
   PortalAuthError,
   STAGE_LABEL,
   downloadDocument,
@@ -300,7 +301,7 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
     try {
       await downloadDocument(type, id);
     } catch (e) {
-      if (e instanceof PortalAuthError) return onLogout();
+      if (e instanceof PortalAuthError || e instanceof PortalAccessError) return onLogout();
       toast.error(e instanceof Error ? e.message : "Downloaden mislukt.");
     } finally {
       setDownloading(null);
@@ -335,7 +336,7 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
       await onReload();
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (err) {
-      if (err instanceof PortalAuthError) return onLogout();
+      if (err instanceof PortalAuthError || err instanceof PortalAccessError) return onLogout();
       toast.error(err instanceof Error ? err.message : "Aanvraag verzenden mislukt.");
     } finally {
       setSubmitting(false);
@@ -657,7 +658,8 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
 export default function Klantportaal() {
   useDocumentMeta("Klantenportaal | Riory", "Uw werkbonnen, facturen en offertes bij Riory op één plek.");
   useNoIndex();
-  const [state, setState] = useState<"loading" | "login" | "portal">("loading");
+  const [state, setState] = useState<"loading" | "login" | "portal" | "error">("loading");
+  const [loadError, setLoadError] = useState("");
   const [data, setData] = useState<PortalOverview | null>(null);
   const [loginError, setLoginError] = useState("");
 
@@ -666,9 +668,19 @@ export default function Klantportaal() {
       setData(await loadOverview());
       setState("portal");
     } catch (e) {
-      if (!(e instanceof PortalAuthError)) setLoginError(e instanceof Error ? e.message : "Inloggen mislukt.");
-      await portalAuth.auth.signOut({ scope: "local" }).catch(() => undefined);
-      setState("login");
+      const message = e instanceof Error ? e.message : "Er ging iets mis.";
+      // Only an expired session or refused access ends the session; a hiccup keeps the customer logged in.
+      if (e instanceof PortalAuthError || e instanceof PortalAccessError) {
+        if (!(e instanceof PortalAuthError)) setLoginError(message);
+        await portalAuth.auth.signOut({ scope: "local" }).catch(() => undefined);
+        setData(null);
+        setState("login");
+      } else if (data) {
+        toast.error(`Vernieuwen mislukt: ${message}`);
+      } else {
+        setLoadError(message);
+        setState("error");
+      }
     }
   }
 
@@ -705,11 +717,28 @@ export default function Klantportaal() {
   }
 
   return (
-    <div className="flex min-h-dvh flex-col bg-[#f6f5f2] font-body text-gray-900">
+    <div data-clarity-mask="True" className="flex min-h-dvh flex-col bg-[#f6f5f2] font-body text-gray-900">
       <div className="h-1.5 w-full bg-primary" />
       {state === "loading" ? (
         <div className="flex flex-1 items-center justify-center gap-2 text-sm text-gray-500">
           <LoaderCircle className="h-5 w-5 animate-spin text-primary" /> Even geduld…
+        </div>
+      ) : state === "error" ? (
+        <div className="flex flex-1 flex-col items-center justify-center gap-3 px-4 text-center">
+          <p className="text-sm text-gray-600">{loadError || "Uw gegevens konden niet geladen worden."}</p>
+          <div className="flex gap-2">
+            <Button
+              onClick={() => {
+                setState("loading");
+                void load();
+              }}
+            >
+              Opnieuw proberen
+            </Button>
+            <Button variant="outline" onClick={logout}>
+              Uitloggen
+            </Button>
+          </div>
         </div>
       ) : state === "login" || !data ? (
         <LoginView initialError={loginError} />
