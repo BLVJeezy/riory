@@ -344,6 +344,16 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
     }
   }
 
+  // Same address on several customer records: show it once.
+  const addressOptions = (() => {
+    const seen = new Map<string, { id: string; label: string }>();
+    for (const c of data.customers) {
+      const label = `${[c.street, c.house_number].filter(Boolean).join(" ") || c.name}${c.city ? `, ${c.city}` : ""}`;
+      const key = label.trim().toLowerCase();
+      if (!seen.has(key)) seen.set(key, { id: c.id, label });
+    }
+    return [...seen.values()];
+  })();
   const today = localToday();
   const openInvoices = data.invoices.filter((i) => i.state === "open" || i.state === "vervallen");
   const openAmount = openInvoices.reduce((s, i) => s + i.openAmount, 0);
@@ -506,7 +516,7 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
                   {!allWorkOrders && <ShowMore total={data.workOrders.length} shown={5} onClick={() => setAllWorkOrders(true)} />}
                 </>
               ) : (
-                <p className="px-5 py-6 text-sm text-gray-500">Nog geen werkbonnen. Vraag hiernaast een afspraak aan.</p>
+                <p className="px-5 py-6 text-sm text-gray-500">Nog geen werkbonnen.</p>
               )}
             </Section>
 
@@ -565,7 +575,7 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
                   </h2>
                   <p className="mt-0.5 text-sm text-gray-500">Riory neemt contact op om een moment te plannen.</p>
                 </div>
-                {data.customers.length > 1 && (
+                {addressOptions.length > 1 && (
                   <div className="space-y-1.5">
                     <Label htmlFor="pa-customer">Adres</Label>
                     <select
@@ -574,10 +584,9 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
                       value={customerId}
                       onChange={(e) => setCustomerId(e.target.value)}
                     >
-                      {data.customers.map((c) => (
-                        <option key={c.id} value={c.id}>
-                          {[c.street, c.house_number].filter(Boolean).join(" ") || c.name}
-                          {c.city ? `, ${c.city}` : ""}
+                      {addressOptions.map((o) => (
+                        <option key={o.id} value={o.id}>
+                          {o.label}
                         </option>
                       ))}
                     </select>
