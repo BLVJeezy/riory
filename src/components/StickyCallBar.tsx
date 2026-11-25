@@ -9,7 +9,7 @@ const StickyCallBar = () => {
   const { pathname } = useLocation();
   const isCalculatorPage = pathname === "/prijscalculator" || pathname.startsWith("/nl/prijscalculator") || pathname.startsWith("/en/prijscalculator") || pathname.startsWith("/fr/prijscalculator");
 
-  if (pathname.startsWith("/admin")) return null;
+  if (pathname.startsWith("/admin") || /^\/(en\/|fr\/)?klante?n?portaal/.test(pathname)) return null;
 
 
   return (
