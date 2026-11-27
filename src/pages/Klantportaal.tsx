@@ -123,11 +123,11 @@ const INVOICE_STYLE: Record<PortalInvoiceState, { label: string; cls: string; ba
 };
 
 function Pill({ className, children }: { className: string; children: React.ReactNode }) {
-  return <span className={cn("inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold", className)}>{children}</span>;
+  return <span className={cn("inline-flex items-center rounded-sm px-2.5 py-0.5 text-xs font-semibold", className)}>{children}</span>;
 }
 
 function Panel({ id, className, children }: { id?: string; className?: string; children: React.ReactNode }) {
-  return <section id={id} className={cn("rounded-2xl border border-black/5 bg-white shadow-[0_1px_2px_rgba(0,0,0,0.04)]", className)}>{children}</section>;
+  return <section id={id} className={cn("rounded-md border border-black/5 bg-white shadow-[0_1px_2px_rgba(0,0,0,0.04)]", className)}>{children}</section>;
 }
 
 
@@ -191,7 +191,7 @@ function SetPasswordView({ token, onDone }: { token: string; onDone: () => void 
     <div className="flex flex-1 items-center justify-center px-4 py-10">
       <form
         onSubmit={submit}
-        className="w-full max-w-[420px] space-y-5 rounded-2xl border border-black/5 bg-white p-7 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_12px_32px_-12px_rgba(0,0,0,0.12)]"
+        className="w-full max-w-[420px] space-y-5 rounded-md border border-black/5 bg-white p-7 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_12px_32px_-12px_rgba(0,0,0,0.12)]"
       >
         <img src={logo} alt="Riory" className="h-7 w-auto" />
         <div className="space-y-1.5">
@@ -199,7 +199,7 @@ function SetPasswordView({ token, onDone }: { token: string; onDone: () => void 
           <p className="text-sm text-gray-500">Kies een wachtwoord van minstens 8 tekens, met een letter en een cijfer.</p>
         </div>
         {error && (
-          <p role="alert" className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">
+          <p role="alert" className="rounded bg-red-50 px-3 py-2 text-sm text-red-700">
             {error}
           </p>
         )}
@@ -293,7 +293,7 @@ function LoginView({ initialError, onLoggedIn }: { initialError: string; onLogge
             <ArrowLeft className="h-4 w-4" /> riory.be
           </a>
         </div>
-        <div className="rounded-2xl border border-black/5 bg-white p-7 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_12px_32px_-12px_rgba(0,0,0,0.12)]">
+        <div className="rounded-md border border-black/5 bg-white p-7 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_12px_32px_-12px_rgba(0,0,0,0.12)]">
           {sent ? (
             <div className="space-y-4 text-center">
               <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
@@ -307,7 +307,7 @@ function LoginView({ initialError, onLoggedIn }: { initialError: string; onLogge
                   van Riory.
                 </p>
               </div>
-              <ul className="space-y-1.5 rounded-xl bg-[#f6f5f2] p-4 text-left text-sm text-gray-500">
+              <ul className="space-y-1.5 rounded-md bg-[#f6f5f2] p-4 text-left text-sm text-gray-500">
                 <li className="flex gap-2">
                   <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
                   Gebruik het e-mailadres waarop u facturen van Riory ontvangt.
@@ -341,7 +341,7 @@ function LoginView({ initialError, onLoggedIn }: { initialError: string; onLogge
                 </p>
               </div>
               {mode !== "forgot" && (
-                <div className="grid grid-cols-2 gap-1 rounded-lg bg-gray-100 p-1" role="tablist">
+                <div className="grid grid-cols-2 gap-1 rounded bg-gray-100 p-1" role="tablist">
                   {(
                     [
                       ["password", "Met wachtwoord"],
@@ -368,7 +368,7 @@ function LoginView({ initialError, onLoggedIn }: { initialError: string; onLogge
                 </div>
               )}
               {error && (
-                <p role="alert" className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">
+                <p role="alert" className="rounded bg-red-50 px-3 py-2 text-sm text-red-700">
                   {error}
                 </p>
               )}
@@ -479,7 +479,7 @@ function Section({
       <div className="flex items-center justify-between gap-3 border-b px-4 py-3.5 sm:px-5">
         <h2 className="flex items-center gap-2 font-semibold text-gray-900">
           {title}
-          {count ? <span className="rounded-full bg-black/5 px-2 text-xs font-medium text-gray-600">{count}</span> : null}
+          {count ? <span className="rounded-sm bg-black/5 px-2 text-xs font-medium text-gray-600">{count}</span> : null}
         </h2>
         {action}
       </div>
@@ -649,7 +649,7 @@ const HISTORY_LABELS: Record<string, string> = {
 function ProfileHistory({ history }: { history: NonNullable<PortalCustomer["profile_history"]> }) {
   if (!history.length) return null;
   return (
-    <details className="group rounded-lg border border-gray-200 bg-white/70 text-sm">
+    <details className="group rounded border border-gray-200 bg-white/70 text-sm">
       <summary className="cursor-pointer list-none px-3 py-2 text-xs font-medium text-gray-600 marker:hidden">
         <span className="group-open:hidden">Vorige gegevens bekijken ({history.length})</span>
         <span className="hidden group-open:inline">Vorige gegevens verbergen</span>
@@ -806,7 +806,7 @@ function PdfPages({ blob, url, title }: { blob: Blob; url: string; title: string
 function PdfViewer({ doc, title, onClose }: { doc: PortalDocument | null; title: string; onClose: () => void }) {
   return (
     <Dialog open={!!doc} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="flex h-[96dvh] w-[100vw] max-w-4xl flex-col gap-0 overflow-hidden p-0 sm:h-[92dvh] sm:w-[96vw] sm:rounded-2xl">
+      <DialogContent className="flex h-[96dvh] w-[100vw] max-w-4xl flex-col gap-0 overflow-hidden p-0 sm:h-[92dvh] sm:w-[96vw] sm:rounded-md">
         <div className="flex items-center justify-between gap-3 border-b px-4 py-3 pr-12">
           <div className="min-w-0">
             <DialogTitle className="truncate text-base font-semibold text-gray-900">{title}</DialogTitle>
@@ -899,7 +899,7 @@ function ProblemReport({
                   aria-pressed={on}
                   onClick={() => toggle(t)}
                   className={cn(
-                    "inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm transition-colors",
+                    "inline-flex items-center gap-1.5 rounded-sm border px-3 py-1.5 text-sm transition-colors",
                     on ? "border-primary bg-primary text-white" : "border-black/10 bg-white text-gray-700 hover:bg-black/5",
                   )}
                 >
@@ -943,7 +943,7 @@ function TermsButton({ className }: { className?: string }) {
         type="button"
         onClick={() => setOpen(true)}
         className={cn(
-          "flex h-10 w-full items-center justify-center gap-2 rounded-lg border border-gray-200 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50",
+          "flex h-10 w-full items-center justify-center gap-2 rounded border border-gray-200 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50",
           className,
         )}
       >
@@ -990,7 +990,7 @@ function PasswordPanel({ email }: { email: string }) {
         Liever inloggen met een wachtwoord? Wij sturen een link naar {email} om er een in te stellen of te wijzigen.
       </p>
       {sent ? (
-        <p className="mt-3 rounded-lg bg-emerald-50 px-3 py-2 text-sm text-emerald-800">
+        <p className="mt-3 rounded bg-emerald-50 px-3 py-2 text-sm text-emerald-800">
           Verstuurd. Kijk in uw mailbox (ook bij ongewenste e-mail).
         </p>
       ) : (
@@ -1069,7 +1069,7 @@ function SignaturePad({ onChange }: { onChange: (dataUrl: string | null) => void
         onPointerMove={move}
         onPointerUp={up}
         onPointerLeave={up}
-        className="h-36 w-full touch-none rounded-lg border-2 border-dashed border-gray-300 bg-white"
+        className="h-36 w-full touch-none rounded border-2 border-dashed border-gray-300 bg-white"
         aria-label="Teken hier uw handtekening"
       />
     </div>
@@ -1159,7 +1159,7 @@ function QuoteDialog({
         </div>
 
         {lines.length > 0 && (
-          <div className="rounded-xl border">
+          <div className="rounded-md border">
             {lines.map((l) => (
               <div key={l.index} className={cn("flex items-start justify-between gap-3 border-b px-3 py-2.5 text-sm last:border-0", l.optional && "bg-gray-50")}>
                 <label className={cn("flex min-w-0 items-start gap-2", !l.optional && "pl-0")}>
@@ -1183,7 +1183,7 @@ function QuoteDialog({
             ))}
           </div>
         )}
-        <div className="flex items-center justify-between rounded-xl bg-[#1e2e34] px-4 py-3 text-white">
+        <div className="flex items-center justify-between rounded-md bg-[#1e2e34] px-4 py-3 text-white">
           <span className="text-sm">Totaal incl. btw</span>
           <span className="text-lg font-bold tabular-nums">{euro(open ? shownTotal : quote.total)}</span>
         </div>
@@ -1207,7 +1207,7 @@ function QuoteDialog({
         )}
 
         {open && mode === "approve" && (
-          <div className="space-y-3 rounded-xl border border-emerald-200 bg-emerald-50/60 p-3">
+          <div className="space-y-3 rounded-md border border-emerald-200 bg-emerald-50/60 p-3">
             {lines.some((l) => l.optional) && <p className="text-xs text-gray-600">Vink hierboven de opties aan die u erbij wilt.</p>}
             <div className="space-y-1.5">
               <Label htmlFor="q-name">Uw naam</Label>
@@ -1236,7 +1236,7 @@ function QuoteDialog({
         )}
 
         {open && mode === "decline" && (
-          <div className="space-y-3 rounded-xl border p-3">
+          <div className="space-y-3 rounded-md border p-3">
             <p className="text-sm font-medium text-gray-800">Waarom past deze offerte niet? (optioneel)</p>
             <div className="flex flex-wrap gap-2">
               {DECLINE_REASONS.map((r) => {
@@ -1248,7 +1248,7 @@ function QuoteDialog({
                     aria-pressed={on}
                     onClick={() => setReasons((cur) => (on ? cur.filter((x) => x !== r) : [...cur, r]))}
                     className={cn(
-                      "rounded-full border px-3 py-1.5 text-sm",
+                      "rounded-sm border px-3 py-1.5 text-sm",
                       on ? "border-[#1e2e34] bg-[#1e2e34] text-white" : "border-black/10 bg-white text-gray-700",
                     )}
                   >
@@ -1320,7 +1320,7 @@ function AppointmentDialog({
           <DialogTitle className="text-lg">Uw afspraak</DialogTitle>
           <DialogDescription className="mt-1">{wo.number ? `Werkbon #${wo.number}` : "Nieuwe aanvraag"}</DialogDescription>
         </div>
-        <div className="space-y-3 rounded-xl bg-sky-50 p-4">
+        <div className="space-y-3 rounded-md bg-sky-50 p-4">
           <p className="flex items-center gap-2 text-base font-semibold text-gray-900">
             <CalendarClock className="h-5 w-5 text-sky-700" />
             {formatDate(wo.scheduledDate, { weekday: "long", day: "numeric", month: "long" })}
@@ -1340,12 +1340,12 @@ function AppointmentDialog({
         </div>
 
         {wo.cancelRequested ? (
-          <p className="rounded-lg bg-gray-100 px-3 py-2.5 text-sm text-gray-700">
+          <p className="rounded bg-gray-100 px-3 py-2.5 text-sm text-gray-700">
             U heeft deze afspraak geannuleerd. Riory haalt ze uit de planning.
           </p>
         ) : canCancel ? (
           confirm ? (
-            <div className="space-y-3 rounded-xl border border-red-200 bg-red-50/60 p-3">
+            <div className="space-y-3 rounded-md border border-red-200 bg-red-50/60 p-3">
               <p className="text-sm font-medium text-gray-900">Afspraak zeker annuleren?</p>
               <Textarea rows={2} maxLength={500} placeholder="Reden (optioneel)" value={reason} onChange={(e) => setReason(e.target.value)} />
               <div className="grid grid-cols-2 gap-2">
@@ -1370,7 +1370,7 @@ function AppointmentDialog({
             <p className="text-sm text-gray-700">
               De afspraak is binnen {CANCEL_HOURS} uur. Annuleren kan nu enkel telefonisch.
             </p>
-            <a href="tel:+32472502814" className="flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-red-600 font-semibold text-white">
+            <a href="tel:+32472502814" className="flex h-11 w-full items-center justify-center gap-2 rounded bg-red-600 font-semibold text-white">
               <Phone className="h-4 w-4" /> Bel +32 472 50 28 14
             </a>
           </div>
@@ -1415,7 +1415,7 @@ function FilterChips<T extends string>({
           aria-selected={value === o.key}
           onClick={() => onChange(o.key)}
           className={cn(
-            "inline-flex shrink-0 items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-sm font-medium transition-colors",
+            "inline-flex shrink-0 items-center gap-1.5 rounded-sm border px-3.5 py-1.5 text-sm font-medium transition-colors",
             value === o.key
               ? "border-[#1e2e34] bg-[#1e2e34] text-white"
               : "border-black/10 bg-white text-gray-700 hover:bg-black/5",
@@ -1459,7 +1459,7 @@ function SearchBox({ value, onChange, placeholder }: { value: string; onChange: 
 
 function UrgentCard() {
   return (
-    <section className="overflow-hidden rounded-2xl bg-[#1e2e34] p-5 text-white shadow-[0_8px_24px_-12px_rgba(30,46,52,0.6)]">
+    <section className="overflow-hidden rounded-md bg-[#1e2e34] p-5 text-white shadow-[0_8px_24px_-12px_rgba(30,46,52,0.6)]">
       <div className="flex items-center gap-3">
         <span className="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-red-600">
           <span className="absolute inset-0 animate-ping rounded-full bg-red-600/40 motion-reduce:hidden" />
@@ -1472,7 +1472,7 @@ function UrgentCard() {
       </div>
       <a
         href="tel:+32472502814"
-        className="mt-4 flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-red-600 text-base font-bold tracking-wide transition-colors hover:bg-red-700"
+        className="mt-4 flex h-12 w-full items-center justify-center gap-2 rounded-md bg-red-600 text-base font-bold tracking-wide transition-colors hover:bg-red-700"
       >
         <Phone className="h-5 w-5" /> +32 472 50 28 14
       </a>
@@ -1489,7 +1489,7 @@ function UrgentCard() {
 function ContactStrip({ showReview }: { showReview: boolean }) {
   return (
     <div className={cn("grid gap-3", showReview && "sm:grid-cols-2")}>
-      <div className="flex items-center gap-3 rounded-xl bg-[#1e2e34] px-3.5 py-2.5 text-white">
+      <div className="flex items-center gap-3 rounded-md bg-[#1e2e34] px-3.5 py-2.5 text-white">
         <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-red-600">
           <Phone className="h-4 w-4" />
         </span>
@@ -1499,13 +1499,13 @@ function ContactStrip({ showReview }: { showReview: boolean }) {
         </div>
         <a
           href="tel:+32472502814"
-          className="shrink-0 whitespace-nowrap rounded-lg bg-red-600 px-2.5 py-1.5 text-[13px] font-semibold tabular-nums transition-colors hover:bg-red-700"
+          className="shrink-0 whitespace-nowrap rounded bg-red-600 px-2.5 py-1.5 text-[13px] font-semibold tabular-nums transition-colors hover:bg-red-700"
         >
           +32 472 50 28 14
         </a>
       </div>
       {showReview && (
-        <div className="flex items-center gap-3 rounded-xl border border-amber-200 bg-amber-50 px-3.5 py-2.5">
+        <div className="flex items-center gap-3 rounded-md border border-amber-200 bg-amber-50 px-3.5 py-2.5">
           <div className="min-w-0 flex-1 leading-tight">
             <div className="flex gap-0.5" aria-hidden="true">
               {[0, 1, 2, 3, 4].map((n) => (
@@ -1518,7 +1518,7 @@ function ContactStrip({ showReview }: { showReview: boolean }) {
             href={REVIEW_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-lg border border-gray-300 bg-white px-2.5 py-1.5 text-[13px] font-semibold text-gray-900 shadow-sm transition-colors hover:bg-gray-50"
+            className="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded border border-gray-300 bg-white px-2.5 py-1.5 text-[13px] font-semibold text-gray-900 shadow-sm transition-colors hover:bg-gray-50"
           >
             <GoogleIcon />
             Review schrijven
@@ -1552,7 +1552,7 @@ function StatTile({
       {...(onClick ? { type: "button", onClick } : { to })}
       className={cn(
         "text-left",
-        "group flex flex-col justify-between rounded-2xl border p-4 transition-shadow hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary",
+        "group flex flex-col justify-between rounded-md border p-4 transition-shadow hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary",
         tone,
       )}
     >
@@ -2078,7 +2078,7 @@ function PortalView({ data: rawData, onReload, onLogout }: { data: PortalOvervie
           <form id="afspraak" onSubmit={handleSubmit} className="space-y-4">
             {!worksiteDifferent &&
               (addressOptions.length > 1 ? (
-                <div className="flex items-center gap-2 rounded-lg bg-white/15 px-3 py-2">
+                <div className="flex items-center gap-2 rounded bg-white/15 px-3 py-2">
                   <MapPin className="h-4 w-4 shrink-0" aria-hidden="true" />
                   <label htmlFor="pa-customer" className="sr-only">
                     Adres
@@ -2097,7 +2097,7 @@ function PortalView({ data: rawData, onReload, onLogout }: { data: PortalOvervie
                   </select>
                 </div>
               ) : addressOptions[0] ? (
-                <p className="flex items-center gap-2 rounded-lg bg-white/15 px-3 py-2 text-sm font-medium">
+                <p className="flex items-center gap-2 rounded bg-white/15 px-3 py-2 text-sm font-medium">
                   <MapPin className="h-4 w-4 shrink-0" aria-hidden="true" />
                   <span className="truncate">{addressOptions[0].label}</span>
                 </p>
@@ -2134,7 +2134,7 @@ function PortalView({ data: rawData, onReload, onLogout }: { data: PortalOvervie
               />
             </div>
             {service === "regenput" && (
-              <div className="space-y-2 rounded-xl bg-white p-3.5 text-gray-900">
+              <div className="space-y-2 rounded-md bg-white p-3.5 text-gray-900">
                 <p className="text-sm font-semibold">Hoe groot is uw regenput?</p>
                 <p className="text-xs text-gray-500">Dit helpt ons een correcte prijs te berekenen.</p>
                 <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
@@ -2145,7 +2145,7 @@ function PortalView({ data: rawData, onReload, onLogout }: { data: PortalOvervie
                       aria-pressed={regenput === opt}
                       onClick={() => setRegenput(opt)}
                       className={cn(
-                        "min-h-11 rounded-lg border px-2 py-2 text-sm font-medium",
+                        "min-h-11 rounded border px-2 py-2 text-sm font-medium",
                         regenput === opt ? "border-primary bg-primary text-white" : "border-gray-200 bg-white text-gray-700 hover:bg-gray-50",
                       )}
                     >
@@ -2159,7 +2159,7 @@ function PortalView({ data: rawData, onReload, onLogout }: { data: PortalOvervie
               </div>
             )}
             {service === "dakgoot" && (
-              <div className="space-y-2 rounded-xl bg-white p-3.5 text-gray-900">
+              <div className="space-y-2 rounded-md bg-white p-3.5 text-gray-900">
                 <p className="text-sm font-semibold">Geschatte meters dakgoot per verdieping</p>
                 <p className="text-xs text-gray-500">Geldig tot 3 verdiepen of 10 meter hoogte. Minimum 10 m te reinigen.</p>
                 <div className="grid grid-cols-3 gap-2">
@@ -2191,7 +2191,7 @@ function PortalView({ data: rawData, onReload, onLogout }: { data: PortalOvervie
             )}
             <div className="space-y-1.5">
               <Label>Wanneer past het u?</Label>
-              <div className="grid gap-3 rounded-xl bg-white p-3 text-gray-900 sm:grid-cols-[auto_1fr] sm:items-start">
+              <div className="grid gap-3 rounded-md bg-white p-3 text-gray-900 sm:grid-cols-[auto_1fr] sm:items-start">
                 <Calendar
                   mode="single"
                   locale={nl}
@@ -2199,7 +2199,7 @@ function PortalView({ data: rawData, onReload, onLogout }: { data: PortalOvervie
                   selected={prefDate}
                   onSelect={setPrefDate}
                   disabled={[{ before: new Date() }, { dayOfWeek: [0] }]}
-                  className="mx-auto rounded-lg p-0 [&_label]:text-gray-900"
+                  className="mx-auto rounded p-0 [&_label]:text-gray-900"
                 />
                 <div className="space-y-2">
                   <p className="text-sm font-medium text-gray-700">
@@ -2219,7 +2219,7 @@ function PortalView({ data: rawData, onReload, onLogout }: { data: PortalOvervie
                         aria-pressed={prefPart === key}
                         onClick={() => setPrefPart(prefPart === key ? "" : key)}
                         className={cn(
-                          "flex min-h-11 flex-col items-center justify-center gap-1 rounded-lg border px-2 py-2 text-xs font-semibold sm:flex-row sm:justify-start sm:text-sm",
+                          "flex min-h-11 flex-col items-center justify-center gap-1 rounded border px-2 py-2 text-xs font-semibold sm:flex-row sm:justify-start sm:text-sm",
                           prefPart === key ? "border-primary bg-primary text-white" : "border-gray-200 bg-white text-gray-700 hover:bg-gray-50",
                         )}
                       >
@@ -2250,7 +2250,7 @@ function PortalView({ data: rawData, onReload, onLogout }: { data: PortalOvervie
                   aria-checked={on}
                   onClick={() => set(!on)}
                   className={cn(
-                    "flex items-start gap-3 rounded-xl border-2 p-3 text-left transition-colors",
+                    "flex items-start gap-3 rounded-md border-2 p-3 text-left transition-colors",
                     on
                       ? title === "Dringend"
                         ? "border-red-600 bg-white text-gray-900 shadow-md"
@@ -2280,7 +2280,7 @@ function PortalView({ data: rawData, onReload, onLogout }: { data: PortalOvervie
               ))}
             </div>
             {worksiteDifferent && (
-              <div className="grid grid-cols-[1fr_80px] gap-2 rounded-xl bg-white p-3 text-gray-900">
+              <div className="grid grid-cols-[1fr_80px] gap-2 rounded-md bg-white p-3 text-gray-900">
                 <p className="col-span-2 text-sm font-semibold">Werkadres voor deze aanvraag</p>
                 <Input className="h-11" placeholder="Straat" value={worksiteStreet} onChange={(e) => setWorksiteStreet(e.target.value)} required />
                 <Input className="h-11" placeholder="Nr." value={worksiteHouseNumber} onChange={(e) => setWorksiteHouseNumber(e.target.value)} />
@@ -2289,7 +2289,7 @@ function PortalView({ data: rawData, onReload, onLogout }: { data: PortalOvervie
               </div>
             )}
             {urgent && (
-              <div className="rounded-xl border-2 border-red-600 bg-white p-4 text-sm text-gray-700">
+              <div className="rounded-md border-2 border-red-600 bg-white p-4 text-sm text-gray-700">
                 <p className="flex items-center gap-2 font-bold text-gray-900">
                   <AlertTriangle className="h-4 w-4 text-red-600" /> Prioritaire behandeling
                 </p>
@@ -2300,14 +2300,14 @@ function PortalView({ data: rawData, onReload, onLogout }: { data: PortalOvervie
                 </ul>
               </div>
             )}
-            <div className="rounded-xl bg-white p-3.5 text-xs leading-relaxed text-gray-700">
+            <div className="rounded-md bg-white p-3.5 text-xs leading-relaxed text-gray-700">
               <p className="mb-1 flex items-center gap-1.5 text-sm font-semibold text-gray-900">
                 <Info className="h-4 w-4 text-primary" /> Goed om te weten
               </p>
               Prijzen gelden op weekdagen tussen 8u en 16u. Met voorrang (dringend) rekenen wij een urgentietoeslag van 50%.
               's avonds geldt +50%, 's nachts, in het weekend en op feestdagen +100%. Alle tarieven en toeslagen staan in de algemene voorwaarden hieronder.
             </div>
-            <div className="space-y-2 rounded-xl bg-white p-3.5 text-gray-900">
+            <div className="space-y-2 rounded-md bg-white p-3.5 text-gray-900">
               <TermsButton />
               <label className="flex items-start gap-2 text-sm !text-gray-900">
                 <Checkbox className="mt-0.5" checked={termsAccepted} onCheckedChange={(v) => setTermsAccepted(v === true)} />
@@ -2370,7 +2370,7 @@ function PortalView({ data: rawData, onReload, onLogout }: { data: PortalOvervie
                 to={PAGE_PATH[n.page]}
                 aria-current={page === n.page ? "page" : undefined}
                 className={cn(
-                  "relative inline-flex items-center gap-1.5 whitespace-nowrap rounded-lg px-2.5 py-2 text-sm font-medium transition-colors",
+                  "relative inline-flex items-center gap-1.5 whitespace-nowrap rounded px-2.5 py-2 text-sm font-medium transition-colors",
                   page === n.page ? "bg-[#1e2e34] text-white" : "text-gray-700 hover:bg-black/5 hover:text-gray-900",
                 )}
               >
@@ -2378,7 +2378,7 @@ function PortalView({ data: rawData, onReload, onLogout }: { data: PortalOvervie
                 {n.badge ? (
                   <span
                     className={cn(
-                      "rounded-full px-1.5 text-[11px] font-semibold tabular-nums",
+                      "rounded-sm px-1.5 text-[11px] font-semibold tabular-nums",
                       page === n.page ? "bg-white/20 text-white" : "bg-primary/10 text-primary",
                     )}
                   >
@@ -2391,7 +2391,7 @@ function PortalView({ data: rawData, onReload, onLogout }: { data: PortalOvervie
           <div className="flex items-center gap-1 sm:gap-2">
             <a
               href="tel:+32472502814"
-              className="hidden items-center gap-1.5 rounded-lg bg-red-600 px-3 py-2 text-sm font-semibold text-white hover:bg-red-700 lg:inline-flex"
+              className="hidden items-center gap-1.5 rounded bg-red-600 px-3 py-2 text-sm font-semibold text-white hover:bg-red-700 lg:inline-flex"
             >
               <Phone className="h-4 w-4" /> Dringend
             </a>
@@ -2401,7 +2401,7 @@ function PortalView({ data: rawData, onReload, onLogout }: { data: PortalOvervie
             <Button variant="ghost" size="icon" className="hidden lg:inline-flex" onClick={onLogout} aria-label="Uitloggen" title="Uitloggen">
               <LogOut className="h-4 w-4" />
             </Button>
-            <a href="tel:+32472502814" aria-label="Bel Riory" className="flex h-10 w-10 items-center justify-center rounded-lg bg-red-600 text-white lg:hidden">
+            <a href="tel:+32472502814" aria-label="Bel Riory" className="flex h-10 w-10 items-center justify-center rounded bg-red-600 text-white lg:hidden">
               <Phone className="h-5 w-5" />
             </a>
             <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
@@ -2421,14 +2421,14 @@ function PortalView({ data: rawData, onReload, onLogout }: { data: PortalOvervie
                       onClick={() => setMenuOpen(false)}
                       aria-current={page === n.page ? "page" : undefined}
                       className={cn(
-                        "flex items-center gap-3 rounded-lg px-3 py-3 text-base font-medium",
+                        "flex items-center gap-3 rounded px-3 py-3 text-base font-medium",
                         page === n.page ? "bg-[#1e2e34] text-white" : "text-gray-800 hover:bg-black/5",
                       )}
                     >
                       {n.icon}
                       <span className="flex-1">{n.label}</span>
                       {n.badge ? (
-                        <span className={cn("rounded-full px-2 text-xs font-semibold", page === n.page ? "bg-white/20" : "bg-primary/10 text-primary")}>
+                        <span className={cn("rounded-sm px-2 text-xs font-semibold", page === n.page ? "bg-white/20" : "bg-primary/10 text-primary")}>
                           {n.badge}
                         </span>
                       ) : null}
@@ -2438,7 +2438,7 @@ function PortalView({ data: rawData, onReload, onLogout }: { data: PortalOvervie
                 <div className="mt-auto space-y-2 border-t p-4">
                   <a
                     href="tel:+32472502814"
-                    className="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-red-600 font-semibold text-white"
+                    className="flex h-12 w-full items-center justify-center gap-2 rounded-md bg-red-600 font-semibold text-white"
                   >
                     <Phone className="h-5 w-5" /> Dringend: bel ons
                   </a>
@@ -2465,7 +2465,7 @@ function PortalView({ data: rawData, onReload, onLogout }: { data: PortalOvervie
 
       <main className="mx-auto w-full max-w-6xl px-4 pb-16 pt-6 sm:pt-8">
         {data.preview && (
-          <div className="mb-5 rounded-xl border border-violet-200 bg-violet-50 px-4 py-3 text-sm text-violet-900">
+          <div className="mb-5 rounded-md border border-violet-200 bg-violet-50 px-4 py-3 text-sm text-violet-900">
             <span className="font-semibold">Voorbeeldweergave</span> — u bekijkt het portaal zoals klant{" "}
             <span className="font-semibold">{data.preview.name}</span> het ziet. Aanpassen en aanvragen zijn uitgeschakeld.
           </div>
@@ -2480,7 +2480,7 @@ function PortalView({ data: rawData, onReload, onLogout }: { data: PortalOvervie
           <button
             type="button"
             onClick={() => setProblemOpen(true)}
-            className="inline-flex items-center gap-1.5 rounded-full border border-black/10 bg-white px-4 py-2 text-sm font-medium text-gray-600 hover:bg-black/5 hover:text-gray-900"
+            className="inline-flex items-center gap-1.5 rounded-sm border border-black/10 bg-white px-4 py-2 text-sm font-medium text-gray-600 hover:bg-black/5 hover:text-gray-900"
           >
             <LifeBuoy className="h-4 w-4" /> Probleem met het klantportaal? Meld het hier
           </button>
