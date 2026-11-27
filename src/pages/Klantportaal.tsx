@@ -6,6 +6,8 @@ import {
   CalendarClock,
   CalendarPlus,
   CheckCircle2,
+  KeyRound,
+  EyeOff,
   FileText,
   Info,
   Clock,
@@ -60,6 +62,10 @@ import {
   requestAppointment,
   requestInvoiceCopy,
   reportProblem,
+  requestPasswordReset,
+  passwordLogin,
+  setNewPassword,
+  resetTokenFromHash,
   decideQuote,
   cancelAppointment,
   brusselsTime,
@@ -157,9 +163,81 @@ const LOGIN_ERRORS: Record<string, string> = {
   google: "Inloggen met Google is niet gelukt. Probeer opnieuw of vraag een inloglink per mail.",
 };
 
-function LoginView({ initialError }: { initialError: string }) {
+function SetPasswordView({ token, onDone }: { token: string; onDone: () => void }) {
+  const [pw, setPw] = useState("");
+  const [pw2, setPw2] = useState("");
+  const [show, setShow] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
+  const strong = pw.length >= 8 && /[A-Za-z]/.test(pw) && /\d/.test(pw);
+
+  async function submit(e: React.FormEvent) {
+    e.preventDefault();
+    setError("");
+    if (!strong) return setError("Kies een wachtwoord van minstens 8 tekens met een letter en een cijfer.");
+    if (pw !== pw2) return setError("De twee wachtwoorden zijn niet gelijk.");
+    setBusy(true);
+    try {
+      await setNewPassword(token, pw);
+      toast.success("Uw wachtwoord is ingesteld.");
+      onDone();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Wachtwoord instellen mislukt.");
+      setBusy(false);
+    }
+  }
+
+  return (
+    <div className="flex flex-1 items-center justify-center px-4 py-10">
+      <form
+        onSubmit={submit}
+        className="w-full max-w-[420px] space-y-5 rounded-2xl border border-black/5 bg-white p-7 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_12px_32px_-12px_rgba(0,0,0,0.12)]"
+      >
+        <img src={logo} alt="Riory" className="h-7 w-auto" />
+        <div className="space-y-1.5">
+          <h1 className="text-2xl font-bold tracking-tight text-gray-900">Wachtwoord instellen</h1>
+          <p className="text-sm text-gray-500">Kies een wachtwoord van minstens 8 tekens, met een letter en een cijfer.</p>
+        </div>
+        {error && (
+          <p role="alert" className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">
+            {error}
+          </p>
+        )}
+        <div className="space-y-1.5">
+          <Label htmlFor="new-pw">Nieuw wachtwoord</Label>
+          <div className="relative">
+            <Input id="new-pw" type={show ? "text" : "password"} autoComplete="new-password" className="h-11 pr-11" value={pw} onChange={(e) => setPw(e.target.value)} />
+            <button
+              type="button"
+              onClick={() => setShow((v) => !v)}
+              aria-label={show ? "Wachtwoord verbergen" : "Wachtwoord tonen"}
+              className="absolute right-1 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center text-gray-500"
+            >
+              {show ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+            </button>
+          </div>
+          <p className={cn("text-xs", strong ? "text-emerald-700" : "text-gray-500")}>
+            {strong ? "✓ Sterk genoeg" : "Minstens 8 tekens, een letter en een cijfer"}
+          </p>
+        </div>
+        <div className="space-y-1.5">
+          <Label htmlFor="new-pw2">Herhaal wachtwoord</Label>
+          <Input id="new-pw2" type={show ? "text" : "password"} autoComplete="new-password" className="h-11" value={pw2} onChange={(e) => setPw2(e.target.value)} />
+        </div>
+        <Button className="h-11 w-full font-semibold" disabled={busy}>
+          {busy ? <LoaderCircle className="h-4 w-4 animate-spin" /> : "Wachtwoord opslaan en inloggen"}
+        </Button>
+      </form>
+    </div>
+  );
+}
+
+function LoginView({ initialError, onLoggedIn }: { initialError: string; onLoggedIn: () => void }) {
+  const [mode, setMode] = useState<"password" | "link" | "forgot">("password");
   const [email, setEmail] = useState("");
-  const [sent, setSent] = useState(false);
+  const [password, setPassword] = useState("");
+  const [showPw, setShowPw] = useState(false);
+  const [sent, setSent] = useState<"" | "link" | "reset">("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState(initialError);
 
@@ -168,14 +246,41 @@ function LoginView({ initialError }: { initialError: string }) {
     setError("");
     setBusy(true);
     try {
-      await requestLoginLink(email);
-      setSent(true);
+      if (mode === "password") {
+        await passwordLogin(email, password);
+        onLoggedIn();
+        return;
+      }
+      if (mode === "forgot") {
+        await requestPasswordReset(email);
+        setSent("reset");
+      } else {
+        await requestLoginLink(email);
+        setSent("link");
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Er ging iets mis. Probeer opnieuw.");
     } finally {
       setBusy(false);
     }
   }
+
+  const emailField = (
+    <div className="space-y-1.5">
+      <Label htmlFor="portal-email">E-mailadres</Label>
+      <Input
+        id="portal-email"
+        type="email"
+        autoComplete="email"
+        inputMode="email"
+        placeholder="naam@voorbeeld.be"
+        required
+        className="h-11"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+    </div>
+  );
 
   return (
     <div className="flex flex-1 items-center justify-center px-4 py-10">
@@ -198,7 +303,8 @@ function LoginView({ initialError }: { initialError: string }) {
                 <h1 className="text-xl font-bold tracking-tight text-gray-900">Check uw mailbox</h1>
                 <p className="text-sm leading-relaxed text-gray-500">
                   Is <span className="font-medium text-gray-900">{email.trim().toLowerCase()}</span> bij ons gekend? Dan
-                  ontvangt u binnen een minuut een inloglink van Riory.
+                  ontvangt u binnen een minuut {sent === "reset" ? "een link om uw wachtwoord in te stellen" : "een inloglink"}{" "}
+                  van Riory.
                 </p>
               </div>
               <ul className="space-y-1.5 rounded-xl bg-[#f6f5f2] p-4 text-left text-sm text-gray-500">
@@ -211,53 +317,132 @@ function LoginView({ initialError }: { initialError: string }) {
                   Kijk ook even in uw map ongewenste e-mail.
                 </li>
               </ul>
-              <Button variant="ghost" className="w-full" onClick={() => setSent(false)}>
-                Ander e-mailadres gebruiken
+              <Button
+                variant="ghost"
+                className="w-full"
+                onClick={() => {
+                  setSent("");
+                  setMode("password");
+                }}
+              >
+                Terug naar inloggen
               </Button>
             </div>
           ) : (
             <form onSubmit={submit} className="space-y-5">
               <div className="space-y-1.5">
-                <h1 className="text-2xl font-bold tracking-tight text-gray-900">Klantenportaal</h1>
+                <h1 className="text-2xl font-bold tracking-tight text-gray-900">
+                  {mode === "forgot" ? "Wachtwoord vergeten" : "Klantenportaal"}
+                </h1>
                 <p className="text-sm leading-relaxed text-gray-500">
-                  Log in met het e-mailadres waarop u facturen van Riory ontvangt. U krijgt een veilige inloglink, zonder
-                  wachtwoord.
+                  {mode === "forgot"
+                    ? "Vul het e-mailadres in waarop u facturen van Riory ontvangt. U krijgt een link om een (nieuw) wachtwoord in te stellen."
+                    : "Log in met het e-mailadres waarop u facturen van Riory ontvangt."}
                 </p>
               </div>
+              {mode !== "forgot" && (
+                <div className="grid grid-cols-2 gap-1 rounded-lg bg-gray-100 p-1" role="tablist">
+                  {(
+                    [
+                      ["password", "Met wachtwoord"],
+                      ["link", "Met inloglink"],
+                    ] as const
+                  ).map(([m, label]) => (
+                    <button
+                      key={m}
+                      type="button"
+                      role="tab"
+                      aria-selected={mode === m}
+                      onClick={() => {
+                        setMode(m);
+                        setError("");
+                      }}
+                      className={cn(
+                        "h-9 rounded-md text-sm font-medium transition-colors",
+                        mode === m ? "bg-white text-gray-900 shadow-sm" : "text-gray-500 hover:text-gray-900",
+                      )}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
+              )}
               {error && (
                 <p role="alert" className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">
                   {error}
                 </p>
               )}
-              <div className="space-y-1.5">
-                <Label htmlFor="portal-email">E-mailadres</Label>
-                <Input
-                  id="portal-email"
-                  type="email"
-                  autoComplete="email"
-                  inputMode="email"
-                  placeholder="naam@voorbeeld.be"
-                  required
-                  className="h-11"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </div>
+              {emailField}
+              {mode === "password" && (
+                <div className="space-y-1.5">
+                  <div className="flex items-center justify-between">
+                    <Label htmlFor="portal-password">Wachtwoord</Label>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setMode("forgot");
+                        setError("");
+                      }}
+                      className="text-sm font-medium text-primary hover:underline"
+                    >
+                      Wachtwoord vergeten?
+                    </button>
+                  </div>
+                  <div className="relative">
+                    <Input
+                      id="portal-password"
+                      type={showPw ? "text" : "password"}
+                      autoComplete="current-password"
+                      required
+                      className="h-11 pr-11"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPw((v) => !v)}
+                      aria-label={showPw ? "Wachtwoord verbergen" : "Wachtwoord tonen"}
+                      className="absolute right-1 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center text-gray-500"
+                    >
+                      {showPw ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    </button>
+                  </div>
+                </div>
+              )}
               <Button className="h-11 w-full text-[15px] font-semibold" disabled={busy}>
-                {busy ? <LoaderCircle className="h-4 w-4 animate-spin" /> : "Stuur mij een inloglink"}
+                {busy ? (
+                  <LoaderCircle className="h-4 w-4 animate-spin" />
+                ) : mode === "password" ? (
+                  "Inloggen"
+                ) : mode === "forgot" ? (
+                  "Stuur mij een link"
+                ) : (
+                  "Stuur mij een inloglink"
+                )}
               </Button>
-              <div className="flex items-center gap-3 text-xs text-gray-400">
-                <span className="h-px flex-1 bg-gray-200" />
-                of
-                <span className="h-px flex-1 bg-gray-200" />
-              </div>
-              <a
-                href={GOOGLE_LOGIN_URL}
-                className="flex h-11 w-full items-center justify-center gap-3 rounded-md border border-gray-300 bg-white text-[15px] font-medium text-gray-800 transition-colors hover:bg-gray-50"
-              >
-                <GoogleIcon />
-                Inloggen met Google
-              </a>
+              {mode === "forgot" ? (
+                <Button type="button" variant="ghost" className="w-full" onClick={() => setMode("password")}>
+                  Terug naar inloggen
+                </Button>
+              ) : (
+                <>
+                  <div className="flex items-center gap-3 text-xs text-gray-400">
+                    <span className="h-px flex-1 bg-gray-200" />
+                    of
+                    <span className="h-px flex-1 bg-gray-200" />
+                  </div>
+                  <a
+                    href={GOOGLE_LOGIN_URL}
+                    className="flex h-11 w-full items-center justify-center gap-3 rounded-md border border-gray-300 bg-white text-[15px] font-medium text-gray-800 transition-colors hover:bg-gray-50"
+                  >
+                    <GoogleIcon />
+                    Inloggen met Google
+                  </a>
+                  <p className="text-center text-xs text-gray-500">
+                    Nog geen wachtwoord? Kies <span className="font-medium">Wachtwoord vergeten</span> om er een in te stellen.
+                  </p>
+                </>
+              )}
             </form>
           )}
         </div>
@@ -715,6 +900,41 @@ function TermsButton({ className }: { className?: string }) {
         </DialogContent>
       </Dialog>
     </>
+  );
+}
+
+function PasswordPanel({ email }: { email: string }) {
+  const [busy, setBusy] = useState(false);
+  const [sent, setSent] = useState(false);
+  async function send() {
+    setBusy(true);
+    try {
+      await requestPasswordReset(email);
+      setSent(true);
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Versturen mislukt.");
+    } finally {
+      setBusy(false);
+    }
+  }
+  return (
+    <Panel className="mt-4 p-4 sm:p-5">
+      <p className="flex items-center gap-2 font-semibold text-gray-900">
+        <KeyRound className="h-4 w-4 text-primary" /> Wachtwoord
+      </p>
+      <p className="mt-1 text-sm text-gray-500">
+        Liever inloggen met een wachtwoord? Wij sturen een link naar {email} om er een in te stellen of te wijzigen.
+      </p>
+      {sent ? (
+        <p className="mt-3 rounded-lg bg-emerald-50 px-3 py-2 text-sm text-emerald-800">
+          Verstuurd. Kijk in uw mailbox (ook bij ongewenste e-mail).
+        </p>
+      ) : (
+        <Button variant="outline" className="mt-3 h-10 gap-2" disabled={busy} onClick={send}>
+          {busy && <LoaderCircle className="h-4 w-4 animate-spin" />} Wachtwoord instellen of wijzigen
+        </Button>
+      )}
+    </Panel>
   );
 }
 
@@ -2057,6 +2277,7 @@ function PortalView({ data: rawData, onReload, onLogout }: { data: PortalOvervie
           onSaved={onReload}
           onAuthError={onLogout}
         />
+        <PasswordPanel email={data.accountEmail} />
       </div>
     </>
   ) : (
@@ -2231,7 +2452,8 @@ function PortalView({ data: rawData, onReload, onLogout }: { data: PortalOvervie
 export default function Klantportaal() {
   useDocumentMeta("Klantenportaal | Riory", "Uw werkbonnen, facturen en offertes bij Riory op één plek.");
   useNoIndex();
-  const [state, setState] = useState<"loading" | "login" | "portal" | "error">("loading");
+  const [state, setState] = useState<"loading" | "login" | "portal" | "error" | "reset">("loading");
+  const [resetToken, setResetToken] = useState<string | null>(null);
   const [loadError, setLoadError] = useState("");
   const [data, setData] = useState<PortalOverview | null>(null);
   const [loginError, setLoginError] = useState("");
@@ -2263,6 +2485,13 @@ export default function Klantportaal() {
       if (fout) {
         setLoginError(LOGIN_ERRORS[fout] ?? LOGIN_ERRORS.google);
         window.history.replaceState(null, "", window.location.pathname);
+      }
+      const reset = resetTokenFromHash(window.location.hash);
+      if (reset) {
+        window.history.replaceState(null, "", window.location.pathname + window.location.search);
+        setResetToken(reset);
+        setState("reset");
+        return;
       }
       const token = loginTokenFromHash(window.location.hash);
       if (token) {
@@ -2318,8 +2547,23 @@ export default function Klantportaal() {
             </Button>
           </div>
         </div>
+      ) : state === "reset" && resetToken ? (
+        <SetPasswordView
+          token={resetToken}
+          onDone={() => {
+            setResetToken(null);
+            setState("loading");
+            void load();
+          }}
+        />
       ) : state === "login" || !data ? (
-        <LoginView initialError={loginError} />
+        <LoginView
+          initialError={loginError}
+          onLoggedIn={() => {
+            setState("loading");
+            void load();
+          }}
+        />
       ) : (
         <PortalView data={data} onReload={load} onLogout={logout} />
       )}

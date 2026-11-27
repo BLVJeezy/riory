@@ -310,6 +310,25 @@ export function loginTokenFromHash(hash: string): string | null {
   return token && /^[a-zA-Z0-9_-]{32,512}$/.test(token) ? token : null;
 }
 
+export function resetTokenFromHash(hash: string): string | null {
+  const token = new URLSearchParams(hash.replace(/^#/, "")).get("reset");
+  return token && /^[a-zA-Z0-9_-]{32,512}$/.test(token) ? token : null;
+}
+
+export async function requestPasswordReset(email: string): Promise<void> {
+  await call("login", { email: email.trim().toLowerCase(), kind: "reset" }, false);
+}
+
+export async function passwordLogin(email: string, password: string): Promise<void> {
+  const res = await call("password-login", { email: email.trim().toLowerCase(), password }, false);
+  storeToken((await res.json()) as StoredToken);
+}
+
+export async function setNewPassword(token: string, password: string): Promise<void> {
+  const res = await call("set-password", { token, password }, false);
+  storeToken((await res.json()) as StoredToken);
+}
+
 /** Trade the one-time login link for a portal token. Throws with a readable message on failure. */
 export async function verifyLoginToken(token: string): Promise<void> {
   const res = await call("exchange", { token }, false);
