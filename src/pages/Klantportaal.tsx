@@ -1295,6 +1295,9 @@ function PortalView({ data: rawData, onReload, onLogout }: { data: PortalOvervie
   const [apptId, setApptId] = useState<string | null>(null);
   const [prefDate, setPrefDate] = useState<Date | undefined>(undefined);
   const [termsAccepted, setTermsAccepted] = useState(false);
+  const [regenput, setRegenput] = useState("");
+  const [regenputOther, setRegenputOther] = useState("");
+  const [dakgoot, setDakgoot] = useState({ v1: "", v2: "", v3: "" });
   const [prefPart, setPrefPart] = useState<"" | "voormiddag" | "namiddag" | "maakt niet uit">("");
   async function quoteDone(id: string, decision: "akkoord" | "geweigerd", name?: string) {
     if (id.startsWith("demo-")) {
@@ -1369,10 +1372,21 @@ function PortalView({ data: rawData, onReload, onLogout }: { data: PortalOvervie
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    // Same follow-up questions as the appointment form on riory.be.
+    let extra = "";
+    if (service === "regenput") {
+      const size = regenput === "Andere maat" ? regenputOther.trim() : regenput;
+      if (!size) return toast.error("Kies de grootte van uw regenput.");
+      extra = `Grootte regenput: ${size}`;
+    } else if (service === "dakgoot") {
+      const total = ["v1", "v2", "v3"].reduce((sum, k) => sum + (parseFloat(dakgoot[k as "v1"]) || 0), 0);
+      if (total === 0) return toast.error("Vul de meters dakgoot per verdieping in.");
+      extra = `Dakgoot meters — 1 verdiep: ${dakgoot.v1 || "0"}m, 2 verdiepen: ${dakgoot.v2 || "0"}m, 3 verdiepen: ${dakgoot.v3 || "0"}m`;
+    }
     setSubmitting(true);
     try {
       await requestAppointment({
-        description,
+        description: extra ? `${extra}\n\n${description}` : description,
         preferredWindow:
           [
             prefDate ? format(prefDate, "EEEE d MMMM", { locale: nl }) : "",
@@ -1383,7 +1397,7 @@ function PortalView({ data: rawData, onReload, onLogout }: { data: PortalOvervie
         contactPhone: contactPhone || undefined,
         customerId: customerId || undefined,
         service: service || undefined,
-        urgent,
+        urgent: noUrgency ? false : urgent,
         worksiteDifferent,
         worksiteStreet: worksiteDifferent ? worksiteStreet : undefined,
         worksiteHouseNumber: worksiteDifferent ? worksiteHouseNumber : undefined,
@@ -1396,6 +1410,9 @@ function PortalView({ data: rawData, onReload, onLogout }: { data: PortalOvervie
       setPrefDate(undefined);
       setPrefPart("");
       setTermsAccepted(false);
+      setRegenput("");
+      setRegenputOther("");
+      setDakgoot({ v1: "", v2: "", v3: "" });
       setUrgent(false);
       setWorksiteDifferent(false);
       setWorksiteStreet("");
@@ -1423,6 +1440,8 @@ function PortalView({ data: rawData, onReload, onLogout }: { data: PortalOvervie
     return [...seen.values()];
   })();
   const today = localToday();
+  // Rain tank and gutter cleaning are planned work, like on the riory.be form: no priority option.
+  const noUrgency = service === "regenput" || service === "dakgoot";
   const currentAddress = (addressOptions.find((o) => o.id === customerId) ?? addressOptions[0])?.label ?? "";
   const openInvoices = data.invoices.filter((i) => i.state === "open" || i.state === "vervallen");
   const overdue = data.invoices.filter((i) => i.state === "vervallen");
@@ -1832,6 +1851,62 @@ function PortalView({ data: rawData, onReload, onLogout }: { data: PortalOvervie
                 onChange={(e) => setDescription(e.target.value)}
               />
             </div>
+            {service === "regenput" && (
+              <div className="space-y-2 rounded-xl bg-white p-3.5 text-gray-900">
+                <p className="text-sm font-semibold">Hoe groot is uw regenput?</p>
+                <p className="text-xs text-gray-500">Dit helpt ons een correcte prijs te berekenen.</p>
+                <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+                  {["Tot 5.000 L", "7.500 L", "10.000 L", "15.000 L", "20.000 L", "Ik weet het niet", "Andere maat"].map((opt) => (
+                    <button
+                      key={opt}
+                      type="button"
+                      aria-pressed={regenput === opt}
+                      onClick={() => setRegenput(opt)}
+                      className={cn(
+                        "min-h-11 rounded-lg border px-2 py-2 text-sm font-medium",
+                        regenput === opt ? "border-primary bg-primary text-white" : "border-gray-200 bg-white text-gray-700 hover:bg-gray-50",
+                      )}
+                    >
+                      {opt}
+                    </button>
+                  ))}
+                </div>
+                {regenput === "Andere maat" && (
+                  <Input className="h-11" placeholder="Vul de maat in (bv. 25.000 L)" value={regenputOther} onChange={(e) => setRegenputOther(e.target.value)} />
+                )}
+              </div>
+            )}
+            {service === "dakgoot" && (
+              <div className="space-y-2 rounded-xl bg-white p-3.5 text-gray-900">
+                <p className="text-sm font-semibold">Geschatte meters dakgoot per verdieping</p>
+                <p className="text-xs text-gray-500">Geldig tot 3 verdiepen of 10 meter hoogte. Minimum 10 m te reinigen.</p>
+                <div className="grid grid-cols-3 gap-2">
+                  {(
+                    [
+                      ["v1", "1 verdiep"],
+                      ["v2", "2 verdiepen"],
+                      ["v3", "3 verdiepen"],
+                    ] as const
+                  ).map(([k, label]) => (
+                    <div key={k} className="space-y-1">
+                      <label htmlFor={`dg-${k}`} className="block text-xs font-medium !text-gray-700">
+                        {label}
+                      </label>
+                      <Input
+                        id={`dg-${k}`}
+                        type="number"
+                        inputMode="decimal"
+                        min={0}
+                        placeholder="meter"
+                        className="h-11"
+                        value={dakgoot[k]}
+                        onChange={(e) => setDakgoot((d) => ({ ...d, [k]: e.target.value }))}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
             <div className="space-y-1.5">
               <Label>Wanneer past het u?</Label>
               <div className="grid gap-3 rounded-xl bg-white p-3 text-gray-900 sm:grid-cols-[auto_1fr] sm:items-start">
@@ -1879,10 +1954,10 @@ function PortalView({ data: rawData, onReload, onLogout }: { data: PortalOvervie
               <Label htmlFor="pa-phone">Telefoon</Label>
               <Input id="pa-phone" className="h-11" type="tel" value={contactPhone} onChange={(e) => setContactPhone(e.target.value)} />
             </div>
-            <div className="grid gap-2 sm:grid-cols-2">
+            <div className={cn("grid gap-2", !noUrgency && "sm:grid-cols-2")}>
               {(
                 [
-                  [urgent, setUrgent, <AlertTriangle key="u" className="h-5 w-5" />, "Dringend", "Binnen 24u ter plaatse · toeslag van 50%"],
+                  ...(noUrgency ? [] : ([[urgent, setUrgent, <AlertTriangle key="u" className="h-5 w-5" />, "Dringend", "Binnen 24u ter plaatse · toeslag van 50%"]] as const)),
                   [worksiteDifferent, setWorksiteDifferent, <MapPin key="m" className="h-5 w-5" />, "Ander werkadres", currentAddress ? `Nu: ${currentAddress}` : "De werken zijn niet op uw gekende adres."],
                 ] as const
               ).map(([on, set, icon, title, sub]) => (
@@ -1931,7 +2006,7 @@ function PortalView({ data: rawData, onReload, onLogout }: { data: PortalOvervie
                 <Input className="h-11" placeholder="Postcode" value={worksitePostalCode} onChange={(e) => setWorksitePostalCode(e.target.value)} />
               </div>
             )}
-            {urgent && (
+            {urgent && !noUrgency && (
               <div className="rounded-xl border-2 border-red-600 bg-white p-4 text-sm text-gray-700">
                 <p className="flex items-center gap-2 font-bold text-gray-900">
                   <AlertTriangle className="h-4 w-4 text-red-600" /> Prioritaire behandeling
