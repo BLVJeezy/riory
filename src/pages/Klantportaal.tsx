@@ -6,6 +6,8 @@ import {
   CalendarClock,
   CalendarPlus,
   CheckCircle2,
+  FileText,
+  Info,
   Clock,
   Sunset,
   Sunrise,
@@ -869,6 +871,14 @@ function QuoteDialog({
           <span className="text-lg font-bold tabular-nums">{euro(open ? shownTotal : quote.total)}</span>
         </div>
 
+        <a
+          href="/algemene-voorwaarden"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex h-10 items-center justify-center gap-2 rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:bg-gray-50"
+        >
+          <FileText className="h-4 w-4" /> Algemene voorwaarden bekijken
+        </a>
         {quote.status === "akkoord" && (
           <p className="text-sm text-gray-600">
             Goedgekeurd{quote.signedName ? ` door ${quote.signedName}` : ""}{quote.signedAt ? ` op ${formatDate(quote.signedAt)}` : ""}.
@@ -896,7 +906,13 @@ function QuoteDialog({
             <SignaturePad onChange={setSignature} />
             <label className="flex items-start gap-2 text-sm text-gray-700">
               <Checkbox className="mt-0.5" checked={agree} onCheckedChange={(v) => setAgree(v === true)} />
-              Ik ga akkoord met deze offerte en de algemene voorwaarden van Riory.
+              <span>
+                Ik ga akkoord met deze offerte en de{" "}
+                <a href="/algemene-voorwaarden" target="_blank" rel="noopener noreferrer" className="font-medium text-primary underline underline-offset-2">
+                  algemene voorwaarden
+                </a>{" "}
+                van Riory.
+              </span>
             </label>
             <div className="grid grid-cols-2 gap-2">
               <Button variant="ghost" className="h-11" onClick={() => setMode("view")}>
@@ -1256,6 +1272,7 @@ function PortalView({ data: rawData, onReload, onLogout }: { data: PortalOvervie
   const [quoteId, setQuoteId] = useState<string | null>(null);
   const [apptId, setApptId] = useState<string | null>(null);
   const [prefDate, setPrefDate] = useState<Date | undefined>(undefined);
+  const [termsAccepted, setTermsAccepted] = useState(false);
   const [prefPart, setPrefPart] = useState<"" | "voormiddag" | "namiddag" | "maakt niet uit">("");
   async function quoteDone(id: string, decision: "akkoord" | "geweigerd", name?: string) {
     if (id.startsWith("demo-")) {
@@ -1356,6 +1373,7 @@ function PortalView({ data: rawData, onReload, onLogout }: { data: PortalOvervie
       setService("");
       setPrefDate(undefined);
       setPrefPart("");
+      setTermsAccepted(false);
       setUrgent(false);
       setWorksiteDifferent(false);
       setWorksiteStreet("");
@@ -1383,6 +1401,7 @@ function PortalView({ data: rawData, onReload, onLogout }: { data: PortalOvervie
     return [...seen.values()];
   })();
   const today = localToday();
+  const currentAddress = (addressOptions.find((o) => o.id === customerId) ?? addressOptions[0])?.label ?? "";
   const openInvoices = data.invoices.filter((i) => i.state === "open" || i.state === "vervallen");
   const overdue = data.invoices.filter((i) => i.state === "vervallen");
   const openAmount = openInvoices.reduce((s, i) => s + i.openAmount, 0);
@@ -1841,8 +1860,8 @@ function PortalView({ data: rawData, onReload, onLogout }: { data: PortalOvervie
             <div className="grid gap-2 sm:grid-cols-2">
               {(
                 [
-                  [urgent, setUrgent, <AlertTriangle key="u" className="h-5 w-5" />, "Dringend", "Water staat of loopt over? Wij komen zo snel mogelijk."],
-                  [worksiteDifferent, setWorksiteDifferent, <MapPin key="m" className="h-5 w-5" />, "Ander werkadres", "De werken zijn niet op uw gekende adres."],
+                  [urgent, setUrgent, <AlertTriangle key="u" className="h-5 w-5" />, "Dringend", "Binnen 24u ter plaatse · toeslag van 50%"],
+                  [worksiteDifferent, setWorksiteDifferent, <MapPin key="m" className="h-5 w-5" />, "Ander werkadres", currentAddress ? `Nu: ${currentAddress}` : "De werken zijn niet op uw gekende adres."],
                 ] as const
               ).map(([on, set, icon, title, sub]) => (
                 <button
@@ -1882,15 +1901,52 @@ function PortalView({ data: rawData, onReload, onLogout }: { data: PortalOvervie
               ))}
             </div>
             {worksiteDifferent && (
-              <div className="grid grid-cols-[1fr_80px] gap-2 rounded-xl bg-white/15 p-3">
-                <p className="col-span-2 text-sm font-semibold">Werkadres</p>
+              <div className="grid grid-cols-[1fr_80px] gap-2 rounded-xl bg-white p-3 text-gray-900">
+                <p className="col-span-2 text-sm font-semibold">Werkadres voor deze aanvraag</p>
                 <Input className="h-11" placeholder="Straat" value={worksiteStreet} onChange={(e) => setWorksiteStreet(e.target.value)} required />
                 <Input className="h-11" placeholder="Nr." value={worksiteHouseNumber} onChange={(e) => setWorksiteHouseNumber(e.target.value)} />
                 <Input className="h-11" placeholder="Gemeente" value={worksiteCity} onChange={(e) => setWorksiteCity(e.target.value)} required />
                 <Input className="h-11" placeholder="Postcode" value={worksitePostalCode} onChange={(e) => setWorksitePostalCode(e.target.value)} />
               </div>
             )}
-            <Button className="h-11 w-full gap-2 bg-[#1e2e34] font-semibold text-white hover:bg-[#1e2e34]/90" disabled={submitting || readOnly}>
+            {urgent && (
+              <div className="rounded-xl border-2 border-red-600 bg-white p-4 text-sm text-gray-700">
+                <p className="flex items-center gap-2 font-bold text-gray-900">
+                  <AlertTriangle className="h-4 w-4 text-red-600" /> Prioritaire behandeling
+                </p>
+                <ul className="mt-2 space-y-1">
+                  <li className="flex gap-2"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-red-600" />Uw aanvraag gaat vóór alle gewone aanvragen.</li>
+                  <li className="flex gap-2"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-red-600" />Wij zijn binnen 24 uur bij u ter plaatse.</li>
+                  <li className="flex gap-2"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-red-600" />Hiervoor rekenen wij een urgentietoeslag van 50%.</li>
+                </ul>
+              </div>
+            )}
+            <div className="rounded-xl bg-white p-3.5 text-xs leading-relaxed text-gray-700">
+              <p className="mb-1 flex items-center gap-1.5 text-sm font-semibold text-gray-900">
+                <Info className="h-4 w-4 text-primary" /> Goed om te weten
+              </p>
+              Prijzen gelden op weekdagen tussen 8u en 16u. Met voorrang (dringend) rekenen wij een urgentietoeslag van 50%.
+              's avonds geldt +50%, 's nachts, in het weekend en op feestdagen +100%. Bekijk alle tarieven en toeslagen in de{" "}
+              <a href="/algemene-voorwaarden" target="_blank" rel="noopener noreferrer" className="font-medium text-primary underline underline-offset-2">
+                algemene voorwaarden
+              </a>
+              .
+            </div>
+            <div className="space-y-2 rounded-xl bg-white p-3.5 text-gray-900">
+              <a
+                href="/algemene-voorwaarden"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex h-10 items-center justify-center gap-2 rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:bg-gray-50"
+              >
+                <FileText className="h-4 w-4" /> Algemene voorwaarden bekijken
+              </a>
+              <label className="flex items-start gap-2 text-sm !text-gray-900">
+                <Checkbox className="mt-0.5" checked={termsAccepted} onCheckedChange={(v) => setTermsAccepted(v === true)} />
+                Ik ga akkoord met de algemene voorwaarden en de toeslagen van Riory.
+              </label>
+            </div>
+            <Button className="h-11 w-full gap-2 bg-[#1e2e34] font-semibold text-white hover:bg-[#1e2e34]/90" disabled={submitting || readOnly || !termsAccepted}>
               {submitting ? <LoaderCircle className="h-4 w-4 animate-spin" /> : null}
               Aanvraag versturen
             </Button>
