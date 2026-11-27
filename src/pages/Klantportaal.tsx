@@ -1853,10 +1853,14 @@ function PortalView({ data: rawData, onReload, onLogout }: { data: PortalOvervie
                   onClick={() => set(!on)}
                   className={cn(
                     "flex items-start gap-3 rounded-xl border-2 p-3 text-left transition-colors",
-                    on ? "border-white bg-white text-gray-900 shadow-md" : "border-white/40 bg-white/10 text-white hover:bg-white/20",
+                    on
+                      ? title === "Dringend"
+                        ? "border-red-600 bg-white text-gray-900 shadow-md"
+                        : "border-[#1e2e34] bg-white text-gray-900 shadow-md"
+                      : "border-white bg-white text-gray-900 hover:bg-gray-50",
                   )}
                 >
-                  <span className={cn("mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full", on ? (title === "Dringend" ? "bg-red-600 text-white" : "bg-primary text-white") : "bg-white/20")}>
+                  <span className={cn("mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full", on ? (title === "Dringend" ? "bg-red-600 text-white" : "bg-[#1e2e34] text-white") : title === "Dringend" ? "bg-red-50 text-red-600" : "bg-gray-100 text-gray-700")}>
                     {icon}
                   </span>
                   <span className="min-w-0 flex-1">
@@ -1865,14 +1869,14 @@ function PortalView({ data: rawData, onReload, onLogout }: { data: PortalOvervie
                       <span
                         className={cn(
                           "relative inline-flex h-5 w-9 shrink-0 rounded-full transition-colors",
-                          on ? (title === "Dringend" ? "bg-red-600" : "bg-primary") : "bg-white/40",
+                          on ? (title === "Dringend" ? "bg-red-600" : "bg-[#1e2e34]") : "bg-gray-300",
                         )}
                         aria-hidden="true"
                       >
                         <span className={cn("absolute top-0.5 h-4 w-4 rounded-full bg-white transition-all", on ? "left-[18px]" : "left-0.5")} />
                       </span>
                     </span>
-                    <span className={cn("mt-0.5 block text-xs", on ? "text-gray-600" : "text-white/80")}>{sub}</span>
+                    <span className="mt-0.5 block text-xs text-gray-600">{sub}</span>
                   </span>
                 </button>
               ))}
