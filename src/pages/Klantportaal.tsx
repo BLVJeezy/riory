@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import {
@@ -6,6 +6,10 @@ import {
   CalendarClock,
   CalendarPlus,
   CheckCircle2,
+  Clock,
+  Sunset,
+  Sunrise,
+  AlertTriangle,
   ChevronRight,
   ClipboardList,
   LayoutGrid,
@@ -32,6 +36,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Calendar } from "@/components/ui/calendar";
+import { nl } from "date-fns/locale";
+import { format } from "date-fns";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
@@ -50,6 +57,13 @@ import {
   requestAppointment,
   requestInvoiceCopy,
   reportProblem,
+  decideQuote,
+  cancelAppointment,
+  brusselsTime,
+  CANCEL_HOURS,
+  applyDemoState,
+  readDemoState,
+  writeDemoState,
   updateProfile,
   requestLoginLink,
   verifyLoginToken,
@@ -669,6 +683,381 @@ function ProblemReport({
   );
 }
 
+function SignaturePad({ onChange }: { onChange: (dataUrl: string | null) => void }) {
+  const ref = useRef<HTMLCanvasElement | null>(null);
+  const drawing = useRef(false);
+  const dirty = useRef(false);
+
+  useEffect(() => {
+    const c = ref.current;
+    if (!c) return;
+    const ratio = window.devicePixelRatio || 1;
+    const rect = c.getBoundingClientRect();
+    c.width = rect.width * ratio;
+    c.height = rect.height * ratio;
+    const ctx = c.getContext("2d");
+    if (!ctx) return;
+    ctx.scale(ratio, ratio);
+    ctx.lineWidth = 2.2;
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
+    ctx.strokeStyle = "#111827";
+  }, []);
+
+  const pos = (e: React.PointerEvent<HTMLCanvasElement>) => {
+    const r = e.currentTarget.getBoundingClientRect();
+    return { x: e.clientX - r.left, y: e.clientY - r.top };
+  };
+  const down = (e: React.PointerEvent<HTMLCanvasElement>) => {
+    e.currentTarget.setPointerCapture(e.pointerId);
+    drawing.current = true;
+    const ctx = e.currentTarget.getContext("2d");
+    const p = pos(e);
+    ctx?.beginPath();
+    ctx?.moveTo(p.x, p.y);
+  };
+  const move = (e: React.PointerEvent<HTMLCanvasElement>) => {
+    if (!drawing.current) return;
+    const ctx = e.currentTarget.getContext("2d");
+    const p = pos(e);
+    ctx?.lineTo(p.x, p.y);
+    ctx?.stroke();
+    dirty.current = true;
+  };
+  const up = () => {
+    if (!drawing.current) return;
+    drawing.current = false;
+    if (dirty.current && ref.current) onChange(ref.current.toDataURL("image/png"));
+  };
+  const clear = () => {
+    const c = ref.current;
+    c?.getContext("2d")?.clearRect(0, 0, c.width, c.height);
+    dirty.current = false;
+    onChange(null);
+  };
+
+  return (
+    <div className="space-y-1.5">
+      <div className="flex items-center justify-between">
+        <Label>Handtekening</Label>
+        <button type="button" onClick={clear} className="text-xs font-medium text-gray-500 underline underline-offset-2">
+          Wissen
+        </button>
+      </div>
+      <canvas
+        ref={ref}
+        onPointerDown={down}
+        onPointerMove={move}
+        onPointerUp={up}
+        onPointerLeave={up}
+        className="h-36 w-full touch-none rounded-lg border-2 border-dashed border-gray-300 bg-white"
+        aria-label="Teken hier uw handtekening"
+      />
+    </div>
+  );
+}
+
+const DECLINE_REASONS = ["Te duur", "Ander bedrijf gekozen", "Werken niet meer nodig", "Later opnieuw bekijken"];
+
+function QuoteDialog({
+  quote,
+  defaultName,
+  readOnly,
+  onClose,
+  onDone,
+  onAuthError,
+}: {
+  quote: PortalOverview["quotes"][number] | null;
+  defaultName: string;
+  readOnly: boolean;
+  onClose: () => void;
+  onDone: (id: string, decision: "akkoord" | "geweigerd", name?: string) => Promise<void>;
+  onAuthError: () => void;
+}) {
+  const [mode, setMode] = useState<"view" | "approve" | "decline">("view");
+  const [name, setName] = useState(defaultName);
+  const [signature, setSignature] = useState<string | null>(null);
+  const [agree, setAgree] = useState(false);
+  const [options, setOptions] = useState<number[]>([]);
+  const [reasons, setReasons] = useState<string[]>([]);
+  const [reasonText, setReasonText] = useState("");
+  const [busy, setBusy] = useState(false);
+
+  useEffect(() => {
+    setMode("view");
+    setSignature(null);
+    setAgree(false);
+    setOptions([]);
+    setReasons([]);
+    setReasonText("");
+    setName(defaultName);
+  }, [quote?.id, defaultName]);
+
+  if (!quote) return null;
+  const lines = quote.lines ?? [];
+  const base = lines.filter((l) => !l.optional).reduce((s, l) => s + l.amount, 0);
+  const extra = lines.filter((l) => l.optional && options.includes(l.index)).reduce((s, l) => s + l.amount, 0);
+  const vatFactor = quote.net ? (quote.total / quote.net) : 1.21;
+  const shownTotal = lines.length ? Math.round((base + extra) * vatFactor * 100) / 100 : quote.total;
+  const open = quote.status === "verzonden";
+  const isDemo = quote.id.startsWith("demo-");
+
+  async function submit(decision: "akkoord" | "geweigerd") {
+    setBusy(true);
+    try {
+      const reason = [...reasons, reasonText.trim()].filter(Boolean).join(" — ");
+      if (!isDemo) {
+        await decideQuote({
+          quoteId: quote!.id,
+          decision,
+          ...(decision === "akkoord" ? { name: name.trim(), signature: signature ?? "", options } : { reason }),
+        });
+      }
+      await onDone(quote!.id, decision, name.trim());
+      toast.success(decision === "akkoord" ? "Bedankt! De offerte is goedgekeurd. Riory plant de werken in." : "Uw antwoord is doorgegeven aan Riory.");
+      onClose();
+    } catch (err) {
+      if (err instanceof PortalAuthError || err instanceof PortalAccessError) return onAuthError();
+      toast.error(err instanceof Error ? err.message : "Versturen mislukt.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  return (
+    <Dialog open onOpenChange={(v) => !v && onClose()}>
+      <DialogContent className="max-h-[92dvh] max-w-lg overflow-y-auto">
+        <div>
+          <DialogTitle className="flex flex-wrap items-center gap-2 text-lg">
+            {quote.kind === "verzekering" ? "Bestek" : "Offerte"} {quote.number}
+            {quote.status === "akkoord" && <Pill className="bg-emerald-600 text-white">Goedgekeurd</Pill>}
+            {quote.status === "geweigerd" && <Pill className="bg-gray-500 text-white">Geweigerd</Pill>}
+            {open && <Pill className="bg-violet-600 text-white">Wacht op uw antwoord</Pill>}
+          </DialogTitle>
+          <DialogDescription className="mt-1">
+            {quote.intro || "Offerte van Riory"} · {formatDate(quote.date)}
+          </DialogDescription>
+        </div>
+
+        {lines.length > 0 && (
+          <div className="rounded-xl border">
+            {lines.map((l) => (
+              <div key={l.index} className={cn("flex items-start justify-between gap-3 border-b px-3 py-2.5 text-sm last:border-0", l.optional && "bg-gray-50")}>
+                <label className={cn("flex min-w-0 items-start gap-2", !l.optional && "pl-0")}>
+                  {l.optional && open && mode === "approve" ? (
+                    <Checkbox
+                      className="mt-0.5"
+                      checked={options.includes(l.index)}
+                      onCheckedChange={(v) => setOptions((cur) => (v === true ? [...cur, l.index] : cur.filter((x) => x !== l.index)))}
+                    />
+                  ) : null}
+                  <span className="text-gray-800">
+                    {l.description}
+                    {l.optional && <span className="ml-1.5 text-xs font-medium text-violet-700">optie</span>}
+                    <span className="block text-xs text-gray-500">
+                      {l.quantity} {l.unit}
+                    </span>
+                  </span>
+                </label>
+                <span className="shrink-0 tabular-nums text-gray-900">{euro(l.amount)}</span>
+              </div>
+            ))}
+          </div>
+        )}
+        <div className="flex items-center justify-between rounded-xl bg-[#1e2e34] px-4 py-3 text-white">
+          <span className="text-sm">Totaal incl. btw</span>
+          <span className="text-lg font-bold tabular-nums">{euro(open ? shownTotal : quote.total)}</span>
+        </div>
+
+        {quote.status === "akkoord" && (
+          <p className="text-sm text-gray-600">
+            Goedgekeurd{quote.signedName ? ` door ${quote.signedName}` : ""}{quote.signedAt ? ` op ${formatDate(quote.signedAt)}` : ""}.
+          </p>
+        )}
+
+        {open && mode === "view" && (
+          <div className="grid grid-cols-2 gap-2">
+            <Button variant="outline" className="h-11" disabled={readOnly} onClick={() => setMode("decline")}>
+              Weigeren
+            </Button>
+            <Button className="h-11 gap-2 bg-emerald-600 font-semibold hover:bg-emerald-700" disabled={readOnly} onClick={() => setMode("approve")}>
+              <CheckCircle2 className="h-4 w-4" /> Goedkeuren
+            </Button>
+          </div>
+        )}
+
+        {open && mode === "approve" && (
+          <div className="space-y-3 rounded-xl border border-emerald-200 bg-emerald-50/60 p-3">
+            {lines.some((l) => l.optional) && <p className="text-xs text-gray-600">Vink hierboven de opties aan die u erbij wilt.</p>}
+            <div className="space-y-1.5">
+              <Label htmlFor="q-name">Uw naam</Label>
+              <Input id="q-name" className="h-11 bg-white" value={name} onChange={(e) => setName(e.target.value)} />
+            </div>
+            <SignaturePad onChange={setSignature} />
+            <label className="flex items-start gap-2 text-sm text-gray-700">
+              <Checkbox className="mt-0.5" checked={agree} onCheckedChange={(v) => setAgree(v === true)} />
+              Ik ga akkoord met deze offerte en de algemene voorwaarden van Riory.
+            </label>
+            <div className="grid grid-cols-2 gap-2">
+              <Button variant="ghost" className="h-11" onClick={() => setMode("view")}>
+                Terug
+              </Button>
+              <Button
+                className="h-11 gap-2 bg-emerald-600 font-semibold hover:bg-emerald-700"
+                disabled={busy || !agree || !signature || !name.trim()}
+                onClick={() => submit("akkoord")}
+              >
+                {busy && <LoaderCircle className="h-4 w-4 animate-spin" />} Offerte goedkeuren
+              </Button>
+            </div>
+          </div>
+        )}
+
+        {open && mode === "decline" && (
+          <div className="space-y-3 rounded-xl border p-3">
+            <p className="text-sm font-medium text-gray-800">Waarom past deze offerte niet? (optioneel)</p>
+            <div className="flex flex-wrap gap-2">
+              {DECLINE_REASONS.map((r) => {
+                const on = reasons.includes(r);
+                return (
+                  <button
+                    key={r}
+                    type="button"
+                    aria-pressed={on}
+                    onClick={() => setReasons((cur) => (on ? cur.filter((x) => x !== r) : [...cur, r]))}
+                    className={cn(
+                      "rounded-full border px-3 py-1.5 text-sm",
+                      on ? "border-[#1e2e34] bg-[#1e2e34] text-white" : "border-black/10 bg-white text-gray-700",
+                    )}
+                  >
+                    {r}
+                  </button>
+                );
+              })}
+            </div>
+            <Textarea rows={3} maxLength={1000} placeholder="Wilt u nog iets kwijt?" value={reasonText} onChange={(e) => setReasonText(e.target.value)} />
+            <div className="grid grid-cols-2 gap-2">
+              <Button variant="ghost" className="h-11" onClick={() => setMode("view")}>
+                Terug
+              </Button>
+              <Button variant="destructive" className="h-11 gap-2" disabled={busy} onClick={() => submit("geweigerd")}>
+                {busy && <LoaderCircle className="h-4 w-4 animate-spin" />} Offerte weigeren
+              </Button>
+            </div>
+          </div>
+        )}
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+function AppointmentDialog({
+  wo,
+  readOnly,
+  onClose,
+  onCancelled,
+  onAuthError,
+}: {
+  wo: WorkOrder | null;
+  readOnly: boolean;
+  onClose: () => void;
+  onCancelled: (id: string) => Promise<void>;
+  onAuthError: () => void;
+}) {
+  const [confirm, setConfirm] = useState(false);
+  const [reason, setReason] = useState("");
+  const [busy, setBusy] = useState(false);
+  useEffect(() => {
+    setConfirm(false);
+    setReason("");
+  }, [wo?.id]);
+  if (!wo || !wo.scheduledDate) return null;
+  const start = brusselsTime(wo.scheduledDate, wo.scheduledFrom);
+  const hoursLeft = (start - Date.now()) / 3600000;
+  const canCancel = hoursLeft >= CANCEL_HOURS && !wo.cancelRequested;
+
+  async function cancel() {
+    setBusy(true);
+    try {
+      if (!wo!.id.startsWith("demo-")) await cancelAppointment({ workOrderId: wo!.id, reason: reason.trim() || undefined });
+      await onCancelled(wo!.id);
+      toast.success("Uw afspraak is geannuleerd. Riory haalt ze uit de planning.");
+      onClose();
+    } catch (err) {
+      if (err instanceof PortalAuthError || err instanceof PortalAccessError) return onAuthError();
+      toast.error(err instanceof Error ? err.message : "Annuleren mislukt.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  return (
+    <Dialog open onOpenChange={(v) => !v && onClose()}>
+      <DialogContent className="max-w-md">
+        <div>
+          <DialogTitle className="text-lg">Uw afspraak</DialogTitle>
+          <DialogDescription className="mt-1">{wo.number ? `Werkbon #${wo.number}` : "Nieuwe aanvraag"}</DialogDescription>
+        </div>
+        <div className="space-y-3 rounded-xl bg-sky-50 p-4">
+          <p className="flex items-center gap-2 text-base font-semibold text-gray-900">
+            <CalendarClock className="h-5 w-5 text-sky-700" />
+            {formatDate(wo.scheduledDate, { weekday: "long", day: "numeric", month: "long" })}
+          </p>
+          {wo.scheduledFrom && (
+            <p className="pl-7 text-sm text-gray-700">
+              Tussen {wo.scheduledFrom}
+              {wo.scheduledUntil ? ` en ${wo.scheduledUntil}` : ""}
+            </p>
+          )}
+          {wo.address && (
+            <p className="flex items-start gap-2 text-sm text-gray-700">
+              <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-sky-700" /> {wo.address}
+            </p>
+          )}
+          {wo.description && <p className="pl-6 text-sm text-gray-600">{wo.description}</p>}
+        </div>
+
+        {wo.cancelRequested ? (
+          <p className="rounded-lg bg-gray-100 px-3 py-2.5 text-sm text-gray-700">
+            U heeft deze afspraak geannuleerd. Riory haalt ze uit de planning.
+          </p>
+        ) : canCancel ? (
+          confirm ? (
+            <div className="space-y-3 rounded-xl border border-red-200 bg-red-50/60 p-3">
+              <p className="text-sm font-medium text-gray-900">Afspraak zeker annuleren?</p>
+              <Textarea rows={2} maxLength={500} placeholder="Reden (optioneel)" value={reason} onChange={(e) => setReason(e.target.value)} />
+              <div className="grid grid-cols-2 gap-2">
+                <Button variant="ghost" className="h-11" onClick={() => setConfirm(false)}>
+                  Terug
+                </Button>
+                <Button variant="destructive" className="h-11 gap-2" disabled={busy} onClick={cancel}>
+                  {busy && <LoaderCircle className="h-4 w-4 animate-spin" />} Ja, annuleren
+                </Button>
+              </div>
+            </div>
+          ) : (
+            <div className="space-y-2">
+              <Button variant="outline" className="h-11 w-full border-red-200 text-red-700 hover:bg-red-50" disabled={readOnly} onClick={() => setConfirm(true)}>
+                Afspraak annuleren
+              </Button>
+              <p className="text-center text-xs text-gray-500">Online annuleren kan tot {CANCEL_HOURS} uur voor de afspraak.</p>
+            </div>
+          )
+        ) : (
+          <div className="space-y-2">
+            <p className="text-sm text-gray-700">
+              De afspraak is binnen {CANCEL_HOURS} uur. Annuleren kan nu enkel telefonisch.
+            </p>
+            <a href="tel:+32472502814" className="flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-red-600 font-semibold text-white">
+              <Phone className="h-4 w-4" /> Bel +32 472 50 28 14
+            </a>
+          </div>
+        )}
+      </DialogContent>
+    </Dialog>
+  );
+}
+
 type PortalPage = "home" | "werkbonnen" | "facturen" | "offertes" | "afspraak" | "gegevens";
 const PORTAL_BASE = "/klantportaal";
 const PAGE_PATH: Record<PortalPage, string> = {
@@ -820,6 +1209,7 @@ function ContactStrip({ showReview }: { showReview: boolean }) {
 
 function StatTile({
   to,
+  onClick,
   icon,
   label,
   value,
@@ -827,16 +1217,19 @@ function StatTile({
   tone,
 }: {
   to: string;
+  onClick?: () => void;
   icon: React.ReactNode;
   label: string;
   value: string;
   sub: string;
   tone: string;
 }) {
+  const Comp = (onClick ? "button" : Link) as React.ElementType;
   return (
-    <Link
-      to={to}
+    <Comp
+      {...(onClick ? { type: "button", onClick } : { to })}
       className={cn(
+        "text-left",
         "group flex flex-col justify-between rounded-2xl border p-4 transition-shadow hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary",
         tone,
       )}
@@ -852,11 +1245,32 @@ function StatTile({
           <ChevronRight className="h-3.5 w-3.5 opacity-0 transition-opacity group-hover:opacity-100" />
         </p>
       </div>
-    </Link>
+    </Comp>
   );
 }
 
-function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onReload: () => Promise<void>; onLogout: () => void }) {
+function PortalView({ data: rawData, onReload, onLogout }: { data: PortalOverview; onReload: () => Promise<void>; onLogout: () => void }) {
+  const [demoTick, setDemoTick] = useState(0);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const data = useMemo(() => applyDemoState(rawData), [rawData, demoTick]);
+  const [quoteId, setQuoteId] = useState<string | null>(null);
+  const [apptId, setApptId] = useState<string | null>(null);
+  const [prefDate, setPrefDate] = useState<Date | undefined>(undefined);
+  const [prefPart, setPrefPart] = useState<"" | "voormiddag" | "namiddag" | "maakt niet uit">("");
+  async function quoteDone(id: string, decision: "akkoord" | "geweigerd", name?: string) {
+    if (id.startsWith("demo-")) {
+      const st = readDemoState();
+      writeDemoState({ ...st, quotes: { ...st.quotes, [id]: decision }, signedName: { ...st.signedName, ...(name ? { [id]: name } : {}) } });
+      setDemoTick((t) => t + 1);
+    } else await onReload();
+  }
+  async function appointmentCancelled(id: string) {
+    if (id.startsWith("demo-")) {
+      const st = readDemoState();
+      writeDemoState({ ...st, cancels: { ...st.cancels, [id]: true } });
+      setDemoTick((t) => t + 1);
+    } else await onReload();
+  }
   const location = useLocation();
   const navigate = useNavigate();
   const page = pageFromPath(location.pathname);
@@ -876,7 +1290,6 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
   const [invQuery, setInvQuery] = useState("");
 
   const [description, setDescription] = useState("");
-  const [preferredWindow, setPreferredWindow] = useState("");
   const [contactPhone, setContactPhone] = useState(data.customer?.phone ?? "");
   const [customerId, setCustomerId] = useState(data.customer?.id ?? "");
   const [urgent, setUrgent] = useState(false);
@@ -921,7 +1334,13 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
     try {
       await requestAppointment({
         description,
-        preferredWindow: preferredWindow || undefined,
+        preferredWindow:
+          [
+            prefDate ? format(prefDate, "EEEE d MMMM", { locale: nl }) : "",
+            prefPart && prefPart !== "maakt niet uit" ? prefPart : "",
+          ]
+            .filter(Boolean)
+            .join(" · ") || undefined,
         contactPhone: contactPhone || undefined,
         customerId: customerId || undefined,
         service: service || undefined,
@@ -935,7 +1354,8 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
       toast.success("Uw aanvraag is ontvangen. Riory neemt snel contact op.");
       setDescription("");
       setService("");
-      setPreferredWindow("");
+      setPrefDate(undefined);
+      setPrefPart("");
       setUrgent(false);
       setWorksiteDifferent(false);
       setWorksiteStreet("");
@@ -966,10 +1386,10 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
   const openInvoices = data.invoices.filter((i) => i.state === "open" || i.state === "vervallen");
   const overdue = data.invoices.filter((i) => i.state === "vervallen");
   const openAmount = openInvoices.reduce((s, i) => s + i.openAmount, 0);
-  const toSign = data.quotes.filter((q) => q.signUrl);
+  const toSign = data.quotes.filter((q) => q.status === "verzonden");
   const running = data.workOrders.filter((w) => w.stage !== "afgewerkt");
   const next = [...data.workOrders]
-    .filter((w) => w.stage === "gepland" && w.scheduledDate && w.scheduledDate >= today)
+    .filter((w) => w.stage === "gepland" && !w.cancelRequested && w.scheduledDate && w.scheduledDate >= today)
     .sort((a, b) => (a.scheduledDate ?? "").localeCompare(b.scheduledDate ?? ""))[0];
   const hasDone = data.workOrders.some((w) => w.stage === "afgewerkt");
   const firstName = (data.customer?.name ?? "").trim();
@@ -990,6 +1410,7 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
           <span className="font-medium text-gray-900">{w.number ? `Werkbon #${w.number}` : "Nieuwe aanvraag"}</span>
           <Pill className={STAGE_STYLE[w.stage]}>{STAGE_LABEL[w.stage]}</Pill>
           {w.urgent && w.stage !== "afgewerkt" && <Pill className="bg-red-600 text-white">Dringend</Pill>}
+          {w.cancelRequested && <Pill className="bg-gray-200 text-gray-700">Geannuleerd</Pill>}
         </div>
         {w.description && <p className="line-clamp-2 text-sm text-gray-600">{w.description}</p>}
         <p className="text-xs text-gray-500">
@@ -1001,6 +1422,12 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
           {w.address ? ` · ${w.address}` : ""}
         </p>
       </div>
+      {w.stage === "gepland" && w.scheduledDate && (
+        <Button variant="outline" size="sm" className="h-9 shrink-0 gap-1.5 px-3" onClick={() => setApptId(w.id)}>
+          <CalendarClock className="h-4 w-4" />
+          {w.cancelRequested ? "Details" : "Afspraak"}
+        </Button>
+      )}
       {w.hasPdf && (
         <Button
           variant="outline"
@@ -1058,29 +1485,42 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
   const QuoteList = ({ quotes }: { quotes: PortalOverview["quotes"] }) => (
     <div className="divide-y">
       {quotes.map((q) => (
-        <div key={q.id} className="flex items-center justify-between gap-3 px-4 py-3.5 sm:px-5">
+        <div
+          key={q.id}
+          className={cn(
+            "flex items-center justify-between gap-3 border-l-4 px-4 py-3.5 sm:px-5",
+            q.status === "verzonden" ? "border-l-violet-500" : q.status === "akkoord" ? "border-l-emerald-500" : "border-l-gray-300",
+          )}
+        >
           <div className="min-w-0 space-y-1">
             <div className="flex flex-wrap items-center gap-2">
               <span className="font-medium text-gray-900">
                 {q.kind === "verzekering" ? "Bestek" : "Offerte"} {q.number}
               </span>
-              {q.signUrl ? (
-                <Pill className="bg-violet-600 text-white">Te tekenen</Pill>
-              ) : (
+              {q.status === "verzonden" ? (
+                <Pill className="bg-violet-600 text-white">Wacht op uw antwoord</Pill>
+              ) : q.status === "akkoord" ? (
                 <Pill className="bg-emerald-600 text-white">Goedgekeurd</Pill>
+              ) : (
+                <Pill className="bg-gray-500 text-white">Geweigerd</Pill>
               )}
             </div>
-            <p className="text-xs text-gray-500">{formatDate(q.date)}</p>
+            <p className="line-clamp-1 text-xs text-gray-500">
+              {formatDate(q.date)}
+              {q.intro ? ` · ${q.intro}` : ""}
+            </p>
           </div>
           <div className="flex shrink-0 items-center gap-3">
-            <span className="font-semibold tabular-nums text-gray-900">{euro(q.total)}</span>
-            {q.signUrl && (
-              <Button asChild size="sm" className="h-9">
-                <a href={q.signUrl} target="_blank" rel="noopener noreferrer">
-                  Tekenen
-                </a>
-              </Button>
-            )}
+            <span className="hidden font-semibold tabular-nums text-gray-900 sm:inline">{euro(q.total)}</span>
+            <Button
+              size="sm"
+              variant={q.status === "verzonden" ? "default" : "outline"}
+              className="h-9 gap-1.5"
+              onClick={() => setQuoteId(q.id)}
+            >
+              <Eye className="h-4 w-4" />
+              {q.status === "verzonden" ? "Bekijken & beslissen" : "Bekijken"}
+            </Button>
           </div>
         </div>
       ))}
@@ -1118,7 +1558,8 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
           icon={<CalendarClock className="h-4 w-4" />}
           label="Volgende afspraak"
           value={next ? formatDate(next.scheduledDate, { weekday: "short", day: "numeric", month: "short" }) : "Geen"}
-          sub={next ? (next.scheduledFrom ? `om ${next.scheduledFrom}` : "Ingepland") : "Niets ingepland"}
+          sub={next ? (next.scheduledFrom ? `om ${next.scheduledFrom} · details` : "Ingepland · details") : "Niets ingepland"}
+          onClick={next ? () => setApptId(next.id) : undefined}
           tone="border-sky-100 bg-sky-50/70 text-sky-800"
         />
         <StatTile
@@ -1350,26 +1791,95 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
                 onChange={(e) => setDescription(e.target.value)}
               />
             </div>
-            <div className="grid grid-cols-2 gap-3">
-              <div className="space-y-1.5">
-                <Label htmlFor="pa-window">Voorkeur</Label>
-                <Input id="pa-window" className="h-11" placeholder="Bv. di voormiddag" value={preferredWindow} onChange={(e) => setPreferredWindow(e.target.value)} />
-              </div>
-              <div className="space-y-1.5">
-                <Label htmlFor="pa-phone">Telefoon</Label>
-                <Input id="pa-phone" className="h-11" type="tel" value={contactPhone} onChange={(e) => setContactPhone(e.target.value)} />
+            <div className="space-y-1.5">
+              <Label>Wanneer past het u?</Label>
+              <div className="grid gap-3 rounded-xl bg-white p-3 text-gray-900 sm:grid-cols-[auto_1fr] sm:items-start">
+                <Calendar
+                  mode="single"
+                  locale={nl}
+                  weekStartsOn={1}
+                  selected={prefDate}
+                  onSelect={setPrefDate}
+                  disabled={[{ before: new Date() }, { dayOfWeek: [0] }]}
+                  className="mx-auto rounded-lg p-0 [&_label]:text-gray-900"
+                />
+                <div className="space-y-2">
+                  <p className="text-sm font-medium text-gray-700">
+                    {prefDate ? format(prefDate, "EEEE d MMMM", { locale: nl }) : "Kies een dag"}
+                  </p>
+                  <div className="grid grid-cols-3 gap-2 sm:grid-cols-1">
+                    {(
+                      [
+                        ["voormiddag", "Voormiddag", <Sunrise key="a" className="h-4 w-4" />],
+                        ["namiddag", "Namiddag", <Sunset key="b" className="h-4 w-4" />],
+                        ["maakt niet uit", "Maakt niet uit", <Clock key="c" className="h-4 w-4" />],
+                      ] as const
+                    ).map(([key, label, icon]) => (
+                      <button
+                        key={key}
+                        type="button"
+                        aria-pressed={prefPart === key}
+                        onClick={() => setPrefPart(prefPart === key ? "" : key)}
+                        className={cn(
+                          "flex min-h-11 flex-col items-center justify-center gap-1 rounded-lg border px-2 py-2 text-xs font-semibold sm:flex-row sm:justify-start sm:text-sm",
+                          prefPart === key ? "border-primary bg-primary text-white" : "border-gray-200 bg-white text-gray-700 hover:bg-gray-50",
+                        )}
+                      >
+                        {icon}
+                        {label}
+                      </button>
+                    ))}
+                  </div>
+                  <p className="text-xs text-gray-500">Dit is een voorkeur. Riory bevestigt het exacte uur.</p>
+                </div>
               </div>
             </div>
-            <div className="flex flex-col gap-2.5 text-sm">
-              <label className="flex items-center gap-2">
-                <Checkbox className="border-white data-[state=checked]:bg-white data-[state=checked]:text-primary" checked={urgent} onCheckedChange={(v) => setUrgent(v === true)} /> Dringend
-              </label>
-              <label className="flex items-center gap-2">
-                <Checkbox className="border-white data-[state=checked]:bg-white data-[state=checked]:text-primary" checked={worksiteDifferent} onCheckedChange={(v) => setWorksiteDifferent(v === true)} /> Ander werkadres
-              </label>
+            <div className="space-y-1.5">
+              <Label htmlFor="pa-phone">Telefoon</Label>
+              <Input id="pa-phone" className="h-11" type="tel" value={contactPhone} onChange={(e) => setContactPhone(e.target.value)} />
+            </div>
+            <div className="grid gap-2 sm:grid-cols-2">
+              {(
+                [
+                  [urgent, setUrgent, <AlertTriangle key="u" className="h-5 w-5" />, "Dringend", "Water staat of loopt over? Wij komen zo snel mogelijk."],
+                  [worksiteDifferent, setWorksiteDifferent, <MapPin key="m" className="h-5 w-5" />, "Ander werkadres", "De werken zijn niet op uw gekende adres."],
+                ] as const
+              ).map(([on, set, icon, title, sub]) => (
+                <button
+                  key={title}
+                  type="button"
+                  role="switch"
+                  aria-checked={on}
+                  onClick={() => set(!on)}
+                  className={cn(
+                    "flex items-start gap-3 rounded-xl border-2 p-3 text-left transition-colors",
+                    on ? "border-white bg-white text-gray-900 shadow-md" : "border-white/40 bg-white/10 text-white hover:bg-white/20",
+                  )}
+                >
+                  <span className={cn("mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full", on ? (title === "Dringend" ? "bg-red-600 text-white" : "bg-primary text-white") : "bg-white/20")}>
+                    {icon}
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="flex items-center justify-between gap-2 font-semibold">
+                      {title}
+                      <span
+                        className={cn(
+                          "relative inline-flex h-5 w-9 shrink-0 rounded-full transition-colors",
+                          on ? (title === "Dringend" ? "bg-red-600" : "bg-primary") : "bg-white/40",
+                        )}
+                        aria-hidden="true"
+                      >
+                        <span className={cn("absolute top-0.5 h-4 w-4 rounded-full bg-white transition-all", on ? "left-[18px]" : "left-0.5")} />
+                      </span>
+                    </span>
+                    <span className={cn("mt-0.5 block text-xs", on ? "text-gray-600" : "text-white/80")}>{sub}</span>
+                  </span>
+                </button>
+              ))}
             </div>
             {worksiteDifferent && (
-              <div className="grid grid-cols-[1fr_80px] gap-2">
+              <div className="grid grid-cols-[1fr_80px] gap-2 rounded-xl bg-white/15 p-3">
+                <p className="col-span-2 text-sm font-semibold">Werkadres</p>
                 <Input className="h-11" placeholder="Straat" value={worksiteStreet} onChange={(e) => setWorksiteStreet(e.target.value)} required />
                 <Input className="h-11" placeholder="Nr." value={worksiteHouseNumber} onChange={(e) => setWorksiteHouseNumber(e.target.value)} />
                 <Input className="h-11" placeholder="Gemeente" value={worksiteCity} onChange={(e) => setWorksiteCity(e.target.value)} required />
@@ -1549,6 +2059,21 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
       </main>
       <ProblemReport open={problemOpen} setOpen={setProblemOpen} page={location.pathname} onAuthError={onLogout} />
       <PdfViewer doc={viewer?.doc ?? null} title={viewer?.title ?? ""} onClose={closeViewer} />
+      <QuoteDialog
+        quote={data.quotes.find((q) => q.id === quoteId) ?? null}
+        defaultName={data.customer?.name ?? ""}
+        readOnly={readOnly}
+        onClose={() => setQuoteId(null)}
+        onDone={quoteDone}
+        onAuthError={onLogout}
+      />
+      <AppointmentDialog
+        wo={data.workOrders.find((w) => w.id === apptId) ?? null}
+        readOnly={readOnly}
+        onClose={() => setApptId(null)}
+        onCancelled={appointmentCancelled}
+        onAuthError={onLogout}
+      />
     </>
   );
 }

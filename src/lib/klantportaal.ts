@@ -94,6 +94,7 @@ export type PortalOverview = {
     createdAt: string;
     signedAt: string | null;
     hasPdf: boolean;
+    cancelRequested?: boolean;
   }[];
   invoices: {
     id: string;
@@ -115,6 +116,18 @@ export type PortalOverview = {
     date: string;
     signedAt: string | null;
     signUrl: string | null;
+    signedName?: string | null;
+    intro?: string | null;
+    net?: number;
+    vat?: number;
+    lines?: {
+      index: number;
+      description: string;
+      quantity: number;
+      unit: string;
+      amount: number;
+      optional: boolean;
+    }[];
   }[];
 };
 
@@ -184,6 +197,79 @@ export async function requestAppointment(input: PortalAppointmentInput): Promise
 
 export async function updateProfile(input: PortalProfileInput): Promise<void> {
   await call("profile", input);
+}
+
+export async function decideQuote(input: {
+  quoteId: string;
+  decision: "akkoord" | "geweigerd";
+  name?: string;
+  signature?: string;
+  options?: number[];
+  reason?: string;
+}): Promise<void> {
+  await call("quote-decision", input);
+}
+
+export async function cancelAppointment(input: { workOrderId: string; reason?: string }): Promise<void> {
+  await call("appointment-cancel", input);
+}
+
+/** Customers can cancel online up to this many hours before the appointment. */
+export const CANCEL_HOURS = 24;
+
+/** Brussels wall-clock date + time → epoch ms (works whatever time zone the browser is in). */
+export function brusselsTime(date: string, time: string | null): number {
+  const [y, m, d] = date.split("-").map(Number);
+  const [hh, mm] = (time ?? "08:00").split(":").map(Number);
+  const guess = Date.UTC(y, m - 1, d, hh, mm);
+  const parts = new Intl.DateTimeFormat("en-GB", {
+    timeZone: "Europe/Brussels",
+    hourCycle: "h23",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+  }).formatToParts(new Date(guess));
+  const get = (t: string) => Number(parts.find((p) => p.type === t)?.value);
+  return guess - (Date.UTC(get("year"), get("month") - 1, get("day"), get("hour"), get("minute")) - guess);
+}
+
+// Demo items (ids "demo-…", test account only) never reach the server: decisions are kept in this browser.
+const DEMO_KEY = "riory-klantportaal-demo";
+type DemoState = { quotes: Record<string, "akkoord" | "geweigerd">; cancels: Record<string, true>; signedName?: Record<string, string> };
+export function readDemoState(): DemoState {
+  try {
+    const v = JSON.parse(localStorage.getItem(DEMO_KEY) ?? "null");
+    return { quotes: v?.quotes ?? {}, cancels: v?.cancels ?? {}, signedName: v?.signedName ?? {} };
+  } catch {
+    return { quotes: {}, cancels: {}, signedName: {} };
+  }
+}
+export function writeDemoState(state: DemoState) {
+  try {
+    localStorage.setItem(DEMO_KEY, JSON.stringify(state));
+  } catch {
+    /* storage unavailable: the change lasts until reload */
+  }
+}
+export function applyDemoState(data: PortalOverview): PortalOverview {
+  const st = readDemoState();
+  return {
+    ...data,
+    workOrders: data.workOrders.map((w) => (st.cancels[w.id] ? { ...w, cancelRequested: true } : w)),
+    quotes: data.quotes.map((q) =>
+      st.quotes[q.id]
+        ? {
+            ...q,
+            status: st.quotes[q.id],
+            signUrl: null,
+            signedAt: st.quotes[q.id] === "akkoord" ? (q.signedAt ?? new Date().toISOString()) : q.signedAt,
+            signedName: st.signedName?.[q.id] ?? q.signedName,
+          }
+        : q,
+    ),
+  };
 }
 
 export async function reportProblem(input: {
