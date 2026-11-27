@@ -1617,7 +1617,7 @@ function PortalView({ data: rawData, onReload, onLogout }: { data: PortalOvervie
         contactPhone: contactPhone || undefined,
         customerId: customerId || undefined,
         service: service || undefined,
-        urgent: noUrgency ? false : urgent,
+        urgent,
         worksiteDifferent,
         worksiteStreet: worksiteDifferent ? worksiteStreet : undefined,
         worksiteHouseNumber: worksiteDifferent ? worksiteHouseNumber : undefined,
@@ -1660,8 +1660,6 @@ function PortalView({ data: rawData, onReload, onLogout }: { data: PortalOvervie
     return [...seen.values()];
   })();
   const today = localToday();
-  // Rain tank and gutter cleaning are planned work, like on the riory.be form: no priority option.
-  const noUrgency = service === "regenput" || service === "dakgoot";
   const currentAddress = (addressOptions.find((o) => o.id === customerId) ?? addressOptions[0])?.label ?? "";
   const openInvoices = data.invoices.filter((i) => i.state === "open" || i.state === "vervallen");
   const overdue = data.invoices.filter((i) => i.state === "vervallen");
@@ -2174,10 +2172,10 @@ function PortalView({ data: rawData, onReload, onLogout }: { data: PortalOvervie
               <Label htmlFor="pa-phone">Telefoon</Label>
               <Input id="pa-phone" className="h-11" type="tel" value={contactPhone} onChange={(e) => setContactPhone(e.target.value)} />
             </div>
-            <div className={cn("grid gap-2", !noUrgency && "sm:grid-cols-2")}>
+            <div className="grid gap-2 sm:grid-cols-2">
               {(
                 [
-                  ...(noUrgency ? [] : ([[urgent, setUrgent, <AlertTriangle key="u" className="h-5 w-5" />, "Dringend", "Binnen 24u ter plaatse · toeslag van 50%"]] as const)),
+                  [urgent, setUrgent, <AlertTriangle key="u" className="h-5 w-5" />, "Dringend", "Binnen 24u ter plaatse · toeslag van 50%"],
                   [worksiteDifferent, setWorksiteDifferent, <MapPin key="m" className="h-5 w-5" />, "Ander werkadres", currentAddress ? `Nu: ${currentAddress}` : "De werken zijn niet op uw gekende adres."],
                 ] as const
               ).map(([on, set, icon, title, sub]) => (
@@ -2226,7 +2224,7 @@ function PortalView({ data: rawData, onReload, onLogout }: { data: PortalOvervie
                 <Input className="h-11" placeholder="Postcode" value={worksitePostalCode} onChange={(e) => setWorksitePostalCode(e.target.value)} />
               </div>
             )}
-            {urgent && !noUrgency && (
+            {urgent && (
               <div className="rounded-xl border-2 border-red-600 bg-white p-4 text-sm text-gray-700">
                 <p className="flex items-center gap-2 font-bold text-gray-900">
                   <AlertTriangle className="h-4 w-4 text-red-600" /> Prioritaire behandeling
