@@ -46,27 +46,9 @@ const Tabel = ({ kop, rijen }: { kop: string[]; rijen: string[][] }) => (
   </div>
 );
 
-const AlgemeneVoorwaarden = () => {
-  usePageView("/algemene-voorwaarden");
-  useDocumentMeta(
-    "Algemene Voorwaarden | Riory",
-    "Raadpleeg de algemene voorwaarden van Riory bv voor onze diensten en werkzaamheden.",
-  );
-
-  return (
-    <>
-      <Navbar />
-      <section className="pt-24 pb-20 bg-background min-h-screen">
-        <div className="section-container px-6 md:px-8 max-w-3xl mx-auto">
-          <div className="mb-8">
-            <Button variant="ghost" size="sm" asChild>
-              <Link to="/" className="gap-2 text-muted-foreground hover:text-foreground">
-                <ArrowLeft className="w-4 h-4" />
-                Terug naar home
-              </Link>
-            </Button>
-          </div>
-
+/** The full terms text, shared by this page and the pop-up in the customer portal. */
+export const AlgemeneVoorwaardenInhoud = () => (
+  <>
           <h1 className="text-2xl md:text-4xl font-heading font-bold uppercase text-foreground mb-3">
             Algemene Voorwaarden
           </h1>
@@ -291,6 +273,31 @@ const AlgemeneVoorwaarden = () => {
               </p>
             </div>
           </div>
+  </>
+);
+
+const AlgemeneVoorwaarden = () => {
+  usePageView("/algemene-voorwaarden");
+  useDocumentMeta(
+    "Algemene Voorwaarden | Riory",
+    "Raadpleeg de algemene voorwaarden van Riory bv voor onze diensten en werkzaamheden.",
+  );
+
+  return (
+    <>
+      <Navbar />
+      <section className="pt-24 pb-20 bg-background min-h-screen">
+        <div className="section-container px-6 md:px-8 max-w-3xl mx-auto">
+          <div className="mb-8">
+            <Button variant="ghost" size="sm" asChild>
+              <Link to="/" className="gap-2 text-muted-foreground hover:text-foreground">
+                <ArrowLeft className="w-4 h-4" />
+                Terug naar home
+              </Link>
+            </Button>
+          </div>
+
+          <AlgemeneVoorwaardenInhoud />
         </div>
       </section>
       <Footer />

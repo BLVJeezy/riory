@@ -45,6 +45,7 @@ import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/s
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import { useDocumentMeta } from "@/hooks/useDocumentMeta";
+import { AlgemeneVoorwaardenInhoud } from "./AlgemeneVoorwaarden";
 import {
   PortalAccessError,
   PortalAuthError,
@@ -685,6 +686,38 @@ function ProblemReport({
   );
 }
 
+function TermsButton({ className }: { className?: string }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        className={cn(
+          "flex h-10 w-full items-center justify-center gap-2 rounded-lg border border-gray-200 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50",
+          className,
+        )}
+      >
+        <FileText className="h-4 w-4" /> Algemene voorwaarden bekijken
+      </button>
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent className="flex max-h-[85dvh] max-w-2xl flex-col gap-0 p-0">
+          <DialogTitle className="sr-only">Algemene voorwaarden</DialogTitle>
+          <DialogDescription className="sr-only">De algemene voorwaarden van Riory BV</DialogDescription>
+          <div className="min-h-0 flex-1 overflow-y-auto px-5 pb-4 pt-6 sm:px-7">
+            <AlgemeneVoorwaardenInhoud />
+          </div>
+          <div className="border-t p-3">
+            <Button className="h-11 w-full" onClick={() => setOpen(false)}>
+              Sluiten
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+    </>
+  );
+}
+
 function SignaturePad({ onChange }: { onChange: (dataUrl: string | null) => void }) {
   const ref = useRef<HTMLCanvasElement | null>(null);
   const drawing = useRef(false);
@@ -871,14 +904,7 @@ function QuoteDialog({
           <span className="text-lg font-bold tabular-nums">{euro(open ? shownTotal : quote.total)}</span>
         </div>
 
-        <a
-          href="/algemene-voorwaarden"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex h-10 items-center justify-center gap-2 rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:bg-gray-50"
-        >
-          <FileText className="h-4 w-4" /> Algemene voorwaarden bekijken
-        </a>
+        <TermsButton />
         {quote.status === "akkoord" && (
           <p className="text-sm text-gray-600">
             Goedgekeurd{quote.signedName ? ` door ${quote.signedName}` : ""}{quote.signedAt ? ` op ${formatDate(quote.signedAt)}` : ""}.
@@ -907,11 +933,7 @@ function QuoteDialog({
             <label className="flex items-start gap-2 text-sm text-gray-700">
               <Checkbox className="mt-0.5" checked={agree} onCheckedChange={(v) => setAgree(v === true)} />
               <span>
-                Ik ga akkoord met deze offerte en de{" "}
-                <a href="/algemene-voorwaarden" target="_blank" rel="noopener noreferrer" className="font-medium text-primary underline underline-offset-2">
-                  algemene voorwaarden
-                </a>{" "}
-                van Riory.
+                Ik ga akkoord met deze offerte en de algemene voorwaarden van Riory.
               </span>
             </label>
             <div className="grid grid-cols-2 gap-2">
@@ -1926,21 +1948,10 @@ function PortalView({ data: rawData, onReload, onLogout }: { data: PortalOvervie
                 <Info className="h-4 w-4 text-primary" /> Goed om te weten
               </p>
               Prijzen gelden op weekdagen tussen 8u en 16u. Met voorrang (dringend) rekenen wij een urgentietoeslag van 50%.
-              's avonds geldt +50%, 's nachts, in het weekend en op feestdagen +100%. Bekijk alle tarieven en toeslagen in de{" "}
-              <a href="/algemene-voorwaarden" target="_blank" rel="noopener noreferrer" className="font-medium text-primary underline underline-offset-2">
-                algemene voorwaarden
-              </a>
-              .
+              's avonds geldt +50%, 's nachts, in het weekend en op feestdagen +100%. Alle tarieven en toeslagen staan in de algemene voorwaarden hieronder.
             </div>
             <div className="space-y-2 rounded-xl bg-white p-3.5 text-gray-900">
-              <a
-                href="/algemene-voorwaarden"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex h-10 items-center justify-center gap-2 rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:bg-gray-50"
-              >
-                <FileText className="h-4 w-4" /> Algemene voorwaarden bekijken
-              </a>
+              <TermsButton />
               <label className="flex items-start gap-2 text-sm !text-gray-900">
                 <Checkbox className="mt-0.5" checked={termsAccepted} onCheckedChange={(v) => setTermsAccepted(v === true)} />
                 Ik ga akkoord met de algemene voorwaarden en de toeslagen van Riory.
