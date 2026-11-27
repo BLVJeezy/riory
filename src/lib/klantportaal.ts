@@ -186,6 +186,15 @@ export async function updateProfile(input: PortalProfileInput): Promise<void> {
   await call("profile", input);
 }
 
+export async function reportProblem(input: {
+  topics: string[];
+  message: string;
+  page?: string;
+  userAgent?: string;
+}): Promise<void> {
+  await call("problem", input);
+}
+
 export async function requestInvoiceCopy(message: string): Promise<void> {
   await call("invoice-request", { message });
 }

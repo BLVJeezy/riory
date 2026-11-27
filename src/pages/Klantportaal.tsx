@@ -1,10 +1,16 @@
 import { useEffect, useMemo, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import {
   ArrowLeft,
   CalendarClock,
   CalendarPlus,
   CheckCircle2,
+  ChevronRight,
+  ClipboardList,
+  LayoutGrid,
+  LifeBuoy,
+  Search,
   Download,
   Eye,
   ExternalLink,
@@ -43,6 +49,7 @@ import {
   hasPortalSession,
   requestAppointment,
   requestInvoiceCopy,
+  reportProblem,
   updateProfile,
   requestLoginLink,
   verifyLoginToken,
@@ -560,7 +567,300 @@ function PdfViewer({ doc, title, onClose }: { doc: PortalDocument | null; title:
   );
 }
 
+
+const PROBLEM_TOPICS = [
+  "Ik zie een werkbon niet",
+  "Ik zie een factuur niet",
+  "Een document opent niet",
+  "Mijn gegevens kloppen niet",
+  "Afspraak aanvragen lukt niet",
+  "Inloggen of uitloggen loopt fout",
+  "Iets anders",
+];
+
+function ProblemReport({
+  open,
+  setOpen,
+  page,
+  onAuthError,
+}: {
+  open: boolean;
+  setOpen: (v: boolean) => void;
+  page: string;
+  onAuthError: () => void;
+}) {
+  const [topics, setTopics] = useState<string[]>([]);
+  const [message, setMessage] = useState("");
+  const [sending, setSending] = useState(false);
+  const toggle = (t: string) => setTopics((cur) => (cur.includes(t) ? cur.filter((x) => x !== t) : [...cur, t]));
+  const canSend = topics.length > 0 || message.trim().length >= 5;
+
+  async function send(e: React.FormEvent) {
+    e.preventDefault();
+    if (!canSend) return;
+    setSending(true);
+    try {
+      await reportProblem({ topics, message, page, userAgent: navigator.userAgent.slice(0, 300) });
+      toast.success("Bedankt, uw melding is verstuurd. We bekijken het zo snel mogelijk.");
+      setTopics([]);
+      setMessage("");
+      setOpen(false);
+    } catch (err) {
+      if (err instanceof PortalAuthError || err instanceof PortalAccessError) return onAuthError();
+      toast.error(err instanceof Error ? err.message : "Melding versturen mislukt.");
+    } finally {
+      setSending(false);
+    }
+  }
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogContent className="max-w-md">
+        <form onSubmit={send} className="space-y-4">
+          <div>
+            <DialogTitle className="flex items-center gap-2 text-lg">
+              <LifeBuoy className="h-5 w-5 text-primary" /> Probleem met het klantportaal?
+            </DialogTitle>
+            <DialogDescription className="mt-1">Duid aan wat er misloopt. Meerdere keuzes mogen.</DialogDescription>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {PROBLEM_TOPICS.map((t) => {
+              const on = topics.includes(t);
+              return (
+                <button
+                  key={t}
+                  type="button"
+                  aria-pressed={on}
+                  onClick={() => toggle(t)}
+                  className={cn(
+                    "inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm transition-colors",
+                    on ? "border-primary bg-primary text-white" : "border-black/10 bg-white text-gray-700 hover:bg-black/5",
+                  )}
+                >
+                  {on && <CheckCircle2 className="h-3.5 w-3.5" />}
+                  {t}
+                </button>
+              );
+            })}
+          </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="problem-msg">Wat gebeurt er precies?</Label>
+            <Textarea
+              id="problem-msg"
+              rows={4}
+              maxLength={2000}
+              placeholder="Bv. als ik op Bekijken klik bij factuur 2026-0412 gebeurt er niets."
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+            />
+          </div>
+          <div className="flex justify-end gap-2">
+            <Button type="button" variant="outline" onClick={() => setOpen(false)}>
+              Annuleren
+            </Button>
+            <Button type="submit" disabled={!canSend || sending} className="gap-2">
+              {sending ? <LoaderCircle className="h-4 w-4 animate-spin" /> : null}
+              Melding versturen
+            </Button>
+          </div>
+        </form>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+type PortalPage = "home" | "werkbonnen" | "facturen" | "offertes" | "afspraak" | "gegevens";
+const PORTAL_BASE = "/klantportaal";
+const PAGE_PATH: Record<PortalPage, string> = {
+  home: PORTAL_BASE,
+  werkbonnen: `${PORTAL_BASE}/werkbonnen`,
+  facturen: `${PORTAL_BASE}/facturen`,
+  offertes: `${PORTAL_BASE}/offertes`,
+  afspraak: `${PORTAL_BASE}/afspraak`,
+  gegevens: `${PORTAL_BASE}/gegevens`,
+};
+
+function pageFromPath(pathname: string): PortalPage {
+  const seg = pathname.replace(/\/+$/, "").split("/")[2] ?? "";
+  return (["werkbonnen", "facturen", "offertes", "afspraak", "gegevens"] as const).find((p) => p === seg) ?? "home";
+}
+
+function FilterChips<T extends string>({
+  options,
+  value,
+  onChange,
+}: {
+  options: { key: T; label: string; count: number }[];
+  value: T;
+  onChange: (v: T) => void;
+}) {
+  return (
+    <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:flex-wrap sm:px-0" role="tablist">
+      {options.map((o) => (
+        <button
+          key={o.key}
+          type="button"
+          role="tab"
+          aria-selected={value === o.key}
+          onClick={() => onChange(o.key)}
+          className={cn(
+            "inline-flex shrink-0 items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-sm font-medium transition-colors",
+            value === o.key
+              ? "border-[#1e2e34] bg-[#1e2e34] text-white"
+              : "border-black/10 bg-white text-gray-700 hover:bg-black/5",
+          )}
+        >
+          {o.label}
+          <span className={cn("text-xs tabular-nums", value === o.key ? "text-white/70" : "text-gray-400")}>{o.count}</span>
+        </button>
+      ))}
+    </div>
+  );
+}
+
+function PageTitle({ title, sub, action }: { title: string; sub?: string; action?: React.ReactNode }) {
+  return (
+    <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+      <div>
+        <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">{title}</h1>
+        {sub && <p className="mt-1 text-sm text-gray-500">{sub}</p>}
+      </div>
+      {action}
+    </div>
+  );
+}
+
+function SearchBox({ value, onChange, placeholder }: { value: string; onChange: (v: string) => void; placeholder: string }) {
+  return (
+    <div className="relative">
+      <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" aria-hidden="true" />
+      <Input
+        type="search"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={placeholder}
+        aria-label={placeholder}
+        className="h-10 bg-white pl-9"
+      />
+    </div>
+  );
+}
+
+function UrgentCard() {
+  return (
+    <section className="overflow-hidden rounded-2xl bg-[#1e2e34] p-5 text-white shadow-[0_8px_24px_-12px_rgba(30,46,52,0.6)]">
+      <div className="flex items-center gap-3">
+        <span className="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-red-600">
+          <span className="absolute inset-0 animate-ping rounded-full bg-red-600/40 motion-reduce:hidden" />
+          <Phone className="relative h-5 w-5" />
+        </span>
+        <div>
+          <p className="text-lg font-bold leading-tight">Dringend? Bel ons</p>
+          <p className="text-sm text-white/70">24/7 bereikbaar, ook in het weekend</p>
+        </div>
+      </div>
+      <a
+        href="tel:+32472502814"
+        className="mt-4 flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-red-600 text-base font-bold tracking-wide transition-colors hover:bg-red-700"
+      >
+        <Phone className="h-5 w-5" /> +32 472 50 28 14
+      </a>
+      <p className="mt-3 text-center text-sm text-white/70">
+        of mail naar{" "}
+        <a href="mailto:info@riory.be" className="font-medium text-white underline underline-offset-2">
+          info@riory.be
+        </a>
+      </p>
+    </section>
+  );
+}
+
+function ContactStrip({ showReview }: { showReview: boolean }) {
+  return (
+    <div className={cn("grid gap-3", showReview && "sm:grid-cols-2")}>
+      <div className="flex items-center gap-3 rounded-xl bg-[#1e2e34] px-3.5 py-2.5 text-white">
+        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-red-600">
+          <Phone className="h-4 w-4" />
+        </span>
+        <div className="min-w-0 flex-1 leading-tight">
+          <p className="whitespace-nowrap text-sm font-semibold">Dringend? Bel ons</p>
+          <p className="text-xs text-white/60">24/7 bereikbaar</p>
+        </div>
+        <a
+          href="tel:+32472502814"
+          className="shrink-0 whitespace-nowrap rounded-lg bg-red-600 px-2.5 py-1.5 text-[13px] font-semibold tabular-nums transition-colors hover:bg-red-700"
+        >
+          +32 472 50 28 14
+        </a>
+      </div>
+      {showReview && (
+        <div className="flex items-center gap-3 rounded-xl border border-amber-200 bg-amber-50 px-3.5 py-2.5">
+          <div className="min-w-0 flex-1 leading-tight">
+            <div className="flex gap-0.5" aria-hidden="true">
+              {[0, 1, 2, 3, 4].map((n) => (
+                <Star key={n} className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
+              ))}
+            </div>
+            <p className="mt-1 whitespace-nowrap text-sm font-semibold text-gray-900">Tevreden over ons?</p>
+          </div>
+          <a
+            href={REVIEW_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-lg border border-gray-300 bg-white px-2.5 py-1.5 text-[13px] font-semibold text-gray-900 shadow-sm transition-colors hover:bg-gray-50"
+          >
+            <GoogleIcon />
+            Review schrijven
+          </a>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function StatTile({
+  to,
+  icon,
+  label,
+  value,
+  sub,
+  tone,
+}: {
+  to: string;
+  icon: React.ReactNode;
+  label: string;
+  value: string;
+  sub: string;
+  tone: string;
+}) {
+  return (
+    <Link
+      to={to}
+      className={cn(
+        "group flex flex-col justify-between rounded-2xl border p-4 transition-shadow hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary",
+        tone,
+      )}
+    >
+      <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-wide">
+        <span>{label}</span>
+        {icon}
+      </div>
+      <div className="mt-3">
+        <p className="text-xl font-bold text-gray-900 sm:text-2xl">{value}</p>
+        <p className="mt-0.5 flex items-center gap-1 text-sm text-gray-600">
+          {sub}
+          <ChevronRight className="h-3.5 w-3.5 opacity-0 transition-opacity group-hover:opacity-100" />
+        </p>
+      </div>
+    </Link>
+  );
+}
+
 function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onReload: () => Promise<void>; onLogout: () => void }) {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const page = pageFromPath(location.pathname);
+
   const [downloading, setDownloading] = useState<string | null>(null);
   const [viewer, setViewer] = useState<{ doc: PortalDocument; title: string } | null>(null);
   const closeViewer = () =>
@@ -568,8 +868,12 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
       if (prev) setTimeout(() => URL.revokeObjectURL(prev.doc.url), 1000);
       return null;
     });
-  const [allWorkOrders, setAllWorkOrders] = useState(false);
-  const [allInvoices, setAllInvoices] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [problemOpen, setProblemOpen] = useState(false);
+  const [woFilter, setWoFilter] = useState<"alle" | PortalStage>("alle");
+  const [invFilter, setInvFilter] = useState<"alle" | PortalInvoiceState>("alle");
+  const [woQuery, setWoQuery] = useState("");
+  const [invQuery, setInvQuery] = useState("");
 
   const [description, setDescription] = useState("");
   const [preferredWindow, setPreferredWindow] = useState("");
@@ -585,16 +889,15 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
   const [service, setService] = useState("");
   const readOnly = !!data.preview;
 
+  // Old links (?tab=afspraak) open the appointment page.
   useEffect(() => {
-    if (new URLSearchParams(window.location.search).get("tab") === "afspraak") {
-      setTimeout(() => document.getElementById("afspraak")?.scrollIntoView({ behavior: "smooth" }), 100);
-    }
-  }, []);
+    if (new URLSearchParams(location.search).get("tab") === "afspraak") navigate(PAGE_PATH.afspraak, { replace: true });
+  }, [location.search, navigate]);
 
-  const scrollToForm = () => {
-    document.getElementById("afspraak")?.scrollIntoView({ behavior: "smooth", block: "start" });
-    setTimeout(() => document.getElementById("pa-desc")?.focus({ preventScroll: true }), 450);
-  };
+  useEffect(() => {
+    window.scrollTo({ top: 0 });
+    setMenuOpen(false);
+  }, [page]);
 
   async function handleDownload(type: "factuur" | "werkbon", id: string, title: string) {
     setDownloading(id);
@@ -640,7 +943,7 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
       setWorksitePostalCode("");
       setWorksiteCity("");
       await onReload();
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      navigate(PAGE_PATH.werkbonnen);
     } catch (err) {
       if (err instanceof PortalAuthError || err instanceof PortalAccessError) return onLogout();
       toast.error(err instanceof Error ? err.message : "Aanvraag verzenden mislukt.");
@@ -661,31 +964,24 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
   })();
   const today = localToday();
   const openInvoices = data.invoices.filter((i) => i.state === "open" || i.state === "vervallen");
+  const overdue = data.invoices.filter((i) => i.state === "vervallen");
   const openAmount = openInvoices.reduce((s, i) => s + i.openAmount, 0);
   const toSign = data.quotes.filter((q) => q.signUrl);
+  const running = data.workOrders.filter((w) => w.stage !== "afgewerkt");
   const next = [...data.workOrders]
     .filter((w) => w.stage === "gepland" && w.scheduledDate && w.scheduledDate >= today)
     .sort((a, b) => (a.scheduledDate ?? "").localeCompare(b.scheduledDate ?? ""))[0];
   const hasDone = data.workOrders.some((w) => w.stage === "afgewerkt");
-  const [menuOpen, setMenuOpen] = useState(false);
-  const goTo = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    e.preventDefault();
-    setMenuOpen(false);
-    // Wait for the mobile sheet to close before scrolling.
-    window.setTimeout(() => {
-      document.getElementById(href.slice(1))?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }, 60);
-  };
-  const navItems = [
-    { href: "#werkbonnen", label: "Werkbonnen" },
-    { href: "#facturen", label: "Facturen" },
-    ...(data.quotes.length ? [{ href: "#offertes", label: "Offertes" }] : []),
-    { href: "#afspraak", label: "Nieuwe afspraak" },
-    ...(data.customer ? [{ href: "#gegevens", label: "Mijn gegevens" }] : []),
-  ];
   const firstName = (data.customer?.name ?? "").trim();
-  const workOrders = allWorkOrders ? data.workOrders : data.workOrders.slice(0, 5);
-  const invoices = allInvoices ? data.invoices : data.invoices.slice(0, 5);
+
+  const navItems: { page: PortalPage; label: string; icon: React.ReactNode; badge?: number }[] = [
+    { page: "home", label: "Overzicht", icon: <LayoutGrid className="h-4 w-4" /> },
+    { page: "werkbonnen", label: "Werkbonnen", icon: <ClipboardList className="h-4 w-4" />, badge: running.length || undefined },
+    { page: "facturen", label: "Facturen", icon: <Receipt className="h-4 w-4" />, badge: openInvoices.length || undefined },
+    { page: "offertes", label: "Offertes", icon: <FileSignature className="h-4 w-4" />, badge: toSign.length || undefined },
+    { page: "afspraak", label: "Nieuwe afspraak", icon: <CalendarPlus className="h-4 w-4" /> },
+    ...(data.customer ? [{ page: "gegevens" as const, label: "Mijn gegevens", icon: <UserRound className="h-4 w-4" /> }] : []),
+  ];
 
   const WorkOrderRow = ({ w }: { w: WorkOrder }) => (
     <div className={cn("flex items-start justify-between gap-3 border-l-4 px-4 py-3.5 sm:px-5", STAGE_BAR[w.stage])}>
@@ -738,6 +1034,7 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
           <p className="text-xs text-gray-500">
             {formatDate(i.issueDate)}
             {(i.state === "open" || i.state === "vervallen") && i.dueDate ? ` · te betalen voor ${formatDate(i.dueDate)}` : ""}
+            {i.workOrderNumber ? ` · werkbon #${i.workOrderNumber}` : ""}
           </p>
         </div>
         <div className="flex shrink-0 items-center gap-3">
@@ -747,36 +1044,409 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
             size="sm"
             className="h-9 gap-1.5 px-3"
             disabled={downloading === i.id}
-            onClick={() =>
-              handleDownload("factuur", i.id, `${i.kind === "creditnota" ? "Creditnota" : "Factuur"} ${i.number}`)
-            }
+            onClick={() => handleDownload("factuur", i.id, `${i.kind === "creditnota" ? "Creditnota" : "Factuur"} ${i.number}`)}
             aria-label={`Factuur ${i.number} bekijken`}
           >
             {downloading === i.id ? <LoaderCircle className="h-4 w-4 animate-spin" /> : <Eye className="h-4 w-4" />}
-            Bekijken
+            <span className="hidden sm:inline">Bekijken</span>
           </Button>
         </div>
       </div>
     );
   };
 
+  const QuoteList = ({ quotes }: { quotes: PortalOverview["quotes"] }) => (
+    <div className="divide-y">
+      {quotes.map((q) => (
+        <div key={q.id} className="flex items-center justify-between gap-3 px-4 py-3.5 sm:px-5">
+          <div className="min-w-0 space-y-1">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="font-medium text-gray-900">
+                {q.kind === "verzekering" ? "Bestek" : "Offerte"} {q.number}
+              </span>
+              {q.signUrl ? (
+                <Pill className="bg-violet-600 text-white">Te tekenen</Pill>
+              ) : (
+                <Pill className="bg-emerald-600 text-white">Goedgekeurd</Pill>
+              )}
+            </div>
+            <p className="text-xs text-gray-500">{formatDate(q.date)}</p>
+          </div>
+          <div className="flex shrink-0 items-center gap-3">
+            <span className="font-semibold tabular-nums text-gray-900">{euro(q.total)}</span>
+            {q.signUrl && (
+              <Button asChild size="sm" className="h-9">
+                <a href={q.signUrl} target="_blank" rel="noopener noreferrer">
+                  Tekenen
+                </a>
+              </Button>
+            )}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+
+  const SeeAll = ({ to, label }: { to: string; label: string }) => (
+    <Link to={to} className="inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline">
+      {label} <ChevronRight className="h-4 w-4" />
+    </Link>
+  );
+
+  const matches = (q: string, ...parts: (string | number | null | undefined)[]) => {
+    const needle = q.trim().toLowerCase();
+    return !needle || parts.some((p) => p != null && String(p).toLowerCase().includes(needle));
+  };
+
+  // ---------------------------------------------------------------- pages
+  const homePage = (
+    <>
+      <PageTitle
+        title={firstName ? `Welkom, ${firstName}` : "Welkom"}
+        sub="Alles over uw werken bij Riory op één plek."
+        action={
+          <Button asChild className="h-11 gap-2 font-semibold">
+            <Link to={PAGE_PATH.afspraak}>
+              <CalendarPlus className="h-4 w-4" /> Nieuwe afspraak
+            </Link>
+          </Button>
+        }
+      />
+      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+        <StatTile
+          to={PAGE_PATH.werkbonnen}
+          icon={<CalendarClock className="h-4 w-4" />}
+          label="Volgende afspraak"
+          value={next ? formatDate(next.scheduledDate, { weekday: "short", day: "numeric", month: "short" }) : "Geen"}
+          sub={next ? (next.scheduledFrom ? `om ${next.scheduledFrom}` : "Ingepland") : "Niets ingepland"}
+          tone="border-sky-100 bg-sky-50/70 text-sky-800"
+        />
+        <StatTile
+          to={PAGE_PATH.werkbonnen}
+          icon={<ClipboardList className="h-4 w-4" />}
+          label="Lopend"
+          value={String(running.length)}
+          sub={running.length === 1 ? "werkbon of aanvraag" : "werkbonnen en aanvragen"}
+          tone="border-slate-200 bg-white text-slate-600"
+        />
+        <StatTile
+          to={PAGE_PATH.facturen}
+          icon={<Receipt className="h-4 w-4" />}
+          label="Te betalen"
+          value={euro(openAmount)}
+          sub={overdue.length ? `${overdue.length} vervallen` : openInvoices.length ? `${openInvoices.length} open` : "Alles betaald"}
+          tone={overdue.length ? "border-red-100 bg-red-50/70 text-red-700" : "border-amber-100 bg-amber-50/70 text-amber-800"}
+        />
+        <StatTile
+          to={PAGE_PATH.offertes}
+          icon={<FileSignature className="h-4 w-4" />}
+          label="Offertes"
+          value={String(toSign.length)}
+          sub={toSign.length ? "te tekenen" : `${data.quotes.length} in totaal`}
+          tone="border-violet-100 bg-violet-50/70 text-violet-800"
+        />
+      </div>
+
+      <div className="mt-5 grid gap-5 lg:grid-cols-2 lg:items-start">
+        <Section title="Recente werkbonnen" count={data.workOrders.length} action={<SeeAll to={PAGE_PATH.werkbonnen} label="Alle" />}>
+          {data.workOrders.length ? (
+            <div className="divide-y">{data.workOrders.slice(0, 4).map((w) => <WorkOrderRow key={w.id} w={w} />)}</div>
+          ) : (
+            <p className="px-5 py-6 text-sm text-gray-500">Nog geen werkbonnen.</p>
+          )}
+        </Section>
+        <Section title="Recente facturen" count={data.invoices.length} action={<SeeAll to={PAGE_PATH.facturen} label="Alle" />}>
+          {data.invoices.length ? (
+            <div className="divide-y">{data.invoices.slice(0, 4).map((i) => <InvoiceRow key={i.id} i={i} />)}</div>
+          ) : (
+            <p className="px-5 py-6 text-sm text-gray-500">Nog geen facturen.</p>
+          )}
+        </Section>
+      </div>
+
+      {toSign.length > 0 && (
+        <div className="mt-5">
+          <Section title="Te tekenen offertes" count={toSign.length} action={<SeeAll to={PAGE_PATH.offertes} label="Alle offertes" />}>
+            <QuoteList quotes={toSign} />
+          </Section>
+        </div>
+      )}
+
+      <div className="mt-5">
+        <ContactStrip showReview={hasDone} />
+      </div>
+    </>
+  );
+
+  const stageCount = (s: PortalStage) => data.workOrders.filter((w) => w.stage === s).length;
+  const filteredWorkOrders = data.workOrders.filter(
+    (w) =>
+      (woFilter === "alle" || w.stage === woFilter) &&
+      matches(woQuery, w.number, w.description, w.address, w.projectName),
+  );
+  const werkbonnenPage = (
+    <>
+      <PageTitle
+        title="Werkbonnen"
+        sub="Al uw aanvragen, geplande interventies en afgewerkte werkbonnen."
+        action={
+          <Button asChild variant="outline" className="h-10 gap-2">
+            <Link to={PAGE_PATH.afspraak}>
+              <CalendarPlus className="h-4 w-4" /> Nieuwe afspraak
+            </Link>
+          </Button>
+        }
+      />
+      <div className="mb-4 grid gap-3 sm:grid-cols-[1fr_260px] sm:items-center">
+        <FilterChips<"alle" | PortalStage>
+          value={woFilter}
+          onChange={setWoFilter}
+          options={[
+            { key: "alle", label: "Alle", count: data.workOrders.length },
+            ...(["aangevraagd", "offerte", "gepland", "afgewerkt"] as const).map((s) => ({
+              key: s,
+              label: STAGE_LABEL[s],
+              count: stageCount(s),
+            })),
+          ]}
+        />
+        <SearchBox value={woQuery} onChange={setWoQuery} placeholder="Zoek op nummer of adres" />
+      </div>
+      <Panel>
+        {filteredWorkOrders.length ? (
+          <div className="divide-y">{filteredWorkOrders.map((w) => <WorkOrderRow key={w.id} w={w} />)}</div>
+        ) : (
+          <p className="px-5 py-8 text-center text-sm text-gray-500">Geen werkbonnen gevonden.</p>
+        )}
+      </Panel>
+    </>
+  );
+
+  const invCount = (s: PortalInvoiceState) => data.invoices.filter((i) => i.state === s).length;
+  const filteredInvoices = data.invoices.filter(
+    (i) => (invFilter === "alle" || i.state === invFilter) && matches(invQuery, i.number, i.workOrderNumber),
+  );
+  const facturenPage = (
+    <>
+      <PageTitle title="Facturen" sub="Bekijk en download uw facturen en creditnota's." />
+      <div className="mb-4 grid grid-cols-3 gap-3">
+        <Panel className="p-4">
+          <p className="text-xs font-semibold uppercase tracking-wide text-amber-700">Te betalen</p>
+          <p className="mt-1 text-lg font-bold tabular-nums sm:text-xl">{euro(openAmount)}</p>
+        </Panel>
+        <Panel className="p-4">
+          <p className="text-xs font-semibold uppercase tracking-wide text-red-700">Vervallen</p>
+          <p className="mt-1 text-lg font-bold sm:text-xl">{overdue.length}</p>
+        </Panel>
+        <Panel className="p-4">
+          <p className="text-xs font-semibold uppercase tracking-wide text-emerald-700">Betaald</p>
+          <p className="mt-1 text-lg font-bold sm:text-xl">{invCount("betaald")}</p>
+        </Panel>
+      </div>
+      <div className="mb-4 grid gap-3 sm:grid-cols-[1fr_260px] sm:items-center">
+        <FilterChips<"alle" | PortalInvoiceState>
+          value={invFilter}
+          onChange={setInvFilter}
+          options={[
+            { key: "alle", label: "Alle", count: data.invoices.length },
+            ...(["open", "vervallen", "betaald", "creditnota"] as const).map((s) => ({
+              key: s,
+              label: INVOICE_STYLE[s].label,
+              count: invCount(s),
+            })),
+          ]}
+        />
+        <SearchBox value={invQuery} onChange={setInvQuery} placeholder="Zoek op factuurnummer" />
+      </div>
+      <Panel>
+        {filteredInvoices.length ? (
+          <div className="divide-y">{filteredInvoices.map((i) => <InvoiceRow key={i.id} i={i} />)}</div>
+        ) : (
+          <p className="px-5 py-8 text-center text-sm text-gray-500">Geen facturen gevonden.</p>
+        )}
+        <OlderInvoiceRequest readOnly={readOnly} onAuthError={onLogout} />
+      </Panel>
+    </>
+  );
+
+  const offertesPage = (
+    <>
+      <PageTitle title="Offertes" sub="Offertes en bestekken die Riory voor u opmaakte." />
+      <Panel>
+        {data.quotes.length ? (
+          <QuoteList quotes={data.quotes} />
+        ) : (
+          <div className="px-5 py-10 text-center">
+            <p className="text-sm text-gray-500">U heeft nog geen offertes.</p>
+            <Button asChild variant="outline" className="mt-3 h-10">
+              <Link to={PAGE_PATH.afspraak}>Vraag een offerte aan</Link>
+            </Button>
+          </div>
+        )}
+      </Panel>
+    </>
+  );
+
+  const afspraakPage = (
+    <>
+      <PageTitle title="Nieuwe afspraak" sub="Vertel ons wat er aan de hand is. Riory neemt contact op om een moment te plannen." />
+      <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_340px] lg:items-start">
+        <Panel className="border-transparent bg-primary p-4 text-white sm:p-6 [&_label]:text-white [&_input]:bg-white [&_input]:text-gray-900 [&_select]:bg-white [&_select]:text-gray-900 [&_textarea]:bg-white [&_textarea]:text-gray-900">
+          <form id="afspraak" onSubmit={handleSubmit} className="space-y-4">
+            {!worksiteDifferent &&
+              (addressOptions.length > 1 ? (
+                <div className="flex items-center gap-2 rounded-lg bg-white/15 px-3 py-2">
+                  <MapPin className="h-4 w-4 shrink-0" aria-hidden="true" />
+                  <label htmlFor="pa-customer" className="sr-only">
+                    Adres
+                  </label>
+                  <select
+                    id="pa-customer"
+                    className="h-8 min-w-0 flex-1 rounded-md border-0 px-2 text-sm"
+                    value={customerId}
+                    onChange={(e) => setCustomerId(e.target.value)}
+                  >
+                    {addressOptions.map((o) => (
+                      <option key={o.id} value={o.id}>
+                        {o.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              ) : addressOptions[0] ? (
+                <p className="flex items-center gap-2 rounded-lg bg-white/15 px-3 py-2 text-sm font-medium">
+                  <MapPin className="h-4 w-4 shrink-0" aria-hidden="true" />
+                  <span className="truncate">{addressOptions[0].label}</span>
+                </p>
+              ) : null)}
+            <div className="space-y-1.5">
+              <Label htmlFor="pa-service">Dienst</Label>
+              <select
+                id="pa-service"
+                required
+                className="h-11 w-full rounded-md border border-input bg-background px-3 text-sm"
+                value={service}
+                onChange={(e) => setService(e.target.value)}
+              >
+                <option value="" disabled>
+                  Kies een dienst…
+                </option>
+                {data.services.map((sv) => (
+                  <option key={sv.key} value={sv.key}>
+                    {sv.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="space-y-1.5">
+              <Label htmlFor="pa-desc">Omschrijving</Label>
+              <Textarea
+                id="pa-desc"
+                required
+                minLength={5}
+                rows={4}
+                placeholder="Wat is er aan de hand? Bv. water loopt niet weg in de keuken…"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-1.5">
+                <Label htmlFor="pa-window">Voorkeur</Label>
+                <Input id="pa-window" className="h-11" placeholder="Bv. di voormiddag" value={preferredWindow} onChange={(e) => setPreferredWindow(e.target.value)} />
+              </div>
+              <div className="space-y-1.5">
+                <Label htmlFor="pa-phone">Telefoon</Label>
+                <Input id="pa-phone" className="h-11" type="tel" value={contactPhone} onChange={(e) => setContactPhone(e.target.value)} />
+              </div>
+            </div>
+            <div className="flex flex-col gap-2.5 text-sm">
+              <label className="flex items-center gap-2">
+                <Checkbox className="border-white data-[state=checked]:bg-white data-[state=checked]:text-primary" checked={urgent} onCheckedChange={(v) => setUrgent(v === true)} /> Dringend
+              </label>
+              <label className="flex items-center gap-2">
+                <Checkbox className="border-white data-[state=checked]:bg-white data-[state=checked]:text-primary" checked={worksiteDifferent} onCheckedChange={(v) => setWorksiteDifferent(v === true)} /> Ander werkadres
+              </label>
+            </div>
+            {worksiteDifferent && (
+              <div className="grid grid-cols-[1fr_80px] gap-2">
+                <Input className="h-11" placeholder="Straat" value={worksiteStreet} onChange={(e) => setWorksiteStreet(e.target.value)} required />
+                <Input className="h-11" placeholder="Nr." value={worksiteHouseNumber} onChange={(e) => setWorksiteHouseNumber(e.target.value)} />
+                <Input className="h-11" placeholder="Gemeente" value={worksiteCity} onChange={(e) => setWorksiteCity(e.target.value)} required />
+                <Input className="h-11" placeholder="Postcode" value={worksitePostalCode} onChange={(e) => setWorksitePostalCode(e.target.value)} />
+              </div>
+            )}
+            <Button className="h-11 w-full gap-2 bg-[#1e2e34] font-semibold text-white hover:bg-[#1e2e34]/90" disabled={submitting || readOnly}>
+              {submitting ? <LoaderCircle className="h-4 w-4 animate-spin" /> : null}
+              Aanvraag versturen
+            </Button>
+          </form>
+        </Panel>
+        <aside className="space-y-4">
+          <UrgentCard />
+        </aside>
+      </div>
+    </>
+  );
+
+  const gegevensPage = data.customer ? (
+    <>
+      <PageTitle title="Mijn gegevens" sub="Klopt er iets niet meer? Pas het hier aan. Uw vorige gegevens blijven bewaard." />
+      <div className="max-w-2xl">
+        <ProfilePanel
+          key={data.customer.id}
+          customer={data.customer}
+          loginEmail={data.accountEmail}
+          readOnly={readOnly}
+          onSaved={onReload}
+          onAuthError={onLogout}
+        />
+      </div>
+    </>
+  ) : (
+    homePage
+  );
+
+  const content = {
+    home: homePage,
+    werkbonnen: werkbonnenPage,
+    facturen: facturenPage,
+    offertes: offertesPage,
+    afspraak: afspraakPage,
+    gegevens: gegevensPage,
+  }[page];
+
   return (
     <>
       <header className="sticky top-0 z-20 border-b border-black/5 bg-white/90 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3">
-          <a href="/" aria-label="riory.be" className="shrink-0">
+          <Link to={PAGE_PATH.home} aria-label="Klantportaal overzicht" className="flex shrink-0 items-center gap-2">
             <img src={logo} alt="Riory" className="h-6 w-auto sm:h-7" />
-          </a>
-          <nav aria-label="Klantportaal" className="hidden items-center gap-1 lg:flex">
+            <span className="hidden text-xs font-semibold uppercase tracking-wider text-gray-400 sm:inline lg:hidden xl:inline">Klantportaal</span>
+          </Link>
+          <nav aria-label="Klantportaal" className="hidden items-center gap-0.5 lg:flex">
             {navItems.map((n) => (
-              <a
-                key={n.href}
-                href={n.href}
-                onClick={(e) => goTo(e, n.href)}
-                className="rounded-lg px-3 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-black/5 hover:text-gray-900"
+              <Link
+                key={n.page}
+                to={PAGE_PATH[n.page]}
+                aria-current={page === n.page ? "page" : undefined}
+                className={cn(
+                  "relative inline-flex items-center gap-1.5 whitespace-nowrap rounded-lg px-2.5 py-2 text-sm font-medium transition-colors",
+                  page === n.page ? "bg-[#1e2e34] text-white" : "text-gray-700 hover:bg-black/5 hover:text-gray-900",
+                )}
               >
                 {n.label}
-              </a>
+                {n.badge ? (
+                  <span
+                    className={cn(
+                      "rounded-full px-1.5 text-[11px] font-semibold tabular-nums",
+                      page === n.page ? "bg-white/20 text-white" : "bg-primary/10 text-primary",
+                    )}
+                  >
+                    {n.badge}
+                  </span>
+                ) : null}
+              </Link>
             ))}
           </nav>
           <div className="flex items-center gap-1 sm:gap-2">
@@ -786,10 +1456,15 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
             >
               <Phone className="h-4 w-4" /> Dringend
             </a>
-            <Button variant="ghost" size="sm" className="hidden gap-2 lg:inline-flex" onClick={onLogout} aria-label="Uitloggen">
-              <LogOut className="h-4 w-4" />
-              Uitloggen
+            <Button variant="ghost" size="icon" className="hidden lg:inline-flex" onClick={() => setProblemOpen(true)} aria-label="Probleem melden" title="Probleem melden">
+              <LifeBuoy className="h-4 w-4" />
             </Button>
+            <Button variant="ghost" size="icon" className="hidden lg:inline-flex" onClick={onLogout} aria-label="Uitloggen" title="Uitloggen">
+              <LogOut className="h-4 w-4" />
+            </Button>
+            <a href="tel:+32472502814" aria-label="Bel Riory" className="flex h-10 w-10 items-center justify-center rounded-lg bg-red-600 text-white lg:hidden">
+              <Phone className="h-5 w-5" />
+            </a>
             <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
               <SheetTrigger asChild>
                 <Button variant="ghost" size="icon" className="h-10 w-10 lg:hidden" aria-label="Menu openen">
@@ -799,16 +1474,26 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
               <SheetContent side="right" className="flex w-[85vw] max-w-xs flex-col gap-0 p-0">
                 <SheetTitle className="border-b px-5 py-4 text-base">Menu</SheetTitle>
                 <p className="truncate px-5 pt-3 text-xs text-gray-500">{data.accountEmail}</p>
-                <nav aria-label="Klantportaal" className="flex flex-col p-3">
+                <nav aria-label="Klantportaal" className="flex flex-col gap-0.5 p-3">
                   {navItems.map((n) => (
-                    <a
-                      key={n.href}
-                      href={n.href}
-                      onClick={(e) => goTo(e, n.href)}
-                      className="rounded-lg px-3 py-3 text-base font-medium text-gray-800 hover:bg-black/5"
+                    <Link
+                      key={n.page}
+                      to={PAGE_PATH[n.page]}
+                      onClick={() => setMenuOpen(false)}
+                      aria-current={page === n.page ? "page" : undefined}
+                      className={cn(
+                        "flex items-center gap-3 rounded-lg px-3 py-3 text-base font-medium",
+                        page === n.page ? "bg-[#1e2e34] text-white" : "text-gray-800 hover:bg-black/5",
+                      )}
                     >
-                      {n.label}
-                    </a>
+                      {n.icon}
+                      <span className="flex-1">{n.label}</span>
+                      {n.badge ? (
+                        <span className={cn("rounded-full px-2 text-xs font-semibold", page === n.page ? "bg-white/20" : "bg-primary/10 text-primary")}>
+                          {n.badge}
+                        </span>
+                      ) : null}
+                    </Link>
                   ))}
                 </nav>
                 <div className="mt-auto space-y-2 border-t p-4">
@@ -818,6 +1503,17 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
                   >
                     <Phone className="h-5 w-5" /> Dringend: bel ons
                   </a>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    className="h-11 w-full gap-2 text-gray-600"
+                    onClick={() => {
+                      setMenuOpen(false);
+                      setProblemOpen(true);
+                    }}
+                  >
+                    <LifeBuoy className="h-4 w-4" /> Probleem melden
+                  </Button>
                   <Button variant="outline" className="h-11 w-full gap-2" onClick={() => { setMenuOpen(false); onLogout(); }}>
                     <LogOut className="h-4 w-4" /> Uitloggen
                   </Button>
@@ -835,321 +1531,23 @@ function PortalView({ data, onReload, onLogout }: { data: PortalOverview; onRelo
             <span className="font-semibold">{data.preview.name}</span> het ziet. Aanpassen en aanvragen zijn uitgeschakeld.
           </div>
         )}
-        <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
-              {firstName ? `Welkom, ${firstName}` : "Welkom"}
-            </h1>
-            <p className="mt-1 text-sm text-gray-500">Uw werkbonnen, facturen en afspraken bij Riory.</p>
-          </div>
-          <Button className="h-11 gap-2 font-semibold lg:hidden" onClick={scrollToForm}>
-            <CalendarPlus className="h-4 w-4" /> Nieuwe afspraak
-          </Button>
-        </div>
-
-        <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_380px] lg:items-start">
-          <div className="space-y-5">
-            {(next || openInvoices.length > 0 || toSign.length > 0) && (
-              <div className="grid gap-3 sm:grid-cols-2">
-                {next && (
-                  <Panel className="flex items-start gap-3 border-sky-100 bg-sky-50/70 p-4">
-                    <CalendarClock className="mt-0.5 h-5 w-5 shrink-0 text-sky-700" />
-                    <div className="min-w-0">
-                      <p className="text-xs font-semibold uppercase tracking-wide text-sky-800">Volgende afspraak</p>
-                      <p className="mt-0.5 font-semibold text-gray-900">
-                        {formatDate(next.scheduledDate, { weekday: "long", day: "numeric", month: "long" })}
-                        {next.scheduledFrom ? ` · ${next.scheduledFrom}${next.scheduledUntil ? `–${next.scheduledUntil}` : ""}` : ""}
-                      </p>
-                      {next.address && <p className="truncate text-sm text-gray-600">{next.address}</p>}
-                    </div>
-                  </Panel>
-                )}
-                {openInvoices.length > 0 && (
-                  <Panel className="flex items-start gap-3 border-amber-100 bg-amber-50/70 p-4">
-                    <Receipt className="mt-0.5 h-5 w-5 shrink-0 text-amber-700" />
-                    <div>
-                      <p className="text-xs font-semibold uppercase tracking-wide text-amber-800">Te betalen</p>
-                      <p className="mt-0.5 font-semibold text-gray-900">{euro(openAmount)}</p>
-                      <p className="text-sm text-gray-600">
-                        {openInvoices.length === 1 ? "1 open factuur" : `${openInvoices.length} open facturen`} — zie hieronder
-                      </p>
-                    </div>
-                  </Panel>
-                )}
-                {toSign.length > 0 && (
-                  <Panel className="flex items-start gap-3 border-violet-100 bg-violet-50/70 p-4">
-                    <FileSignature className="mt-0.5 h-5 w-5 shrink-0 text-violet-700" />
-                    <div>
-                      <p className="text-xs font-semibold uppercase tracking-wide text-violet-800">Te tekenen</p>
-                      <p className="mt-0.5 font-semibold text-gray-900">
-                        {toSign.length === 1 ? "1 offerte" : `${toSign.length} offertes`}
-                      </p>
-                      <a href={toSign[0]!.signUrl!} target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-primary">
-                        Bekijken &amp; tekenen →
-                      </a>
-                    </div>
-                  </Panel>
-                )}
-              </div>
-            )}
-
-            <Section id="werkbonnen" title="Werkbonnen" count={data.workOrders.length}>
-              {data.workOrders.length ? (
-                <>
-                  <div className="divide-y">{workOrders.map((w) => <WorkOrderRow key={w.id} w={w} />)}</div>
-                  {!allWorkOrders && <ShowMore total={data.workOrders.length} shown={5} onClick={() => setAllWorkOrders(true)} />}
-                </>
-              ) : (
-                <p className="px-5 py-6 text-sm text-gray-500">Nog geen werkbonnen.</p>
-              )}
-            </Section>
-
-            <Section id="facturen" title="Facturen" count={data.invoices.length}>
-              {data.invoices.length ? (
-                <>
-                  <div className="divide-y">{invoices.map((i) => <InvoiceRow key={i.id} i={i} />)}</div>
-                  {!allInvoices && <ShowMore total={data.invoices.length} shown={5} onClick={() => setAllInvoices(true)} />}
-                </>
-              ) : (
-                <p className="px-5 py-6 text-sm text-gray-500">Nog geen facturen.</p>
-              )}
-              <OlderInvoiceRequest readOnly={readOnly} onAuthError={onLogout} />
-            </Section>
-
-            <div className={`hidden gap-3 lg:grid ${hasDone ? "lg:grid-cols-2" : ""}`}>
-              <div className="flex items-center gap-3 rounded-xl bg-[#1e2e34] px-3.5 py-2.5 text-white">
-                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-red-600">
-                  <Phone className="h-4 w-4" />
-                </span>
-                <div className="min-w-0 flex-1 leading-tight">
-                  <p className="whitespace-nowrap text-sm font-semibold">Dringend? Bel ons</p>
-                  <p className="text-xs text-white/60">24/7 bereikbaar</p>
-                </div>
-                <a
-                  href="tel:+32472502814"
-                  className="shrink-0 whitespace-nowrap rounded-lg bg-red-600 px-2.5 py-1.5 text-[13px] font-semibold tabular-nums transition-colors hover:bg-red-700"
-                >
-                  +32 472 50 28 14
-                </a>
-              </div>
-              {hasDone && (
-                <div className="flex items-center gap-3 rounded-xl border border-amber-200 bg-amber-50 px-3.5 py-2.5">
-                  <div className="min-w-0 flex-1 leading-tight">
-                    <div className="flex gap-0.5" aria-hidden="true">
-                      {[0, 1, 2, 3, 4].map((n) => (
-                        <Star key={n} className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
-                      ))}
-                    </div>
-                    <p className="mt-1 whitespace-nowrap text-sm font-semibold text-gray-900">Tevreden over ons?</p>
-                  </div>
-                  <a
-                    href={REVIEW_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-lg border border-gray-300 bg-white px-2.5 py-1.5 text-[13px] font-semibold text-gray-900 shadow-sm transition-colors hover:bg-gray-50"
-                  >
-                    <GoogleIcon />
-                    Review schrijven
-                  </a>
-                </div>
-              )}
-            </div>
-
-            {data.quotes.length > 0 && (
-              <Section id="offertes" title="Offertes" count={data.quotes.length}>
-                <div className="divide-y">
-                  {data.quotes.map((q) => (
-                    <div key={q.id} className="flex items-center justify-between gap-3 px-4 py-3.5 sm:px-5">
-                      <div className="min-w-0 space-y-1">
-                        <div className="flex flex-wrap items-center gap-2">
-                          <span className="font-medium text-gray-900">
-                            {q.kind === "verzekering" ? "Bestek" : "Offerte"} {q.number}
-                          </span>
-                          {q.signUrl ? (
-                            <Pill className="bg-violet-600 text-white">Te tekenen</Pill>
-                          ) : (
-                            <Pill className="bg-emerald-600 text-white">Goedgekeurd</Pill>
-                          )}
-                        </div>
-                        <p className="text-xs text-gray-500">{formatDate(q.date)}</p>
-                      </div>
-                      <div className="flex shrink-0 items-center gap-3">
-                        <span className="font-semibold tabular-nums text-gray-900">{euro(q.total)}</span>
-                        {q.signUrl && (
-                          <Button asChild size="sm" className="h-9">
-                            <a href={q.signUrl} target="_blank" rel="noopener noreferrer">
-                              Tekenen
-                            </a>
-                          </Button>
-                        )}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </Section>
-            )}
-          </div>
-
-          <aside className="space-y-5">
-            <Panel className="scroll-mt-20 border-transparent bg-primary p-4 text-white sm:p-5 [&_label]:text-white [&_input]:bg-white [&_input]:text-gray-900 [&_select]:bg-white [&_select]:text-gray-900 [&_textarea]:bg-white [&_textarea]:text-gray-900">
-              <form id="afspraak" onSubmit={handleSubmit} className="scroll-mt-24 space-y-4">
-                <div>
-                  <h2 className="flex items-center gap-2 text-lg font-semibold text-white">
-                    <CalendarPlus className="h-5 w-5" /> Nieuwe afspraak
-                  </h2>
-                  <p className="mt-0.5 text-sm text-white/85">Riory neemt contact op om een moment te plannen.</p>
-                </div>
-                {!worksiteDifferent &&
-                  (addressOptions.length > 1 ? (
-                    <div className="flex items-center gap-2 rounded-lg bg-white/15 px-3 py-2">
-                      <MapPin className="h-4 w-4 shrink-0" aria-hidden="true" />
-                      <label htmlFor="pa-customer" className="sr-only">
-                        Adres
-                      </label>
-                      <select
-                        id="pa-customer"
-                        className="h-8 min-w-0 flex-1 rounded-md border-0 px-2 text-sm"
-                        value={customerId}
-                        onChange={(e) => setCustomerId(e.target.value)}
-                      >
-                        {addressOptions.map((o) => (
-                          <option key={o.id} value={o.id}>
-                            {o.label}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  ) : addressOptions[0] ? (
-                    <p className="flex items-center gap-2 rounded-lg bg-white/15 px-3 py-2 text-sm font-medium">
-                      <MapPin className="h-4 w-4 shrink-0" aria-hidden="true" />
-                      <span className="truncate">{addressOptions[0].label}</span>
-                    </p>
-                  ) : null)}
-                <div className="space-y-1.5">
-                  <Label htmlFor="pa-service">Dienst</Label>
-                  <select
-                    id="pa-service"
-                    required
-                    className="h-11 w-full rounded-md border border-input bg-background px-3 text-sm"
-                    value={service}
-                    onChange={(e) => setService(e.target.value)}
-                  >
-                    <option value="" disabled>
-                      Kies een dienst…
-                    </option>
-                    {data.services.map((sv) => (
-                      <option key={sv.key} value={sv.key}>
-                        {sv.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div className="space-y-1.5">
-                  <Label htmlFor="pa-desc">Omschrijving</Label>
-                  <Textarea
-                    id="pa-desc"
-                    required
-                    minLength={5}
-                    rows={3}
-                    placeholder="Wat is er aan de hand? Bv. water loopt niet weg in de keuken…"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                  />
-                </div>
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="space-y-1.5">
-                    <Label htmlFor="pa-window">Voorkeur</Label>
-                    <Input id="pa-window" className="h-11" placeholder="Bv. di voormiddag" value={preferredWindow} onChange={(e) => setPreferredWindow(e.target.value)} />
-                  </div>
-                  <div className="space-y-1.5">
-                    <Label htmlFor="pa-phone">Telefoon</Label>
-                    <Input id="pa-phone" className="h-11" type="tel" value={contactPhone} onChange={(e) => setContactPhone(e.target.value)} />
-                  </div>
-                </div>
-                <div className="flex flex-col gap-2.5 text-sm">
-                  <label className="flex items-center gap-2">
-                    <Checkbox className="border-white data-[state=checked]:bg-white data-[state=checked]:text-primary" checked={urgent} onCheckedChange={(v) => setUrgent(v === true)} /> Dringend
-                  </label>
-                  <label className="flex items-center gap-2">
-                    <Checkbox className="border-white data-[state=checked]:bg-white data-[state=checked]:text-primary" checked={worksiteDifferent} onCheckedChange={(v) => setWorksiteDifferent(v === true)} /> Ander werkadres
-                  </label>
-                </div>
-                {worksiteDifferent && (
-                  <div className="grid grid-cols-[1fr_80px] gap-2">
-                    <Input className="h-11" placeholder="Straat" value={worksiteStreet} onChange={(e) => setWorksiteStreet(e.target.value)} required />
-                    <Input className="h-11" placeholder="Nr." value={worksiteHouseNumber} onChange={(e) => setWorksiteHouseNumber(e.target.value)} />
-                    <Input className="h-11" placeholder="Gemeente" value={worksiteCity} onChange={(e) => setWorksiteCity(e.target.value)} required />
-                    <Input className="h-11" placeholder="Postcode" value={worksitePostalCode} onChange={(e) => setWorksitePostalCode(e.target.value)} />
-                  </div>
-                )}
-                <Button className="h-11 w-full gap-2 bg-[#1e2e34] font-semibold text-white hover:bg-[#1e2e34]/90" disabled={submitting || readOnly}>
-                  {submitting ? <LoaderCircle className="h-4 w-4 animate-spin" /> : null}
-                  Aanvraag versturen
-                </Button>
-              </form>
-            </Panel>
-
-            {data.customer && (
-              <ProfilePanel
-                key={data.customer.id}
-                customer={data.customer}
-                loginEmail={data.accountEmail}
-                readOnly={readOnly}
-                onSaved={onReload}
-                onAuthError={onLogout}
-              />
-            )}
-
-            <section className="overflow-hidden rounded-2xl bg-[#1e2e34] p-5 lg:hidden text-white shadow-[0_8px_24px_-12px_rgba(30,46,52,0.6)]">
-              <div className="flex items-center gap-3">
-                <span className="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-red-600">
-                  <span className="absolute inset-0 animate-ping rounded-full bg-red-600/40 motion-reduce:hidden" />
-                  <Phone className="relative h-5 w-5" />
-                </span>
-                <div>
-                  <p className="text-lg font-bold leading-tight">Dringend? Bel ons</p>
-                  <p className="text-sm text-white/70">24/7 bereikbaar, ook in het weekend</p>
-                </div>
-              </div>
-              <a
-                href="tel:+32472502814"
-                className="mt-4 flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-red-600 text-base font-bold tracking-wide transition-colors hover:bg-red-700"
-              >
-                <Phone className="h-5 w-5" /> +32 472 50 28 14
-              </a>
-              <p className="mt-3 text-center text-sm text-white/70">
-                of mail naar{" "}
-                <a href="mailto:info@riory.be" className="font-medium text-white underline underline-offset-2">
-                  info@riory.be
-                </a>
-              </p>
-            </section>
-
-            {hasDone && (
-              <section className="rounded-2xl border border-amber-200 bg-gradient-to-br from-amber-50 to-white p-5 lg:hidden shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
-                <div className="flex items-center gap-1" aria-hidden="true">
-                  {[0, 1, 2, 3, 4].map((n) => (
-                    <Star key={n} className="h-5 w-5 fill-amber-400 text-amber-400" />
-                  ))}
-                </div>
-                <p className="mt-2 text-lg font-bold leading-tight text-gray-900">Tevreden over Riory?</p>
-                <p className="mt-1 text-sm text-gray-600">
-                  Een korte Google-review helpt andere mensen in Limburg om snel een betrouwbare loodgieter te vinden.
-                </p>
-                <a
-                  href={REVIEW_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-4 flex h-12 w-full items-center justify-center gap-2.5 rounded-xl border border-gray-300 bg-white text-[15px] font-semibold text-gray-900 shadow-sm transition-colors hover:bg-gray-50"
-                >
-                  <GoogleIcon />
-                  Laat een Google-review achter
-                </a>
-              </section>
-            )}
-          </aside>
+        {page !== "home" && (
+          <Link to={PAGE_PATH.home} className="mb-3 inline-flex items-center gap-1 text-sm font-medium text-gray-500 hover:text-gray-900 lg:hidden">
+            <ArrowLeft className="h-4 w-4" /> Overzicht
+          </Link>
+        )}
+        {content}
+        <div className="mt-10 flex justify-center">
+          <button
+            type="button"
+            onClick={() => setProblemOpen(true)}
+            className="inline-flex items-center gap-1.5 rounded-full border border-black/10 bg-white px-4 py-2 text-sm font-medium text-gray-600 hover:bg-black/5 hover:text-gray-900"
+          >
+            <LifeBuoy className="h-4 w-4" /> Probleem met het klantportaal? Meld het hier
+          </button>
         </div>
       </main>
+      <ProblemReport open={problemOpen} setOpen={setProblemOpen} page={location.pathname} onAuthError={onLogout} />
       <PdfViewer doc={viewer?.doc ?? null} title={viewer?.title ?? ""} onClose={closeViewer} />
     </>
   );
