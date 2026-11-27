@@ -739,10 +739,74 @@ function OlderInvoiceRequest({ readOnly, onAuthError }: { readOnly: boolean; onA
   );
 }
 
+/**
+ * Draws every PDF page on a canvas with pdf.js (served from /pdfjs on our own domain), because
+ * mobile browsers do not show a PDF inside an iframe: iOS shows only page one, Android nothing.
+ */
+function PdfPages({ blob, url, title }: { blob: Blob; url: string; title: string }) {
+  const ref = useRef<HTMLDivElement | null>(null);
+  const [state, setState] = useState<"loading" | "ok" | "error">("loading");
+
+  useEffect(() => {
+    let cancelled = false;
+    setState("loading");
+    (async () => {
+      try {
+        const pdfjs = await import(/* @vite-ignore */ `${window.location.origin}/pdfjs/pdf.min.mjs`);
+        pdfjs.GlobalWorkerOptions.workerSrc = "/pdfjs/pdf.worker.min.mjs";
+        const pdf = await pdfjs.getDocument({ data: new Uint8Array(await blob.arrayBuffer()) }).promise;
+        const host = ref.current;
+        if (!host || cancelled) return;
+        host.replaceChildren();
+        const width = Math.max(240, host.clientWidth - 16);
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        for (let n = 1; n <= pdf.numPages; n++) {
+          const page = await pdf.getPage(n);
+          if (cancelled) return;
+          const base = page.getViewport({ scale: 1 });
+          const viewport = page.getViewport({ scale: (width / base.width) * dpr });
+          const canvas = document.createElement("canvas");
+          canvas.width = Math.floor(viewport.width);
+          canvas.height = Math.floor(viewport.height);
+          canvas.style.width = `${width}px`;
+          canvas.style.height = `${Math.floor(viewport.height / dpr)}px`;
+          canvas.className = "mx-auto mb-3 block rounded-sm bg-white shadow-md";
+          canvas.setAttribute("aria-label", `${title} — pagina ${n} van ${pdf.numPages}`);
+          host.appendChild(canvas);
+          const ctx = canvas.getContext("2d");
+          if (!ctx) throw new Error("no canvas");
+          await page.render({ canvasContext: ctx, viewport }).promise;
+          if (n === 1 && !cancelled) setState("ok");
+        }
+      } catch {
+        if (!cancelled) setState("error");
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [blob, title]);
+
+  if (state === "error") {
+    // pdf.js could not load: fall back to the browser's own viewer.
+    return <iframe title={title} src={`${url}#view=FitH`} className="h-full w-full border-0" />;
+  }
+  return (
+    <div className="relative h-full overflow-y-auto overscroll-contain p-2">
+      {state === "loading" && (
+        <div className="absolute inset-0 flex items-center justify-center gap-2 text-sm text-gray-500">
+          <LoaderCircle className="h-5 w-5 animate-spin text-primary" /> Document laden…
+        </div>
+      )}
+      <div ref={ref} />
+    </div>
+  );
+}
+
 function PdfViewer({ doc, title, onClose }: { doc: PortalDocument | null; title: string; onClose: () => void }) {
   return (
     <Dialog open={!!doc} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="flex h-[92dvh] w-[96vw] max-w-4xl flex-col gap-0 overflow-hidden p-0 sm:rounded-2xl">
+      <DialogContent className="flex h-[96dvh] w-[100vw] max-w-4xl flex-col gap-0 overflow-hidden p-0 sm:h-[92dvh] sm:w-[96vw] sm:rounded-2xl">
         <div className="flex items-center justify-between gap-3 border-b px-4 py-3 pr-12">
           <div className="min-w-0">
             <DialogTitle className="truncate text-base font-semibold text-gray-900">{title}</DialogTitle>
@@ -750,7 +814,7 @@ function PdfViewer({ doc, title, onClose }: { doc: PortalDocument | null; title:
           </div>
         </div>
         <div className="min-h-0 flex-1 bg-gray-100">
-          {doc && <iframe title={title} src={`${doc.url}#view=FitH`} className="h-full w-full border-0" />}
+          {doc && <PdfPages key={doc.url} blob={doc.blob} url={doc.url} title={title} />}
         </div>
         <div className="flex flex-wrap items-center justify-end gap-2 border-t bg-white px-4 py-3">
           {doc && (
